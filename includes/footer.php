@@ -40,11 +40,15 @@
   </div>
 </footer>
 
-<?php component('contact-modal'); ?>
+<?php
+component('contact-modal');
+component('chat-widget');
+?>
 
 <?php if (!empty($heroScene)): ?>
 <script type="module" src="<?= e(asset('assets/js/hero-scene.js')) ?>" data-scene="<?= e($heroScene) ?>"></script>
 <?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
 </body>
 </html>

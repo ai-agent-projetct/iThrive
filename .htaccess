@@ -12,8 +12,10 @@ DirectoryIndex index.php
   RewriteRule ^(.+)$ $1.php [L]
 </IfModule>
 
-# Enquiries, templates and includes are never served directly.
-RedirectMatch 404 ^/(storage|includes)/
+# Enquiries, secrets, templates, dependencies and tooling are never served
+# directly — only handlers/ and the page routes are public.
+RedirectMatch 404 ^/(storage|includes|vendor|\.tools)/
+RedirectMatch 404 ^/composer\.(json|lock)$
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/json

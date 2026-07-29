@@ -1,9 +1,16 @@
-# Dev tooling
+# Dependencies
+/vendor/
 .tools/node_modules/
 .tools/package-lock.json
+composer.lock
 
-# Submitted enquiries — never commit customer data
+# Secrets — never commit an API key
+includes/secrets.php
+.env
+
+# Runtime data: enquiries, conversations, leads, AI drafts
 storage/*.ndjson
+storage/replies/
 
 # OS / editor
 .DS_Store

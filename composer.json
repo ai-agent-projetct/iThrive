@@ -1,0 +1,13 @@
+{
+  "name": "ithrive/website",
+  "description": "Ithrive Software Solutions corporate website with agentic AI chat and lead handling",
+  "type": "project",
+  "require": {
+    "php": ">=8.1",
+    "anthropic-ai/sdk": "^0.7"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}

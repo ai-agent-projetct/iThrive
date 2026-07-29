@@ -11,6 +11,7 @@
 declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/includes/config.php';
+require_once dirname(__DIR__) . '/includes/ai-reply.php';
 
 $back = static function (string $target): never {
     header('Location: ' . $target, true, 303);
@@ -129,5 +130,25 @@ if ($stored === false && !$mailed) {
     $back($redirect);
 }
 
+// ---- Queue an AI-drafted reply -------------------------------------------
+
+// Drafting takes seconds, so it never runs before the visitor gets their
+// redirect. The enquiry goes on a queue; it is drained after the response is
+// flushed where the SAPI supports that, and by .tools/draft-replies.php
+// (cron) everywhere else.
+ai_queue_reply_draft($record);
+
 flash_set('sent', true);
-$back($redirect);
+
+// Respond first, then draft — fastcgi_finish_request closes the connection
+// while PHP keeps running. Absent it, the queue runner picks the work up.
+session_write_close();
+header('Location: ' . $redirect, true, 303);
+
+if (function_exists('fastcgi_finish_request')) {
+    fastcgi_finish_request();
+    ignore_user_abort(true);
+    ai_drain_reply_queue(1);
+}
+
+exit;

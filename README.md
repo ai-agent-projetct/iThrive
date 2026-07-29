@@ -22,12 +22,16 @@ contact.php            Enquiry form + direct channels
 404.php                Not-found page
 
 handlers/
-  contact-submit.php   Validates, logs and mails enquiries
+  contact-submit.php   Validates, logs and queues enquiries
+  chat.php             JSON endpoint behind the AIChat widget
 
 includes/
   config.php           Site constants, navigation tree, BASE_URL resolution
   functions.php        e() url() asset() component() icon() + lookups + CSRF
   content.php          Every piece of copy on the site
+  ai.php               Agent runtime: grounding, tools, the tool-use loop
+  ai-reply.php         Lead triage + reply drafting, and its queue
+  secrets.example.php  Copy to secrets.php for a local API key
   header.php           Glass navbar with mega-dropdowns
   footer.php
   components/          Reusable partials (see below)
@@ -36,11 +40,16 @@ includes/
 assets/
   css/style.css        The whole design system
   js/main.js           Nav, dropdowns, tabs, filters, slider, modal, validation
+  js/chat.js           AIChat widget
   js/hero-scene.js     Three.js neural ring
   vendor/three/        three.module.js (vendored — no CDN)
   img/                 SVG logo mark and favicon
 
-storage/               Submitted enquiries (git-ignored)
+.tools/
+  serve.mjs            PHP-8.3-via-WebAssembly dev server
+  draft-replies.php    Cron runner that drains the reply-drafting queue
+
+storage/               Enquiries, leads, conversations, drafts (git-ignored)
 ```
 
 ### Sub-pages are thin route files
@@ -84,6 +93,74 @@ blooms, blurred with `backdrop-filter`. Cards carry a gradient hairline that
 lights up on hover. Every accent is driven by CSS custom properties, so a case
 study sets `--accent` once and its mock window, metrics and rules follow.
 
+## Agentic AI
+
+Two agents, both built on the Claude Messages API (`claude-opus-5`) through the
+official PHP SDK. Both are **optional** — with no API key or no `vendor/`, the
+site runs exactly as before and the chat falls back to hand-written replies.
+
+### 1. Ithrive AIChat — the live chat widget
+
+A site-wide widget that answers from this site's own content, reads buying
+intent, and hands over when it is worth a human's time. `handlers/chat.php`
+runs a tool-use loop with four tools:
+
+| Tool | What it does |
+| --- | --- |
+| `lookup_service` | Pulls a real service record out of `content.php` |
+| `lookup_case_study` | Pulls a real case study, including its measured outcomes |
+| `capture_lead` | Writes a scored lead to `storage/leads.ndjson` |
+| `request_human` | Flags the conversation in `storage/escalations.ndjson` |
+
+The lookups are what keep it honest: the agent cannot describe a service or a
+project without fetching the actual record first, so it quotes your content
+rather than inventing plausible-sounding capabilities.
+
+**Grounding and guardrails.** The system prompt carries a ~6KB digest of every
+service, product, case study and process step, marked with `cache_control` so
+it bills as a cache read after the first call. Visitor text is treated as data,
+not instructions. The agent is told to refuse to estimate prices or timelines.
+Conversation history lives in the PHP session, so a client cannot forge earlier
+turns. Bounds, all in `includes/ai.php`: 5 tool iterations per turn, 2000 chars
+per message, 25 messages per session, 12 turns replayed, 8 messages per IP per
+minute. It runs at `effort: low` because a chat widget is latency-sensitive.
+
+### 2. Lead responder — triage and draft
+
+Every contact-form submission is queued, triaged, and answered with a drafted
+reply that references the closest real case study (again via the lookup tools).
+Runs at `effort: high` — nobody is waiting on it.
+
+**It drafts; it does not send.** Drafts land in `storage/replies/*.md` for a
+human to read, edit and send. Autonomously emailing real people on the
+company's behalf is not something an unattended model should do, so that last
+step is deliberately manual. Nothing in this codebase sends email to a lead.
+
+Drafting never blocks the form: the visitor is redirected first, and the queue
+is drained after the response is flushed (`fastcgi_finish_request`) or by cron:
+
+```bash
+*/5 * * * * cd /path/to/site && php .tools/draft-replies.php
+```
+
+Failed drafts retry twice, then give up — the enquiry itself is already safe in
+`storage/enquiries.ndjson`, so only the convenience is lost.
+
+### Setup
+
+```bash
+composer install
+```
+
+Then provide a key, in order of preference:
+
+1. `ANTHROPIC_API_KEY` in the server environment (never touches disk), or
+2. copy `includes/secrets.example.php` to `includes/secrets.php` and fill it in
+   — that file is git-ignored.
+
+Check it is live by opening the widget and asking something; if the key is
+missing you get the fallback copy instead, and the reason is in the error log.
+
 ## Running it locally
 
 With a normal PHP install:
@@ -116,6 +193,12 @@ Run `npm install` inside `.tools/` first. Pin `@php-wasm/node` to 3.1.x — the
   On nginx, add the equivalent `try_files $uri $uri.php $uri/ =404;`.
 - **Contact details.** `SITE_EMAIL`, `SITE_PHONE` and `SITE_HQ` in
   `includes/config.php` are placeholders. Replace before going live.
+- **AI costs.** The chat endpoint is public and every message is a paid API
+  call. The per-session and per-IP caps in `includes/ai.php` are the ceiling on
+  what one visitor can spend — review them against your own risk tolerance, and
+  watch `storage/conversations.ndjson`, which records token usage per exchange.
+- **`vendor/` must not be web-readable.** The bundled `.htaccess` blocks it
+  along with `storage/`, `includes/` and `.tools/`; replicate that on nginx.
 - **Case study imagery.** Every project card renders a CSS device mock — a
   browser or phone frame with the client's name, a metric row and a chart —
   rather than a screenshot of the client's live product. Swap in real captures
