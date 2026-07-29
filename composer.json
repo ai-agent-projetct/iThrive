@@ -4,10 +4,15 @@
   "type": "project",
   "require": {
     "php": ">=8.1",
-    "anthropic-ai/sdk": "^0.7"
+    "anthropic-ai/sdk": "^0.40",
+    "guzzlehttp/guzzle": "^7.8"
   },
   "config": {
     "optimize-autoloader": true,
     "sort-packages": true
+  },
+  "_comments": {
+    "anthropic-ai/sdk": "Caret on a 0.x package pins the MINOR, so ^0.7 would install 0.7.x — not 0.40. Bump this constraint deliberately when upgrading.",
+    "guzzlehttp/guzzle": "The SDK requires the virtual packages psr/http-client-implementation and psr/http-factory-implementation but ships no concrete client. Without a real one, `composer install` fails outright. Guzzle 7 provides both (via guzzlehttp/psr7); symfony/http-client + nyholm/psr7 would work equally well."
   }
 }

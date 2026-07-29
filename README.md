@@ -152,6 +152,15 @@ Failed drafts retry twice, then give up — the enquiry itself is already safe i
 composer install
 ```
 
+This pulls `anthropic-ai/sdk` **and** `guzzlehttp/guzzle`. Guzzle is not
+optional: the SDK requires the virtual packages `psr/http-client-implementation`
+and `psr/http-factory-implementation` but ships no concrete client, so without
+one `composer install` fails outright. Swap in `symfony/http-client` +
+`nyholm/psr7` if you prefer — just don't drop it.
+
+Note the SDK constraint is `^0.40`. Composer's caret pins the *minor* on 0.x
+packages, so `^0.7` would silently install an ancient 0.7.x.
+
 Then provide a key, in order of preference:
 
 1. `ANTHROPIC_API_KEY` in the server environment (never touches disk), or
