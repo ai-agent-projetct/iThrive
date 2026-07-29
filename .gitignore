@@ -1,0 +1,13 @@
+# Dev tooling
+.tools/node_modules/
+.tools/package-lock.json
+
+# Submitted enquiries — never commit customer data
+storage/*.ndjson
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

@@ -1,0 +1,133 @@
+<?php
+/**
+ * Shared template behind every /services/*.php route.
+ *
+ * Route files set $serviceSlug and include this — so each service keeps a real
+ * URL of its own while the layout lives in one place.
+ *
+ * @var string $serviceSlug
+ */
+
+declare(strict_types=1);
+
+require_once dirname(__DIR__) . '/config.php';
+
+$svc = service($serviceSlug);
+
+$page      = 'services';
+$pageTitle = $svc['title'] . ' — ' . SITE_SHORT . ' Software Solutions';
+$pageDesc  = $svc['short'];
+
+require dirname(__DIR__) . '/header.php';
+
+component('page-hero', [
+    'crumb'   => ['label' => 'All services', 'href' => 'services.php'],
+    'eyebrow' => $svc['group'],
+    'title'   => $svc['title'],
+    'lead'    => $svc['lead'],
+]);
+?>
+
+<section class="section section--flush-top">
+  <div class="shell">
+    <?php component('stats-band', ['stats' => array_map(
+        static fn (array $o): array => ['value' => $o['value'], 'label' => $o['label']],
+        $svc['outcomes']
+    )]); ?>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <?php component('section-head', [
+        'eyebrow' => 'What This Includes',
+        'title'   => 'Capabilities you get, spelled out',
+        'lead'    => 'No line item here is aspirational — each one is something we have shipped on a platform that is live today.',
+    ]); ?>
+
+    <div class="grid grid-3">
+      <?php foreach ($svc['capabilities'] as $i => $cap): ?>
+        <article class="card card--numbered" data-reveal style="--d:<?= $i % 3 ?>">
+          <span class="card-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
+          <h3 class="card-title"><?= e($cap['title']) ?></h3>
+          <p class="card-body"><?= e($cap['body']) ?></p>
+        </article>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<section class="section section--panel">
+  <div class="shell split">
+    <div>
+      <p class="eyebrow" data-reveal>The Stack</p>
+      <h2 class="section-title section-title--left" data-reveal style="--d:1">What we deliver it on</h2>
+      <p class="prose" data-reveal style="--d:2">
+        Python end to end wherever it earns its place — one language across API, data pipeline and model layer keeps the
+        team small and the feedback loop short. Everything here is a deliberate choice we can defend, not a default.
+      </p>
+
+      <ul class="tag-row" data-reveal style="--d:3">
+        <?php foreach ($svc['stack'] as $tag): ?><li class="tag tag--cyan"><?= e($tag) ?></li><?php endforeach; ?>
+      </ul>
+
+      <div data-reveal style="--d:4;margin-top:28px">
+        <button class="btn btn-primary" type="button" data-modal-open data-modal-service="<?= e($svc['title']) ?>">
+          Scope this service<?= icon('arrow') ?>
+        </button>
+      </div>
+    </div>
+
+    <div class="split-visual" data-reveal style="--d:2">
+      <?php component('process-pipeline-compact'); ?>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <?php component('section-head', [
+        'eyebrow' => 'Proof',
+        'title'   => 'Where we have done this before',
+        'lead'    => 'The closest matches in our portfolio by stack and problem shape.',
+    ]); ?>
+
+    <div class="case-grid">
+      <?php foreach (related_case_studies($svc['stack'], 2) as $i => $study): ?>
+        <?php component('case-study-card', ['study' => $study, 'index' => $i]); ?>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<section class="section section--panel section--tight">
+  <div class="shell">
+    <?php component('section-head', [
+        'eyebrow' => $svc['group'],
+        'title'   => 'Other services in this group',
+    ]); ?>
+
+    <div class="grid grid-3">
+      <?php
+      $siblings = array_values(array_filter(
+          all_services(),
+          static fn (array $s): bool => $s['group_slug'] === $svc['group_slug'] && $s['slug'] !== $svc['slug']
+      ));
+      foreach ($siblings as $i => $sibling) {
+          component('service-card', ['item' => $sibling, 'index' => $i % 3]);
+      }
+      ?>
+    </div>
+  </div>
+</section>
+
+<?php
+component('cta', ['cta' => [
+    'eyebrow'   => 'Start Your Project',
+    'title'     => 'Tell us what you need built.',
+    'body'      => 'Describe the workflow and we will come back with scope, stack and a realistic timeline in writing — within two working days.',
+    'primary'   => ['label' => 'Start Your Project', 'href' => 'contact.php'],
+    'secondary' => ['label' => 'All services', 'href' => 'services.php'],
+]]);
+
+require dirname(__DIR__) . '/footer.php';

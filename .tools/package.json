@@ -1,0 +1,9 @@
+{
+  "name": "ithrive-devtools",
+  "private": true,
+  "type": "module",
+  "comment": "@php-wasm/node 1.x resolves the wasm binary with a broken absolute path on Windows; 3.1.x is the version that works here.",
+  "dependencies": {
+    "@php-wasm/node": "^3.1.46"
+  }
+}
