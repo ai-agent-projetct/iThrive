@@ -39,10 +39,14 @@ $hero = $hero ?? HOME_HERO;
       </div>
     </div>
 
-    <div class="hero-stage" id="heroStage" data-reveal style="--d:2">
-      <div class="hero-orb"></div>
-      <div class="hero-canvas" id="heroCanvas" role="img"
-           aria-label="A rotating neural ring of connected nodes representing Ithrive's Python and agentic AI engine."></div>
+    <div class="hero-stage<?= SPLINE_SCENE !== '' ? ' hero-stage--spline' : '' ?>" id="heroStage" data-reveal style="--d:2">
+      <?php if (SPLINE_SCENE !== ''): ?>
+        <?php component('spline-hero'); ?>
+      <?php else: ?>
+        <div class="hero-orb"></div>
+        <div class="hero-canvas" id="heroCanvas" role="img"
+             aria-label="A rotating neural ring of connected nodes representing Ithrive's Python and agentic AI engine."></div>
+      <?php endif; ?>
 
       <?php foreach (HOME_HERO_STATS as $stat): ?>
         <div class="hero-chip">

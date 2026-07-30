@@ -61,6 +61,13 @@ component('client-logo-grid');
   </div>
 </section>
 
+<section class="section" id="tech-stack">
+  <div class="shell">
+    <?php component('section-head', TECH_STACK_HEAD); ?>
+    <?php component('tech-stack'); ?>
+  </div>
+</section>
+
 <section class="section section--panel" id="process">
   <div class="shell">
     <?php component('section-head', [

@@ -647,6 +647,13 @@ body.nav-open .nav-toggle-close { display: block; }
 }
 .hero-canvas canvas { width: 100% !important; height: 100% !important; }
 
+/* Spline scene, when one is configured. */
+.hero-stage--spline { aspect-ratio: 1 / 1; }
+.spline-stage { position: absolute; inset: 0; border-radius: 24px; overflow: hidden; }
+.spline-stage spline-viewer { width: 100%; height: 100%; display: block; }
+.spline-fallback { position: absolute; inset: 0; transition: opacity .6s var(--ease); }
+.spline-stage.is-loaded .spline-fallback { opacity: 0; pointer-events: none; }
+
 /* Static fallback shown until (or instead of) WebGL. */
 .hero-orb {
   position: absolute;
@@ -1326,6 +1333,133 @@ body.nav-open .nav-toggle-close { display: block; }
   font-size: .82rem;
   color: var(--text-faint);
 }
+
+/* =========================================================================
+   Tech stack — orbit + categorised list
+   ========================================================================= */
+
+.tech-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 34px; }
+.tech-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--glass);
+  color: var(--text-dim);
+  font-size: .84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .2s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease);
+}
+.tech-tab .icon { width: 15px; height: 15px; }
+.tech-tab:hover { color: var(--text); border-color: var(--line-strong); }
+.tech-tab.is-active { color: #04121A; background: var(--grad); border-color: transparent; }
+.tech-count {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  font-size: .68rem;
+  font-variant-numeric: tabular-nums;
+}
+.tech-tab.is-active .tech-count { background: rgba(0, 0, 0, .22); }
+
+/* The stage only exists once JS promotes the list. */
+.tech-stage { display: none; }
+.techstack.is-live .tech-stage {
+  position: relative;
+  display: block;
+  height: 380px;
+  margin-bottom: 46px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(60% 70% at 50% 50%, rgba(0, 242, 254, .09), transparent 70%),
+    rgba(255, 255, 255, .02);
+  overflow: hidden;
+}
+.tech-orbit { position: absolute; inset: 0; }
+
+.tech-node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -16px 0 0 -50px;
+  min-width: 100px;
+  padding: 7px 14px;
+  border: 1px solid hsl(var(--hue) 90% 60% / .42);
+  border-radius: 999px;
+  background: hsl(var(--hue) 60% 12% / .9);
+  color: hsl(var(--hue) 90% 82%);
+  font-size: .8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  will-change: transform;
+  transition: border-color .2s var(--ease), background-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+.tech-node:hover,
+.tech-node:focus-visible {
+  border-color: hsl(var(--hue) 95% 68%);
+  background: hsl(var(--hue) 70% 18% / .96);
+  box-shadow: 0 0 0 4px hsl(var(--hue) 90% 60% / .14), 0 10px 26px -12px hsl(var(--hue) 90% 50% / .6);
+}
+.tech-node.is-dim { pointer-events: none; }
+
+.tech-readout {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  translate: -50% 0;
+  padding: 10px 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: rgba(11, 15, 23, .9);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  text-align: center;
+  pointer-events: none;
+}
+.tech-readout-name  { font-size: .95rem; font-weight: 700; }
+.tech-readout-group { font-size: .74rem; color: var(--text-faint); }
+
+.tech-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+.tech-group {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--glass);
+}
+.tech-group-head { display: flex; gap: 14px; margin-bottom: 18px; }
+.tech-group-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: var(--grad-soft);
+  color: var(--cyan);
+}
+.tech-group-icon .icon { width: 20px; height: 20px; }
+.tech-group-head h3 { font-size: 1.04rem; margin-bottom: 5px; }
+.tech-group-head p  { font-size: .86rem; color: var(--text-dim); }
+
+.tech-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.tech-chip {
+  padding: 5px 12px;
+  border: 1px solid hsl(var(--hue) 70% 60% / .3);
+  border-radius: 999px;
+  background: hsl(var(--hue) 60% 50% / .1);
+  color: hsl(var(--hue) 80% 80%);
+  font-size: .78rem;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) { .tech-groups { grid-template-columns: 1fr; } }
 
 /* =========================================================================
    AIChat widget

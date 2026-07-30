@@ -17,6 +17,17 @@ define('SITE_PHONE', '+91 90000 00000');
 define('SITE_HQ', 'Coimbatore, Tamil Nadu, India');
 define('SITE_YEAR', '2026');
 
+/**
+ * Published Spline scene for the home hero.
+ *
+ * Must be an EXPORTED runtime URL (https://prod.spline.design/<id>/scene.splinecode),
+ * not an app.spline.design editor link — those are account-gated and return 403
+ * to visitors. Leave empty to use the built-in Three.js neural hero instead.
+ *
+ * In Spline: Export → Code → Public URL, then paste the .splinecode URL here.
+ */
+define('SPLINE_SCENE', getenv('SPLINE_SCENE') ?: '');
+
 define('ROOT_PATH', dirname(__DIR__));
 define('STORAGE_PATH', ROOT_PATH . '/storage');
 

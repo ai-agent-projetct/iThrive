@@ -880,6 +880,132 @@ const CASE_STUDIES = [
 ];
 
 // ---------------------------------------------------------------------------
+// Technology stack
+// ---------------------------------------------------------------------------
+
+const TECH_STACK_HEAD = [
+    'eyebrow' => 'Tech Stack',
+    'title'   => 'The tools we actually ship with',
+    'lead'    => 'Not a logo wall of everything that exists. This is what is running in the ten platforms in our portfolio — grouped by where it sits in the stack.',
+];
+
+/**
+ * Each entry: label, the ring it orbits on (0 = innermost), and a hue in
+ * degrees used for its node colour in the interactive view.
+ */
+const TECH_STACK = [
+    [
+        'slug'  => 'ai',
+        'title' => 'AI & Machine Learning',
+        'icon'  => 'brain',
+        'blurb' => 'Agentic workflows, retrieval and model evaluation — the layer that makes a product decide rather than just store.',
+        'items' => [
+            ['name' => 'Python',      'hue' => 190],
+            ['name' => 'LangGraph',   'hue' => 200],
+            ['name' => 'PyTorch',     'hue' => 205],
+            ['name' => 'TensorFlow',  'hue' => 210],
+            ['name' => 'scikit-learn','hue' => 215],
+            ['name' => 'Whisper',     'hue' => 220],
+            ['name' => 'pgvector',    'hue' => 225],
+            ['name' => 'OpenSearch',  'hue' => 230],
+        ],
+    ],
+    [
+        'slug'  => 'backend',
+        'title' => 'Backend & APIs',
+        'icon'  => 'terminal',
+        'blurb' => 'Typed, tested services. Python first, with the JVM and .NET where a client already runs them.',
+        'items' => [
+            ['name' => 'FastAPI',  'hue' => 235],
+            ['name' => 'Django',   'hue' => 240],
+            ['name' => 'Node.js',  'hue' => 245],
+            ['name' => 'Express',  'hue' => 250],
+            ['name' => 'Laravel',  'hue' => 255],
+            ['name' => 'PHP',      'hue' => 260],
+            ['name' => 'Java',     'hue' => 265],
+            ['name' => '.NET',     'hue' => 270],
+            ['name' => 'Celery',   'hue' => 275],
+            ['name' => 'GraphQL',  'hue' => 280],
+        ],
+    ],
+    [
+        'slug'  => 'frontend',
+        'title' => 'Web & Frontend',
+        'icon'  => 'code',
+        'blurb' => 'Data-dense interfaces that stay fast past year one, and marketing sites that pass Core Web Vitals.',
+        'items' => [
+            ['name' => 'React',      'hue' => 185],
+            ['name' => 'Next.js',    'hue' => 188],
+            ['name' => 'TypeScript', 'hue' => 192],
+            ['name' => 'Angular',    'hue' => 196],
+            ['name' => 'Vue',        'hue' => 200],
+            ['name' => 'Three.js',   'hue' => 204],
+            ['name' => 'Tailwind',   'hue' => 208],
+            ['name' => 'Vite',       'hue' => 212],
+        ],
+    ],
+    [
+        'slug'  => 'mobile',
+        'title' => 'Mobile',
+        'icon'  => 'smartphone',
+        'blurb' => 'Two stores from one codebase, without giving up launch time or offline behaviour.',
+        'items' => [
+            ['name' => 'Flutter',      'hue' => 290],
+            ['name' => 'React Native', 'hue' => 295],
+            ['name' => 'Kotlin',       'hue' => 300],
+            ['name' => 'Swift',        'hue' => 305],
+            ['name' => 'Firebase',     'hue' => 310],
+        ],
+    ],
+    [
+        'slug'  => 'data',
+        'title' => 'Data & Storage',
+        'icon'  => 'database',
+        'blurb' => 'Relational by default, with the warehouse and stream layers the ERP and analytics work needs.',
+        'items' => [
+            ['name' => 'PostgreSQL', 'hue' => 170],
+            ['name' => 'MySQL',      'hue' => 174],
+            ['name' => 'MongoDB',    'hue' => 178],
+            ['name' => 'Redis',      'hue' => 182],
+            ['name' => 'PostGIS',    'hue' => 186],
+            ['name' => 'Airflow',    'hue' => 190],
+            ['name' => 'dbt',        'hue' => 194],
+            ['name' => 'Pandas',     'hue' => 198],
+        ],
+    ],
+    [
+        'slug'  => 'cloud',
+        'title' => 'Cloud & DevOps',
+        'icon'  => 'cloud',
+        'blurb' => 'Infrastructure as code, pipelines that deploy in minutes, and observability that pages a human only when one is needed.',
+        'items' => [
+            ['name' => 'AWS',            'hue' => 320],
+            ['name' => 'Azure',          'hue' => 325],
+            ['name' => 'Google Cloud',   'hue' => 330],
+            ['name' => 'Docker',         'hue' => 335],
+            ['name' => 'Kubernetes',     'hue' => 340],
+            ['name' => 'Terraform',      'hue' => 345],
+            ['name' => 'GitHub Actions', 'hue' => 350],
+            ['name' => 'Jenkins',        'hue' => 355],
+            ['name' => 'Grafana',        'hue' => 358],
+        ],
+    ],
+    [
+        'slug'  => 'commerce',
+        'title' => 'Commerce & Payments',
+        'icon'  => 'cart',
+        'blurb' => 'Storefronts and the money rails behind them, including full Indian payments coverage.',
+        'items' => [
+            ['name' => 'Shopify',     'hue' => 150],
+            ['name' => 'WooCommerce', 'hue' => 155],
+            ['name' => 'Razorpay',    'hue' => 160],
+            ['name' => 'Stripe',      'hue' => 165],
+            ['name' => 'UPI',         'hue' => 168],
+        ],
+    ],
+];
+
+// ---------------------------------------------------------------------------
 // Social proof
 // ---------------------------------------------------------------------------
 
