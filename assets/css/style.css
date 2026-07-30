@@ -1555,31 +1555,36 @@ body.nav-open .nav-toggle-close { display: block; }
 }
 .tech-orbit { position: absolute; inset: 0; }
 
+/* Orbit node: the real brand logo on a light plate, same treatment as the
+   client logos — brand colours are wildly inconsistent and many are near-black,
+   so a light plate is the one background all of them read against. */
 .tech-node {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -16px 0 0 -50px;
-  min-width: 100px;
-  padding: 7px 14px;
-  border: 1px solid hsl(var(--hue) 90% 60% / .42);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: -21px 0 0 -66px;
+  padding: 8px 15px 8px 10px;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
-  background: hsl(var(--hue) 60% 12% / .9);
-  color: hsl(var(--hue) 90% 82%);
+  background: #F4F6FA;
+  color: #0B0F17;
   font-size: .8rem;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
   will-change: transform;
-  transition: border-color .2s var(--ease), background-color .2s var(--ease), box-shadow .2s var(--ease);
+  box-shadow: 0 8px 22px -12px rgba(0, 0, 0, .7);
+  transition: box-shadow .2s var(--ease), border-color .2s var(--ease);
 }
+.tech-node img { width: 26px; height: 26px; object-fit: contain; flex: none; }
 .tech-node:hover,
 .tech-node:focus-visible {
-  border-color: hsl(var(--hue) 95% 68%);
-  background: hsl(var(--hue) 70% 18% / .96);
-  box-shadow: 0 0 0 4px hsl(var(--hue) 90% 60% / .14), 0 10px 26px -12px hsl(var(--hue) 90% 50% / .6);
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 4px rgba(0, 242, 254, .18), 0 14px 30px -12px rgba(0, 242, 254, .5);
 }
-.tech-node.is-dim { pointer-events: none; }
 
 .tech-readout {
   position: absolute;
@@ -1598,7 +1603,7 @@ body.nav-open .nav-toggle-close { display: block; }
 .tech-readout-name  { font-size: .95rem; font-weight: 700; }
 .tech-readout-group { font-size: .74rem; color: var(--text-faint); }
 
-.tech-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.tech-groups { display: block; }
 
 .tech-group {
   padding: 26px;
@@ -1622,18 +1627,24 @@ body.nav-open .nav-toggle-close { display: block; }
 .tech-group-head h3 { font-size: 1.04rem; margin-bottom: 5px; }
 .tech-group-head p  { font-size: .86rem; color: var(--text-dim); }
 
-.tech-list { display: flex; flex-wrap: wrap; gap: 7px; }
-.tech-chip {
-  padding: 5px 12px;
-  border: 1px solid hsl(var(--hue) 70% 60% / .3);
+.tech-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.tech-tile {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px 7px 9px;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
-  background: hsl(var(--hue) 60% 50% / .1);
-  color: hsl(var(--hue) 80% 80%);
-  font-size: .78rem;
-  font-weight: 500;
+  background: #F4F6FA;
+  color: #0B0F17;
+  font-size: .8rem;
+  font-weight: 700;
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
 }
+.tech-tile img { width: 24px; height: 24px; object-fit: contain; flex: none; }
+.tech-tile:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(0, 242, 254, .55); }
 
-@media (max-width: 900px) { .tech-groups { grid-template-columns: 1fr; } }
+
 
 /* =========================================================================
    AIChat widget

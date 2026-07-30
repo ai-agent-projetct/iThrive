@@ -2,24 +2,22 @@
 /**
  * Interactive tech stack.
  *
- * An orbital canvas where every technology is a node you can drag, hover and
- * filter, backed by a real categorised list. The list is the markup that ships;
- * tech-stack.js promotes it to the canvas, so with JavaScript off — or on a
- * screen reader — this is still a complete, readable tech stack section.
+ * One category is shown at a time — there is no "all" view, so picking
+ * "AI & Machine Learning" shows that group's technologies and nothing else.
+ * The first group is active server-side, so the section is correct before any
+ * JavaScript runs; tech-stack.js then promotes it to an orbital field.
  */
 
 declare(strict_types=1);
 
 $groups = TECH_STACK;
-$total  = array_sum(array_map(static fn (array $g): int => count($g['items']), $groups));
 ?>
-<div class="techstack" data-techstack>
+<div class="techstack" data-techstack data-tech-base="<?= e(url('assets/img/tech/')) ?>">
   <div class="tech-tabs" role="tablist" aria-label="Technology categories">
-    <button class="tech-tab is-active" type="button" data-tech-filter="all" aria-selected="true">
-      All <span class="tech-count"><?= (int) $total ?></span>
-    </button>
-    <?php foreach ($groups as $g): ?>
-      <button class="tech-tab" type="button" data-tech-filter="<?= e($g['slug']) ?>" aria-selected="false">
+    <?php foreach ($groups as $i => $g): ?>
+      <button class="tech-tab<?= $i === 0 ? ' is-active' : '' ?>" type="button" role="tab"
+              data-tech-filter="<?= e($g['slug']) ?>"
+              aria-selected="<?= $i === 0 ? 'true' : 'false' ?>">
         <?= icon($g['icon']) ?><?= e($g['title']) ?>
         <span class="tech-count"><?= count($g['items']) ?></span>
       </button>
@@ -38,7 +36,8 @@ $total  = array_sum(array_map(static fn (array $g): int => count($g['items']), $
 
   <div class="tech-groups" data-tech-groups>
     <?php foreach ($groups as $i => $g): ?>
-      <section class="tech-group" data-tech-group="<?= e($g['slug']) ?>" data-reveal style="--d:<?= $i % 3 ?>">
+      <section class="tech-group" data-tech-group="<?= e($g['slug']) ?>"
+               <?= $i === 0 ? '' : 'hidden' ?>>
         <header class="tech-group-head">
           <span class="tech-group-icon"><?= icon($g['icon']) ?></span>
           <div>
@@ -49,13 +48,14 @@ $total  = array_sum(array_map(static fn (array $g): int => count($g['items']), $
 
         <ul class="tech-list">
           <?php foreach ($g['items'] as $item): ?>
-            <li class="tech-chip"
+            <li class="tech-tile"
                 data-tech-name="<?= e($item['name']) ?>"
-                data-tech-hue="<?= (int) $item['hue'] ?>"
+                data-tech-logo="<?= e($item['logo']) ?>"
                 data-tech-cat="<?= e($g['slug']) ?>"
-                data-tech-group-title="<?= e($g['title']) ?>"
-                style="--hue: <?= (int) $item['hue'] ?>">
-              <?= e($item['name']) ?>
+                data-tech-group-title="<?= e($g['title']) ?>">
+              <img src="<?= e(asset('assets/img/tech/' . $item['logo'] . '.svg')) ?>"
+                   alt="" width="28" height="28" loading="lazy" decoding="async">
+              <span><?= e($item['name']) ?></span>
             </li>
           <?php endforeach; ?>
         </ul>
