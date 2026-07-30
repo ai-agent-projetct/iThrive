@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/includes/config.php';
 require_once dirname(__DIR__) . '/includes/ai.php';
+require_once dirname(__DIR__) . '/includes/ai-local.php';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -97,6 +98,23 @@ $result = ai_run($window, ai_chat_system(), 'low', 4000);
 if ($result['error'] !== null || $result['text'] === '') {
     if ($result['error'] !== null && $result['error'] !== 'refused') {
         error_log('Ithrive AIChat unavailable: ' . $result['error'] . ' (' . ai_unavailable_reason() . ')');
+    }
+
+    // No model available — answer from site content instead of giving up. The
+    // visitor still gets a real answer about Ithrive; only the phrasing is
+    // canned rather than generated.
+    if ($result['error'] !== 'refused') {
+        $local = ai_local_answer($message);
+        $reply = $local['matched'] ? $local['text'] : ai_offtopic_answer($message);
+
+        $history[] = ['role' => 'assistant', 'content' => $reply];
+        $_SESSION['chat_history'] = array_slice($history, -(AI_MAX_HISTORY_TURNS * 2));
+
+        $send([
+            'reply'    => $reply,
+            'state'    => $local['matched'] ? 'local' : 'offtopic',
+            'captured' => false,
+        ]);
     }
 
     // The failed turn is not kept — the next message starts from clean history.
