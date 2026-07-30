@@ -28,6 +28,19 @@ define('SITE_YEAR', '2026');
  */
 define('SPLINE_SCENE', getenv('SPLINE_SCENE') ?: '');
 
+/**
+ * Optional server-side text-to-speech, for reliable Indic voice output.
+ *
+ * Browsers only speak a language if a voice for it is installed, and Tamil,
+ * Malayalam, Kannada and Telugu voices are absent on most desktops — so
+ * in-browser speech cannot be relied on for them. Point this at a TTS service
+ * (AI4Bharat's Indic-TTS is the obvious fit, and needs a GPU inference server)
+ * and the assistant will use it whenever the device has no local voice.
+ *
+ * Contract: POST {"text": "...", "lang": "ta"} -> audio/mpeg or audio/wav.
+ */
+define('TTS_ENDPOINT', getenv('TTS_ENDPOINT') ?: '');
+
 define('ROOT_PATH', dirname(__DIR__));
 define('STORAGE_PATH', ROOT_PATH . '/storage');
 

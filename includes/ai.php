@@ -163,9 +163,15 @@ function ai_knowledge(): string
 }
 
 /** System prompt for the visitor-facing chat agent. */
-function ai_chat_system(): string
+function ai_chat_system(string $lang = 'en'): string
 {
     $knowledge = ai_knowledge();
+    $language  = assistant_language($lang);
+    $reply     = $language['code'] === 'en'
+        ? 'Reply in English.'
+        : "Reply entirely in {$language['name']} ({$language['native']}), using that script — not "
+          . 'transliterated into Latin letters. Keep product names, technology names and email '
+          . 'addresses in their original form. If the visitor switches language, follow them.';
 
     return <<<PROMPT
         You are the assistant on the website of Ithrive Software Solutions, a product
@@ -175,6 +181,9 @@ function ai_chat_system(): string
         1. Answer the visitor's question accurately from the knowledge below.
         2. Work out whether they are a genuine prospect, and how ready they are.
         3. When they are ready, capture their details or hand them to a human.
+
+        ## Language
+        {$reply}
 
         ## Grounding rules — these are not negotiable
         - Answer ONLY from the knowledge below and from what the lookup tools return.

@@ -880,6 +880,107 @@ const CASE_STUDIES = [
 ];
 
 // ---------------------------------------------------------------------------
+// Assistant languages
+// ---------------------------------------------------------------------------
+
+/**
+ * Languages Ithrive AI speaks.
+ *
+ * `bcp47` drives both speech recognition and voice selection. Recognition is
+ * performed by the browser's speech service and works for all six regardless
+ * of what is installed locally; speech *output* depends on a voice being
+ * present on the device, which for the Indic five often means none — see
+ * TTS_ENDPOINT in config.php for the server-side path.
+ */
+const ASSISTANT_LANGUAGES = [
+    ['code' => 'en', 'bcp47' => 'en-IN', 'name' => 'English',   'native' => 'English'],
+    ['code' => 'ta', 'bcp47' => 'ta-IN', 'name' => 'Tamil',     'native' => 'தமிழ்'],
+    ['code' => 'ml', 'bcp47' => 'ml-IN', 'name' => 'Malayalam', 'native' => 'മലയാളം'],
+    ['code' => 'kn', 'bcp47' => 'kn-IN', 'name' => 'Kannada',   'native' => 'ಕನ್ನಡ'],
+    ['code' => 'te', 'bcp47' => 'te-IN', 'name' => 'Telugu',    'native' => 'తెలుగు'],
+    ['code' => 'hi', 'bcp47' => 'hi-IN', 'name' => 'Hindi',     'native' => 'हिन्दी'],
+];
+
+/** Look up one language by its short code, falling back to English. */
+function assistant_language(string $code): array
+{
+    foreach (ASSISTANT_LANGUAGES as $lang) {
+        if ($lang['code'] === $code) {
+            return $lang;
+        }
+    }
+
+    return ASSISTANT_LANGUAGES[0];
+}
+
+/**
+ * UI and fallback strings per language, so the assistant stays in-language even
+ * when it is answering from the offline brain rather than the model.
+ */
+const ASSISTANT_STRINGS = [
+    'en' => [
+        'prompt'   => 'Tap to speak',
+        'listening'=> 'Listening…',
+        'thinking' => 'Thinking…',
+        'speaking' => 'Speaking…',
+        'placeholder' => 'Type a question, or tap the orb to speak…',
+        'offtopic' => 'I only cover Ithrive — what we build and the platforms we have shipped. An Ithrive AI Agent trained on your own business would answer that properly. Email %s to talk about one.',
+        'nudge'    => 'Ask me about Ithrive or our services and I will answer in detail — try "what do you build with Python and AI?"',
+        'novoice'  => 'Your device has no %s voice installed, so answers appear as text.',
+    ],
+    'ta' => [
+        'prompt'   => 'பேச தட்டவும்',
+        'listening'=> 'கேட்கிறேன்…',
+        'thinking' => 'யோசிக்கிறேன்…',
+        'speaking' => 'பேசுகிறேன்…',
+        'placeholder' => 'கேள்வியை தட்டச்சு செய்யவும், அல்லது பேச கோளத்தை தட்டவும்…',
+        'offtopic' => 'நான் Ithrive பற்றி மட்டுமே பதிலளிக்கிறேன். உங்கள் நிறுவனத்திற்கென பயிற்சி பெற்ற Ithrive AI Agent அதற்கு சரியாக பதிலளிக்கும். %s என்ற முகவரிக்கு எழுதுங்கள்.',
+        'nudge'    => 'Ithrive அல்லது எங்கள் சேவைகள் பற்றி கேளுங்கள் — விரிவாக பதிலளிக்கிறேன்.',
+        'novoice'  => 'உங்கள் சாதனத்தில் %s குரல் நிறுவப்படவில்லை, எனவே பதில்கள் உரையாக காட்டப்படும்.',
+    ],
+    'ml' => [
+        'prompt'   => 'സംസാരിക്കാൻ ടാപ്പ് ചെയ്യുക',
+        'listening'=> 'കേൾക്കുന്നു…',
+        'thinking' => 'ചിന്തിക്കുന്നു…',
+        'speaking' => 'സംസാരിക്കുന്നു…',
+        'placeholder' => 'ചോദ്യം ടൈപ്പ് ചെയ്യുക, അല്ലെങ്കിൽ സംസാരിക്കാൻ ടാപ്പ് ചെയ്യുക…',
+        'offtopic' => 'ഞാൻ Ithrive-നെക്കുറിച്ച് മാത്രമേ ഉത്തരം നൽകൂ. നിങ്ങളുടെ ബിസിനസ്സിനായി പരിശീലിപ്പിച്ച ഒരു Ithrive AI Agent അതിന് ശരിയായി ഉത്തരം നൽകും. %s എന്ന വിലാസത്തിൽ എഴുതുക.',
+        'nudge'    => 'Ithrive അല്ലെങ്കിൽ ഞങ്ങളുടെ സേവനങ്ങളെക്കുറിച്ച് ചോദിക്കൂ — വിശദമായി ഉത്തരം നൽകാം.',
+        'novoice'  => 'നിങ്ങളുടെ ഉപകരണത്തിൽ %s ശബ്ദം ഇല്ല, അതിനാൽ ഉത്തരങ്ങൾ ടെക്സ്റ്റായി കാണിക്കും.',
+    ],
+    'kn' => [
+        'prompt'   => 'ಮಾತನಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
+        'listening'=> 'ಕೇಳುತ್ತಿದ್ದೇನೆ…',
+        'thinking' => 'ಯೋಚಿಸುತ್ತಿದ್ದೇನೆ…',
+        'speaking' => 'ಮಾತನಾಡುತ್ತಿದ್ದೇನೆ…',
+        'placeholder' => 'ಪ್ರಶ್ನೆ ಟೈಪ್ ಮಾಡಿ, ಅಥವಾ ಮಾತನಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ…',
+        'offtopic' => 'ನಾನು Ithrive ಬಗ್ಗೆ ಮಾತ್ರ ಉತ್ತರಿಸುತ್ತೇನೆ. ನಿಮ್ಮ ವ್ಯವಹಾರಕ್ಕಾಗಿ ತರಬೇತಿ ಪಡೆದ Ithrive AI Agent ಅದಕ್ಕೆ ಸರಿಯಾಗಿ ಉತ್ತರಿಸುತ್ತದೆ. %s ಗೆ ಬರೆಯಿರಿ.',
+        'nudge'    => 'Ithrive ಅಥವಾ ನಮ್ಮ ಸೇವೆಗಳ ಬಗ್ಗೆ ಕೇಳಿ — ವಿವರವಾಗಿ ಉತ್ತರಿಸುತ್ತೇನೆ.',
+        'novoice'  => 'ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ %s ಧ್ವನಿ ಇಲ್ಲ, ಆದ್ದರಿಂದ ಉತ್ತರಗಳು ಪಠ್ಯವಾಗಿ ಕಾಣಿಸುತ್ತವೆ.',
+    ],
+    'te' => [
+        'prompt'   => 'మాట్లాడటానికి నొక్కండి',
+        'listening'=> 'వింటున్నాను…',
+        'thinking' => 'ఆలోచిస్తున్నాను…',
+        'speaking' => 'మాట్లాడుతున్నాను…',
+        'placeholder' => 'ప్రశ్న టైప్ చేయండి, లేదా మాట్లాడటానికి నొక్కండి…',
+        'offtopic' => 'నేను Ithrive గురించి మాత్రమే సమాధానం ఇస్తాను. మీ వ్యాపారం కోసం శిక్షణ పొందిన Ithrive AI Agent దానికి సరిగ్గా సమాధానం ఇస్తుంది. %s కు రాయండి.',
+        'nudge'    => 'Ithrive లేదా మా సేవల గురించి అడగండి — వివరంగా సమాధానం ఇస్తాను.',
+        'novoice'  => 'మీ పరికరంలో %s వాయిస్ లేదు, కాబట్టి సమాధానాలు టెక్స్ట్‌గా కనిపిస్తాయి.',
+    ],
+    'hi' => [
+        'prompt'   => 'बोलने के लिए टैप करें',
+        'listening'=> 'सुन रहा हूँ…',
+        'thinking' => 'सोच रहा हूँ…',
+        'speaking' => 'बोल रहा हूँ…',
+        'placeholder' => 'प्रश्न टाइप करें, या बोलने के लिए टैप करें…',
+        'offtopic' => 'मैं केवल Ithrive के बारे में उत्तर देता हूँ। आपके व्यवसाय के लिए प्रशिक्षित Ithrive AI Agent उसका सही उत्तर देगा। %s पर लिखें।',
+        'nudge'    => 'Ithrive या हमारी सेवाओं के बारे में पूछें — मैं विस्तार से उत्तर दूँगा।',
+        'novoice'  => 'आपके डिवाइस में %s आवाज़ नहीं है, इसलिए उत्तर टेक्स्ट में दिखेंगे।',
+    ],
+];
+
+// ---------------------------------------------------------------------------
 // Technology stack
 // ---------------------------------------------------------------------------
 

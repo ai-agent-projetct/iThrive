@@ -182,18 +182,17 @@ function ai_local_answer(string $question): array
  * Two shapes, matching the two off-topic cases: a genuine question we do not
  * cover gets the product pitch; anything unreadable gets a nudge back on topic.
  */
-function ai_offtopic_answer(string $question): string
+function ai_offtopic_answer(string $question, string $lang = 'en'): string
 {
+    $strings = ASSISTANT_STRINGS[$lang] ?? ASSISTANT_STRINGS['en'];
+
     $looksLikeQuestion = str_contains($question, '?')
-        || preg_match('/^\s*(what|who|when|where|why|how|is|are|can|could|do|does|did|should|would|tell|explain)\b/i', $question) === 1;
+        || preg_match('/^\s*(what|who|when|where|why|how|is|are|can|could|do|does|did|should|would|tell|explain)\b/i', $question) === 1
+        // Devanagari, Tamil, Telugu, Kannada and Malayalam blocks — a message in
+        // one of these is a real attempt at a question even without a "?".
+        || preg_match('/[\x{0900}-\x{0D7F}]/u', $question) === 1;
 
-    if ($looksLikeQuestion) {
-        return 'I only cover Ithrive — what we build, how we work, and the platforms we have shipped — '
-            . 'so I am the wrong assistant for that one. An Ithrive AI Agent trained on your own business '
-            . 'would answer questions like that properly, and that is exactly what we build. Want to talk about one? '
-            . 'Email ' . SITE_EMAIL . '.';
-    }
-
-    return 'Ask me something about Ithrive or our services and I will give you a detailed answer — '
-        . 'try "what do you build with Python and AI?" or "what did you build for Lotus Eye Hospital?".';
+    return $looksLikeQuestion
+        ? sprintf($strings['offtopic'], SITE_EMAIL)
+        : $strings['nudge'];
 }

@@ -29,6 +29,13 @@
   const canSpeak  = 'speechSynthesis' in window;
   const canHear   = Boolean(SpeechRec);
 
+  const LANGS   = JSON.parse(root.dataset.langs || '[]');
+  const STRINGS = JSON.parse(root.dataset.strings || '{}');
+  const ttsUrl  = root.dataset.tts || '';
+
+  let lang = LANGS[0] || { code: 'en', bcp47: 'en-IN', name: 'English' };
+  const str = (k) => (STRINGS[lang.code] || STRINGS.en || {})[k] || '';
+
   let busy = false;
   let recognising = false;
 
@@ -44,7 +51,7 @@
 
   if (!canHear) {
     mic.hidden = true;
-    stateEl.textContent = 'Type your question';
+    stateEl.textContent = str('prompt');
     support.textContent = 'Voice input needs Chrome, Edge or Safari — typing works everywhere.';
   } else {
     support.textContent = 'Voice input runs in your browser; nothing is recorded.';
@@ -56,23 +63,69 @@
 
   /* ------------------------------------------------------------------ speak */
 
-  // Prefer a natural en-GB/en-IN voice when the platform offers one.
+  // Find the best installed voice for the active language. Most desktops ship
+  // no Tamil/Malayalam/Kannada/Telugu voice at all, so this often returns null —
+  // that is why the server TTS path below exists.
   let voice = null;
   const pickVoice = () => {
-    if (!canSpeak) return;
+    if (!canSpeak) { voice = null; return; }
     const all = speechSynthesis.getVoices();
-    voice = all.find(v => /en-(GB|IN)/i.test(v.lang) && /natural|google|premium/i.test(v.name))
-         || all.find(v => /en-(GB|IN)/i.test(v.lang))
-         || all.find(v => v.lang.startsWith('en'))
-         || null;
+    const exact = all.filter(v => v.lang.toLowerCase() === lang.bcp47.toLowerCase());
+    const loose = all.filter(v => v.lang.toLowerCase().startsWith(lang.code + '-'));
+    const pool  = exact.length ? exact : loose;
+    voice = pool.find(v => /natural|google|premium|neural/i.test(v.name)) || pool[0] || null;
+    reportVoice();
   };
+
+  function reportVoice() {
+    if (voice || ttsUrl) { support.textContent = ''; return; }
+    // Say plainly that this device cannot speak the chosen language rather than
+    // going silent and looking broken.
+    support.textContent = str('novoice').replace('%s', lang.name);
+  }
+
   if (canSpeak) {
     pickVoice();
     speechSynthesis.onvoiceschanged = pickVoice;
   }
 
-  function speak(text) {
-    if (!canSpeak || !voiceOn || !voiceOn.checked) { setState('idle', 'Tap to speak'); return; }
+  let audio = null;
+
+  async function speakViaServer(text) {
+    try {
+      const res = await fetch(ttsUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ text, lang: lang.code }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const url = URL.createObjectURL(await res.blob());
+      if (audio) audio.pause();
+      audio = new Audio(url);
+      setState('speaking', str('speaking'));
+      audio.onended = () => {
+        URL.revokeObjectURL(url);
+        if (window.ithriveOrb) window.ithriveOrb.setLevel(0);
+        setState('idle', str('prompt'));
+      };
+      audio.onerror = audio.onended;
+      // No amplitude analyser here — a steady pulse still reads as speech.
+      if (window.ithriveOrb) window.ithriveOrb.setLevel(0.6);
+      await audio.play();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async function speak(text) {
+    if (!voiceOn || !voiceOn.checked) { setState('idle', str('prompt')); return; }
+
+    // Prefer a real installed voice; fall back to the server when the device
+    // has none for this language (the usual case for the Indic languages).
+    if (!voice && ttsUrl && await speakViaServer(text)) return;
+    if (!canSpeak || !voice) { setState('idle', str('prompt')); return; }
 
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -82,9 +135,9 @@
 
     // speechSynthesis exposes no amplitude, so drive the orb from word
     // boundaries — close enough to read as "it is talking".
-    u.onstart    = () => setState('speaking', 'Speaking…');
+    u.onstart    = () => setState('speaking', str('speaking'));
     u.onboundary = () => { if (window.ithriveOrb) window.ithriveOrb.setLevel(0.4 + Math.random() * 0.6); };
-    u.onend      = () => { if (window.ithriveOrb) window.ithriveOrb.setLevel(0); setState('idle', 'Tap to speak'); };
+    u.onend      = () => { if (window.ithriveOrb) window.ithriveOrb.setLevel(0); setState('idle', str('prompt')); };
     u.onerror    = u.onend;
 
     speechSynthesis.speak(u);
@@ -110,7 +163,7 @@
     busy = true;
     add('user', question);
     input.value = '';
-    setState('thinking', 'Thinking…');
+    setState('thinking', str('thinking'));
 
     const pending = add('bot', '…');
 
@@ -119,7 +172,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ message: question }),
+        body: JSON.stringify({ message: question, lang: lang.code }),
       });
       const data = await res.json().catch(() => ({}));
       const reply = data.reply || 'I could not reach my assistant service just now.';
@@ -129,7 +182,7 @@
       speak(reply);
     } catch {
       pending.textContent = 'I could not reach the server. Try again, or email hello@ithrivesoftware.com.';
-      setState('idle', 'Tap to speak');
+      setState('idle', str('prompt'));
     } finally {
       busy = false;
     }
@@ -145,13 +198,13 @@
   if (!canHear) return;
 
   const rec = new SpeechRec();
-  rec.lang = 'en-IN';
+  rec.lang = lang.bcp47;
   rec.interimResults = true;
   rec.continuous = false;
 
   rec.onstart = () => {
     recognising = true;
-    setState('listening', 'Listening…');
+    setState('listening', str('listening'));
   };
 
   rec.onresult = (event) => {
@@ -175,14 +228,38 @@
 
   rec.onerror = (e) => {
     recognising = false;
-    setState('idle', e.error === 'not-allowed' ? 'Microphone blocked' : 'Tap to speak');
+    setState('idle', e.error === 'not-allowed' ? 'Microphone blocked' : str('prompt'));
   };
 
   rec.onend = () => {
     recognising = false;
     if (window.ithriveOrb) window.ithriveOrb.setLevel(0);
-    if (root.dataset.state === 'listening') setState('idle', 'Tap to speak');
+    if (root.dataset.state === 'listening') setState('idle', str('prompt'));
   };
+
+  /* -------------------------------------------------------------- language */
+
+  root.querySelectorAll('[data-assistant-lang]').forEach((b) => {
+    b.addEventListener('click', () => {
+      lang = LANGS.find(l => l.code === b.dataset.assistantLang) || lang;
+
+      root.querySelectorAll('[data-assistant-lang]').forEach((o) => {
+        const on = o === b;
+        o.classList.toggle('is-active', on);
+        o.setAttribute('aria-pressed', String(on));
+      });
+
+      // Retarget speech recognition, re-pick the voice, and relabel the UI.
+      rec.lang = lang.bcp47;
+      input.placeholder = str('placeholder');
+      input.lang = lang.code;
+      log.lang = lang.code;
+      pickVoice();
+      if (canSpeak) speechSynthesis.cancel();
+      if (audio) audio.pause();
+      setState('idle', str('prompt'));
+    });
+  });
 
   mic.addEventListener('click', () => {
     if (recognising) { rec.stop(); return; }

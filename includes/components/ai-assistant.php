@@ -21,7 +21,22 @@ declare(strict_types=1);
         'lead'    => 'A voice assistant wired to our own case studies and services. Ask out loud or type — it answers from what we have actually shipped, and says so plainly when it does not know.',
     ]); ?>
 
-    <div class="assistant" data-assistant data-endpoint="<?= e(url('handlers/chat.php')) ?>">
+    <div class="assistant" data-assistant
+         data-endpoint="<?= e(url('handlers/chat.php')) ?>"
+         data-tts="<?= e(TTS_ENDPOINT !== '' ? url('handlers/tts.php') : '') ?>"
+         data-langs='<?= e(json_encode(ASSISTANT_LANGUAGES, JSON_UNESCAPED_UNICODE)) ?>'
+         data-strings='<?= e(json_encode(ASSISTANT_STRINGS, JSON_UNESCAPED_UNICODE)) ?>'>
+
+      <div class="assistant-langs" role="group" aria-label="Assistant language">
+        <?php foreach (ASSISTANT_LANGUAGES as $i => $l): ?>
+          <button class="assistant-lang<?= $i === 0 ? ' is-active' : '' ?>" type="button"
+                  data-assistant-lang="<?= e($l['code']) ?>"
+                  data-bcp47="<?= e($l['bcp47']) ?>"
+                  lang="<?= e($l['code']) ?>"
+                  title="<?= e($l['name']) ?>"><?= e($l['native']) ?></button>
+        <?php endforeach; ?>
+      </div>
+
       <div class="assistant-stage" data-orb-stage>
         <div class="hero-orb"></div>
         <div class="assistant-canvas" data-orb-canvas role="img"

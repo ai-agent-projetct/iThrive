@@ -57,6 +57,9 @@ if (!is_array($body)) {
 
 $message = trim((string) ($body['message'] ?? ''));
 
+// Language is chosen in the UI; anything unrecognised falls back to English.
+$lang = assistant_language((string) ($body['lang'] ?? 'en'))['code'];
+
 if ($message === '') {
     $send(['error' => 'empty_message'], 400);
 }
@@ -93,7 +96,7 @@ $history[] = ['role' => 'user', 'content' => $message];
 // Only the most recent turns are replayed; the system prompt carries the rest.
 $window = array_slice($history, -(AI_MAX_HISTORY_TURNS * 2));
 
-$result = ai_run($window, ai_chat_system(), 'low', 4000);
+$result = ai_run($window, ai_chat_system($lang), 'low', 4000);
 
 if ($result['error'] !== null || $result['text'] === '') {
     if ($result['error'] !== null && $result['error'] !== 'refused') {
@@ -105,7 +108,7 @@ if ($result['error'] !== null || $result['text'] === '') {
     // canned rather than generated.
     if ($result['error'] !== 'refused') {
         $local = ai_local_answer($message);
-        $reply = $local['matched'] ? $local['text'] : ai_offtopic_answer($message);
+        $reply = $local['matched'] ? $local['text'] : ai_offtopic_answer($message, $lang);
 
         $history[] = ['role' => 'assistant', 'content' => $reply];
         $_SESSION['chat_history'] = array_slice($history, -(AI_MAX_HISTORY_TURNS * 2));
@@ -113,6 +116,7 @@ if ($result['error'] !== null || $result['text'] === '') {
         $send([
             'reply'    => $reply,
             'state'    => $local['matched'] ? 'local' : 'offtopic',
+            'lang'     => $lang,
             'captured' => false,
         ]);
     }
