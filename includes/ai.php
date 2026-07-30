@@ -67,23 +67,45 @@ function ai_autoload_path(): ?string
     return is_file($path) ? $path : null;
 }
 
-/** True when a live model call is actually possible. */
+/**
+ * True when a live model call is actually possible.
+ *
+ * The SDK is preferred but not required: with curl available the direct
+ * transport below talks to the Messages API on its own, so an API key alone is
+ * enough to make the assistant think. That matters because this project ships
+ * with no build step, and `composer install` is a step a shared host may not
+ * have.
+ */
 function ai_enabled(): bool
 {
-    return ai_api_key() !== null && ai_autoload_path() !== null;
+    return ai_api_key() !== null
+        && (ai_autoload_path() !== null || function_exists('curl_init'));
+}
+
+/** Which transport a request will use — 'sdk', 'curl', or 'none'. */
+function ai_transport(): string
+{
+    if (ai_api_key() === null) {
+        return 'none';
+    }
+    if (ai_autoload_path() !== null) {
+        return 'sdk';
+    }
+
+    return function_exists('curl_init') ? 'curl' : 'none';
 }
 
 /** Why the AI is unavailable — surfaced in logs, never to visitors. */
 function ai_unavailable_reason(): string
 {
-    if (ai_autoload_path() === null) {
-        return 'composer dependencies not installed (run: composer install)';
-    }
     if (ai_api_key() === null) {
         return 'no ANTHROPIC_API_KEY in environment or includes/secrets.php';
     }
+    if (ai_autoload_path() === null && !function_exists('curl_init')) {
+        return 'no SDK (composer install) and no curl extension';
+    }
 
-    return 'available';
+    return 'available via ' . ai_transport();
 }
 
 /** Memoised SDK client. Returns null when the AI layer is not configured. */
@@ -470,6 +492,116 @@ function ai_append_storage(string $file, array $record): bool
 }
 
 // ---------------------------------------------------------------------------
+// Transport
+// ---------------------------------------------------------------------------
+
+/** Normalise response content blocks back into plain arrays for replay. */
+function ai_blocks_to_array(array $blocks): array
+{
+    return array_map(static function ($b): array {
+        $a = (array) $b;
+        // Drop nulls the API rejects on replay.
+        return array_filter($a, static fn ($v): bool => $v !== null);
+    }, $blocks);
+}
+
+/**
+ * One Messages API call over plain HTTPS.
+ *
+ * Used when the SDK is not installed. Deliberately mirrors the shape the SDK
+ * returns — an object with ->stopReason, ->content and ->usage — so the agent
+ * loop does not care which transport it got.
+ *
+ * @throws RuntimeException on transport or API failure.
+ */
+function ai_http_call(array $payload): object
+{
+    $ch = curl_init('https://api.anthropic.com/v1/messages');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 120,
+        CURLOPT_HTTPHEADER     => [
+            'content-type: application/json',
+            'x-api-key: ' . ai_api_key(),
+            'anthropic-version: 2023-06-01',
+        ],
+        CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+    ]);
+
+    $raw    = curl_exec($ch);
+    $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $err    = curl_error($ch);
+    curl_close($ch);
+
+    if ($raw === false) {
+        throw new RuntimeException("transport: {$err}");
+    }
+
+    $data = json_decode((string) $raw, true);
+
+    if (!is_array($data)) {
+        throw new RuntimeException('malformed response');
+    }
+
+    if ($status >= 400) {
+        $message = $data['error']['message'] ?? 'unknown error';
+        throw new RuntimeException("api {$status}: {$message}");
+    }
+
+    // Re-shape into the same accessors the SDK exposes, so ai_run() is
+    // transport-agnostic.
+    $blocks = array_map(static fn (array $b): object => (object) $b, $data['content'] ?? []);
+
+    return (object) [
+        'stopReason' => $data['stop_reason'] ?? null,
+        'content'    => $blocks,
+        'usage'      => (object) [
+            'inputTokens'  => $data['usage']['input_tokens'] ?? 0,
+            'outputTokens' => $data['usage']['output_tokens'] ?? 0,
+        ],
+    ];
+}
+
+/**
+ * Issue one model request through whichever transport is available.
+ *
+ * @param array $messages Conversation in API shape.
+ */
+function ai_request(array $messages, string $system, array $tools, string $effort, int $maxTokens): object
+{
+    if (ai_transport() === 'sdk') {
+        return ai_client()->messages->create(
+            model: AI_MODEL,
+            maxTokens: $maxTokens,
+            system: [
+                ['type' => 'text', 'text' => $system, 'cacheControl' => ['type' => 'ephemeral']],
+            ],
+            tools: $tools,
+            outputConfig: ['effort' => $effort],
+            messages: $messages,
+        );
+    }
+
+    return ai_http_call([
+        'model'      => AI_MODEL,
+        'max_tokens' => $maxTokens,
+        'system'     => [
+            ['type' => 'text', 'text' => $system, 'cache_control' => ['type' => 'ephemeral']],
+        ],
+        'tools'         => array_map(static function (array $t): array {
+            // The wire format is snake_case; the SDK does this mapping for us.
+            $t['input_schema'] = $t['inputSchema'];
+            unset($t['inputSchema']);
+
+            return $t;
+        }, $tools),
+        'output_config' => ['effort' => $effort],
+        'messages'      => $messages,
+    ]);
+}
+
+// ---------------------------------------------------------------------------
 // The agent loop
 // ---------------------------------------------------------------------------
 
@@ -494,26 +626,16 @@ function ai_run(
     $iterations = 0;
     $usage      = ['input' => 0, 'output' => 0];
 
-    $client = ai_client();
-    if ($client === null) {
+    if (!ai_enabled()) {
         return ['text' => '', 'side' => $side, 'iterations' => 0, 'usage' => $usage, 'error' => ai_unavailable_reason()];
     }
 
     $tools = ai_tools($toolNames);
 
     try {
-        $response = $client->messages->create(
-            model: AI_MODEL,
-            maxTokens: $maxTokens,
-            system: [
-                // The system prompt and tool list are identical on every request,
-                // so caching them turns the whole prefix into a cache read.
-                ['type' => 'text', 'text' => $system, 'cacheControl' => ['type' => 'ephemeral']],
-            ],
-            tools: $tools,
-            outputConfig: ['effort' => $effort],
-            messages: $messages,
-        );
+        // The system prompt and tool list are identical on every request, so
+        // caching them turns the whole prefix into a cache read.
+        $response = ai_request($messages, $system, $tools, $effort, $maxTokens);
 
         $usage['input']  += $response->usage->inputTokens ?? 0;
         $usage['output'] += $response->usage->outputTokens ?? 0;
@@ -528,8 +650,10 @@ function ai_run(
                 }
 
                 $toolResults[] = [
-                    'type'      => 'tool_result',
-                    'toolUseID' => $block->id,
+                    'type' => 'tool_result',
+                    // The SDK maps camelCase to the wire; raw HTTP needs the
+                    // wire name directly.
+                    (ai_transport() === 'sdk' ? 'toolUseID' : 'tool_use_id') => $block->id,
                     'content'   => ai_execute_tool($block->name, (array) $block->input, $side),
                 ];
             }
@@ -538,19 +662,10 @@ function ai_run(
                 break;
             }
 
-            $messages[] = ['role' => 'assistant', 'content' => $response->content];
+            $messages[] = ['role' => 'assistant', 'content' => ai_blocks_to_array($response->content)];
             $messages[] = ['role' => 'user', 'content' => $toolResults];
 
-            $response = $client->messages->create(
-                model: AI_MODEL,
-                maxTokens: $maxTokens,
-                system: [
-                    ['type' => 'text', 'text' => $system, 'cacheControl' => ['type' => 'ephemeral']],
-                ],
-                tools: $tools,
-                outputConfig: ['effort' => $effort],
-                messages: $messages,
-            );
+            $response = ai_request($messages, $system, $tools, $effort, $maxTokens);
 
             $usage['input']  += $response->usage->inputTokens ?? 0;
             $usage['output'] += $response->usage->outputTokens ?? 0;

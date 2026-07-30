@@ -66,9 +66,10 @@ function ai_score(array $terms, string $haystack, string $question): int
  *
  * @return array{text: string, matched: bool}
  */
-function ai_local_answer(string $question): array
+function ai_local_answer(string $question, string $lang = 'en'): array
 {
     $terms = ai_terms($question);
+    $t     = ASSISTANT_ANSWERS[$lang] ?? ASSISTANT_ANSWERS['en'];
 
     $q = mb_strtolower($question);
 
@@ -97,34 +98,44 @@ function ai_local_answer(string $question): array
 
     // ---- Intent shortcuts, checked before record matching ------------------
 
-    if (preg_match('/\b(contact|email|phone|call|reach|talk|speak|touch|address|located|where)\b/', $q)) {
-        return ['matched' => true, 'text' =>
-            'You can email ' . SITE_EMAIL . ' or call ' . SITE_PHONE . '. We are based in ' . SITE_HQ
-            . '. Send a paragraph about the workflow you want to fix and you will get a written build plan — '
-            . 'scope, stack and a realistic timeline — within two working days.'];
+    // Term matching below is English-only, so a question asked in Tamil or
+    // Hindi would otherwise fall through to the off-topic reply. These carry
+    // the four highest-traffic intents in all six languages. (Full multilingual
+    // understanding is the model's job — this is the no-API-key floor.)
+    $ML = [
+        'contact' => 'தொடர்பு|மின்னஞ்சல்|முகவரி|எங்கே|ബന്ധപ്പെട|ഇമെയിൽ|എവിടെ|ಸಂಪರ್ಕ|ಇಮೇಲ್|ಎಲ್ಲಿ|'
+                   . 'సంప్రదించ|ఇమెయిల్|ఎక్కడ|संपर्क|ईमेल|पता|कहाँ|कहां',
+        'price'   => 'விலை|காசு|கட்டணம்|எவ்வளவு|செலவு|വില|ചെലവ്|എത്ര|ಬೆಲೆ|ಎಷ್ಟು|ವೆಚ್ಚ|'
+                   . 'ధర|ఎంత|ఖర్చు|कीमत|कितना|कितने|लागत|शुल्क',
+        'process' => 'செயல்முறை|எப்படி|தொடங்க|പ്രക്രിയ|എങ്ങനെ|ಪ್ರಕ್ರಿಯೆ|ಹೇಗೆ|ప్రక్రియ|ఎలా|प्रक्रिया|कैसे',
+        'hiring'  => 'வேலை|பணி|ജോലി|ಕೆಲಸ|ఉద్యోగ|नौकरी|भर्ती',
+    ];
+
+    if (preg_match('/\b(contact|email|phone|call|reach|talk|speak|touch|address|located|where)\b/', $q)
+        || preg_match('/(' . $ML['contact'] . ')/u', $question)) {
+        return ['matched' => true, 'text' => sprintf($t['contact'], SITE_EMAIL, SITE_PHONE, SITE_HQ)];
     }
 
-    if (preg_match('/\b(process|engage|engagement|work with|how do you work|steps|timeline|start)\b/', $q)) {
+    if (preg_match('/\b(process|engage|engagement|work with|how do you work|steps|timeline|start)\b/', $q)
+        || preg_match('/(' . $ML['process'] . ')/u', $question)) {
         $steps = implode(' ', array_map(
             static fn (array $s): string => "{$s['number']} {$s['title']}: {$s['body']} You walk away with: {$s['output']}.",
             PROCESS['steps']
         ));
 
-        return ['matched' => true, 'text' => 'Every engagement runs through three gates. ' . $steps];
+        return ['matched' => true, 'text' => $t['process'] . ' ' . $steps];
     }
 
-    if (preg_match('/\b(price|pricing|cost|budget|quote|rate|charge|how much)\b/', $q)) {
-        return ['matched' => true, 'text' =>
-            'Pricing depends on scope, so we do not publish a rate card — and I will not guess at a number. '
-            . 'What happens instead: you describe the workflow, we run a discovery pass, and you get a fixed '
-            . 'scope and price in writing before any production code is written. Email ' . SITE_EMAIL . ' to start that.'];
+    if (preg_match('/\b(price|pricing|cost|budget|quote|rate|charge|how much)\b/', $q)
+        || preg_match('/(' . $ML['price'] . ')/u', $question)) {
+        return ['matched' => true, 'text' => sprintf($t['price'], SITE_EMAIL)];
     }
 
-    if (preg_match('/\b(hiring|career|job|vacancy|apply|recruit|work for)\b/', $q)) {
+    if (preg_match('/\b(hiring|career|job|vacancy|apply|recruit|work for)\b/', $q)
+        || preg_match('/(' . $ML['hiring'] . ')/u', $question)) {
         $roles = implode('; ', array_map(static fn (array $r): string => $r['title'], CAREERS['roles']));
 
-        return ['matched' => true, 'text' => "We are hiring: {$roles}. Everyone here writes code, talks to "
-            . 'clients and owns something in production. Send your work to ' . SITE_EMAIL . '.'];
+        return ['matched' => true, 'text' => sprintf($t['hiring'], $roles, SITE_EMAIL)];
     }
 
     // ---- Score every record ------------------------------------------------
@@ -171,9 +182,18 @@ function ai_local_answer(string $question): array
     }
 
     // A single weak keyword hit is not an answer; make it clear the bar matters.
-    return $best['score'] >= 4
-        ? ['matched' => true, 'text' => $best['text']]
-        : ['matched' => false, 'text' => ''];
+    if ($best['score'] < 4) {
+        return ['matched' => false, 'text' => ''];
+    }
+
+    // Record detail (product names, stacks, metrics) stays in English because
+    // that is how it is written in content.php; the lead-in keeps the reply in
+    // the visitor's language. A key gives fully translated answers.
+    return ['matched' => true, 'text' => $lang === 'en'
+        ? $best['text']
+        : $t['found'] . "
+
+" . $best['text']];
 }
 
 /**

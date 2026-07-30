@@ -107,7 +107,7 @@ if ($result['error'] !== null || $result['text'] === '') {
     // visitor still gets a real answer about Ithrive; only the phrasing is
     // canned rather than generated.
     if ($result['error'] !== 'refused') {
-        $local = ai_local_answer($message);
+        $local = ai_local_answer($message, $lang);
         $reply = $local['matched'] ? $local['text'] : ai_offtopic_answer($message, $lang);
 
         $history[] = ['role' => 'assistant', 'content' => $reply];
