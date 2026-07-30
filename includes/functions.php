@@ -192,6 +192,114 @@ function solution(string $slug): array
     throw new RuntimeException("Unknown solution: {$slug}");
 }
 
+// ---------------------------------------------------------------------------
+// SEO helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Absolute origin for canonical and og:url tags.
+ *
+ * Prefers the SITE_URL env var (set it in production so canonicals are stable
+ * regardless of which host header a request arrives on), and otherwise derives
+ * the origin from the current request.
+ */
+function site_origin(): string
+{
+    $configured = getenv('SITE_URL');
+    if (is_string($configured) && $configured !== '') {
+        return rtrim($configured, '/');
+    }
+
+    $https  = ($_SERVER['HTTPS'] ?? '') === 'on'
+        || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
+    $host   = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
+
+    return ($https ? 'https://' : 'http://') . $host;
+}
+
+/** Absolute canonical URL for a path, or for the current request. */
+function canonical(?string $path = null): string
+{
+    if ($path === null) {
+        $path = strtok((string) ($_SERVER['REQUEST_URI'] ?? '/'), '?') ?: '/';
+        // index.php is the directory default — canonicalise to the bare path.
+        $path = preg_replace('#/index\.php$#', '/', $path) ?? $path;
+    } else {
+        $path = url($path);
+    }
+
+    return site_origin() . $path;
+}
+
+/**
+ * Compose a title that fits the ~60 character SERP limit.
+ *
+ * The brand suffix is dropped rather than truncated when the page's own title
+ * needs the room — a clipped brand name looks worse than none.
+ */
+function seo_title(string $primary, string $brand = 'Ithrive'): string
+{
+    $primary = trim(preg_replace('/\s+/', ' ', $primary) ?? $primary);
+    $suffix  = ' | ' . $brand;
+
+    if (mb_strlen($primary) + mb_strlen($suffix) <= 60) {
+        return $primary . $suffix;
+    }
+
+    if (mb_strlen($primary) <= 60) {
+        return $primary;
+    }
+
+    $cut = mb_substr($primary, 0, 59);
+    $sp  = mb_strrpos($cut, ' ');
+
+    return rtrim($sp !== false && $sp > 30 ? mb_substr($cut, 0, $sp) : $cut, " ,.—-") . '…';
+}
+
+/** Trim a meta description to the ~160 character SERP limit on a word boundary. */
+function seo_description(string $text, int $limit = 158): string
+{
+    $text = trim(preg_replace('/\s+/', ' ', $text) ?? $text);
+
+    if (mb_strlen($text) <= $limit) {
+        return $text;
+    }
+
+    $cut = mb_substr($text, 0, $limit - 1);
+    $sp  = mb_strrpos($cut, ' ');
+
+    return rtrim($sp !== false && $sp > 80 ? mb_substr($cut, 0, $sp) : $cut, " ,.;:—-") . '…';
+}
+
+/** Render a JSON-LD block. */
+function json_ld(array $data): string
+{
+    return '<script type="application/ld+json">'
+        . json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+        . '</script>';
+}
+
+/**
+ * A client's own logo, harvested from their site.
+ *
+ * These vary wildly — white-on-transparent (Jaumo), black line art (Coonoor
+ * Club), vivid colour (Toing) — so they are always rendered on a light plate
+ * rather than dropped straight onto the dark background, where roughly half of
+ * them would vanish.
+ */
+function client_logo(array $study, string $class = ''): string
+{
+    if (empty($study['logo'])) {
+        return '<span class="logo-plate logo-plate--text' . ($class !== '' ? ' ' . e($class) : '') . '">'
+            . e($study['client']) . '</span>';
+    }
+
+    return '<span class="logo-plate' . ($class !== '' ? ' ' . e($class) : '') . '">'
+        . '<img src="' . e(asset('assets/img/clients/' . $study['logo'])) . '" '
+        . 'alt="' . e($study['client']) . ' logo" loading="lazy" decoding="async">'
+        . '</span>';
+}
+
 /** CSRF token for the contact form. */
 function csrf_token(): string
 {

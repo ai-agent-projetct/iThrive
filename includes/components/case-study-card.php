@@ -18,7 +18,10 @@ $index = $index ?? 0;
       <?php component('mock-window', ['study' => $study, 'compact' => true]); ?>
     </div>
 
-    <p class="case-industry"><?= icon($study['icon']) ?><?= e($study['industry']) ?></p>
+    <div class="case-brand">
+      <?= client_logo($study) ?>
+      <p class="case-industry"><?= icon($study['icon']) ?><?= e($study['industry']) ?></p>
+    </div>
     <h3 class="case-title"><?= e($study['title']) ?></h3>
     <p class="case-headline"><?= e($study['headline']) ?></p>
 

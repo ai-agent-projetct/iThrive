@@ -561,6 +561,24 @@ body.nav-open .nav-toggle-close { display: block; }
   align-items: center;
 }
 .hero--page .hero-inner { grid-template-columns: 1fr; max-width: 860px; }
+/* With artwork the page hero goes back to two columns. */
+.hero--art .hero-inner { grid-template-columns: 1.02fr .98fr; max-width: none; align-items: center; }
+
+.hero-art img {
+  width: 100%;
+  height: auto;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 70px -34px rgba(0, 0, 0, .9);
+}
+
+/* Artwork used inside a section rather than a hero. */
+.section-art img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+}
 
 .hero-badge {
   display: inline-flex;
@@ -697,16 +715,11 @@ body.nav-open .nav-toggle-close { display: block; }
 .marquee-item {
   display: flex;
   align-items: center;
-  gap: 11px;
-  color: var(--text-faint);
-  font-weight: 700;
-  font-size: 1.02rem;
-  letter-spacing: -.01em;
-  white-space: nowrap;
-  transition: color .25s var(--ease);
+  opacity: .62;
+  filter: grayscale(1);
+  transition: opacity .3s var(--ease), filter .3s var(--ease), transform .3s var(--ease);
 }
-.marquee-item:hover { color: var(--text); }
-.marquee-item .icon { width: 20px; height: 20px; color: var(--cyan); opacity: .75; }
+.marquee-item:hover { opacity: 1; filter: none; transform: translateY(-2px); }
 
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -883,19 +896,33 @@ body.nav-open .nav-toggle-close { display: block; }
 .mock-body { padding: 16px; display: grid; gap: 12px; }
 
 .mock-head { display: flex; align-items: center; gap: 10px; }
-.mock-logo {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: color-mix(in srgb, var(--accent) 20%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
-  color: var(--accent);
-}
-.mock-logo .icon { width: 16px; height: 16px; }
-.mock-wordmark { font-size: .82rem; font-weight: 800; letter-spacing: -.02em; color: var(--text); }
 .mock-tagline { font-size: .6rem; color: var(--text-faint); letter-spacing: .07em; text-transform: uppercase; }
+
+/* ---------- Client logo plate ----------
+   Harvested client logos are wildly inconsistent — white-on-transparent, black
+   line art, full colour. A light plate is the one background all of them read
+   against, so every client mark gets the same treatment. */
+.logo-plate {
+  display: inline-grid;
+  place-items: center;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: #F4F6FA;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06);
+  flex: none;
+}
+.logo-plate img { max-height: 26px; width: auto; max-width: 150px; object-fit: contain; }
+.logo-plate--sm { padding: 6px 10px; border-radius: 8px; }
+.logo-plate--sm img { max-height: 17px; max-width: 96px; }
+.logo-plate--lg { padding: 13px 20px; border-radius: 13px; }
+.logo-plate--lg img { max-height: 38px; max-width: 210px; }
+.logo-plate--text {
+  padding: 10px 16px;
+  color: #0B0F17;
+  font-weight: 800;
+  font-size: .84rem;
+  letter-spacing: -.01em;
+}
 
 .mock-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .mock-metric {
@@ -1005,6 +1032,9 @@ body.nav-open .nav-toggle-close { display: block; }
 
 .case-card .card { display: flex; flex-direction: column; height: 100%; padding: 26px; }
 .case-mock { margin: -6px -6px 22px; padding: 20px 18px 0; border-radius: 14px; background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 11%, transparent), transparent 78%); }
+
+.case-brand { display: flex; align-items: center; gap: 13px; margin-bottom: 13px; flex-wrap: wrap; }
+.case-brand .case-industry { margin-bottom: 0; }
 
 .case-industry {
   display: inline-flex;

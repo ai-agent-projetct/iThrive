@@ -8,6 +8,7 @@ $pageDesc  = 'Ithrive runs every engagement through three gates: Discovery, Clar
 require dirname(__DIR__) . '/includes/header.php';
 
 component('page-hero', [
+    'art'     => 'process',
     'eyebrow' => PROCESS['eyebrow'],
     'title'   => 'Three gates. Each one ends in something you can hold.',
     'lead'    => PROCESS['lead'],

@@ -8,6 +8,7 @@ $pageDesc  = 'Ten platforms in production across healthcare, mobility, civic tec
 require __DIR__ . '/includes/header.php';
 
 component('page-hero', [
+    'art'     => 'proof',
     'eyebrow' => 'Case Studies',
     'title'   => 'Ten platforms, each closing a gap someone was living with.',
     'lead'    => 'Filter by what you are building. Every study covers the actual challenge, what we engineered, and the value the client measured afterwards.',

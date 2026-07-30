@@ -8,6 +8,7 @@ $pageDesc  = 'Ithrive Software Solutions hires senior Python, AI/ML, React and D
 require dirname(__DIR__) . '/includes/header.php';
 
 component('page-hero', [
+    'art'     => 'careers',
     'eyebrow' => CAREERS['eyebrow'],
     'title'   => CAREERS['title'],
     'lead'    => CAREERS['lead'],

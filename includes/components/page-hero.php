@@ -7,6 +7,7 @@
  * @var string|null $lead
  * @var array|null  $crumb    ['label' => ..., 'href' => ...]
  * @var array|null  $actions  List of ['label', 'href'] — the first is primary.
+ * @var string|null $art      Artwork slug from assets/img/art/, e.g. 'ai-first'.
  */
 
 declare(strict_types=1);
@@ -14,8 +15,9 @@ declare(strict_types=1);
 $lead    = $lead    ?? null;
 $crumb   = $crumb   ?? null;
 $actions = $actions ?? null;
+$art     = $art     ?? null;
 ?>
-<section class="hero hero--page">
+<section class="hero hero--page<?= $art !== null ? ' hero--art' : '' ?>">
   <div class="shell hero-inner">
     <div>
       <?php if ($crumb !== null): ?>
@@ -40,5 +42,12 @@ $actions = $actions ?? null;
         </div>
       <?php endif; ?>
     </div>
+
+    <?php if ($art !== null): ?>
+      <div class="hero-art" data-reveal style="--d:2">
+        <img src="<?= e(asset('assets/img/art/' . $art . '.svg')) ?>"
+             width="560" height="420" alt="" loading="eager" decoding="async">
+      </div>
+    <?php endif; ?>
   </div>
 </section>

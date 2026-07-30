@@ -40,6 +40,7 @@ $industries = [
 ];
 
 component('page-hero', [
+    'art'     => 'insights',
     'eyebrow' => 'Solutions',
     'title'   => 'Products we built, and the industries we built them in.',
     'lead'    => 'Two proprietary AI products available to deploy today, plus the industry patterns we have already solved for someone else — so your build starts further along than zero.',

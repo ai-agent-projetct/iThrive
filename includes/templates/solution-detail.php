@@ -12,12 +12,27 @@ require_once dirname(__DIR__) . '/config.php';
 $sol = solution($solutionSlug);
 
 $page      = 'solutions';
-$pageTitle = $sol['name'] . ' — ' . $sol['tagline'] . ' | ' . SITE_NAME;
-$pageDesc  = $sol['short'];
+// The tagline is a full sentence — keeping it in the title pushed these two
+// pages past 125 characters, so it lives in the description instead.
+$pageTitle = $sol['name'] . ' — AI Product';
+$pageDesc  = $sol['tagline'] . ' ' . $sol['short'];
+$ogImage   = 'solution-' . $sol['slug'];
+
+$schema = [
+    '@type'          => 'SoftwareApplication',
+    'name'           => $sol['name'],
+    'applicationCategory' => 'BusinessApplication',
+    'operatingSystem'=> 'Web',
+    'description'    => $sol['lead'],
+    'url'            => canonical('solutions/' . $sol['slug'] . '.php'),
+    'featureList'    => array_map(static fn (array $f): string => $f['title'], $sol['features']),
+    'offers'         => ['@type' => 'Offer', 'availability' => 'https://schema.org/InStock'],
+];
 
 require dirname(__DIR__) . '/header.php';
 
 component('page-hero', [
+    'art'     => $sol['slug'] === 'ithrive-aichat' ? 'aichat' : 'insights',
     'crumb'   => ['label' => 'All solutions', 'href' => 'solutions.php'],
     'eyebrow' => 'Proprietary AI Product',
     'title'   => $sol['name'],

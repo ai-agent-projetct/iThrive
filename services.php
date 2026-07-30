@@ -8,6 +8,7 @@ $pageDesc  = 'AI-native product development, AI enablement, micro SaaS, product 
 require __DIR__ . '/includes/header.php';
 
 component('page-hero', [
+    'art'     => 'core',
     'eyebrow' => 'Services',
     'title'   => 'Engineering practices, not a menu of deliverables.',
     'lead'    => 'Fifteen services across four groups. Every one of them is delivered by senior engineers who were in your discovery workshop, and every one ends with something running in production that you own.',

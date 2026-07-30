@@ -12,8 +12,26 @@ require_once dirname(__DIR__) . '/config.php';
 $study = case_study($studySlug);
 
 $page      = 'case-studies';
-$pageTitle = $study['title'] . ' — Case Study | ' . SITE_NAME;
+$pageTitle = $study['client'] . ': ' . $study['headline'];
 $pageDesc  = $study['summary'];
+$ogType    = 'article';
+$ogImage   = 'case-' . $study['slug'];
+
+$schema = [
+    '@type'         => 'Article',
+    'headline'      => $study['client'] . ': ' . $study['headline'],
+    'description'   => $study['summary'],
+    'articleSection'=> 'Case Study',
+    'about'         => ['@type' => 'Thing', 'name' => $study['industry']],
+    'url'           => canonical('case-studies/' . $study['slug'] . '.php'),
+    'author'        => ['@type' => 'Organization', 'name' => SITE_NAME],
+    'mentions'      => [
+        '@type' => 'Organization',
+        'name'  => $study['client'],
+        'url'   => $study['url'],
+    ],
+    'keywords'      => implode(', ', array_merge($study['stack'], [$study['industry']])),
+];
 
 require dirname(__DIR__) . '/header.php';
 ?>
@@ -25,6 +43,7 @@ require dirname(__DIR__) . '/header.php';
         <?= icon('arrow') ?>All case studies
       </a>
 
+      <div data-reveal style="margin-bottom:18px"><?= client_logo($study, 'logo-plate--lg') ?></div>
       <p class="case-industry" data-reveal><?= icon($study['icon']) ?><?= e($study['industry']) ?></p>
       <h1 class="hero-title" data-reveal style="--d:1;font-size:clamp(2rem,4.2vw,3.1rem)"><?= e($study['title']) ?></h1>
       <p class="hero-lead" data-reveal style="--d:2"><?= e($study['headline']) ?> &mdash; <?= e($study['summary']) ?></p>

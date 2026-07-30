@@ -13,8 +13,9 @@ $clients = CASE_STUDIES;
     <?php for ($pass = 0; $pass < 2; $pass++): ?>
       <?php foreach ($clients as $client): ?>
         <a class="marquee-item" href="<?= e(url('case-studies/' . $client['slug'] . '.php')) ?>"
+           title="<?= e($client['client']) ?>"
            <?= $pass === 1 ? 'aria-hidden="true" tabindex="-1"' : '' ?>>
-          <?= icon($client['icon']) ?><?= e($client['client']) ?>
+          <?= client_logo($client) ?>
         </a>
       <?php endforeach; ?>
     <?php endfor; ?>

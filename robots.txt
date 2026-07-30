@@ -1,0 +1,17 @@
+# Ithrive Software Solutions
+
+User-agent: *
+Allow: /
+
+# Nothing useful for a crawler, and some of it is private.
+Disallow: /handlers/
+Disallow: /includes/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /.tools/
+
+# Filtered views of the same ten case studies — canonical tags already point
+# back to the unfiltered page, this just saves the crawl budget.
+Disallow: /case-studies.php?*
+
+Sitemap: /sitemap.xml

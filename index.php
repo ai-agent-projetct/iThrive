@@ -99,10 +99,17 @@ component('client-logo-grid');
         'title'   => HOME_WHY['title'],
     ]); ?>
 
-    <div class="grid grid-4">
-      <?php foreach (HOME_WHY['items'] as $i => $item): ?>
-        <?php component('feature-card', ['item' => $item, 'index' => $i]); ?>
-      <?php endforeach; ?>
+    <div class="split split--even" style="margin-bottom:44px">
+      <div class="grid grid-2">
+        <?php foreach (HOME_WHY['items'] as $i => $item): ?>
+          <?php component('feature-card', ['item' => $item, 'index' => $i]); ?>
+        <?php endforeach; ?>
+      </div>
+
+      <div class="section-art" data-reveal style="--d:2">
+        <img src="<?= e(asset('assets/img/art/why.svg')) ?>" width="560" height="420"
+             alt="" loading="lazy" decoding="async">
+      </div>
     </div>
 
     <div style="margin-top:56px">

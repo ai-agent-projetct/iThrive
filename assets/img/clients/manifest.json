@@ -1,0 +1,53 @@
+{
+ "tada-taxi-app": {
+  "w": 371,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "toing-food-delivery": {
+  "w": 197,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "urimai-kural": {
+  "w": 368,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "de-drone-world": {
+  "w": 345,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "cute-crew": {
+  "w": 71,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "lotus-eye-hospital": {
+  "w": 520,
+  "h": 108,
+  "kind": "harvested"
+ },
+ "coonoor-club": {
+  "w": 120,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "jaumo": {
+  "w": 446,
+  "h": 93,
+  "kind": "harvested",
+  "ext": "svg"
+ },
+ "central-adventures": {
+  "w": 520,
+  "h": 41,
+  "kind": "wordmark"
+ },
+ "mehala-carona": {
+  "w": 520,
+  "h": 42,
+  "kind": "wordmark"
+ }
+}

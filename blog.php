@@ -8,6 +8,7 @@ $pageDesc  = 'Field notes from Ithrive engineers on agentic AI architecture, eva
 require __DIR__ . '/includes/header.php';
 
 component('page-hero', [
+    'art'     => 'blog',
     'eyebrow' => 'Blog',
     'title'   => 'Field notes from the builds, not thought leadership.',
     'lead'    => 'Written by the engineers who did the work, usually because something surprised us and we wanted it written down before we forgot.',

@@ -8,6 +8,7 @@ $pageDesc  = 'Ithrive Software Solutions is a product engineering company buildi
 require dirname(__DIR__) . '/includes/header.php';
 
 component('page-hero', [
+    'art'     => 'about',
     'eyebrow' => ABOUT['eyebrow'],
     'title'   => ABOUT['title'],
     'lead'    => ABOUT['lead'],

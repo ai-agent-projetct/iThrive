@@ -13,6 +13,7 @@ $pageDesc  = 'That page does not exist. Browse our services, solutions or case s
 require __DIR__ . '/includes/header.php';
 
 component('page-hero', [
+    'art'     => 'notfound',
     'eyebrow' => 'Error 404',
     'title'   => 'That page is not here.',
     'lead'    => 'The link is either out of date or was never right. Everything the site does is one of the three below.',

@@ -14,26 +14,54 @@ $page      = $page      ?? 'home';
 $pageTitle = $pageTitle ?? SITE_NAME;
 $pageDesc  = $pageDesc  ?? SITE_TAGLINE;
 $heroScene = $heroScene ?? null;
+
+/**
+ * Pages set a plain, human title; the SERP-length trimming happens here so no
+ * individual page has to remember the 60/160 character budgets.
+ */
+$metaTitle = seo_title($pageTitle);
+$metaDesc  = seo_description($pageDesc);
+$metaUrl   = canonical();
+
+/** Per-page share image, falling back to the site-wide one. */
+$ogSlug  = $ogImage ?? ($page === 'home' ? 'default' : $page);
+$ogFile  = 'assets/img/og/' . $ogSlug . '.png';
+$ogImg   = is_file(ROOT_PATH . '/' . $ogFile) ? $ogFile : 'assets/img/og/default.png';
+$ogAbs   = site_origin() . asset($ogImg);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?= e($pageTitle) ?></title>
-<meta name="description" content="<?= e($pageDesc) ?>">
+<title><?= e($metaTitle) ?></title>
+<meta name="description" content="<?= e($metaDesc) ?>">
+<link rel="canonical" href="<?= e($metaUrl) ?>">
 <meta name="theme-color" content="#0B0F17">
 <meta name="color-scheme" content="dark">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+
 <meta property="og:site_name" content="<?= e(SITE_NAME) ?>">
-<meta property="og:title" content="<?= e($pageTitle) ?>">
-<meta property="og:description" content="<?= e($pageDesc) ?>">
-<meta property="og:type" content="website">
+<meta property="og:title" content="<?= e($metaTitle) ?>">
+<meta property="og:description" content="<?= e($metaDesc) ?>">
+<meta property="og:type" content="<?= e($ogType ?? 'website') ?>">
+<meta property="og:url" content="<?= e($metaUrl) ?>">
+<meta property="og:image" content="<?= e($ogAbs) ?>">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<?= e($metaTitle) ?>">
+<meta name="twitter:description" content="<?= e($metaDesc) ?>">
+<meta name="twitter:image" content="<?= e($ogAbs) ?>">
+
 <link rel="icon" type="image/svg+xml" href="<?= e(asset('assets/img/favicon.svg')) ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<?= e(asset('assets/css/style.css')) ?>">
+<?php component('schema', ['schema' => $schema ?? null]); ?>
 <?php if ($heroScene !== null): ?>
 <script type="importmap">
 { "imports": { "three": "<?= e(asset('assets/vendor/three/three.module.js')) ?>" } }

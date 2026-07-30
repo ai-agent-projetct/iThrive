@@ -23,6 +23,7 @@ if (!empty($_GET['service'])) {
 }
 
 component('page-hero', [
+    'art'     => 'contact',
     'eyebrow' => 'Start Your Project',
     'title'   => 'Tell us what you are trying to automate.',
     'lead'    => 'Send a paragraph about the workflow that is slowing you down. A senior engineer reads every brief, and you will get scope, stack and a realistic timeline in writing within two working days.',

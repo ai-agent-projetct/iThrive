@@ -15,12 +15,33 @@ require_once dirname(__DIR__) . '/config.php';
 $svc = service($serviceSlug);
 
 $page      = 'services';
-$pageTitle = $svc['title'] . ' — ' . SITE_SHORT . ' Software Solutions';
+$pageTitle = $svc['title'];
 $pageDesc  = $svc['short'];
+$ogImage   = 'service-' . $svc['group_slug'];
+
+$schema = [
+    '@type'       => 'Service',
+    'name'        => $svc['title'],
+    'serviceType' => $svc['group'],
+    'description' => $svc['lead'],
+    'areaServed'  => 'Worldwide',
+    'url'         => canonical('services/' . $svc['slug'] . '.php'),
+    'hasOfferCatalog' => [
+        '@type'           => 'OfferCatalog',
+        'name'            => $svc['title'] . ' capabilities',
+        'itemListElement' => array_map(static fn (array $c): array => [
+            '@type' => 'Offer',
+            'itemOffered' => ['@type' => 'Service', 'name' => $c['title'], 'description' => $c['body']],
+        ], $svc['capabilities']),
+    ],
+];
 
 require dirname(__DIR__) . '/header.php';
 
 component('page-hero', [
+    // Each service group has its own artwork, so the fifteen detail pages stay
+    // visually distinct from one another without fifteen bespoke drawings.
+    'art'     => $svc['group_slug'],
     'crumb'   => ['label' => 'All services', 'href' => 'services.php'],
     'eyebrow' => $svc['group'],
     'title'   => $svc['title'],

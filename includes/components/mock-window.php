@@ -35,11 +35,8 @@ for ($i = 0; $i < 11; $i++) {
       </div>
       <div class="mock-body">
         <div class="mock-head">
-          <span class="mock-logo"><?= icon($study['icon']) ?></span>
-          <span>
-            <span class="mock-wordmark"><?= e($study['client']) ?></span>
-            <span class="mock-tagline"><?= e($study['screens'][0]) ?></span>
-          </span>
+          <?= client_logo($study, 'logo-plate--sm') ?>
+          <span class="mock-tagline"><?= e($study['screens'][0]) ?></span>
         </div>
 
         <div class="mock-metrics">
@@ -68,8 +65,7 @@ for ($i = 0; $i < 11; $i++) {
       <div class="mock-phone-screen">
         <span class="mock-notch"></span>
         <div class="mock-head">
-          <span class="mock-logo"><?= icon($study['icon']) ?></span>
-          <span class="mock-wordmark"><?= e($study['client']) ?></span>
+          <?= client_logo($study, 'logo-plate--sm') ?>
         </div>
         <div class="mock-hero-block"></div>
         <div class="mock-pills"><i></i><i></i><i></i></div>
