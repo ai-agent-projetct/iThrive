@@ -1,16 +1,17 @@
 <?php
 /**
- * Home page hero — copy on the left, the WebGL neural ring on the right.
+ * Home page hero.
  *
- * The stage renders a CSS orb immediately; hero-scene.js fades it out once
- * WebGL is up, so the hero is never empty and never breaks without it.
+ * The neural orb used to live here; it now anchors the AI assistant section
+ * further down the page, where it is interactive rather than decorative. This
+ * hero is a single centred column so the headline carries the fold on its own.
  */
 
 declare(strict_types=1);
 
 $hero = $hero ?? HOME_HERO;
 ?>
-<section class="hero">
+<section class="hero hero--center">
   <div class="shell hero-inner">
     <div>
       <p class="hero-badge" data-reveal>
@@ -32,31 +33,17 @@ $hero = $hero ?? HOME_HERO;
         </a>
       </div>
 
-      <div class="hero-trust" data-reveal style="--d:4">
-        <span><strong>Python</strong> &amp; Agentic AI</span>
-        <span><strong>Cloud</strong> Architecture</span>
-        <span><strong>Web</strong>, <strong>Mobile</strong> &amp; ERP</span>
+      <div class="hero-stats" data-reveal style="--d:4">
+        <?php foreach (HOME_HERO_STATS as $stat): ?>
+          <div class="hero-stat">
+            <?= icon($stat['icon']) ?>
+            <span>
+              <span class="hero-chip-value"><?= e($stat['value']) ?></span>
+              <span class="hero-chip-label"><?= e($stat['label']) ?></span>
+            </span>
+          </div>
+        <?php endforeach; ?>
       </div>
-    </div>
-
-    <div class="hero-stage<?= SPLINE_SCENE !== '' ? ' hero-stage--spline' : '' ?>" id="heroStage" data-reveal style="--d:2">
-      <?php if (SPLINE_SCENE !== ''): ?>
-        <?php component('spline-hero'); ?>
-      <?php else: ?>
-        <div class="hero-orb"></div>
-        <div class="hero-canvas" id="heroCanvas" role="img"
-             aria-label="A rotating neural ring of connected nodes representing Ithrive's Python and agentic AI engine."></div>
-      <?php endif; ?>
-
-      <?php foreach (HOME_HERO_STATS as $stat): ?>
-        <div class="hero-chip">
-          <?= icon($stat['icon']) ?>
-          <span>
-            <span class="hero-chip-value"><?= e($stat['value']) ?></span>
-            <span class="hero-chip-label"><?= e($stat['label']) ?></span>
-          </span>
-        </div>
-      <?php endforeach; ?>
     </div>
   </div>
 </section>

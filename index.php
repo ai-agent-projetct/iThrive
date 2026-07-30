@@ -4,7 +4,7 @@ declare(strict_types=1);
 $page      = 'home';
 $pageTitle = 'Ithrive Software Solutions — AI-Powered Platforms, Web & Mobile Apps';
 $pageDesc  = 'Ithrive Software Solutions builds intelligent apps and AI platforms that scale your business. Agentic AI ecosystems and custom Python-backed platforms, engineered for the cloud.';
-$heroScene = 'neural';
+$heroScene = 'neural';   // loads the orb module for the AI assistant section
 
 require __DIR__ . '/includes/header.php';
 
@@ -60,6 +60,8 @@ component('client-logo-grid');
     </div>
   </div>
 </section>
+
+<?php component('ai-assistant'); ?>
 
 <section class="section" id="tech-stack">
   <div class="shell">

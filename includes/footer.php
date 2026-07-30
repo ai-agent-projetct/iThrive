@@ -52,6 +52,7 @@ component('chat-widget');
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
 <?php if ($page === 'home'): ?>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/assistant.js')) ?>" defer></script>
 <?php endif; ?>
 </body>
 </html>

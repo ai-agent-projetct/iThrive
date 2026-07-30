@@ -13,8 +13,10 @@
 
 import * as THREE from 'three';
 
-const stage = document.getElementById('heroStage');
-const mount = document.getElementById('heroCanvas');
+// The scene is reused by the hero and by the voice assistant section, so it
+// binds to data hooks rather than one hard-coded id.
+const stage = document.querySelector('[data-orb-stage]');
+const mount = document.querySelector('[data-orb-canvas]');
 
 const CYAN = new THREE.Color('#00F2FE');
 const PURPLE = new THREE.Color('#9D4EDD');
@@ -115,11 +117,12 @@ function build() {
 
   const chordGeo = new THREE.BufferGeometry().setFromPoints(chordPoints);
   chordGeo.setAttribute('color', new THREE.Float32BufferAttribute(chordColors, 3));
-  world.add(new THREE.LineSegments(chordGeo, new THREE.LineBasicMaterial({
+  const chords = new THREE.LineSegments(chordGeo, new THREE.LineBasicMaterial({
     vertexColors: true,
     transparent: true,
     opacity: 0.34,
-  })));
+  }));
+  world.add(chords);
 
   // ---- Dust field ---------------------------------------------------------
 
@@ -174,6 +177,28 @@ function build() {
 
   const clock = new THREE.Clock();
   let started = false;
+  let spinRate = 0.12;
+  let spinPhase = 0;
+
+  /**
+   * Voice-assistant state. The orb is the assistant's face, so it has to read
+   * differently while it is listening, thinking and speaking — exposed as a
+   * tiny API rather than letting assistant.js reach into the scene.
+   */
+  const STATES = {
+    idle:      { spin: 0.12, pulse: 0.00, tint: CYAN,   glow: 1.00 },
+    listening: { spin: 0.30, pulse: 0.16, tint: CYAN,   glow: 1.55 },
+    thinking:  { spin: 0.75, pulse: 0.07, tint: PURPLE, glow: 1.30 },
+    speaking:  { spin: 0.20, pulse: 0.26, tint: BLUE,   glow: 1.70 },
+  };
+  let state = STATES.idle;
+  let level = 0;      // live mic/− speech amplitude, 0..1
+  let mix = 0;        // eased blend toward the active state
+
+  window.ithriveOrb = {
+    setState(name) { state = STATES[name] || STATES.idle; },
+    setLevel(v)    { level = Math.max(0, Math.min(1, v)); },
+  };
 
   function frame() {
     requestAnimationFrame(frame);
@@ -184,11 +209,27 @@ function build() {
     pointer.x += (target.x - pointer.x) * 0.04;
     pointer.y += (target.y - pointer.y) * 0.04;
 
-    const spin = reduceMotion ? 0.4 : t * 0.12;
-    world.rotation.y = spin + pointer.x;
+    // Ease toward the active state so transitions never snap.
+    mix += ((state === STATES.idle ? 0 : 1) - mix) * 0.06;
+
+    spinRate += (state.spin - spinRate) * 0.05;
+    spinPhase += spinRate * 0.016;
+
+    world.rotation.y = (reduceMotion ? 0.4 : spinPhase) + pointer.x;
     // TILT keeps the ring reading as a ring — without it the band is viewed
     // almost edge-on and collapses into two horizontal lines.
     world.rotation.x = TILT + Math.sin(t * 0.22) * 0.12 + pointer.y;
+
+    // Breathe with the voice: amplitude while speaking, a steady pulse while
+    // listening or thinking.
+    const beat = Math.sin(t * (state === STATES.thinking ? 7 : 3.4));
+    const swell = 1 + state.pulse * (0.45 * beat + 0.55 * level) * mix;
+    world.scale.setScalar(swell);
+
+    ring.material.opacity = 0.95;
+    chords.material.opacity = 0.34 + 0.3 * mix * (0.4 + level * 0.6);
+    core.material.color.lerp(state.tint, 0.03);
+    shell.material.opacity = 0.28 * state.glow;
 
     core.rotation.y = -t * 0.08;
     shell.rotation.x = t * 0.05;
