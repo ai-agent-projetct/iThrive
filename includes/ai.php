@@ -495,6 +495,25 @@ function ai_append_storage(string $file, array $record): bool
 // Transport
 // ---------------------------------------------------------------------------
 
+/**
+ * Apply a CA bundle when the runtime has none.
+ *
+ * The php-wasm dev server ships no root certificates, so every HTTPS call fails
+ * with CURLE_SSL_CACERT_BADFILE (77) unless one is supplied. A normal PHP host
+ * already has a bundle configured and this is a no-op there.
+ */
+function ai_curl_ca(\CurlHandle $ch): void
+{
+    if (ini_get('curl.cainfo') || ini_get('openssl.cafile')) {
+        return;
+    }
+
+    $bundle = __DIR__ . '/certs/cacert.pem';
+    if (is_file($bundle)) {
+        curl_setopt($ch, CURLOPT_CAINFO, $bundle);
+    }
+}
+
 /** Normalise response content blocks back into plain arrays for replay. */
 function ai_blocks_to_array(array $blocks): array
 {
@@ -528,6 +547,7 @@ function ai_http_call(array $payload): object
         ],
         CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
     ]);
+    ai_curl_ca($ch);
 
     $raw    = curl_exec($ch);
     $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);

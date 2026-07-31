@@ -23,7 +23,9 @@ declare(strict_types=1);
 
     <div class="assistant" data-assistant
          data-endpoint="<?= e(url('handlers/chat.php')) ?>"
-         data-tts="<?= e(TTS_ENDPOINT !== '' ? url('handlers/tts.php') : '') ?>"
+         <?php /* Always available: tts.php synthesises server-side, so the
+                  device needs no installed voice for any language. */ ?>
+         data-tts="<?= e(url('handlers/tts.php')) ?>"
          data-langs='<?= e(json_encode(ASSISTANT_LANGUAGES, JSON_UNESCAPED_UNICODE)) ?>'
          data-strings='<?= e(json_encode(ASSISTANT_STRINGS, JSON_UNESCAPED_UNICODE)) ?>'>
 
