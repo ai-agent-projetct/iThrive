@@ -987,6 +987,48 @@ const ASSISTANT_STRINGS = [
  * answer comes from a service or case study record. Placeholders are filled with
  * sprintf in the order noted on each line.
  */
+/**
+ * Suggested questions under the assistant, translated for every language.
+ *
+ * Keyed by answer-book id. The chip shows the visitor's language; clicking it
+ * sends the canonical English question from FAQ, so the match is guaranteed
+ * rather than dependent on how well a translation happens to hit the lexicon.
+ */
+const ASSISTANT_PROMPTS = [
+    'q2' => [
+        'en' => 'What engagement models does Ithrive offer?',
+        'ta' => 'Ithrive என்ன ஒப்பந்த முறைகளை வழங்குகிறது?',
+        'ml' => 'Ithrive എന്തൊക്കെ എൻഗേജ്‌മെന്റ് മോഡലുകൾ നൽകുന്നു?',
+        'kn' => 'Ithrive ಯಾವ ಒಪ್ಪಂದ ಮಾದರಿಗಳನ್ನು ನೀಡುತ್ತದೆ?',
+        'te' => 'Ithrive ఏ ఎంగేజ్‌మెంట్ మోడల్‌లను అందిస్తుంది?',
+        'hi' => 'Ithrive कौन-कौन से एंगेजमेंट मॉडल देता है?',
+    ],
+    'q9' => [
+        'en' => 'How much does it cost to build a full AI-Native product?',
+        'ta' => 'முழு AI-Native தயாரிப்பை உருவாக்க என்ன விலை ஆகும்?',
+        'ml' => 'ഒരു പൂർണ്ണ AI-Native ഉൽപ്പന്നം നിർമ്മിക്കാൻ എന്ത് ചെലവ് വരും?',
+        'kn' => 'ಸಂಪೂರ್ಣ AI-Native ಉತ್ಪನ್ನ ನಿರ್ಮಿಸಲು ಎಷ್ಟು ವೆಚ್ಚವಾಗುತ್ತದೆ?',
+        'te' => 'పూర్తి AI-Native ఉత్పత్తిని నిర్మించడానికి ఎంత ఖర్చు అవుతుంది?',
+        'hi' => 'पूरा AI-Native प्रोडक्ट बनाने में कितनी लागत आती है?',
+    ],
+    'q8' => [
+        'en' => 'What is the difference between AI-First and AI-Native?',
+        'ta' => 'AI-First மற்றும் AI-Native இடையே உள்ள வித்தியாசம் என்ன?',
+        'ml' => 'AI-First-ഉം AI-Native-ഉം തമ്മിലുള്ള വ്യത്യാസം എന്താണ്?',
+        'kn' => 'AI-First ಮತ್ತು AI-Native ನಡುವಿನ ವ್ಯತ್ಯಾಸವೇನು?',
+        'te' => 'AI-First మరియు AI-Native మధ్య తేడా ఏమిటి?',
+        'hi' => 'AI-First और AI-Native में क्या अंतर है?',
+    ],
+    'q68' => [
+        'en' => 'What steps should I take to start a project with Ithrive?',
+        'ta' => 'Ithrive உடன் ஒரு திட்டத்தைத் தொடங்க என்ன படிகள்?',
+        'ml' => 'Ithrive-നൊപ്പം ഒരു പ്രോജക്ട് തുടങ്ങാൻ എന്തൊക്കെ ചെയ്യണം?',
+        'kn' => 'Ithrive ಜೊತೆ ಯೋಜನೆ ಪ್ರಾರಂಭಿಸಲು ಯಾವ ಹಂತಗಳು?',
+        'te' => 'Ithrive తో ప్రాజెక్ట్ ప్రారంభించడానికి ఏ దశలు?',
+        'hi' => 'Ithrive के साथ प्रोजेक्ट शुरू करने के लिए क्या करना होगा?',
+    ],
+];
+
 const ASSISTANT_ANSWERS = [
     'en' => [
         'contact' => 'Email %1$s or call %2$s. We are based in %3$s. Send a paragraph about the workflow you want to fix and you will get a written build plan — scope, stack and a realistic timeline — within two working days.',

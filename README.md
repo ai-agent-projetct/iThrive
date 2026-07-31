@@ -227,6 +227,52 @@ Then provide a key, in order of preference:
 Check it is live by opening the widget and asking something; if the key is
 missing you get the fallback copy instead, and the reason is in the error log.
 
+## The answer book — what the demo agent knows
+
+`includes/faq.php` holds seventy questions and answers across nine categories:
+engagement models, AI-First and AI-Native development, AI assistants, mobile and
+web, e-commerce, Micro SaaS/POC/MVP, modernisation and ERP, cloud and DevOps,
+and growth strategy. They carry real prices, week counts and technology names.
+
+**That is the demo's entire world.** A question the book covers gets answered in
+full. Anything else — general knowledge, coding help, another company — gets the
+demo boundary from `faq_demo_reply()`: this demo does not cover it, the full
+version trained on your data does, and here is a human right now. That reply is
+written properly in all six languages, not machine-translated, because declining
+well *is* the demo.
+
+Both answering paths share the book, so the demo behaves the same with or
+without an API key. `ai_knowledge()` folds all seventy into the model's system
+prompt; `faq_answer()` matches them offline when no key is set.
+
+### Matching in six languages
+
+Storing every question translated five times would be 350 fixed strings that
+only fire when the visitor phrases it exactly as we guessed. Instead
+`FAQ_LEXICON` in `includes/faq-brain.php` maps the vocabulary of each language
+onto the English terms the book is indexed on, so a Tamil, Malayalam, Kannada,
+Telugu or Hindi question is normalised into English concepts and scored against
+all seventy entries. Paraphrases match, and so do the mixed-script questions
+people actually type on Indian keyboards.
+
+Two things worth knowing before you edit it:
+
+- **Bare quantity words do not imply cost.** `எவ்வளவு`, `कितना`, `ఎంత` and
+  friends map to `quantity`, not `price` — "how much *time*" is a timeline
+  question, and mapping them to price sent it to the wrong answer.
+- **An exact term scores double a prefix match.** "nda" and "poc" only ever
+  appear in the entry they belong to, so they are strong evidence; "providers"
+  matching "provider" is weaker.
+
+The suggested prompt chips under the assistant show the visitor's language but
+send the canonical English question, so a suggestion always resolves to a real
+answer rather than depending on how well its translation hits the lexicon.
+
+Answer *bodies* stay in English on the no-key path — prices, stack names and
+product names are English in the source, and translating them offline would
+introduce drift nothing checks. The lead-in is translated. With an API key the
+model answers wholly in the visitor's language.
+
 ## Voice — how the assistant speaks six languages
 
 The browser will only speak a language it has a voice installed for. A stock

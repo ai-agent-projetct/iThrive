@@ -107,15 +107,28 @@ if ($result['error'] !== null || $result['text'] === '') {
     // visitor still gets a real answer about Ithrive; only the phrasing is
     // canned rather than generated.
     if ($result['error'] !== 'refused') {
-        $local = ai_local_answer($message, $lang);
-        $reply = $local['matched'] ? $local['text'] : ai_offtopic_answer($message, $lang);
+        // The seventy-question answer book first — it is the authoritative
+        // source and covers pricing and timelines the site pages do not. Site
+        // content second, for contact details and the like. Anything else gets
+        // the demo boundary, which is the whole point of the demo.
+        $faq   = faq_answer($message, $lang);
+        $state = 'faq';
+
+        if ($faq['matched']) {
+            $reply = $faq['text'];
+        } else {
+            $local = ai_local_answer($message, $lang);
+            $reply = $local['matched'] ? $local['text'] : faq_demo_reply($lang);
+            $state = $local['matched'] ? 'local' : 'demo_boundary';
+        }
 
         $history[] = ['role' => 'assistant', 'content' => $reply];
         $_SESSION['chat_history'] = array_slice($history, -(AI_MAX_HISTORY_TURNS * 2));
 
         $send([
             'reply'    => $reply,
-            'state'    => $local['matched'] ? 'local' : 'offtopic',
+            'state'    => $state,
+            'faq'      => $faq['id'],
             'lang'     => $lang,
             'captured' => false,
         ]);

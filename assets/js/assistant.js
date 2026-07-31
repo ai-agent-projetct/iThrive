@@ -205,9 +205,25 @@
   }
 
   form.addEventListener('submit', (e) => { e.preventDefault(); ask(input.value); });
-  root.querySelectorAll('[data-assistant-ask]').forEach((b) => {
-    b.addEventListener('click', () => ask(b.textContent.trim()));
+
+  // The chip shows the visitor's language but asks the canonical English
+  // question, so a suggested prompt always resolves to a real answer.
+  const chips = Array.from(root.querySelectorAll('[data-assistant-ask]'));
+  chips.forEach((b) => {
+    b.addEventListener('click', () => ask(b.dataset.question || b.textContent.trim()));
   });
+
+  const relabelChips = () => {
+    chips.forEach((b) => {
+      let labels = {};
+      try { labels = JSON.parse(b.dataset.labels || '{}'); } catch { /* keep the label */ }
+      const label = labels[lang.code] || labels.en;
+      if (label) {
+        b.textContent = label;
+        b.lang = lang.code;
+      }
+    });
+  };
 
   /* -------------------------------------------------------------- language */
 
@@ -234,6 +250,7 @@
       input.placeholder = str('placeholder');
       input.lang = lang.code;
       log.lang = lang.code;
+      relabelChips();
       pickVoice();
       if (canSpeak) speechSynthesis.cancel();
       if (audio) audio.pause();

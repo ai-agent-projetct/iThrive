@@ -61,10 +61,16 @@ declare(strict_types=1);
           </p>
         </div>
 
+        <?php /* The label follows the chosen language; the question sent is always
+                 the canonical English one from the answer book, so the match does
+                 not depend on how a translation happens to land. */ ?>
         <div class="assistant-prompts">
-          <button class="assistant-chip" type="button" data-assistant-ask>What do you build with Python and AI?</button>
-          <button class="assistant-chip" type="button" data-assistant-ask>Tell me about the Lotus Eye Hospital project</button>
-          <button class="assistant-chip" type="button" data-assistant-ask>How does an engagement start?</button>
+          <?php foreach (ASSISTANT_PROMPTS as $id => $labels): ?>
+            <?php $canonical = array_column(FAQ, 'q', 'id')[$id] ?? $labels['en']; ?>
+            <button class="assistant-chip" type="button" data-assistant-ask
+                    data-question="<?= e($canonical) ?>"
+                    data-labels='<?= e(json_encode($labels, JSON_UNESCAPED_UNICODE)) ?>'><?= e($labels['en']) ?></button>
+          <?php endforeach; ?>
         </div>
 
         <form class="assistant-form" data-assistant-form>

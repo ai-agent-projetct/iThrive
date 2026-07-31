@@ -217,23 +217,8 @@ function ai_local_answer(string $question, string $lang = 'en'): array
 " . $best['text']];
 }
 
-/**
- * The reply for a question that is not about Ithrive.
- *
- * Two shapes, matching the two off-topic cases: a genuine question we do not
- * cover gets the product pitch; anything unreadable gets a nudge back on topic.
+/*
+ * The off-topic reply used to live here in two shapes. There is now exactly one
+ * boundary message — faq_demo_reply() in faq-brain.php — shared by the model
+ * path and the no-key path, so the demo says the same thing either way.
  */
-function ai_offtopic_answer(string $question, string $lang = 'en'): string
-{
-    $strings = ASSISTANT_STRINGS[$lang] ?? ASSISTANT_STRINGS['en'];
-
-    $looksLikeQuestion = str_contains($question, '?')
-        || preg_match('/^\s*(what|who|when|where|why|how|is|are|can|could|do|does|did|should|would|tell|explain)\b/i', $question) === 1
-        // Devanagari, Tamil, Telugu, Kannada and Malayalam blocks — a message in
-        // one of these is a real attempt at a question even without a "?".
-        || preg_match('/[\x{0900}-\x{0D7F}]/u', $question) === 1;
-
-    return $looksLikeQuestion
-        ? sprintf($strings['offtopic'], SITE_EMAIL)
-        : $strings['nudge'];
-}

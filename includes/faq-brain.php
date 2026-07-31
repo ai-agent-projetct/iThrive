@@ -1,0 +1,383 @@
+<?php
+/**
+ * Matching the visitor's question to the answer book, in six languages.
+ *
+ * The naive approach — storing every question translated into every language —
+ * needs 350 fixed strings and still only fires when the visitor phrases things
+ * the way we guessed. People do not. So instead the vocabulary of each language
+ * is mapped onto the English terms the answer book already indexes: a Tamil,
+ * Malayalam, Kannada, Telugu or Hindi question is normalised into English
+ * concepts, then scored against all seventy entries the same way an English one
+ * is. Paraphrases match; so do mixed-script questions, which is how people
+ * actually type on Indian keyboards.
+ *
+ * Everything outside the answer book gets FAQ_DEMO_REPLY — the demo boundary,
+ * with an offer to bring in a human. That refusal is the point of the demo, so
+ * it is written properly in all six languages rather than machine-shaped.
+ */
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/faq.php';
+
+/**
+ * Indic vocabulary → the English terms the answer book is indexed on.
+ *
+ * Matched as substrings against the raw question, because these languages
+ * agglutinate: "விலை" is inside "விலையை", "விலையென்ன" and so on, and splitting
+ * on whitespace would miss every inflected form.
+ */
+const FAQ_LEXICON = [
+    // cost / price
+    'விலை' => 'cost price', 'செலவு' => 'cost price', 'கட்டணம்' => 'cost price',
+    'பணம்' => 'cost price money',
+    'വില' => 'cost price', 'ചെലവ' => 'cost price',
+    'ಬೆಲೆ' => 'cost price', 'ವೆಚ್ಚ' => 'cost price',
+    'ధర' => 'cost price', 'ఖర్చు' => 'cost price',
+    'कीमत' => 'cost price', 'लागत' => 'cost price', 'खर्च' => 'cost price', 'शुल्क' => 'cost price',
+
+    // Bare quantity words. These do NOT imply cost — "how much time" is a
+    // timeline question, and mapping them to price sent it to the wrong answer.
+    'எவ்வளவு' => 'quantity', 'എത്ര' => 'quantity', 'ಎಷ್ಟು' => 'quantity',
+    'ఎంత' => 'quantity', 'कितना' => 'quantity', 'कितने' => 'quantity',
+
+    // time / duration
+    'நேரம்' => 'timeline how long', 'காலம்' => 'timeline how long', 'வாரம்' => 'timeline weeks',
+    'நாட்கள்' => 'timeline days', 'எப்போது' => 'timeline when',
+    'സമയ' => 'timeline how long', 'ആഴ്ച' => 'timeline weeks', 'എപ്പോൾ' => 'timeline when',
+    'ಸಮಯ' => 'timeline how long', 'ವಾರ' => 'timeline weeks', 'ಯಾವಾಗ' => 'timeline when',
+    'సమయ' => 'timeline how long', 'వారం' => 'timeline weeks', 'ఎప్పుడు' => 'timeline when',
+    'समय' => 'timeline how long', 'सप्ताह' => 'timeline weeks', 'कब' => 'timeline when',
+    'अवधि' => 'timeline duration',
+
+    // build / develop / make
+    'உருவாக்க' => 'build develop', 'கட்டமைக்க' => 'build develop', 'செய்ய' => 'build do',
+    'நிர்மാ' => 'build develop', 'നിർമ്മി' => 'build develop', 'ഉണ്ടാക്ക' => 'build develop',
+    'ನಿರ್ಮಿ' => 'build develop', 'ಮಾಡ' => 'build do', 'ರಚಿ' => 'build develop',
+    'నిర్మి' => 'build develop', 'తయారు' => 'build develop', 'చేస్' => 'build do',
+    'बनाते' => 'build develop', 'बनाना' => 'build develop', 'विकास' => 'build develop',
+    'निर्माण' => 'build develop',
+
+    // AI / machine learning
+    'செயற்கை நுண்ணறிவு' => 'ai artificial intelligence', 'ஏஐ' => 'ai',
+    'நுண்ணறிவு' => 'ai intelligence', 'இயந்திர கற்றல்' => 'machine learning ai',
+    'നിർമ്മിത ബുദ്ധി' => 'ai artificial intelligence', 'എഐ' => 'ai',
+    'ಕೃತಕ ಬುದ್ಧಿ' => 'ai artificial intelligence', 'ಎಐ' => 'ai',
+    'కృత్రిమ మేధ' => 'ai artificial intelligence', 'ఏఐ' => 'ai',
+    'कृत्रिम बुद्धि' => 'ai artificial intelligence', 'एआई' => 'ai',
+
+    // assistant / chatbot / agent. Both the native word and the transliterated
+    // English one, because people type "അസിസ്റ്റന്റ്" as readily as "സഹായി".
+    'உதவியாளர்' => 'assistant chatbot', 'அரட்டை' => 'chatbot chat', 'முகவர்' => 'agent assistant',
+    'அசிஸ்டன்ட்' => 'assistant chatbot', 'சாட்பாட்' => 'chatbot chat',
+    'സഹായി' => 'assistant chatbot', 'ചാറ്റ്' => 'chatbot chat',
+    'അസിസ്റ്റന്റ്' => 'assistant chatbot', 'ചാറ്റ്ബോട്ട്' => 'chatbot chat',
+    'ಸಹಾಯಕ' => 'assistant chatbot', 'ಚಾಟ್' => 'chatbot chat', 'ಅಸಿಸ್ಟೆಂಟ್' => 'assistant chatbot',
+    'సహాయ' => 'assistant chatbot', 'చాట్' => 'chatbot chat', 'అసిస్టెంట్' => 'assistant chatbot',
+    'सहायक' => 'assistant chatbot', 'चैट' => 'chatbot chat', 'एजेंट' => 'agent assistant',
+    'असिस्टेंट' => 'assistant chatbot', 'चैटबॉट' => 'chatbot chat',
+
+    // services / offering
+    'சேவை' => 'services offer', 'സേവന' => 'services offer', 'ಸೇವೆ' => 'services offer',
+    'సేవ' => 'services offer', 'सेवा' => 'services offer', 'सेवाएं' => 'services offer',
+
+    // project / product
+    'திட்டம்' => 'project', 'ப்ராஜெக்ட்' => 'project', 'தயாரிப்பு' => 'product',
+    'പ്രോജക്ട്' => 'project', 'ഉൽപ്പന്ന' => 'product',
+    'ಯೋಜನೆ' => 'project', 'ಪ್ರಾಜೆಕ್ಟ್' => 'project', 'ಉತ್ಪನ್ನ' => 'product',
+    'ప్రాజెక్ట్' => 'project', 'ప్రాజెక్టు' => 'project', 'ఉత్పత్తి' => 'product',
+    'प्रोजेक्ट' => 'project', 'परियोजना' => 'project', 'उत्पाद' => 'product',
+
+    // mobile / app
+    'மொபைல்' => 'mobile app', 'செயலி' => 'app mobile', 'கைபேசி' => 'mobile app',
+    'മൊബൈൽ' => 'mobile app', 'ആപ്പ്' => 'app mobile',
+    'ಮೊಬೈಲ್' => 'mobile app', 'ಆಪ್' => 'app mobile',
+    'మొబైల్' => 'mobile app', 'యాప్' => 'app mobile',
+    'मोबाइल' => 'mobile app', 'ऐप' => 'app mobile', 'एप्लिकेशन' => 'app application',
+
+    // web / website
+    'இணையதள' => 'web website', 'வலைத்தள' => 'web website',
+    'വെബ്' => 'web website', 'വെബ്‌സൈറ്റ്' => 'web website',
+    'ವೆಬ್' => 'web website', 'ಜಾಲತಾಣ' => 'web website',
+    'వెబ్' => 'web website', 'వెబ్‌సైట్' => 'web website',
+    'वेब' => 'web website', 'वेबसाइट' => 'web website',
+
+    // e-commerce / shop
+    'இணையவணிக' => 'ecommerce shop store', 'கடை' => 'ecommerce shop store',
+    'விற்பனை' => 'sales ecommerce', 'வணிக' => 'business ecommerce',
+    'കട' => 'ecommerce shop store', 'വിൽപ്പന' => 'sales ecommerce',
+    'ಅಂಗಡಿ' => 'ecommerce shop store', 'ಮಾರಾಟ' => 'sales ecommerce',
+    'దుకాణ' => 'ecommerce shop store', 'అమ్మక' => 'sales ecommerce',
+    'दुकान' => 'ecommerce shop store', 'बिक्री' => 'sales ecommerce', 'ईकॉमर्स' => 'ecommerce',
+
+    // team / hiring
+    'குழு' => 'team dedicated', 'பணியமர்த்த' => 'hire team', 'ஊழியர்' => 'team staff',
+    'ടീം' => 'team dedicated', 'നിയമി' => 'hire team',
+    'ತಂಡ' => 'team dedicated', 'ನೇಮಕ' => 'hire team',
+    'బృంద' => 'team dedicated', 'నియామక' => 'hire team',
+    'टीम' => 'team dedicated', 'नियुक्त' => 'hire team', 'भर्ती' => 'hire team',
+
+    // security / data / IP
+    'பாதுகாப்பு' => 'security protect', 'தரவு' => 'data', 'உரிமை' => 'ip ownership rights',
+    'ரகசிய' => 'confidential privacy',
+    'സുരക്ഷ' => 'security protect', 'ഡാറ്റ' => 'data', 'അവകാശ' => 'ip ownership rights',
+    'ಭದ್ರತೆ' => 'security protect', 'ಡೇಟಾ' => 'data', 'ಹಕ್ಕು' => 'ip ownership rights',
+    'భద్రత' => 'security protect', 'డేటా' => 'data', 'హక్కు' => 'ip ownership rights',
+    'सुरक्षा' => 'security protect', 'डेटा' => 'data', 'अधिकार' => 'ip ownership rights',
+    'गोपनीय' => 'confidential privacy',
+
+    // cloud / devops / server
+    'கிளவுட்' => 'cloud', 'மேகக்கணினி' => 'cloud', 'சேவையக' => 'server cloud',
+    'ക്ലൗഡ്' => 'cloud', 'സെർവർ' => 'server cloud',
+    'ಕ್ಲೌಡ್' => 'cloud', 'ಸರ್ವರ್' => 'server cloud',
+    'క్లౌడ్' => 'cloud', 'సర్వర్' => 'server cloud',
+    'क्लाउड' => 'cloud', 'सर्वर' => 'server cloud',
+
+    // support / maintenance
+    'பராமரிப்பு' => 'maintenance support', 'ஆதரவு' => 'support',
+    'പരിപാലന' => 'maintenance support', 'പിന്തുണ' => 'support',
+    'ನಿರ್ವಹಣೆ' => 'maintenance support', 'ಬೆಂಬಲ' => 'support',
+    'నిర్వహణ' => 'maintenance support', 'మద్దతు' => 'support',
+    'रखरखाव' => 'maintenance support', 'सहायता' => 'support', 'सपोर्ट' => 'support',
+
+    // start / process
+    'தொடங்க' => 'start begin process', 'ஆரம்பி' => 'start begin',
+    'செயல்முறை' => 'process steps', 'படிகள்' => 'steps process',
+    'തുടങ്ങ' => 'start begin process', 'പ്രക്രിയ' => 'process steps',
+    'ಪ್ರಾರಂಭ' => 'start begin', 'ಪ್ರಕ್ರಿಯೆ' => 'process steps',
+    'ప్రారంభ' => 'start begin', 'ప్రక్రియ' => 'process steps',
+    'शुरू' => 'start begin', 'प्रक्रिया' => 'process steps', 'चरण' => 'steps process',
+
+    // difference / compare
+    'வித்தியாசம்' => 'difference compare', 'வேறுபாடு' => 'difference compare',
+    'വ്യത്യാസ' => 'difference compare', 'ವ್ಯತ್ಯಾಸ' => 'difference compare',
+    'తేడా' => 'difference compare', 'अंतर' => 'difference compare', 'फर्क' => 'difference compare',
+
+    // benefit / ROI
+    'பயன்' => 'benefit roi', 'லாபம்' => 'profit roi revenue', 'வருவாய்' => 'revenue growth',
+    'പ്രയോജന' => 'benefit roi', 'ലാഭ' => 'profit roi revenue',
+    'ಪ್ರಯೋಜನ' => 'benefit roi', 'ಲಾಭ' => 'profit roi revenue',
+    'ప్రయోజన' => 'benefit roi', 'లాభ' => 'profit roi revenue',
+    'लाभ' => 'benefit roi', 'फायदा' => 'benefit roi', 'राजस्व' => 'revenue growth',
+
+    // payment
+    'பணம் செலுத்த' => 'payment gateway', 'கொடுப்பனவு' => 'payment gateway',
+    'പേയ്‌മെന്റ്' => 'payment gateway', 'ಪಾವತಿ' => 'payment gateway',
+    'చెల్లింపు' => 'payment gateway', 'भुगतान' => 'payment gateway',
+
+    // ERP / legacy / modernisation
+    'பழைய' => 'legacy old modernization', 'நவீனமாக்க' => 'modernization upgrade',
+    'പഴയ' => 'legacy old modernization', 'ಹಳೆಯ' => 'legacy old modernization',
+    'పాత' => 'legacy old modernization', 'पुराना' => 'legacy old modernization',
+    'आधुनिक' => 'modernization upgrade',
+];
+
+/** Tokens too common to carry meaning. */
+const FAQ_STOPWORDS = [
+    'the','a','an','is','are','was','were','be','been','do','does','did','of','to','in','on','for',
+    'and','or','it','its','you','your','we','our','us','i','me','my','with','at','by','from','as',
+    'that','this','these','those','can','could','will','would','should','how','what','when','where',
+    'which','who','why','much','many','long','get','got','has','have','had','if','about','there',
+    'ithrive','software','solutions','please','tell','give','need','want','know','also','more',
+    // Generic verbs. Without these, "what monitoring tools do you use" tied on
+    // "use" against "What AI stack does Ithrive use?" and lost to it.
+    'use','used','using','take','takes','taking','make','made','provide','offer','does','doing',
+];
+
+/**
+ * Fold an Indic question into the English vocabulary the answer book indexes.
+ *
+ * Returns the original text plus every English term whose trigger appears in
+ * it, so a mixed-script question keeps both halves.
+ */
+function faq_normalise(string $question): string
+{
+    $extra = [];
+
+    foreach (FAQ_LEXICON as $native => $english) {
+        if (mb_strpos($question, $native) !== false) {
+            $extra[] = $english;
+        }
+    }
+
+    return mb_strtolower($question) . ' ' . implode(' ', $extra);
+}
+
+/** Content words from a normalised question. */
+function faq_terms(string $normalised): array
+{
+    $words = preg_split('/[^a-z0-9+.#]+/u', $normalised, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+    $terms = [];
+
+    foreach ($words as $word) {
+        if (mb_strlen($word) < 2 || in_array($word, FAQ_STOPWORDS, true)) {
+            continue;
+        }
+        $terms[$word] = true;
+    }
+
+    return array_keys($terms);
+}
+
+/**
+ * Best matching answer, or no match.
+ *
+ * Scores each entry on how many distinct question terms it covers. A hit in the
+ * question text counts double a hit in the auxiliary terms, because the
+ * question is what the visitor is actually echoing.
+ *
+ * @return array{matched: bool, id: string, question: string, text: string, score: int}
+ */
+function faq_match(string $question): array
+{
+    $normalised = faq_normalise($question);
+    $terms      = faq_terms($normalised);
+
+    if ($terms === []) {
+        return ['matched' => false, 'id' => '', 'question' => '', 'text' => '', 'score' => 0];
+    }
+
+    $best = ['matched' => false, 'id' => '', 'question' => '', 'text' => '', 'score' => 0];
+
+    foreach (FAQ as $entry) {
+        $q     = mb_strtolower($entry['q']);
+        $aux   = explode(' ', $entry['terms']);
+        $score = 0;
+
+        foreach ($terms as $term) {
+            if (str_contains($q, $term)) {
+                $score += 2;
+
+                continue;
+            }
+
+            $hit = 0;
+
+            foreach ($aux as $word) {
+                if ($word === $term) {
+                    // An exact term is real evidence — "nda" or "poc" is the
+                    // whole question, and it only ever appears in the entry it
+                    // belongs to.
+                    $hit = 2;
+
+                    break;
+                }
+
+                // Prefix match either way, so "providers" finds "provider" and
+                // "cloud" finds "clouds". Four characters is short enough to
+                // catch plurals and long enough not to collide.
+                $shared = min(mb_strlen($term), mb_strlen($word));
+                if ($shared >= 4 && mb_substr($term, 0, $shared) === mb_substr($word, 0, $shared)) {
+                    $hit = 1;
+                }
+            }
+
+            $score += $hit;
+        }
+
+        if ($score > $best['score']) {
+            $best = [
+                'matched'  => true,
+                'id'       => $entry['id'],
+                'question' => $entry['q'],
+                'text'     => $entry['a'],
+                'score'    => $score,
+            ];
+        }
+    }
+
+    // One incidental word is not a question about that topic. Four is roughly
+    // two real terms, or one term echoed straight out of the question — but a
+    // three-word question cannot reach four however clearly it is on topic, so
+    // the bar drops with the amount of evidence available.
+    if ($best['score'] < min(4, max(3, count($terms)))) {
+        return ['matched' => false, 'id' => '', 'question' => '', 'text' => '', 'score' => $best['score']];
+    }
+
+    return $best;
+}
+
+/**
+ * The demo boundary.
+ *
+ * Said once, plainly, with a way forward — not repeated apology. Each language
+ * carries the same three beats: this demo cannot answer that, the full version
+ * can, and I can put a person in front of you now.
+ */
+const FAQ_DEMO_REPLY = [
+    'en' => 'That one is outside what the Ithrive AI demo covers — the full version, trained on '
+          . 'your own business data, answers questions like it without blinking. I am also not here '
+          . 'to talk about anything other than Ithrive Software. What I can do right now is connect '
+          . 'you to one of our people for a proper business conversation. Say the word, or email %s '
+          . 'and we will pick it up straight away.',
+
+    'ta' => 'அந்தக் கேள்வி Ithrive AI டெமோவின் வரம்பிற்கு வெளியே உள்ளது — உங்கள் நிறுவனத் தரவில் '
+          . 'பயிற்சி பெற்ற முழுப் பதிப்பு அதற்குத் தயங்காமல் பதிலளிக்கும். மேலும், Ithrive Software '
+          . 'தவிர வேறு எதைப் பற்றியும் நான் பேச அமைக்கப்படவில்லை. இப்போதே எங்கள் நிபுணர் ஒருவரை '
+          . 'உங்களுடன் இணைத்து வணிக உரையாடலைத் தொடங்க முடியும். சொல்லுங்கள், அல்லது %s க்கு எழுதுங்கள் '
+          . '— உடனே தொடர்பு கொள்கிறோம்.',
+
+    'ml' => 'ആ ചോദ്യം Ithrive AI ഡെമോയുടെ പരിധിക്ക് പുറത്താണ് — നിങ്ങളുടെ സ്ഥാപനത്തിന്റെ ഡാറ്റയിൽ '
+          . 'പരിശീലിപ്പിച്ച പൂർണ്ണ പതിപ്പ് അതിന് നിഷ്പ്രയാസം ഉത്തരം നൽകും. Ithrive Software അല്ലാതെ '
+          . 'മറ്റൊന്നിനെക്കുറിച്ചും സംസാരിക്കാൻ ഞാൻ സജ്ജീകരിച്ചിട്ടില്ല. ഇപ്പോൾത്തന്നെ ഞങ്ങളുടെ ഒരു '
+          . 'വിദഗ്ധനെ നിങ്ങളുമായി ബന്ധിപ്പിച്ച് ബിസിനസ് സംഭാഷണം തുടങ്ങാം. പറയൂ, അല്ലെങ്കിൽ %s എന്ന '
+          . 'വിലാസത്തിൽ എഴുതൂ — ഉടൻ പ്രതികരിക്കാം.',
+
+    'kn' => 'ಆ ಪ್ರಶ್ನೆ Ithrive AI ಡೆಮೊದ ವ್ಯಾಪ್ತಿಯ ಹೊರಗಿದೆ — ನಿಮ್ಮ ಸಂಸ್ಥೆಯ ದತ್ತಾಂಶದ ಮೇಲೆ ತರಬೇತಿ ಪಡೆದ '
+          . 'ಪೂರ್ಣ ಆವೃತ್ತಿ ಅದಕ್ಕೆ ಸಲೀಸಾಗಿ ಉತ್ತರಿಸುತ್ತದೆ. Ithrive Software ಹೊರತುಪಡಿಸಿ ಬೇರೆ ಯಾವುದರ '
+          . 'ಬಗ್ಗೆಯೂ ಮಾತನಾಡಲು ನನ್ನನ್ನು ರೂಪಿಸಿಲ್ಲ. ಈಗಲೇ ನಮ್ಮ ತಜ್ಞರೊಬ್ಬರನ್ನು ನಿಮಗೆ ಸಂಪರ್ಕಿಸಿ ವ್ಯಾವಹಾರಿಕ '
+          . 'ಚರ್ಚೆ ಆರಂಭಿಸಬಹುದು. ಹೇಳಿ, ಅಥವಾ %s ಗೆ ಬರೆಯಿರಿ — ತಕ್ಷಣ ಸ್ಪಂದಿಸುತ್ತೇವೆ.',
+
+    'te' => 'ఆ ప్రశ్న Ithrive AI డెమో పరిధికి వెలుపల ఉంది — మీ సంస్థ డేటాపై శిక్షణ పొందిన పూర్తి '
+          . 'వెర్షన్ దానికి అలవోకగా సమాధానం ఇస్తుంది. అలాగే Ithrive Software తప్ప మరే విషయం గురించీ '
+          . 'మాట్లాడేలా నన్ను రూపొందించలేదు. ఇప్పుడే మా నిపుణుల్లో ఒకరిని మీకు కలిపి వ్యాపార చర్చ '
+          . 'ప్రారంభించగలను. చెప్పండి, లేదా %s కు రాయండి — వెంటనే స్పందిస్తాం.',
+
+    'hi' => 'यह सवाल Ithrive AI डेमो के दायरे से बाहर है — आपके अपने व्यावसायिक डेटा पर प्रशिक्षित '
+          . 'पूर्ण संस्करण ऐसे सवालों का जवाब बिना अटके देता है। साथ ही, Ithrive Software के अलावा '
+          . 'किसी और विषय पर बात करने के लिए मुझे नहीं बनाया गया है। अभी मैं आपको हमारे किसी विशेषज्ञ '
+          . 'से जोड़ सकता हूँ ताकि व्यावसायिक बातचीत शुरू हो सके। बताइए, या %s पर लिखिए — हम तुरंत '
+          . 'जवाब देंगे।',
+];
+
+/** Lead-in placed before an English answer body when the visitor is not in English. */
+const FAQ_LEAD_IN = [
+    'en' => '',
+    'ta' => 'இதோ Ithrive இன் அதிகாரப்பூர்வ பதில்:',
+    'ml' => 'ഇതാ Ithrive-ന്റെ ഔദ്യോഗിക ഉത്തരം:',
+    'kn' => 'ಇಲ್ಲಿದೆ Ithrive ನ ಅಧಿಕೃತ ಉತ್ತರ:',
+    'te' => 'ఇదిగో Ithrive అధికారిక సమాధానం:',
+    'hi' => 'यह रहा Ithrive का आधिकारिक उत्तर:',
+];
+
+/** The demo boundary reply, in the visitor's language. */
+function faq_demo_reply(string $lang = 'en'): string
+{
+    return sprintf(FAQ_DEMO_REPLY[$lang] ?? FAQ_DEMO_REPLY['en'], SITE_EMAIL);
+}
+
+/**
+ * Answer from the book, or decline.
+ *
+ * @return array{matched: bool, text: string, id: string}
+ */
+function faq_answer(string $question, string $lang = 'en'): array
+{
+    $hit = faq_match($question);
+
+    if (!$hit['matched']) {
+        return ['matched' => false, 'text' => faq_demo_reply($lang), 'id' => ''];
+    }
+
+    // The answer body stays in English: prices, stack names and product names
+    // are English in the source and translating them would introduce drift the
+    // demo cannot check. The lead-in keeps the reply in the visitor's language;
+    // with an API key the model translates the whole answer.
+    $lead = FAQ_LEAD_IN[$lang] ?? '';
+
+    return [
+        'matched' => true,
+        'id'      => $hit['id'],
+        'text'    => $lead === '' ? $hit['text'] : $lead . ' ' . $hit['text'],
+    ];
+}
