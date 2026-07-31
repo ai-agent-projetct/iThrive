@@ -227,6 +227,46 @@ Then provide a key, in order of preference:
 Check it is live by opening the widget and asking something; if the key is
 missing you get the fallback copy instead, and the reason is in the error log.
 
+## Voice — how the assistant speaks six languages
+
+The browser will only speak a language it has a voice installed for. A stock
+Windows install ships two `en-IN` voices and **no Tamil, Malayalam, Kannada or
+Telugu voice at all**, so `speechSynthesis` cannot say a word of them. That is
+why every non-English answer used to come out silent, and it is not something
+the site can fix in JavaScript.
+
+So speech is synthesised server-side and the browser just plays audio, which
+means the device needs no voices. `handlers/tts.php` tries three backends in
+order:
+
+1. **Sarvam AI** — set `SARVAM_API_KEY` (and optionally `SARVAM_SPEAKER`,
+   default `anushka`). Built for Indian languages, and the best of the three by
+   a distance. Key from https://dashboard.sarvam.ai.
+2. **`TTS_ENDPOINT`** — your own service. `POST {"text","lang"}` → audio bytes.
+   Point it at an AI4Bharat Indic-TTS deployment for production quality with no
+   third-party dependency.
+3. **Google Translate TTS** — the default. No key, no signup, covers all six
+   languages. It is an undocumented endpoint, so treat it as a good default
+   rather than a guarantee: rate limited per IP, and it could change.
+
+Nothing needs configuring for speech to work — option 3 runs out of the box on
+any host whose PHP has curl and working TLS. Set a Sarvam key when you want it
+to sound good.
+
+Optionally, installing OS voices also helps, and takes precedence when present:
+Windows *Settings → Time & language → Language & region → Add a language →*
+pick Tamil, then *Language options → Speech*. The assistant picks up any
+installed voice automatically and skips the network round trip.
+
+### Speech in local development
+
+php-wasm ships no CA bundle and cannot complete a TLS handshake, so **every
+outbound HTTPS call from PHP fails locally** with curl errno 60 — including
+TTS. `.tools/serve.mjs` therefore intercepts `POST /handlers/tts.php` and does
+the identical work in Node, which has a working TLS stack. Same chunking, same
+backends, same content types; the site and the client are unchanged. This is
+dev-only and never deployed.
+
 ## Running it locally
 
 With a normal PHP install:

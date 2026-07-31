@@ -109,6 +109,11 @@ function ai_local_answer(string $question, string $lang = 'en'): array
                    . 'ధర|ఎంత|ఖర్చు|कीमत|कितना|कितने|लागत|शुल्क',
         'process' => 'செயல்முறை|எப்படி|தொடங்க|പ്രക്രിയ|എങ്ങനെ|ಪ್ರಕ್ರಿಯೆ|ಹೇಗೆ|ప్రక్రియ|ఎలా|प्रक्रिया|कैसे',
         'hiring'  => 'வேலை|பணி|ജോലി|ಕೆಲಸ|ఉద్యోగ|नौकरी|भर्ती',
+        // "What do you do?" is the first thing most visitors ask, and it had no
+        // path in any Indic script — it fell straight through to the off-topic
+        // reply, which reads as an assistant that does not know its own company.
+        'services' => 'என்ன செய்|சேவை|உருவாக்க|வேலை என்ன|എന്ത് ചെയ്യ|എന്താണ് ചെയ്യ|സേവന|'
+                    . 'ಏನು ಮಾಡ|ಸೇವೆ|ಸೇವೆಗಳ|ఏమి చేస్|ఏం చేస్|సేవ|క్యా|क्या करते|क्या बनाते|सेवा|सेवाएं',
     ];
 
     if (preg_match('/\b(contact|email|phone|call|reach|talk|speak|touch|address|located|where)\b/', $q)
@@ -136,6 +141,22 @@ function ai_local_answer(string $question, string $lang = 'en'): array
         $roles = implode('; ', array_map(static fn (array $r): string => $r['title'], CAREERS['roles']));
 
         return ['matched' => true, 'text' => sprintf($t['hiring'], $roles, SITE_EMAIL)];
+    }
+
+    // Last of the shortcuts, because it is the broadest: a question that named
+    // something specific should have matched one of the four above first.
+    if (preg_match('/\b(what do you do|what do you build|what does ithrive|services|offer|'
+        . 'speciali[sz]e|capabilities|expertise)\b/', $q)
+        || preg_match('/(' . $ML['services'] . ')/u', $question)) {
+        // Titles only. The full leads run to nearly a minute of speech, and an
+        // answer nobody listens to the end of is not an answer.
+        $groups = implode('; ', array_map(
+            static fn (array $g): string => $g['title'],
+            SERVICES
+        ));
+
+        return ['matched' => true, 'text' => $t['services'] . ' ' . $groups . '. '
+            . url('services.php')];
     }
 
     // ---- Score every record ------------------------------------------------

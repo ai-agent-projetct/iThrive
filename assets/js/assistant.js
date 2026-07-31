@@ -124,8 +124,24 @@
 
     // Prefer a real installed voice; fall back to the server when the device
     // has none for this language (the usual case for the Indic languages).
-    if (!voice && ttsUrl && await speakViaServer(text)) return;
-    if (!canSpeak || !voice) { setState('idle', str('prompt')); return; }
+    if (!voice && ttsUrl) {
+      if (await speakViaServer(text)) return;
+
+      // Both paths are gone. Say so, rather than sitting there mute — silence
+      // is indistinguishable from a broken assistant, and this is exactly the
+      // state a Windows desktop lands in for Tamil.
+      support.textContent = str('novoice').replace('%s', lang.name);
+      setState('idle', str('prompt'));
+
+      return;
+    }
+
+    if (!canSpeak || !voice) {
+      support.textContent = str('novoice').replace('%s', lang.name);
+      setState('idle', str('prompt'));
+
+      return;
+    }
 
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -193,11 +209,43 @@
     b.addEventListener('click', () => ask(b.textContent.trim()));
   });
 
+  /* -------------------------------------------------------------- language */
+
+  // Declared up here so the language handler can retarget it whether or not
+  // this browser ends up creating one — a `const` below would leave the name
+  // in its temporal dead zone on exactly the browsers this fix is for.
+  let rec = null;
+
+  // Wired before the recognition setup below, and independent of it. It used to
+  // sit after an early `return` for browsers with no SpeechRecognition, which
+  // silently pinned those browsers to English for good.
+  root.querySelectorAll('[data-assistant-lang]').forEach((b) => {
+    b.addEventListener('click', () => {
+      lang = LANGS.find(l => l.code === b.dataset.assistantLang) || lang;
+
+      root.querySelectorAll('[data-assistant-lang]').forEach((o) => {
+        const on = o === b;
+        o.classList.toggle('is-active', on);
+        o.setAttribute('aria-pressed', String(on));
+      });
+
+      // Retarget speech recognition, re-pick the voice, and relabel the UI.
+      if (rec) rec.lang = lang.bcp47;
+      input.placeholder = str('placeholder');
+      input.lang = lang.code;
+      log.lang = lang.code;
+      pickVoice();
+      if (canSpeak) speechSynthesis.cancel();
+      if (audio) audio.pause();
+      setState('idle', str('prompt'));
+    });
+  });
+
   /* ---------------------------------------------------------------- listen */
 
   if (!canHear) return;
 
-  const rec = new SpeechRec();
+  rec = new SpeechRec();
   rec.lang = lang.bcp47;
   rec.interimResults = true;
   rec.continuous = false;
@@ -236,30 +284,6 @@
     if (window.ithriveOrb) window.ithriveOrb.setLevel(0);
     if (root.dataset.state === 'listening') setState('idle', str('prompt'));
   };
-
-  /* -------------------------------------------------------------- language */
-
-  root.querySelectorAll('[data-assistant-lang]').forEach((b) => {
-    b.addEventListener('click', () => {
-      lang = LANGS.find(l => l.code === b.dataset.assistantLang) || lang;
-
-      root.querySelectorAll('[data-assistant-lang]').forEach((o) => {
-        const on = o === b;
-        o.classList.toggle('is-active', on);
-        o.setAttribute('aria-pressed', String(on));
-      });
-
-      // Retarget speech recognition, re-pick the voice, and relabel the UI.
-      rec.lang = lang.bcp47;
-      input.placeholder = str('placeholder');
-      input.lang = lang.code;
-      log.lang = lang.code;
-      pickVoice();
-      if (canSpeak) speechSynthesis.cancel();
-      if (audio) audio.pause();
-      setState('idle', str('prompt'));
-    });
-  });
 
   mic.addEventListener('click', () => {
     if (recognising) { rec.stop(); return; }
