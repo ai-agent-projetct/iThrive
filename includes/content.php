@@ -29,6 +29,33 @@ const HOME_HERO_STATS = [
 
 const HOME_STATEMENT = 'Every product we ship starts as a bridge — between a business and the customer it has not reached yet. We engineer that bridge in Python, wire intelligence through it, and run it in the cloud at enterprise scale.';
 
+/**
+ * Chapters of the scroll-scrubbed services film.
+ *
+ * `at` is the second the card is fully legible, read off a one-frame-per-second
+ * contact sheet of the source film rather than guessed. Each chapter links to
+ * the service the card actually names, so the film doubles as navigation.
+ */
+const SERVICES_FILM = [
+    'eyebrow' => 'The Work, In Motion',
+    'title'   => 'Scroll the film. Every card is a service.',
+    'lead'    => 'Seventeen seconds of what we build, tied to the scroll wheel. '
+               . 'Stop anywhere and open that service.',
+    'duration' => 17.36,
+    'chapters' => [
+        ['at' => 1.2,  'label' => 'AI-Native Product Development', 'href' => 'services/ai-native-product-development.php'],
+        ['at' => 2.4,  'label' => 'AI Enablement for Existing Products', 'href' => 'services/ai-enablement.php'],
+        ['at' => 3.5,  'label' => 'AI Solutions for eCommerce', 'href' => 'services/ai-for-ecommerce.php'],
+        ['at' => 5.1,  'label' => 'Micro SaaS Development', 'href' => 'services/micro-saas-development.php'],
+        ['at' => 6.2,  'label' => 'Custom Product Development', 'href' => 'services/custom-product-development.php'],
+        ['at' => 7.3,  'label' => 'Mobile App Development', 'href' => 'services/mobile-app-development.php'],
+        ['at' => 8.6,  'label' => 'Software Development', 'href' => 'services/web-development.php'],
+        ['at' => 10.1, 'label' => 'E-Commerce App Development', 'href' => 'services/ecommerce-development.php'],
+        ['at' => 11.2, 'label' => 'React JS Development', 'href' => 'services/reactjs-development.php'],
+        ['at' => 14.0, 'label' => 'Every service we run', 'href' => 'services.php'],
+    ],
+];
+
 const HOME_SERVICES_HEAD = [
     'eyebrow' => 'What We Do',
     'title'   => 'A full-stack engineering partner for the AI era',

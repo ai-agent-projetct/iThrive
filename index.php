@@ -21,6 +21,8 @@ component('client-logo-grid');
   </div>
 </section>
 
+<?php component('services-film'); ?>
+
 <section class="section section--panel" id="services">
   <div class="shell">
     <?php component('section-head', HOME_SERVICES_HEAD); ?>

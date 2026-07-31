@@ -2151,3 +2151,87 @@ body.nav-open .nav-toggle-close { display: block; }
   .has-depth { transform: none !important; }
   .depth-glare { display: none; }
 }
+
+
+/* =========================================================================
+   Scroll-scrubbed services film
+
+   Full-bleed and frameless. The film sits directly on the page background and
+   its edges are masked into it, so it reads as a section of the page rather
+   than a video embedded in one.
+   ========================================================================= */
+
+.film {
+  position: relative;
+  background: var(--ink);
+}
+
+/* The section's height IS the scrub timeline: taller means a slower film. */
+.film--scrub .film-track { height: 420vh; }
+
+.film-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+.film--inline .film-sticky { position: static; height: auto; }
+
+/* `contain` rather than `cover`: the film's cards carry text, and cropping the
+   sides on a wide viewport cuts the words off. The letterbox is invisible
+   because the film's own backdrop is the same near-black as the page. */
+.film-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: var(--ink);
+}
+.film--inline .film-video { height: auto; aspect-ratio: 16 / 9; }
+
+/* Melts the top and bottom edges into the page. Without this the film ends on
+   a hard horizontal line and reads as an embed. */
+.film-sticky {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+
+/* The one piece of UI. Follows the playhead — whatever card is on screen is
+   what this opens. */
+.film-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(90vw, 520px);
+  padding: 13px 24px;
+  border-radius: 999px;
+  background: var(--grad);
+  color: #04121A;
+  font-size: .95rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 18px 40px -18px rgba(0, 242, 254, .75);
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.film-cta:hover { transform: translateY(-2px); box-shadow: 0 24px 48px -18px rgba(0, 242, 254, .9); }
+.film-cta .icon { width: 16px; height: 16px; flex: none; }
+.film-cta-label { overflow: hidden; text-overflow: ellipsis; }
+
+.film--inline .film-cta { bottom: 18px; }
+
+@media (max-width: 1080px) {
+  .film--scrub .film-track { height: 340vh; }
+}
+
+@media (max-width: 720px) {
+  .film-cta { bottom: 10%; padding: 11px 18px; font-size: .85rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film--scrub .film-track { height: auto; }
+  .film-sticky { position: static; height: auto; }
+}
