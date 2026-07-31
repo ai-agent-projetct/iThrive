@@ -100,7 +100,9 @@
 
   let duration = parseFloat(section.dataset.filmDuration) || 0;
   video.addEventListener('loadedmetadata', () => {
-    if (isFinite(video.duration) && video.duration > 0) duration = video.duration;
+    if (!isFinite(video.duration) || video.duration <= 0) return;
+    duration = video.duration;
+    curve = null;   // the dwell curve is built from duration; rebuild it
   });
 
   // fastSeek skips the exact-frame search. With an all-intra source the nearest
@@ -114,6 +116,49 @@
   let currentTime = 0;
   let running     = false;
   let visible     = true;
+
+  /* ----------------------------------------------------- the scroll → time curve
+   *
+   * A straight linear mapping runs every card past the reader at the same
+   * speed, which makes the film feel like it is fleeing and leaves no still
+   * moment to aim at the button. So the curve alternates: travel between
+   * chapters, then park on each one for a stretch of scroll where the frame
+   * holds and the button stops moving.
+   */
+
+  const HOLD = 1.4;   // "seconds" of scroll spent parked on a chapter
+  let curve = null;
+
+  function buildCurve() {
+    const stops = [];
+    let prev = 0;
+
+    for (const chapter of chapters) {
+      if (chapter.at > prev) stops.push({ w: chapter.at - prev, from: prev, to: chapter.at });
+      stops.push({ w: HOLD, from: chapter.at, to: chapter.at });   // the dwell
+      prev = chapter.at;
+    }
+    if (duration > prev) stops.push({ w: duration - prev, from: prev, to: duration });
+
+    curve = { stops, total: stops.reduce((sum, s) => sum + s.w, 0) };
+  }
+
+  function timeAt(p) {
+    if (chapters.length === 0) return p * duration;
+    if (!curve) buildCurve();
+
+    const want = p * curve.total;
+    let acc = 0;
+
+    for (const s of curve.stops) {
+      if (want <= acc + s.w) {
+        return s.from + (s.to - s.from) * (s.w === 0 ? 0 : (want - acc) / s.w);
+      }
+      acc += s.w;
+    }
+
+    return duration;
+  }
 
   function progress() {
     const rect  = section.getBoundingClientRect();
@@ -142,7 +187,7 @@
   }
 
   function onScroll() {
-    targetTime = progress() * duration;
+    targetTime = timeAt(progress());
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });

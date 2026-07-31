@@ -2166,8 +2166,10 @@ body.nav-open .nav-toggle-close { display: block; }
   background: var(--ink);
 }
 
-/* The section's height IS the scrub timeline: taller means a slower film. */
-.film--scrub .film-track { height: 420vh; }
+/* The section's height IS the scrub timeline: taller means a slower film. Nine
+   viewports sounds enormous, but the film only runs 17 seconds — at anything
+   shorter the cards fly past before they can be read, let alone clicked. */
+.film--scrub .film-track { height: 900vh; }
 
 .film-sticky {
   position: sticky;
@@ -2177,13 +2179,14 @@ body.nav-open .nav-toggle-close { display: block; }
 }
 .film--inline .film-sticky { position: static; height: auto; }
 
-/* `contain` rather than `cover`: the film's cards carry text, and cropping the
-   sides on a wide viewport cuts the words off. The letterbox is invisible
-   because the film's own backdrop is the same near-black as the page. */
+/* `cover`, so the film always fills the band edge to edge. `contain` left black
+   pillars either side on any viewport wider than 16:9, which read as a gap in
+   the page. The cards sit dead centre, so the crop only ever takes empty
+   backdrop. */
 .film-video {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
   background: var(--ink);
 }
@@ -2191,9 +2194,11 @@ body.nav-open .nav-toggle-close { display: block; }
 
 /* Melts the top and bottom edges into the page. Without this the film ends on
    a hard horizontal line and reads as an embed. */
+   Shallower than it looks: with `cover` the edges carry real picture, not
+   letterbox, so a deep fade would dim the frame itself. */
 .film-sticky {
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
-          mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
 
 /* The one piece of UI. Follows the playhead — whatever card is on screen is
@@ -2224,7 +2229,7 @@ body.nav-open .nav-toggle-close { display: block; }
 .film--inline .film-cta { bottom: 18px; }
 
 @media (max-width: 1080px) {
-  .film--scrub .film-track { height: 340vh; }
+  .film--scrub .film-track { height: 700vh; }
 }
 
 @media (max-width: 720px) {
