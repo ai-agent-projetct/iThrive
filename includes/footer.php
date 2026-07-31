@@ -47,6 +47,14 @@ component('chat-widget');
 
 <?php if (!empty($heroScene)): ?>
 <script type="module" src="<?= e(asset('assets/js/hero-scene.js')) ?>" data-scene="<?= e($heroScene) ?>"></script>
+<?php /* robot.js builds its scene at module load, so it is imported only when a
+         mount is actually on the page — that also keeps the 40KB off every
+         other route. */ ?>
+<script type="module">
+  if (document.querySelector('[data-robot-canvas]')) {
+    import('<?= e(asset('assets/js/robot.js')) ?>');
+  }
+</script>
 <?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>

@@ -2,18 +2,23 @@
 /**
  * Home page hero.
  *
- * The neural orb used to live here; it now anchors the AI assistant section
- * further down the page, where it is interactive rather than decorative. This
- * hero is a single centred column so the headline carries the fold on its own.
+ * Two columns: the headline carries the left, and the interactive 3D robot
+ * mascot holds the right. He is not a picture — he tracks the pointer across
+ * the whole page with his head, eyes and arms, and runs idle behaviours when
+ * you leave him alone. WebGL failure leaves the glow plate behind him, so the
+ * column is never an empty box.
+ *
+ * Nothing floats over him — the proof points sit under the copy on the left,
+ * where they are read rather than dodged.
  */
 
 declare(strict_types=1);
 
 $hero = $hero ?? HOME_HERO;
 ?>
-<section class="hero hero--center">
+<section class="hero hero--split">
   <div class="shell hero-inner">
-    <div>
+    <div class="hero-copy">
       <p class="hero-badge" data-reveal>
         <b>AI-First</b><?= e($hero['eyebrow']) ?>
       </p>
@@ -43,6 +48,26 @@ $hero = $hero ?? HOME_HERO;
             </span>
           </div>
         <?php endforeach; ?>
+      </div>
+    </div>
+
+    <div class="hero-visual" data-reveal style="--d:2">
+      <?php /* Above the stage, not below it: the floating chat launcher owns
+               the bottom-right corner, and the two would collide there. */ ?>
+      <a class="hero-orb-cta" href="#ai-assistant">
+        <span class="hero-orb-dot" aria-hidden="true"></span>
+        Talk to Ithrive AI — six languages, out loud
+        <?= icon('arrow') ?>
+      </a>
+
+      <div class="hero-stage hero-stage--robot">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <?php /* data-robot-canvas is the hook robot.js binds to, and the badge
+                 URL is resolved here so the chest mark loads from any depth. */ ?>
+        <canvas class="hero-robot" data-robot-canvas
+                data-robot-badge="<?= e(asset('assets/img/robot-badge.png')) ?>"
+                role="img"
+                aria-label="An interactive 3D robot mascot wearing the Ithrive mark, whose head, eyes and arms follow your pointer."></canvas>
       </div>
     </div>
   </div>

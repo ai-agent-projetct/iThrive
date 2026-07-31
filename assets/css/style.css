@@ -637,9 +637,88 @@ body.nav-open .nav-toggle-close { display: block; }
 .hero-trust span { font-size: .8rem; color: var(--text-faint); letter-spacing: .05em; }
 .hero-trust strong { color: var(--text-dim); font-weight: 600; }
 
+/* Home hero: copy left, interactive 3D mascot right. */
+.hero--split .hero-inner { grid-template-columns: 1fr .92fr; gap: 40px; align-items: center; }
+.hero--split .hero-title { font-size: clamp(2.2rem, 3.9vw, 3.5rem); }
+.hero--split .hero-lead { max-width: 52ch; }
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.hero-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--glass);
+  text-align: left;
+}
+.hero-stat .icon { width: 19px; height: 19px; color: var(--cyan); }
+
+.hero-visual { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; }
+
+/* The mascot stage takes the whole column: robot.js frames him to whatever box
+   it is given, so a wider stage is a bigger robot rather than more empty air. */
+.hero--split .hero-stage--robot { aspect-ratio: 1 / 1; width: 100%; max-width: 620px; }
+.hero-robot { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* Sits behind the canvas so a WebGL failure still leaves a lit column. */
+.hero-glow {
+  position: absolute;
+  inset: 6% 4%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(0, 242, 254, .20), transparent 62%),
+    radial-gradient(circle at 54% 76%, rgba(157, 78, 221, .24), transparent 64%);
+  filter: blur(6px);
+  animation: orb-pulse 7s var(--ease) infinite;
+}
+
+/* Hands the orb its purpose: it is the assistant's face, so it is also the
+   door into the assistant. */
+.hero-orb-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  color: var(--text-dim);
+  font-size: .84rem;
+  font-weight: 600;
+  text-align: center;
+  transition: color .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease);
+}
+.hero-orb-cta:hover { color: var(--text); border-color: rgba(0, 242, 254, .5); transform: translateY(-2px); }
+.hero-orb-cta .icon { width: 15px; height: 15px; }
+
+.hero-orb-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 0 0 rgba(0, 242, 254, .55);
+  animation: orb-ping 2.4s var(--ease) infinite;
+}
+@keyframes orb-ping {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 242, 254, .5); }
+  70%  { box-shadow: 0 0 0 9px rgba(0, 242, 254, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+}
+
 /* 3D stage */
 
-.hero-stage { position: relative; aspect-ratio: 1 / 1; }
+.hero-stage { position: relative; aspect-ratio: 1 / 1; width: 100%; }
 .hero-canvas {
   position: absolute;
   inset: 0;
@@ -1338,32 +1417,6 @@ body.nav-open .nav-toggle-close { display: block; }
    Ithrive AI — voice assistant
    ========================================================================= */
 
-.hero--center .hero-inner { grid-template-columns: 1fr; max-width: 820px; margin-inline: auto; text-align: center; }
-.hero--center .hero-lead { margin-inline: auto; }
-.hero--center .hero-actions { justify-content: center; }
-.hero--center .hero-badge { margin-inline: auto; }
-
-.hero-stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 42px;
-  padding-top: 30px;
-  border-top: 1px solid var(--line);
-}
-.hero-stat {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 11px 18px;
-  border: 1px solid var(--line-strong);
-  border-radius: 14px;
-  background: var(--glass);
-  text-align: left;
-}
-.hero-stat .icon { width: 19px; height: 19px; color: var(--cyan); }
-
 .assistant-section {
   background:
     radial-gradient(70% 80% at 50% 40%, rgba(157, 78, 221, .10), transparent 70%),
@@ -1934,10 +1987,17 @@ body.nav-open .nav-toggle-close { display: block; }
    ========================================================================= */
 
 @media (max-width: 1080px) {
-  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero-inner, .hero--split .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  /* Stacked, the copy reads better centred over the orb than ranged left. */
+  .hero--split .hero-copy { text-align: center; max-width: 720px; margin-inline: auto; }
+  .hero--split .hero-lead { margin-inline: auto; }
+  .hero--split .hero-badge { margin-inline: auto; }
+  .hero--split .hero-actions,
+  .hero--split .hero-stats { justify-content: center; }
   .hero-stage { max-width: 460px; margin-inline: auto; width: 100%; }
-  .hero-chip:nth-child(1) { left: 0; }
-  .hero-chip:nth-child(2) { right: 0; }
+  /* The stage's first two children are the orb and the canvas. */
+  .hero-chip:nth-child(3) { left: 0; }
+  .hero-chip:nth-child(4) { right: 0; }
   .split, .case-hero { grid-template-columns: 1fr; gap: 34px; }
   .split--reverse .split-visual { order: 0; }
   .detail-aside { position: static; }

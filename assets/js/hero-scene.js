@@ -14,9 +14,18 @@
 import * as THREE from 'three';
 
 // The scene is reused by the hero and by the voice assistant section, so it
-// binds to data hooks rather than one hard-coded id.
-const stage = document.querySelector('[data-orb-stage]');
-const mount = document.querySelector('[data-orb-canvas]');
+// binds to data hooks rather than one hard-coded id — and there may be more
+// than one on a page. Each stage gets its own scene; they all answer to the
+// same window.ithriveOrb, so the hero orb reacts while the assistant talks.
+const stages = Array.from(document.querySelectorAll('[data-orb-stage]'));
+
+/** Live scenes, so setState/setLevel can fan out to every orb on the page. */
+const orbs = [];
+
+window.ithriveOrb = {
+  setState(name) { orbs.forEach((o) => o.setState(name)); },
+  setLevel(v)    { orbs.forEach((o) => o.setLevel(v)); },
+};
 
 const CYAN = new THREE.Color('#00F2FE');
 const PURPLE = new THREE.Color('#9D4EDD');
@@ -27,8 +36,9 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 /** Base X rotation, in radians — the angle the neural ring is viewed from. */
 const TILT = 0.34;
 
-function build() {
-  if (!stage || !mount) return;
+function build(stage) {
+  const mount = stage.querySelector('[data-orb-canvas]');
+  if (!mount) return;
 
   let renderer;
   try {
@@ -195,10 +205,10 @@ function build() {
   let level = 0;      // live mic/− speech amplitude, 0..1
   let mix = 0;        // eased blend toward the active state
 
-  window.ithriveOrb = {
+  orbs.push({
     setState(name) { state = STATES[name] || STATES.idle; },
     setLevel(v)    { level = Math.max(0, Math.min(1, v)); },
-  };
+  });
 
   function frame() {
     requestAnimationFrame(frame);
@@ -246,4 +256,4 @@ function build() {
   frame();
 }
 
-build();
+stages.forEach(build);
