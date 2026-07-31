@@ -130,6 +130,68 @@ if (!function_exists('curl_init')) {
     exit;
 }
 
+/**
+ * Sarvam AI — the preferred backend when a key is configured.
+ *
+ * Purpose-built for Indian languages, which is precisely where browser voices
+ * fall down. Returns base64 WAV chunks, one per input string.
+ */
+function tts_sarvam(string $text, string $bcp47): ?string
+{
+    $ch = curl_init('https://api.sarvam.ai/text-to-speech');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 30,
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/json',
+            'api-subscription-key: ' . SARVAM_API_KEY,
+        ],
+        CURLOPT_POSTFIELDS     => json_encode([
+            'text'                 => $text,
+            'target_language_code' => $bcp47,
+            'speaker'              => SARVAM_SPEAKER,
+            'model'                => 'bulbul:v2',
+        ], JSON_UNESCAPED_UNICODE),
+    ]);
+    ai_curl_ca($ch);
+
+    $raw    = curl_exec($ch);
+    $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($raw === false || $status >= 400) {
+        error_log("Ithrive TTS: sarvam returned {$status}");
+
+        return null;
+    }
+
+    $data  = json_decode((string) $raw, true);
+    $audio = $data['audios'][0] ?? null;
+
+    return is_string($audio) ? (base64_decode($audio, true) ?: null) : null;
+}
+
+// Sarvam first when configured, then an explicit endpoint, then the default.
+if (SARVAM_API_KEY !== '') {
+    $audio = '';
+    foreach (tts_chunks($text, 450) as $chunk) {
+        $part = tts_sarvam($chunk, $lang['bcp47']);
+        if ($part === null) {
+            break;
+        }
+        $audio .= $part;
+    }
+
+    if ($audio !== '') {
+        header('Content-Type: audio/wav');
+        header('Cache-Control: private, max-age=600');
+        echo $audio;
+        exit;
+    }
+    // Sarvam failed — fall through to the backend below rather than go silent.
+}
+
 $backend = TTS_ENDPOINT === '' ? 'google' : TTS_ENDPOINT;
 
 if ($backend === 'google') {

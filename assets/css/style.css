@@ -2021,3 +2021,73 @@ body.nav-open .nav-toggle-close { display: block; }
   .case-metrics { grid-template-columns: 1fr; }
   .section-title { font-size: 1.7rem; }
 }
+
+/* =========================================================================
+   Depth — 3D card motion (depth.js)
+   ========================================================================= */
+
+/* The grid becomes a shared perspective plane so sibling cards tilt as if they
+   sit in the same space rather than each in its own little box. */
+.svc-panel .grid,
+#services .grid,
+.tech-groups,
+.case-grid {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+
+.has-depth {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  /* transform is driven per-frame by JS, so only the rest is transitioned. */
+  transition: box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+.has-depth:hover {
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, .85),
+              0 0 0 1px rgba(0, 242, 254, .18);
+}
+
+/* Card contents lift off the surface, which is what sells the depth. */
+.has-depth .card-icon,
+.has-depth .card-title,
+.has-depth .tech-group-icon,
+.has-depth .case-title { transform: translateZ(26px); }
+.has-depth .card-body,
+.has-depth .tag-row,
+.has-depth .case-headline { transform: translateZ(14px); }
+.has-depth .card-link { transform: translateZ(32px); }
+
+/* Specular sheen that follows the pointer across the surface. */
+.depth-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glare-o, 0);
+  transition: opacity .3s var(--ease);
+  background: radial-gradient(
+    340px circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, .10),
+    rgba(0, 242, 254, .05) 40%,
+    transparent 62%
+  );
+}
+
+/* Entrance: cards arrive from behind the plane rather than just fading. */
+.depth-pending {
+  opacity: 0;
+  transform: perspective(900px) translateZ(-70px) translateY(26px) rotateX(6deg);
+}
+.depth-in {
+  opacity: 1;
+  transform: perspective(900px) translateZ(0) translateY(0) rotateX(0);
+  transition: opacity .7s var(--ease) var(--depth-delay, 0ms),
+              transform .7s var(--ease) var(--depth-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-pending { opacity: 1; transform: none; }
+  .has-depth { transform: none !important; }
+  .depth-glare { display: none; }
+}

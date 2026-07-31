@@ -41,6 +41,20 @@ define('SPLINE_SCENE', getenv('SPLINE_SCENE') ?: '');
  */
 define('TTS_ENDPOINT', getenv('TTS_ENDPOINT') ?: '');
 
+/**
+ * Sarvam AI — speech for Indian languages.
+ *
+ * Sarvam's bulbul model covers Tamil, Malayalam, Kannada, Telugu, Hindi and
+ * Indian English properly, which is exactly the gap the browser cannot fill.
+ * Set the subscription key and it becomes the voice for every language.
+ *
+ * Key: https://dashboard.sarvam.ai  →  API keys
+ */
+define('SARVAM_API_KEY', getenv('SARVAM_API_KEY') ?: '');
+
+/** Sarvam voice. Options include anushka, manisha, vidya, arya, karun, hitesh. */
+define('SARVAM_SPEAKER', getenv('SARVAM_SPEAKER') ?: 'anushka');
+
 define('ROOT_PATH', dirname(__DIR__));
 define('STORAGE_PATH', ROOT_PATH . '/storage');
 

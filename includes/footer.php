@@ -50,6 +50,7 @@ component('chat-widget');
 <?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/depth.js')) ?>" defer></script>
 <?php if ($page === 'home'): ?>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/assistant.js')) ?>" defer></script>
