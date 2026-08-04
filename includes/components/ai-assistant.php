@@ -51,6 +51,13 @@ declare(strict_types=1);
         </button>
 
         <p class="assistant-state" data-assistant-state>Tap to speak</p>
+
+        <?php /* Hidden until assistant.js confirms this browser can hear. */ ?>
+        <button class="assistant-handsfree" type="button" data-assistant-handsfree
+                aria-pressed="false" hidden>
+          <span class="assistant-handsfree-dot" aria-hidden="true"></span>
+          Hands-free
+        </button>
       </div>
 
       <div class="assistant-panel">

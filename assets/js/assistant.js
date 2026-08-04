@@ -21,6 +21,7 @@
   const form     = root.querySelector('[data-assistant-form]');
   const input    = root.querySelector('.assistant-input');
   const mic      = root.querySelector('[data-assistant-mic]');
+  const hands    = root.querySelector('[data-assistant-handsfree]');
   const stateEl  = root.querySelector('[data-assistant-state]');
   const support  = root.querySelector('[data-assistant-support]');
   const voiceOn  = root.querySelector('[data-assistant-voice]');
@@ -91,6 +92,26 @@
 
   let audio = null;
 
+  // Declared up here, not in the recognition section below, because speaking
+  // finishes on browsers that have no recognition at all — a `let` down there
+  // would leave these in their temporal dead zone on exactly those browsers.
+  let handsFree = false;
+  let relisten  = () => {};
+
+  /**
+   * Every path out of speaking ends here.
+   *
+   * In hands-free mode it reopens the microphone, which is what turns the
+   * assistant from a question box into a conversation. Restarting only once the
+   * voice has stopped is deliberate: an open microphone during playback
+   * transcribes the assistant talking to itself.
+   */
+  function spokenEnd() {
+    if (window.ithriveOrb) window.ithriveOrb.setLevel(0);
+    setState('idle', str('prompt'));
+    if (handsFree) relisten();
+  }
+
   async function speakViaServer(text) {
     try {
       const res = await fetch(ttsUrl, {
@@ -106,8 +127,7 @@
       setState('speaking', str('speaking'));
       audio.onended = () => {
         URL.revokeObjectURL(url);
-        if (window.ithriveOrb) window.ithriveOrb.setLevel(0);
-        setState('idle', str('prompt'));
+        spokenEnd();
       };
       audio.onerror = audio.onended;
       // No amplitude analyser here — a steady pulse still reads as speech.
@@ -120,7 +140,7 @@
   }
 
   async function speak(text) {
-    if (!voiceOn || !voiceOn.checked) { setState('idle', str('prompt')); return; }
+    if (!voiceOn || !voiceOn.checked) { spokenEnd(); return; }
 
     // Prefer a real installed voice; fall back to the server when the device
     // has none for this language (the usual case for the Indic languages).
@@ -131,14 +151,14 @@
       // is indistinguishable from a broken assistant, and this is exactly the
       // state a Windows desktop lands in for Tamil.
       support.textContent = str('novoice').replace('%s', lang.name);
-      setState('idle', str('prompt'));
+      spokenEnd();
 
       return;
     }
 
     if (!canSpeak || !voice) {
       support.textContent = str('novoice').replace('%s', lang.name);
-      setState('idle', str('prompt'));
+      spokenEnd();
 
       return;
     }
@@ -153,7 +173,7 @@
     // boundaries — close enough to read as "it is talking".
     u.onstart    = () => setState('speaking', str('speaking'));
     u.onboundary = () => { if (window.ithriveOrb) window.ithriveOrb.setLevel(0.4 + Math.random() * 0.6); };
-    u.onend      = () => { if (window.ithriveOrb) window.ithriveOrb.setLevel(0); setState('idle', str('prompt')); };
+    u.onend      = () => spokenEnd();
     u.onerror    = u.onend;
 
     speechSynthesis.speak(u);
@@ -262,6 +282,40 @@
 
   if (!canHear) return;
 
+  /**
+   * Hands-free mode — the Jarvis behaviour: keep the microphone open, answer,
+   * then listen again, so a conversation needs no clicking at all.
+   *
+   * The Web Speech engine ends a session after every utterance and after a few
+   * seconds of silence, so "continuous" is really a restart loop. The guards
+   * matter: restarting while a session is already live throws, and restarting
+   * while the assistant is talking makes it transcribe its own voice.
+   */
+  let restartTimer = 0;
+
+  const startListening = () => {
+    if (recognising || busy) return;
+    try { rec.start(); } catch { /* already starting */ }
+  };
+
+  const listenSoon = (delay) => {
+    clearTimeout(restartTimer);
+    restartTimer = setTimeout(() => { if (handsFree) startListening(); }, delay);
+  };
+
+  const stopHandsFree = () => {
+    handsFree = false;
+    clearTimeout(restartTimer);
+    if (recognising) { try { rec.stop(); } catch { /* not running */ } }
+  };
+
+  function reflectHandsFree() {
+    root.classList.toggle('is-handsfree', handsFree);
+    if (!hands) return;
+    hands.classList.toggle('is-active', handsFree);
+    hands.setAttribute('aria-pressed', String(handsFree));
+  }
+
   rec = new SpeechRec();
   rec.lang = lang.bcp47;
   rec.interimResults = true;
@@ -285,26 +339,85 @@
     if (window.ithriveOrb) {
       window.ithriveOrb.setLevel(Math.min(1, (event.results[0][0].confidence || 0.5) + 0.2));
     }
-    if (finished) {
-      rec.stop();
-      ask(text);
+    if (!finished) return;
+
+    rec.stop();
+
+    // "Jarvis, what does it cost" — address it by name and the name is not part
+    // of the question. Stripped rather than required, so it stays optional.
+    const asked = text.replace(/^\s*(hey\s+|ok\s+)?(jarvis|ithrive)[\s,.:-]+/i, '').trim();
+
+    // A hands-free session picks up coughs and passing conversation; one or two
+    // stray words are not a question worth spending a model call on.
+    if (handsFree && asked.split(/\s+/).filter(Boolean).length < 2) {
+      input.value = '';
+      listenSoon(300);
+
+      return;
     }
+
+    ask(asked || text);
   };
 
   rec.onerror = (e) => {
     recognising = false;
-    setState('idle', e.error === 'not-allowed' ? 'Microphone blocked' : str('prompt'));
+    // A hands-free session hits `no-speech` and `aborted` constantly — those
+    // are silence, not failure, and must not tear the loop down.
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      handsFree = false;
+      reflectHandsFree();
+      setState('idle', 'Microphone blocked');
+
+      return;
+    }
+    if (!handsFree) setState('idle', str('prompt'));
   };
 
   rec.onend = () => {
     recognising = false;
     if (window.ithriveOrb) window.ithriveOrb.setLevel(0);
     if (root.dataset.state === 'listening') setState('idle', str('prompt'));
+
+    // Hands-free: the engine stops itself every utterance and after a few
+    // seconds of silence, so the loop is kept alive by restarting it.
+    if (handsFree && !busy) listenSoon(400);
   };
+
+  // Now that the recognition loop exists, let speaking hand control back to it.
+  relisten = () => listenSoon(500);
 
   mic.addEventListener('click', () => {
     if (recognising) { rec.stop(); return; }
     if (canSpeak) speechSynthesis.cancel();   // barge-in: stop talking to listen
-    try { rec.start(); } catch { /* already starting */ }
+    if (audio) audio.pause();
+    startListening();
+  });
+
+  if (hands) {
+    hands.hidden = false;
+    hands.addEventListener('click', () => {
+      if (handsFree) {
+        stopHandsFree();
+        reflectHandsFree();
+        setState('idle', str('prompt'));
+
+        return;
+      }
+
+      handsFree = true;
+      reflectHandsFree();
+      // The click is the user gesture the microphone permission prompt needs,
+      // so start listening from inside it rather than on a timer.
+      if (canSpeak) speechSynthesis.cancel();
+      if (audio) audio.pause();
+      startListening();
+    });
+  }
+
+  // Leaving the page with the microphone open is not acceptable.
+  window.addEventListener('pagehide', stopHandsFree);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { clearTimeout(restartTimer); if (recognising) rec.stop(); }
+    else if (handsFree) listenSoon(600);
   });
 })();

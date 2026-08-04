@@ -2240,3 +2240,37 @@ body.nav-open .nav-toggle-close { display: block; }
   .film--scrub .film-track { height: auto; }
   .film-sticky { position: static; height: auto; }
 }
+
+/* Hands-free toggle — the assistant keeps listening between answers. */
+.assistant-handsfree {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 10px auto 0;
+  padding: 8px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--glass);
+  color: var(--text-dim);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.assistant-handsfree:hover { color: var(--text); border-color: rgba(0, 242, 254, .45); }
+.assistant-handsfree.is-active { color: var(--text); border-color: rgba(0, 242, 254, .6); }
+
+.assistant-handsfree-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  transition: background-color .2s var(--ease);
+}
+.assistant-handsfree.is-active .assistant-handsfree-dot {
+  background: var(--cyan);
+  animation: orb-ping 1.8s var(--ease) infinite;
+}
+
+/* While hands-free is live the orb is the status light, so make it obvious. */
+.assistant.is-handsfree .assistant-mic-ring { animation-duration: 1.6s; }

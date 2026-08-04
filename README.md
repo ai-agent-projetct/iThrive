@@ -224,6 +224,25 @@ Then provide a key, in order of preference:
 2. copy `includes/secrets.example.php` to `includes/secrets.php` and fill it in
    — that file is git-ignored.
 
+### Gemini, for a free key
+
+`GEMINI_API_KEY` (or `gemini_api_key` in the secrets file) works instead, and
+needs neither Composer nor a billing account — get one from
+https://ai.google.dev/gemini-api/docs/api-key. It talks to the Interactions API
+at `generativelanguage.googleapis.com/v1beta/interactions`; the model defaults
+to `gemini-3.6-flash` and `GEMINI_MODEL` overrides it, because Google renames
+these faster than anyone redeploys.
+
+Anthropic is used when both keys are set. Two differences worth knowing:
+
+- **Gemini is text-only here.** The Anthropic path runs an agentic tool loop —
+  `lookup_service`, `lookup_case_study`, `capture_lead`, `request_human`. On
+  Gemini those are off, so the assistant answers but does not capture leads.
+  Grounding is unaffected: the whole answer book travels in the system prompt.
+- The conversation is flattened into a transcript rather than replayed as
+  structured turns, because that API threads multi-turn state through an
+  interaction id and a transcript needs no server-side state.
+
 Check it is live by opening the widget and asking something; if the key is
 missing you get the fallback copy instead, and the reason is in the error log.
 

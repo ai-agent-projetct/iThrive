@@ -16,6 +16,12 @@ require_once __DIR__ . '/config.php';
 const AI_MODEL = 'claude-opus-5';
 
 /**
+ * Gemini model, used when a Gemini key is configured instead of an Anthropic
+ * one. Overridable, because Google renames these faster than we redeploy.
+ */
+define('AI_GEMINI_MODEL', getenv('GEMINI_MODEL') ?: 'gemini-3.6-flash');
+
+/**
  * Guardrails. This endpoint is public and unauthenticated, so every dimension
  * that costs money or time is bounded.
  */
@@ -59,6 +65,53 @@ function ai_api_key(): ?string
     return $key = null;
 }
 
+/**
+ * The Gemini key, from the environment or the same git-ignored secrets file.
+ *
+ * Gemini is here because its free tier makes the assistant think without a
+ * billing account — paste a key from ai.google.dev and the offline answer book
+ * is replaced by a real model, in whichever of the six languages was chosen.
+ */
+function ai_gemini_key(): ?string
+{
+    static $key = false;
+
+    if ($key !== false) {
+        return $key;
+    }
+
+    $fromEnv = getenv('GEMINI_API_KEY');
+    if (is_string($fromEnv) && $fromEnv !== '') {
+        return $key = $fromEnv;
+    }
+
+    $secrets = __DIR__ . '/secrets.php';
+    if (is_file($secrets)) {
+        /** @var array{gemini_api_key?: string} $values */
+        $values = require $secrets;
+        if (!empty($values['gemini_api_key'])) {
+            return $key = (string) $values['gemini_api_key'];
+        }
+    }
+
+    return $key = null;
+}
+
+/**
+ * Which model provider will answer: 'anthropic', 'gemini' or 'none'.
+ *
+ * Anthropic wins when both keys are present — it is the stronger model and the
+ * only one wired to the lead-capture tools.
+ */
+function ai_provider(): string
+{
+    if (ai_api_key() !== null && (ai_autoload_path() !== null || function_exists('curl_init'))) {
+        return 'anthropic';
+    }
+
+    return (ai_gemini_key() !== null && function_exists('curl_init')) ? 'gemini' : 'none';
+}
+
 /** Composer autoloader path, or null when dependencies are not installed. */
 function ai_autoload_path(): ?string
 {
@@ -78,13 +131,15 @@ function ai_autoload_path(): ?string
  */
 function ai_enabled(): bool
 {
-    return ai_api_key() !== null
-        && (ai_autoload_path() !== null || function_exists('curl_init'));
+    return ai_provider() !== 'none';
 }
 
-/** Which transport a request will use — 'sdk', 'curl', or 'none'. */
+/** Which transport a request will use — 'sdk', 'curl', 'gemini', or 'none'. */
 function ai_transport(): string
 {
+    if (ai_provider() === 'gemini') {
+        return 'gemini';
+    }
     if (ai_api_key() === null) {
         return 'none';
     }
@@ -98,8 +153,8 @@ function ai_transport(): string
 /** Why the AI is unavailable — surfaced in logs, never to visitors. */
 function ai_unavailable_reason(): string
 {
-    if (ai_api_key() === null) {
-        return 'no ANTHROPIC_API_KEY in environment or includes/secrets.php';
+    if (ai_api_key() === null && ai_gemini_key() === null) {
+        return 'no ANTHROPIC_API_KEY or GEMINI_API_KEY in environment or includes/secrets.php';
     }
     if (ai_autoload_path() === null && !function_exists('curl_init')) {
         return 'no SDK (composer install) and no curl extension';
@@ -603,12 +658,110 @@ function ai_http_call(array $payload): object
 }
 
 /**
+ * One Gemini Interactions call.
+ *
+ * Returns the same object shape as the Anthropic paths — ->stopReason,
+ * ->content, ->usage — so ai_run() never learns which provider answered.
+ *
+ * Text only, deliberately. The Anthropic path runs an agentic tool loop for
+ * lead capture and lookups; replicating that against a stateful interactions
+ * API is work that cannot be verified without a key, and a half-tested tool
+ * loop on a public endpoint is worse than none. Grounding does not suffer: the
+ * whole answer book and the demo boundary travel in the system instruction.
+ *
+ * @throws RuntimeException on transport or API failure.
+ */
+function ai_gemini_call(array $messages, string $system, int $maxTokens): object
+{
+    // The conversation is flattened into one prompt rather than replayed as
+    // structured turns: this API threads multi-turn state through an interaction
+    // id, and a transcript is the shape that needs no server-side state.
+    $lines = [];
+    foreach ($messages as $message) {
+        $text = is_string($message['content'] ?? null) ? trim($message['content']) : '';
+        if ($text === '') {
+            continue;
+        }
+        $lines[] = (($message['role'] ?? 'user') === 'assistant' ? 'Assistant: ' : 'Visitor: ') . $text;
+    }
+
+    $payload = [
+        'model'              => AI_GEMINI_MODEL,
+        'input'              => implode("\n\n", $lines),
+        'system_instruction' => $system,
+        'generation_config'  => ['max_output_tokens' => $maxTokens, 'temperature' => 0.6],
+    ];
+
+    $ch = curl_init('https://generativelanguage.googleapis.com/v1beta/interactions');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 120,
+        CURLOPT_HTTPHEADER     => [
+            'content-type: application/json',
+            'x-goog-api-key: ' . ai_gemini_key(),
+        ],
+        CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+    ]);
+    ai_curl_ca($ch);
+
+    $raw    = curl_exec($ch);
+    $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $err    = curl_error($ch);
+    curl_close($ch);
+
+    if ($raw === false) {
+        throw new RuntimeException("transport: {$err}");
+    }
+
+    $data = json_decode((string) $raw, true);
+
+    if (!is_array($data)) {
+        throw new RuntimeException('malformed response');
+    }
+
+    if ($status >= 400) {
+        $message = $data['error']['message'] ?? 'unknown error';
+        throw new RuntimeException("gemini {$status}: {$message}");
+    }
+
+    // Answers arrive as `model_output` steps; reasoning arrives as `thought`
+    // steps and is deliberately ignored.
+    $text = '';
+    foreach ($data['steps'] ?? [] as $step) {
+        if (($step['type'] ?? '') !== 'model_output') {
+            continue;
+        }
+        foreach ($step['content'] ?? [] as $part) {
+            if (($part['type'] ?? '') === 'text') {
+                $text .= $part['text'] ?? '';
+            }
+        }
+    }
+
+    return (object) [
+        // A blocked or empty completion reads as a refusal, which chat.php
+        // already knows how to fall back from.
+        'stopReason' => trim($text) === '' ? 'refusal' : 'end_turn',
+        'content'    => [(object) ['type' => 'text', 'text' => $text]],
+        'usage'      => (object) [
+            'inputTokens'  => $data['usage']['total_input_tokens'] ?? 0,
+            'outputTokens' => $data['usage']['total_output_tokens'] ?? 0,
+        ],
+    ];
+}
+
+/**
  * Issue one model request through whichever transport is available.
  *
  * @param array $messages Conversation in API shape.
  */
 function ai_request(array $messages, string $system, array $tools, string $effort, int $maxTokens): object
 {
+    if (ai_provider() === 'gemini') {
+        return ai_gemini_call($messages, $system, $maxTokens);
+    }
+
     if (ai_transport() === 'sdk') {
         return ai_client()->messages->create(
             model: AI_MODEL,
@@ -669,7 +822,8 @@ function ai_run(
         return ['text' => '', 'side' => $side, 'iterations' => 0, 'usage' => $usage, 'error' => ai_unavailable_reason()];
     }
 
-    $tools = ai_tools($toolNames);
+    // The Gemini path is text-only, so it never enters the tool loop below.
+    $tools = ai_provider() === 'gemini' ? [] : ai_tools($toolNames);
 
     try {
         // The system prompt and tool list are identical on every request, so
