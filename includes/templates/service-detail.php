@@ -78,6 +78,19 @@ component('page-hero', [
   </div>
 </section>
 
+<?php
+/**
+ * Per-service extras.
+ *
+ * A service with more to say than the shared layout allows drops a
+ * `service-extras-{slug}` component in and it appears here. Nothing to register,
+ * and the other fourteen pages are untouched.
+ */
+if (is_file(__DIR__ . '/../components/service-extras-' . $svc['slug'] . '.php')) {
+    component('service-extras-' . $svc['slug']);
+}
+?>
+
 <section class="section section--panel">
   <div class="shell split">
     <div>

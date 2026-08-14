@@ -59,6 +59,10 @@ component('chat-widget');
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/depth.js')) ?>" defer></script>
+<?php /* Only the one service page carries an estimator. */ ?>
+<?php if (($serviceSlug ?? '') === 'mobile-app-development'): ?>
+<script src="<?= e(asset('assets/js/estimator.js')) ?>" defer></script>
+<?php endif; ?>
 <?php if ($page === 'home'): ?>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/assistant.js')) ?>" defer></script>

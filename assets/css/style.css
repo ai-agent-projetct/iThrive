@@ -2274,3 +2274,150 @@ body.nav-open .nav-toggle-close { display: block; }
 
 /* While hands-free is live the orb is the status light, so make it obvious. */
 .assistant.is-handsfree .assistant-mic-ring { animation-duration: 1.6s; }
+
+/* =========================================================================
+   Mobile app cost estimator (services/mobile-app-development.php)
+   ========================================================================= */
+
+.estimator { display: grid; grid-template-columns: 1.25fr .75fr; gap: 32px; align-items: start; }
+
+.estimator-options { display: flex; flex-direction: column; gap: 28px; }
+.estimator-step { border: 0; padding: 0; margin: 0; }
+.estimator-step legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.estimator-num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--grad);
+  color: #04121A;
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.estimator-choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.estimator-choices--wrap { grid-template-columns: repeat(2, 1fr); }
+
+/* The native control is hidden but still focusable — the label is the control
+   visually, so the ring has to be drawn from :focus-visible on the input. */
+.estimator-choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 13px 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--glass);
+  color: var(--text-dim);
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .2s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease);
+}
+.estimator-choice input { position: absolute; opacity: 0; width: 0; height: 0; }
+.estimator-choice:hover { color: var(--text); border-color: rgba(0, 242, 254, .4); }
+.estimator-choice em { font-style: normal; font-size: .74rem; color: var(--text-faint); font-weight: 500; }
+
+.estimator-choice.is-active {
+  color: var(--text);
+  border-color: rgba(0, 242, 254, .6);
+  background: rgba(0, 242, 254, .08);
+}
+.estimator-choice input:focus-visible + span { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+
+.estimator-choice--check { flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; }
+.estimator-tick {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  opacity: .35;
+  transition: opacity .2s var(--ease), background-color .2s var(--ease);
+}
+.estimator-tick .icon { width: 12px; height: 12px; }
+.estimator-choice--check.is-active .estimator-tick {
+  opacity: 1;
+  background: var(--grad);
+  border-color: transparent;
+  color: #04121A;
+}
+
+/* Result card */
+.estimator-result {
+  position: sticky;
+  top: calc(var(--header-h) + 20px);
+  padding: 24px;
+  border: 1px solid rgba(0, 242, 254, .3);
+  border-radius: 20px;
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+}
+.estimator-result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.estimator-result-head h3 { font-size: .78rem; letter-spacing: .07em; text-transform: uppercase; color: var(--text-dim); }
+
+.estimator-currency { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; }
+.estimator-currency button {
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-faint);
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.estimator-currency button.is-active { background: var(--grad); color: #04121A; }
+
+.estimator-label { font-size: .74rem; color: var(--text-faint); }
+.estimator-total {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--cyan);
+  line-height: 1.1;
+  margin: 2px 0 6px;
+}
+.estimator-weeks { display: flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--text-dim); font-weight: 600; }
+.estimator-weeks .icon { width: 15px; height: 15px; color: var(--cyan); }
+
+.estimator-summary { margin: 18px 0; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+.estimator-summary > div { display: flex; justify-content: space-between; gap: 12px; font-size: .8rem; }
+.estimator-summary dt { color: var(--text-faint); }
+.estimator-summary dd { color: var(--text); font-weight: 600; text-align: right; }
+
+.estimator-cta { width: 100%; justify-content: center; }
+.estimator-note { margin-top: 12px; font-size: .7rem; color: var(--text-faint); text-align: center; }
+
+@media (max-width: 960px) {
+  .estimator { grid-template-columns: 1fr; }
+  .estimator-result { position: static; }
+  .estimator-choices { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .estimator-choices, .estimator-choices--wrap { grid-template-columns: 1fr; }
+}

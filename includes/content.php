@@ -30,6 +30,58 @@ const HOME_HERO_STATS = [
 const HOME_STATEMENT = 'Every product we ship starts as a bridge — between a business and the customer it has not reached yet. We engineer that bridge in Python, wire intelligence through it, and run it in the cloud at enterprise scale.';
 
 /**
+ * Extra sections for the mobile app development service page.
+ *
+ * Ported from the ai-agent-projetct/mobile-app-page repository, whose complete
+ * implementation is a React/Vite app; this is the same content and the same
+ * arithmetic rebuilt on this site's own components, since nothing here has a
+ * build step or Tailwind.
+ */
+const MOBILE_APP_FUNCTIONS = [
+    ['icon' => 'layers',     'title' => 'Flutter & React Native dual store',
+     'body' => 'Chosen per project on real criteria — existing team skills, native module needs and animation load — shipping to both the App Store and Google Play.'],
+    ['icon' => 'refresh',    'title' => 'Offline-first data sync engine',
+     'body' => 'Local SQLite or Hive persistence with conflict-aware sync, so the app stays usable in a lift, a basement or a rural dead spot.'],
+    ['icon' => 'network',    'title' => 'Real-time WebSockets & GPS',
+     'body' => 'Live location, instant chat and presence over WebSockets, with battery-conscious location handling and background workers.'],
+    ['icon' => 'message',    'title' => 'Push notifications & deep linking',
+     'body' => 'Segmented pushes and deep links that survive a cold start and land the user on the right in-app screen rather than the home tab.'],
+    ['icon' => 'rocket',     'title' => 'Store release management',
+     'body' => 'Submission, staged rollouts, screenshot assets and the Apple and Google review cycles handled by engineers who have done it before.'],
+    ['icon' => 'gauge',      'title' => 'Crash & performance monitoring',
+     'body' => 'Sentry, Crashlytics and store vitals wired into the first build, backed by a triage process rather than an unwatched dashboard.'],
+];
+
+/**
+ * The cost estimator.
+ *
+ * Prices are the ones the source repository ships. They are quoted in rupees
+ * with a dollar column, and the multiplier applies to platform plus features.
+ */
+const MOBILE_APP_ESTIMATOR = [
+    'platforms' => [
+        ['id' => 'ios',     'label' => 'Native iOS',      'inr' => 180000, 'usd' => 2400],
+        ['id' => 'android', 'label' => 'Native Android',  'inr' => 180000, 'usd' => 2400],
+        ['id' => 'both',    'label' => 'Cross-platform',  'inr' => 280000, 'usd' => 3600],
+    ],
+    'design' => [
+        ['id' => 'minimal', 'label' => 'Standard UI',        'mult' => 1.0,  'note' => 'Clean native components'],
+        ['id' => 'premium', 'label' => 'Custom UI',          'mult' => 1.25, 'note' => 'Micro-animations and dark mode'],
+        ['id' => '3d',      'label' => 'Interactive 3D & AR','mult' => 1.5,  'note' => 'WebGL, 3D models, glassmorphism'],
+    ],
+    'features' => [
+        ['id' => 'auth',     'label' => 'Biometric auth & OTP',            'inr' => 25000, 'usd' => 350],
+        ['id' => 'payments', 'label' => 'UPI / Stripe payment gateway',    'inr' => 35000, 'usd' => 450],
+        ['id' => 'push',     'label' => 'Push notifications & messaging',  'inr' => 20000, 'usd' => 250],
+        ['id' => 'gps',      'label' => 'Live GPS location & maps',        'inr' => 40000, 'usd' => 500],
+        ['id' => 'chat',     'label' => 'Realtime chat & audio calls',     'inr' => 45000, 'usd' => 600],
+        ['id' => 'ai',       'label' => 'On-device AI assistant',          'inr' => 65000, 'usd' => 850],
+        ['id' => 'admin',    'label' => 'Web admin dashboard & analytics', 'inr' => 50000, 'usd' => 650],
+    ],
+    'defaults' => ['platform' => 'both', 'design' => 'premium', 'features' => ['auth', 'payments', 'push']],
+];
+
+/**
  * Chapters of the scroll-scrubbed services film.
  *
  * `at` is the second the card is fully legible, read off a one-frame-per-second
