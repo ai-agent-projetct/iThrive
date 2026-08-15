@@ -7,7 +7,7 @@ import MouseOverText from './MouseOverText';
 import { playClickSound, playHoverSound } from './AudioEngine';
 
 /**
- * Hyper-Interactive 3D Mouseover Tech Card Component (Inspired by avivashishta.com)
+ * Tech card with a real-time 3D tilt and a cursor-tracked spotlight.
  * Features real-time 3D tilt + cursor radial spotlight tracking!
  */
 function InteractiveTechCard3D({ tech, isSelected, onSelect }) {
@@ -106,7 +106,7 @@ function InteractiveTechCard3D({ tech, isSelected, onSelect }) {
           {tech.desc}
         </p>
 
-        {/* Skill Proficiency Bar (Inspired by avivashishta.com) */}
+        {/* Proficiency bar */}
         <div className="space-y-1 pt-2 border-t border-slate-800/80">
           <div className="flex justify-between text-[10px] font-bold text-slate-400">
             <span>Production Proficiency</span>
@@ -289,17 +289,10 @@ WHERE ST_DWithin(geom, ST_MakePoint(80.2707, 13.0827)::geography, 5000);`
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
-            <Cpu className="w-3.5 h-3.5" /> avivashishta.com Inspired Stack
-          </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading tracking-tight text-slate-100">
             Tech Stack we use for <MouseOverText text="Mobile App Development" variant="glow" className="text-cyan-400" />
           </h2>
-
-          <p className="text-slate-300 text-base sm:text-lg">
-            Hover your mouse over any technology card below to experience <span className="text-cyan-400 font-bold">Real-Time 3D Card Tilt & Cursor Spotlight Tracking</span>.
-          </p>
         </div>
 
         {/* Filter Category Pills */}

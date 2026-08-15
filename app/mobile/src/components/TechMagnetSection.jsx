@@ -253,9 +253,6 @@ export default function TechMagnetSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading tracking-tight text-slate-100">
             Always Building, <MouseOverText text="Always Growing." variant="glow" className="text-cyan-400" />
           </h2>
-          <p className="text-slate-300 text-base sm:text-lg">
-            Move your cursor through the field — the whole stack follows you.
-          </p>
         </div>
 
         <div ref={mountRef} className="tech-magnet-stage" aria-hidden="true" />

@@ -21,7 +21,7 @@ import AppSimulatorSection from './components/AppSimulatorSection';
 import InteractiveAppBuilder from './components/InteractiveAppBuilder';
 import TechMagnetSection from './components/TechMagnetSection';
 import TechStackSection from './components/TechStackSection';
-import CostEstimator from './components/CostEstimator';
+import CostCtaSection from './components/CostCtaSection';
 import CaseStudiesSection from './components/CaseStudiesSection';
 import ProcessSection from './components/ProcessSection';
 import ChennaiPresence from './components/ChennaiPresence';
@@ -80,7 +80,7 @@ function MobileAppPage() {
         <InteractiveAppBuilder onOpenConsultation={openConsultationModal} />
         <TechMagnetSection />
         <TechStackSection />
-        <CostEstimator onOpenConsultation={openConsultationModal} />
+        <CostCtaSection />
         <CaseStudiesSection onOpenConsultation={openConsultationModal} />
         <ProcessSection />
         <ChennaiPresence onOpenConsultation={openConsultationModal} />

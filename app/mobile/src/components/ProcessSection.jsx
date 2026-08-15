@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  Compass, Palette, Code2, ShieldCheck, Rocket, CheckCircle2, 
+  Compass, Palette, Code2, ShieldCheck, Rocket, CheckCircle2, Sparkles, 
   ArrowRight, ChevronRight, ChevronLeft, Layers, RefreshCw, MoveHorizontal
 } from 'lucide-react';
 import MouseOverText from './MouseOverText';
@@ -72,11 +72,44 @@ export default function ProcessSection() {
       outputs: 'Live App on Apple App Store & Google Play',
       duration: 'Ongoing',
       deliverable: '24/7 Post-Launch Support SLA'
+    },
+    {
+      num: '06',
+      title: 'Source Code & IP Handover',
+      tagline: 'Repositories, Accounts & Documentation',
+      desc: 'Repositories, cloud accounts, store listings and signing keys transfer into your name, with architecture notes and a working local environment so another team could pick this up without calling us.',
+      icon: Layers,
+      inputs: 'Signed Milestone Completion',
+      outputs: 'Git Repositories & Infrastructure in Your Name',
+      duration: '2 Days',
+      deliverable: '100% IP & Source Code Transfer'
+    },
+    {
+      num: '07',
+      title: 'Analytics, Monitoring & Iteration',
+      tagline: 'Crash Vitals, Funnels & Release Trains',
+      desc: 'Sentry, Crashlytics and store vitals wired to a triage process, funnel analytics on the journeys that matter, and a fortnightly release train that ships against what the data actually shows.',
+      icon: RefreshCw,
+      inputs: 'Live Production Traffic',
+      outputs: 'Weekly Vitals & Funnel Reporting',
+      duration: 'Ongoing',
+      deliverable: 'Measured Retention & Crash-Free Rate'
+    },
+    {
+      num: '08',
+      title: 'Scale, AI Enablement & Roadmap',
+      tagline: 'Growth Features & On-Device Intelligence',
+      desc: 'Once the core is stable we layer in what compounds: recommendation and assistant features, cost-optimised inference, and infrastructure that scales with the user base rather than ahead of it.',
+      icon: Sparkles,
+      inputs: 'Product Metrics & Business Goals',
+      outputs: 'Quarterly Roadmap & AI Feature Rollout',
+      duration: 'Quarterly',
+      deliverable: 'Compounding Product Roadmap'
     }
   ];
 
   /**
-   * Hold the page while the five steps play out.
+   * Hold the page while all eight steps play out.
    *
    * The same contract the video stage uses: while this section fills the
    * viewport, the wheel advances the pipeline instead of the page, and once the
@@ -95,8 +128,10 @@ export default function ProcessSection() {
     let accum = 0;
     let lastStepAt = 0;
 
-    const STEP = 220;      // wheel px to arm one step
-    const COOLDOWN = 480;  // ms before another step can fire
+    const STEP = 300;      // wheel px to arm one step
+    // A full second between stages. Eight steps at half this ripped past
+    // before any of them could be read, which is what 'jumping fast' meant.
+    const COOLDOWN = 1000; // ms before another step can fire
 
     const onWheel = (e) => {
       const rect = sectionEl.getBoundingClientRect();
