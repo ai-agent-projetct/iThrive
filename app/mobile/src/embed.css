@@ -362,6 +362,20 @@
 }
 
 
+
+/* The cost arrow. Clickable and nothing more: no hover colour, no pointer
+   cursor — the pill beside it is the thing that should look pressable. */
+.cost-arrow {
+  border: 2px solid #3b82f6;
+  background: rgba(10, 16, 35, .8);
+  color: #fff;
+  cursor: default;
+  transition: none;
+}
+.cost-arrow:hover,
+.cost-arrow:focus { border-color: #3b82f6; color: #fff; background: rgba(10, 16, 35, .8); transform: none; }
+.cost-arrow:focus-visible { outline: 2px solid #00E5FF; outline-offset: 3px; }
+
 /* ---------------------------------------------------------------------------
  * Cost rate card, opened by the arrow beside the CTA.
  * ------------------------------------------------------------------------- */
@@ -372,7 +386,8 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 4vh 16px;
+  /* Start below the site header, or its heading lands underneath it. */
+  padding: calc(var(--header-h, 72px) + 20px) 16px 4vh;
   overflow-y: auto;
   background: rgba(2, 4, 10, .82);
   backdrop-filter: blur(6px);

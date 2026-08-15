@@ -16,25 +16,25 @@ import MouseOverText from './MouseOverText';
  */
 
 const INDUSTRY_RATES = [
-  ['E-commerce & retail apps',       '₹3,50,000',  '₹12,00,000', '3 – 6 months'],
-  ['Healthcare & telemedicine apps', '₹4,50,000',  '₹15,00,000', '4 – 7 months'],
-  ['FinTech & banking apps',         '₹5,00,000',  '₹18,00,000', '5 – 8 months'],
-  ['Logistics & delivery apps',      '₹4,00,000',  '₹14,00,000', '4 – 7 months'],
-  ['Real estate & property apps',    '₹3,50,000',  '₹12,50,000', '3 – 6 months'],
-  ['Education & eLearning apps',     '₹3,80,000',  '₹13,00,000', '3 – 6 months'],
-  ['Food delivery & restaurant apps','₹3,50,000',  '₹11,00,000', '3 – 5 months'],
-  ['Corporate & business apps',      '₹3,00,000',  '₹10,00,000', '2 – 5 months'],
+  ['Corporate & business apps',       '₹2,20,000', '₹6,50,000',  '5 – 7 weeks'],
+  ['Food delivery & restaurant apps', '₹2,60,000', '₹7,50,000',  '6 – 9 weeks'],
+  ['Real estate & property apps',     '₹2,60,000', '₹8,00,000',  '6 – 9 weeks'],
+  ['E-commerce & retail apps',        '₹2,80,000', '₹8,50,000',  '7 – 10 weeks'],
+  ['Education & eLearning apps',      '₹2,80,000', '₹8,50,000',  '7 – 10 weeks'],
+  ['Logistics & delivery apps',       '₹3,00,000', '₹9,50,000',  '8 – 11 weeks'],
+  ['Healthcare & telemedicine apps',  '₹3,40,000', '₹10,50,000', '9 – 13 weeks'],
+  ['FinTech & banking apps',          '₹3,80,000', '₹12,00,000', '10 – 14 weeks'],
 ];
 
 const SERVICE_RATES = [
-  ['UI/UX design (wireframes & prototypes)',  '₹30,000',   '₹45,000',   '₹70,000'],
-  ['Hybrid app build (Flutter / React Native)','₹1,50,000', '₹2,50,000', '₹4,00,000'],
-  ['Native app build (Android / iOS)',        '₹2,00,000', '₹3,50,000', '₹5,00,000'],
-  ['Backend (Node.js / Firebase / Python)',   '₹80,000',   '₹1,50,000', '₹2,50,000'],
-  ['API integration & third-party services',  '₹40,000',   '₹70,000',   '₹1,20,000'],
-  ['Web admin panel (React / Angular)',       '₹1,00,000', '₹1,80,000', '₹2,50,000'],
-  ['Store deployment (Play Store / App Store)','₹20,000',  '₹25,000',   '₹30,000'],
-  ['Annual maintenance & support',            '₹50,000',   '₹75,000',   '₹1,00,000'],
+  ['UI/UX design (wireframes & prototypes)',   '₹25,000',   '₹40,000',   '₹60,000'],
+  ['Hybrid app build (Flutter / React Native)','₹1,10,000', '₹1,90,000', '₹3,00,000'],
+  ['Native app build (Android / iOS)',         '₹1,60,000', '₹2,70,000', '₹4,20,000'],
+  ['Backend (Node.js / Firebase / Python)',    '₹65,000',   '₹1,20,000', '₹2,00,000'],
+  ['API integration & third-party services',   '₹35,000',   '₹60,000',   '₹95,000'],
+  ['Web admin panel (React / Angular)',        '₹80,000',   '₹1,40,000', '₹2,10,000'],
+  ['Store deployment (Play Store / App Store)','₹20,000',   '₹25,000',   '₹30,000'],
+  ['Annual maintenance & support',             '₹45,000',   '₹70,000',   '₹95,000'],
 ];
 
 export default function CostCtaSection() {
@@ -84,7 +84,7 @@ export default function CostCtaSection() {
             onClick={() => setOpen(true)}
             aria-label="View mobile app development costs"
             title="View development costs"
-            className="btn-ithrive-outline w-14 h-14 rounded-full flex items-center justify-center"
+            className="cost-arrow w-14 h-14 rounded-full flex items-center justify-center"
           >
             <ArrowRight className="w-5 h-5" />
           </button>
@@ -112,7 +112,7 @@ export default function CostCtaSection() {
               Mobile app development cost &amp; timelines
             </h3>
             <p className="text-center text-slate-400 text-xs mb-7 flex items-center justify-center gap-1.5">
-              <IndianRupee className="w-3.5 h-3.5" /> Indicative Indian market rates, 2026
+              <IndianRupee className="w-3.5 h-3.5" /> Indian market averages, 2026 — cross-platform build
             </p>
 
             <div className="cost-table-wrap">

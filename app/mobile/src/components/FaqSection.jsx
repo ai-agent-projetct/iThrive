@@ -12,11 +12,11 @@ export default function FaqSection() {
     },
     {
       q: 'How much does it cost to build a mobile app with iThrive Software?',
-      a: 'Basic mobile applications start from ₹1,80,000 ($2,400 USD), while feature-rich enterprise apps (with payment gateways, live GPS, 3D graphics, or AI agents) typically range from ₹3,50,000 to ₹12,00,000+. Use our interactive Cost Estimator on this page to get an instant estimate!'
+      a: 'A basic cross-platform app runs ₹2,20,000 to ₹3,80,000 depending on the sector, and a feature-rich build with payment gateways, live GPS or AI agents runs ₹6,50,000 to ₹12,00,000. Those are Indian market averages for 2026 — Flutter and React Native are what keep them 30 to 50 percent below native. The arrow beside the quote button on this page opens the full rate card by category and by service.'
     },
     {
       q: 'How long will it take to design and launch our mobile application?',
-      a: 'A standard MVP mobile app takes 4 to 6 weeks from discovery to App Store submission. Complex enterprise applications with backends and AI integrations usually take 8 to 12 weeks. We follow agile 2-week sprints with test builds delivered every Friday.'
+      a: 'A simple app is 5 to 7 weeks from discovery to store submission. Most builds land at 7 to 10 weeks, and a regulated or AI-heavy one — fintech, healthcare — runs 10 to 14 weeks. We work in two-week sprints with an installable build every Friday, so you see progress rather than hear about it.'
     },
     {
       q: 'Do you handle Apple App Store & Google Play Store submission?',
