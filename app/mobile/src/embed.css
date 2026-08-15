@@ -348,6 +348,20 @@
   .app-universe .dot, .app-universe .ring { animation: none; }
 }
 
+/* Tech-stack magnet stage. Sized in vh so the field has room to spread; the
+   sprites are placed in world units, not pixels. */
+.tech-magnet-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(420px, 62vh, 680px);
+}
+.tech-magnet-stage canvas { display: block; width: 100%; height: 100%; }
+
+@media (max-width: 720px) {
+  .tech-magnet-stage { height: 360px; }
+}
+
+
 /* ---------------------------------------------------------------------------
  * Tailwind's utilities come LAST on purpose.
  *

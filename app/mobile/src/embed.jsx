@@ -19,6 +19,7 @@ import ServicesSection from './components/ServicesSection';
 import FunctionsChecklistSection from './components/FunctionsChecklistSection';
 import AppSimulatorSection from './components/AppSimulatorSection';
 import InteractiveAppBuilder from './components/InteractiveAppBuilder';
+import TechMagnetSection from './components/TechMagnetSection';
 import TechStackSection from './components/TechStackSection';
 import CostEstimator from './components/CostEstimator';
 import CaseStudiesSection from './components/CaseStudiesSection';
@@ -77,6 +78,7 @@ function MobileAppPage() {
           onOpenConsultation={openConsultationModal}
         />
         <InteractiveAppBuilder onOpenConsultation={openConsultationModal} />
+        <TechMagnetSection />
         <TechStackSection />
         <CostEstimator onOpenConsultation={openConsultationModal} />
         <CaseStudiesSection onOpenConsultation={openConsultationModal} />

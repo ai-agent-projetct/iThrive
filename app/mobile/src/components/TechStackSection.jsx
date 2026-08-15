@@ -294,7 +294,7 @@ WHERE ST_DWithin(geom, ST_MakePoint(80.2707, 13.0827)::geography, 5000);`
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading tracking-tight text-slate-100">
-            Hyper-Interactive <MouseOverText text="3D Mouseover Tech Stack" variant="glow" className="text-cyan-400" />
+            Tech Stack we use for <MouseOverText text="Mobile App Development" variant="glow" className="text-cyan-400" />
           </h2>
 
           <p className="text-slate-300 text-base sm:text-lg">
