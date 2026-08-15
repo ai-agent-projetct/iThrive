@@ -159,7 +159,7 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
     <section
       ref={sectionRef}
       id="simulator"
-      className="relative bg-slate-950 border-t border-b border-slate-800/80 w-full h-screen overflow-hidden"
+      className="relative bg-slate-950 border-t border-b border-slate-800/80 w-full min-h-screen overflow-hidden"
     >
       {/*
         Three bands, not overlays. The heading and app tabs sit ABOVE the video
@@ -172,7 +172,7 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
         the extra 250vh was pure dead space the visitor had to scroll past after
         the video finished.
       */}
-      <div className="h-full w-full flex flex-col bg-black">
+      <div className="min-h-screen w-full flex flex-col justify-center bg-black">
 
         {/* ---- ABOVE THE VIDEO: title + the four app tabs ---- */}
         <div className="shrink-0 w-full px-4 sm:px-8 lg:px-12 pb-3 text-center space-y-3 site-header-clear">
@@ -207,7 +207,9 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
         </div>
 
         {/* ---- THE VIDEO: uncovered, taking whatever height is left ---- */}
-        <div className="relative flex-1 min-h-0 w-full">
+        {/* A real 16:9 box, not "whatever height is left" — the footage is
+            1920x1080, so anything else crops it. */}
+        <div className="relative w-full aspect-video shrink-0">
           <video
             ref={videoRef}
             key={currentApp.video}

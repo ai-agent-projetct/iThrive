@@ -11,6 +11,7 @@ export default function ProcessSection() {
   const trackRef = useRef(null);
   const sectionRef = useRef(null);
   const activeStepRef = useRef(0);
+  const exitArmed = useRef(false);
 
   useEffect(() => { activeStepRef.current = activeStep; }, [activeStep]);
   const isDragging = useRef(false);
@@ -92,7 +93,10 @@ export default function ProcessSection() {
     if (window.matchMedia('(pointer: coarse)').matches) return;   // never trap touch
 
     let accum = 0;
-    const STEP = 260;   // wheel px per step
+    let lastStepAt = 0;
+
+    const STEP = 220;      // wheel px to arm one step
+    const COOLDOWN = 480;  // ms before another step can fire
 
     const onWheel = (e) => {
       const rect = sectionEl.getBoundingClientRect();
@@ -101,21 +105,37 @@ export default function ProcessSection() {
 
       const last = steps.length - 1;
       const goingDown = e.deltaY > 0;
+      const atEnd = goingDown ? activeStepRef.current >= last : activeStepRef.current <= 0;
 
-      // At either end, let the page have the wheel back.
-      if ((goingDown && activeStepRef.current >= last) || (!goingDown && activeStepRef.current <= 0)) {
+      // At an end, the first further gesture is absorbed and only the second
+      // releases the page. Without that pause the last step is on screen for a
+      // fraction of a second before the page moves on, so nobody reads it.
+      if (atEnd) {
+        if (exitArmed.current) { exitArmed.current = false; return; }
+        e.preventDefault();
+        exitArmed.current = true;
+
         return;
       }
+      exitArmed.current = false;
 
       e.preventDefault();
       accum += e.deltaY;
 
-      while (accum >= STEP) {
-        accum -= STEP;
+      // ONE step per gesture, never a burst. A wheel notch arrives as a train of
+      // events and a trackpad flick as dozens; stepping on each one tore through
+      // all five stages in a single movement, which is the "jumping very fast"
+      // problem. The cooldown is what makes it five deliberate scrolls.
+      const now = performance.now();
+      if (now - lastStepAt < COOLDOWN) return;
+
+      if (accum >= STEP) {
+        accum = 0;
+        lastStepAt = now;
         setActiveStep((p) => Math.min(p + 1, last));
-      }
-      while (accum <= -STEP) {
-        accum += STEP;
+      } else if (accum <= -STEP) {
+        accum = 0;
+        lastStepAt = now;
         setActiveStep((p) => Math.max(p - 1, 0));
       }
     };
