@@ -439,6 +439,35 @@
 
 
 /* ---------------------------------------------------------------------------
+ * Process rail.
+ *
+ * The viewport clips and the rail inside it travels left and right, so every
+ * card keeps its full width however many stages there are. The old layout put
+ * all of them in one centred flex row, which squeezed each card narrower with
+ * every stage added.
+ * ------------------------------------------------------------------------- */
+.process-viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Fade the cards out at the edges so the rail reads as continuing past the
+     frame rather than being cut off. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+}
+
+.process-rail {
+  width: max-content;
+  will-change: transform;
+  transition: transform .62s cubic-bezier(.22, .61, .36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-rail { transition: none; }
+}
+
+
+/* ---------------------------------------------------------------------------
  * Tailwind's utilities come LAST on purpose.
  *
  * The scoped reset above sets `padding: 0` on every descendant, and it has the

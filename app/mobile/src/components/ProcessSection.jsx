@@ -12,6 +12,8 @@ export default function ProcessSection() {
   const sectionRef = useRef(null);
   const activeStepRef = useRef(0);
   const exitArmed = useRef(false);
+  const railRef = useRef(null);      // the moving row
+  const cardRefs = useRef([]);       // one per step, for measuring
 
   useEffect(() => { activeStepRef.current = activeStep; }, [activeStep]);
   const isDragging = useRef(false);
@@ -213,6 +215,32 @@ export default function ProcessSection() {
     isDragging.current = false;
   };
 
+  /**
+   * Slide the rail so the active card is centred.
+   *
+   * The cards used to sit in a centred flex row with every step on screen at
+   * once, so adding three more stages squeezed all of them narrower. The row
+   * now keeps its natural width — every card full size — and the rail itself
+   * translates left and right. Measured from the card rather than computed
+   * from a hard-coded width, so it stays correct at every breakpoint.
+   */
+  useEffect(() => {
+    const move = () => {
+      const rail = railRef.current;
+      const card = cardRefs.current[activeStep];
+      if (!rail || !card) return;
+
+      const viewport = rail.parentElement;
+      const x = viewport.clientWidth / 2 - (card.offsetLeft + card.offsetWidth / 2);
+      rail.style.transform = `translate3d(${x}px, 0, 0)`;
+    };
+
+    move();
+    window.addEventListener('resize', move);
+
+    return () => window.removeEventListener('resize', move);
+  }, [activeStep, steps.length]);
+
   const currentStep = steps[activeStep];
 
   return (
@@ -237,8 +265,12 @@ export default function ProcessSection() {
           className="relative py-12 cursor-grab active:cursor-grabbing select-none"
           style={{ perspective: '1200px' }}
         >
-          {/* 3D Horizontal Flow Stage */}
-          <div className="flex justify-center items-center gap-4 md:gap-6 min-h-[320px] transition-all duration-500">
+          {/* Viewport clips; the rail inside it is what travels. */}
+          <div className="process-viewport">
+          <div
+            ref={railRef}
+            className="process-rail flex items-center gap-4 md:gap-6 min-h-[320px]"
+          >
             {steps.map((step, idx) => {
               const Icon = step.icon;
               const offset = idx - activeStep;
@@ -247,7 +279,7 @@ export default function ProcessSection() {
               // Calculate 3D perspective transforms
               const rotateY = offset * -28; // Degree curve
               const translateZ = isActive ? 120 : -140 * Math.abs(offset); // Depth
-              const translateX = offset * 20; // Lateral shift
+              // No per-card lateral shift: the rail moves instead.
               const opacity = isActive ? 1 : Math.max(0.35, 1 - Math.abs(offset) * 0.3);
               const scale = isActive ? 1.08 : 0.88;
 
@@ -259,13 +291,14 @@ export default function ProcessSection() {
                     setActiveStep(idx);
                   }}
                   onMouseEnter={() => playHoverSound()}
-                  className={`w-[260px] sm:w-[290px] p-6 rounded-3xl transition-all duration-500 flex flex-col justify-between group ${
+                  ref={(el) => { cardRefs.current[idx] = el; }}
+                  className={`w-[260px] sm:w-[290px] flex-none p-6 rounded-3xl transition-all duration-500 flex flex-col justify-between group ${
                     isActive
                       ? 'bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-2 border-cyan-400 shadow-2xl shadow-cyan-500/30'
                       : 'bg-slate-950/80 border border-slate-800/80 hover:border-blue-500/40'
                   }`}
                   style={{
-                    transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                    transform: `translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
                     opacity: opacity,
                     zIndex: 50 - Math.abs(offset) * 10,
                     transformStyle: 'preserve-3d'
@@ -312,6 +345,7 @@ export default function ProcessSection() {
                 </div>
               );
             })}
+          </div>
           </div>
 
           {/* Navigation Controls */}
