@@ -23,7 +23,7 @@ import TechMagnetSection from './components/TechMagnetSection';
 import TechStackSection from './components/TechStackSection';
 import CostCtaSection from './components/CostCtaSection';
 import CaseStudiesSection from './components/CaseStudiesSection';
-import ProcessSection from './components/ProcessSection';
+import ProcessRoadmap from './components/ProcessRoadmap';
 import ChennaiPresence from './components/ChennaiPresence';
 import FaqSection from './components/FaqSection';
 import ContactSection from './components/ContactSection';
@@ -82,7 +82,7 @@ function MobileAppPage() {
         <TechStackSection />
         <CostCtaSection />
         <CaseStudiesSection onOpenConsultation={openConsultationModal} />
-        <ProcessSection />
+        <ProcessRoadmap />
         <ChennaiPresence onOpenConsultation={openConsultationModal} />
         <FaqSection />
         <ContactSection />
