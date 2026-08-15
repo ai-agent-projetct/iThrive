@@ -1,4 +1,4 @@
-# Ithrive Software Solutions
+# iThrive Software
 
 User-agent: *
 Allow: /
@@ -9,9 +9,57 @@ Disallow: /includes/
 Disallow: /storage/
 Disallow: /vendor/
 Disallow: /.tools/
+Disallow: /app/
 
 # Filtered views of the same ten case studies — canonical tags already point
 # back to the unfiltered page, this just saves the crawl budget.
 Disallow: /case-studies.php?*
 
-Sitemap: /sitemap.xml
+# AI assistants are a discovery surface now, and these are the crawlers that
+# feed them. Allowed explicitly rather than by falling through to the wildcard,
+# so the intent is on the record and a future edit cannot lock them out by
+# accident. Removing any line below removes us from that assistant's answers.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+# Must be absolute — a relative path here is ignored by every major crawler.
+Sitemap: https://ithrivesoftware.com/sitemap.xml

@@ -2275,3 +2275,72 @@ body.nav-open .nav-toggle-close { display: block; }
 /* While hands-free is live the orb is the status light, so make it obvious. */
 .assistant.is-handsfree .assistant-mic-ring { animation-duration: 1.6s; }
 
+
+/* =========================================================================
+   FAQ page
+   ========================================================================= */
+
+.faq-jump { display: flex; flex-wrap: wrap; gap: 9px; }
+.faq-jump a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--glass);
+  color: var(--text-dim);
+  font-size: .84rem;
+  font-weight: 600;
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.faq-jump a:hover { color: var(--text); border-color: rgba(0, 242, 254, .45); }
+.faq-jump span {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: .7rem;
+}
+
+.faq-list { display: grid; gap: 10px; margin-top: 26px; }
+
+.faq-item {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--glass);
+  transition: border-color .2s var(--ease);
+}
+.faq-item[open] { border-color: rgba(0, 242, 254, .35); }
+.faq-item:hover { border-color: var(--line-strong); }
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 17px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 14px; }
+
+.faq-caret { flex: none; width: 17px; height: 17px; color: var(--cyan); transition: transform .25s var(--ease); }
+.faq-item[open] .faq-caret { transform: rotate(180deg); }
+
+.faq-item p {
+  padding: 0 20px 19px;
+  margin: 0;
+  color: var(--text-dim);
+  font-size: .95rem;
+  line-height: 1.7;
+  max-width: 88ch;
+}
+
+@media (max-width: 560px) {
+  .faq-item summary { padding: 14px 15px; font-size: .92rem; }
+  .faq-item p { padding: 0 15px 15px; }
+}

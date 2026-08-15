@@ -21,6 +21,7 @@ $routes = [
     'company/about.php'    => ['yearly',  '0.7'],
     'company/process.php'  => ['yearly',  '0.7'],
     'company/careers.php'  => ['monthly', '0.6'],
+    'faq.php'              => ['monthly', '0.8'],
     'blog.php'             => ['weekly',  '0.7'],
     'contact.php'          => ['yearly',  '0.8'],
 ];
