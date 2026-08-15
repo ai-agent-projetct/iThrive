@@ -14,7 +14,7 @@ $sol = solution($solutionSlug);
 $page      = 'solutions';
 // The tagline is a full sentence — keeping it in the title pushed these two
 // pages past 125 characters, so it lives in the description instead.
-$pageTitle = $sol['name'] . ' — AI Product';
+$pageTitle = $sol['name'];
 $pageDesc  = $sol['tagline'] . ' ' . $sol['short'];
 $ogImage   = 'solution-' . $sol['slug'];
 

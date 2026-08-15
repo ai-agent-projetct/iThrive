@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'company';
-$pageTitle = 'How We Work — Discovery, Clarity, Execution | Ithrive Software Solutions';
-$pageDesc  = 'Ithrive runs every engagement through three gates: Discovery, Clarity and Execution. Each one ends in something you can hold, not a status call.';
+$pageTitle = 'How We Work — Discovery to Execution';
+$pageDesc  = 'iThrive Software runs every engagement through three gates: Discovery, Clarity and Execution. Each one ends in something you can hold, not a status call.';
 
 require dirname(__DIR__) . '/includes/header.php';
 

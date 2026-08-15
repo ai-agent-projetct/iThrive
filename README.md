@@ -1,6 +1,6 @@
-# Ithrive Software Solutions — corporate website
+# iThrive Software — corporate website
 
-A multi-page PHP website for Ithrive Software Solutions: dark-mode, glassmorphic,
+A multi-page PHP website for iThrive Software: dark-mode, glassmorphic,
 with a WebGL hero and a dedicated page for every service, solution and case study.
 
 No build step, no package manager at runtime — deploy the folder to any PHP 8.1+
@@ -13,7 +13,7 @@ index.php              Home
 services.php           Services overview (tabbed matrix)
 services/*.php         15 service detail pages
 solutions.php          Proprietary AI products + industry patterns
-solutions/*.php        Ithrive Insights, Ithrive AIChat
+solutions/*.php        iThrive Insights, iThrive AIChat
 case-studies.php       Filterable grid of all 10 studies
 case-studies/*.php     10 case study detail pages
 company/               about.php, process.php, careers.php
@@ -156,7 +156,7 @@ Two agents, both built on the Claude Messages API (`claude-opus-5`) through the
 official PHP SDK. Both are **optional** — with no API key or no `vendor/`, the
 site runs exactly as before and the chat falls back to hand-written replies.
 
-### 1. Ithrive AIChat — the live chat widget
+### 1. iThrive AIChat — the live chat widget
 
 A site-wide widget that answers from this site's own content, reads buying
 intent, and hands over when it is worth a human's time. `handlers/chat.php`

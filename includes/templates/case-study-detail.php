@@ -12,7 +12,10 @@ require_once dirname(__DIR__) . '/config.php';
 $study = case_study($studySlug);
 
 $page      = 'case-studies';
-$pageTitle = $study['client'] . ': ' . $study['headline'];
+// Kept short on purpose: seo_title() appends the brand, and anything longer
+// than the client name pushed past 60 characters, at which point the brand
+// was dropped entirely. The sector lives in the description instead.
+$pageTitle = $study['client'] . ' — Case Study';
 $pageDesc  = $study['summary'];
 $ogType    = 'article';
 $ogImage   = 'case-' . $study['slug'];
@@ -80,7 +83,7 @@ require dirname(__DIR__) . '/header.php';
       </article>
 
       <article class="narrative-block" data-reveal style="--d:1">
-        <h2><?= icon('code') ?>The Ithrive Solution</h2>
+        <h2><?= icon('code') ?>The iThrive Solution</h2>
         <p><?= e($study['solution']) ?></p>
       </article>
 

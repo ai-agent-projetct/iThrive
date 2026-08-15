@@ -1,6 +1,6 @@
 <?php
 /**
- * Ithrive AIChat — JSON endpoint behind the site chat widget.
+ * iThrive AIChat — JSON endpoint behind the site chat widget.
  *
  * POST { "message": "..." }  ->  { "reply": "...", "state": "...", "captured": bool }
  *
@@ -100,11 +100,11 @@ $result = ai_run($window, ai_chat_system($lang), 'low', 4000);
 
 if ($result['error'] !== null || $result['text'] === '') {
     if ($result['error'] !== null && $result['error'] !== 'refused') {
-        error_log('Ithrive AIChat unavailable: ' . $result['error'] . ' (' . ai_unavailable_reason() . ')');
+        error_log('iThrive AIChat unavailable: ' . $result['error'] . ' (' . ai_unavailable_reason() . ')');
     }
 
     // No model available — answer from site content instead of giving up. The
-    // visitor still gets a real answer about Ithrive; only the phrasing is
+    // visitor still gets a real answer about iThrive; only the phrasing is
     // canned rather than generated.
     if ($result['error'] !== 'refused') {
         // The seventy-question answer book first — it is the authoritative

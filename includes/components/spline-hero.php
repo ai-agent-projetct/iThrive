@@ -35,7 +35,7 @@ if (!defined('SPLINE_SCENE') || SPLINE_SCENE === '') {
     loading-anim-type="none"
     events-target="global"
     role="img"
-    aria-label="An interactive 3D scene representing Ithrive's AI platform engineering."></spline-viewer>
+    aria-label="An interactive 3D scene representing iThrive's AI platform engineering."></spline-viewer>
 </div>
 
 <script type="module"

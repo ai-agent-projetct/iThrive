@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'company';
-$pageTitle = 'Careers — Senior engineers, real scope | Ithrive Software Solutions';
-$pageDesc  = 'Ithrive Software Solutions hires senior Python, AI/ML, React and DevOps engineers who want to own a problem end to end rather than work a ticket queue.';
+$pageTitle = 'Careers — Senior Engineers, Real Scope';
+$pageDesc  = 'iThrive Software hires senior Python, AI/ML, React and DevOps engineers who want to own a problem end to end rather than work a ticket queue.';
 
 require dirname(__DIR__) . '/includes/header.php';
 

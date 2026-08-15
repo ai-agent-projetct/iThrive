@@ -161,7 +161,7 @@ function tts_sarvam(string $text, string $bcp47): ?string
     curl_close($ch);
 
     if ($raw === false || $status >= 400) {
-        error_log("Ithrive TTS: sarvam returned {$status}");
+        error_log("iThrive TTS: sarvam returned {$status}");
 
         return null;
     }
@@ -205,7 +205,7 @@ if ($backend === 'google') {
     }
 
     if ($audio === '') {
-        error_log('Ithrive TTS: google backend returned nothing for ' . $lang['code']);
+        error_log('iThrive TTS: google backend returned nothing for ' . $lang['code']);
         http_response_code(502);
         exit;
     }
@@ -233,7 +233,7 @@ $type   = (string) curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 curl_close($ch);
 
 if ($audio === false || $status >= 400 || $audio === '') {
-    error_log("Ithrive TTS: upstream returned {$status}");
+    error_log("iThrive TTS: upstream returned {$status}");
     http_response_code(502);
     exit;
 }

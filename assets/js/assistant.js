@@ -1,9 +1,9 @@
 /**
- * Ithrive AI — voice assistant.
+ * iThrive AI — voice assistant.
  *
  * Speech in via the Web Speech API, speech out via speechSynthesis, and the
  * answers come from handlers/chat.php — the same grounded agent behind the chat
- * widget, so it only ever talks about Ithrive.
+ * widget, so it only ever talks about iThrive.
  *
  * Both speech APIs are optional. Without recognition the mic button hides and
  * the typed form carries the whole feature; without synthesis the answer is

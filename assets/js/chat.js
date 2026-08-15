@@ -1,5 +1,5 @@
 /**
- * Ithrive AIChat widget.
+ * iThrive AIChat widget.
  *
  * The markup ships hidden and this script reveals it, so a visitor with
  * JavaScript disabled never sees a launcher that cannot work.

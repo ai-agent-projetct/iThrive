@@ -1,6 +1,6 @@
 <?php
 /**
- * Ithrive Software Solutions — global configuration.
+ * iThrive Software — global configuration.
  */
 
 declare(strict_types=1);
@@ -169,8 +169,8 @@ const NAV_ITEMS = [
                 [
                     'heading' => 'Proprietary AI Products',
                     'links'   => [
-                        ['label' => 'Ithrive Insights', 'href' => 'solutions/ithrive-insights.php'],
-                        ['label' => 'Ithrive AIChat',   'href' => 'solutions/ithrive-aichat.php'],
+                        ['label' => 'iThrive Insights', 'href' => 'solutions/ithrive-insights.php'],
+                        ['label' => 'iThrive AIChat',   'href' => 'solutions/ithrive-aichat.php'],
                     ],
                 ],
                 [
@@ -217,7 +217,7 @@ const NAV_ITEMS = [
         'menu'  => [
             'columns' => [
                 [
-                    'heading' => 'Ithrive',
+                    'heading' => 'iThrive',
                     'links'   => [
                         ['label' => 'About Us',      'href' => 'company/about.php'],
                         ['label' => 'How We Work',   'href' => 'company/process.php'],
@@ -245,8 +245,8 @@ const FOOTER_COLUMNS = [
         ['label' => 'All Services',                  'href' => 'services.php'],
     ],
     'Solutions' => [
-        ['label' => 'Ithrive Insights', 'href' => 'solutions/ithrive-insights.php'],
-        ['label' => 'Ithrive AIChat',   'href' => 'solutions/ithrive-aichat.php'],
+        ['label' => 'iThrive Insights', 'href' => 'solutions/ithrive-insights.php'],
+        ['label' => 'iThrive AIChat',   'href' => 'solutions/ithrive-aichat.php'],
         ['label' => 'All Solutions',    'href' => 'solutions.php'],
     ],
     'Company' => [

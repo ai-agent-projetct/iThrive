@@ -1,11 +1,11 @@
 <?php
 /**
- * Ithrive AI — the voice assistant section.
+ * iThrive AI — the voice assistant section.
  *
  * The neural orb is the assistant's face: it changes colour, spin and pulse as
  * it listens, thinks and speaks. Voice in and voice out are the browser's own
  * Web Speech APIs, and the answers come from the same grounded agent behind
- * the chat widget, so it only ever talks about Ithrive.
+ * the chat widget, so it only ever talks about iThrive.
  *
  * Everything degrades: no microphone support leaves a working typed
  * conversation, and no WebGL leaves the CSS orb.
@@ -16,7 +16,7 @@ declare(strict_types=1);
 <section class="section assistant-section" id="ai-assistant">
   <div class="shell">
     <?php component('section-head', [
-        'eyebrow' => 'Ithrive AI',
+        'eyebrow' => 'iThrive AI',
         'title'   => 'Ask it anything about what we build',
         'lead'    => 'A voice assistant wired to our own case studies and services. Ask out loud or type — it answers from what we have actually shipped, and says so plainly when it does not know.',
     ]); ?>
@@ -42,7 +42,7 @@ declare(strict_types=1);
       <div class="assistant-stage" data-orb-stage>
         <div class="hero-orb"></div>
         <div class="assistant-canvas" data-orb-canvas role="img"
-             aria-label="A neural orb that pulses while the Ithrive AI assistant is listening, thinking and speaking."></div>
+             aria-label="A neural orb that pulses while the iThrive AI assistant is listening, thinking and speaking."></div>
 
         <button class="assistant-mic" type="button" data-assistant-mic
                 aria-label="Ask by voice">
@@ -63,7 +63,7 @@ declare(strict_types=1);
       <div class="assistant-panel">
         <div class="assistant-log" data-assistant-log role="log" aria-live="polite">
           <p class="assistant-msg assistant-msg--bot">
-            Ask me what Ithrive builds, how an engagement runs, or about any of our ten case
+            Ask me what iThrive builds, how an engagement runs, or about any of our ten case
             studies. Try &ldquo;what did you build for Lotus Eye Hospital?&rdquo;
           </p>
         </div>
@@ -81,7 +81,7 @@ declare(strict_types=1);
         </div>
 
         <form class="assistant-form" data-assistant-form>
-          <label class="chat-label" for="assistantInput">Ask Ithrive AI</label>
+          <label class="chat-label" for="assistantInput">Ask iThrive AI</label>
           <input class="assistant-input" id="assistantInput" type="text" autocomplete="off"
                  placeholder="Type a question, or tap the orb to speak…" maxlength="2000">
           <button class="assistant-send" type="submit" aria-label="Send"><?= icon('arrow') ?></button>

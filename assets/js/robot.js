@@ -329,7 +329,7 @@ beltRing.position.y = -0.5;
 body.add(beltRing);
 
 /* ---- chest emblem ----------------------------------------------------- *
- * Defaults to the cyan triangle, then swaps in the Ithrive mark if it loads.
+ * Defaults to the cyan triangle, then swaps in the iThrive mark if it loads.
  * Loading is async and failure is silent, so a missing badge just leaves the
  * triangle rather than breaking the scene.
  * ---------------------------------------------------------------------- */

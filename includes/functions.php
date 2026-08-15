@@ -237,10 +237,14 @@ function canonical(?string $path = null): string
  * The brand suffix is dropped rather than truncated when the page's own title
  * needs the room — a clipped brand name looks worse than none.
  */
-function seo_title(string $primary, string $brand = 'Ithrive'): string
+function seo_title(string $primary, ?string $brand = null): string
 {
+    // Pages pass a plain, human title with NO brand in it — the brand is added
+    // exactly once, here. Pages used to carry their own ' | iThrive Software
+    // Solutions' suffix, which then got a second brand appended and the whole
+    // thing truncated mid-name at 60 characters.
     $primary = trim(preg_replace('/\s+/', ' ', $primary) ?? $primary);
-    $suffix  = ' | ' . $brand;
+    $suffix  = ' | ' . ($brand ?? SITE_NAME);
 
     if (mb_strlen($primary) + mb_strlen($suffix) <= 60) {
         return $primary . $suffix;

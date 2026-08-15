@@ -15,7 +15,7 @@ declare(strict_types=1);
 const HOME_HERO = [
     'eyebrow'  => 'Incubating a Culture of Innovation & AI-First Excellence',
     'title'    => 'We Build Intelligent Apps & AI Platforms That Scale Your Business.',
-    'lead'     => 'From Agentic AI ecosystems to custom Python-backed platforms, Ithrive Software Solutions bridges the gap between businesses and their customers.',
+    'lead'     => 'From Agentic AI ecosystems to custom Python-backed platforms, iThrive Software bridges the gap between businesses and their customers.',
     'primary'  => ['label' => 'Start Your Project', 'href' => 'contact.php'],
     'secondary'=> ['label' => 'See Our Work',       'href' => 'case-studies.php'],
 ];
@@ -115,7 +115,7 @@ const HOME_SERVICES_HEAD = [
 ];
 
 const HOME_WHY = [
-    'eyebrow' => 'Why Ithrive',
+    'eyebrow' => 'Why iThrive',
     'title'   => 'Engineering depth, not agency theatre',
     'items'   => [
         [
@@ -556,12 +556,12 @@ const SERVICES = [
 const AI_SOLUTIONS = [
     [
         'slug'    => 'ithrive-insights',
-        'name'    => 'Ithrive Insights',
+        'name'    => 'iThrive Insights',
         'icon'    => 'bar-chart',
         'accent'  => 'cyan',
         'tagline' => 'Turn scattered marketing and operational data into growth-driving AI decisions.',
         'short'   => 'Your ad platforms, CRM, storefront and finance data unified into one model — then read by an agent that tells you what to change this week.',
-        'lead'    => 'Most businesses do not have a data problem, they have a seventeen-dashboard problem. Ithrive Insights collapses those into one semantic model and puts an analyst agent on top of it.',
+        'lead'    => 'Most businesses do not have a data problem, they have a seventeen-dashboard problem. iThrive Insights collapses those into one semantic model and puts an analyst agent on top of it.',
         'features' => [
             ['icon' => 'database',    'title' => 'Unified data model',      'body' => 'Connectors for Google Ads, Meta, GA4, HubSpot, Shopify, Razorpay and your own Postgres, resolved into one consistent set of entities and metrics.'],
             ['icon' => 'brain',       'title' => 'Analyst agent',           'body' => 'Ask in plain language, get an answer with the SQL it ran and the assumptions it made. Every figure traces back to a source row.'],
@@ -579,12 +579,12 @@ const AI_SOLUTIONS = [
     ],
     [
         'slug'    => 'ithrive-aichat',
-        'name'    => 'Ithrive AIChat',
+        'name'    => 'iThrive AIChat',
         'icon'    => 'message',
         'accent'  => 'purple',
         'tagline' => 'Turn every website visitor into a paying customer with real-time intent mapping.',
         'short'   => 'A site assistant that reads buying intent live, answers from your own content, and routes a genuinely hot lead to a human before they leave.',
-        'lead'    => 'A chat widget that answers questions is a support tool. Ithrive AIChat scores intent on every message and changes its own objective — inform, qualify, or hand over — based on what the visitor is actually doing.',
+        'lead'    => 'A chat widget that answers questions is a support tool. iThrive AIChat scores intent on every message and changes its own objective — inform, qualify, or hand over — based on what the visitor is actually doing.',
         'features' => [
             ['icon' => 'target',   'title' => 'Real-time intent mapping', 'body' => 'Every message and page event feeds a live intent score, separating a researcher from a buyer inside the first two exchanges.'],
             ['icon' => 'search',   'title' => 'Grounded answers',         'body' => 'Responses drawn from your own site, docs and pricing with citations — and an honest "I do not know" rather than an invented answer.'],
@@ -963,7 +963,7 @@ const CASE_STUDIES = [
 // ---------------------------------------------------------------------------
 
 /**
- * Languages Ithrive AI speaks.
+ * Languages iThrive AI speaks.
  *
  * `bcp47` drives both speech recognition and voice selection. Recognition is
  * performed by the browser's speech service and works for all six regardless
@@ -1003,8 +1003,8 @@ const ASSISTANT_STRINGS = [
         'thinking' => 'Thinking…',
         'speaking' => 'Speaking…',
         'placeholder' => 'Type a question, or tap the orb to speak…',
-        'offtopic' => 'I only cover Ithrive — what we build and the platforms we have shipped. An Ithrive AI Agent trained on your own business would answer that properly. Email %s to talk about one.',
-        'nudge'    => 'Ask me about Ithrive or our services and I will answer in detail — try "what do you build with Python and AI?"',
+        'offtopic' => 'I only cover iThrive — what we build and the platforms we have shipped. An iThrive AI Agent trained on your own business would answer that properly. Email %s to talk about one.',
+        'nudge'    => 'Ask me about iThrive or our services and I will answer in detail — try "what do you build with Python and AI?"',
         'novoice'  => 'Your device has no %s voice installed, so answers appear as text.',
     ],
     'ta' => [
@@ -1013,8 +1013,8 @@ const ASSISTANT_STRINGS = [
         'thinking' => 'யோசிக்கிறேன்…',
         'speaking' => 'பேசுகிறேன்…',
         'placeholder' => 'கேள்வியை தட்டச்சு செய்யவும், அல்லது பேச கோளத்தை தட்டவும்…',
-        'offtopic' => 'நான் Ithrive பற்றி மட்டுமே பதிலளிக்கிறேன். உங்கள் நிறுவனத்திற்கென பயிற்சி பெற்ற Ithrive AI Agent அதற்கு சரியாக பதிலளிக்கும். %s என்ற முகவரிக்கு எழுதுங்கள்.',
-        'nudge'    => 'Ithrive அல்லது எங்கள் சேவைகள் பற்றி கேளுங்கள் — விரிவாக பதிலளிக்கிறேன்.',
+        'offtopic' => 'நான் iThrive பற்றி மட்டுமே பதிலளிக்கிறேன். உங்கள் நிறுவனத்திற்கென பயிற்சி பெற்ற iThrive AI Agent அதற்கு சரியாக பதிலளிக்கும். %s என்ற முகவரிக்கு எழுதுங்கள்.',
+        'nudge'    => 'iThrive அல்லது எங்கள் சேவைகள் பற்றி கேளுங்கள் — விரிவாக பதிலளிக்கிறேன்.',
         'novoice'  => 'உங்கள் சாதனத்தில் %s குரல் நிறுவப்படவில்லை, எனவே பதில்கள் உரையாக காட்டப்படும்.',
     ],
     'ml' => [
@@ -1023,8 +1023,8 @@ const ASSISTANT_STRINGS = [
         'thinking' => 'ചിന്തിക്കുന്നു…',
         'speaking' => 'സംസാരിക്കുന്നു…',
         'placeholder' => 'ചോദ്യം ടൈപ്പ് ചെയ്യുക, അല്ലെങ്കിൽ സംസാരിക്കാൻ ടാപ്പ് ചെയ്യുക…',
-        'offtopic' => 'ഞാൻ Ithrive-നെക്കുറിച്ച് മാത്രമേ ഉത്തരം നൽകൂ. നിങ്ങളുടെ ബിസിനസ്സിനായി പരിശീലിപ്പിച്ച ഒരു Ithrive AI Agent അതിന് ശരിയായി ഉത്തരം നൽകും. %s എന്ന വിലാസത്തിൽ എഴുതുക.',
-        'nudge'    => 'Ithrive അല്ലെങ്കിൽ ഞങ്ങളുടെ സേവനങ്ങളെക്കുറിച്ച് ചോദിക്കൂ — വിശദമായി ഉത്തരം നൽകാം.',
+        'offtopic' => 'ഞാൻ iThrive-നെക്കുറിച്ച് മാത്രമേ ഉത്തരം നൽകൂ. നിങ്ങളുടെ ബിസിനസ്സിനായി പരിശീലിപ്പിച്ച ഒരു iThrive AI Agent അതിന് ശരിയായി ഉത്തരം നൽകും. %s എന്ന വിലാസത്തിൽ എഴുതുക.',
+        'nudge'    => 'iThrive അല്ലെങ്കിൽ ഞങ്ങളുടെ സേവനങ്ങളെക്കുറിച്ച് ചോദിക്കൂ — വിശദമായി ഉത്തരം നൽകാം.',
         'novoice'  => 'നിങ്ങളുടെ ഉപകരണത്തിൽ %s ശബ്ദം ഇല്ല, അതിനാൽ ഉത്തരങ്ങൾ ടെക്സ്റ്റായി കാണിക്കും.',
     ],
     'kn' => [
@@ -1033,8 +1033,8 @@ const ASSISTANT_STRINGS = [
         'thinking' => 'ಯೋಚಿಸುತ್ತಿದ್ದೇನೆ…',
         'speaking' => 'ಮಾತನಾಡುತ್ತಿದ್ದೇನೆ…',
         'placeholder' => 'ಪ್ರಶ್ನೆ ಟೈಪ್ ಮಾಡಿ, ಅಥವಾ ಮಾತನಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ…',
-        'offtopic' => 'ನಾನು Ithrive ಬಗ್ಗೆ ಮಾತ್ರ ಉತ್ತರಿಸುತ್ತೇನೆ. ನಿಮ್ಮ ವ್ಯವಹಾರಕ್ಕಾಗಿ ತರಬೇತಿ ಪಡೆದ Ithrive AI Agent ಅದಕ್ಕೆ ಸರಿಯಾಗಿ ಉತ್ತರಿಸುತ್ತದೆ. %s ಗೆ ಬರೆಯಿರಿ.',
-        'nudge'    => 'Ithrive ಅಥವಾ ನಮ್ಮ ಸೇವೆಗಳ ಬಗ್ಗೆ ಕೇಳಿ — ವಿವರವಾಗಿ ಉತ್ತರಿಸುತ್ತೇನೆ.',
+        'offtopic' => 'ನಾನು iThrive ಬಗ್ಗೆ ಮಾತ್ರ ಉತ್ತರಿಸುತ್ತೇನೆ. ನಿಮ್ಮ ವ್ಯವಹಾರಕ್ಕಾಗಿ ತರಬೇತಿ ಪಡೆದ iThrive AI Agent ಅದಕ್ಕೆ ಸರಿಯಾಗಿ ಉತ್ತರಿಸುತ್ತದೆ. %s ಗೆ ಬರೆಯಿರಿ.',
+        'nudge'    => 'iThrive ಅಥವಾ ನಮ್ಮ ಸೇವೆಗಳ ಬಗ್ಗೆ ಕೇಳಿ — ವಿವರವಾಗಿ ಉತ್ತರಿಸುತ್ತೇನೆ.',
         'novoice'  => 'ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ %s ಧ್ವನಿ ಇಲ್ಲ, ಆದ್ದರಿಂದ ಉತ್ತರಗಳು ಪಠ್ಯವಾಗಿ ಕಾಣಿಸುತ್ತವೆ.',
     ],
     'te' => [
@@ -1043,8 +1043,8 @@ const ASSISTANT_STRINGS = [
         'thinking' => 'ఆలోచిస్తున్నాను…',
         'speaking' => 'మాట్లాడుతున్నాను…',
         'placeholder' => 'ప్రశ్న టైప్ చేయండి, లేదా మాట్లాడటానికి నొక్కండి…',
-        'offtopic' => 'నేను Ithrive గురించి మాత్రమే సమాధానం ఇస్తాను. మీ వ్యాపారం కోసం శిక్షణ పొందిన Ithrive AI Agent దానికి సరిగ్గా సమాధానం ఇస్తుంది. %s కు రాయండి.',
-        'nudge'    => 'Ithrive లేదా మా సేవల గురించి అడగండి — వివరంగా సమాధానం ఇస్తాను.',
+        'offtopic' => 'నేను iThrive గురించి మాత్రమే సమాధానం ఇస్తాను. మీ వ్యాపారం కోసం శిక్షణ పొందిన iThrive AI Agent దానికి సరిగ్గా సమాధానం ఇస్తుంది. %s కు రాయండి.',
+        'nudge'    => 'iThrive లేదా మా సేవల గురించి అడగండి — వివరంగా సమాధానం ఇస్తాను.',
         'novoice'  => 'మీ పరికరంలో %s వాయిస్ లేదు, కాబట్టి సమాధానాలు టెక్స్ట్‌గా కనిపిస్తాయి.',
     ],
     'hi' => [
@@ -1053,8 +1053,8 @@ const ASSISTANT_STRINGS = [
         'thinking' => 'सोच रहा हूँ…',
         'speaking' => 'बोल रहा हूँ…',
         'placeholder' => 'प्रश्न टाइप करें, या बोलने के लिए टैप करें…',
-        'offtopic' => 'मैं केवल Ithrive के बारे में उत्तर देता हूँ। आपके व्यवसाय के लिए प्रशिक्षित Ithrive AI Agent उसका सही उत्तर देगा। %s पर लिखें।',
-        'nudge'    => 'Ithrive या हमारी सेवाओं के बारे में पूछें — मैं विस्तार से उत्तर दूँगा।',
+        'offtopic' => 'मैं केवल iThrive के बारे में उत्तर देता हूँ। आपके व्यवसाय के लिए प्रशिक्षित iThrive AI Agent उसका सही उत्तर देगा। %s पर लिखें।',
+        'nudge'    => 'iThrive या हमारी सेवाओं के बारे में पूछें — मैं विस्तार से उत्तर दूँगा।',
         'novoice'  => 'आपके डिवाइस में %s आवाज़ नहीं है, इसलिए उत्तर टेक्स्ट में दिखेंगे।',
     ],
 ];
@@ -1075,12 +1075,12 @@ const ASSISTANT_STRINGS = [
  */
 const ASSISTANT_PROMPTS = [
     'q2' => [
-        'en' => 'What engagement models does Ithrive offer?',
-        'ta' => 'Ithrive என்ன ஒப்பந்த முறைகளை வழங்குகிறது?',
-        'ml' => 'Ithrive എന്തൊക്കെ എൻഗേജ്‌മെന്റ് മോഡലുകൾ നൽകുന്നു?',
-        'kn' => 'Ithrive ಯಾವ ಒಪ್ಪಂದ ಮಾದರಿಗಳನ್ನು ನೀಡುತ್ತದೆ?',
-        'te' => 'Ithrive ఏ ఎంగేజ్‌మెంట్ మోడల్‌లను అందిస్తుంది?',
-        'hi' => 'Ithrive कौन-कौन से एंगेजमेंट मॉडल देता है?',
+        'en' => 'What engagement models does iThrive offer?',
+        'ta' => 'iThrive என்ன ஒப்பந்த முறைகளை வழங்குகிறது?',
+        'ml' => 'iThrive എന്തൊക്കെ എൻഗേജ്‌മെന്റ് മോഡലുകൾ നൽകുന്നു?',
+        'kn' => 'iThrive ಯಾವ ಒಪ್ಪಂದ ಮಾದರಿಗಳನ್ನು ನೀಡುತ್ತದೆ?',
+        'te' => 'iThrive ఏ ఎంగేజ్‌మెంట్ మోడల్‌లను అందిస్తుంది?',
+        'hi' => 'iThrive कौन-कौन से एंगेजमेंट मॉडल देता है?',
     ],
     'q9' => [
         'en' => 'How much does it cost to build a full AI-Native product?',
@@ -1099,12 +1099,12 @@ const ASSISTANT_PROMPTS = [
         'hi' => 'AI-First और AI-Native में क्या अंतर है?',
     ],
     'q68' => [
-        'en' => 'What steps should I take to start a project with Ithrive?',
-        'ta' => 'Ithrive உடன் ஒரு திட்டத்தைத் தொடங்க என்ன படிகள்?',
-        'ml' => 'Ithrive-നൊപ്പം ഒരു പ്രോജക്ട് തുടങ്ങാൻ എന്തൊക്കെ ചെയ്യണം?',
-        'kn' => 'Ithrive ಜೊತೆ ಯೋಜನೆ ಪ್ರಾರಂಭಿಸಲು ಯಾವ ಹಂತಗಳು?',
-        'te' => 'Ithrive తో ప్రాజెక్ట్ ప్రారంభించడానికి ఏ దశలు?',
-        'hi' => 'Ithrive के साथ प्रोजेक्ट शुरू करने के लिए क्या करना होगा?',
+        'en' => 'What steps should I take to start a project with iThrive?',
+        'ta' => 'iThrive உடன் ஒரு திட்டத்தைத் தொடங்க என்ன படிகள்?',
+        'ml' => 'iThrive-നൊപ്പം ഒരു പ്രോജക്ട് തുടങ്ങാൻ എന്തൊക്കെ ചെയ്യണം?',
+        'kn' => 'iThrive ಜೊತೆ ಯೋಜನೆ ಪ್ರಾರಂಭಿಸಲು ಯಾವ ಹಂತಗಳು?',
+        'te' => 'iThrive తో ప్రాజెక్ట్ ప్రారంభించడానికి ఏ దశలు?',
+        'hi' => 'iThrive के साथ प्रोजेक्ट शुरू करने के लिए क्या करना होगा?',
     ],
 ];
 
@@ -1297,7 +1297,7 @@ const TESTIMONIALS = [
         'icon'   => 'car',
     ],
     [
-        'quote'  => 'We had been told a rewrite was the only option. Ithrive migrated us capability by capability with the old system live throughout, and we never stopped shipping features.',
+        'quote'  => 'We had been told a rewrite was the only option. iThrive migrated us capability by capability with the old system live throughout, and we never stopped shipping features.',
         'name'   => 'Head of Technology',
         'role'   => 'Manufacturing group',
         'icon'   => 'factory',
@@ -1321,9 +1321,9 @@ const TESTIMONIALS = [
 // ---------------------------------------------------------------------------
 
 const ABOUT = [
-    'eyebrow' => 'About Ithrive',
+    'eyebrow' => 'About iThrive',
     'title'   => 'We incubate a culture of innovation and AI-first excellence.',
-    'lead'    => 'Ithrive Software Solutions is a product engineering company building intelligent platforms in Python for businesses that have outgrown off-the-shelf software.',
+    'lead'    => 'iThrive Software is a product engineering company building intelligent platforms in Python for businesses that have outgrown off-the-shelf software.',
     'body'    => [
         'We started from a simple observation: most companies do not need more software, they need the gap closed between what their operation does and what their customers experience. That gap is usually a manual handoff — a phone call, a spreadsheet, a person re-typing something that already exists in a database.',
         'Every platform in our portfolio closes one of those gaps. A dispatch engine that decides in under a second. A grievance system that reads a voice note in Tamil and routes it to the right officer. An ERP that lets a factory manager answer a question that spans four departments without waiting a day for reconciliation.',

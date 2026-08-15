@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'company';
-$pageTitle = 'About — Incubating a culture of innovation | Ithrive Software Solutions';
-$pageDesc  = 'Ithrive Software Solutions is a product engineering company building intelligent platforms in Python for businesses that have outgrown off-the-shelf software.';
+$pageTitle = 'About — Product Engineering in Python';
+$pageDesc  = 'iThrive Software is a product engineering company building intelligent platforms in Python for businesses that have outgrown off-the-shelf software.';
 
 require dirname(__DIR__) . '/includes/header.php';
 

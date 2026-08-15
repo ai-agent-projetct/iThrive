@@ -18,14 +18,14 @@ function ai_reply_system(): string
     $knowledge = ai_knowledge();
 
     return <<<PROMPT
-        You triage inbound enquiries for Ithrive Software Solutions and draft the first
+        You triage inbound enquiries for iThrive Software and draft the first
         reply for a human engineer to review, edit and send.
 
         Produce exactly two sections, in this order and with these headings:
 
         TRIAGE
         One short paragraph: how real this enquiry is, what they actually need, which
-        Ithrive service fits, and which case study is the closest precedent. State an
+        iThrive service fits, and which case study is the closest precedent. State an
         intent score out of 100 and name the specific signals behind it. Say plainly if
         it looks like spam, a job application, or a sales pitch at us — those are not
         leads and the draft below should be one polite line.
@@ -104,7 +104,7 @@ function ai_draft_lead_reply(array $enquiry): array
     );
 
     if ($result['error'] !== null || $result['text'] === '') {
-        error_log('Ithrive lead responder: ' . ($result['error'] ?? 'empty response'));
+        error_log('iThrive lead responder: ' . ($result['error'] ?? 'empty response'));
 
         return ['ok' => false, 'reason' => $result['error'] ?? 'empty_response', 'file' => null];
     }
@@ -211,7 +211,7 @@ function ai_drain_reply_queue(int $limit = 10): array
         // Three strikes, then stop retrying — the enquiry itself is safe in
         // enquiries.ndjson either way, so we are only giving up on the draft.
         if ($attempts >= 2) {
-            error_log('Ithrive lead responder: giving up on draft for '
+            error_log('iThrive lead responder: giving up on draft for '
                 . ($enquiry['email'] ?? 'unknown') . ' after ' . ($attempts + 1) . ' attempts');
             continue;
         }

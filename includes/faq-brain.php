@@ -180,7 +180,7 @@ const FAQ_STOPWORDS = [
     'which','who','why','much','many','long','get','got','has','have','had','if','about','there',
     'ithrive','software','solutions','please','tell','give','need','want','know','also','more',
     // Generic verbs. Without these, "what monitoring tools do you use" tied on
-    // "use" against "What AI stack does Ithrive use?" and lost to it.
+    // "use" against "What AI stack does iThrive use?" and lost to it.
     'use','used','using','take','takes','taking','make','made','provide','offer','does','doing',
 ];
 
@@ -305,36 +305,36 @@ function faq_match(string $question): array
  * can, and I can put a person in front of you now.
  */
 const FAQ_DEMO_REPLY = [
-    'en' => 'That one is outside what the Ithrive AI demo covers — the full version, trained on '
+    'en' => 'That one is outside what the iThrive AI demo covers — the full version, trained on '
           . 'your own business data, answers questions like it without blinking. I am also not here '
-          . 'to talk about anything other than Ithrive Software. What I can do right now is connect '
+          . 'to talk about anything other than iThrive Software. What I can do right now is connect '
           . 'you to one of our people for a proper business conversation. Say the word, or email %s '
           . 'and we will pick it up straight away.',
 
-    'ta' => 'அந்தக் கேள்வி Ithrive AI டெமோவின் வரம்பிற்கு வெளியே உள்ளது — உங்கள் நிறுவனத் தரவில் '
-          . 'பயிற்சி பெற்ற முழுப் பதிப்பு அதற்குத் தயங்காமல் பதிலளிக்கும். மேலும், Ithrive Software '
+    'ta' => 'அந்தக் கேள்வி iThrive AI டெமோவின் வரம்பிற்கு வெளியே உள்ளது — உங்கள் நிறுவனத் தரவில் '
+          . 'பயிற்சி பெற்ற முழுப் பதிப்பு அதற்குத் தயங்காமல் பதிலளிக்கும். மேலும், iThrive Software '
           . 'தவிர வேறு எதைப் பற்றியும் நான் பேச அமைக்கப்படவில்லை. இப்போதே எங்கள் நிபுணர் ஒருவரை '
           . 'உங்களுடன் இணைத்து வணிக உரையாடலைத் தொடங்க முடியும். சொல்லுங்கள், அல்லது %s க்கு எழுதுங்கள் '
           . '— உடனே தொடர்பு கொள்கிறோம்.',
 
-    'ml' => 'ആ ചോദ്യം Ithrive AI ഡെമോയുടെ പരിധിക്ക് പുറത്താണ് — നിങ്ങളുടെ സ്ഥാപനത്തിന്റെ ഡാറ്റയിൽ '
-          . 'പരിശീലിപ്പിച്ച പൂർണ്ണ പതിപ്പ് അതിന് നിഷ്പ്രയാസം ഉത്തരം നൽകും. Ithrive Software അല്ലാതെ '
+    'ml' => 'ആ ചോദ്യം iThrive AI ഡെമോയുടെ പരിധിക്ക് പുറത്താണ് — നിങ്ങളുടെ സ്ഥാപനത്തിന്റെ ഡാറ്റയിൽ '
+          . 'പരിശീലിപ്പിച്ച പൂർണ്ണ പതിപ്പ് അതിന് നിഷ്പ്രയാസം ഉത്തരം നൽകും. iThrive Software അല്ലാതെ '
           . 'മറ്റൊന്നിനെക്കുറിച്ചും സംസാരിക്കാൻ ഞാൻ സജ്ജീകരിച്ചിട്ടില്ല. ഇപ്പോൾത്തന്നെ ഞങ്ങളുടെ ഒരു '
           . 'വിദഗ്ധനെ നിങ്ങളുമായി ബന്ധിപ്പിച്ച് ബിസിനസ് സംഭാഷണം തുടങ്ങാം. പറയൂ, അല്ലെങ്കിൽ %s എന്ന '
           . 'വിലാസത്തിൽ എഴുതൂ — ഉടൻ പ്രതികരിക്കാം.',
 
-    'kn' => 'ಆ ಪ್ರಶ್ನೆ Ithrive AI ಡೆಮೊದ ವ್ಯಾಪ್ತಿಯ ಹೊರಗಿದೆ — ನಿಮ್ಮ ಸಂಸ್ಥೆಯ ದತ್ತಾಂಶದ ಮೇಲೆ ತರಬೇತಿ ಪಡೆದ '
-          . 'ಪೂರ್ಣ ಆವೃತ್ತಿ ಅದಕ್ಕೆ ಸಲೀಸಾಗಿ ಉತ್ತರಿಸುತ್ತದೆ. Ithrive Software ಹೊರತುಪಡಿಸಿ ಬೇರೆ ಯಾವುದರ '
+    'kn' => 'ಆ ಪ್ರಶ್ನೆ iThrive AI ಡೆಮೊದ ವ್ಯಾಪ್ತಿಯ ಹೊರಗಿದೆ — ನಿಮ್ಮ ಸಂಸ್ಥೆಯ ದತ್ತಾಂಶದ ಮೇಲೆ ತರಬೇತಿ ಪಡೆದ '
+          . 'ಪೂರ್ಣ ಆವೃತ್ತಿ ಅದಕ್ಕೆ ಸಲೀಸಾಗಿ ಉತ್ತರಿಸುತ್ತದೆ. iThrive Software ಹೊರತುಪಡಿಸಿ ಬೇರೆ ಯಾವುದರ '
           . 'ಬಗ್ಗೆಯೂ ಮಾತನಾಡಲು ನನ್ನನ್ನು ರೂಪಿಸಿಲ್ಲ. ಈಗಲೇ ನಮ್ಮ ತಜ್ಞರೊಬ್ಬರನ್ನು ನಿಮಗೆ ಸಂಪರ್ಕಿಸಿ ವ್ಯಾವಹಾರಿಕ '
           . 'ಚರ್ಚೆ ಆರಂಭಿಸಬಹುದು. ಹೇಳಿ, ಅಥವಾ %s ಗೆ ಬರೆಯಿರಿ — ತಕ್ಷಣ ಸ್ಪಂದಿಸುತ್ತೇವೆ.',
 
-    'te' => 'ఆ ప్రశ్న Ithrive AI డెమో పరిధికి వెలుపల ఉంది — మీ సంస్థ డేటాపై శిక్షణ పొందిన పూర్తి '
-          . 'వెర్షన్ దానికి అలవోకగా సమాధానం ఇస్తుంది. అలాగే Ithrive Software తప్ప మరే విషయం గురించీ '
+    'te' => 'ఆ ప్రశ్న iThrive AI డెమో పరిధికి వెలుపల ఉంది — మీ సంస్థ డేటాపై శిక్షణ పొందిన పూర్తి '
+          . 'వెర్షన్ దానికి అలవోకగా సమాధానం ఇస్తుంది. అలాగే iThrive Software తప్ప మరే విషయం గురించీ '
           . 'మాట్లాడేలా నన్ను రూపొందించలేదు. ఇప్పుడే మా నిపుణుల్లో ఒకరిని మీకు కలిపి వ్యాపార చర్చ '
           . 'ప్రారంభించగలను. చెప్పండి, లేదా %s కు రాయండి — వెంటనే స్పందిస్తాం.',
 
-    'hi' => 'यह सवाल Ithrive AI डेमो के दायरे से बाहर है — आपके अपने व्यावसायिक डेटा पर प्रशिक्षित '
-          . 'पूर्ण संस्करण ऐसे सवालों का जवाब बिना अटके देता है। साथ ही, Ithrive Software के अलावा '
+    'hi' => 'यह सवाल iThrive AI डेमो के दायरे से बाहर है — आपके अपने व्यावसायिक डेटा पर प्रशिक्षित '
+          . 'पूर्ण संस्करण ऐसे सवालों का जवाब बिना अटके देता है। साथ ही, iThrive Software के अलावा '
           . 'किसी और विषय पर बात करने के लिए मुझे नहीं बनाया गया है। अभी मैं आपको हमारे किसी विशेषज्ञ '
           . 'से जोड़ सकता हूँ ताकि व्यावसायिक बातचीत शुरू हो सके। बताइए, या %s पर लिखिए — हम तुरंत '
           . 'जवाब देंगे।',
@@ -343,11 +343,11 @@ const FAQ_DEMO_REPLY = [
 /** Lead-in placed before an English answer body when the visitor is not in English. */
 const FAQ_LEAD_IN = [
     'en' => '',
-    'ta' => 'இதோ Ithrive இன் அதிகாரப்பூர்வ பதில்:',
-    'ml' => 'ഇതാ Ithrive-ന്റെ ഔദ്യോഗിക ഉത്തരം:',
-    'kn' => 'ಇಲ್ಲಿದೆ Ithrive ನ ಅಧಿಕೃತ ಉತ್ತರ:',
-    'te' => 'ఇదిగో Ithrive అధికారిక సమాధానం:',
-    'hi' => 'यह रहा Ithrive का आधिकारिक उत्तर:',
+    'ta' => 'இதோ iThrive இன் அதிகாரப்பூர்வ பதில்:',
+    'ml' => 'ഇതാ iThrive-ന്റെ ഔദ്യോഗിക ഉത്തരം:',
+    'kn' => 'ಇಲ್ಲಿದೆ iThrive ನ ಅಧಿಕೃತ ಉತ್ತರ:',
+    'te' => 'ఇదిగో iThrive అధికారిక సమాధానం:',
+    'hi' => 'यह रहा iThrive का आधिकारिक उत्तर:',
 ];
 
 /** The demo boundary reply, in the visitor's language. */

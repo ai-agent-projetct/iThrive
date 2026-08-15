@@ -106,7 +106,7 @@ if ($stored === false) {
 // ---- Notify --------------------------------------------------------------
 
 $subject = 'New project brief — ' . ($data['company'] !== '' ? $data['company'] : $data['name']);
-$body    = "New enquiry via the Ithrive website\n\n"
+$body    = "New enquiry via the iThrive website\n\n"
     . "Name:    {$data['name']}\n"
     . "Email:   {$data['email']}\n"
     . "Company: {$data['company']}\n"
@@ -119,12 +119,12 @@ $body    = "New enquiry via the Ithrive website\n\n"
 // own, because the enquiry is in the log — but if the log write ALSO failed we
 // have nothing, and telling the sender "received" would be a lie.
 $mailed = function_exists('mail') && @mail(SITE_EMAIL, $subject, $body, [
-    'From'     => 'Ithrive Website <no-reply@ithrivesoftware.com>',
+    'From'     => 'iThrive Website <no-reply@ithrivesoftware.com>',
     'Reply-To' => $data['email'],
 ]);
 
 if ($stored === false && !$mailed) {
-    error_log('Ithrive: enquiry from ' . $data['email'] . ' could not be stored or mailed.');
+    error_log('iThrive: enquiry from ' . $data['email'] . ' could not be stored or mailed.');
     flash_set('errors', ['message' => 'We could not record that — please email ' . SITE_EMAIL . ' directly and we will pick it up from there.']);
     flash_set('old', $data);
     $back($redirect);

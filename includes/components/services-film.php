@@ -40,7 +40,7 @@ $marks = array_map(
 <section class="film" data-film
          data-film-duration="<?= e((string) $film['duration']) ?>"
          data-film-chapters='<?= e(json_encode($marks, JSON_UNESCAPED_SLASHES)) ?>'
-         aria-label="Ithrive services film">
+         aria-label="iThrive services film">
 
   <div class="film-track">
     <div class="film-sticky">

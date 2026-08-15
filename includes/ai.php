@@ -1,6 +1,6 @@
 <?php
 /**
- * Agentic AI layer — the engine behind Ithrive AIChat and the lead responder.
+ * Agentic AI layer — the engine behind iThrive AIChat and the lead responder.
  *
  * Everything here degrades safely: if the SDK is not installed or no API key is
  * configured, `ai_enabled()` returns false and the callers fall back to
@@ -230,7 +230,7 @@ function ai_knowledge(): string
     }
 
     $lines[] = '';
-    $lines[] = '## The answer book — 70 questions Ithrive answers';
+    $lines[] = '## The answer book — 70 questions iThrive answers';
     $lines[] = 'These are authoritative. Use them verbatim in substance; rephrase for the';
     $lines[] = 'conversation, but never change a number, a timeline or a technology name.';
 
@@ -270,7 +270,7 @@ function ai_chat_system(string $lang = 'en'): string
           . 'addresses in their original form. If the visitor switches language, follow them.';
 
     return <<<PROMPT
-        You are the assistant on the website of Ithrive Software Solutions, a product
+        You are the assistant on the website of iThrive Software, a product
         engineering company that builds AI-powered platforms in Python.
 
         Your job, in priority order:
@@ -307,16 +307,16 @@ function ai_chat_system(string $lang = 'en'): string
           asks something you genuinely cannot answer.
         - Never call `capture_lead` with details the visitor did not give you.
 
-        ## Scope — Ithrive only, and only from the answer book
+        ## Scope — iThrive only, and only from the answer book
         This is a demo agent with a deliberate boundary. You answer questions about
-        Ithrive Software Solutions — what we build, how we work, what it costs, how
+        iThrive Software — what we build, how we work, what it costs, how
         long it takes — from the knowledge below, and nothing else.
 
         - If the answer book covers it, answer fully and concretely. Use the real
           numbers: prices, week counts, percentages, technology names.
-        - If it is about Ithrive but the knowledge does not cover it, say you do not
+        - If it is about iThrive but the knowledge does not cover it, say you do not
           have that detail and offer to bring in a colleague. Never estimate.
-        - If it is not about Ithrive at all — general knowledge, coding help, current
+        - If it is not about iThrive at all — general knowledge, coding help, current
           affairs, another company, anything — decline in the demo's own terms:
 
           {$boundary}
@@ -359,7 +359,7 @@ function ai_tools(?array $only = null): array
     $tools = [
         [
             'name'        => 'lookup_service',
-            'description' => 'Get the full detail of one Ithrive service — capabilities, typical outcomes and the delivery stack. Call this before describing a service in any depth.',
+            'description' => 'Get the full detail of one iThrive service — capabilities, typical outcomes and the delivery stack. Call this before describing a service in any depth.',
             'inputSchema' => [
                 'type'       => 'object',
                 'properties' => [
@@ -395,7 +395,7 @@ function ai_tools(?array $only = null): array
                     'email'        => ['type' => 'string', 'description' => 'Their email address, exactly as they gave it.'],
                     'company'      => ['type' => 'string', 'description' => 'Their company, if mentioned. Omit if not.'],
                     'need'         => ['type' => 'string', 'description' => 'One or two sentences on what they are trying to build or automate, in your words.'],
-                    'service_slug' => ['type' => 'string', 'description' => 'The Ithrive service that best fits, if one clearly does.'],
+                    'service_slug' => ['type' => 'string', 'description' => 'The iThrive service that best fits, if one clearly does.'],
                     'intent_score' => ['type' => 'integer', 'description' => 'Your intent score, 0-100.'],
                     'reasoning'    => ['type' => 'string', 'description' => 'Why you scored it that way — the specific signals in the conversation.'],
                 ],
@@ -512,7 +512,7 @@ function ai_execute_tool(string $name, array $input, array &$side): string
             $side['lead'] = $lead;
 
             if (!$stored) {
-                error_log('Ithrive AIChat: failed to persist lead from ' . $lead['email']);
+                error_log('iThrive AIChat: failed to persist lead from ' . $lead['email']);
 
                 return 'Could not save that. Tell the visitor to email ' . SITE_EMAIL . ' directly so their enquiry is not lost.';
             }
@@ -891,7 +891,7 @@ function ai_run(
             'error'      => null,
         ];
     } catch (Throwable $e) {
-        error_log('Ithrive AI: ' . $e::class . ' — ' . $e->getMessage());
+        error_log('iThrive AI: ' . $e::class . ' — ' . $e->getMessage());
 
         return [
             'text'       => '',

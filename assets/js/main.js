@@ -1,5 +1,5 @@
 /**
- * Ithrive — interaction layer.
+ * iThrive — interaction layer.
  *
  * Every widget here is progressive: the markup works without JavaScript, and
  * each initialiser bails quietly when its hook is absent from the page.

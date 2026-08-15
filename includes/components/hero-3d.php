@@ -56,7 +56,7 @@ $hero = $hero ?? HOME_HERO;
                the bottom-right corner, and the two would collide there. */ ?>
       <a class="hero-orb-cta" href="#ai-assistant">
         <span class="hero-orb-dot" aria-hidden="true"></span>
-        Talk to Ithrive AI — six languages, out loud
+        Talk to iThrive AI — six languages, out loud
         <?= icon('arrow') ?>
       </a>
 
@@ -67,7 +67,7 @@ $hero = $hero ?? HOME_HERO;
         <canvas class="hero-robot" data-robot-canvas
                 data-robot-badge="<?= e(asset('assets/img/robot-badge.png')) ?>"
                 role="img"
-                aria-label="An interactive 3D robot mascot wearing the Ithrive mark, whose head, eyes and arms follow your pointer."></canvas>
+                aria-label="An interactive 3D robot mascot wearing the iThrive mark, whose head, eyes and arms follow your pointer."></canvas>
       </div>
     </div>
   </div>

@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'blog';
-$pageTitle = 'Blog — Notes on AI engineering and product delivery | Ithrive Software Solutions';
-$pageDesc  = 'Field notes from Ithrive engineers on agentic AI architecture, evaluation harnesses, strangler-fig modernisation and building AI products that survive contact with production.';
+$pageTitle = 'Blog — AI Engineering & Delivery Notes';
+$pageDesc  = 'Field notes from iThrive Software engineers on agentic AI architecture, evaluation harnesses and building AI products that survive contact with production.';
 
 require __DIR__ . '/includes/header.php';
 

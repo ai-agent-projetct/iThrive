@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'case-studies';
-$pageTitle = 'Case Studies — AI Platforms, Web, Mobile & ERP | Ithrive Software Solutions';
-$pageDesc  = 'Ten platforms in production across healthcare, mobility, civic tech, manufacturing, tourism, hospitality and retail — built by Ithrive Software Solutions in Python.';
+$pageTitle = 'Case Studies — AI, Web, Mobile & ERP';
+$pageDesc  = 'Ten platforms in production across healthcare, mobility, civic tech, manufacturing, tourism and retail — built by iThrive Software in Python.';
 
 require __DIR__ . '/includes/header.php';
 

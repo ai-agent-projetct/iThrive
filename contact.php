@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'company';
-$pageTitle = 'Start Your Project — Contact Ithrive Software Solutions';
-$pageDesc  = 'Tell Ithrive Software Solutions what you are trying to build or automate. You will get a written build plan — scope, stack and timeline — within two working days.';
+$pageTitle = 'Contact — Start Your Project';
+$pageDesc  = 'Tell iThrive Software what you want built or automated. You get a written build plan — scope, stack and timeline — within two working days.';
 
 require __DIR__ . '/includes/header.php';
 

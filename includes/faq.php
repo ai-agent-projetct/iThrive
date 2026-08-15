@@ -1,6 +1,6 @@
 <?php
 /**
- * The assistant's answer book — 70 questions Ithrive answers, and nothing else.
+ * The assistant's answer book — 70 questions iThrive answers, and nothing else.
  *
  * This is the demo agent's entire world. A question that matches an entry here
  * gets that answer; anything else gets the demo boundary reply and an offer to
@@ -43,8 +43,8 @@ const FAQ = [
 
     [
         'id' => 'q1', 'cat' => 'engagement',
-        'q' => 'What makes Ithrive Software different from traditional IT outsourcing agencies?',
-        'a' => 'Ithrive operates on an AI-First and AI-Native product development paradigm. Rather than '
+        'q' => 'What makes iThrive Software different from traditional IT outsourcing agencies?',
+        'a' => 'iThrive operates on an AI-First and AI-Native product development paradigm. Rather than '
              . 'writing code manually line by line, we use AI agent swarms and generative workflows to '
              . 'design, write, test and deploy code three to five times faster, combined with strict '
              . 'senior engineer oversight on every change.',
@@ -52,7 +52,7 @@ const FAQ = [
     ],
     [
         'id' => 'q2', 'cat' => 'engagement',
-        'q' => 'What engagement models does Ithrive offer?',
+        'q' => 'What engagement models does iThrive offer?',
         'a' => 'Three. Fixed-price project, best for MVPs and proofs of concept with well-defined scope. '
              . 'Dedicated engineering team, a complete managed team of developers, designers, QA, project '
              . 'manager and AI engineers working exclusively on your product. And dedicated on-demand '
@@ -69,7 +69,7 @@ const FAQ = [
     ],
     [
         'id' => 'q4', 'cat' => 'engagement',
-        'q' => 'How does Ithrive protect client intellectual property and data?',
+        'q' => 'How does iThrive protect client intellectual property and data?',
         'a' => 'Every engagement signs a strict non-disclosure agreement and a master services agreement. '
              . 'One hundred percent of the code, the IP rights and the trained AI models belong to you. '
              . 'Private LLM deployments are isolated, so your data is never used to train public '
@@ -79,7 +79,7 @@ const FAQ = [
     ],
     [
         'id' => 'q5', 'cat' => 'engagement',
-        'q' => 'Can Ithrive work with startups that only have an idea written on paper?',
+        'q' => 'Can iThrive work with startups that only have an idea written on paper?',
         'a' => 'Yes. Through the Idea-to-Words to Product workflow we take raw thoughts, napkin sketches '
              . 'or a verbal brief, run them through rapid discovery workshops, and produce interactive UI '
              . 'wireframes, technical specifications and a prototype within days.',
@@ -87,7 +87,7 @@ const FAQ = [
     ],
     [
         'id' => 'q6', 'cat' => 'engagement',
-        'q' => 'How does Ithrive manage communication across different time zones?',
+        'q' => 'How does iThrive manage communication across different time zones?',
         'a' => 'Teams use asynchronous tools — Slack, Jira, GitHub and Notion — alongside daily or weekly '
              . 'overlapping synchronous standups. Each client gets a dedicated scrum master or product '
              . 'manager as a single point of contact.',
@@ -95,7 +95,7 @@ const FAQ = [
     ],
     [
         'id' => 'q7', 'cat' => 'engagement',
-        'q' => 'Does Ithrive provide post-launch maintenance and support?',
+        'q' => 'Does iThrive provide post-launch maintenance and support?',
         'a' => 'Yes. We offer SLA-backed maintenance packages covering server and cloud monitoring, bug '
              . 'fixes, third-party API updates, LLM cost optimisation and feature enhancements.',
         'terms' => 'maintenance support post launch after launch sla warranty bug fix ongoing amc',
@@ -130,7 +130,7 @@ const FAQ = [
     ],
     [
         'id' => 'q11', 'cat' => 'ai-native',
-        'q' => 'How does Ithrive prevent AI hallucinations in business applications?',
+        'q' => 'How does iThrive prevent AI hallucinations in business applications?',
         'a' => 'By deploying retrieval-augmented generation pipelines, deterministic fallback rules, '
              . 'continuous evaluation benchmarks such as Ragas and TruLens, and human-in-the-loop '
              . 'approval steps wherever sensitive data is involved.',
@@ -138,7 +138,7 @@ const FAQ = [
     ],
     [
         'id' => 'q12', 'cat' => 'ai-native',
-        'q' => 'What AI stack does Ithrive use?',
+        'q' => 'What AI stack does iThrive use?',
         'a' => 'Models: OpenAI GPT-4o, Anthropic Claude 3.5 Sonnet, Llama 3, Mistral and Google Gemini. '
              . 'Frameworks and orchestration: LangChain, LlamaIndex, AutoGen and CrewAI. Vector '
              . 'databases: Pinecone, Qdrant, Weaviate and Pgvector.',
@@ -163,7 +163,7 @@ const FAQ = [
     ],
     [
         'id' => 'q15', 'cat' => 'ai-native',
-        'q' => 'Can Ithrive build autonomous AI agents that execute complex tasks independently?',
+        'q' => 'Can iThrive build autonomous AI agents that execute complex tasks independently?',
         'a' => 'Yes. We build multi-agent workflows on CrewAI and LangGraph capable of reading emails, '
              . 'processing documents, querying databases, running calculations and updating external '
              . 'systems without human intervention.',
@@ -230,7 +230,7 @@ const FAQ = [
     ],
     [
         'id' => 'q23', 'cat' => 'ai-assistant',
-        'q' => 'How does Ithrive train an AI assistant on private company data?',
+        'q' => 'How does iThrive train an AI assistant on private company data?',
         'a' => 'Rather than fine-tuning models from scratch, which is expensive and goes stale, we use '
              . 'retrieval-augmented generation. Private data is vectorised and retrieved dynamically, '
              . 'which guarantees real-time accuracy and zero leakage into external LLMs.',
@@ -249,7 +249,7 @@ const FAQ = [
 
     [
         'id' => 'q25', 'cat' => 'apps',
-        'q' => 'What tech stacks does Ithrive use for mobile app development?',
+        'q' => 'What tech stacks does iThrive use for mobile app development?',
         'a' => 'Cross-platform: Flutter and React Native, for faster time to market from a single '
              . 'codebase across iOS and Android. Native: Swift for iOS and Kotlin for Android, for '
              . 'hardware-intensive applications.',
@@ -266,14 +266,14 @@ const FAQ = [
     ],
     [
         'id' => 'q27', 'cat' => 'apps',
-        'q' => 'Does Ithrive handle Apple App Store and Google Play Store submissions?',
+        'q' => 'Does iThrive handle Apple App Store and Google Play Store submissions?',
         'a' => 'Yes. We manage the entire process: developer account setup, store guideline compliance, '
              . 'assets, privacy disclosures and handling the approval reviews.',
         'terms' => 'app store play store submission publish release apple google review approval upload',
     ],
     [
         'id' => 'q28', 'cat' => 'apps',
-        'q' => 'What frameworks does Ithrive use for modern web development?',
+        'q' => 'What frameworks does iThrive use for modern web development?',
         'a' => 'Frontend: React, Next.js, Vue, TypeScript and Tailwind CSS. Backend: Node.js, Python with '
              . 'FastAPI or Django, Go, PostgreSQL and MongoDB.',
         'terms' => 'web framework frontend backend react next vue node python stack technology',
@@ -295,14 +295,14 @@ const FAQ = [
     ],
     [
         'id' => 'q31', 'cat' => 'apps',
-        'q' => 'How does Ithrive ensure web and mobile apps are responsive and fast?',
+        'q' => 'How does iThrive ensure web and mobile apps are responsive and fast?',
         'a' => 'Server-side rendering with Next.js, automated code splitting, image optimisation, edge '
              . 'CDN distribution and rigorous Lighthouse performance auditing.',
         'terms' => 'performance fast speed responsive optimisation load time lighthouse seo core web vitals',
     ],
     [
         'id' => 'q32', 'cat' => 'apps',
-        'q' => 'Can Ithrive build offline-first mobile applications?',
+        'q' => 'Can iThrive build offline-first mobile applications?',
         'a' => 'Yes, using local databases such as SQLite, WatermelonDB or Hive, with automatic '
              . 'synchronisation engines that push data to the cloud once connectivity returns.',
         'terms' => 'offline first no internet sync local database connectivity field app',
@@ -312,7 +312,7 @@ const FAQ = [
 
     [
         'id' => 'q33', 'cat' => 'ecommerce',
-        'q' => 'What AI solutions does Ithrive offer specifically for e-commerce?',
+        'q' => 'What AI solutions does iThrive offer specifically for e-commerce?',
         'a' => 'Personalised product recommendation engines, visual search where the shopper searches by '
              . 'photo, AI virtual try-ons, dynamic pricing algorithms, automated cataloguing and tagging, '
              . 'and twenty-four-seven conversational sales assistants.',
@@ -320,7 +320,7 @@ const FAQ = [
     ],
     [
         'id' => 'q34', 'cat' => 'ecommerce',
-        'q' => 'What platforms does Ithrive build e-commerce solutions on?',
+        'q' => 'What platforms does iThrive build e-commerce solutions on?',
         'a' => 'Headless e-commerce with Next.js and the Shopify Storefront API, custom Node.js or Python '
              . 'e-commerce engines, Shopify Plus, and WooCommerce.',
         'terms' => 'ecommerce platform shopify woocommerce headless magento which platform store',
@@ -349,14 +349,14 @@ const FAQ = [
     ],
     [
         'id' => 'q38', 'cat' => 'ecommerce',
-        'q' => 'Can Ithrive integrate custom payment gateways and multi-currency support?',
+        'q' => 'Can iThrive integrate custom payment gateways and multi-currency support?',
         'a' => 'Yes. Complete integrations with Stripe, PayPal, Razorpay, Adyen, Apple Pay and crypto '
              . 'gateways, with real-time multi-currency conversion.',
         'terms' => 'payment gateway stripe paypal razorpay currency checkout integrate multi currency',
     ],
     [
         'id' => 'q39', 'cat' => 'ecommerce',
-        'q' => 'Can Ithrive automate product description generation and SEO tagging for large catalogues?',
+        'q' => 'Can iThrive automate product description generation and SEO tagging for large catalogues?',
         'a' => 'Yes. We build automated LLM pipelines that ingest raw product specifications and images '
              . 'and generate SEO-optimised descriptions, metadata and alt tags across thousands of SKUs '
              . 'in minutes.',
@@ -367,7 +367,7 @@ const FAQ = [
 
     [
         'id' => 'q40', 'cat' => 'saas',
-        'q' => 'What is a Micro SaaS, and why build one with Ithrive?',
+        'q' => 'What is a Micro SaaS, and why build one with iThrive?',
         'a' => 'A Micro SaaS is a lean, focused software product targeting a niche problem with minimal '
              . 'operational overhead. We build them in two to four weeks using pre-built AI modules and '
              . 'boilerplate architectures.',
@@ -408,7 +408,7 @@ const FAQ = [
     ],
     [
         'id' => 'q46', 'cat' => 'saas',
-        'q' => 'What key components are included in an Ithrive MVP delivery?',
+        'q' => 'What key components are included in an iThrive MVP delivery?',
         'a' => 'User authentication, the core functionality, payment and subscription integration through '
              . 'Stripe, a basic admin dashboard, analytics tracking, clean UI and UX, and a scalable '
              . 'cloud hosting setup.',
@@ -416,7 +416,7 @@ const FAQ = [
     ],
     [
         'id' => 'q47', 'cat' => 'saas',
-        'q' => 'How does Ithrive ensure an MVP does not accumulate massive technical debt?',
+        'q' => 'How does iThrive ensure an MVP does not accumulate massive technical debt?',
         'a' => 'Modular micro-service architecture, clean code standards, comprehensive TypeScript '
              . 'typing, automated CI/CD pipelines and scalable database schemas from day one.',
         'terms' => 'technical debt code quality maintainable refactor architecture standards scale later',
@@ -457,21 +457,21 @@ const FAQ = [
     ],
     [
         'id' => 'q52', 'cat' => 'modernise',
-        'q' => 'Can Ithrive modernize legacy desktop software into a modern web cloud application?',
+        'q' => 'Can iThrive modernize legacy desktop software into a modern web cloud application?',
         'a' => 'Yes. We extract the underlying business logic and database schemas and re-architect them '
              . 'into modern web frameworks such as React and Node, hosted on AWS or GCP.',
         'terms' => 'desktop software legacy convert web cloud migrate vb access old application rewrite',
     ],
     [
         'id' => 'q53', 'cat' => 'modernise',
-        'q' => 'How does Ithrive prevent downtime during software modernization?',
+        'q' => 'How does iThrive prevent downtime during software modernization?',
         'a' => 'Strangler fig migration patterns, shadow deployments, database replication and feature '
              . 'flags, so the new system rolls out incrementally alongside the legacy one.',
         'terms' => 'downtime migration risk cutover safe rollout zero downtime business continuity',
     ],
     [
         'id' => 'q54', 'cat' => 'modernise',
-        'q' => 'What is digital product engineering at Ithrive?',
+        'q' => 'What is digital product engineering at iThrive?',
         'a' => 'A holistic engineering approach combining human-centred UI and UX design, cloud '
              . 'architecture, system security, automated QA, DevOps pipelines and continuous product '
              . 'evolution analytics.',
@@ -479,7 +479,7 @@ const FAQ = [
     ],
     [
         'id' => 'q55', 'cat' => 'modernise',
-        'q' => 'Does Ithrive help legacy businesses digitize paper-heavy workflows?',
+        'q' => 'Does iThrive help legacy businesses digitize paper-heavy workflows?',
         'a' => 'Yes, by deploying custom AI document processing pipelines that ingest physical PDFs, '
              . 'handwritten notes and images, extracting the unstructured data straight into digital SQL '
              . 'or NoSQL databases.',
@@ -490,14 +490,14 @@ const FAQ = [
 
     [
         'id' => 'q56', 'cat' => 'cloud',
-        'q' => 'Which cloud platforms does Ithrive specialize in?',
+        'q' => 'Which cloud platforms does iThrive specialize in?',
         'a' => 'Amazon Web Services, Google Cloud Platform, Microsoft Azure, Vercel and Cloudflare.',
         'terms' => 'cloud platform aws gcp azure vercel cloudflare host hosting provider vendor '
                  . 'infrastructure services offering specialize',
     ],
     [
         'id' => 'q57', 'cat' => 'cloud',
-        'q' => 'What DevOps services does Ithrive provide?',
+        'q' => 'What DevOps services does iThrive provide?',
         'a' => 'CI/CD pipeline setup with GitHub Actions or GitLab CI, containerisation with Docker and '
              . 'Kubernetes, infrastructure as code with Terraform, load balancing, auto-scaling and '
              . 'security auditing.',
@@ -512,7 +512,7 @@ const FAQ = [
     ],
     [
         'id' => 'q59', 'cat' => 'cloud',
-        'q' => 'How does Ithrive ensure high availability and 99.99% uptime for AI applications?',
+        'q' => 'How does iThrive ensure high availability and 99.99% uptime for AI applications?',
         'a' => 'Multi-region redundancy, serverless auto-scaling on AWS Lambda or Cloud Run, failover API '
              . 'endpoints and caching layers.',
         'terms' => 'uptime high availability reliability sla redundancy failover scale downtime',
@@ -537,7 +537,7 @@ const FAQ = [
 
     [
         'id' => 'q62', 'cat' => 'growth',
-        'q' => 'What is the Idea-to-Words workflow at Ithrive?',
+        'q' => 'What is the Idea-to-Words workflow at iThrive?',
         'a' => 'It is our workshop process where business leaders explain their product vision in natural '
              . 'language. We use AI tools to break those words into user stories, technical architecture '
              . 'diagrams, database schemas and clickable wireframes within forty-eight to seventy-two '
@@ -579,7 +579,7 @@ const FAQ = [
     ],
     [
         'id' => 'q67', 'cat' => 'growth',
-        'q' => 'How does Ithrive help non-technical founders manage tech teams effectively?',
+        'q' => 'How does iThrive help non-technical founders manage tech teams effectively?',
         'a' => 'Clear product roadmaps in plain language, transparent Jira tracking, weekly video demos '
              . 'of working software, and dedicated product managers who translate business goals into '
              . 'developer tasks.',
@@ -587,7 +587,7 @@ const FAQ = [
     ],
     [
         'id' => 'q68', 'cat' => 'growth',
-        'q' => 'What steps should a business take today to start a project with Ithrive?',
+        'q' => 'What steps should a business take today to start a project with iThrive?',
         'a' => 'Four steps. Schedule an initial discovery call. Take part in a two-day Idea-to-Words '
              . 'architecture review. Receive a detailed proposal with fixed milestone pricing and a '
              . 'project timeline. Then kick off development within five business days.',
@@ -595,7 +595,7 @@ const FAQ = [
     ],
     [
         'id' => 'q69', 'cat' => 'growth',
-        'q' => 'Can Ithrive assist with product pitch decks and technical documentation for investor fundraising?',
+        'q' => 'Can iThrive assist with product pitch decks and technical documentation for investor fundraising?',
         'a' => 'Yes. We build functional interactive click-dummies, system architecture diagrams, '
              . 'technical whitepapers and ROI projection models that founders present to angel investors '
              . 'and VCs.',
@@ -603,7 +603,7 @@ const FAQ = [
     ],
     [
         'id' => 'q70', 'cat' => 'growth',
-        'q' => 'What is the long-term competitive advantage of building an AI-First product with Ithrive today?',
+        'q' => 'What is the long-term competitive advantage of building an AI-First product with iThrive today?',
         'a' => 'Software is shifting from static tools to dynamic, learning platforms. Building AI-First '
              . 'today means your platform continuously captures data, learns user preferences, automates '
              . 'internal costs and stays ahead of competitors still running legacy systems.',

@@ -1,6 +1,6 @@
 <?php
 /**
- * Ithrive AIChat — the site-wide chat launcher and panel.
+ * iThrive AIChat — the site-wide chat launcher and panel.
  *
  * Rendered on every page. chat.js activates it; without JavaScript the launcher
  * is simply not shown, and the contact routes still work.
@@ -15,11 +15,11 @@ declare(strict_types=1);
     <span class="chat-launcher-label">Ask AIChat</span>
   </button>
 
-  <section class="chat-panel" id="chatPanel" role="dialog" aria-label="Ithrive AIChat" aria-modal="false">
+  <section class="chat-panel" id="chatPanel" role="dialog" aria-label="iThrive AIChat" aria-modal="false">
     <header class="chat-head">
       <span class="chat-avatar"><?= icon('sparkles') ?></span>
       <div class="chat-head-text">
-        <p class="chat-title">Ithrive AIChat</p>
+        <p class="chat-title">iThrive AIChat</p>
         <p class="chat-status"><span class="chat-dot"></span>Answers from our own case studies</p>
       </div>
       <button class="chat-close" type="button" data-chat-toggle aria-label="Close chat"><?= icon('close') ?></button>

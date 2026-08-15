@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'services';
-$pageTitle = 'Services — AI, Product Engineering & Cloud | Ithrive Software Solutions';
-$pageDesc  = 'AI-native product development, AI enablement, micro SaaS, product modernization, cloud and DevOps, dedicated engineering teams, mobile, web and e-commerce development in Python.';
+$pageTitle = 'Services — AI, Product Engineering, Cloud';
+$pageDesc  = 'AI-native product development, AI enablement, micro SaaS, modernization, cloud and DevOps, dedicated teams, mobile, web and e-commerce — all built in Python.';
 
 require __DIR__ . '/includes/header.php';
 

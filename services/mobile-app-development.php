@@ -18,9 +18,9 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('mobile-app-development');
 
 $page      = 'services';
-$pageTitle = 'Mobile App Development Company in Chennai & Coimbatore';
-$pageDesc  = 'Ithrive Software engineers high-performance iOS, Android, Flutter and AI mobile '
-           . 'apps for enterprises and startups, from studios in Chennai and Coimbatore.';
+$pageTitle = 'Mobile App Development in Chennai';
+$pageDesc  = 'iThrive Software engineers iOS, Android, Flutter and AI mobile apps for '
+           . 'enterprises and startups, from studios in Chennai and Coimbatore.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 $schema = [
@@ -51,11 +51,12 @@ require dirname(__DIR__) . '/includes/header.php';
 <noscript>
   <section class="section">
     <div class="shell">
-      <?php component('section-head', [
-          'eyebrow' => $svc['group'],
-          'title'   => $svc['title'],
-          'lead'    => $svc['lead'],
-      ]); ?>
+      <?php /* A real H1, not the shared section-head (which emits an H2). The
+               page body is client-rendered, so without this a crawler that does
+               not execute JavaScript sees no heading at all. */ ?>
+      <p class="eyebrow"><?= e($svc['group']) ?></p>
+      <h1 class="section-title">Mobile App Development Company in Chennai &amp; Coimbatore</h1>
+      <p class="section-lead"><?= e($svc['lead']) ?></p>
 
       <div class="grid grid-3">
         <?php foreach ($svc['capabilities'] as $i => $cap): ?>

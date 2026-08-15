@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'solutions';
-$pageTitle = 'AI Solutions — Ithrive Insights & Ithrive AIChat | Ithrive Software Solutions';
-$pageDesc  = 'Two proprietary AI products from Ithrive: Insights turns scattered marketing and operational data into growth decisions; AIChat turns website visitors into customers with real-time intent mapping.';
+$pageTitle = 'AI Solutions — Insights & AIChat';
+$pageDesc  = 'Two AI products from iThrive Software: Insights turns scattered data into growth decisions, AIChat turns website visitors into customers with live intent mapping.';
 
 require __DIR__ . '/includes/header.php';
 
