@@ -67,6 +67,9 @@ $ogAbs   = site_origin() . asset($ogImg);
 { "imports": { "three": "<?= e(asset('assets/vendor/three/three.module.js')) ?>" } }
 </script>
 <?php endif; ?>
+<?php /* A page that needs its own fonts or stylesheet sets $extraHead before
+         including this. It is raw markup by contract, so it is echoed as-is. */ ?>
+<?= $extraHead ?? '' ?>
 </head>
 <body class="page-<?= e($page) ?>">
 

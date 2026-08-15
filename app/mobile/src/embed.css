@@ -1,0 +1,362 @@
+/**
+ * Styles for the embedded mobile app page.
+ *
+ * This is upstream's src/index.css with two changes, both forced by the page
+ * living inside an existing site rather than owning the document:
+ *
+ *  1. No `@tailwind base`. Preflight is a global reset — it would strip the
+ *     margins, list styles and heading sizes off every other page on the site.
+ *     Tailwind's preflight is disabled in tailwind.config.js to match.
+ *  2. Upstream's `*`, `html`, `body` and `h1-h6` rules are scoped under
+ *     `.ithrive-mobile-app`. Left global they would fight the site's own type
+ *     and layout everywhere, which is exactly the bug preflight would cause.
+ *
+ * Everything else — the pill buttons, the glass panels, the spotlight — is
+ * upstream's, byte for byte, because those are what make the page look like the
+ * page.
+ */
+
+
+.ithrive-mobile-app {
+  --bg-primary: #02040a;
+  --bg-secondary: #060b18;
+  --bg-card: rgba(8, 14, 30, 0.85);
+
+  --ithrive-cyan: #00e5ff;
+  --ithrive-blue: #3b82f6;
+  --ithrive-purple: #a855f7;
+
+  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Was `body` upstream. */
+  background-color: var(--bg-primary);
+  color: #ffffff;
+  font-family: var(--font-body);
+  line-height: 1.6;
+
+  /* Upstream's `overflow-x: hidden` is deliberately NOT copied here. On <body>
+   * it is harmless; on this wrapper div it makes a scroll container, and a
+   * scroll container kills `position: sticky` for everything inside it — which
+   * silently broke the scroll-scrubbed video stage and the pinned process flow.
+   * The site's own body already clips horizontal overflow. */
+}
+
+/* Was a bare `*` upstream — scoped so it cannot reach the rest of the site. */
+.ithrive-mobile-app *,
+.ithrive-mobile-app *::before,
+.ithrive-mobile-app *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ithrive-mobile-app h1,
+.ithrive-mobile-app h2,
+.ithrive-mobile-app h3,
+.ithrive-mobile-app h4,
+.ithrive-mobile-app h5,
+.ithrive-mobile-app h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+/* Signature iThrive pill button */
+.btn-ithrive-pill {
+  background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #a855f7 100%) !important;
+  color: #050814 !important;
+  font-weight: 800 !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 6px 25px rgba(0, 229, 255, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none !important;
+}
+
+.btn-ithrive-pill:hover {
+  background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 50%, #c084fc 100%) !important;
+  box-shadow: 0 10px 35px rgba(0, 229, 255, 0.65), 0 0 25px rgba(168, 85, 247, 0.45) !important;
+  transform: translateY(-2px) scale(1.03) !important;
+}
+
+.btn-ithrive-pill:active {
+  transform: translateY(0px) scale(0.97) !important;
+}
+
+/* Secondary outline pill button */
+.btn-ithrive-outline {
+  background: rgba(10, 16, 35, 0.8) !important;
+  border: 2px solid #3b82f6 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 9999px !important;
+  transition: all 0.3s ease !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-ithrive-outline:hover {
+  border-color: #00e5ff !important;
+  color: #00e5ff !important;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Mouseover text colour shift — white to electric cyan */
+.text-white-to-blue {
+  color: #ffffff !important;
+  transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.text-white-to-blue:hover {
+  color: #00e5ff !important;
+  text-shadow: 0 0 20px #00e5ff, 0 0 40px #3b82f6, 0 0 60px #a855f7;
+  transform: translateY(-2px);
+}
+
+.text-gradient-ithrive-home {
+  background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Auto-scrolling mobile website inside the 3D smartphone screen */
+@keyframes mobileWebScroll {
+  0%   { transform: translateY(0%); }
+  45%  { transform: translateY(-55%); }
+  50%  { transform: translateY(-55%); }
+  95%  { transform: translateY(0%); }
+  100% { transform: translateY(0%); }
+}
+
+.animate-mobile-web-scroll {
+  animation: mobileWebScroll 12s ease-in-out infinite;
+}
+
+/* Interactive glowing cursor spotlight */
+.cursor-spotlight {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 500px;
+  height: 500px;
+  margin-top: -250px;
+  margin-left: -250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.18) 0%, rgba(59, 130, 246, 0.09) 45%, transparent 70%);
+  z-index: 40;   /* upstream used 9999; kept under the site header and chat widget */
+  transition: transform 0.08s ease-out;
+  mix-blend-mode: screen;
+}
+
+/* Glassmorphic container */
+.glass-panel {
+  background: rgba(8, 14, 30, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 1.5rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 229, 255, 0.6);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 229, 255, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-mobile-web-scroll { animation: none; }
+  .cursor-spotlight { display: none; }
+}
+
+/* ---------------------------------------------------------------------------
+ * Clearing the site header.
+ *
+ * Upstream owned the whole viewport and drew its own transparent navbar. Here a
+ * real sticky header sits above the page, so any band pinned to the top of the
+ * viewport has to start below it.
+ * ------------------------------------------------------------------------- */
+.ithrive-mobile-app .site-header-clear {
+  padding-top: calc(var(--header-h, 72px) + 0.75rem);
+}
+
+/* The simulator's bottom row and the site's chat launcher both want the
+   bottom-right corner. Give the row room rather than moving the launcher,
+   which is global furniture. */
+@media (min-width: 1024px) {
+  .ithrive-mobile-app #simulator > div > div:last-child { padding-right: 12rem; }
+}
+
+/* ---------------------------------------------------------------------------
+ * App Universe — the hero's 3D scene.
+ *
+ * The standalone version pinned everything with `position: fixed` and owned the
+ * viewport. Here it lives in the hero's right-hand column, so the stage and all
+ * of its chrome are absolute within `.app-universe`.
+ *
+ * No panel, no border, no glass frame: the scene's own background is the same
+ * near-black as the hero, and the edges are masked, so it blends into the
+ * section instead of sitting in a box on top of it.
+ * ------------------------------------------------------------------------- */
+.app-universe {
+  --accent: #6ee7ff;
+  --accent2: #ff7ad9;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 78vh;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse 78% 74% at 50% 50%, #000 58%, transparent 100%);
+          mask-image: radial-gradient(ellipse 78% 74% at 50% 50%, #000 58%, transparent 100%);
+}
+
+.app-universe-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(110, 231, 255, .16) 0%, transparent 45%),
+    radial-gradient(circle at 82% 78%, rgba(255, 122, 217, .14) 0%, transparent 50%);
+}
+
+.app-universe-stage { position: absolute; inset: 0; z-index: 1; }
+.app-universe-stage canvas { display: block; width: 100%; height: 100%; }
+
+.app-universe .controls {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.app-universe .ctrl-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #e8edf9;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+.app-universe .ctrl-btn:active { transform: scale(.9); }
+.app-universe .ctrl-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #05070d;
+  border-color: transparent;
+}
+
+.app-universe .instruction-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 15px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  background: rgba(5, 7, 13, .55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #e9eefb;
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity .6s ease;
+}
+.app-universe .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: universePulse 1.6s infinite;
+}
+@keyframes universePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .4; transform: scale(1.5); }
+}
+
+.app-universe #tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 15;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0a0f1d;
+  background: linear-gradient(120deg, var(--accent), #fff);
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.app-universe #loader {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #9fb0cc;
+  font-size: 12.5px;
+  letter-spacing: .04em;
+  transition: opacity .6s ease;
+}
+.app-universe #loader.hidden { opacity: 0; pointer-events: none; }
+.app-universe .ring {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .12);
+  border-top-color: var(--accent);
+  animation: universeSpin 1s linear infinite;
+}
+@keyframes universeSpin { to { transform: rotate(360deg); } }
+
+/* Desktop-only motion sensor prompt; irrelevant here. */
+.app-universe #ios-tilt-btn { display: none; }
+
+@media (max-width: 1023px) {
+  .app-universe { aspect-ratio: 1 / 1; max-height: 62vh; }
+  .app-universe .instruction-badge { font-size: 10.5px; padding: 7px 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-universe .dot, .app-universe .ring { animation: none; }
+}
+
+/* ---------------------------------------------------------------------------
+ * Tailwind's utilities come LAST on purpose.
+ *
+ * The scoped reset above sets `padding: 0` on every descendant, and it has the
+ * same specificity as a utility like `.px-8` — so whichever is written later
+ * wins. Upstream never hit this because the CDN injected its utilities into the
+ * document after index.css; compiled into one file, the order has to be made
+ * explicit or every button in the design loses its padding.
+ * ------------------------------------------------------------------------- */
+
+@tailwind components;
+@tailwind utilities;
