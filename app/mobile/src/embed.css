@@ -353,9 +353,9 @@
 .tech-magnet-stage {
   position: relative;
   width: 100%;
-  height: clamp(420px, 62vh, 680px);
+  height: clamp(460px, 66vh, 720px);
 }
-.tech-magnet-stage canvas { display: block; width: 100%; height: 100%; }
+.tech-magnet-canvas { display: block; width: 100%; height: 100%; }
 
 @media (max-width: 720px) {
   .tech-magnet-stage { height: 360px; }

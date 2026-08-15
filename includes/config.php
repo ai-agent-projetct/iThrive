@@ -9,8 +9,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-define('SITE_NAME', 'Ithrive Software Solutions');
-define('SITE_SHORT', 'Ithrive');
+define('SITE_NAME', 'iThrive Software');
+define('SITE_SHORT', 'iThrive');
 define('SITE_TAGLINE', 'AI-Powered Platforms, Web & Mobile Applications');
 define('SITE_EMAIL', 'hello@ithrivesoftware.com');
 define('SITE_PHONE', '+91 90000 00000');

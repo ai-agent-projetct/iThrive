@@ -6,10 +6,10 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a class="brand" href="<?= e(url('index.php')) ?>" aria-label="<?= e(SITE_NAME) ?> home">
-          <img class="brand-mark" src="<?= e(asset('assets/img/logo-mark.svg')) ?>" width="120" height="120" alt="">
+          <img class="brand-mark" src="<?= e(asset('assets/img/logo-mark.png')) ?>" width="120" height="120" alt="" decoding="async">
           <span class="brand-text">
-            <span class="brand-name">Ithrive</span>
-            <span class="brand-sub">Software Solutions</span>
+            <span class="brand-name">iThrive</span>
+            <span class="brand-sub">Software</span>
           </span>
         </a>
         <p>AI-powered, intelligent platforms built in Python. We bridge the gap between businesses and the customers they have not reached yet.</p>
