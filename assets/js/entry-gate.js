@@ -36,8 +36,6 @@
     if (at && Date.now() - at < WINDOW) return;
   } catch (e) { /* storage blocked — show it, the gate is dismissible anyway */ }
 
-  const irises = Array.from(gate.querySelectorAll('[data-gate-iris]'));
-  const lids = gate.querySelector('[data-gate-lids]');
   const enter = gate.querySelector('[data-gate-enter]');
   const skip = gate.querySelector('[data-gate-skip]');
 
@@ -57,63 +55,8 @@
   requestAnimationFrame(() => gate.classList.add('gate--in'));
   if (enter) enter.focus({ preventScroll: true });
 
-  /* ---- the watching ---------------------------------------------------- */
-
-  // Travel is in the SVG's own units, and stays inside the lens because each
-  // iris is clipped by its eye.
-  const REACH = 15;
-
-  const eye = irises.map(() => ({ x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 }));
-  let pointerSeen = false;
-  let raf = 0;
-
-  function aim(cx, cy) {
-    pointerSeen = true;
-    irises.forEach((g, i) => {
-      const r = g.getBoundingClientRect();
-      const dx = cx - (r.left + r.width / 2);
-      const dy = cy - (r.top + r.height / 2);
-      const d = Math.hypot(dx, dy) || 1;
-      // Normalised direction, damped by distance so a cursor parked far away
-      // does not peg the eyes at full deflection forever.
-      const pull = Math.min(1, d / 420);
-      eye[i].tx = (dx / d) * REACH * pull;
-      eye[i].ty = (dy / d) * REACH * pull * 0.78;
-    });
-  }
-
-  function frame() {
-    raf = requestAnimationFrame(frame);
-
-    for (let i = 0; i < irises.length; i++) {
-      const e = eye[i];
-      // Spring: stiffness pulls toward target, damping bleeds the overshoot.
-      e.vx = (e.vx + (e.tx - e.x) * 0.14) * 0.76;
-      e.vy = (e.vy + (e.ty - e.y) * 0.14) * 0.76;
-      e.x += e.vx;
-      e.y += e.vy;
-      irises[i].setAttribute('transform', `translate(${e.x.toFixed(2)} ${e.y.toFixed(2)})`);
-    }
-  }
-
-  window.addEventListener('pointermove', (ev) => aim(ev.clientX, ev.clientY), { passive: true });
-
-  // Nothing has moved yet, so look around on its own rather than staring blankly.
-  let wander = setInterval(() => {
-    if (pointerSeen) { clearInterval(wander); wander = 0; return; }
-    aim(
-      window.innerWidth / 2 + (Math.random() - 0.5) * window.innerWidth * 0.8,
-      window.innerHeight / 2 + (Math.random() - 0.5) * window.innerHeight * 0.6
-    );
-  }, 1400);
-
-  const blink = setInterval(() => {
-    if (!lids) return;
-    lids.classList.add('gate-lids--shut');
-    setTimeout(() => lids.classList.remove('gate-lids--shut'), 130);
-  }, 4600);
-
-  raf = requestAnimationFrame(frame);
+  // The eyes are driven by eyes.js, which finds every [data-eyes] on the page.
+  // Only the blink used to live here, and it moved there with them.
 
   /* ---- the door -------------------------------------------------------- */
 
@@ -125,19 +68,13 @@
 
     try { localStorage.setItem(KEY, String(Date.now())); } catch (e) { /* storage blocked */ }
 
-    clearInterval(blink);
-    if (wander) clearInterval(wander);
-
     gate.classList.remove('gate--in');
     gate.classList.add('gate--out');
     document.documentElement.classList.remove('gate-open');
 
     // Removed rather than left transparent on top of the page — a full-viewport
     // element with pointer events is not something to leave lying around.
-    const done = () => {
-      cancelAnimationFrame(raf);
-      gate.remove();
-    };
+    const done = () => gate.remove();
     gate.addEventListener('transitionend', done, { once: true });
     setTimeout(done, 1100);
   }

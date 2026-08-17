@@ -3031,12 +3031,8 @@ body > .site-footer { position: relative; z-index: 1; }
   filter: drop-shadow(0 0 28px rgba(0, 242, 254, .28));
 }
 
-/* The lid is a rectangle that grows downward, so the blink is one property. */
-.gate-lid {
-  height: 0;
-  transition: height .11s linear;
-}
-.gate-lids--shut .gate-lid { height: 116px; }
+/* The eye mark itself is styled with .watch-* further down, shared with the
+   404 page. This is only its size here. */
 
 /* ---------- Copy ---------- */
 
@@ -3089,4 +3085,127 @@ body > .site-footer { position: relative; z-index: 1; }
    returns early — this is here so it can never flash before that happens. */
 @media (prefers-reduced-motion: reduce) {
   .gate { display: none !important; }
+}
+
+/* =========================================================================
+   The watching mark — shared by the entry gate and the 404
+   ========================================================================= */
+
+.watch-eyes { height: auto; margin-inline: auto; }
+
+/* The lid is a rectangle that grows downward, so a blink is one property. */
+.watch-lid { height: 0; transition: height .11s linear; }
+.watch-lids--shut .watch-lid { height: 116px; }
+
+/* =========================================================================
+   404
+   ========================================================================= */
+
+.notfound { padding-top: calc(var(--header-h) + 56px); }
+
+.notfound-head { max-width: 720px; margin-inline: auto; text-align: center; }
+
+.notfound-eyes {
+  width: clamp(132px, 22vw, 196px);
+  filter: drop-shadow(0 0 26px rgba(0, 242, 254, .24));
+}
+
+.notfound-title {
+  margin: 20px 0 0;
+  font-size: clamp(1.7rem, 1.1rem + 2.4vw, 2.9rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+
+/* The URL that was asked for. Monospace, wrapped anywhere, because it can be
+   long and arbitrary — it is whatever the visitor or a bad link supplied. */
+.notfound-asked {
+  margin: 16px 0 0;
+  color: var(--text-faint);
+  font-size: .9rem;
+}
+.notfound-asked code {
+  padding: 3px 9px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .84rem;
+  overflow-wrap: anywhere;
+}
+
+.notfound-didyou {
+  margin: 30px 0 0;
+  color: var(--cyan);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.notfound-best { margin-top: 14px; padding: 15px 34px; font-size: 1.02rem; }
+.notfound-url {
+  margin: 12px 0 0;
+  color: var(--text-faint);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .8rem;
+  overflow-wrap: anywhere;
+}
+
+.notfound-lead { margin: 18px auto 0; max-width: 56ch; color: var(--text-dim); line-height: 1.7; }
+.notfound-actions { display: flex; flex-wrap: wrap; gap: 13px; justify-content: center; margin-top: 26px; }
+
+/* ---------- Runners-up ---------- */
+
+.notfound-others { max-width: 620px; margin: 46px auto 0; }
+.notfound-others-head {
+  margin: 0 0 12px;
+  color: var(--text-faint);
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-align: center;
+}
+.notfound-others ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.notfound-others a {
+  display: grid;
+  /* Placed explicitly. Left to auto-flow, the arrow claimed the first cell and
+     shoved the label into the second, which read as right-aligned text with a
+     stray icon in front of it. */
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 2px 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--glass);
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .3s var(--ease), transform .3s var(--ease), background .3s var(--ease);
+}
+.notfound-others a:hover {
+  border-color: rgba(0, 242, 254, .42);
+  background: var(--glass-hi);
+  transform: translateY(-2px);
+}
+.notfound-other-label { grid-column: 1; grid-row: 1; font-weight: 600; }
+.notfound-other-url {
+  grid-column: 1;
+  grid-row: 2;
+  color: var(--text-faint);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .76rem;
+  overflow-wrap: anywhere;
+}
+.notfound-others a .icon { grid-column: 2; grid-row: 1 / span 2; width: 17px; height: 17px; color: var(--cyan); }
+
+.notfound-sitemap { margin: 28px 0 0; text-align: center; color: var(--text-faint); font-size: .9rem; }
+.notfound-sitemap a { color: var(--cyan); }
+
+@media (max-width: 560px) {
+  .notfound { padding-top: calc(var(--header-h) + 30px); }
+  .notfound-best { width: 100%; justify-content: center; }
 }

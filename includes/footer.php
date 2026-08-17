@@ -63,6 +63,10 @@ component('chat-widget');
          under reduced motion, and idles when the pointer stops. */ ?>
 <script src="<?= e(asset('assets/js/hexbg.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/scrub.js')) ?>" defer></script>
+<?php /* Loaded wherever components/watch-eyes.php actually rendered. */ ?>
+<?php if (!empty($GLOBALS['ithrive_needs_eyes'])): ?>
+<script src="<?= e(asset('assets/js/eyes.js')) ?>" defer></script>
+<?php endif; ?>
 <?php if ($page === 'home'): ?>
 <script src="<?= e(asset('assets/js/entry-gate.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>

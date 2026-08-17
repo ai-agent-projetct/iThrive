@@ -340,3 +340,188 @@ function flash_set(string $key, mixed $value): void
 {
     $_SESSION['flash'][$key] = $value;
 }
+
+/**
+ * Every real page on the site, path => human label.
+ *
+ * One list, used by the sitemap and by the 404 page's suggestions. Keeping them
+ * on separate lists was the obvious way to write it and the wrong one: a 404
+ * that offers a URL the sitemap has dropped is worse than a 404 that offers
+ * nothing, because the visitor clicks it and lands on another 404.
+ *
+ * @return array<string, string>
+ */
+function site_routes(): array
+{
+    static $routes = null;
+    if ($routes !== null) {
+        return $routes;
+    }
+
+    $routes = [
+        'index.php'           => 'Home',
+        'services.php'        => 'Services',
+        'solutions.php'       => 'Solutions',
+        'case-studies.php'    => 'Case Studies',
+        'company/about.php'   => 'About iThrive',
+        'company/process.php' => 'Our Process',
+        'company/careers.php' => 'Careers',
+        'faq.php'             => 'FAQ',
+        'blog.php'            => 'Blog',
+        'contact.php'         => 'Contact',
+    ];
+
+    foreach (all_services() as $svc) {
+        $routes['services/' . $svc['slug'] . '.php'] = $svc['title'];
+    }
+    foreach (AI_SOLUTIONS as $sol) {
+        $routes['solutions/' . $sol['slug'] . '.php'] = $sol['name'] ?? $sol['title'] ?? $sol['slug'];
+    }
+    foreach (CASE_STUDIES as $study) {
+        $routes['case-studies/' . $study['slug'] . '.php'] = $study['client'] ?? $study['title'];
+    }
+
+    return $routes;
+}
+
+/**
+ * Words that mean the same thing to a visitor, folded to one token.
+ *
+ * Without this, "web-design" scores no better against "web-development" than
+ * against anything else with a hyphen in it, and the visitor who typed the term
+ * the industry actually uses gets sent nowhere.
+ *
+ * @return array<string, string>
+ */
+function route_synonyms(): array
+{
+    static $map = null;
+    if ($map !== null) {
+        return $map;
+    }
+
+    $groups = [
+        'development' => ['dev', 'develop', 'developer', 'developers', 'development', 'design', 'designing', 'designer', 'build', 'building'],
+        'web'         => ['web', 'website', 'websites', 'site', 'sites', 'webdesign'],
+        'app'         => ['app', 'apps', 'application', 'applications', 'mobile'],
+        'ecommerce'   => ['ecommerce', 'ecom', 'commerce', 'shop', 'store', 'shopping', 'cart'],
+        'faq'         => ['faq', 'faqs', 'question', 'questions', 'answers'],
+        'blog'        => ['blog', 'blogs', 'news', 'article', 'articles', 'insight', 'insights'],
+        'contact'     => ['contact', 'enquiry', 'enquire', 'inquiry', 'quote', 'reach'],
+        'about'       => ['about', 'team', 'company', 'who', 'story', 'people'],
+        'case'        => ['case', 'cases', 'work', 'works', 'portfolio', 'project', 'projects', 'client', 'clients'],
+        'ai'          => ['ai', 'ml', 'artificial', 'intelligence', 'agentic', 'llm'],
+        'career'      => ['career', 'careers', 'job', 'jobs', 'hiring', 'vacancy', 'vacancies'],
+        'cloud'       => ['cloud', 'devops', 'infra', 'infrastructure', 'hosting'],
+        'solution'    => ['solution', 'solutions', 'product', 'products'],
+        'service'     => ['service', 'services'],
+    ];
+
+    $map = [];
+    foreach ($groups as $canonical => $words) {
+        foreach ($words as $word) {
+            $map[$word] = $canonical;
+        }
+    }
+
+    return $map;
+}
+
+/**
+ * Best guesses for a URL that does not exist.
+ *
+ * Scores every real route on how many of the words the visitor typed appear in
+ * it, with string similarity of the final segment as a tie-breaker. Word overlap
+ * leads because it is the stronger signal: "web-design" and "web-development"
+ * are far apart as strings and obviously the same request.
+ *
+ * Two rules stop it from being confidently wrong, which is worse than useless
+ * on a 404 — a visitor who clicks a bad guess lands on another dead end:
+ *
+ *  - Tokens must be at least three characters, on both sides. A one-letter
+ *    token from "E-commerce" matching the "e" inside "nonsense" was enough to
+ *    recommend the shop page to someone who typed gibberish.
+ *  - At least half of what they typed has to appear somewhere in the route.
+ *    Nothing is offered on string similarity alone.
+ *
+ * @return list<array{path: string, label: string, score: float}>
+ */
+function suggest_routes(string $requested, int $limit = 3): array
+{
+    $synonyms = route_synonyms();
+
+    /** Split into canonical tokens of three characters or more. */
+    $tokenise = static function (string $text) use ($synonyms): array {
+        $words = preg_split('~[^a-z0-9]+~', strtolower($text)) ?: [];
+        $out = [];
+        foreach ($words as $word) {
+            if (strlen($word) < 3) {
+                continue;
+            }
+            $out[] = $synonyms[$word] ?? $word;
+        }
+
+        return array_values(array_unique($out));
+    };
+
+    $clean = strtolower(parse_url($requested, PHP_URL_PATH) ?? '');
+    $clean = preg_replace('~\.(php|html?|aspx?)$~', '', trim($clean, '/')) ?? '';
+    if ($clean === '') {
+        return [];
+    }
+
+    $askedTokens = $tokenise($clean);
+    if (!$askedTokens) {
+        return [];
+    }
+    $askedTail = basename($clean);
+
+    // "services" and "solutions" appear in most paths on this site, so on their
+    // own they say nothing about which page was wanted.
+    $weak = ['service' => true, 'solution' => true];
+    $meaningful = array_filter($askedTokens, static fn (string $t): bool => !isset($weak[$t]));
+    $denominator = max(1, count($meaningful) ?: count($askedTokens));
+
+    $scored = [];
+
+    foreach (site_routes() as $path => $label) {
+        $target       = preg_replace('~\.php$~', '', $path) ?? $path;
+        $targetTokens = $tokenise($target . ' ' . $label);
+
+        $matched = 0;
+        foreach (($meaningful ?: $askedTokens) as $token) {
+            foreach ($targetTokens as $candidate) {
+                $shorter = min(strlen($token), strlen($candidate));
+                if ($token === $candidate
+                    || ($shorter >= 4 && (str_contains($candidate, $token) || str_contains($token, $candidate)))) {
+                    $matched++;
+                    break;
+                }
+            }
+        }
+
+        $overlap = $matched / $denominator;
+        if ($overlap < 0.5) {
+            continue;
+        }
+
+        similar_text($askedTail, basename($target), $percent);
+
+        $score = ($overlap * 0.72) + (($percent / 100) * 0.28);
+
+        // Being in the right section is a real hint on a site this shape.
+        foreach (['service' => 'services/', 'case' => 'case-studies/', 'solution' => 'solutions/'] as $token => $prefix) {
+            if (in_array($token, $askedTokens, true) && str_starts_with($path, $prefix)) {
+                $score += 0.10;
+            }
+        }
+
+        if ($score >= 0.45) {
+            $scored[] = ['path' => $path, 'label' => $label, 'score' => round($score, 3)];
+        }
+    }
+
+    usort($scored, static fn (array $a, array $b): int => $b['score'] <=> $a['score']);
+
+    return array_slice($scored, 0, $limit);
+}

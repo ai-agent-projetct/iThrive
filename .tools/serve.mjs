@@ -229,11 +229,34 @@ const server = createServer(async (req, res) => {
       body: chunks.length ? new Uint8Array(Buffer.concat(chunks)) : undefined,
     });
 
-    res.writeHead(response.httpStatusCode, response.headers);
-    res.end(Buffer.from(response.bytes));
+    let final = response;
 
-    const flag = response.httpStatusCode >= 400 ? ' <-- ' : '  ';
-    console.log(`${response.httpStatusCode}${flag}${req.method} ${req.url}`);
+    /**
+     * Mirror Apache's `ErrorDocument 404 /404.php`.
+     *
+     * Without this the dev server answers unknown paths with its own bare 404,
+     * so the site's own 404 page — and the URL suggestions it builds from the
+     * requested path — could not be exercised locally at all. REQUEST_URI is
+     * kept pointing at what was originally asked for, which is what Apache does
+     * on an internal redirect and what the page reads to make its guesses.
+     */
+    if (response.httpStatusCode === 404 && !req.url.startsWith('/404.php')) {
+      try {
+        final = await handler.request({
+          url: '/404.php',
+          method: 'GET',
+          headers: { ...headers, 'x-original-url': req.url },
+        });
+      } catch {
+        final = response;
+      }
+    }
+
+    res.writeHead(final.httpStatusCode, final.headers);
+    res.end(Buffer.from(final.bytes));
+
+    const flag = final.httpStatusCode >= 400 ? ' <-- ' : '  ';
+    console.log(`${final.httpStatusCode}${flag}${req.method} ${req.url}`);
   } catch (error) {
     console.error(`500     ${req.method} ${req.url}\n`, error);
     res.writeHead(500, { 'content-type': 'text/plain' });
