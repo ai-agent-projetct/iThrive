@@ -8,6 +8,11 @@ $heroScene = 'neural';   // loads the orb module for the AI assistant section
 
 require __DIR__ . '/includes/header.php';
 
+// The intro sits over the first section. It is `hidden` in the markup until its
+// script reveals it, so the page is never gated by something that might not
+// run, and everything below is present exactly as before.
+component('entry-gate');
+
 component('hero-3d');
 component('client-logo-grid');
 ?>

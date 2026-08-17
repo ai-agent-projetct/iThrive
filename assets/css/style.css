@@ -2980,3 +2980,113 @@ body > .site-footer { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) {
   .kinetic-word { background-position: 0 0, 0 50%; }
 }
+
+/* =========================================================================
+   Entry gate — the intro over the home page's first section
+
+   Painted on top of the page rather than replacing any of it, so the markup a
+   crawler receives is unchanged and a failed script leaves the site intact.
+   ========================================================================= */
+
+/* Scroll is locked only while the gate is actually up, and only by a class the
+   script adds — never by the stylesheet alone. */
+.gate-open, .gate-open body { overflow: hidden; }
+
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+
+  background:
+    radial-gradient(68% 52% at 50% 42%, rgba(0, 242, 254, .10) 0%, transparent 70%),
+    radial-gradient(60% 60% at 78% 82%, rgba(157, 78, 221, .12) 0%, transparent 70%),
+    #06090F;
+
+  opacity: 0;
+  transition: opacity .7s var(--ease);
+}
+.gate[hidden] { display: none; }
+.gate.gate--in { opacity: 1; }
+.gate.gate--out { opacity: 0; pointer-events: none; }
+
+.gate-inner {
+  max-width: 640px;
+  transform: translateY(14px) scale(.985);
+  opacity: 0;
+  transition: transform .8s var(--ease), opacity .8s var(--ease);
+}
+.gate--in .gate-inner { transform: none; opacity: 1; }
+.gate--out .gate-inner { transform: translateY(-22px) scale(1.03); opacity: 0; }
+
+/* ---------- The eyes ---------- */
+
+.gate-eyes {
+  width: clamp(148px, 26vw, 226px);
+  height: auto;
+  margin-inline: auto;
+  filter: drop-shadow(0 0 28px rgba(0, 242, 254, .28));
+}
+
+/* The lid is a rectangle that grows downward, so the blink is one property. */
+.gate-lid {
+  height: 0;
+  transition: height .11s linear;
+}
+.gate-lids--shut .gate-lid { height: 116px; }
+
+/* ---------- Copy ---------- */
+
+.gate-name {
+  margin: 26px 0 0;
+  font-size: clamp(1.5rem, 1rem + 1.9vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -.015em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+.gate-name sup { font-size: .42em; -webkit-text-fill-color: var(--cyan); }
+
+.gate-line {
+  margin: 14px auto 0;
+  max-width: 46ch;
+  color: var(--text-dim);
+  font-size: clamp(.92rem, .86rem + .25vw, 1.04rem);
+  line-height: 1.72;
+}
+
+.gate-actions { margin-top: 30px; }
+.gate-enter { padding: 15px 40px; font-size: 1rem; }
+
+.gate-skip {
+  margin-top: 20px;
+  padding: 6px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: none;
+  color: var(--text-faint);
+  font: inherit;
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.gate-skip:hover { color: var(--text); border-color: var(--cyan); }
+
+@media (max-width: 560px) {
+  .gate-line { font-size: .9rem; }
+  .gate-enter { width: 100%; justify-content: center; }
+}
+
+/* The gate is decoration; this setting says skip it. The script already
+   returns early — this is here so it can never flash before that happens. */
+@media (prefers-reduced-motion: reduce) {
+  .gate { display: none !important; }
+}
