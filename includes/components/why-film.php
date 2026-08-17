@@ -11,16 +11,16 @@
  * would eat the height the film needs, and overlaying it on the picture is not
  * an option here.
  *
- * The clip is square and the viewport is not, so the sides are filled with an
- * ambient wash sampled from the film itself and the picture's vertical edges
- * are masked into it. That reads as one lit frame rather than a video sitting
- * in a black box. Cropping the square to fill instead would cut the tops and
- * bottoms off the cards, which are the content.
+ * The clip is square, so on a landscape screen it can never fill the width —
+ * cropping it to do so would cut the tops and bottoms off the cards, which are
+ * the content. The stage therefore holds the picture at full height on the left
+ * and the prose in the column beside it, which is that leftover width used
+ * rather than left dark. Behind both sits an ambient wash sampled from the film
+ * itself, and the picture's vertical edges are masked into it so the frame ends
+ * in light rather than on a line.
  *
- * The prose above the film is the same argument in text. A scroll-scrubbed
- * video is invisible to a crawler and to an answer engine, so the case has to
- * exist in words somewhere — and it is better as readable copy under the
- * heading than as a caption hidden from the people who visit the page.
+ * The prose is also the only version of this argument a crawler or an answer
+ * engine can read: a scroll-scrubbed film is invisible to both.
  */
 
 declare(strict_types=1);
@@ -39,20 +39,14 @@ if (!is_file($src)) {
         'eyebrow' => HOME_WHY['eyebrow'],
         'title'   => HOME_WHY['title'],
     ]); ?>
-
-    <div class="why-film-copy">
-      <?php foreach (HOME_WHY['body'] as $para): ?>
-        <p><?= e($para) ?></p>
-      <?php endforeach; ?>
-    </div>
   </div>
 </section>
 
 <section class="why-film" data-scrub data-scrub-duration="15" aria-label="<?= e(HOME_WHY['title']) ?>">
   <div class="why-film-track">
     <div class="why-film-sticky">
-      <figure class="why-film-stage">
-        <div class="why-film-frame">
+      <div class="why-film-stage">
+        <figure class="why-film-frame">
           <?php /* preload="auto": scrubbing is only smooth once the frames are
                    buffered, and this clip is small enough to fetch up front. */ ?>
           <video class="why-film-video" data-scrub-video
@@ -63,8 +57,17 @@ if (!is_file($src)) {
             <?php endif; ?>
             <source src="<?= e(asset('videos/why-film.mp4')) ?>" type="video/mp4">
           </video>
+        </figure>
+
+        <?php /* The square leaves a tall gap beside it on any landscape screen.
+                 This is what goes in it — the film's argument in words, held
+                 beside the picture rather than over it. */ ?>
+        <div class="why-film-copy">
+          <?php foreach (HOME_WHY['body'] as $para): ?>
+            <p><?= e($para) ?></p>
+          <?php endforeach; ?>
         </div>
-      </figure>
+      </div>
 
       <span class="why-film-progress" aria-hidden="true"><span data-scrub-bar></span></span>
     </div>

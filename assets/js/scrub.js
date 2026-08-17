@@ -22,6 +22,11 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse = window.matchMedia('(pointer: coarse)').matches;
 
+  // A pinned stage only earns its scroll if there is room to lay it out. Below
+  // this the stage stacks and shrinks, and pinning would spend three viewports
+  // of scrolling on a picture the visitor can already see whole.
+  const narrow = window.matchMedia('(max-width: 1100px)').matches;
+
   document.querySelectorAll('[data-scrub]').forEach((section) => {
     const video = section.querySelector('[data-scrub-video]');
     if (!video) return;
@@ -30,7 +35,7 @@
 
     /* ---- fallbacks ---------------------------------------------------- */
 
-    if (reduceMotion || coarse) {
+    if (reduceMotion || coarse || narrow) {
       section.classList.add('scrub--inline');
       video.loop = true;
       video.muted = true;

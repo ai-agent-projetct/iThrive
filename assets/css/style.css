@@ -2368,27 +2368,6 @@ body.nav-open .nav-toggle-close { display: block; }
    ========================================================================= */
 
 .why-film-intro { padding-bottom: 26px; }
-
-/* Two long paragraphs. Side by side on desktop so neither runs to an
-   unreadable measure, stacked below that. */
-.why-film-copy {
-  margin: 26px auto 0;
-  max-width: 1080px;
-  display: grid;
-  gap: 22px 44px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.why-film-copy p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.75;
-}
-
-@media (max-width: 860px) {
-  .why-film-copy { grid-template-columns: 1fr; margin-top: 20px; }
-  .why-film-copy p { font-size: .96rem; }
-}
 .why-film { padding: 0; background: var(--ink); }
 .scrub--live.why-film .why-film-track { height: 320vh; }
 
@@ -2402,44 +2381,65 @@ body.nav-open .nav-toggle-close { display: block; }
 }
 .scrub--inline .why-film-sticky { position: static; height: auto; padding: 0 0 40px; }
 
+/* Picture left, prose right. The square cannot fill a landscape screen, so the
+   column beside it is the leftover width — given to the copy instead of left
+   dark. */
 .why-film-stage {
   position: relative;
   height: 100%;
   margin: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: clamp(20px, 3vw, 60px);
+  padding-right: clamp(20px, 4vw, 76px);
 
-  /* The sides. An ambient wash averaged from the film and blurred past
-     recognition, so the fill is in the clip's own palette and cannot be read as
-     a duplicated frame. The gradients above it deepen the far edges so the
-     picture is the brightest thing on screen. */
+  /* An ambient wash averaged from the film and blurred past recognition, so the
+     fill is in the clip's own palette and cannot be read as a duplicated frame.
+     The gradients above it deepen the far edges so the picture stays the
+     brightest thing on screen. */
   background:
-    radial-gradient(78% 96% at 50% 50%, rgba(124, 58, 237, .16) 0%, transparent 68%),
-    linear-gradient(90deg, var(--ink) 0%, transparent 26%, transparent 74%, var(--ink) 100%),
-    linear-gradient(180deg, var(--ink) 0%, transparent 22%, transparent 78%, var(--ink) 100%),
+    radial-gradient(70% 96% at 26% 50%, rgba(124, 58, 237, .17) 0%, transparent 70%),
+    linear-gradient(90deg, var(--ink) 0%, transparent 22%, transparent 72%, var(--ink) 100%),
+    linear-gradient(180deg, var(--ink) 0%, transparent 20%, transparent 80%, var(--ink) 100%),
     url('../img/why-film-ambient.jpg') center / cover no-repeat,
     #0B0A10;
 }
 .scrub--inline .why-film-stage { height: auto; }
 
 /* Sized to the picture, not to the stage, so the mask below lands exactly on
-   the film's own edges. object-fit keeps it honest if max-width ever clamps. */
+   the film's own edges. object-fit keeps it honest if the frame ever clamps. */
 .why-film-frame {
   position: relative;
   height: 100%;
   aspect-ratio: 1 / 1;
-  max-width: 100%;
+  flex: none;
+  margin: 0;
+  min-width: 0;
 
   /* Melts the vertical edges into the wash. The clip has the neighbouring
      cards sliding through its margins, so without this they end on a hard
      line and the square reads as a box dropped onto the page. */
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
-          mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
 .scrub--inline .why-film-frame { height: auto; width: 100%; }
 
 .why-film-video { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+.why-film-copy {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 60ch;
+  display: grid;
+  gap: 18px;
+}
+.why-film-copy p {
+  margin: 0;
+  color: rgba(233, 240, 255, .82);
+  font-size: clamp(.86rem, .52rem + .45vw, 1.02rem);
+  line-height: 1.72;
+  text-wrap: pretty;
+}
 
 .why-film-progress {
   position: absolute;
@@ -2452,20 +2452,43 @@ body.nav-open .nav-toggle-close { display: block; }
 }
 .why-film-progress span { display: block; height: 100%; width: 0; background: var(--grad); }
 
-/* Below this the square is taller than the viewport is wide, so pinning it
-   full-height would push the picture off both sides. Let it size to the width
-   and give the section its own padding back. */
-@media (max-width: 860px) {
-  .why-film-sticky { height: auto; padding: 0 0 34px; position: static; }
-  .why-film-stage { height: auto; }
-  .why-film-frame { height: auto; width: 100%; }
+/* Not pinned: the film plays inline and the two halves stack. scrub.js drops
+   into this on touch, under reduced motion, and below 1100px, so the layout and
+   the behaviour switch together. */
+.scrub--inline .why-film-stage {
+  height: auto;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 clamp(18px, 5vw, 40px) 8px;
+  background-position: center;
+}
+.scrub--inline .why-film-frame {
+  height: auto;
+  width: 100%;
+  max-width: 660px;
+  margin-inline: auto;
+}
+.scrub--inline .why-film-copy { max-width: 74ch; margin-inline: auto; }
+.scrub--inline .why-film-progress { display: none; }
+
+/* Belt and braces: if the stylesheet loads and the script does not, nothing
+   below 1100px should sit under three viewports of empty scroll. */
+@media (max-width: 1100px) {
+  .scrub--live.why-film .why-film-track { height: auto; }
+  .why-film-sticky { position: static; height: auto; padding-bottom: 34px; }
+  .why-film-stage {
+    height: auto;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 clamp(18px, 5vw, 40px) 8px;
+  }
+  .why-film-frame { height: auto; width: 100%; max-width: 660px; margin-inline: auto; }
+  .why-film-copy { max-width: 74ch; margin-inline: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .scrub--live.why-film .why-film-track { height: auto; }
   .why-film-sticky { position: static; height: auto; }
-  .why-film-stage { height: auto; }
-  .why-film-frame { height: auto; width: 100%; }
 }
 
 /* =========================================================================
