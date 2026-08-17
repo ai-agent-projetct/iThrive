@@ -28,8 +28,21 @@ $schema = [
     'name'        => $svc['title'],
     'serviceType' => $svc['group'],
     'description' => $svc['lead'],
-    'areaServed'  => 'Worldwide',
     'url'         => canonical('services/mobile-app-development.php'),
+    'areaServed'  => [
+        ['@type' => 'City', 'name' => 'Chennai'],
+        ['@type' => 'City', 'name' => 'Coimbatore'],
+    ],
+    // The other service pages carry this through the shared template; this page
+    // builds its own schema, so it was the only one missing a catalogue.
+    'hasOfferCatalog' => [
+        '@type'           => 'OfferCatalog',
+        'name'            => $svc['title'] . ' capabilities',
+        'itemListElement' => array_map(static fn (array $c): array => [
+            '@type'       => 'Offer',
+            'itemOffered' => ['@type' => 'Service', 'name' => $c['title'], 'description' => $c['body']],
+        ], $svc['capabilities']),
+    ],
 ];
 
 // The page ships its own type ramp; these are the families the design was

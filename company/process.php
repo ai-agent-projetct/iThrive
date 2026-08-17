@@ -5,6 +5,28 @@ $page      = 'company';
 $pageTitle = 'How We Work — Discovery to Execution';
 $pageDesc  = 'iThrive Software runs every engagement through three gates: Discovery, Clarity and Execution. Each one ends in something you can hold, not a status call.';
 
+// The schema below reads content constants and canonical(), which live in
+// config.php — header.php loads it, but not until after this block runs.
+require_once dirname(__DIR__) . '/includes/config.php';
+
+/**
+ * HowTo, because "how does an engagement work" is a question an answer engine
+ * gets asked verbatim and this page is the answer to it.
+ */
+$schema = [
+    '@type'       => 'HowTo',
+    'name'        => 'How an engagement runs at iThrive Software',
+    'description' => PROCESS['lead'],
+    'totalTime'   => 'P8W',
+    'step'        => array_map(static fn (array $s, int $i): array => [
+        '@type'    => 'HowToStep',
+        'position' => $i + 1,
+        'name'     => $s['title'],
+        'text'     => $s['body'],
+        'url'      => canonical('company/process.php') . '#step-' . ($i + 1),
+    ], PROCESS['steps'], array_keys(PROCESS['steps'])),
+];
+
 require dirname(__DIR__) . '/includes/header.php';
 
 component('page-hero', [

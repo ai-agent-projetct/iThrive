@@ -26,14 +26,42 @@ $graph[] = [
     'email'       => SITE_EMAIL,
     'telephone'   => SITE_PHONE,
     'logo'        => [
-        '@type' => 'ImageObject',
-        'url'   => $origin . asset('assets/img/logo-mark.svg'),
+        '@type'  => 'ImageObject',
+        // The mark the site actually renders. This pointed at the old SVG
+        // approximation, so every consumer of the feed had the wrong logo.
+        'url'    => $origin . asset('assets/img/logo-mark.png'),
+        'width'  => 512,
+        'height' => 512,
     ],
     'address'     => [
         '@type'          => 'PostalAddress',
-        'addressLocality'=> 'Coimbatore',
+        'addressLocality'=> 'Chennai',
         'addressRegion'  => 'Tamil Nadu',
         'addressCountry' => 'IN',
+    ],
+    // Two studios. `address` only takes one, so both are listed here — an
+    // assistant asked "where is iThrive based" reads this, not the prose.
+    'location'    => [
+        [
+            '@type'   => 'Place',
+            'name'    => 'iThrive Software — Chennai',
+            'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Chennai',
+                          'addressRegion' => 'Tamil Nadu', 'addressCountry' => 'IN'],
+        ],
+        [
+            '@type'   => 'Place',
+            'name'    => 'iThrive Software — Coimbatore',
+            'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Coimbatore',
+                          'addressRegion' => 'Tamil Nadu', 'addressCountry' => 'IN'],
+        ],
+    ],
+    'contactPoint' => [
+        '@type'             => 'ContactPoint',
+        'contactType'       => 'sales',
+        'email'             => SITE_EMAIL,
+        'telephone'         => SITE_PHONE,
+        'areaServed'        => 'Worldwide',
+        'availableLanguage' => ['en', 'ta', 'ml', 'kn', 'te', 'hi'],
     ],
     'knowsAbout'  => [
         'Artificial Intelligence', 'Agentic AI', 'Python development',

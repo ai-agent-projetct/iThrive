@@ -5,6 +5,29 @@ $page      = 'company';
 $pageTitle = 'Contact — Start Your Project';
 $pageDesc  = 'Tell iThrive Software what you want built or automated. You get a written build plan — scope, stack and timeline — within two working days.';
 
+// The schema below reads content constants and canonical(), which live in
+// config.php — header.php loads it, but not until after this block runs.
+require_once __DIR__ . '/includes/config.php';
+
+$schema = [
+    '@type'       => 'ContactPage',
+    'name'        => 'Contact iThrive Software',
+    'description' => $pageDesc,
+    'url'         => canonical('contact.php'),
+    'mainEntity'  => [
+        '@type'        => 'Organization',
+        'name'         => SITE_NAME,
+        'email'        => SITE_EMAIL,
+        'telephone'    => SITE_PHONE,
+        'contactPoint' => [
+            '@type'             => 'ContactPoint',
+            'contactType'       => 'sales',
+            'email'             => SITE_EMAIL,
+            'availableLanguage' => ['en', 'ta', 'ml', 'kn', 'te', 'hi'],
+        ],
+    ],
+];
+
 require __DIR__ . '/includes/header.php';
 
 $sent   = flash_take('sent');

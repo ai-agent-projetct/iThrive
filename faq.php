@@ -30,6 +30,12 @@ $schema = [
     '@type'      => 'FAQPage',
     'name'       => 'iThrive Software — frequently asked questions',
     'url'        => canonical('faq.php'),
+    // Marks what a voice assistant should read out. The questions and answers
+    // are written to be spoken — that is why the answer book has no markdown.
+    'speakable'  => [
+        '@type'       => 'SpeakableSpecification',
+        'cssSelector' => ['.faq-item summary', '.faq-item p'],
+    ],
     'mainEntity' => array_map(static fn (array $entry): array => [
         '@type'          => 'Question',
         'name'           => $entry['q'],

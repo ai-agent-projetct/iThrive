@@ -5,6 +5,23 @@ $page      = 'services';
 $pageTitle = 'Services — AI, Product Engineering, Cloud';
 $pageDesc  = 'AI-native product development, AI enablement, micro SaaS, modernization, cloud and DevOps, dedicated teams, mobile, web and e-commerce — all built in Python.';
 
+// The schema below reads content constants and canonical(), which live in
+// config.php — header.php loads it, but not until after this block runs.
+require_once __DIR__ . '/includes/config.php';
+
+$schema = [
+    '@type'           => 'ItemList',
+    'name'            => 'Services offered by iThrive Software',
+    'itemListOrder'   => 'https://schema.org/ItemListUnordered',
+    'numberOfItems'   => count(all_services()),
+    'itemListElement' => array_map(static fn (array $svc, int $i): array => [
+        '@type'    => 'ListItem',
+        'position' => $i + 1,
+        'name'     => $svc['title'],
+        'url'      => canonical('services/' . $svc['slug'] . '.php'),
+    ], all_services(), array_keys(all_services())),
+];
+
 require __DIR__ . '/includes/header.php';
 
 component('page-hero', [

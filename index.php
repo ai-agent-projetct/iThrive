@@ -103,29 +103,13 @@ component('client-logo-grid');
   </div>
 </section>
 
-<section class="section section--panel">
+<?php /* The four "why" cards and their artwork are now the scroll-scrubbed
+         film — it carries the same points and four more. */ ?>
+<?php component('why-film'); ?>
+
+<section class="section section--panel section--tight">
   <div class="shell">
-    <?php component('section-head', [
-        'eyebrow' => HOME_WHY['eyebrow'],
-        'title'   => HOME_WHY['title'],
-    ]); ?>
-
-    <div class="split split--even" style="margin-bottom:44px">
-      <div class="grid grid-2">
-        <?php foreach (HOME_WHY['items'] as $i => $item): ?>
-          <?php component('feature-card', ['item' => $item, 'index' => $i]); ?>
-        <?php endforeach; ?>
-      </div>
-
-      <div class="section-art" data-reveal style="--d:2">
-        <img src="<?= e(asset('assets/img/art/why.svg')) ?>" width="560" height="420"
-             alt="" loading="lazy" decoding="async">
-      </div>
-    </div>
-
-    <div style="margin-top:56px">
-      <?php component('stats-band'); ?>
-    </div>
+    <?php component('stats-band'); ?>
   </div>
 </section>
 

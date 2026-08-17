@@ -5,6 +5,22 @@ $page      = 'solutions';
 $pageTitle = 'AI Solutions — Insights & AIChat';
 $pageDesc  = 'Two AI products from iThrive Software: Insights turns scattered data into growth decisions, AIChat turns website visitors into customers with live intent mapping.';
 
+// The schema below reads content constants and canonical(), which live in
+// config.php — header.php loads it, but not until after this block runs.
+require_once __DIR__ . '/includes/config.php';
+
+$schema = [
+    '@type'           => 'ItemList',
+    'name'            => 'Proprietary AI products from iThrive Software',
+    'numberOfItems'   => count(AI_SOLUTIONS),
+    'itemListElement' => array_map(static fn (array $sol, int $i): array => [
+        '@type'    => 'ListItem',
+        'position' => $i + 1,
+        'name'     => $sol['name'] . ' — ' . $sol['tagline'],
+        'url'      => canonical('solutions/' . $sol['slug'] . '.php'),
+    ], AI_SOLUTIONS, array_keys(AI_SOLUTIONS)),
+];
+
 require __DIR__ . '/includes/header.php';
 
 /** Industry sections are anchored from the Solutions dropdown. */
