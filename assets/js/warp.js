@@ -1,28 +1,28 @@
 /**
- * Scroll warp — the way unseen.co/projects behaves as you roll through it.
+ * 3D scroll — the case studies grid on a curved surface.
  *
- * Their version renders the whole page into a WebGL context and distorts the
- * texture. Measured at rest and mid-scroll, what that actually produces is:
- * cards shear and lean with scroll speed, their edges ripple while moving and
- * go crisp when you stop, colour splits slightly at the edges, and grain sits
- * over everything.
+ * What unseen.co/projects actually does, measured rather than guessed: the page
+ * has no scrollable document at all (body scrollHeight 0), no <img> elements,
+ * and one full-viewport WebGL2 canvas. The entire grid — tiles, captions, the
+ * arches down the sides — is rendered inside that context, and scroll is
+ * captured and fed to a 3D scene. The tiles sit on a gently curved surface, so
+ * they lean in from the sides and recede at the top and bottom as they pass.
  *
- * All of that is reproduced here without a texture pass, for one reason worth
- * stating: rendering the DOM into WebGL means the text is pixels, and this is a
- * section full of client names and outcomes on a page that has to rank. The
- * shear, lean and colour split are CSS transforms fed one custom property; the
- * ripple is an SVG displacement filter whose scale this drives. The words stay
- * words.
+ * This reproduces the motion without rendering the section into a texture, and
+ * that difference is deliberate. Their approach makes every word on the page a
+ * pixel; this is a section of client names, outcomes and links on the page that
+ * has to rank. Here the tiles are the real cards, transformed in CSS 3D, so the
+ * text stays selectable, focusable and readable by a crawler.
  *
- * Two signals are published per frame:
+ * Three properties per card drive it:
  *
- *   --vel    signed scroll velocity, roughly -1..1 — drives shear and split
- *   --depth  where the card sits relative to the viewport centre, -1..1 —
- *            drives the perspective lean, so the grid has real depth standing
- *            still rather than only while moving
+ *   --depth  -1 above the viewport centre, +1 below. Drives the lean and the
+ *            recede, so a card straightens as it passes the middle.
+ *   --side   -1 left column, +1 right. Drives the rotateY that bends the grid
+ *            into a curved sheet rather than a flat plane.
+ *   --vel    signed scroll velocity, for a little drag on the motion.
  *
- * Skipped under prefers-reduced-motion and on coarse pointers, where a
- * momentum-scrolling device would fight it.
+ * Skipped under prefers-reduced-motion and on coarse pointers.
  */
 
 (function () {
@@ -35,97 +35,64 @@
   if (window.matchMedia('(pointer: coarse)').matches) return;
 
   const items = Array.from(scope.querySelectorAll('[data-warp-item], .case-card'));
-  if (!items.length) return;
+  if (items.length < 2) return;
 
-  /* ---- the ripple filter ----------------------------------------------- */
+  /* ---- which side of the grid is each card on? ------------------------- */
 
-  // Injected rather than written into the page, because it is an implementation
-  // detail of this effect and means nothing without the script.
-  const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('width', '0');
-  svg.setAttribute('height', '0');
-  svg.setAttribute('aria-hidden', 'true');
-  svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
-  svg.innerHTML =
-    '<filter id="warp-ripple" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">'
-    + '<feTurbulence type="fractalNoise" baseFrequency="0.006 0.013" numOctaves="2" seed="7" result="n"/>'
-    + '<feDisplacementMap in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/>'
-    + '</filter>';
-  document.body.appendChild(svg);
+  // Read from laid-out position rather than assuming two columns, so the curve
+  // still behaves if the grid reflows to one.
+  function measureSides() {
+    const lefts = items.map((el) => el.getBoundingClientRect().left);
+    const min = Math.min(...lefts);
+    const max = Math.max(...lefts);
+    const span = max - min;
 
-  const displace = svg.querySelector('feDisplacementMap');
-  const turbulence = svg.querySelector('feTurbulence');
+    items.forEach((el, i) => {
+      const side = span < 40 ? 0 : ((lefts[i] - min) / span) * 2 - 1;
+      el.style.setProperty('--side', side.toFixed(3));
+    });
+  }
 
   /* ---- state ----------------------------------------------------------- */
 
   let lastY = window.scrollY;
-  let velocity = 0;     // smoothed, in pixels per frame
+  let velocity = 0;
   let onScreen = false;
-  let moving = false;
-  let drift = 0;
 
   const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 
   function frame() {
     requestAnimationFrame(frame);
 
-    // lastY is updated whether or not the section is visible. Skipping it while
-    // off screen meant the first frame back computed the whole intervening
-    // scroll as one delta and slammed the grid to full deflection.
+    // Tracked whether or not the section is visible: skipping it while away
+    // makes the first frame back read the whole intervening scroll as one delta
+    // and slam the grid to full deflection.
     const y = window.scrollY;
     const raw = onScreen ? y - lastY : 0;
     lastY = y;
 
-    // Off screen, relax to rest and stop writing. Returning early instead left
-    // the last velocity latched, so the cards stayed sheared and the ripple
-    // stayed at whatever scale it had when the section left the viewport.
     if (!onScreen) {
-      if (velocity !== 0 || moving) {
+      if (velocity !== 0) {
         velocity = 0;
-        moving = false;
-        scope.classList.remove('warp--moving');
-        displace.setAttribute('scale', '0');
         scope.style.setProperty('--vel', '0');
-        scope.style.setProperty('--speed', '0');
       }
       return;
     }
 
-    // Heavier smoothing on the way down than up, so it snaps into the warp and
-    // relaxes out of it. Symmetric easing reads like lag rather than momentum.
-    const target = clamp(raw / 34, -1.6, 1.6);
-    velocity += (target - velocity) * (Math.abs(target) > Math.abs(velocity) ? 0.34 : 0.11);
+    const target = clamp(raw / 40, -1.2, 1.2);
+    velocity += (target - velocity) * (Math.abs(target) > Math.abs(velocity) ? 0.3 : 0.1);
     if (Math.abs(velocity) < 0.002) velocity = 0;
 
-    const speed = Math.abs(velocity);
-
-    // The filter is expensive on large elements, so it is attached only while
-    // there is actually something to see and detached the moment there is not.
-    const shouldMove = speed > 0.012;
-    if (shouldMove !== moving) {
-      moving = shouldMove;
-      scope.classList.toggle('warp--moving', moving);
-    }
-
-    if (moving) {
-      // Capped as well as scaled: past about a dozen pixels of displacement the
-      // cards stop reading as warped and start reading as broken.
-      displace.setAttribute('scale', Math.min(13, speed * 17).toFixed(2));
-      // Crawling the noise field stops the ripple from looking like a fixed
-      // pane of bad glass the cards slide behind.
-      drift += speed * 0.004;
-      turbulence.setAttribute('baseFrequency', (0.006 + Math.sin(drift) * 0.0022).toFixed(5) + ' 0.013');
-    }
-
     scope.style.setProperty('--vel', velocity.toFixed(4));
-    scope.style.setProperty('--speed', speed.toFixed(4));
 
     const mid = window.innerHeight / 2;
     for (const el of items) {
       const r = el.getBoundingClientRect();
       const centre = r.top + r.height / 2;
-      el.style.setProperty('--depth', clamp((centre - mid) / mid, -1, 1).toFixed(4));
+
+      // Normalised against a window slightly larger than the viewport, so a card
+      // is already easing before it arrives rather than snapping in.
+      el.style.setProperty('--depth', clamp((centre - mid) / (mid * 1.15), -1, 1).toFixed(4));
     }
   }
 
@@ -134,6 +101,9 @@
   } else {
     onScreen = true;
   }
+
+  measureSides();
+  window.addEventListener('resize', measureSides);
 
   scope.classList.add('warp--live');
   requestAnimationFrame(frame);
