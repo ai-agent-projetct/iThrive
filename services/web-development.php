@@ -421,6 +421,14 @@ require dirname(__DIR__) . '/includes/header.php';
           <?php foreach (WEB_WHY as $i => $why): ?>
             <article class="swipe-card" data-swipe-card
                      style="--tint: <?= e(['#00F2FE', '#4EA8FF', '#9D4EDD', '#2FA36B', '#F2649B', '#C8A24A'][$i % 6]) ?>">
+              <span class="swipe-art" aria-hidden="true">
+                <?php /* draggable="false" is load-bearing: an <img> starts a
+                         native drag on pointerdown, which cancels the pointer
+                         stream the deck needs and stops the card cycling. */ ?>
+                <img src="<?= e(asset('assets/img/art/' . $why['art'] . '.svg')) ?>"
+                     width="560" height="420" loading="lazy" decoding="async"
+                     draggable="false" alt="">
+              </span>
               <span class="swipe-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?> / <?= count(WEB_WHY) ?></span>
               <h3 class="swipe-title"><?= e($why['title']) ?></h3>
               <p class="swipe-body"><?= e($why['body']) ?></p>

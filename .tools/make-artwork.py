@@ -236,7 +236,136 @@ def shield(rng):
     return ''.join(s)
 
 
+
+# ---------------------------------------------------------------------------
+# Swipe-stack cards on the web development page
+#
+# Six drawings for six promises, from the same primitives as everything above
+# so they read as one system. Each states its promise literally rather than
+# decoratively: a quote that is sealed, a bench with no junior row behind it,
+# keys handed over with the history, a budget with a ceiling, blocks that can
+# be rearranged, and a signal that gets an answer.
+# ---------------------------------------------------------------------------
+
+def why_price(rng):
+    """A quote, sealed - the fixed price."""
+    s = [grid_bg()]
+    x, y, w, h = W/2 - 150, 96, 300, 250
+    s.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="16" '
+             f'fill="url(#g)" fill-opacity=".07" stroke="url(#g)" stroke-opacity=".55" stroke-width="1.6"/>')
+    for i in range(4):
+        lw = w - 64 - (i % 2) * 56
+        s.append(f'<rect x="{x+32}" y="{y+42+i*30}" width="{lw:.0f}" height="8" rx="4" '
+                 f'fill="#fff" fill-opacity="{.16 - i*.02:.2f}"/>')
+    s.append(f'<path d="M{x+32} {y+178}H{x+w-32}" stroke="url(#g)" stroke-opacity=".5" stroke-width="1.4"/>')
+    s.append(f'<rect x="{x+32}" y="{y+196}" width="96" height="14" rx="7" fill="url(#g)" fill-opacity=".85"/>')
+    s.append(f'<circle cx="{x+w-58}" cy="{y+200}" r="30" fill="url(#g)" fill-opacity=".14" '
+             f'stroke="url(#g)" stroke-opacity=".7" stroke-width="1.6"/>')
+    s.append(f'<path d="M{x+w-72} {y+200}l10 11 20-23" stroke="url(#g)" stroke-width="3.4" '
+             f'stroke-linecap="round" stroke-linejoin="round"/>')
+    return ''.join(s)
+
+
+def why_senior(rng):
+    """Three figures at the same height - no junior bench behind them."""
+    s = [grid_bg()]
+    for i, cx in enumerate((W/2 - 132, W/2, W/2 + 132)):
+        op = .85 if i == 1 else .58
+        s.append(f'<circle cx="{cx}" cy="168" r="34" fill="url(#g)" fill-opacity="{op*.22:.2f}" '
+                 f'stroke="url(#g)" stroke-opacity="{op:.2f}" stroke-width="1.8"/>')
+        s.append(f'<path d="M{cx-56} 300c0-31 25-56 56-56s56 25 56 56" '
+                 f'stroke="url(#g)" stroke-opacity="{op:.2f}" stroke-width="1.8" fill="none"/>')
+        s.append(f'<rect x="{cx-30}" y="322" width="60" height="8" rx="4" fill="url(#g)" fill-opacity="{op*.8:.2f}"/>')
+    return ''.join(s)
+
+
+def why_ownership(rng):
+    """A key beside a repository with its history - everything handed over."""
+    s = [grid_bg()]
+    x, y = W/2 - 140, 120
+    s.append(f'<rect x="{x}" y="{y}" width="280" height="200" rx="14" '
+             f'fill="url(#g)" fill-opacity=".07" stroke="url(#g)" stroke-opacity=".5" stroke-width="1.6"/>')
+    s.append(f'<path d="M{x} {y+44}H{x+280}" stroke="url(#g)" stroke-opacity=".4" stroke-width="1.3"/>')
+    for i in range(3):
+        s.append(f'<circle cx="{x+26+i*20}" cy="{y+22}" r="5" fill="url(#g)" fill-opacity=".55"/>')
+    s.append(f'<path d="M{x+56} {y+96}v92M{x+56} {y+130}h72a24 24 0 0 1 24 24v34" '
+             f'stroke="url(#g)" stroke-opacity=".62" stroke-width="1.8" fill="none"/>')
+    for cx, cy in ((x+56, y+96), (x+56, y+188), (x+152, y+188)):
+        s.append(f'<circle cx="{cx}" cy="{cy}" r="9" fill="#0B0F17" stroke="url(#g)" stroke-width="2.2"/>')
+    s.append(f'<circle cx="{x+232}" cy="{y+150}" r="24" fill="none" stroke="url(#g)" stroke-width="3"/>')
+    s.append(f'<path d="M{x+232} {y+174}v40m0-18h16" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>')
+    return ''.join(s)
+
+
+def why_speed(rng):
+    """A gauge filled to a written ceiling - speed as a contract term."""
+    s = [grid_bg()]
+    cx, cy, r = W/2, 262, 128
+    s.append(f'<path d="M{cx-r} {cy}a{r} {r} 0 0 1 {r*2} 0" stroke="#fff" stroke-opacity=".12" '
+             f'stroke-width="14" stroke-linecap="round" fill="none"/>')
+    s.append(f'<path d="M{cx-r} {cy}a{r} {r} 0 0 1 {r*1.62:.0f} -{r*.78:.0f}" stroke="url(#g)" '
+             f'stroke-width="14" stroke-linecap="round" fill="none"/>')
+    for i in range(9):
+        a = math.pi + (i / 8) * math.pi
+        x1, y1 = cx + math.cos(a)*(r-30), cy + math.sin(a)*(r-30)
+        x2, y2 = cx + math.cos(a)*(r-18), cy + math.sin(a)*(r-18)
+        s.append(f'<path d="M{x1:.1f} {y1:.1f}L{x2:.1f} {y2:.1f}" stroke="#fff" stroke-opacity=".22" stroke-width="2"/>')
+    a = math.pi + .78 * math.pi
+    s.append(f'<path d="M{cx} {cy}L{cx + math.cos(a)*(r-42):.1f} {cy + math.sin(a)*(r-42):.1f}" '
+             f'stroke="url(#g)" stroke-width="4" stroke-linecap="round"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="9" fill="url(#g)"/>')
+    s.append(f'<rect x="{cx-58}" y="{cy+34}" width="116" height="12" rx="6" fill="url(#g)" fill-opacity=".5"/>')
+    return ''.join(s)
+
+
+def why_editable(rng):
+    """Blocks with drag handles - a site the client's team can rearrange."""
+    s = [grid_bg()]
+    x, y = W/2 - 150, 108
+    heights = (52, 84, 52)
+    for i, h in enumerate(heights):
+        yy = y + sum(heights[:i]) + i * 18
+        s.append(f'<rect x="{x}" y="{yy}" width="300" height="{h}" rx="12" '
+                 f'fill="url(#g)" fill-opacity="{.10 if i == 1 else .06:.2f}" '
+                 f'stroke="url(#g)" stroke-opacity="{.66 if i == 1 else .38:.2f}" stroke-width="1.6"/>')
+        for d in range(3):
+            s.append(f'<rect x="{x+18}" y="{yy + h/2 - 7 + d*6:.0f}" width="14" height="2.4" rx="1.2" '
+                     f'fill="url(#g)" fill-opacity=".6"/>')
+        s.append(f'<rect x="{x+48}" y="{yy + h/2 - 4:.0f}" width="{150 - i*28}" height="8" rx="4" '
+                 f'fill="#fff" fill-opacity=".16"/>')
+    s.append(f'<rect x="{x+206}" y="{y+150}" width="118" height="46" rx="10" fill="#0B0F17" '
+             f'stroke="url(#g)" stroke-width="2" stroke-dasharray="6 5"/>')
+    return ''.join(s)
+
+
+def why_support(rng):
+    """A signal, answered - a named engineer rather than a queue."""
+    s = [grid_bg()]
+    cx, cy = W/2, 236
+    for i, r in enumerate((52, 92, 132)):
+        s.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="url(#g)" '
+                 f'stroke-opacity="{.5 - i*.14:.2f}" stroke-width="1.6"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="26" fill="url(#g)" fill-opacity=".2" '
+             f'stroke="url(#g)" stroke-opacity=".8" stroke-width="2"/>')
+    s.append(f'<path d="M{cx-11} {cy-4}a15 15 0 0 1 22 0" stroke="url(#g)" stroke-width="2.6" '
+             f'stroke-linecap="round" fill="none"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy+8}" r="4.5" fill="url(#g)"/>')
+    s.append(f'<rect x="{cx+96}" y="{cy-120}" width="140" height="52" rx="14" fill="#0B0F17" '
+             f'stroke="url(#g)" stroke-opacity=".6" stroke-width="1.6"/>')
+    s.append(f'<rect x="{cx+114}" y="{cy-104}" width="82" height="7" rx="3.5" fill="#fff" fill-opacity=".22"/>')
+    s.append(f'<rect x="{cx+114}" y="{cy-89}" width="54" height="7" rx="3.5" fill="url(#g)" fill-opacity=".6"/>')
+    return ''.join(s)
+
+
 RECIPES = {
+    # swipe-stack cards, web development page
+    'why-price':     why_price,
+    'why-senior':    why_senior,
+    'why-ownership': why_ownership,
+    'why-speed':     why_speed,
+    'why-editable':  why_editable,
+    'why-support':   why_support,
+
     # service groups
     'ai-first':            neural,
     'product-engineering': layers,

@@ -307,12 +307,12 @@ const WEB_LOCATIONS = [
 ];
 
 const WEB_WHY = [
-    ['title' => 'A fixed price before we start',      'body' => 'Written scope, fixed cost and a delivery date agreed up front. Change requests are quoted separately rather than absorbed silently and blamed at the end.'],
-    ['title' => 'Senior engineers, not a junior bench','body' => 'The people in your discovery call write the code. There is no handoff to a trainee team after the contract is signed.'],
-    ['title' => 'You own everything',                 'body' => 'Code, domain, hosting and content are yours from day one, in your own repositories and accounts. No hostage hosting and no licence you have to keep renting.'],
-    ['title' => 'Speed is a contract term',           'body' => 'Core Web Vitals thresholds are written into the scope and enforced in CI, so "we will optimise it later" never becomes your problem.'],
-    ['title' => 'Built to be edited',                 'body' => 'Every site ships with a CMS your team can actually operate, and a handover session recorded so the knowledge does not leave with one person.'],
-    ['title' => 'Support that answers',               'body' => 'A named engineer, an agreed response window, and a maintenance retainer that covers patching, backups and uptime monitoring.'],
+    ['art' => 'why-price',     'title' => 'A fixed price before we start',      'body' => 'Written scope, fixed cost and a delivery date agreed up front. Change requests are quoted separately rather than absorbed silently and blamed at the end.'],
+    ['art' => 'why-senior',    'title' => 'Senior engineers, not a junior bench','body' => 'The people in your discovery call write the code. There is no handoff to a trainee team after the contract is signed.'],
+    ['art' => 'why-ownership', 'title' => 'You own everything',                 'body' => 'Code, domain, hosting and content are yours from day one, in your own repositories and accounts. No hostage hosting and no licence you have to keep renting.'],
+    ['art' => 'why-speed',     'title' => 'Speed is a contract term',           'body' => 'Core Web Vitals thresholds are written into the scope and enforced in CI, so "we will optimise it later" never becomes your problem.'],
+    ['art' => 'why-editable',  'title' => 'Built to be edited',                 'body' => 'Every site ships with a CMS your team can actually operate, and a handover session recorded so the knowledge does not leave with one person.'],
+    ['art' => 'why-support',   'title' => 'Support that answers',               'body' => 'A named engineer, an agreed response window, and a maintenance retainer that covers patching, backups and uptime monitoring.'],
 ];
 
 /**
