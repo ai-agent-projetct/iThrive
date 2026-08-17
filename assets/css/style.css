@@ -3814,3 +3814,93 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 .hscroll--inline .hpanel-scrim { display: none; }
 .hscroll--inline .hpanel-index { display: none; }
 .hscroll--inline .hpanel-media { position: static; aspect-ratio: 16 / 9; }
+
+/* =========================================================================
+   Swipe Stack — the fanned deck
+
+   Geometry comes from JS so it matches the component's documented props; this
+   is the card design and the perspective the fan sits in.
+   ========================================================================= */
+
+.swipe-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  margin-top: 40px;
+}
+
+.swipe-stack {
+  position: relative;
+  width: min(340px, 84vw);
+  height: 440px;
+  perspective: 1400px;
+  perspective-origin: 50% 45%;
+  touch-action: none;   /* the deck owns horizontal drags */
+}
+.swipe-stack:focus-visible { outline: none; }
+
+/* Before the script runs the cards are a plain readable column, so the copy is
+   never trapped behind an interaction that did not load. */
+.swipe-stack:not(.swipe-stack--live) { height: auto; display: grid; gap: 14px; }
+.swipe-stack:not(.swipe-stack--live) .swipe-card { position: static; }
+
+.swipe-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 28px;
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--tint) 22%, transparent) 0%, transparent 55%),
+    rgba(12, 17, 27, .96);
+  backdrop-filter: var(--blur);
+  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, .9);
+  transform-origin: 50% 100%;
+  will-change: transform;
+  cursor: grab;
+  /* The spring. Overshoot is what makes a flick feel thrown rather than moved. */
+  transition: transform .46s cubic-bezier(.22, 1.4, .36, 1), opacity .32s var(--ease);
+}
+.swipe-stack.is-dragging .swipe-card.is-front { cursor: grabbing; }
+.swipe-card.is-leaving { transition: transform .26s var(--ease), opacity .26s var(--ease); }
+.swipe-card.is-front { border-color: color-mix(in srgb, var(--tint) 55%, var(--line-strong)); }
+.swipe-card:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+.swipe-num {
+  position: absolute;
+  top: 22px;
+  left: 28px;
+  color: var(--tint);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .74rem;
+  letter-spacing: .08em;
+}
+.swipe-title { margin: 0; font-size: 1.32rem; line-height: 1.24; }
+.swipe-body { margin: 0; color: var(--text-dim); font-size: .93rem; line-height: 1.66; }
+
+.swipe-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 24px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--glass);
+  color: var(--text);
+  font: inherit;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .3s var(--ease), background .3s var(--ease);
+}
+.swipe-next:hover { border-color: rgba(0, 242, 254, .5); background: var(--glass-hi); }
+.swipe-next .icon { width: 15px; height: 15px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .swipe-card { transition: none; }
+}

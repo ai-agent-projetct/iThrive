@@ -400,36 +400,38 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- ── Why us ─────────────────────────────────────────────────────── -->
-  <?php /* The same infinite canvas as Origin Kit's, drawing text tiles instead
-           of photographs: drag with momentum, wheel-zoom about the cursor, and
-           a grid that repeats forever so there is no edge. The list underneath
-           is the real content — the canvas covers it rather than replacing it,
-           so a crawler, a screen reader and the keyboard all still get it. */ ?>
+  <?php /* Origin Kit's Swipe Stack: a fanned 3D deck where the top card drags,
+           flicks to the back past a threshold, and snaps home on a short swipe.
+           The cards are real headings and copy rather than a canvas — this page
+           has to rank, and a drawn deck would be an empty box to everything
+           except a human with a mouse. */ ?>
   <section class="section web-why">
     <div class="shell">
       <?php component('section-head', [
           'eyebrow' => 'Why iThrive',
           'title'   => 'What is different about working with us',
-          'lead'    => 'Drag to wander, scroll to zoom. Six things, repeating forever.',
+          'lead'    => 'Drag the top card, or use the arrow keys. Six of them, and they cycle.',
       ]); ?>
-    </div>
 
-    <div class="work-stage why-stage" data-work-canvas>
-      <ul class="work-list">
-        <?php foreach (WEB_WHY as $i => $why): ?>
-          <li>
-            <span class="work-item"
-                  data-work-item
-                  data-name="<?= e($why['title']) ?>"
-                  data-body="<?= e($why['body']) ?>"
-                  data-tint="<?= e(['#00F2FE', '#4EA8FF', '#9D4EDD', '#2FA36B', '#F2649B', '#C8A24A'][$i % 6]) ?>">
-              <span class="work-item-name"><?= e($why['title']) ?></span>
-              <span class="work-item-note"><?= e($why['body']) ?></span>
-            </span>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-      <p class="work-hint" aria-hidden="true"><?= icon('compass') ?>Drag to explore &middot; scroll to zoom</p>
+      <div class="swipe-wrap">
+        <div class="swipe-stack" data-swipe-stack
+             data-threshold="50" data-tilt-start="0" data-tilt="-45" data-x-offset="10"
+             role="group" aria-roledescription="card deck"
+             aria-label="What is different about working with iThrive Software">
+          <?php foreach (WEB_WHY as $i => $why): ?>
+            <article class="swipe-card" data-swipe-card
+                     style="--tint: <?= e(['#00F2FE', '#4EA8FF', '#9D4EDD', '#2FA36B', '#F2649B', '#C8A24A'][$i % 6]) ?>">
+              <span class="swipe-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?> / <?= count(WEB_WHY) ?></span>
+              <h3 class="swipe-title"><?= e($why['title']) ?></h3>
+              <p class="swipe-body"><?= e($why['body']) ?></p>
+            </article>
+          <?php endforeach; ?>
+        </div>
+
+        <button class="swipe-next" type="button" data-swipe-next>
+          Next<?= icon('arrow') ?>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -498,5 +500,6 @@ require dirname(__DIR__) . '/includes/header.php';
 <script type="module" src="<?= e(asset('assets/js/web-rooms.js')) ?>"></script>
 <script src="<?= e(asset('assets/js/work-canvas.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/hscroll.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/swipe-stack.js')) ?>" defer></script>
 
 <?php require dirname(__DIR__) . '/includes/footer.php'; ?>
