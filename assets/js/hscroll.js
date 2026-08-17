@@ -92,6 +92,31 @@
       if (!img.complete) img.addEventListener('load', measure, { once: true });
     });
 
+    /**
+     * Clips load and play only where they are wanted.
+     *
+     * Eight full-screen captures is far more than anyone scrolls through, so
+     * nothing is fetched until its panel is near the viewport, and playback
+     * stops the moment it leaves. Without this the section costs sixteen
+     * megabytes on load to show two panels.
+     */
+    const vids = Array.from(section.querySelectorAll('[data-hpanel-video]'));
+    if (vids.length && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          const v = e.target;
+          if (e.isIntersecting) {
+            if (!v.src && v.dataset.src) v.src = v.dataset.src;
+            const play = v.play();
+            if (play && play.catch) play.catch(() => {});
+          } else {
+            v.pause();
+          }
+        });
+      }, { root: section.querySelector('.hscroll-stage'), rootMargin: '100% 0px', threshold: 0 });
+      vids.forEach((v) => io.observe(v));
+    }
+
     measure();
     requestAnimationFrame(frame);
   });

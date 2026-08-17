@@ -3691,3 +3691,126 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 /* The "what is different" wall reuses the gallery canvas, so it only needs its
    own height — the tiles are drawn, not photographed. */
 .why-stage { height: min(66vh, 620px); }
+
+/* =========================================================================
+   Full-bleed work panels
+
+   One site per screen. The panel is the viewport, the capture covers it, and
+   the copy sits over a scrim on the left — the arrangement the reference uses.
+   ========================================================================= */
+
+.hwork-full { padding: 0; }
+.hwork-full .hscroll-track { gap: 0; padding: 0; }
+
+.hpanel {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+/* 16:9 fully covered — cover rather than contain, so there is never a bar.
+   The captures are 1280x720, so the crop is only ever the sides on a taller
+   viewport, never the content in the middle. */
+.hpanel-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Readability over live footage, heaviest on the left where the copy sits.
+   Tuned against the brightest capture in the set rather than the darkest: half
+   these sites are white, and a scrim that works over a dark hero disappears
+   over a hotel page shot in daylight. */
+.hpanel-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5, 8, 14, .97) 0%, rgba(5, 8, 14, .90) 30%, rgba(5, 8, 14, .55) 55%, rgba(5, 8, 14, .10) 80%, transparent 100%),
+    linear-gradient(0deg, rgba(5, 8, 14, .88) 0%, rgba(5, 8, 14, .25) 38%, transparent 55%);
+}
+
+.hpanel-copy {
+  position: absolute;
+  left: max(28px, calc(50vw - 620px));
+  bottom: clamp(70px, 12vh, 150px);
+  max-width: min(46ch, 52vw);
+  z-index: 2;
+}
+.hpanel-tag {
+  margin: 0 0 14px;
+  color: var(--tint, var(--cyan));
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .72rem;
+  letter-spacing: .1em;
+}
+.hpanel-name {
+  margin: 0;
+  font-size: clamp(2rem, 1.2rem + 3.4vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -.025em;
+}
+.hpanel-note {
+  margin: 16px 0 0;
+  color: var(--text-dim);
+  font-size: clamp(.92rem, .86rem + .3vw, 1.08rem);
+  line-height: 1.68;
+}
+.hpanel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.hpanel-link:hover { color: var(--tint, var(--cyan)); border-color: var(--tint, var(--cyan)); }
+.hpanel-link .icon { width: 16px; height: 16px; }
+
+.hpanel-index {
+  position: absolute;
+  top: calc(var(--header-h) + 22px);
+  left: max(28px, calc(50vw - 620px));
+  z-index: 2;
+  color: rgba(255, 255, 255, .5);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .72rem;
+  letter-spacing: .1em;
+}
+
+/* ---------- Intro and end panels ---------- */
+
+.hpanel--intro, .hpanel--end { display: grid; place-items: center; width: min(100vw, 720px); }
+.hpanel-intro { padding: 0 32px; text-align: left; }
+.hpanel-intro-title {
+  margin: 10px 0 0;
+  font-size: clamp(2.2rem, 1.3rem + 3.6vw, 4.4rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+.hpanel-intro-lead { margin: 20px 0 0; max-width: 42ch; color: var(--text-dim); line-height: 1.7; }
+.hpanel--end .btn { margin-top: 26px; }
+
+/* Stacked and swipeable where pinning is wrong. */
+.hscroll--inline .hpanel { width: 88vw; height: auto; aspect-ratio: 16 / 9; border-radius: var(--radius); }
+.hscroll--inline .hpanel--intro,
+.hscroll--inline .hpanel--end { aspect-ratio: auto; padding: 40px 0; }
+.hscroll--inline .hpanel-copy { position: static; padding: 20px; max-width: none; }
+.hscroll--inline .hpanel-scrim { display: none; }
+.hscroll--inline .hpanel-index { display: none; }
+.hscroll--inline .hpanel-media { position: static; aspect-ratio: 16 / 9; }

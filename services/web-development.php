@@ -241,46 +241,74 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- ── Room 4 · The Gallery ───────────────────────────────────────── -->
-  <?php /* Horizontal, the way 2025.unseen.co moves: the section pins, and the
-           scroll you spend crossing it drives the track sideways. Real markup
-           and real anchors, because that site's project pages render into WebGL
-           and this one has to stay readable. */ ?>
-  <section class="section hscroll web-work" id="work"
+  <?php /* Full-bleed panels that slide sideways, the way 2025.unseen.co moves:
+           one site per screen, the capture playing behind the copy, and the
+           whole thing driven by the scroll you spend crossing the section.
+
+           The clips are scroll-throughs of the live sites, captured and encoded
+           rather than screenshotted — a still of a website tells you nothing
+           about how it behaves. MP4 rather than GIF: same autoplay-loop, a
+           fraction of the weight, and it can be told not to download until the
+           panel is close. */ ?>
+  <section class="section hscroll hwork-full" id="work"
            data-room="work" data-room-hue="258" data-room-label="The Gallery"
            data-hscroll>
-    <div class="shell">
-      <?php component('section-head', [
-          'eyebrow' => 'Selected Work',
-          'title'   => 'Websites we have shipped',
-          'lead'    => 'Keep scrolling — the work moves sideways. Click any site to open it.',
-      ]); ?>
-    </div>
-
     <div class="hscroll-stage">
       <ol class="hscroll-track" data-hscroll-track>
+
+        <li class="hpanel hpanel--intro">
+          <div class="hpanel-intro">
+            <p class="eyebrow">Selected Work</p>
+            <h2 class="hpanel-intro-title">Websites we<br>have shipped</h2>
+            <p class="hpanel-intro-lead">
+              Keep scrolling — the work moves sideways. Every panel is a live site,
+              playing as it scrolls.
+            </p>
+          </div>
+        </li>
+
         <?php foreach (WEB_WORK as $i => $wk): ?>
-          <li class="hwork" style="--tint: <?= e($wk['tint']) ?>">
-            <?php $tag = $wk['url'] ? 'a' : 'div'; ?>
-            <<?= $tag ?> class="hwork-card"
-              <?php if ($wk['url']): ?>href="<?= e($wk['url']) ?>" target="_blank" rel="noopener"<?php endif; ?>>
-              <span class="hwork-index"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
-              <span class="hwork-shot">
-                <img src="<?= e(asset('assets/img/work/' . $wk['slug'] . '.jpg')) ?>"
-                     width="720" height="450" loading="lazy" decoding="async"
-                     alt="<?= e($wk['name'] . ' website built by ' . SITE_NAME) ?>">
-              </span>
-              <span class="hwork-meta">
-                <span class="hwork-name"><?= e($wk['name']) ?></span>
-                <span class="hwork-kind"><?= e($wk['kind']) ?> &middot; <?= e($wk['year']) ?></span>
-              </span>
-              <span class="hwork-note"><?= e($wk['note']) ?></span>
-            </<?= $tag ?>>
+          <li class="hpanel" style="--tint: <?= e($wk['tint']) ?>">
+            <?php $clip = ROOT_PATH . '/assets/video/work/' . $wk['slug'] . '.mp4'; ?>
+
+            <?php if (is_file($clip)): ?>
+              <?php /* preload="none": eight clips is more than anyone will watch,
+                       so nothing downloads until hscroll.js says the panel is
+                       near. The poster is the still we already had. */ ?>
+              <video class="hpanel-media" data-hpanel-video
+                     muted loop playsinline preload="none" disablepictureinpicture
+                     poster="<?= e(asset('assets/img/work/' . $wk['slug'] . '.jpg')) ?>"
+                     data-src="<?= e(asset('assets/video/work/' . $wk['slug'] . '.mp4')) ?>"></video>
+            <?php else: ?>
+              <img class="hpanel-media" src="<?= e(asset('assets/img/work/' . $wk['slug'] . '.jpg')) ?>"
+                   width="1280" height="720" loading="lazy" decoding="async"
+                   alt="<?= e($wk['name'] . ' website built by ' . SITE_NAME) ?>">
+            <?php endif; ?>
+
+            <span class="hpanel-scrim" aria-hidden="true"></span>
+
+            <div class="hpanel-copy">
+              <p class="hpanel-tag">
+                [<?= e(strtoupper($wk['kind'])) ?>] [<?= e($wk['year']) ?>]
+              </p>
+              <h3 class="hpanel-name"><?= e($wk['name']) ?></h3>
+              <p class="hpanel-note"><?= e($wk['note']) ?></p>
+              <?php if ($wk['url']): ?>
+                <a class="hpanel-link" href="<?= e($wk['url']) ?>" target="_blank" rel="noopener">
+                  Visit the site<?= icon('arrow-up-right') ?>
+                </a>
+              <?php endif; ?>
+            </div>
+
+            <span class="hpanel-index" aria-hidden="true">
+              [US_<?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?>_<?= e(substr($wk['year'], -2)) ?>]
+            </span>
           </li>
         <?php endforeach; ?>
 
-        <li class="hwork hwork--end">
-          <div class="hwork-card hwork-card--cta">
-            <p class="hwork-end-title">Your site could be next.</p>
+        <li class="hpanel hpanel--end">
+          <div class="hpanel-intro">
+            <h2 class="hpanel-intro-title">Your site<br>could be next.</h2>
             <a class="btn btn-primary" href="<?= e(url('contact.php')) ?>">Start your project<?= icon('arrow') ?></a>
           </div>
         </li>
