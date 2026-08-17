@@ -114,30 +114,32 @@ const HOME_SERVICES_HEAD = [
     'lead'    => 'Four practices, one team. Pick the model that fits where your product is today — greenfield AI build, modernisation of what you already run, or an embedded squad that plugs into yours.',
 ];
 
+/**
+ * The film below this heading carries the four-point argument as animation.
+ * These paragraphs are the same case in prose — visible, indexable copy that
+ * names every service line, which a scroll-scrubbed video cannot do for a
+ * crawler or an answer engine.
+ */
 const HOME_WHY = [
     'eyebrow' => 'Why iThrive',
     'title'   => 'Engineering depth, not agency theatre',
-    'items'   => [
-        [
-            'icon'  => 'brain',
-            'title' => 'AI-first by default',
-            'body'  => 'Agentic workflows, RAG pipelines and model evaluation are core practice here — not an add-on service line bolted onto a web shop.',
-        ],
-        [
-            'icon'  => 'code',
-            'title' => 'Python all the way down',
-            'body'  => 'FastAPI, Django, Celery, LangGraph and PyTorch. One language across API, data pipeline and model layer keeps teams small and velocity high.',
-        ],
-        [
-            'icon'  => 'shield',
-            'title' => 'Production-grade from day one',
-            'body'  => 'Typed APIs, CI/CD, observability and rollback paths ship with the first release — not after the first outage.',
-        ],
-        [
-            'icon'  => 'users',
-            'title' => 'Senior engineers only',
-            'body'  => 'The people in your discovery workshop are the people writing the code. No handoff to a junior bench after signature.',
-        ],
+    'body'    => [
+        'At iThrive, engineering depth comes first. We build scalable, secure, and high-performance '
+        . 'digital products designed around real business outcomes—not temporary solutions or '
+        . 'agency-style execution. Our expertise covers AI-first product development, AI-native '
+        . 'applications, AI enablement, AI solutions for eCommerce, Micro SaaS development, custom '
+        . 'software development, product modernization, cloud and DevOps. We help businesses turn '
+        . 'ideas into production-ready products while improving existing platforms through modern '
+        . 'architecture, automation, intelligent workflows, and cloud-native engineering. Every '
+        . 'solution is designed to be reliable, maintainable, and ready to evolve as your business grows.',
+
+        'Our engineering capabilities extend across the complete digital product lifecycle, from POC '
+        . 'and MVP development to full-scale product engineering. We provide mobile app development, '
+        . 'web development, eCommerce development, React JS development, dedicated engineering teams, '
+        . 'and on-demand technical resources. Whether launching a new product, modernizing legacy '
+        . 'software, or adding AI capabilities to an existing platform, iThrive combines product '
+        . 'thinking, engineering expertise, and agile execution to deliver measurable results, faster '
+        . 'time-to-market, and long-term technology value.',
     ],
 ];
 

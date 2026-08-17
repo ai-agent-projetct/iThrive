@@ -123,6 +123,24 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 .skip-link:focus { top: 16px; }
 
+/* Content for assistive tech and crawlers only. Two components carried this
+   class before anything defined it: the services film's keyboard link list,
+   which only stayed out of sight because its stage clips overflow, and the why
+   film's caption, which did not — it laid out as a flex sibling and pushed the
+   picture off centre. Absolute, so it never takes part in layout. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---------- Layout primitives ---------- */
 
 .shell {
@@ -2193,9 +2211,9 @@ body.nav-open .nav-toggle-close { display: block; }
 .film--inline .film-video { height: auto; aspect-ratio: 16 / 9; }
 
 /* Melts the top and bottom edges into the page. Without this the film ends on
-   a hard horizontal line and reads as an embed. */
-   Shallower than it looks: with `cover` the edges carry real picture, not
-   letterbox, so a deep fade would dim the frame itself. */
+   a hard horizontal line and reads as an embed. Shallower than it looks: with
+   `cover` the edges carry real picture, not letterbox, so a deep fade would dim
+   the frame itself. */
 .film-sticky {
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 93%, transparent 100%);
           mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 93%, transparent 100%);
@@ -2349,41 +2367,79 @@ body.nav-open .nav-toggle-close { display: block; }
    Scroll-scrubbed "why" film
    ========================================================================= */
 
+.why-film-intro { padding-bottom: 26px; }
+
+/* Two long paragraphs. Side by side on desktop so neither runs to an
+   unreadable measure, stacked below that. */
+.why-film-copy {
+  margin: 26px auto 0;
+  max-width: 1080px;
+  display: grid;
+  gap: 22px 44px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.why-film-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+@media (max-width: 860px) {
+  .why-film-copy { grid-template-columns: 1fr; margin-top: 20px; }
+  .why-film-copy p { font-size: .96rem; }
+}
 .why-film { padding: 0; background: var(--ink); }
 .scrub--live.why-film .why-film-track { height: 320vh; }
 
+/* The stage is the viewport. No shell, no card, no border — the film is a band
+   of the page, the way the services film is. */
 .why-film-sticky {
   position: sticky;
   top: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: calc(var(--header-h) + 26px) 0 40px;
+  height: 100vh;
   overflow: hidden;
 }
-.scrub--inline .why-film-sticky { position: static; min-height: 0; padding: 84px 0; }
+.scrub--inline .why-film-sticky { position: static; height: auto; padding: 0 0 40px; }
 
-/* 16:9 stage. The clip is square, so it is centred with `contain` on the film's
-   own backdrop colour — cropping to fill would cut the cards in half, and the
-   matching colour makes the letterbox invisible. */
 .why-film-stage {
   position: relative;
-  /* aspect-ratio decides the shape; width is computed from the height cap so
-     the box stays a true 16:9. Setting width:100% alongside max-height let the
-     cap win and the frame came out at 2.19:1. */
-  aspect-ratio: 16 / 9;
-  height: min(62vh, 56.25vw);
-  width: auto;
-  max-width: 100%;
-  margin: 26px auto 0;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #100F14;
-  border: 1px solid var(--line);
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* The sides. An ambient wash averaged from the film and blurred past
+     recognition, so the fill is in the clip's own palette and cannot be read as
+     a duplicated frame. The gradients above it deepen the far edges so the
+     picture is the brightest thing on screen. */
+  background:
+    radial-gradient(78% 96% at 50% 50%, rgba(124, 58, 237, .16) 0%, transparent 68%),
+    linear-gradient(90deg, var(--ink) 0%, transparent 26%, transparent 74%, var(--ink) 100%),
+    linear-gradient(180deg, var(--ink) 0%, transparent 22%, transparent 78%, var(--ink) 100%),
+    url('../img/why-film-ambient.jpg') center / cover no-repeat,
+    #0B0A10;
 }
+.scrub--inline .why-film-stage { height: auto; }
+
+/* Sized to the picture, not to the stage, so the mask below lands exactly on
+   the film's own edges. object-fit keeps it honest if max-width ever clamps. */
+.why-film-frame {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+
+  /* Melts the vertical edges into the wash. The clip has the neighbouring
+     cards sliding through its margins, so without this they end on a hard
+     line and the square reads as a box dropped onto the page. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.scrub--inline .why-film-frame { height: auto; width: 100%; }
+
 .why-film-video { width: 100%; height: 100%; object-fit: contain; display: block; }
-.scrub--inline .why-film-stage { max-height: none; }
 
 .why-film-progress {
   position: absolute;
@@ -2391,17 +2447,25 @@ body.nav-open .nav-toggle-close { display: block; }
   right: 0;
   bottom: 0;
   height: 3px;
-  background: rgba(255, 255, 255, .10);
+  background: rgba(255, 255, 255, .08);
+  z-index: 2;
 }
 .why-film-progress span { display: block; height: 100%; width: 0; background: var(--grad); }
 
-@media (max-width: 720px) {
-  .why-film-stage { max-height: none; border-radius: 14px; }
+/* Below this the square is taller than the viewport is wide, so pinning it
+   full-height would push the picture off both sides. Let it size to the width
+   and give the section its own padding back. */
+@media (max-width: 860px) {
+  .why-film-sticky { height: auto; padding: 0 0 34px; position: static; }
+  .why-film-stage { height: auto; }
+  .why-film-frame { height: auto; width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .scrub--live.why-film .why-film-track { height: auto; }
-  .why-film-sticky { position: static; min-height: 0; padding: 80px 0; }
+  .why-film-sticky { position: static; height: auto; }
+  .why-film-stage { height: auto; }
+  .why-film-frame { height: auto; width: 100%; }
 }
 
 /* =========================================================================

@@ -23,6 +23,7 @@ declare(strict_types=1);
 $film   = SERVICES_FILM;
 $src    = ROOT_PATH . '/assets/video/services-film.mp4';
 $mobile = ROOT_PATH . '/assets/video/services-film-mobile.mp4';
+$wide   = ROOT_PATH . '/assets/video/services-film-2k.mp4';
 $poster = ROOT_PATH . '/assets/video/services-film-poster.jpg';
 
 if (!is_file($src)) {
@@ -49,8 +50,14 @@ $marks = array_map(
       <video class="film-video" data-film-video
              muted playsinline preload="auto" disablepictureinpicture
              <?= is_file($poster) ? 'poster="' . e(asset('assets/video/services-film-poster.jpg')) . '"' : '' ?>>
+        <?php /* First match wins, so these run narrowest to widest. Only one is
+                 ever fetched — the tiers cost the visitor nothing but the one
+                 that suits their screen. */ ?>
         <?php if (is_file($mobile)): ?>
           <source src="<?= e(asset('assets/video/services-film-mobile.mp4')) ?>" type="video/mp4" media="(max-width: 860px)">
+        <?php endif; ?>
+        <?php if (is_file($wide)): ?>
+          <source src="<?= e(asset('assets/video/services-film-2k.mp4')) ?>" type="video/mp4" media="(min-width: 1600px)">
         <?php endif; ?>
         <source src="<?= e(asset('assets/video/services-film.mp4')) ?>" type="video/mp4">
       </video>
