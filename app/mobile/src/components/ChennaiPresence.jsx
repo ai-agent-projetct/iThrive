@@ -4,6 +4,7 @@ import {
   Users, Building, CheckCircle2, ArrowRight
 } from 'lucide-react';
 import MouseOverText from './MouseOverText';
+import V from '../variant';
 
 export default function ChennaiPresence({ onOpenConsultation }) {
   return (
@@ -18,11 +19,11 @@ export default function ChennaiPresence({ onOpenConsultation }) {
             
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
               <MapPin className="w-3.5 h-3.5 text-emerald-400 animate-bounce" />
-              <span>Chennai Mobile App Studio</span>
+              <span>{V.studioTitle}</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading tracking-tight text-slate-100">
-              Leading <MouseOverText text="Mobile App Development Company in Chennai" variant="glow" className="text-cyan-400" />
+              Leading <MouseOverText text={V.studioKeyword} variant="glow" className="text-cyan-400" />
             </h2>
 
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed">

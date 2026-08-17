@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, X, IndianRupee } from 'lucide-react';
 import MouseOverText from './MouseOverText';
+import V from '../variant';
 
 /**
  * Cost CTA, in place of the old interactive estimator.
@@ -82,7 +83,7 @@ export default function CostCtaSection() {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            aria-label="View mobile app development costs"
+            aria-label={V.costLink}
             title="View development costs"
             className="cost-arrow w-14 h-14 rounded-full flex items-center justify-center"
           >

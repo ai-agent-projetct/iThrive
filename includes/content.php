@@ -443,6 +443,27 @@ const SERVICES = [
                 'stack' => ['Flutter', 'React Native', 'Python / FastAPI', 'Firebase', 'WebSockets', 'Sentry'],
             ],
             [
+                'slug'  => 'flutter-app-development',
+                'title' => 'Flutter App Development',
+                'icon'  => 'smartphone',
+                'short' => 'One Dart codebase shipped to iOS, Android, web and desktop — drawn by Flutter itself, so both stores look identical.',
+                'lead'  => 'Flutter does not wrap each platform’s widgets, it draws every pixel through its own engine. That is why a Flutter app looks the same on both stores, animates at the display’s full refresh rate, and costs a fraction of building the same product twice.',
+                'capabilities' => [
+                    ['title' => 'Single Dart codebase',     'body' => 'iOS, Android, web and desktop from one source, with platform channels into Swift or Kotlin wherever a plugin does not already exist.'],
+                    ['title' => 'Impeller rendering',       'body' => 'Flutter’s own renderer rather than a bridge to native widgets — predictable frame times, and no jank the first time an animation runs.'],
+                    ['title' => 'State architecture',       'body' => 'Riverpod or BLoC chosen for the product rather than the fashion, with boundaries drawn so a screen can be tested without a device.'],
+                    ['title' => 'Native integrations',      'body' => 'Camera, GPS, Bluetooth, biometrics, background tasks, push and in-app purchases, wired through platform channels and tested on real hardware.'],
+                    ['title' => 'On-device intelligence',   'body' => 'TensorFlow Lite and Gemini Nano running inside the app, so inference survives a lost signal and the data never leaves the handset.'],
+                    ['title' => 'Store release management', 'body' => 'One codebase produces both builds, so iOS and Android ship together — signing, data-safety declarations and the review cycle handled end to end.'],
+                ],
+                'outcomes' => [
+                    ['value' => '1 codebase', 'label' => 'Two stores, plus web and desktop'],
+                    ['value' => '120 FPS',    'label' => 'On displays that support it'],
+                    ['value' => '30–50%',   'label' => 'Below the cost of two native builds'],
+                ],
+                'stack' => ['Flutter', 'Dart', 'Riverpod', 'BLoC', 'Firebase', 'Python / FastAPI', 'TensorFlow Lite'],
+            ],
+            [
                 'slug'  => 'web-development',
                 'title' => 'Web Development',
                 'icon'  => 'globe',

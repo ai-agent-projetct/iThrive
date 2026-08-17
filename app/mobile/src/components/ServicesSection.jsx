@@ -4,6 +4,7 @@ import {
   Zap, ArrowRight, Code2, Globe, Server, CheckCircle
 } from 'lucide-react';
 import MouseOverText from './MouseOverText';
+import V from '../variant';
 
 export default function ServicesSection({ onOpenConsultation }) {
   const [activeTab, setActiveTab] = useState('all');
@@ -87,7 +88,7 @@ export default function ServicesSection({ onOpenConsultation }) {
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading tracking-tight text-slate-100">
-            End-to-End <MouseOverText text="Mobile App Development Services" variant="glow" className="text-cyan-400" />
+            End-to-End <MouseOverText text={V.servicesTitle} variant="glow" className="text-cyan-400" />
           </h2>
 
           <p className="text-slate-300 text-base sm:text-lg">

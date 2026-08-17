@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { HelpCircle, ChevronDown, Sparkles } from 'lucide-react';
 import MouseOverText from './MouseOverText';
+import V from '../variant';
 
 export default function FaqSection() {
   const [openIdx, setOpenIdx] = useState(0);
 
-  const faqs = [
+  // A variant may replace the whole book; the mobile set is the default.
+  const faqs = V.faqs || [
     {
       q: 'Why should I choose iThrive Software for Mobile App Development in Chennai?',
       a: 'iThrive Software is Chennai’s premier mobile app engineering team. We specialize in high-performance native iOS (Swift), native Android (Kotlin), cross-platform (Flutter & React Native), and AI-powered mobile apps. We provide 100% IP ownership, transparent milestone pricing, strict NDAs, and guaranteed App Store approval.'

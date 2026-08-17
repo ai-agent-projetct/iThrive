@@ -144,8 +144,10 @@ const NAV_ITEMS = [
                 [
                     'heading' => 'Core Services',
                     'links'   => [
-                        ['label' => 'Mobile App Development', 'href' => 'services/mobile-app-development.php'],
-                        ['label' => 'Web Development',        'href' => 'services/web-development.php'],
+                        ['label' => 'Custom Software Development', 'href' => 'services/software-development.php'],
+                        ['label' => 'Mobile App Development',  'href' => 'services/mobile-app-development.php'],
+                        ['label' => 'Flutter App Development', 'href' => 'services/flutter-app-development.php'],
+                        ['label' => 'Web Development',         'href' => 'services/web-development.php'],
                         ['label' => 'E-commerce Development', 'href' => 'services/ecommerce-development.php'],
                         ['label' => 'React JS Development',   'href' => 'services/reactjs-development.php'],
                         ['label' => 'POC Development',        'href' => 'services/poc-development.php'],
@@ -266,4 +268,8 @@ require_once __DIR__ . '/content.php';
 // The web development page's copy, kept separate because it outweighs the rest
 // of the service catalogue put together.
 require_once __DIR__ . '/content-web.php';
+// Flutter page answers, mirrored from the React variant for the server response.
+require_once __DIR__ . '/content-flutter.php';
+// Same reasoning for the custom software development landing page.
+require_once __DIR__ . '/content-software.php';
 require_once __DIR__ . '/faq-brain.php';

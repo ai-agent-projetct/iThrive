@@ -4,6 +4,7 @@ import {
   Database, Cloud, CheckCircle2, ArrowRight, Code2, Zap, Copy, Check, Star, ExternalLink
 } from 'lucide-react';
 import MouseOverText from './MouseOverText';
+import V from '../variant';
 import { playClickSound, playHoverSound } from './AudioEngine';
 
 /**
@@ -291,7 +292,7 @@ WHERE ST_DWithin(geom, ST_MakePoint(80.2707, 13.0827)::geography, 5000);`
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-10">
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading tracking-tight text-slate-100">
-            Tech Stack we use for <MouseOverText text="Mobile App Development" variant="glow" className="text-cyan-400" />
+            Tech Stack we use for <MouseOverText text={V.techTitle} variant="glow" className="text-cyan-400" />
           </h2>
         </div>
 
