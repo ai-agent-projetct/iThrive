@@ -65,6 +65,8 @@ function icon(string $name, string $class = 'icon'): string
         'trending-up' => '<path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
         'bar-chart'   => '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
         'gauge'       => '<path d="M4 18a9 9 0 1 1 16 0"/><path d="m12 14 4-4"/><circle cx="12" cy="15" r="1.5"/>',
+        'edit'        => '<path d="M11 4H5.5A2.5 2.5 0 0 0 3 6.5v12A2.5 2.5 0 0 0 5.5 21h12a2.5 2.5 0 0 0 2.5-2.5V13"/><path d="M18.4 2.6a2 2 0 0 1 2.8 2.8L12.5 14 9 15l1-3.5Z"/>',
+        'wrench'      => '<path d="M14.5 6.5a4.5 4.5 0 0 0 5.6 5.6L21 13l-8 8a2.8 2.8 0 0 1-4-4l8-8Z"/><path d="m7.5 13.5-4 4a2.8 2.8 0 0 0 4 4l4-4"/>',
         // Product + interface
         'smartphone'  => '<rect x="6.5" y="2" width="11" height="20" rx="2.5"/><path d="M11 18.5h2"/>',
         'monitor'     => '<rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/>',

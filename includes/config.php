@@ -263,4 +263,7 @@ const FOOTER_COLUMNS = [
 
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/content.php';
+// The web development page's copy, kept separate because it outweighs the rest
+// of the service catalogue put together.
+require_once __DIR__ . '/content-web.php';
 require_once __DIR__ . '/faq-brain.php';

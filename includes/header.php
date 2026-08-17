@@ -61,12 +61,18 @@ $ogAbs   = site_origin() . asset($ogImg);
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<?= e(asset('assets/css/style.css')) ?>">
-<?php component('schema', ['schema' => $schema ?? null]); ?>
-<?php if ($heroScene !== null): ?>
+<?php component('schema', [
+    'schema'      => $schema ?? null,
+    'schemaExtra' => $schemaExtra ?? null,
+]); ?>
+<?php /* Unconditional: an import map only declares where a bare specifier
+         resolves to, it does not fetch anything, and it has to be in the
+         document before the first module that uses one. It was gated on the
+         hero scene until the web development page's corridor became a second
+         thing that imports `three`. */ ?>
 <script type="importmap">
 { "imports": { "three": "<?= e(asset('assets/vendor/three/three.module.js')) ?>" } }
 </script>
-<?php endif; ?>
 <?php /* A page that needs its own fonts or stylesheet sets $extraHead before
          including this. It is raw markup by contract, so it is echoed as-is. */ ?>
 <?= $extraHead ?? '' ?>

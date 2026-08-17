@@ -112,4 +112,15 @@ if (!empty($schema)) {
     $graph[] = $schema;
 }
 
+// A page may declare further nodes that are not services and so must not be
+// given a provider — a HowTo, an FAQPage, a LocalBusiness per city. The web
+// development page is the first to need more than one.
+if (!empty($schemaExtra) && is_array($schemaExtra)) {
+    foreach ($schemaExtra as $node) {
+        if (is_array($node) && !empty($node['@type'])) {
+            $graph[] = $node;
+        }
+    }
+}
+
 echo json_ld(['@context' => 'https://schema.org', '@graph' => $graph]);

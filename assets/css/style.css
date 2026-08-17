@@ -2537,3 +2537,446 @@ body > .site-footer { position: relative; z-index: 1; }
   .section-title, .hero-title, .card-title { transition: none; }
   .hex-bg { display: none; }
 }
+
+/* =========================================================================
+   Web Development page
+
+   The page scrolls through a 3D corridor drawn on a fixed canvas behind it.
+   Everything here sits in front of that canvas, so surfaces need their own
+   background — a transparent card over the corridor reads as a hole.
+   ========================================================================= */
+
+.rooms {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .9s var(--ease);
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(0, 242, 254, .07), transparent 60%),
+    radial-gradient(100% 70% at 50% 100%, rgba(157, 78, 221, .09), transparent 60%);
+}
+.rooms.rooms--live { opacity: .58; }
+.rooms canvas { display: block; width: 100%; height: 100%; }
+
+/* Headings and leads are bare text over a lit 3D scene, and a doorway frame
+   crossing a headline is a legibility problem however good it looks. This
+   darkens the middle of the frame, where the copy sits, and leaves the edges —
+   where the depth actually reads — alone. */
+.rooms::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(74% 58% at 50% 46%, rgba(7, 10, 18, .80) 0%, rgba(7, 10, 18, .45) 55%, transparent 82%);
+}
+
+/* The page rides above the corridor. */
+.web-page { position: relative; z-index: 1; }
+
+/* Rooms are held back and play in when the walking figure arrives. The class
+   is only ever added by the script, so the held-back state has to be scoped to
+   a live corridor — otherwise a page without JS would hide its own content. */
+.rooms--live ~ .web-page [data-room] .shell > * {
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.rooms--live ~ .web-page [data-room]:not(.room--entered) .shell > * {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+/* ---------- Hero ---------- */
+
+.web-hero { padding-top: calc(var(--header-h) + 72px); text-align: center; }
+.web-h1 {
+  margin: 14px auto 0;
+  max-width: 17ch;
+  font-size: clamp(2.1rem, 1.1rem + 3.4vw, 4rem);
+  line-height: 1.06;
+  letter-spacing: -.02em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.web-lead {
+  margin: 20px auto 0;
+  max-width: 66ch;
+  color: var(--text-dim);
+  font-size: clamp(1rem, .9rem + .35vw, 1.14rem);
+  line-height: 1.7;
+}
+.web-cta-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 30px; }
+
+.web-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 54px auto 0;
+  max-width: 1000px;
+  padding: 0;
+  list-style: none;
+}
+.web-stats li {
+  padding: 20px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(11, 15, 23, .72);
+  backdrop-filter: var(--blur);
+}
+.web-stat-value {
+  display: block;
+  font-size: clamp(1.5rem, 1.1rem + 1.1vw, 2.1rem);
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.web-stat-label { display: block; margin-top: 6px; color: var(--text-faint); font-size: .82rem; line-height: 1.45; }
+
+/* ---------- Intro prose ---------- */
+
+.web-intro-copy {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 44px;
+  max-width: 1040px;
+  margin: 26px auto 0;
+}
+.web-intro-copy p { margin: 0; color: var(--text-dim); line-height: 1.75; }
+
+/* ---------- Cards ---------- */
+
+.web-card {
+  background: rgba(13, 18, 28, .78);
+  backdrop-filter: var(--blur);
+  transition: transform .45s var(--ease), border-color .45s var(--ease);
+}
+.web-card:hover { transform: translateY(-4px); border-color: rgba(0, 242, 254, .38); }
+.web-card-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: var(--grad-soft);
+  border: 1px solid var(--line);
+  color: var(--cyan);
+}
+.web-card-icon .icon { width: 21px; height: 21px; }
+
+/* ---------- Process ---------- */
+
+.web-steps { list-style: none; margin: 30px 0 0; padding: 0; display: grid; gap: 14px; }
+.web-step {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 20px;
+  align-items: start;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(13, 18, 28, .78);
+  backdrop-filter: var(--blur);
+}
+.web-step-num {
+  font-size: 1.7rem;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.web-step-body h3 { margin: 0 0 8px; font-size: 1.06rem; }
+.web-step-body p { margin: 0; color: var(--text-dim); line-height: 1.68; }
+.web-step-days {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  color: var(--cyan);
+  font-size: .78rem;
+  font-weight: 600;
+}
+.web-step-days .icon { width: 14px; height: 14px; }
+
+/* ---------- Work gallery ---------- */
+
+.work-stage {
+  position: relative;
+  height: min(74vh, 720px);
+  margin-top: 30px;
+  border-block: 1px solid var(--line);
+  overflow: hidden;
+  background: rgba(6, 9, 16, .55);
+}
+.work-canvas { position: absolute; inset: 0; display: block; touch-action: none; }
+.work-canvas:focus-visible { outline: 2px solid var(--cyan); outline-offset: -4px; }
+
+/* The anchor list is the real content. Once the canvas runs it is hidden
+   visually rather than removed, so it stays available to a screen reader,
+   to the keyboard and to a crawler. */
+.work-list {
+  list-style: none;
+  margin: 0;
+  padding: 26px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  height: 100%;
+  overflow: auto;
+}
+.work--canvas-live .work-list {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  padding: 0;
+}
+.work-item {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--ink-2);
+  text-decoration: none;
+  color: inherit;
+}
+.work-item img { display: block; width: 100%; height: auto; }
+.work-item-name { display: block; padding: 12px 14px 0; font-weight: 700; }
+.work-item-kind { display: block; padding: 2px 14px 0; color: var(--cyan); font-size: .78rem; }
+.work-item-note { display: block; padding: 8px 14px 14px; color: var(--text-faint); font-size: .84rem; line-height: 1.55; }
+
+.work-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(8, 12, 20, .8);
+  backdrop-filter: var(--blur);
+  color: var(--text-faint);
+  font-size: .8rem;
+}
+.work--canvas-live .work-hint { display: inline-flex; }
+.work-hint .icon { width: 15px; height: 15px; color: var(--cyan); }
+
+/* ---------- Stack ---------- */
+
+.web-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 30px;
+}
+.web-stack-group {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(13, 18, 28, .78);
+  backdrop-filter: var(--blur);
+}
+.web-stack-group h3 {
+  margin: 0 0 12px;
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.web-stack-group ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 7px; }
+.web-stack-group li {
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  font-size: .82rem;
+  color: var(--text-dim);
+}
+
+/* ---------- Industries ---------- */
+
+.web-industry {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(13, 18, 28, .78);
+  backdrop-filter: var(--blur);
+}
+.web-industry h3 { margin: 0 0 8px; font-size: 1rem; }
+.web-industry p { margin: 0; color: var(--text-faint); font-size: .88rem; line-height: 1.6; }
+
+/* ---------- Pricing ---------- */
+
+.web-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+.web-tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: rgba(13, 18, 28, .82);
+  backdrop-filter: var(--blur);
+}
+.web-tier--featured { border-color: rgba(0, 242, 254, .42); box-shadow: 0 30px 70px -40px rgba(0, 242, 254, .55); }
+.web-tier-flag {
+  position: absolute;
+  top: -11px;
+  left: 24px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--grad);
+  color: #04121A;
+  font-size: .72rem;
+  font-weight: 800;
+}
+.web-tier h3 { margin: 0; font-size: 1.12rem; }
+.web-tier-price {
+  margin: 12px 0 0;
+  font-size: 1.42rem;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.web-tier-time { display: flex; align-items: center; gap: 7px; margin: 8px 0 0; color: var(--cyan); font-size: .84rem; }
+.web-tier-time .icon { width: 15px; height: 15px; }
+.web-tier-for { margin: 12px 0 0; color: var(--text-faint); font-size: .88rem; }
+.web-tier ul { list-style: none; margin: 18px 0 22px; padding: 0; display: grid; gap: 9px; }
+.web-tier li { display: flex; gap: 9px; align-items: flex-start; color: var(--text-dim); font-size: .88rem; }
+.web-tier li .icon { width: 16px; height: 16px; flex: none; margin-top: 3px; color: var(--cyan); }
+.web-tier .btn { margin-top: auto; justify-content: center; }
+
+/* ---------- Locations ---------- */
+
+.web-city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+.web-city {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(13, 18, 28, .8);
+  backdrop-filter: var(--blur);
+}
+.web-city-pin {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: var(--grad-soft);
+  color: var(--cyan);
+}
+.web-city-pin .icon { width: 18px; height: 18px; }
+.web-city h3 { margin: 0; font-size: 1.02rem; }
+.web-city-region { margin: 4px 0 12px; color: var(--cyan); font-size: .8rem; font-weight: 600; }
+.web-city p { margin: 0; color: var(--text-dim); font-size: .9rem; line-height: 1.68; }
+.web-reach { margin: 24px auto 0; max-width: 74ch; text-align: center; color: var(--text-faint); font-size: .92rem; line-height: 1.7; }
+.web-reach strong { color: var(--text-dim); }
+
+/* ---------- FAQ ---------- */
+
+.web-faq-list { display: grid; gap: 10px; margin-top: 28px; max-width: 900px; margin-inline: auto; }
+.web-faq .faq-item { background: rgba(13, 18, 28, .8); backdrop-filter: var(--blur); }
+
+/* ---------- Narrow ---------- */
+
+@media (max-width: 1000px) {
+  .web-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .web-intro-copy { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .web-hero { padding-top: calc(var(--header-h) + 40px); }
+  .web-step { grid-template-columns: 1fr; gap: 10px; padding: 20px; }
+  .work-stage { height: auto; }
+  .work-list { height: auto; overflow: visible; padding: 20px 0; }
+}
+
+/* The corridor is a scroll-driven 3D scene; neither it nor the held-back
+   sections belong here. */
+@media (prefers-reduced-motion: reduce) {
+  .rooms { display: none; }
+}
+
+/* ---------- Kinetic type ----------
+
+   The signature of the reference site: type large enough to crop, with imagery
+   travelling behind it. The letterforms are a window onto a strip of the eight
+   client sites, and the strip moves with scroll.
+
+   Two notes. The words are aria-hidden and a real sentence sits beside them in
+   sr-only, because "WEBSITES THAT RANK" split across two blocks is decoration,
+   not a heading, and announcing it as one would be a lie to a screen reader.
+   And background-clip: text needs a painted background to clip — a gradient
+   fallback is set first so a failed image request leaves readable type rather
+   than an invisible row. */
+
+.kinetic {
+  position: relative;
+  padding: clamp(30px, 6vh, 70px) 0;
+  overflow: hidden;
+}
+.kinetic-track { display: grid; gap: 0; }
+
+.kinetic-word {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(3.2rem, 1rem + 12.5vw, 13rem);
+  font-weight: 900;
+  line-height: .92;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+
+  background-image: var(--grad);
+  background-size: 100% 100%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+/* The image fill, applied only where it can work. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .kinetic-word {
+    background-image:
+      linear-gradient(rgba(4, 8, 16, .30), rgba(4, 8, 16, .30)),
+      url('../img/work-strip.jpg');
+    background-size: auto 100%, auto 118%;
+    background-position: 0 0, var(--shift, 0px) 50%;
+    background-repeat: repeat, repeat-x;
+  }
+  .kinetic-word--alt { background-position: 0 0, calc(var(--shift, 0px) * -1.35) 50%; }
+}
+
+.kinetic-sr { margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-word { background-position: 0 0, 0 50%; }
+}
