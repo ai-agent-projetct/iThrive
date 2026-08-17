@@ -88,7 +88,11 @@ component('client-logo-grid');
   </div>
 </section>
 
-<section class="section">
+<?php /* data-warp turns this section into the scroll-warped grid — the cards
+         lean by where they sit and shear by how fast you are moving. The
+         content and the markup inside are untouched; warp.js finds the cards
+         itself and writes two custom properties. */ ?>
+<section class="section warp" data-warp>
   <div class="shell">
     <?php component('section-head', [
         'eyebrow' => 'Case Studies',

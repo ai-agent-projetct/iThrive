@@ -3209,3 +3209,85 @@ body > .site-footer { position: relative; z-index: 1; }
   .notfound { padding-top: calc(var(--header-h) + 30px); }
   .notfound-best { width: 100%; justify-content: center; }
 }
+
+/* =========================================================================
+   Scroll warp — the case studies grid
+
+   Cards lean by their position in the viewport and shear by how fast you are
+   scrolling. Driven entirely by two custom properties written from warp.js, so
+   with the script absent the grid is exactly the grid it was.
+   ========================================================================= */
+
+.warp { position: relative; }
+
+/* A shared perspective, so the cards lean as one grid rather than four
+   unrelated planes each with its own vanishing point. */
+.warp--live .case-grid {
+  perspective: 1500px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+.warp--live .case-card {
+  /* The entrance animation has to go, and specificity is not the reason: an
+     animation with fill `both` holds its final keyframe's transform forever, and
+     animations outrank normal declarations whatever their specificity. The
+     opacity fade from [data-reveal] survives, so the cards still arrive. */
+  animation: none;
+
+  /* --depth: -1 above the fold centre, +1 below. --vel: signed scroll speed. */
+  transform:
+    rotateX(calc(var(--depth, 0) * -6deg))
+    skewY(calc(var(--vel, 0) * 0.9deg))
+    translateY(calc(var(--vel, 0) * -10px))
+    scale(calc(1 - var(--speed, 0) * 0.02));
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+/* Colour splitting at the edges, proportional to speed. Two offset shadows in
+   the brand's two accents rather than a real chromatic aberration pass — at
+   these offsets the eye reads it the same way and it costs nothing. */
+.warp--live .case-card .card {
+  filter:
+    drop-shadow(calc(var(--vel, 0) * 3px) 0 0 rgba(0, 242, 254, calc(var(--speed, 0) * 0.34)))
+    drop-shadow(calc(var(--vel, 0) * -3px) 0 0 rgba(157, 78, 221, calc(var(--speed, 0) * 0.34)));
+}
+
+/* The ripple. Attached only while moving — an SVG displacement filter on
+   something this large is not something to leave running at rest, and the point
+   is that the cards go crisp the moment you stop. */
+.warp--moving .case-card .card {
+  filter:
+    url('#warp-ripple')
+    drop-shadow(calc(var(--vel, 0) * 3px) 0 0 rgba(0, 242, 254, calc(var(--speed, 0) * 0.34)))
+    drop-shadow(calc(var(--vel, 0) * -3px) 0 0 rgba(157, 78, 221, calc(var(--speed, 0) * 0.34)));
+}
+
+/* Grain over the section, the way the reference has it. Pure CSS so there is no
+   image to fetch: two fine repeating gradients at an angle beat against each
+   other into something close enough to noise at this opacity. */
+.warp--live::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: .5;
+  background-image:
+    repeating-linear-gradient(23deg,  rgba(255, 255, 255, .022) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(-67deg, rgba(255, 255, 255, .018) 0 1px, transparent 1px 4px);
+  mix-blend-mode: overlay;
+}
+
+/* Nothing above should apply on a device where the scroll position lies to us
+   during momentum, or where the visitor has asked for less movement. warp.js
+   already returns early in both cases; this is here so a cached stylesheet
+   cannot leave a half-applied transform behind. */
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .warp--live .case-grid { perspective: none; transform-style: flat; }
+  .warp--live .case-card { transform: none; will-change: auto; }
+  .warp--live .case-card .card,
+  .warp--moving .case-card .card { filter: none; }
+  .warp--live::after { display: none; }
+}
