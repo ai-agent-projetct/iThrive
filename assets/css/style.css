@@ -3224,11 +3224,17 @@ body > .site-footer { position: relative; z-index: 1; }
 
 /* One shared vanishing point, so the cards read as one curved surface rather
    than four separate planes. A per-card `perspective()` in the transform would
-   give each its own, which is what flattens these effects into a wobble. */
+   give each its own, which is what flattens these effects into a wobble.
+
+   No `transform-style: preserve-3d` here, and that is load-bearing rather than
+   an omission. With it, the grid's own plane joins the 3D space its children
+   occupy, so a card pushed to negative Z renders and hit-tests *behind* its
+   parent — elementFromPoint over "Read the case study" returned .case-grid and
+   the links stopped being clickable. `perspective` alone gives the children
+   their depth without putting the container in the scene with them. */
 .warp--live .case-grid {
   perspective: 1250px;
   perspective-origin: 50% 50%;
-  transform-style: preserve-3d;
 }
 
 .warp--live .case-card {
@@ -3238,16 +3244,19 @@ body > .site-footer { position: relative; z-index: 1; }
      opacity fade from [data-reveal] survives, so the cards still arrive. */
   animation: none;
 
-  --lean: calc(var(--depth, 0) * -9deg);      /* recede above and below centre */
-  --bend: calc(var(--side, 0) * -7deg);       /* the curve of the sheet        */
-  --push: calc(var(--depth, 0) * var(--depth, 0) * -120px); /* depth, both ways */
+  /* Kept modest on purpose. A tilted card projects to a trapezoid, and the
+     further it leans the further its axis-aligned bounding box drifts from the
+     shape actually drawn — at 9deg the centre of the box under "Read the case
+     study" fell outside the card and the click landed on .shell behind it. */
+  --lean: calc(var(--depth, 0) * -6deg);      /* recede above and below centre */
+  --bend: calc(var(--side, 0) * -6deg);       /* the curve of the sheet        */
+  --push: calc(var(--depth, 0) * var(--depth, 0) * -80px);  /* depth, both ways */
 
   transform:
     translate3d(0, calc(var(--vel, 0) * -14px), var(--push))
     rotateX(var(--lean))
     rotateY(var(--bend));
   transform-origin: 50% 50%;
-  transform-style: preserve-3d;
   will-change: transform;
 }
 
