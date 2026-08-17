@@ -3291,3 +3291,190 @@ body > .site-footer { position: relative; z-index: 1; }
   .warp--live .case-card .card { opacity: 1; }
   .warp--live::after { display: none; }
 }
+
+/* =========================================================================
+   Web Universe — the 3D showcase in the web development hero
+
+   The standalone page was full-viewport fixed. Here it is a block in the flow,
+   so everything that was `position: fixed` against the window is absolute
+   against this box instead.
+   ========================================================================= */
+
+.wu {
+  position: relative;
+  width: 100%;
+  height: min(76vh, 720px);
+  margin: 34px 0 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #07080f;
+  isolation: isolate;
+}
+.wu[hidden] { display: none; }
+
+.wu-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 20% 20%, rgba(110, 231, 255, .07) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 50% at 80% 80%, rgba(167, 139, 250, .08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 55% 45%, rgba(16, 20, 40, .9) 0%, #07080f 100%);
+}
+
+.wu-stage { position: absolute; inset: 0; z-index: 1; }
+.wu-stage canvas { display: block; }
+
+/* ---------- Controls ---------- */
+
+.wu-controls {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wu-btn {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .10);
+  background: rgba(255, 255, 255, .04);
+  backdrop-filter: blur(16px);
+  color: #d1d5db;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+  transition: background .22s var(--ease), border-color .22s var(--ease), transform .22s var(--ease);
+}
+.wu-btn:hover { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .18); }
+.wu-btn:active { transform: scale(.9); }
+.wu-btn.is-active {
+  background: #6ee7ff;
+  color: #07080f;
+  border-color: transparent;
+  box-shadow: 0 0 18px rgba(110, 231, 255, .4);
+}
+
+/* ---------- Tooltip ---------- */
+
+.wu-tooltip {
+  position: fixed;
+  z-index: 30;
+  pointer-events: none;
+  display: grid;
+  gap: 2px;
+  min-width: 140px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .10);
+  background: rgba(12, 14, 24, .95);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .5);
+  opacity: 0;
+  transform: translate(-50%, -130%) scale(.95);
+  transition: opacity .14s var(--ease), transform .14s var(--ease);
+}
+.wu-t-name { font-size: 13px; font-weight: 700; color: #f1f5f9; line-height: 1.3; }
+.wu-t-url { font-size: 10.5px; color: #6b7280; font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+/* ---------- Badge ---------- */
+
+.wu-badge {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  padding: 9px 18px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(15, 17, 28, .75);
+  backdrop-filter: blur(20px);
+  color: #94a3b8;
+  font-size: 11.5px;
+  font-weight: 500;
+  pointer-events: none;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .5);
+  transition: opacity .5s var(--ease);
+}
+.wu-pulse {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6ee7ff;
+  animation: wu-pulse 1.8s infinite;
+}
+@keyframes wu-pulse {
+  0%, 100% { opacity: .3; transform: scale(.8); }
+  50%      { opacity: 1;  transform: scale(1.2); }
+}
+
+/* ---------- Loader ---------- */
+
+.wu-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  background: #07080f;
+  transition: opacity .6s var(--ease), visibility .6s var(--ease);
+}
+.wu-loader.hidden { opacity: 0; visibility: hidden; }
+.wu-ring {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, .08);
+  border-top-color: #6ee7ff;
+  animation: wu-spin .85s linear infinite;
+}
+@keyframes wu-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 720px) {
+  .wu { height: min(62vh, 460px); }
+  .wu-badge { font-size: 10.5px; padding: 7px 13px; bottom: 12px; width: max-content; max-width: 92%; }
+}
+
+/* ---------- Quote CTA (replaces the price grid) ---------- */
+
+.web-quote-cta { text-align: center; }
+.web-quote-title {
+  margin: 0;
+  font-size: clamp(1.7rem, 1.1rem + 2.4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -.02em;
+}
+.web-quote-accent {
+  background: var(--grad);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+.web-quote-lead {
+  margin: 18px auto 0;
+  max-width: 66ch;
+  color: var(--text-dim);
+  font-size: clamp(.95rem, .88rem + .3vw, 1.1rem);
+  line-height: 1.72;
+}
+.web-quote-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 28px;
+}

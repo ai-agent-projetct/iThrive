@@ -155,6 +155,10 @@ require dirname(__DIR__) . '/includes/header.php';
           </li>
         <?php endforeach; ?>
       </ul>
+
+      <?php /* The 3D showcase — the sites we have shipped, as cards that burst
+               out of a laptop screen as you zoom in. */ ?>
+      <?php component('web-universe'); ?>
     </div>
   </section>
 
@@ -332,34 +336,24 @@ require dirname(__DIR__) . '/includes/header.php';
     </div>
   </section>
 
-  <!-- ── Pricing ────────────────────────────────────────────────────── -->
-  <section class="section section--panel web-tiers">
+  <?php /* The rate card is gone. A price grid answers a question people ask
+           later than this; what belongs here is the same single call the mobile
+           page makes at this point in the scroll. */ ?>
+  <section class="section web-quote-cta">
     <div class="shell">
-      <?php component('section-head', [
-          'eyebrow' => 'What It Costs',
-          'title'   => 'Three shapes of engagement',
-          'lead'    => 'Indicative ranges, fixed in writing after discovery. Published because "request '
-                     . 'a quote to find out" wastes everybody\'s afternoon.',
-      ]); ?>
-
-      <div class="web-tier-grid">
-        <?php foreach (WEB_TIERS as $tier): ?>
-          <article class="web-tier<?= !empty($tier['featured']) ? ' web-tier--featured' : '' ?>">
-            <?php if (!empty($tier['featured'])): ?>
-              <span class="web-tier-flag">Most requested</span>
-            <?php endif; ?>
-            <h3><?= e($tier['name']) ?></h3>
-            <p class="web-tier-price"><?= e($tier['price']) ?></p>
-            <p class="web-tier-time"><?= icon('clock') ?><?= e($tier['time']) ?></p>
-            <p class="web-tier-for"><?= e($tier['for']) ?></p>
-            <ul>
-              <?php foreach ($tier['items'] as $item): ?>
-                <li><?= icon('check') ?><?= e($item) ?></li>
-              <?php endforeach; ?>
-            </ul>
-            <a class="btn btn-ghost" href="<?= e(url('contact.php')) ?>">Get a fixed quote</a>
-          </article>
-        <?php endforeach; ?>
+      <h2 class="web-quote-title">
+        Looking for a reliable <span class="web-quote-accent">website development partner?</span>
+      </h2>
+      <p class="web-quote-lead">
+        iThrive Software builds custom websites, e-commerce platforms and web applications for
+        businesses in Chennai, Coimbatore, Bangalore and across India — scoped, priced and dated
+        in writing before a line is written.
+      </p>
+      <div class="web-quote-actions">
+        <a class="btn btn-primary" href="<?= e(url('contact.php')) ?>">
+          Request Free Proposal &amp; Quote<?= icon('arrow') ?>
+        </a>
+        <a class="btn btn-ghost" href="#work">See the work</a>
       </div>
     </div>
   </section>
