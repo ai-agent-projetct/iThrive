@@ -1441,6 +1441,9 @@ const BLOG_POSTS = [
 // ---------------------------------------------------------------------------
 
 const CONTACT_SERVICES = [
+    // The software development landing page pre-selects this, and the submit
+    // handler validates against this list — so it has to exist here.
+    'Custom Software Development',
     'AI-Native Product Development',
     'AI Enablement for Existing Products',
     'AI Solutions for eCommerce',

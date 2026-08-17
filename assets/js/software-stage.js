@@ -1,30 +1,31 @@
 /**
  * The stage behind the custom software development page.
  *
- * One point field, fixed behind the whole document, that re-forms itself as you
- * scroll. Each section declares `data-stage="<formation>"`; when a section takes
- * the viewport, the field morphs into that formation — scattered notes become a
- * blueprint lattice, the lattice stacks into modules, the modules wire together,
- * the wiring becomes a stream, the stream becomes a mind, the mind becomes a
- * planet. It is the story the copy tells, drawn once behind all of it.
+ * A corridor of application screens hanging in space, with a grid floor and
+ * ceiling running away into fog. Scrolling flies the camera down it. The page's
+ * copy rides over the top on glass, so the scene is never decoration behind a
+ * wall of text — it is the thing you are looking at, and the text is what you
+ * are reading while you look.
  *
- * Three decisions worth knowing about:
+ * Why it is built this way:
  *
- *  - The canvas is decoration and carries no text. Every word on the page is
- *    real HTML in front of it, because this page exists to rank and text baked
- *    into a WebGL context is text no crawler and no answer engine reads.
+ *  - The reference (poly.app) has no WebGL at all. Its depth comes from a
+ *    pre-rendered 3D animation played back frame by frame on a fixed canvas as
+ *    you scroll. That needs a rendered image sequence, which we do not have, so
+ *    this does the same job live: one continuous camera dolly bound to scroll
+ *    position, tangible lit objects, and real perspective.
  *
- *  - One geometry, seven formations. Each formation is a precomputed float
- *    array of the same length, and morphing is a per-point lerp between two of
- *    them. That keeps the whole scene at a single draw call for the field plus
- *    one for the core, which is what makes it safe to run behind a long page on
- *    a mid-range Android device.
+ *  - The objects are screens with drawn interfaces on them, not abstract
+ *    shapes. A field of points reads as a background effect; something with a
+ *    title bar and rows in it reads as an object in a room, which is the whole
+ *    difference between "a site with a particle backdrop" and "a 3D site".
  *
- *  - Point colour is fixed per point, not per formation. Recolouring on every
- *    transition looks like a theme change rather than the same material being
- *    rearranged, which is the opposite of the intended read.
+ *  - Every interface drawn on a panel is generic — labels, bars, a chart. No
+ *    claim, price or product name is ever baked into a texture, because nothing
+ *    inside a WebGL context can be read by a crawler, a screen reader or an
+ *    answer engine. All of those live in the HTML in front.
  *
- * Skipped entirely under prefers-reduced-motion and if WebGL will not start. In
+ * Skipped entirely under prefers-reduced-motion and if WebGL will not start; in
  * both cases the page is unchanged except that the backdrop stays flat.
  */
 
@@ -36,9 +37,6 @@ if (host && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 function start(mount) {
-  const sections = Array.from(document.querySelectorAll('[data-stage]'));
-  if (!sections.length) return;
-
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -48,260 +46,227 @@ function start(mount) {
 
   const coarse = window.matchMedia('(pointer: coarse)').matches;
 
-  // Point budget scales with the device, not with the viewport: a phone that
-  // rotates to landscape should not suddenly be asked to draw twice as much.
-  const COUNT = coarse ? 1500 : 3000;
+  const INK    = 0x0b0f17;
+  const CYAN   = 0x00f2fe;
+  const BLUE   = 0x4ea8ff;
+  const PURPLE = 0x9d4edd;
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 1.75));
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.domElement.setAttribute('aria-hidden', 'true');
   mount.appendChild(renderer.domElement);
 
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 200);
-  camera.position.set(0, 0, 34);
+  const scene = new THREE.Scene();
+  // Fog does two jobs: it sells the length of the corridor, and it hides the
+  // far end so nothing has to be modelled beyond it.
+  scene.fog = new THREE.Fog(INK, 34, 165);
 
-  /* ---- palette --------------------------------------------------------- */
+  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 240);
 
-  // The site's three accents. Sampling between them by point index rather than
-  // by position keeps the gradient stable while the shape moves.
-  const CYAN   = new THREE.Color(0x00f2fe);
-  const BLUE   = new THREE.Color(0x4ea8ff);
-  const PURPLE = new THREE.Color(0x9d4edd);
+  scene.add(new THREE.AmbientLight(0xffffff, 1.1));
 
-  /* ---- formations ------------------------------------------------------ */
+  /* ---- the interfaces drawn on the panels ------------------------------ */
 
   /**
-   * Deterministic pseudo-random, so the field is identical on every load and on
-   * every device. Math.random() here would make the "same material rearranged"
-   * read fall apart between morphs.
+   * Draws one generic application screen to a canvas, used as a texture.
+   * `kind` picks the layout; nothing here carries meaning.
    */
-  let seed = 20260817;
+  function screenTexture(kind, accent) {
+    const W = 512, H = 320;
+    const c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const g = c.getContext('2d');
+
+    const hex = '#' + accent.toString(16).padStart(6, '0');
+
+    g.fillStyle = '#0E1420';
+    g.fillRect(0, 0, W, H);
+
+    // Title bar with the three dots every window has.
+    g.fillStyle = 'rgba(255,255,255,.05)';
+    g.fillRect(0, 0, W, 38);
+    g.fillStyle = 'rgba(255,255,255,.22)';
+    [18, 34, 50].forEach((x) => { g.beginPath(); g.arc(x, 19, 4.5, 0, Math.PI * 2); g.fill(); });
+    g.fillStyle = 'rgba(255,255,255,.14)';
+    g.fillRect(150, 13, 212, 12);
+
+    g.strokeStyle = 'rgba(255,255,255,.10)';
+    g.lineWidth = 2;
+    g.strokeRect(1, 1, W - 2, H - 2);
+
+    if (kind === 0) {                                   // list / table
+      for (let i = 0; i < 6; i++) {
+        const y = 62 + i * 40;
+        g.fillStyle = 'rgba(255,255,255,.09)';
+        g.fillRect(24, y, 150 + (i % 3) * 60, 11);
+        g.fillStyle = i % 3 === 0 ? hex : 'rgba(255,255,255,.16)';
+        g.fillRect(W - 96, y - 2, 68, 15);
+      }
+    } else if (kind === 1) {                            // bar chart
+      const base = H - 34;
+      for (let i = 0; i < 9; i++) {
+        const h = 26 + Math.abs(Math.sin(i * 1.7)) * 150;
+        g.fillStyle = i === 5 ? hex : 'rgba(255,255,255,.13)';
+        g.fillRect(34 + i * 50, base - h, 30, h);
+      }
+    } else if (kind === 2) {                            // code
+      for (let i = 0; i < 8; i++) {
+        const y = 60 + i * 30;
+        g.fillStyle = 'rgba(255,255,255,.07)';
+        g.fillRect(22, y, 22, 10);
+        g.fillStyle = i % 4 === 1 ? hex : 'rgba(255,255,255,.14)';
+        g.fillRect(60 + (i % 3) * 22, y, 120 + (i % 4) * 70, 10);
+      }
+    } else if (kind === 3) {                            // stat tiles
+      for (let i = 0; i < 4; i++) {
+        const x = 24 + (i % 2) * 240, y = 60 + Math.floor(i / 2) * 120;
+        g.fillStyle = 'rgba(255,255,255,.045)';
+        g.fillRect(x, y, 216, 100);
+        g.fillStyle = i === 0 ? hex : 'rgba(255,255,255,.5)';
+        g.fillRect(x + 18, y + 26, 90, 22);
+        g.fillStyle = 'rgba(255,255,255,.12)';
+        g.fillRect(x + 18, y + 62, 150, 10);
+      }
+    } else {                                            // line graph
+      g.strokeStyle = hex;
+      g.lineWidth = 3;
+      g.beginPath();
+      for (let x = 0; x <= 460; x += 20) {
+        const y = 200 - Math.sin(x / 58) * 62 - x * 0.12;
+        x === 0 ? g.moveTo(x + 26, y) : g.lineTo(x + 26, y);
+      }
+      g.stroke();
+      g.strokeStyle = 'rgba(255,255,255,.08)';
+      g.lineWidth = 1;
+      for (let i = 1; i < 5; i++) {
+        g.beginPath(); g.moveTo(24, 60 + i * 50); g.lineTo(W - 24, 60 + i * 50); g.stroke();
+      }
+    }
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    return tex;
+  }
+
+  const textures = [0, 1, 2, 3, 4].map((k, i) => screenTexture(k, [CYAN, PURPLE, BLUE, CYAN, PURPLE][i]));
+
+  /* ---- the corridor ---------------------------------------------------- */
+
+  const CORRIDOR_START = 16;    // nearest panel, in world units
+  const CORRIDOR_END   = -235;  // furthest
+  const PANELS = coarse ? 16 : 26;
+
+  let seed = 20260818;
   const rand = () => {
     seed = (seed * 1664525 + 1013904223) % 4294967296;
     return seed / 4294967296;
   };
 
-  const TAU = Math.PI * 2;
+  const panels = [];
+  const panelGeo = new THREE.PlaneGeometry(1, 1);
 
-  /** Scattered notes: the problem before anyone has ordered it. */
-  const brief = (i, out) => {
-    const r = 8 + rand() * 12;
-    const theta = rand() * TAU;
-    const phi = Math.acos(2 * rand() - 1);
-    out[0] = r * Math.sin(phi) * Math.cos(theta);
-    out[1] = r * Math.sin(phi) * Math.sin(theta) * 0.7;
-    out[2] = r * Math.cos(phi);
-  };
+  for (let i = 0; i < PANELS; i++) {
+    const t = i / (PANELS - 1);
+    const z = CORRIDOR_START + (CORRIDOR_END - CORRIDOR_START) * t + (rand() - 0.5) * 6;
 
-  /** The blueprint: a flat lattice, gently warped, seen at an angle. */
-  const blueprint = (i, out) => {
-    const side = Math.ceil(Math.sqrt(COUNT));
-    const x = (i % side) / (side - 1) - 0.5;
-    const z = Math.floor(i / side) / (side - 1) - 0.5;
-    out[0] = x * 42;
-    out[2] = z * 42;
-    out[1] = Math.sin(x * 7) * Math.cos(z * 7) * 1.6 - 3;
-  };
+    // Panels are pushed out of the middle of the frame so the camera flies
+    // between them rather than into them, and so the copy in the centre of the
+    // page always has somewhere clear to sit.
+    const side = i % 2 === 0 ? -1 : 1;
+    const x = side * (7 + rand() * 12);
+    const y = (rand() - 0.5) * 15;
 
-  /** Modules: a hollow cube shell, the way a system diagram stacks. */
-  const build = (i, out) => {
-    const side = 11;
-    const cell = 22 / (side - 1);
-    let x = i % side;
-    let y = Math.floor(i / side) % side;
-    let z = Math.floor(i / (side * side)) % side;
-    // Push interior points to the nearest face so the cube reads as a shell.
-    const edge = Math.min(x, side - 1 - x, y, side - 1 - y, z, side - 1 - z);
-    if (edge > 0) {
-      const pick = Math.floor(rand() * 3);
-      if (pick === 0) x = rand() < 0.5 ? 0 : side - 1;
-      else if (pick === 1) y = rand() < 0.5 ? 0 : side - 1;
-      else z = rand() < 0.5 ? 0 : side - 1;
-    }
-    out[0] = x * cell - 11;
-    out[1] = y * cell - 11;
-    out[2] = z * cell - 11;
-  };
+    const w = 9 + rand() * 7;
+    const h = w * 0.625;
 
-  /** Integration: three interlocked rings, the systems finally talking. */
-  const integrate = (i, out) => {
-    const ring = i % 3;
-    const t = (i / COUNT) * TAU * 6;
-    const R = 13, r = 3.4;
-    const cx = Math.cos(t) * (R + r * Math.cos(t * 5));
-    const cy = Math.sin(t) * (R + r * Math.cos(t * 5));
-    const cz = r * Math.sin(t * 5);
-    if (ring === 0)      { out[0] = cx;  out[1] = cy;  out[2] = cz; }
-    else if (ring === 1) { out[0] = cx;  out[1] = cz;  out[2] = cy; }
-    else                 { out[0] = cz;  out[1] = cy;  out[2] = cx; }
-  };
+    const group = new THREE.Group();
+    group.position.set(x, y, z);
+    // Angled inward, as if the corridor's walls were made of screens.
+    group.rotation.y = -side * (0.24 + rand() * 0.22);
+    group.rotation.z = (rand() - 0.5) * 0.06;
 
-  /** Release: a stream running forward, everything pointed the same way. */
-  const ship = (i, out) => {
-    const t = i / COUNT;
-    const lane = i % 5;
-    const spin = t * TAU * 3;
-    const radius = 3 + lane * 1.5;
-    out[0] = Math.cos(spin + lane) * radius;
-    out[1] = Math.sin(spin + lane) * radius * 0.8;
-    out[2] = (t - 0.5) * 54;
-  };
+    const face = new THREE.Mesh(panelGeo, new THREE.MeshBasicMaterial({
+      map: textures[i % textures.length],
+      transparent: true,
+      opacity: 0.95,
+      fog: true,
+    }));
+    face.scale.set(w, h, 1);
+    group.add(face);
 
-  /** Intelligence: layered shells with a denser core — a mind, not a ball. */
-  const intelligence = (i, out) => {
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    const shell = i % 3;
-    const y = 1 - (i / (COUNT - 1)) * 2;
-    const radius = Math.sqrt(Math.max(0, 1 - y * y));
-    const theta = golden * i;
-    const R = [6.5, 11, 14.5][shell] + Math.sin(i * 0.35) * 0.6;
-    out[0] = Math.cos(theta) * radius * R;
-    out[1] = y * R * 0.92;
-    out[2] = Math.sin(theta) * radius * R;
-  };
+    // A lit edge, which is what makes a flat plane read as a physical object.
+    const edge = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.PlaneGeometry(w, h)),
+      new THREE.LineBasicMaterial({
+        color: [CYAN, PURPLE, BLUE][i % 3],
+        transparent: true,
+        opacity: 0.5,
+        fog: true,
+      })
+    );
+    group.add(edge);
 
-  /** Scale: a globe with a wide orbit around it. */
-  const scaleForm = (i, out) => {
-    if (i % 7 === 0) {                       // orbital band
-      const t = (i / COUNT) * TAU * 4;
-      out[0] = Math.cos(t) * 20;
-      out[1] = Math.sin(t * 2) * 1.6;
-      out[2] = Math.sin(t) * 20;
-      return;
-    }
-    const lat = Math.floor(i / 26) % 22;     // lat/long lattice, not noise
-    const lon = i % 26;
-    const phi = (lat / 21) * Math.PI;
-    const theta = (lon / 26) * TAU;
-    const R = 12.5;
-    out[0] = R * Math.sin(phi) * Math.cos(theta);
-    out[1] = R * Math.cos(phi);
-    out[2] = R * Math.sin(phi) * Math.sin(theta);
-  };
-
-  const BUILDERS = {
-    brief,
-    blueprint,
-    build,
-    integrate,
-    ship,
-    intelligence,
-    scale: scaleForm,
-  };
-
-  /** Precompute every formation once, up front. */
-  const FORMS = {};
-  const scratch = [0, 0, 0];
-  for (const [name, builder] of Object.entries(BUILDERS)) {
-    const arr = new Float32Array(COUNT * 3);
-    seed = 20260817; // same seed per formation, so a point keeps its character
-    for (let i = 0; i < COUNT; i++) {
-      builder(i, scratch);
-      arr[i * 3] = scratch[0];
-      arr[i * 3 + 1] = scratch[1];
-      arr[i * 3 + 2] = scratch[2];
-    }
-    FORMS[name] = arr;
+    scene.add(group);
+    panels.push({ group, drift: 0.1 + rand() * 0.3, phase: rand() * Math.PI * 2, baseY: y });
   }
 
-  /* ---- the field ------------------------------------------------------- */
+  /* ---- floor, ceiling and dust ----------------------------------------- */
 
-  const positions = new Float32Array(FORMS.brief);
-  const colors    = new Float32Array(COUNT * 3);
-  const mixed     = new THREE.Color();
+  // Two grids give the corridor a top and a bottom. Without them the panels
+  // float in nothing and the depth stops reading.
+  [-13, 13].forEach((y) => {
+    const grid = new THREE.GridHelper(300, 60, CYAN, BLUE);
+    grid.position.set(0, y, -110);
+    grid.material.transparent = true;
+    grid.material.opacity = 0.13;
+    grid.material.fog = true;
+    scene.add(grid);
+  });
 
-  for (let i = 0; i < COUNT; i++) {
-    const t = i / COUNT;
-    // Two-stop ramp: cyan through blue for the first half, blue to purple after.
-    mixed.copy(t < 0.5 ? CYAN.clone().lerp(BLUE, t * 2) : BLUE.clone().lerp(PURPLE, (t - 0.5) * 2));
-    colors[i * 3] = mixed.r;
-    colors[i * 3 + 1] = mixed.g;
-    colors[i * 3 + 2] = mixed.b;
+  // Dust, so the space between the panels is not empty.
+  const DUST = coarse ? 500 : 1100;
+  const dustPos = new Float32Array(DUST * 3);
+  for (let i = 0; i < DUST; i++) {
+    dustPos[i * 3]     = (rand() - 0.5) * 90;
+    dustPos[i * 3 + 1] = (rand() - 0.5) * 34;
+    dustPos[i * 3 + 2] = CORRIDOR_START + (CORRIDOR_END - CORRIDOR_START) * rand();
   }
-
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-  const field = new THREE.Points(geometry, new THREE.PointsMaterial({
-    size: coarse ? 0.19 : 0.16,
-    vertexColors: true,
+  const dustGeo = new THREE.BufferGeometry();
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  scene.add(new THREE.Points(dustGeo, new THREE.PointsMaterial({
+    size: 0.13,
+    color: BLUE,
     transparent: true,
-    opacity: 0.92,
+    opacity: 0.5,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
-    sizeAttenuation: true,
-  }));
-  scene.add(field);
+    fog: true,
+  })));
 
-  // A wire core the field forms around. It carries the light when the field is
-  // sparse (the blueprint and the stream), so the frame never looks empty.
-  const core = new THREE.LineSegments(
-    new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(4.2, 1)),
-    new THREE.LineBasicMaterial({ color: 0x4ea8ff, transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  scene.add(core);
+  /* ---- scroll drives the camera ---------------------------------------- */
 
-  /* ---- morph state ----------------------------------------------------- */
+  // One continuous dolly bound to document scroll — the same relationship a
+  // scrubbed frame sequence has, which is what makes the movement feel authored
+  // rather than idle.
+  const CAM_START = 30;
+  const CAM_END   = -212;
 
-  const from = new Float32Array(FORMS.brief);
-  let to = FORMS.brief;
-  let morph = 1;                // 1 = settled on `to`
-  let current = 'brief';
+  let progress = 0;
+  let targetProgress = 0;
+  let queued = false;
 
-  /** Per-formation camera framing and core presence. */
-  const LOOK = {
-    brief:        { z: 36, y: 0,    tilt: 0.10, core: 0.10, spin: 0.05 },
-    blueprint:    { z: 30, y: 7,    tilt: 0.55, core: 0.05, spin: 0.02 },
-    build:        { z: 40, y: 2,    tilt: 0.16, core: 0.30, spin: 0.09 },
-    integrate:    { z: 38, y: 0,    tilt: 0.12, core: 0.34, spin: 0.13 },
-    ship:         { z: 26, y: 0,    tilt: 0.05, core: 0.20, spin: 0.04 },
-    intelligence: { z: 34, y: 0,    tilt: 0.10, core: 0.42, spin: 0.11 },
-    scale:        { z: 42, y: 3,    tilt: 0.22, core: 0.26, spin: 0.07 },
+  const readScroll = () => {
+    queued = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    targetProgress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
   };
 
-  let look = { ...LOOK.brief };
-  const target = { ...LOOK.brief };
+  window.addEventListener('scroll', () => {
+    if (!queued) { queued = true; requestAnimationFrame(readScroll); }
+  }, { passive: true });
 
-  function setStage(name) {
-    if (!FORMS[name] || name === current) return;
-    // Freeze wherever the morph currently is, so a fast scroll through three
-    // sections reads as one continuous re-forming rather than a snap.
-    const pos = geometry.attributes.position.array;
-    from.set(pos);
-    to = FORMS[name];
-    morph = 0;
-    current = name;
-    Object.assign(target, LOOK[name]);
-  }
-
-  /* ---- what the page is looking at ------------------------------------- */
-
-  // The section closest to the middle of the viewport wins. An IntersectionObserver
-  // with a thin band would flip twice on a fast scroll; measuring on scroll is
-  // both cheaper to reason about and stable.
-  let ticking = false;
-  const pickStage = () => {
-    ticking = false;
-    const mid = window.innerHeight / 2;
-    let best = null;
-    let bestDist = Infinity;
-    for (const el of sections) {
-      const rect = el.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) continue;
-      const dist = Math.abs(rect.top + rect.height / 2 - mid);
-      if (dist < bestDist) { bestDist = dist; best = el; }
-    }
-    if (best) setStage(best.dataset.stage);
-  };
-
-  const onScroll = () => {
-    if (!ticking) { ticking = true; requestAnimationFrame(pickStage); }
-  };
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  pickStage();
+  readScroll();
+  progress = targetProgress;
 
   /* ---- pointer parallax ------------------------------------------------ */
 
@@ -316,7 +281,6 @@ function start(mount) {
   /* ---- loop ------------------------------------------------------------ */
 
   const clock = new THREE.Clock();
-  let spin = 0;
   let running = true;
   let revealed = false;
 
@@ -331,54 +295,34 @@ function start(mount) {
 
     const dt = Math.min(clock.getDelta(), 0.05);
     const time = clock.elapsedTime;
+    const k = 1 - Math.pow(0.0015, dt);
 
-    // Morph. easeInOutCubic over roughly 1.1s, then hold.
-    if (morph < 1) {
-      morph = Math.min(1, morph + dt / 1.1);
-      const t = morph < 0.5 ? 4 * morph ** 3 : 1 - Math.pow(-2 * morph + 2, 3) / 2;
-      const pos = geometry.attributes.position.array;
-      for (let i = 0; i < pos.length; i++) {
-        pos[i] = from[i] + (to[i] - from[i]) * t;
-      }
-      geometry.attributes.position.needsUpdate = true;
+    // Easing the scroll value rather than reading it raw is what stops the
+    // camera snapping on a trackpad flick.
+    progress += (targetProgress - progress) * k;
+
+    pointer.x += (pointer.tx - pointer.x) * k * 0.4;
+    pointer.y += (pointer.ty - pointer.y) * k * 0.4;
+
+    camera.position.z = CAM_START + (CAM_END - CAM_START) * progress;
+    // A slow lateral weave, so the flight is not a straight line down a tube.
+    camera.position.x = Math.sin(progress * Math.PI * 2.2) * 4.5 + pointer.x * 2.4;
+    camera.position.y = Math.sin(progress * Math.PI * 1.5) * 2.2 - pointer.y * 1.6;
+    camera.rotation.y = -pointer.x * 0.05;
+    camera.rotation.x = pointer.y * 0.03;
+
+    // Panels breathe in place so a paused page is still alive.
+    for (const p of panels) {
+      p.group.position.y = p.baseY + Math.sin(time * p.drift + p.phase) * 0.5;
+      p.group.rotation.z = Math.sin(time * p.drift * 0.7 + p.phase) * 0.02;
     }
-
-    // Breathing, so a settled formation is never completely static.
-    const breathe = 1 + Math.sin(time * 0.6) * 0.012;
-    field.scale.setScalar(breathe);
-
-    // Framing eases toward the active formation's look.
-    const k = 1 - Math.pow(0.001, dt);
-    look.z    += (target.z    - look.z)    * k;
-    look.y    += (target.y    - look.y)    * k;
-    look.tilt += (target.tilt - look.tilt) * k;
-    look.core += (target.core - look.core) * k;
-    look.spin += (target.spin - look.spin) * k;
-
-    pointer.x += (pointer.tx - pointer.x) * k * 0.5;
-    pointer.y += (pointer.ty - pointer.y) * k * 0.5;
-
-    spin += look.spin * dt;
-    field.rotation.y = spin + pointer.x * 0.18;
-    field.rotation.x = look.tilt + pointer.y * 0.10;
-
-    core.rotation.y = -spin * 1.6;
-    core.rotation.x = spin * 0.7;
-    core.material.opacity = look.core;
-    core.scale.setScalar(0.9 + Math.sin(time * 0.9) * 0.05);
-
-    camera.position.z = look.z;
-    camera.position.y = look.y;
-    camera.lookAt(0, 0, 0);
 
     renderer.render(scene, camera);
 
-    // Fade the host in only once there is something in it. Revealing the
-    // element before the first frame shows a blank rectangle over the page
-    // backdrop for however long the shader compile takes.
     if (!revealed) {
       revealed = true;
       mount.classList.add('sd-stage--live');
+      document.documentElement.classList.add('sd-has-stage');
     }
   }
 
@@ -393,7 +337,7 @@ function start(mount) {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      pickStage();
+      readScroll();
     }, 150);
   }, { passive: true });
 }
