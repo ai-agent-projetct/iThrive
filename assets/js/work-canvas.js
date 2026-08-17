@@ -53,9 +53,14 @@
   if (reduce) return; // The static list underneath is the whole experience.
 
   const items = Array.from(root.querySelectorAll('[data-work-item]')).map((el) => ({
-    src: el.dataset.shot,
+    src: el.dataset.shot || null,
     name: el.dataset.name,
     kind: el.dataset.kind,
+    // A tile with no shot is a text card — same canvas, drawn rather than
+    // photographed. That is what lets this serve both the site gallery and the
+    // "what is different" wall without a second implementation.
+    body: el.dataset.body || null,
+    tint: el.dataset.tint || '#1b2540',
     href: el.getAttribute('href') || null,
     img: null,
     ready: false,
@@ -96,11 +101,27 @@
   /* ---- images ---------------------------------------------------------- */
 
   items.forEach((it) => {
+    if (!it.src) return;
     const img = new Image();
     img.decoding = 'async';
     img.src = it.src;
     img.onload = () => { it.img = img; it.ready = true; };
   });
+
+  /** Wrap to a width, in canvas units. */
+  function wrap(text, maxW) {
+    const words = String(text).split(' ');
+    const lines = [];
+    let line = '';
+    for (const w of words) {
+      const next = line ? line + ' ' + w : w;
+      if (ctx.measureText(next).width > maxW && line) { lines.push(line); line = w; }
+      else line = next;
+    }
+    if (line) lines.push(line);
+
+    return lines;
+  }
 
   /* ---- sizing ---------------------------------------------------------- */
 
@@ -177,6 +198,28 @@
 
         if (it.ready) {
           ctx.drawImage(it.img, sx, sy, sw, sh);
+        } else if (it.body) {
+          // Text tile: tinted panel, heading, wrapped body.
+          ctx.fillStyle = '#0E1524';
+          ctx.fillRect(sx, sy, sw, sh);
+          const wash = ctx.createLinearGradient(sx, sy, sx + sw, sy + sh);
+          wash.addColorStop(0, it.tint + '55');
+          wash.addColorStop(1, 'rgba(10,16,28,0)');
+          ctx.fillStyle = wash;
+          ctx.fillRect(sx, sy, sw, sh);
+
+          const pad = 26 * z;
+          ctx.fillStyle = 'rgba(255,255,255,.96)';
+          ctx.font = `700 ${Math.round(20 * z)}px Outfit, Segoe UI, sans-serif`;
+          wrap(it.name, sw - pad * 2).slice(0, 2).forEach((ln, k) => {
+            ctx.fillText(ln, sx + pad, sy + pad + 20 * z + k * 24 * z);
+          });
+
+          ctx.fillStyle = 'rgba(190,205,235,.72)';
+          ctx.font = `400 ${Math.round(13 * z)}px Outfit, Segoe UI, sans-serif`;
+          wrap(it.body, sw - pad * 2).slice(0, 7).forEach((ln, k) => {
+            ctx.fillText(ln, sx + pad, sy + pad + 84 * z + k * 19 * z);
+          });
         } else {
           ctx.fillStyle = '#101728';
           ctx.fillRect(sx, sy, sw, sh);
@@ -194,7 +237,7 @@
         ctx.stroke();
 
         // Captions only once the tile is big enough to read them.
-        if (z > 0.55) {
+        if (z > 0.55 && !it.body) {
           ctx.fillStyle = isHover ? 'rgba(255,255,255,0.98)' : 'rgba(226,236,255,0.62)';
           ctx.font = `600 ${Math.round(15 * z)}px Outfit, Segoe UI, sans-serif`;
           ctx.fillText(it.name, sx + 16 * z, sy + sh + 24 * z);

@@ -225,15 +225,26 @@ const WEB_WORK = [
     ],
 ];
 
+/**
+ * Sectors, as an icon wall.
+ *
+ * Each entry names a line icon drawn in functions.php. The body copy is not
+ * shown until the tile is hovered — the grid reads as a wall of marks, and the
+ * detail arrives when you point at one, which is what the reference does.
+ */
 const WEB_INDUSTRIES = [
-    ['title' => 'Healthcare & hospitals',   'body' => 'Appointment flows, doctor directories and branch pages with medical structured data.'],
-    ['title' => 'Hospitality & resorts',    'body' => 'Direct booking enquiry that keeps margin away from aggregator commissions.'],
-    ['title' => 'Retail & e-commerce',      'body' => 'Catalogue, checkout and stock truth across every channel you sell on.'],
-    ['title' => 'Education & institutions', 'body' => 'Admissions journeys, course catalogues and parent-facing announcements.'],
-    ['title' => 'Manufacturing & industry', 'body' => 'Product catalogues, spec sheets and distributor enquiry routing.'],
-    ['title' => 'Logistics & transport',    'body' => 'Tracking portals, rate enquiry and operations dashboards behind login.'],
-    ['title' => 'Travel & tourism',         'body' => 'Itineraries and destination pages structured to earn their own search entries.'],
-    ['title' => 'Professional services',    'body' => 'Credibility-led sites where the enquiry form is the entire conversion.'],
+    ['icon' => 'stethoscope', 'title' => 'Healthcare',    'body' => 'Appointment flows, doctor directories and branch pages with medical structured data.'],
+    ['icon' => 'building',    'title' => 'Hospitality',   'body' => 'Direct booking enquiry that keeps margin away from aggregator commissions.'],
+    ['icon' => 'cart',        'title' => 'Retail',        'body' => 'Catalogue, checkout and stock truth across every channel you sell on.'],
+    ['icon' => 'lightbulb',   'title' => 'Education',     'body' => 'Admissions journeys, course catalogues and parent-facing announcements.'],
+    ['icon' => 'factory',     'title' => 'Manufacturing', 'body' => 'Product catalogues, spec sheets and distributor enquiry routing.'],
+    ['icon' => 'car',         'title' => 'Logistics',     'body' => 'Tracking portals, rate enquiry and operations dashboards behind login.'],
+    ['icon' => 'plane',       'title' => 'Travel',        'body' => 'Itineraries and destination pages structured to earn their own search entries.'],
+    ['icon' => 'target',      'title' => 'Professional',  'body' => 'Credibility-led sites where the enquiry form is the entire conversion.'],
+    ['icon' => 'utensils',    'title' => 'Food',          'body' => 'Menus, ordering and delivery windows that survive a Friday-night rush.'],
+    ['icon' => 'heart',       'title' => 'Wellness',      'body' => 'Class timetables, memberships and bookings that fill quiet hours.'],
+    ['icon' => 'shirt',       'title' => 'Fashion',       'body' => 'Variant-heavy catalogues and lookbooks that load fast on a phone.'],
+    ['icon' => 'drone',       'title' => 'Aerospace',     'body' => 'Technical product pages, training programmes and compliance documentation.'],
 ];
 
 /** Engagement shapes, so the pricing question is answered before it is asked. */

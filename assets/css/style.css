@@ -3478,3 +3478,216 @@ body > .site-footer { position: relative; z-index: 1; }
   justify-content: center;
   margin-top: 28px;
 }
+
+/* =========================================================================
+   Horizontal scroll section — the shipped work
+
+   The section is taller than the viewport by exactly the track's overflow, so
+   the scroll spent crossing it lands the last card at the right edge with no
+   dead scroll after it. Height comes from JS, which is the only thing that
+   knows how wide the track ended up.
+   ========================================================================= */
+
+.hscroll { position: relative; padding-bottom: 0; }
+.hscroll--live { height: var(--hscroll-height, 300vh); }
+
+.hscroll--live .hscroll-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hscroll-track {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 0;
+  padding: 0 max(24px, calc(50vw - 620px));
+  list-style: none;
+  will-change: transform;
+}
+
+/* No pinning on touch or under reduced motion — a plain swipeable strip. */
+.hscroll--inline .hscroll-stage { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.hscroll--inline .hscroll-track { transform: none !important; padding-inline: 20px; }
+.hscroll--inline .hwork { scroll-snap-align: center; }
+.hscroll--inline .hscroll-progress { display: none; }
+
+/* ---------- Cards ---------- */
+
+.hwork { flex: 0 0 auto; width: min(78vw, 520px); }
+
+.hwork-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: rgba(13, 18, 28, .82);
+  backdrop-filter: var(--blur);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: border-color .4s var(--ease), transform .4s var(--ease);
+}
+a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transparent); transform: translateY(-6px); }
+
+/* A wash of the client's own colour, so the strip is not eight identical
+   dark rectangles sliding past. */
+.hwork-card::before {
+  content: '';
+  position: absolute;
+  inset: -40% -20% auto -20%;
+  height: 70%;
+  background: radial-gradient(60% 60% at 50% 50%, var(--tint), transparent 70%);
+  opacity: .14;
+  pointer-events: none;
+}
+
+.hwork-index {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .78rem;
+  color: var(--text-faint);
+}
+
+.hwork-shot {
+  display: block;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+}
+.hwork-shot img { display: block; width: 100%; height: auto; }
+
+.hwork-meta { display: block; margin-top: 18px; }
+.hwork-name { display: block; font-size: 1.12rem; font-weight: 700; }
+.hwork-kind { display: block; margin-top: 3px; color: var(--tint); font-size: .8rem; font-weight: 600; }
+.hwork-note { display: block; margin-top: 12px; color: var(--text-faint); font-size: .88rem; line-height: 1.6; }
+
+/* ---------- End card ---------- */
+
+.hwork--end { width: min(70vw, 380px); }
+.hwork-card--cta { align-items: flex-start; justify-content: center; gap: 18px; }
+.hwork-end-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  background: var(--grad);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Progress ---------- */
+
+.hscroll-progress {
+  position: absolute;
+  left: max(24px, calc(50vw - 620px));
+  right: max(24px, calc(50vw - 620px));
+  bottom: 8%;
+  height: 2px;
+  background: rgba(255, 255, 255, .10);
+  overflow: hidden;
+}
+.hscroll-progress span {
+  display: block;
+  height: 100%;
+  background: var(--grad);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+@media (max-width: 860px) {
+  .hwork { width: 82vw; }
+  .hwork-card { padding: 16px; }
+}
+
+/* =========================================================================
+   Sector wall — icons first, detail on hover
+
+   The reference is a grid of line marks divided by hairlines, with the label
+   under each. The body copy is present in the markup for a crawler and for the
+   keyboard, and revealed on hover or focus rather than printed twelve times.
+   ========================================================================= */
+
+.sector-wall {
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  /* Hairlines between cells, drawn by the container so they never double up. */
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.sector {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 190px;
+  padding: 24px 18px;
+  background: var(--ink);
+  text-align: center;
+  cursor: default;
+  transition: background .35s var(--ease);
+}
+.sector:hover, .sector:focus-visible { background: var(--ink-3); outline: none; }
+
+.sector-icon { color: var(--text-dim); transition: color .35s var(--ease), transform .35s var(--ease); }
+.sector-icon .icon { width: 40px; height: 40px; stroke-width: 1.25; }
+.sector:hover .sector-icon,
+.sector:focus-visible .sector-icon { color: var(--cyan); transform: translateY(-6px) scale(1.06); }
+
+.sector-name {
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: transform .35s var(--ease);
+}
+.sector:hover .sector-name,
+.sector:focus-visible .sector-name { transform: translateY(-6px); }
+
+/* The detail. Laid over the tile rather than expanding it, so nothing below
+   moves when you point at something. */
+.sector-body {
+  position: absolute;
+  inset: auto 14px 16px;
+  color: var(--text-faint);
+  font-size: .76rem;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+}
+.sector:hover .sector-body,
+.sector:focus-visible .sector-body { opacity: 1; transform: none; }
+
+@media (max-width: 1100px) { .sector-wall { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 700px)  { .sector-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* No hover on touch, so the copy is simply shown. */
+@media (hover: none) {
+  .sector { justify-content: flex-start; min-height: 0; padding-bottom: 74px; }
+  .sector-body { opacity: 1; transform: none; }
+}
+
+/* The "what is different" wall reuses the gallery canvas, so it only needs its
+   own height — the tiles are drawn, not photographed. */
+.why-stage { height: min(66vh, 620px); }

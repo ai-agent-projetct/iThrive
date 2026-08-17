@@ -241,43 +241,52 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- ── Room 4 · The Gallery ───────────────────────────────────────── -->
-  <section class="section web-work" id="work"
-           data-room="work" data-room-hue="258" data-room-label="The Gallery">
+  <?php /* Horizontal, the way 2025.unseen.co moves: the section pins, and the
+           scroll you spend crossing it drives the track sideways. Real markup
+           and real anchors, because that site's project pages render into WebGL
+           and this one has to stay readable. */ ?>
+  <section class="section hscroll web-work" id="work"
+           data-room="work" data-room-hue="258" data-room-label="The Gallery"
+           data-hscroll>
     <div class="shell">
       <?php component('section-head', [
           'eyebrow' => 'Selected Work',
           'title'   => 'Websites we have shipped',
-          'lead'    => 'Drag to wander, scroll to zoom, click to open the live site. The grid repeats '
-                     . 'forever in every direction.',
+          'lead'    => 'Keep scrolling — the work moves sideways. Click any site to open it.',
       ]); ?>
     </div>
 
-    <?php /* The anchors below are the real content — the canvas is drawn on top
-             of them and reads its tiles from these same elements, so a crawler,
-             a screen reader and a keyboard user all get a plain list of links
-             whether or not the canvas runs. */ ?>
-    <div class="work-stage" data-work-canvas>
-      <ul class="work-list">
-        <?php foreach (WEB_WORK as $wk): ?>
-          <li>
-            <a class="work-item"
-               data-work-item
-               data-shot="<?= e(asset('assets/img/work/' . $wk['slug'] . '.jpg')) ?>"
-               data-name="<?= e($wk['name']) ?>"
-               data-kind="<?= e($wk['kind']) ?>"
-               style="--tint: <?= e($wk['tint']) ?>"
-               <?php if ($wk['url']): ?>href="<?= e($wk['url']) ?>" target="_blank" rel="noopener"<?php endif; ?>>
-              <img src="<?= e(asset('assets/img/work/' . $wk['slug'] . '.jpg')) ?>"
-                   width="720" height="450" loading="lazy" decoding="async"
-                   alt="<?= e($wk['name'] . ' website built by ' . SITE_NAME) ?>">
-              <span class="work-item-name"><?= e($wk['name']) ?></span>
-              <span class="work-item-kind"><?= e($wk['kind']) ?> · <?= e($wk['year']) ?></span>
-              <span class="work-item-note"><?= e($wk['note']) ?></span>
-            </a>
+    <div class="hscroll-stage">
+      <ol class="hscroll-track" data-hscroll-track>
+        <?php foreach (WEB_WORK as $i => $wk): ?>
+          <li class="hwork" style="--tint: <?= e($wk['tint']) ?>">
+            <?php $tag = $wk['url'] ? 'a' : 'div'; ?>
+            <<?= $tag ?> class="hwork-card"
+              <?php if ($wk['url']): ?>href="<?= e($wk['url']) ?>" target="_blank" rel="noopener"<?php endif; ?>>
+              <span class="hwork-index"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
+              <span class="hwork-shot">
+                <img src="<?= e(asset('assets/img/work/' . $wk['slug'] . '.jpg')) ?>"
+                     width="720" height="450" loading="lazy" decoding="async"
+                     alt="<?= e($wk['name'] . ' website built by ' . SITE_NAME) ?>">
+              </span>
+              <span class="hwork-meta">
+                <span class="hwork-name"><?= e($wk['name']) ?></span>
+                <span class="hwork-kind"><?= e($wk['kind']) ?> &middot; <?= e($wk['year']) ?></span>
+              </span>
+              <span class="hwork-note"><?= e($wk['note']) ?></span>
+            </<?= $tag ?>>
           </li>
         <?php endforeach; ?>
-      </ul>
-      <p class="work-hint" aria-hidden="true"><?= icon('compass') ?>Drag to explore · scroll to zoom</p>
+
+        <li class="hwork hwork--end">
+          <div class="hwork-card hwork-card--cta">
+            <p class="hwork-end-title">Your site could be next.</p>
+            <a class="btn btn-primary" href="<?= e(url('contact.php')) ?>">Start your project<?= icon('arrow') ?></a>
+          </div>
+        </li>
+      </ol>
+
+      <span class="hscroll-progress" aria-hidden="true"><span data-hscroll-bar></span></span>
     </div>
   </section>
 
@@ -315,24 +324,28 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- ── Room 6 · The Floor ─────────────────────────────────────────── -->
+  <?php /* An icon wall. The detail is not printed under every tile — it arrives
+           when you point at one, so the grid reads as a set of marks rather
+           than twelve paragraphs. The copy is in the markup either way, so it
+           is there for a crawler and for anyone using a keyboard. */ ?>
   <section class="section web-industries" id="industries"
            data-room="industries" data-room-hue="292" data-room-label="The Floor">
     <div class="shell">
       <?php component('section-head', [
           'eyebrow' => 'Industries',
           'title'   => 'Sectors we have shipped into',
-          'lead'    => 'Each one has its own conversion problem. A hospital site is judged on how fast '
-                     . 'someone can book; a hotel site on whether it beats the aggregator.',
+          'lead'    => 'Each one has its own conversion problem. Hover a sector to see what it is.',
       ]); ?>
 
-      <div class="grid grid-4 web-industry-grid">
+      <ul class="sector-wall">
         <?php foreach (WEB_INDUSTRIES as $i => $ind): ?>
-          <article class="web-industry" style="--i: <?= $i ?>">
-            <h3><?= e($ind['title']) ?></h3>
-            <p><?= e($ind['body']) ?></p>
-          </article>
+          <li class="sector" tabindex="0" style="--i: <?= $i ?>">
+            <span class="sector-icon"><?= icon($ind['icon']) ?></span>
+            <span class="sector-name"><?= e($ind['title']) ?></span>
+            <span class="sector-body"><?= e($ind['body']) ?></span>
+          </li>
         <?php endforeach; ?>
-      </div>
+      </ul>
     </div>
   </section>
 
@@ -359,21 +372,36 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- ── Why us ─────────────────────────────────────────────────────── -->
+  <?php /* The same infinite canvas as Origin Kit's, drawing text tiles instead
+           of photographs: drag with momentum, wheel-zoom about the cursor, and
+           a grid that repeats forever so there is no edge. The list underneath
+           is the real content — the canvas covers it rather than replacing it,
+           so a crawler, a screen reader and the keyboard all still get it. */ ?>
   <section class="section web-why">
     <div class="shell">
       <?php component('section-head', [
           'eyebrow' => 'Why iThrive',
           'title'   => 'What is different about working with us',
+          'lead'    => 'Drag to wander, scroll to zoom. Six things, repeating forever.',
       ]); ?>
+    </div>
 
-      <div class="grid grid-3">
+    <div class="work-stage why-stage" data-work-canvas>
+      <ul class="work-list">
         <?php foreach (WEB_WHY as $i => $why): ?>
-          <article class="card web-card" style="--i: <?= $i ?>">
-            <h3 class="card-title"><?= e($why['title']) ?></h3>
-            <p class="card-body"><?= e($why['body']) ?></p>
-          </article>
+          <li>
+            <span class="work-item"
+                  data-work-item
+                  data-name="<?= e($why['title']) ?>"
+                  data-body="<?= e($why['body']) ?>"
+                  data-tint="<?= e(['#00F2FE', '#4EA8FF', '#9D4EDD', '#2FA36B', '#F2649B', '#C8A24A'][$i % 6]) ?>">
+              <span class="work-item-name"><?= e($why['title']) ?></span>
+              <span class="work-item-note"><?= e($why['body']) ?></span>
+            </span>
+          </li>
         <?php endforeach; ?>
-      </div>
+      </ul>
+      <p class="work-hint" aria-hidden="true"><?= icon('compass') ?>Drag to explore &middot; scroll to zoom</p>
     </div>
   </section>
 
@@ -441,5 +469,6 @@ require dirname(__DIR__) . '/includes/header.php';
 
 <script type="module" src="<?= e(asset('assets/js/web-rooms.js')) ?>"></script>
 <script src="<?= e(asset('assets/js/work-canvas.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/hscroll.js')) ?>" defer></script>
 
 <?php require dirname(__DIR__) . '/includes/footer.php'; ?>
