@@ -357,7 +357,185 @@ def why_support(rng):
     return ''.join(s)
 
 
+
+# ---------------------------------------------------------------------------
+# Section marks
+#
+# Small drawings for the recurring section types that had no imagery at all:
+# commitments, testimonials, a stats glance, the service catalogue, engagement
+# shapes, capabilities, the delivery stack, open roles, solved patterns and the
+# contact lines. Same primitives and palette as everything above, so a page that
+# now carries four of these still reads as one system.
+# ---------------------------------------------------------------------------
+
+def sec_commitments(rng):
+    """Four ticked promises against a ruled sheet."""
+    s = [grid_bg()]
+    x, y = W/2 - 160, 92
+    s.append(f'<rect x="{x}" y="{y}" width="320" height="248" rx="16" fill="url(#g)" fill-opacity=".06" '
+             f'stroke="url(#g)" stroke-opacity=".5" stroke-width="1.6"/>')
+    for i in range(4):
+        yy = y + 40 + i * 52
+        s.append(f'<circle cx="{x+44}" cy="{yy}" r="15" fill="url(#g)" fill-opacity=".16" '
+                 f'stroke="url(#g)" stroke-opacity=".7" stroke-width="1.6"/>')
+        s.append(f'<path d="M{x+37} {yy}l6 6 12-13" stroke="url(#g)" stroke-width="2.6" '
+                 f'stroke-linecap="round" stroke-linejoin="round"/>')
+        s.append(f'<rect x="{x+74}" y="{yy-5}" width="{190 - i*26}" height="9" rx="4.5" '
+                 f'fill="#fff" fill-opacity="{.20 - i*.03:.2f}"/>')
+    return ''.join(s)
+
+
+def sec_testimonial(rng):
+    """A quote mark over two speech panels."""
+    s = [grid_bg()]
+    s.append(f'<path d="M{W/2-118} 150c0-32 24-56 56-58v22c-20 3-32 16-32 34h32v58h-56Z" '
+             f'fill="url(#g)" fill-opacity=".7"/>')
+    s.append(f'<path d="M{W/2+6} 150c0-32 24-56 56-58v22c-20 3-32 16-32 34h32v58h-56Z" '
+             f'fill="url(#g)" fill-opacity=".38"/>')
+    for i in range(3):
+        s.append(f'<rect x="{W/2-140}" y="{262+i*26}" width="{280 - i*62}" height="9" rx="4.5" '
+                 f'fill="#fff" fill-opacity="{.18 - i*.04:.2f}"/>')
+    return ''.join(s)
+
+
+def sec_glance(rng):
+    """Four counters - the at-a-glance numbers."""
+    s = [grid_bg()]
+    for i in range(4):
+        cx = W/2 - 168 + i * 112
+        h = 44 + rng.uniform(0, 46)
+        s.append(f'<rect x="{cx-42}" y="{250-h:.0f}" width="84" height="{h+56:.0f}" rx="12" '
+                 f'fill="url(#gv)" fill-opacity=".5" stroke="url(#g)" stroke-opacity=".45" stroke-width="1.4"/>')
+        s.append(f'<rect x="{cx-26}" y="{262-h:.0f}" width="52" height="13" rx="6.5" fill="url(#g)" fill-opacity=".85"/>')
+        s.append(f'<rect x="{cx-30}" y="322" width="60" height="7" rx="3.5" fill="#fff" fill-opacity=".16"/>')
+    return ''.join(s)
+
+
+def sec_catalogue(rng):
+    """A grid of service tiles - the full catalogue."""
+    s = [grid_bg()]
+    for r in range(3):
+        for c in range(4):
+            x, y = W/2 - 214 + c * 112, 106 + r * 78
+            lit = (r * 4 + c) in (1, 6, 9)
+            s.append(f'<rect x="{x}" y="{y}" width="96" height="62" rx="11" '
+                     f'fill="url(#g)" fill-opacity="{.16 if lit else .05:.2f}" '
+                     f'stroke="url(#g)" stroke-opacity="{.7 if lit else .3:.2f}" stroke-width="1.4"/>')
+            s.append(f'<rect x="{x+14}" y="{y+38}" width="{58 if lit else 44}" height="7" rx="3.5" '
+                     f'fill="#fff" fill-opacity="{.22 if lit else .12:.2f}"/>')
+    return ''.join(s)
+
+
+def sec_engagement(rng):
+    """Three columns of different height - the engagement shapes."""
+    s = [grid_bg()]
+    for i, h in enumerate((116, 178, 146)):
+        x = W/2 - 150 + i * 108
+        s.append(f'<rect x="{x}" y="{300-h}" width="84" height="{h}" rx="12" '
+                 f'fill="url(#gv)" fill-opacity="{.65 if i == 1 else .4:.2f}" '
+                 f'stroke="url(#g)" stroke-opacity="{.75 if i == 1 else .4:.2f}" stroke-width="1.5"/>')
+        for k in range(3):
+            s.append(f'<rect x="{x+16}" y="{318-h+k*20}" width="{52 - k*10}" height="6" rx="3" '
+                     f'fill="#fff" fill-opacity=".16"/>')
+        s.append(f'<circle cx="{x+42}" cy="{330}" r="7" fill="url(#g)" fill-opacity="{.9 if i == 1 else .45:.2f}"/>')
+    return ''.join(s)
+
+
+def sec_capabilities(rng):
+    """A checklist branching off a spine - capabilities spelled out."""
+    s = [grid_bg()]
+    x = W/2 - 150
+    s.append(f'<path d="M{x} 96V330" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>')
+    for i in range(5):
+        y = 118 + i * 48
+        s.append(f'<path d="M{x} {y}h44" stroke="url(#g)" stroke-opacity=".45" stroke-width="1.6"/>')
+        s.append(f'<circle cx="{x}" cy="{y}" r="7" fill="#0B0F17" stroke="url(#g)" stroke-width="2.2"/>')
+        s.append(f'<rect x="{x+56}" y="{y-11}" width="{210 - i*22}" height="22" rx="8" '
+                 f'fill="url(#g)" fill-opacity="{.13 - i*.015:.3f}" stroke="url(#g)" stroke-opacity=".3" stroke-width="1"/>')
+    return ''.join(s)
+
+
+def sec_delivery(rng):
+    """Stacked platform layers - what we deliver it on."""
+    s = [grid_bg()]
+    for i in range(4):
+        w = 300 - i * 48
+        y = 288 - i * 52
+        s.append(f'<path d="M{W/2} {y-26}l{w/2} 26-{w/2} 26-{w/2}-26Z" '
+                 f'fill="url(#g)" fill-opacity="{.10 + i*.07:.2f}" '
+                 f'stroke="url(#g)" stroke-opacity="{.35 + i*.12:.2f}" stroke-width="1.5"/>')
+    s.append(f'<circle cx="{W/2}" cy="118" r="9" fill="url(#g)"/>')
+    return ''.join(s)
+
+
+def sec_roles(rng):
+    """Open seats at a table - the roles being filled."""
+    s = [grid_bg()]
+    s.append(f'<ellipse cx="{W/2}" cy="250" rx="158" ry="52" fill="url(#g)" fill-opacity=".07" '
+             f'stroke="url(#g)" stroke-opacity=".45" stroke-width="1.6"/>')
+    for i, a in enumerate((-2.5, -1.75, -1.0, -0.25)):
+        cx = W/2 + math.cos(a) * 176
+        cy = 250 + math.sin(a) * 92
+        open_seat = i in (1, 3)
+        s.append(f'<circle cx="{cx:.0f}" cy="{cy:.0f}" r="26" '
+                 f'fill="url(#g)" fill-opacity="{.05 if open_seat else .22:.2f}" '
+                 f'stroke="url(#g)" stroke-opacity="{.85 if open_seat else .4:.2f}" stroke-width="1.8" '
+                 f'{"stroke-dasharray=\"5 5\"" if open_seat else ""}/>')
+        if not open_seat:
+            s.append(f'<circle cx="{cx:.0f}" cy="{cy-6:.0f}" r="9" fill="url(#g)" fill-opacity=".6"/>')
+    return ''.join(s)
+
+
+def sec_patterns(rng):
+    """Repeating motifs, one solved - patterns we have already met."""
+    s = [grid_bg()]
+    for r in range(3):
+        for c in range(5):
+            cx, cy = W/2 - 168 + c * 84, 138 + r * 72
+            solved = (r == 1 and c == 2)
+            if solved:
+                s.append(f'<circle cx="{cx}" cy="{cy}" r="26" fill="url(#g)" fill-opacity=".22" '
+                         f'stroke="url(#g)" stroke-opacity=".9" stroke-width="2"/>')
+                s.append(f'<path d="M{cx-11} {cy}l8 9 16-18" stroke="url(#g)" stroke-width="3" '
+                         f'stroke-linecap="round" stroke-linejoin="round"/>')
+            else:
+                s.append(f'<circle cx="{cx}" cy="{cy}" r="20" fill="none" stroke="url(#g)" '
+                         f'stroke-opacity=".26" stroke-width="1.5"/>')
+    return ''.join(s)
+
+
+def sec_lines(rng):
+    """Three channels converging - the direct lines."""
+    s = [grid_bg()]
+    cx, cy = W/2, 250
+    for i, a in enumerate((-2.3, -1.57, -0.84)):
+        x = cx + math.cos(a) * 150
+        y = cy + math.sin(a) * 130
+        s.append(f'<path d="M{x:.0f} {y:.0f}Q{(x+cx)/2:.0f} {(y+cy)/2 - 30:.0f} {cx} {cy}" '
+                 f'stroke="url(#g)" stroke-opacity=".45" stroke-width="1.6" fill="none"/>')
+        s.append(f'<rect x="{x-34:.0f}" y="{y-24:.0f}" width="68" height="48" rx="12" fill="#0B0F17" '
+                 f'stroke="url(#g)" stroke-opacity=".7" stroke-width="1.6"/>')
+        s.append(f'<rect x="{x-18:.0f}" y="{y-6:.0f}" width="36" height="7" rx="3.5" fill="url(#g)" fill-opacity=".6"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="30" fill="url(#g)" fill-opacity=".2" '
+             f'stroke="url(#g)" stroke-opacity=".85" stroke-width="2"/>')
+    s.append(f'<path d="M{cx-13} {cy-5}l13 10 13-10" stroke="url(#g)" stroke-width="2.6" '
+             f'stroke-linecap="round" stroke-linejoin="round" fill="none"/>')
+    return ''.join(s)
+
+
 RECIPES = {
+    # recurring section marks
+    'sec-commitments':  sec_commitments,
+    'sec-testimonial':  sec_testimonial,
+    'sec-glance':       sec_glance,
+    'sec-catalogue':    sec_catalogue,
+    'sec-engagement':   sec_engagement,
+    'sec-capabilities': sec_capabilities,
+    'sec-delivery':     sec_delivery,
+    'sec-roles':        sec_roles,
+    'sec-patterns':     sec_patterns,
+    'sec-lines':        sec_lines,
+
     # swipe-stack cards, web development page
     'why-price':     why_price,
     'why-senior':    why_senior,

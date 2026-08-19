@@ -48,6 +48,7 @@ component('page-hero', [
         'eyebrow' => PROCESS['eyebrow'],
         'title'   => 'How an engagement actually runs',
         'lead'    => PROCESS['lead'],
+        'art'     => 'sec-engagement',
     ]); ?>
     <?php component('process-pipeline'); ?>
   </div>
@@ -59,6 +60,7 @@ component('page-hero', [
         'eyebrow' => 'Every Service',
         'title'   => 'The full catalogue',
         'lead'    => 'Each service has its own page covering capabilities, typical outcomes and the stack we deliver it on.',
+        'art'     => 'sec-catalogue',
     ]); ?>
 
     <div class="grid grid-3">

@@ -64,6 +64,7 @@ component('page-hero', [
         'eyebrow' => 'What This Includes',
         'title'   => 'Capabilities you get, spelled out',
         'lead'    => 'No line item here is aspirational — each one is something we have shipped on a platform that is live today.',
+        'art'     => 'sec-capabilities',
     ]); ?>
 
     <div class="grid grid-3">

@@ -24,6 +24,10 @@ component('page-hero', [
     </div>
 
     <aside class="detail-aside">
+      <span class="aside-art" aria-hidden="true">
+        <img src="<?= e(asset('assets/img/art/sec-glance.svg')) ?>"
+             width="560" height="420" loading="lazy" decoding="async" draggable="false" alt="">
+      </span>
       <h2>At a glance</h2>
       <dl class="detail-meta">
         <div><dt>Founded on</dt><dd>Python, Agentic AI and Cloud Architecture</dd></div>
@@ -41,6 +45,7 @@ component('page-hero', [
     <?php component('section-head', [
         'eyebrow' => 'How We Operate',
         'title'   => 'Four commitments we will be held to',
+        'art'     => 'sec-commitments',
     ]); ?>
 
     <div class="grid grid-4">
@@ -80,6 +85,7 @@ component('page-hero', [
     <?php component('section-head', [
         'eyebrow' => 'Client Voices',
         'title'   => 'What the people who signed off say',
+        'art'     => 'sec-testimonial',
     ]); ?>
     <?php component('testimonial-slider'); ?>
   </div>

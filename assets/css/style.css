@@ -3931,3 +3931,53 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 @media (prefers-reduced-motion: reduce) {
   .swipe-card { transition: none; }
 }
+
+/* =========================================================================
+   Section head with a mark
+
+   Only sections that opt in get one. The drawing sits beside the heading on a
+   wide screen and above it on a narrow one; without `art` the head renders
+   exactly as it always did, so nothing else on the site shifts.
+   ========================================================================= */
+
+.section-head--art {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+  align-items: center;
+  gap: clamp(24px, 4vw, 60px);
+  text-align: left;
+}
+/* Placed explicitly. The art comes first in the DOM so it can lead on a narrow
+   screen, but on a wide one the heading takes the wide column — left to auto
+   flow, the drawing claimed the 1fr and squeezed the title into 340px. */
+.section-head--art .section-head-text { grid-column: 1; grid-row: 1; max-width: 62ch; }
+.section-head--art .section-head-art  { grid-column: 2; grid-row: 1; }
+.section-head--art .section-title,
+.section-head--art .section-lead { margin-inline: 0; }
+
+.section-head-art {
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+}
+.section-head-art img { display: block; width: 100%; height: auto; }
+
+/* The mark leads on a narrow screen, where a side-by-side would squeeze both. */
+@media (max-width: 860px) {
+  .section-head--art { grid-template-columns: 1fr; }
+  .section-head-art { order: -1; max-width: 340px; }
+}
+
+/* A small mark at the top of a sidebar. The asides are definition lists, so
+   this sits above the heading rather than beside it. */
+.aside-art {
+  display: block;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+}
+.aside-art img { display: block; width: 100%; height: auto; }

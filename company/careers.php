@@ -31,6 +31,7 @@ component('page-hero', [
         'eyebrow' => 'Open Roles',
         'title'   => 'Four seats we are actively filling',
         'lead'    => 'No role here is a ticket queue. You will talk to clients, own architecture decisions, and be accountable for something running in production.',
+        'art'     => 'sec-roles',
     ]); ?>
 
     <div class="grid" style="gap:16px">

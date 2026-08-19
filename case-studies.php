@@ -57,6 +57,7 @@ component('page-hero', [
     <?php component('section-head', [
         'eyebrow' => 'By The Numbers',
         'title'   => 'What ten builds add up to',
+        'art'     => 'sec-glance',
     ]); ?>
     <?php component('stats-band'); ?>
   </div>

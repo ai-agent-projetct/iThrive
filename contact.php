@@ -80,6 +80,10 @@ component('page-hero', [
     </div>
 
     <aside class="detail-aside">
+      <span class="aside-art" aria-hidden="true">
+        <img src="<?= e(asset('assets/img/art/sec-lines.svg')) ?>"
+             width="560" height="420" loading="lazy" decoding="async" draggable="false" alt="">
+      </span>
       <h2>Direct lines</h2>
       <dl class="detail-meta">
         <?php foreach (CONTACT_CHANNELS as $channel): ?>

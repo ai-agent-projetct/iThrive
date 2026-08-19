@@ -107,6 +107,7 @@ component('page-hero', [
         'eyebrow' => 'By Industry',
         'title'   => 'Patterns we have already solved',
         'lead'    => 'Each of these is backed by a platform in production, not a capability slide. Follow the proof link to read exactly what was built.',
+        'art'     => 'sec-patterns',
     ]); ?>
 
     <div class="grid grid-2">

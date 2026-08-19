@@ -49,6 +49,7 @@ component('page-hero', [
         'eyebrow' => 'Ground Rules',
         'title'   => 'The parts of delivery we do not negotiate',
         'lead'    => 'These exist because we have watched each one go wrong on somebody else\'s project.',
+        'art'     => 'sec-commitments',
     ]); ?>
 
     <div class="grid grid-3">

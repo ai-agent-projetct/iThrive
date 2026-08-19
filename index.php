@@ -45,6 +45,7 @@ component('client-logo-grid');
         'eyebrow' => 'Proprietary AI Solutions',
         'title'   => 'Two products we built for ourselves first',
         'lead'    => 'Both started as internal tools. Both now run in client environments, deployed and supported by the same team that wrote them.',
+        'art'     => 'aichat',
     ]); ?>
 
     <div class="grid grid-2">
@@ -127,6 +128,7 @@ component('client-logo-grid');
     <?php component('section-head', [
         'eyebrow' => 'Client Voices',
         'title'   => 'What the people who signed off on the work say',
+        'art'     => 'sec-testimonial',
     ]); ?>
     <?php component('testimonial-slider'); ?>
   </div>
