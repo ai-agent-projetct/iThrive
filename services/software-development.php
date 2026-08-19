@@ -96,6 +96,18 @@ require dirname(__DIR__) . '/includes/header.php';
 
   <!-- ── Hero · the problem, unordered ──────────────────────────────── -->
   <section class="sd-hero" data-stage="brief">
+    <?php /* The hero plate: this page playing on a laptop in a lit room, with a
+             slow push-in. Decoration only — every word below is real HTML in
+             front of it, and the poster carries the still if the clip never
+             loads. muted+playsinline+loop is what lets it autoplay at all. */ ?>
+    <div class="sd-hero-film" aria-hidden="true">
+      <video class="sd-hero-video" muted loop autoplay playsinline preload="metadata"
+             disablepictureinpicture poster="<?= e(asset('assets/img/software-hero-poster.jpg')) ?>">
+        <source src="<?= e(asset('assets/video/software-hero.mp4')) ?>" type="video/mp4">
+      </video>
+      <span class="sd-hero-scrim"></span>
+    </div>
+
     <div class="shell">
       <div class="sd-hero-inner">
         <p class="eyebrow" data-sd-reveal><?= e(SOFT_HERO['eyebrow']) ?></p>
