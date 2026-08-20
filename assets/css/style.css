@@ -3995,6 +3995,11 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 .pstack { position: relative; margin-top: 40px; }
 
 /* Full bleed out of the section's padding. */
+/* The perspective the fall is seen through. On the deck, not the panel — a
+   per-panel perspective() gives each its own vanishing point and the tilt
+   reads as a shear instead of a card falling away. */
+.pstack { perspective: 1600px; perspective-origin: 50% 40%; }
+
 .pstack {
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -4023,10 +4028,18 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   background: linear-gradient(120deg, var(--from) 0%, var(--to) 100%);
   box-shadow: 0 -30px 80px -40px rgba(0, 0, 0, .55);
 
-  /* The button pairs this gradient with near-black ink, and so does the panel:
-     white on #00F2FE is unreadable. Everything inside inherits from here. */
-  --ink: #04121A;
+  /* --ink is set per panel in the markup: the logo gradient runs from a very
+     light cyan to a deep violet, and no single text colour is legible across
+     that whole range. Everything inside derives from it. */
   color: var(--ink);
+
+  /* The fall. --exit runs 0..1 as the next panel rises over this one; the
+     panel tips backwards about its base so its top edge recedes, which is the
+     motion in the reference. */
+  transform-origin: 50% 100%;
+  transform: rotateX(calc(var(--exit, 0) * 26deg)) scale(calc(1 - var(--exit, 0) * 0.06));
+  filter: brightness(calc(1 - var(--exit, 0) * 0.34));
+  will-change: transform;
 }
 
 .ppanel-inner {
@@ -4121,8 +4134,11 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   gap: 9px;
   padding: 12px 26px;
   border-radius: 999px;
+  /* The pill is the ink, and its text is whatever is legible on the ink. Using
+     a fixed white here put white on white the moment --ink became white on the
+     darker panels. */
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink, #fff);
   font-weight: 700;
   font-size: .92rem;
   text-decoration: none;
@@ -4162,7 +4178,7 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 @media (max-width: 820px) {
   /* Sticky stacking on a short screen leaves no room to read the panel before
      the next one covers it, so they simply stack in flow. */
-  .ppanel { position: static; height: auto; min-height: 0; border-radius: var(--radius); }
+  .ppanel { position: static; height: auto; min-height: 0; border-radius: var(--radius); transform: none; filter: none; }
   .ppanel-gap { display: none; }
   .pstack { width: auto; margin-inline: 0; }
   .pstack { display: grid; gap: 16px; }
@@ -4176,7 +4192,7 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ppanel { position: static; height: auto; min-height: 0; }
+  .ppanel { position: static; height: auto; min-height: 0; transform: none; filter: none; }
   .ppanel-gap { display: none; }
   .lit-word { transition: none; color: var(--ink); }
 }

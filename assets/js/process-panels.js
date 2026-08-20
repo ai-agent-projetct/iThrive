@@ -59,17 +59,43 @@
     return { panel, words: Array.from(panel.querySelectorAll('.lit-word')) };
   });
 
+  const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+
+  /**
+   * The fall.
+   *
+   * A panel does not tip on its own schedule — it tips by exactly how far the
+   * next one has risen over it. Driving it from the panel's own position
+   * instead would start the tilt while the panel is still the one being read.
+   *
+   * 0 while the next panel is still below the fold, 1 once it has covered this
+   * one. CSS turns that into the rotation, the scale and the dimming.
+   */
+  function fall() {
+    for (let i = 0; i < panels.length; i++) {
+      const next = panels[i + 1];
+      if (!next) { panels[i].style.setProperty('--exit', '0'); continue; }
+
+      const top = next.getBoundingClientRect().top;
+      const from = window.innerHeight;                    // next panel still below
+      const to = parseFloat(getComputedStyle(panels[i]).top) || 0;  // fully covering
+      const t = clamp((from - top) / Math.max(1, from - to), 0, 1);
+
+      panels[i].style.setProperty('--exit', t.toFixed(4));
+    }
+  }
+
   let onScreen = new Set();
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => (e.isIntersecting ? onScreen.add(e.target) : onScreen.delete(e.target)));
   }, { threshold: 0 });
   panels.forEach((p) => io.observe(p));
 
-  const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
-
   function frame() {
     requestAnimationFrame(frame);
     if (!onScreen.size) return;
+
+    fall();
 
     for (const { panel, words } of groups) {
       if (!onScreen.has(panel)) continue;

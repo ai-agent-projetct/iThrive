@@ -21,28 +21,31 @@
 declare(strict_types=1);
 
 /**
- * The three panels are the "Start Your Project" gradient, cut into thirds.
+ * The three panels are the logo's gradient, cut into thirds.
  *
- * --grad runs #00F2FE at 0%, #4EA8FF at 45%, #9D4EDD at 100%. Sampling it at
- * thirds gives each panel its own slice, so scrolling the deck walks the same
- * gradient the button uses rather than showing three unrelated colours.
+ * Sampled from assets/img/logo-mark.png rather than guessed: the mark runs
+ * bright cyan #03D1F5 through #0B6CD4 and #0940C4 into violet #7D42F4. Each
+ * panel takes a slice, so scrolling the deck walks the logo.
  *
- * The ink is the button's too. A full-screen panel in these colours is bright,
- * and white text on #00F2FE is unreadable — the brand already answers that by
- * pairing the gradient with #04121A, so the panels do the same.
+ * Ink is per panel, not shared. The mark spans a very light cyan to a deep
+ * violet, and no single text colour survives that range — the first panel is
+ * bright enough to need the near-black the brand already pairs with it, the
+ * other two are dark enough to need white. One ink for all three would have
+ * been unreadable on one end or the other.
  */
 $tints = [
-    ['#00F2FE', '#39BCFF'],
-    ['#39BCFF', '#6C86F2'],
-    ['#6C86F2', '#9D4EDD'],
+    // from, to, ink, and what sits legibly ON the ink (the pill).
+    ['#03D1F5', '#0B8AE2', '#04121A', '#FFFFFF'],
+    ['#0B8AE2', '#2E45D2', '#FFFFFF', '#0B1020'],
+    ['#2E45D2', '#8B3FEF', '#FFFFFF', '#0B1020'],
 ];
 ?>
 <div class="pstack" data-pstack>
   <?php foreach (PROCESS['steps'] as $i => $step): ?>
-    <?php [$from, $to] = $tints[$i % 3]; ?>
+    <?php [$from, $to, $ink, $onInk] = $tints[$i % 3]; ?>
 
     <section class="ppanel"
-             style="--from: <?= e($from) ?>; --to: <?= e($to) ?>; --i: <?= $i ?>"
+             style="--from: <?= e($from) ?>; --to: <?= e($to) ?>; --ink: <?= e($ink) ?>; --on-ink: <?= e($onInk) ?>; --i: <?= $i ?>"
              aria-labelledby="pstep-<?= e($step['key']) ?>">
 
       <div class="ppanel-inner">
