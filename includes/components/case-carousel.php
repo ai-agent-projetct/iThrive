@@ -22,7 +22,7 @@ declare(strict_types=1);
 $studies = CASE_STUDIES;
 ?>
 <div class="rc" data-round-carousel
-     data-image-width="300" data-spacing="3" data-speed="7"
+     data-image-width="380" data-spacing="3" data-speed="7"
      data-direction="right" data-drag="true" data-sensitivity="5"
      data-tilt="-7" data-perspective="3000" data-inner-dim="3.5"
      role="group" aria-roledescription="carousel"
@@ -40,6 +40,7 @@ $studies = CASE_STUDIES;
             <span class="rc-client"><?= e($study['client']) ?></span>
             <span class="rc-headline"><?= e($study['headline']) ?></span>
             <span class="rc-industry"><?= e($study['industry']) ?></span>
+            <span class="rc-cta">View case study<?= icon('arrow') ?></span>
           </a>
 
           <?php /* The same card, mirrored and dimmed — what shows on the far
@@ -51,6 +52,7 @@ $studies = CASE_STUDIES;
             <span class="rc-client"><?= e($study['client']) ?></span>
             <span class="rc-headline"><?= e($study['headline']) ?></span>
             <span class="rc-industry"><?= e($study['industry']) ?></span>
+            <span class="rc-cta">View case study<?= icon('arrow') ?></span>
           </span>
         </div>
       <?php endforeach; ?>

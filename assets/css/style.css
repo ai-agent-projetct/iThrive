@@ -4206,15 +4206,19 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
    ========================================================================= */
 
 .rc {
-  --rc-w: 300px;
-  --rc-h: 300px;
+  /* Bigger than the component's 300 square: at that size the headline was
+     three lines of small type on a card turning away from you. The width is
+     mirrored in data-image-width, which is what the ring radius is derived
+     from — changing one without the other collapses the spacing. */
+  --rc-w: 380px;
+  --rc-h: 430px;
   --rc-radius: 22px;
 
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: min(72vh, 640px);
+  height: min(80vh, 760px);
   margin-top: 34px;
   overflow: hidden;
   touch-action: none;
@@ -4245,8 +4249,8 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   inset: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 22px;
+  gap: 10px;
+  padding: 26px;
   border-radius: var(--rc-radius);
   overflow: hidden;
   backface-visibility: hidden;
@@ -4269,30 +4273,30 @@ a.rc-face:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 .rc-logo {
   display: flex;
   align-items: center;
-  height: 34px;
-  margin-bottom: 2px;
+  height: 42px;
+  margin-bottom: 4px;
 }
-.rc-logo-img { max-height: 34px; max-width: 130px; width: auto; object-fit: contain; }
+.rc-logo-img { max-height: 42px; max-width: 160px; width: auto; object-fit: contain; }
 
 .rc-client {
-  font-size: 1.02rem;
+  font-size: 1.24rem;
   font-weight: 800;
   letter-spacing: -.01em;
 }
 .rc-headline {
   color: var(--text-dim);
-  font-size: .88rem;
-  line-height: 1.45;
+  font-size: 1rem;
+  line-height: 1.5;
   /* Headlines vary; clamp so no card pushes its own layout around. */
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 .rc-industry {
   margin-top: auto;
   color: var(--accent);
-  font-size: .68rem;
+  font-size: .72rem;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -4303,6 +4307,32 @@ a.rc-face:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 }
 
 /* ---------- Hint ---------- */
+
+/* The affordance. The whole face navigates, but a card that only turns does
+   not look clickable — this is the part that says it is. A span rather than a
+   <button>, because it lives inside the anchor and interactive elements cannot
+   nest. */
+.rc-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-start;
+  margin-top: 14px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+  font-size: .8rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: background .3s var(--ease), transform .3s var(--ease);
+}
+.rc-cta .icon { width: 14px; height: 14px; }
+a.rc-face:hover .rc-cta {
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+  transform: translateX(3px);
+}
 
 .rc-hint {
   position: absolute;
@@ -4328,9 +4358,10 @@ a.rc-face:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 /* ---------- Narrow ---------- */
 
 @media (max-width: 720px) {
-  .rc { --rc-w: 230px; --rc-h: 250px; height: min(62vh, 460px); }
+  .rc { --rc-w: 260px; --rc-h: 330px; height: min(66vh, 520px); }
   .rc-face { padding: 16px; }
-  .rc-headline { -webkit-line-clamp: 3; }
+  .rc-headline { -webkit-line-clamp: 3; font-size: .9rem; }
+  .rc-cta { padding: 7px 13px; font-size: .74rem; }
 }
 
 /* The ring still turns by drag; it just does not spin on its own — the script

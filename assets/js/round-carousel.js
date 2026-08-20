@@ -47,7 +47,11 @@
 
     /* ---- props, defaulting to the component's own ---------------------- */
 
-    const imageWidth   = num(stage, 'imageWidth', 300);
+    // The ring radius follows the card width, and the card shrinks on narrow
+    // screens — reading the CSS value keeps the two in step instead of leaving
+    // the ring sized for a card that is no longer that wide.
+    const cssW = parseFloat(getComputedStyle(stage).getPropertyValue('--rc-w'));
+    const imageWidth   = Number.isFinite(cssW) && cssW > 0 ? cssW : num(stage, 'imageWidth', 300);
     const spacing      = num(stage, 'spacing', 3);
     const speed        = num(stage, 'speed', 7);
     const sensitivity  = num(stage, 'sensitivity', 5);
@@ -80,7 +84,7 @@
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let rot = 0, vel = 0, last = 0, raf = 0;
-    let dragging = false, dragX = 0;
+    let dragging = false, dragX = 0, moved = 0, captured = false;
     let paused = false, onScreen = true;
 
     const apply = () => {
@@ -115,11 +119,20 @@
     if (canDrag) {
       const k = 0.3 * sensitivity;
 
+      /**
+       * Capture is taken on the first real movement, not on pointerdown.
+       *
+       * Capturing immediately retargets the click that follows to the stage, so
+       * the anchor under the cursor never receives it and a plain click on a
+       * card did nothing at all. Waiting until the pointer has actually moved
+       * means a click stays a click and only a drag captures.
+       */
       stage.addEventListener('pointerdown', (e) => {
         dragging = true;
         dragX = e.clientX;
+        moved = 0;
+        captured = false;
         vel = 0;
-        stage.setPointerCapture?.(e.pointerId);
         stage.classList.add('is-grabbing');
       });
 
@@ -127,6 +140,13 @@
         if (!dragging) return;
         const dx = e.clientX - dragX;
         dragX = e.clientX;
+        moved += Math.abs(dx);
+
+        if (!captured && moved > 3) {
+          captured = true;
+          stage.setPointerCapture?.(e.pointerId);
+        }
+
         rot += dx * k;
         vel = dx * k * 60;
       });
@@ -134,11 +154,30 @@
       const release = (e) => {
         if (!dragging) return;
         dragging = false;
-        stage.releasePointerCapture?.(e.pointerId);
+        if (captured) {
+          stage.releasePointerCapture?.(e.pointerId);
+          captured = false;
+        }
         stage.classList.remove('is-grabbing');
       };
       stage.addEventListener('pointerup', release);
       stage.addEventListener('pointercancel', release);
+
+      /**
+       * A drag must not navigate.
+       *
+       * The whole face is a link, so releasing after a drag fires a click on
+       * whichever card happened to be under the cursor and the page changes on
+       * its own. Captured before the anchor sees it, and cancelled if the
+       * pointer actually travelled — ten pixels of slack, because a click on a
+       * trackpad is never perfectly still.
+       */
+      stage.addEventListener('click', (e) => {
+        if (moved > 10) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, true);
     }
 
     /* ---- stop turning when someone is trying to read it ----------------- */
