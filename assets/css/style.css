@@ -4169,3 +4169,145 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   .ppanel { position: static; height: auto; min-height: 0; }
   .lit-word { transition: none; color: #fff; }
 }
+
+/* =========================================================================
+   Round Carousel — case studies as a turning ring
+
+   Card size, corner radius and the 3D scaffolding are here; the ring's radius,
+   per-item rotation and the spin come from round-carousel.js, which holds the
+   component's own maths.
+   ========================================================================= */
+
+.rc {
+  --rc-w: 300px;
+  --rc-h: 300px;
+  --rc-radius: 22px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: min(72vh, 640px);
+  margin-top: 34px;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  /* perspective is set from JS so it stays tied to the prop. */
+}
+.rc.is-grabbing { cursor: grabbing; }
+
+.rc-tilt { transform-style: preserve-3d; }
+
+.rc-ring {
+  position: relative;
+  width: var(--rc-w);
+  height: var(--rc-h);
+  transform-style: preserve-3d;
+}
+
+.rc-item {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+/* Both faces occupy the same box; the back one is flipped behind the front.
+   backface-visibility is what stops each showing through the other. */
+.rc-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+  border-radius: var(--rc-radius);
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  text-decoration: none;
+  color: var(--text);
+  background:
+    linear-gradient(150deg, color-mix(in srgb, var(--accent) 26%, transparent) 0%, transparent 58%),
+    #0E1420;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+.rc-face--back { transform: rotateY(180deg); }
+
+a.rc-face:hover { border-color: color-mix(in srgb, var(--accent) 70%, transparent); }
+a.rc-face:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+/* ---------- Card content ---------- */
+
+.rc-logo {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  margin-bottom: 2px;
+}
+.rc-logo-img { max-height: 34px; max-width: 130px; width: auto; object-fit: contain; }
+
+.rc-client {
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+.rc-headline {
+  color: var(--text-dim);
+  font-size: .88rem;
+  line-height: 1.45;
+  /* Headlines vary; clamp so no card pushes its own layout around. */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.rc-industry {
+  margin-top: auto;
+  color: var(--accent);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Hint ---------- */
+
+.rc-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(8, 12, 20, .8);
+  backdrop-filter: var(--blur);
+  color: var(--text-faint);
+  font-size: .78rem;
+  pointer-events: none;
+}
+.rc--live .rc-hint { display: inline-flex; }
+.rc-hint .icon { width: 14px; height: 14px; color: var(--cyan); }
+
+/* ---------- Narrow ---------- */
+
+@media (max-width: 720px) {
+  .rc { --rc-w: 230px; --rc-h: 250px; height: min(62vh, 460px); }
+  .rc-face { padding: 16px; }
+  .rc-headline { -webkit-line-clamp: 3; }
+}
+
+/* The ring still turns by drag; it just does not spin on its own — the script
+   checks the same query before advancing the angle. */
+@media (prefers-reduced-motion: reduce) {
+  .rc-face { transition: none; }
+}

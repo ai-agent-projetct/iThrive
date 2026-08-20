@@ -70,6 +70,7 @@ component('chat-widget');
 <?php if ($page === 'home'): ?>
 <script src="<?= e(asset('assets/js/warp.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/process-panels.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/round-carousel.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/entry-gate.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/assistant.js')) ?>" defer></script>

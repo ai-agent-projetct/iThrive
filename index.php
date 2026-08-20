@@ -94,11 +94,11 @@ component('client-logo-grid');
   <?php component('process-panels'); ?>
 </section>
 
-<?php /* data-warp turns this section into the scroll-warped grid — the cards
-         lean by where they sit and shear by how fast you are moving. The
-         content and the markup inside are untouched; warp.js finds the cards
-         itself and writes two custom properties. */ ?>
-<section class="section warp" data-warp>
+<?php /* The scroll-warp that used to live here targeted .case-card, and the
+         grid it leaned is now the carousel — the ring does its own 3D, so
+         warping it as well would be two effects fighting over the same
+         cards. warp.js still ships for any section that declares data-warp. */ ?>
+<section class="section">
   <div class="shell">
     <?php component('section-head', [
         'eyebrow' => 'Case Studies',
@@ -106,11 +106,10 @@ component('client-logo-grid');
         'lead'    => 'Ten builds across healthcare, mobility, manufacturing, civic tech and retail. Each one closed a gap between a business and the people it serves.',
     ]); ?>
 
-    <div class="case-grid">
-      <?php foreach (featured_case_studies(4) as $i => $study): ?>
-        <?php component('case-study-card', ['study' => $study, 'index' => $i]); ?>
-      <?php endforeach; ?>
-    </div>
+    <?php /* Origin Kit's Round Carousel — the ten case studies as a turning
+             ring you can drag. Replaces the four-card grid; all ten are here
+             now rather than a featured subset. */ ?>
+    <?php component('case-carousel'); ?>
 
     <div class="section-foot" data-reveal>
       <a class="btn btn-ghost" href="<?= e(url('case-studies.php')) ?>">All 10 case studies<?= icon('arrow') ?></a>
