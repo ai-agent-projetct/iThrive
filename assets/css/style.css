@@ -4001,6 +4001,11 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   margin-right: calc(50% - 50vw);
 }
 
+/* Dwell. The panels stay direct children so their sticky is scoped to the whole
+   deck and they keep stacking; these spacers simply buy the scroll that lets a
+   panel be read before the next one rises over it. */
+.ppanel-gap { height: 70vh; }
+
 .ppanel {
   position: sticky;
   /* Parked below the fixed header, not under it — at top:0 the panel title
@@ -4014,10 +4019,14 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   border-radius: var(--radius-lg);
   /* Each panel sits above the one before it, so later panels cover earlier. */
   z-index: calc(var(--i) + 1);
-  background:
-    radial-gradient(120% 90% at 12% 10%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 60%),
-    linear-gradient(135deg, var(--from) 0%, var(--to) 100%);
-  box-shadow: 0 -30px 80px -40px rgba(0, 0, 0, .9);
+  /* A slice of --grad, at the same 120deg the button uses. */
+  background: linear-gradient(120deg, var(--from) 0%, var(--to) 100%);
+  box-shadow: 0 -30px 80px -40px rgba(0, 0, 0, .55);
+
+  /* The button pairs this gradient with near-black ink, and so does the panel:
+     white on #00F2FE is unreadable. Everything inside inherits from here. */
+  --ink: #04121A;
+  color: var(--ink);
 }
 
 .ppanel-inner {
@@ -4044,14 +4053,14 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -.03em;
-  color: #fff;
+  color: var(--ink);
 }
 .ppanel-num {
   font-size: clamp(3rem, 1.6rem + 6vw, 7rem);
   font-weight: 800;
   line-height: .8;
   letter-spacing: -.04em;
-  color: rgba(255, 255, 255, .92);
+  color: color-mix(in srgb, var(--ink) 30%, transparent);
 }
 
 /* ---------- Two columns, hairline divided ---------- */
@@ -4059,12 +4068,12 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 .ppanel-cols {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid rgba(255, 255, 255, .22);
-  border-bottom: 1px solid rgba(255, 255, 255, .22);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
 }
 .ppanel-col { padding: clamp(16px, 2.4vh, 28px) 0; }
 .ppanel-col + .ppanel-col {
-  border-left: 1px solid rgba(255, 255, 255, .22);
+  border-left: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
   padding-left: clamp(18px, 3vw, 40px);
 }
 .ppanel-col:first-child { padding-right: clamp(18px, 3vw, 40px); }
@@ -4074,12 +4083,12 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   align-items: center;
   gap: 9px;
   margin: 0 0 12px;
-  color: rgba(255, 255, 255, .72);
+  color: color-mix(in srgb, var(--ink) 68%, transparent);
   font-size: .78rem;
   font-weight: 600;
   letter-spacing: .04em;
 }
-.ppanel-dot { width: 9px; height: 9px; background: #fff; flex: none; }
+.ppanel-dot { width: 9px; height: 9px; background: var(--ink); flex: none; }
 
 .ppanel-say {
   margin: 0;
@@ -4089,19 +4098,19 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   /* The resting state. Without the script every word stays at this colour,
      which is still perfectly readable — the effect is an enhancement, not the
      means of displaying the text. */
-  color: rgba(255, 255, 255, .42);
+  color: color-mix(in srgb, var(--ink) 38%, transparent);
 }
-.pstack--lit .ppanel-say { color: #fff; }
+.pstack--lit .ppanel-say { color: var(--ink); }
 
 /* inline, not inline-block. An inline-block collapses the trailing space
    inside it, which ran every word of the sentence together — only the colour
    is animated here, so there is nothing that needs a block box. */
 .lit-word {
   display: inline;
-  color: rgba(255, 255, 255, .40);
+  color: color-mix(in srgb, var(--ink) 36%, transparent);
   transition: color .34s var(--ease);
 }
-.lit-word.is-lit { color: #fff; }
+.lit-word.is-lit { color: var(--ink); }
 
 /* ---------- Pill ---------- */
 
@@ -4112,8 +4121,8 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   gap: 9px;
   padding: 12px 26px;
   border-radius: 999px;
-  background: #fff;
-  color: #0B0F17;
+  background: var(--ink);
+  color: #fff;
   font-weight: 700;
   font-size: .92rem;
   text-decoration: none;
@@ -4138,14 +4147,14 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   gap: 10px;
   padding: 14px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .20);
-  background: rgba(255, 255, 255, .07);
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
   backdrop-filter: blur(8px);
-  color: rgba(255, 255, 255, .94);
+  color: color-mix(in srgb, var(--ink) 88%, transparent);
   font-size: .88rem;
   line-height: 1.4;
 }
-.ppanel-tick { flex: none; color: #fff; opacity: .9; }
+.ppanel-tick { flex: none; color: var(--ink); opacity: .8; }
 .ppanel-tick .icon { width: 15px; height: 15px; }
 
 /* ---------- Narrow ---------- */
@@ -4154,12 +4163,13 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   /* Sticky stacking on a short screen leaves no room to read the panel before
      the next one covers it, so they simply stack in flow. */
   .ppanel { position: static; height: auto; min-height: 0; border-radius: var(--radius); }
+  .ppanel-gap { display: none; }
   .pstack { width: auto; margin-inline: 0; }
   .pstack { display: grid; gap: 16px; }
   .ppanel-cols { grid-template-columns: 1fr; }
   .ppanel-col + .ppanel-col {
     border-left: 0;
-    border-top: 1px solid rgba(255, 255, 255, .22);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
     padding-left: 0;
   }
   .ppanel-col:first-child { padding-right: 0; }
@@ -4167,7 +4177,8 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 
 @media (prefers-reduced-motion: reduce) {
   .ppanel { position: static; height: auto; min-height: 0; }
-  .lit-word { transition: none; color: #fff; }
+  .ppanel-gap { display: none; }
+  .lit-word { transition: none; color: var(--ink); }
 }
 
 /* =========================================================================

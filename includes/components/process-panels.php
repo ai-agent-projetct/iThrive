@@ -20,19 +20,29 @@
 
 declare(strict_types=1);
 
-/** A hue per step, running cyan to violet across the deck. */
+/**
+ * The three panels are the "Start Your Project" gradient, cut into thirds.
+ *
+ * --grad runs #00F2FE at 0%, #4EA8FF at 45%, #9D4EDD at 100%. Sampling it at
+ * thirds gives each panel its own slice, so scrolling the deck walks the same
+ * gradient the button uses rather than showing three unrelated colours.
+ *
+ * The ink is the button's too. A full-screen panel in these colours is bright,
+ * and white text on #00F2FE is unreadable — the brand already answers that by
+ * pairing the gradient with #04121A, so the panels do the same.
+ */
 $tints = [
-    ['#062b3a', '#0b4f63', '#00F2FE'],
-    ['#0b1f4d', '#1d3b8f', '#4EA8FF'],
-    ['#2a1150', '#5b2a94', '#9D4EDD'],
+    ['#00F2FE', '#39BCFF'],
+    ['#39BCFF', '#6C86F2'],
+    ['#6C86F2', '#9D4EDD'],
 ];
 ?>
 <div class="pstack" data-pstack>
   <?php foreach (PROCESS['steps'] as $i => $step): ?>
-    <?php [$from, $to, $accent] = $tints[$i % 3]; ?>
+    <?php [$from, $to] = $tints[$i % 3]; ?>
 
     <section class="ppanel"
-             style="--from: <?= e($from) ?>; --to: <?= e($to) ?>; --accent: <?= e($accent) ?>; --i: <?= $i ?>"
+             style="--from: <?= e($from) ?>; --to: <?= e($to) ?>; --i: <?= $i ?>"
              aria-labelledby="pstep-<?= e($step['key']) ?>">
 
       <div class="ppanel-inner">
@@ -71,5 +81,14 @@ $tints = [
         </ul>
       </div>
     </section>
+
+    <?php /* A spacer, not a wrapper. The panels have to stay direct children
+             so they stick against the whole deck and keep stacking; wrapping
+             each one scopes its sticky to that wrapper and it scrolls away
+             instead of being covered. The spacer just buys scroll, so a panel
+             sits readable before the next rises over it. */ ?>
+    <?php if ($i < count(PROCESS['steps']) - 1): ?>
+      <div class="ppanel-gap" aria-hidden="true"></div>
+    <?php endif; ?>
   <?php endforeach; ?>
 </div>
