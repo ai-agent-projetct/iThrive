@@ -4265,8 +4265,9 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 }
 .rc-face--back { transform: rotateY(180deg); }
 
-a.rc-face:hover { border-color: color-mix(in srgb, var(--accent) 70%, transparent); }
-a.rc-face:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+/* The card lights on hover, but it is not the link — only the button is. */
+.rc-face:hover { border-color: color-mix(in srgb, var(--accent) 70%, transparent); }
+.rc-cta:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 
 /* ---------- Card content ---------- */
 
@@ -4326,10 +4327,13 @@ a.rc-face:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
   font-size: .8rem;
   font-weight: 700;
   line-height: 1;
+  text-decoration: none;
+  /* The one part of the ring that takes a click. */
+  cursor: pointer;
   transition: background .3s var(--ease), transform .3s var(--ease);
 }
 .rc-cta .icon { width: 14px; height: 14px; }
-a.rc-face:hover .rc-cta {
+.rc-face:hover .rc-cta {
   background: color-mix(in srgb, var(--accent) 26%, transparent);
   transform: translateX(3px);
 }

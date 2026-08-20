@@ -33,15 +33,19 @@ $studies = CASE_STUDIES;
       <?php foreach ($studies as $study): ?>
         <div class="rc-item" data-rc-item>
 
-          <?php /* Front face. */ ?>
-          <a class="rc-face" href="<?= e(url('case-studies/' . $study['slug'] . '.php')) ?>"
-             style="--accent: <?= e($study['accent']) ?>">
+          <?php /* Front face. Not a link: only the button opens the study, so
+                   the rest of the card is free to be dragged without the ring
+                   navigating out from under you. */ ?>
+          <div class="rc-face" style="--accent: <?= e($study['accent']) ?>">
             <span class="rc-logo"><?= client_logo($study, 'rc-logo-img') ?></span>
             <span class="rc-client"><?= e($study['client']) ?></span>
             <span class="rc-headline"><?= e($study['headline']) ?></span>
             <span class="rc-industry"><?= e($study['industry']) ?></span>
-            <span class="rc-cta">View case study<?= icon('arrow') ?></span>
-          </a>
+            <a class="rc-cta" href="<?= e(url('case-studies/' . $study['slug'] . '.php')) ?>">
+              View case study<?= icon('arrow') ?>
+              <span class="sr-only"> — <?= e($study['client']) ?></span>
+            </a>
+          </div>
 
           <?php /* The same card, mirrored and dimmed — what shows on the far
                    side of the ring. Hidden from assistive tech and from the
