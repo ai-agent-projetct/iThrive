@@ -3981,3 +3981,191 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   background: var(--ink-2);
 }
 .aside-art img { display: block; width: 100%; height: auto; }
+
+/* =========================================================================
+   Process panels — three steps as a stacking deck
+
+   Each panel sticks at the top of the viewport while the next scrolls up over
+   it, so the section reads as cards being dealt. No JS is involved in the
+   stacking itself: sticky siblings inside a tall parent do it natively, which
+   means it cannot desync from the scroll the way a transform-driven version
+   can.
+   ========================================================================= */
+
+.pstack { position: relative; margin-top: 40px; }
+
+/* Full bleed out of the section's padding. */
+.pstack {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.ppanel {
+  position: sticky;
+  /* Parked below the fixed header, not under it — at top:0 the panel title
+     slides beneath the nav bar as each card settles. */
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  /* Each panel sits above the one before it, so later panels cover earlier. */
+  z-index: calc(var(--i) + 1);
+  background:
+    radial-gradient(120% 90% at 12% 10%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 60%),
+    linear-gradient(135deg, var(--from) 0%, var(--to) 100%);
+  box-shadow: 0 -30px 80px -40px rgba(0, 0, 0, .9);
+}
+
+.ppanel-inner {
+  width: min(var(--shell), 100%);
+  margin-inline: auto;
+  padding: clamp(28px, 5vh, 64px) clamp(20px, 4vw, 56px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 3.2vh, 40px);
+}
+
+/* ---------- Head: title left, number right ---------- */
+
+.ppanel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+.ppanel-title {
+  margin: 0;
+  max-width: 12ch;
+  font-size: clamp(2rem, 1.2rem + 3.6vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  color: #fff;
+}
+.ppanel-num {
+  font-size: clamp(3rem, 1.6rem + 6vw, 7rem);
+  font-weight: 800;
+  line-height: .8;
+  letter-spacing: -.04em;
+  color: rgba(255, 255, 255, .92);
+}
+
+/* ---------- Two columns, hairline divided ---------- */
+
+.ppanel-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(255, 255, 255, .22);
+  border-bottom: 1px solid rgba(255, 255, 255, .22);
+}
+.ppanel-col { padding: clamp(16px, 2.4vh, 28px) 0; }
+.ppanel-col + .ppanel-col {
+  border-left: 1px solid rgba(255, 255, 255, .22);
+  padding-left: clamp(18px, 3vw, 40px);
+}
+.ppanel-col:first-child { padding-right: clamp(18px, 3vw, 40px); }
+
+.ppanel-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, .72);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.ppanel-dot { width: 9px; height: 9px; background: #fff; flex: none; }
+
+.ppanel-say {
+  margin: 0;
+  font-size: clamp(1rem, .84rem + .7vw, 1.42rem);
+  font-weight: 600;
+  line-height: 1.5;
+  /* The resting state. Without the script every word stays at this colour,
+     which is still perfectly readable — the effect is an enhancement, not the
+     means of displaying the text. */
+  color: rgba(255, 255, 255, .42);
+}
+.pstack--lit .ppanel-say { color: #fff; }
+
+/* inline, not inline-block. An inline-block collapses the trailing space
+   inside it, which ran every word of the sentence together — only the colour
+   is animated here, so there is nothing that needs a block box. */
+.lit-word {
+  display: inline;
+  color: rgba(255, 255, 255, .40);
+  transition: color .34s var(--ease);
+}
+.lit-word.is-lit { color: #fff; }
+
+/* ---------- Pill ---------- */
+
+.ppanel-cta { display: flex; justify-content: center; }
+.ppanel-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: #fff;
+  color: #0B0F17;
+  font-weight: 700;
+  font-size: .92rem;
+  text-decoration: none;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.ppanel-pill:hover { transform: translateY(-2px); box-shadow: 0 16px 34px -18px rgba(0, 0, 0, .8); }
+.ppanel-pill .icon { width: 15px; height: 15px; }
+
+/* ---------- Deliverables along the bottom ---------- */
+
+.ppanel-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.ppanel-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, .20);
+  background: rgba(255, 255, 255, .07);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, .94);
+  font-size: .88rem;
+  line-height: 1.4;
+}
+.ppanel-tick { flex: none; color: #fff; opacity: .9; }
+.ppanel-tick .icon { width: 15px; height: 15px; }
+
+/* ---------- Narrow ---------- */
+
+@media (max-width: 820px) {
+  /* Sticky stacking on a short screen leaves no room to read the panel before
+     the next one covers it, so they simply stack in flow. */
+  .ppanel { position: static; height: auto; min-height: 0; border-radius: var(--radius); }
+  .pstack { width: auto; margin-inline: 0; }
+  .pstack { display: grid; gap: 16px; }
+  .ppanel-cols { grid-template-columns: 1fr; }
+  .ppanel-col + .ppanel-col {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, .22);
+    padding-left: 0;
+  }
+  .ppanel-col:first-child { padding-right: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ppanel { position: static; height: auto; min-height: 0; }
+  .lit-word { transition: none; color: #fff; }
+}

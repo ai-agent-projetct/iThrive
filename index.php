@@ -85,8 +85,13 @@ component('client-logo-grid');
         'title'   => PROCESS['title'] . ': Discovery → Clarity → Execution',
         'lead'    => PROCESS['lead'],
     ]); ?>
-    <?php component('process-pipeline'); ?>
   </div>
+
+  <?php /* Stacking full-screen panels, after averlo.co's service section. Full
+           bleed, so outside the shell — a stacking deck constrained to a
+           1220px column reads as a list of cards, not as a deck. The pipeline
+           component still serves company/process.php. */ ?>
+  <?php component('process-panels'); ?>
 </section>
 
 <?php /* data-warp turns this section into the scroll-warped grid — the cards
