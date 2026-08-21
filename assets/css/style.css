@@ -4274,10 +4274,16 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 .rc-logo {
   display: flex;
   align-items: center;
-  height: 42px;
-  margin-bottom: 4px;
+  min-height: 66px;
+  margin-bottom: 6px;
 }
-.rc-logo-img { max-height: 42px; max-width: 160px; width: auto; object-fit: contain; }
+
+/* client_logo() puts this class on the plate, not on the <img> — so the image
+   itself was still governed by `.logo-plate img { max-height: 26px }` and every
+   logo rendered small no matter what was set here. The cap has to be lifted on
+   the image inside. */
+.rc-logo-img { padding: 11px 16px; border-radius: 12px; }
+.rc-logo-img img { max-height: 56px; max-width: 210px; width: auto; object-fit: contain; }
 
 .rc-client {
   font-size: 1.24rem;
@@ -4364,6 +4370,9 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 @media (max-width: 720px) {
   .rc { --rc-w: 260px; --rc-h: 330px; height: min(66vh, 520px); }
   .rc-face { padding: 16px; }
+  .rc-logo { min-height: 52px; }
+  .rc-logo-img { padding: 8px 12px; }
+  .rc-logo-img img { max-height: 42px; max-width: 150px; }
   .rc-headline { -webkit-line-clamp: 3; font-size: .9rem; }
   .rc-cta { padding: 7px 13px; font-size: .74rem; }
 }
