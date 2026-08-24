@@ -4382,3 +4382,263 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 @media (prefers-reduced-motion: reduce) {
   .rc-face { transition: none; }
 }
+
+/* =========================================================================
+   Gallery hall — case studies as a corridor you walk
+
+   The section is tall; the stage inside sticks and the scroll spent crossing
+   it walks the camera. Everything visible is drawn by gallery-hall.js — this
+   only builds the box it renders into and the chrome around it.
+   ========================================================================= */
+
+/* The hall is the page's hero, so its resting state is one screen tall and the
+   scroll length is only granted once the scene is actually running. That way a
+   phone, a reduced-motion setting or a missing WebGL context gets a normal
+   hero rather than five viewports of empty sticky. */
+.hall { position: relative; height: 100vh; --hall-p: 0; }
+.hall--live { height: 520vh; }
+.hall[hidden] { display: none; }
+
+.hall-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: #05060a;
+}
+.hall-stage { position: absolute; inset: 0; }
+.hall-stage canvas { display: block; width: 100%; height: 100%; }
+
+.hall-tip {
+  position: absolute;
+  z-index: 3;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(8, 12, 20, .9);
+  backdrop-filter: var(--blur);
+  color: var(--text);
+  font-size: .8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -180%);
+}
+.hall-tip[hidden] { display: none; }
+
+.hall-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(8, 12, 20, .78);
+  backdrop-filter: var(--blur);
+  color: var(--text-faint);
+  font-size: .8rem;
+  pointer-events: none;
+}
+.hall-hint .icon { width: 15px; height: 15px; color: var(--cyan); }
+
+/* Once the hall is running the grid is redundant on screen, but it stays in the
+   document — hidden this way it is still read by a crawler and still reachable
+   by the keyboard, which display:none would not be. */
+.hall--live ~ .hall-list {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- the title over the hall ------------------------------------------- */
+
+/* Sits above the canvas and fades out over the first stretch of the walk, so
+   the room is unobstructed by the time you reach the first board. The block
+   itself never takes the pointer — clicks belong to the boards underneath —
+   but anything focusable inside it still can. */
+.hall-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  /* Low and to the left, the way the reference sets its type — the room is the
+     picture, and a centred block across the middle of it hides the boards you
+     are being invited to walk towards. */
+  align-items: flex-end;
+  padding-bottom: clamp(84px, 12vh, 140px);
+  pointer-events: none;
+  opacity: clamp(0, 1 - var(--hall-p) * 9, 1);
+  transition: opacity .18s linear;
+}
+.hall-hero a,
+.hall-hero button { pointer-events: auto; }
+
+.hall-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 18px;
+  color: var(--cyan);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.hall-rule { width: 34px; height: 2px; background: currentColor; border-radius: 2px; }
+
+.hall-title {
+  max-width: 17ch;
+  margin: 0;
+  font-size: clamp(2.1rem, 3.9vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  color: #fff;
+  /* The hall behind this runs from near-black to lit amber, so the type needs
+     to carry its own contrast rather than trust the frame it lands on. */
+  text-shadow: 0 2px 40px rgba(0, 0, 0, .85), 0 1px 4px rgba(0, 0, 0, .6);
+}
+
+.hall-lead {
+  max-width: 44ch;
+  margin: 18px 0 0;
+  font-size: clamp(.95rem, 1.1vw, 1.04rem);
+  line-height: 1.65;
+  color: rgba(238, 240, 248, .82);
+  text-shadow: 0 1px 22px rgba(0, 0, 0, .8);
+}
+
+/* No hall on phones or under reduced motion — the loader never starts it. The
+   section stays, because it carries the page's h1; only the parts that need
+   the scene go. */
+@media (max-width: 860px), (prefers-reduced-motion: reduce) {
+  .hall-stage,
+  .hall-tip,
+  .hall-hint { display: none; }
+
+  .hall-sticky {
+    position: static;
+    height: auto;
+    min-height: min(88vh, 620px);
+    display: flex;
+    align-items: center;
+    background:
+      radial-gradient(120% 90% at 12% 0%, rgba(3, 209, 245, .16), transparent 58%),
+      radial-gradient(110% 90% at 88% 100%, rgba(125, 66, 244, .18), transparent 60%),
+      #05060a;
+  }
+  .hall-hero { position: relative; inset: auto; opacity: 1; padding: 96px 0 72px; }
+}
+
+/* ---- how to read these -------------------------------------------------- */
+
+.csintro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(36px, 5vw, 76px);
+  align-items: center;
+}
+
+.csintro-list {
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 22px;
+}
+.csintro-item { display: flex; gap: 16px; }
+
+.csintro-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(3, 209, 245, .08);
+}
+.csintro-icon .icon { width: 19px; height: 19px; color: var(--cyan); }
+
+.csintro-title { margin: 0 0 6px; font-size: 1.04rem; font-weight: 700; color: var(--text); }
+.csintro-body  { margin: 0; font-size: .94rem; line-height: 1.65; color: var(--muted); }
+
+.csintro-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+
+/* The screenshots. A five-tile mosaic rather than a row, because the shots are
+   all the same shape and a row of five identical rectangles reads as a table. */
+.csintro-shots {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(0, auto);
+  gap: 16px;
+}
+
+.csshot {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 18px 44px rgba(2, 6, 14, .38);
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
+}
+.csshot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(4, 8, 16, .92) 0%, rgba(4, 8, 16, .3) 42%, transparent 68%);
+}
+.csshot:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--tint) 55%, transparent);
+  box-shadow: 0 26px 60px rgba(2, 6, 14, .5), 0 0 0 1px color-mix(in srgb, var(--tint) 30%, transparent);
+}
+
+.csshot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.csshot figcaption {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.csshot-name { font-size: .88rem; font-weight: 700; color: #fff; }
+.csshot-kind { font-size: .74rem; color: var(--tint); font-weight: 600; }
+
+/* Two tall tiles carrying the column, three shorter ones filling beneath. */
+.csshot--1 { grid-column: span 3; aspect-ratio: 4 / 3; }
+.csshot--2 { grid-column: span 3; aspect-ratio: 4 / 3; }
+.csshot--3 { grid-column: span 2; aspect-ratio: 1 / 1; }
+.csshot--4 { grid-column: span 2; aspect-ratio: 1 / 1; }
+.csshot--5 { grid-column: span 2; aspect-ratio: 1 / 1; }
+
+@media (max-width: 1040px) {
+  .csintro-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .csintro-shots { gap: 12px; }
+  .csshot--1, .csshot--2 { grid-column: span 6; }
+  .csshot--3, .csshot--4, .csshot--5 { grid-column: span 2; }
+}
