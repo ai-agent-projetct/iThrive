@@ -73,6 +73,7 @@ component('chat-widget');
 <script src="<?= e(asset('assets/js/round-carousel.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/entry-gate.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/tech-magnet.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/assistant.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/film.js')) ?>" defer></script>
 <?php endif; ?>

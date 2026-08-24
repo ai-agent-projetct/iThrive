@@ -71,6 +71,12 @@ component('client-logo-grid');
 
 <?php component('ai-assistant'); ?>
 
+<?php /* The stack that follows the cursor, brought over from the Mobile App
+         Development page. It sits directly above Tech Stack, the same order it
+         runs in there — the field of logos introduces the stack, the table
+         below it names them. */ ?>
+<?php component('tech-magnet'); ?>
+
 <section class="section" id="tech-stack">
   <div class="shell">
     <?php component('section-head', TECH_STACK_HEAD); ?>

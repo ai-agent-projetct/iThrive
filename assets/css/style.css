@@ -4539,6 +4539,33 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   .hall-hero { position: relative; inset: auto; opacity: 1; padding: 96px 0 72px; }
 }
 
+/* =========================================================================
+   Tech magnet — the stack that follows the cursor
+   ========================================================================= */
+
+.tmagnet { position: relative; overflow: hidden; }
+.tmagnet-head { max-width: 720px; margin: 0 auto 8px; text-align: center; }
+.tmagnet-accent { color: var(--cyan); }
+
+/* The field. Tall enough that a fifty-link chain has room to snake without
+   coiling against an edge, and it takes the pointer so the tail can be led
+   around — the canvas inside is inert. */
+.tmagnet-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(420px, 56vw, 640px);
+  margin-top: 18px;
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+.tmagnet-canvas { display: block; width: 100%; height: 100%; }
+
+@media (max-width: 720px) {
+  /* No cursor to follow, so the field is only ever its resting scatter — it
+     does not need to be as tall to read. */
+  .tmagnet-stage { height: clamp(320px, 78vw, 440px); cursor: default; }
+}
+
 /* ---- how to read these -------------------------------------------------- */
 
 .csintro-grid {
