@@ -96,11 +96,11 @@ $cases = [
 
 /** The cadence. Three habits, not a methodology diagram. */
 $agile = [
-    ['title' => 'A demo every two weeks',
+    ['art' => 'agile-demo', 'title' => 'A demo every two weeks',
      'body' => 'Working software on a call, not a status document. If a fortnight has passed with nothing to show, that is the thing worth discussing.'],
-    ['title' => 'Sprints you can see into',
+    ['art' => 'agile-sprint', 'title' => 'Sprints you can see into',
      'body' => 'The board is yours to read. What is in progress, what slipped and why, without waiting for a weekly summary to find out.'],
-    ['title' => 'Feedback that changes the next sprint',
+    ['art' => 'agile-feedback', 'title' => 'Feedback that changes the next sprint',
      'body' => 'What comes back from the demo is scoped into the sprint after it. That loop is the whole point of working this way.'],
 ];
 
@@ -257,9 +257,17 @@ $techName = [
         you never wait a quarter to find out the thing being built is not the thing you wanted.
       </p>
 
-      <ol class="agile" data-reveal style="--d:3">
+      <?php /* Origin Kit's Hover Image Reveal. The rows are the real list —
+               headings and sentences — so with no pointer, on a phone, or under
+               reduced motion the section is simply read. */ ?>
+      <ol class="agile hr" data-reveal data-hover-reveal style="--d:3"
+          <?php /* offsetX is negative because the rows sit in the right column:
+                   the component's default pushes the window right, which lands
+                   it on top of the very text it is illustrating. */ ?>
+          data-image-width="300" data-image-height="380" data-rounded="16"
+          data-offset-x="-400" data-offset-y="0" data-follow-strength="0">
         <?php foreach ($agile as $i => $a): ?>
-          <li>
+          <li data-hr-row>
             <span class="agile-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
             <div>
               <h3><?= e($a['title']) ?></h3>
@@ -267,6 +275,19 @@ $techName = [
             </div>
           </li>
         <?php endforeach; ?>
+
+        <?php /* The cursor-following window and the reel inside it. Decorative
+                 — every picture restates the row it belongs to. */ ?>
+        <span class="hr-window" data-hr-window aria-hidden="true">
+          <span class="hr-reel" data-hr-reel>
+            <?php foreach ($agile as $a): ?>
+              <span class="hr-frame">
+                <img src="<?= e(asset('assets/img/art/' . $a['art'] . '.svg')) ?>"
+                     width="560" height="420" loading="lazy" decoding="async" draggable="false" alt="">
+              </span>
+            <?php endforeach; ?>
+          </span>
+        </span>
       </ol>
     </div>
   </div>
@@ -295,10 +316,17 @@ $techName = [
       <?php foreach ($stack as $g): ?>
         <section class="techwall-group" data-reveal>
           <h3 class="techwall-head"><span><?= icon($g['icon']) ?></span><?= e($g['title']) ?></h3>
-          <ul class="techwall-list">
+          <?php /* Origin Kit's Interactive Grid: hovering a card lifts it and
+                   ripples into its four neighbours. Each card keeps its
+                   technology's name as text, so the grid is still a readable
+                   list of the stack and not forty logos with no labels. */ ?>
+          <ul class="techwall-list igrid" data-igrid
+              data-columns="4" data-rounded="8" data-logo-scale="3"
+              data-perspective="1600" data-rotate-x="0" data-rotate-y="0"
+              data-glow-intensity="50">
             <?php foreach ($g['items'] as $slug): ?>
               <?php if (!is_file(ROOT_PATH . '/assets/img/tech/' . $slug . '.svg')) { continue; } ?>
-              <li class="techwall-item">
+              <li class="igrid-card" data-igrid-card tabindex="0">
                 <img src="<?= e(asset('assets/img/tech/' . $slug . '.svg')) ?>"
                      width="26" height="26" loading="lazy" decoding="async" alt="">
                 <span><?= e($techName[$slug] ?? $slug) ?></span>

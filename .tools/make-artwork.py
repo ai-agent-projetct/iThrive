@@ -617,6 +617,60 @@ def sec_agile(rng):
     return ''.join(s)
 
 
+def agile_demo(rng):
+    """A screen being shown — the fortnightly demo."""
+    s = [grid_bg()]
+    s.append(f'<rect x="120" y="118" width="320" height="196" rx="16" fill="#0B0F17" '
+             f'stroke="url(#g)" stroke-opacity=".7" stroke-width="1.8"/>')
+    s.append(f'<rect x="120" y="118" width="320" height="30" rx="16" fill="url(#g)" fill-opacity=".16"/>')
+    for k in range(3):
+        s.append(f'<circle cx="{140 + k * 16}" cy="133" r="4" fill="url(#g)" fill-opacity=".7"/>')
+    for k in range(4):
+        s.append(f'<rect x="146" y="{172 + k * 28}" width="{250 - k * 46}" height="10" rx="5" '
+                 f'fill="url(#g)" fill-opacity="{.55 - k * .1:.2f}"/>')
+    s.append(f'<path d="M280 314v34M232 348h96" stroke="url(#g)" stroke-opacity=".5" stroke-width="2.5" '
+             f'stroke-linecap="round"/>')
+    return ''.join(s)
+
+
+def agile_sprint(rng):
+    """A board you can see into — three columns, cards moving right."""
+    s = [grid_bg()]
+    for c in range(3):
+        x = 96 + c * 128
+        s.append(f'<rect x="{x}" y="112" width="104" height="208" rx="14" fill="#0B0F17" '
+                 f'stroke="url(#g)" stroke-opacity="{.3 + c * .18:.2f}" stroke-width="1.5"/>')
+        s.append(f'<rect x="{x + 16}" y="128" width="{54 - c * 8}" height="8" rx="4" '
+                 f'fill="url(#g)" fill-opacity=".55"/>')
+        for k in range(3 - c):
+            s.append(f'<rect x="{x + 14}" y="{152 + k * 44}" width="76" height="34" rx="9" '
+                     f'fill="url(#g)" fill-opacity="{.14 + c * .08:.2f}" stroke="url(#g)" '
+                     f'stroke-opacity="{.4 + c * .1:.2f}" stroke-width="1.2"/>')
+        if c < 2:
+            s.append(f'<path d="M{x + 110} 216h12m-4-4 4 4-4 4" stroke="url(#g)" stroke-opacity=".6" '
+                     f'stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>')
+    return ''.join(s)
+
+
+def agile_feedback(rng):
+    """A loop that closes — what comes back changes the next pass."""
+    s = [grid_bg()]
+    cx, cy = W / 2, H / 2
+    s.append(f'<path d="M{cx} {cy - 88}a88 88 0 1 1 -62 26" stroke="url(#g)" stroke-opacity=".65" '
+             f'stroke-width="2.6" fill="none" stroke-linecap="round"/>')
+    s.append(f'<path d="M{cx - 74} {cy + 8}l10 26 26-13" stroke="url(#g)" stroke-opacity=".8" '
+             f'stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>')
+    for i, a in enumerate((-1.9, -0.5, 0.9, 2.3)):
+        x = cx + math.cos(a) * 88
+        y = cy + math.sin(a) * 88
+        s.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="17" fill="#0B0F17" stroke="url(#g)" '
+                 f'stroke-opacity="{.5 + i * .12:.2f}" stroke-width="1.8"/>')
+        s.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="6" fill="url(#g)" fill-opacity="{.5 + i * .12:.2f}"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="26" fill="url(#g)" fill-opacity=".18" '
+             f'stroke="url(#g)" stroke-opacity=".7" stroke-width="1.6"/>')
+    return ''.join(s)
+
+
 RECIPES = {
     # recurring section marks
     'sec-commitments':  sec_commitments,
@@ -635,6 +689,9 @@ RECIPES = {
     'sec-ai-core':  sec_ai_core,
     'sec-usecases': sec_usecases,
     'sec-agile':    sec_agile,
+    'agile-demo':     agile_demo,
+    'agile-sprint':   agile_sprint,
+    'agile-feedback': agile_feedback,
 
     # swipe-stack cards, web development page
     'why-price':     why_price,

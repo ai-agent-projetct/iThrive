@@ -4858,6 +4858,122 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 .agile h3 { margin: 0 0 5px; font-size: 1rem; font-weight: 700; color: var(--text); }
 .agile p  { margin: 0; font-size: .92rem; line-height: 1.62; color: var(--muted); }
 
+/* ---- Hover Image Reveal (the agile rows) -------------------------------- */
+
+.hr { position: relative; }
+
+/* Rows dim once one of them is active — the component's independent active and
+   dimmed colours, rather than a blanket fade. */
+.hr.is-active .agile-num,
+.hr.is-active h3,
+.hr.is-active p { color: var(--text-faint); transition: color .3s var(--ease); }
+.hr li.is-on .agile-num { color: var(--cyan); }
+.hr li.is-on h3 { color: #fff; }
+.hr li.is-on p  { color: var(--muted); }
+
+/* The cursor-following window. Fixed size, clipped, and it never takes the
+   pointer — it is chasing the cursor, so it must not get under it. */
+.hr-window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: block;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--line-strong);
+  background: var(--ink-2);
+  box-shadow: 0 30px 70px rgba(2, 6, 14, .6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s var(--ease);
+  will-change: transform;
+}
+.hr.is-active .hr-window { opacity: 1; }
+.hr-window[hidden] { display: none; }
+
+/* The reel: one frame per row, stacked, slid vertically by the script. */
+.hr-reel {
+  display: block;
+  transition: transform .55s cubic-bezier(.22, 1, .36, 1);
+  will-change: transform;
+}
+.hr-frame {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: var(--hr-h, 330px);
+  padding: 16px;
+}
+.hr-frame img { width: 100%; height: 100%; object-fit: contain; }
+
+/* ---- Interactive Grid (the stack groups) -------------------------------- */
+
+.igrid {
+  display: grid;
+  grid-template-columns: repeat(var(--igrid-cols, 4), minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--igrid-rx, 0deg)) rotateY(var(--igrid-ry, 0deg));
+}
+
+.igrid-card {
+  --lift: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 74px;
+  padding: 10px 6px;
+  border-radius: 8px;
+  border: 1px solid #292929;
+  background: #000;
+  text-align: center;
+  cursor: default;
+  /* The lift and its neighbours' partial lift are one custom property, so the
+     compositor holds the whole formation and the script writes a number
+     instead of a transform per card per frame. */
+  transform: translate3d(0, calc(var(--lift) * -7px), calc(var(--lift) * 34px));
+  box-shadow: 0 calc(var(--lift) * 16px) calc(var(--lift) * 30px) rgba(2, 6, 14, calc(var(--lift) * .55));
+  transition: transform .38s cubic-bezier(.22, 1, .36, 1),
+              box-shadow .38s var(--ease),
+              border-color .38s var(--ease);
+}
+.igrid-card img { width: 22px; height: 22px; }
+.igrid-card span {
+  font-size: .7rem;
+  line-height: 1.25;
+  color: var(--text-dim);
+  transition: color .3s var(--ease);
+}
+
+.igrid-card.is-raised { border-color: color-mix(in srgb, var(--cyan) 45%, transparent); }
+.igrid-card.is-raised span { color: var(--text); }
+
+/* The optional glow pulse, on the raised cards only. */
+.igrid--live .igrid-card.is-raised::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 calc(var(--lift) * 26px) rgba(3, 209, 245, calc(var(--lift) * .34));
+  animation: igrid-pulse 1.8s var(--ease) infinite;
+}
+.igrid-card { position: relative; }
+
+@keyframes igrid-pulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .igrid-card { transform: none; transition: none; }
+  .igrid--live .igrid-card.is-raised::after { animation: none; }
+  .hr-reel { transition: none; }
+}
+
 /* ---- the stack wall ----------------------------------------------------- */
 
 .techwall {
