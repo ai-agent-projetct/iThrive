@@ -2,38 +2,42 @@
 /**
  * AI-Native Product Development hero.
  *
- * Staged after the reference film: a near-black field, one cool light from
- * above, and a figure standing in flowers. The field is that film, cropped to
- * the band below its own robot so ours is the only one in frame; the light and
- * the dark are CSS; the robot is that film's own humanoid, rebuilt as a rig in
- * assets/js/field-robot.js so he can look at you — head, eyes, and the arm on
- * your side, which reaches.
+ * The hero is the reference film itself — that robot, in that field, with that
+ * lighting. Not a rebuild of him: a rebuild is not him.
  *
- * His canvas is transparent, so he composites onto the real footage rather than
- * standing on a rendered floor that would never match it.
+ * What the film cannot do on its own is look at you, so assets/js/film-robot.js
+ * draws glowing eyes and a mouth onto the dark visor he already has, and those
+ * follow your pointer. The visor is a fixed point in the frame — across the
+ * whole twelve seconds his head moves two pixels — so it needs measuring once,
+ * not tracking.
  *
- * Nothing here is load-bearing for the page: no WebGL leaves the lit field and
- * the copy, and a browser that will not autoplay leaves the poster frame.
+ * Nothing here is load-bearing: no JavaScript leaves the film playing, and a
+ * browser that will not autoplay leaves the poster frame. Either way the copy
+ * and the calls to action are ordinary markup on top.
  *
  * @var array $svc The service, from service().
  */
 
 declare(strict_types=1);
 
-// Tells includes/footer.php to import the module. Same idiom as the eyes.
-$GLOBALS['ithrive_needs_field_robot'] = true;
+// Tells includes/footer.php to load the overlay. Same idiom as the eyes.
+$GLOBALS['ithrive_needs_film_robot'] = true;
 ?>
 <section class="rhero">
 
-  <?php /* The field. Decorative, muted and inert — it is the floor of the
-           picture, not something anyone needs to watch. */ ?>
-  <div class="rhero-field" aria-hidden="true">
+  <?php /* The film. Decorative and muted — it is the picture, not something
+           anyone is being asked to sit and watch. */ ?>
+  <div class="rhero-film" data-film-robot aria-hidden="true">
     <video class="rhero-video"
-           src="<?= e(asset('assets/video/ai-field.mp4')) ?>"
-           poster="<?= e(asset('assets/video/ai-field-poster.jpg')) ?>"
-           autoplay muted loop playsinline preload="metadata"></video>
+           src="<?= e(asset('assets/video/ai-robot-film.mp4')) ?>"
+           poster="<?= e(asset('assets/video/ai-robot-film-poster.jpg')) ?>"
+           autoplay muted loop playsinline preload="auto"></video>
+    <canvas class="rhero-eyes"></canvas>
   </div>
-  <div class="rhero-light" aria-hidden="true"></div>
+
+  <?php /* Darkens the left of the frame so the copy has something to sit on,
+           without touching the robot on the right. */ ?>
+  <div class="rhero-scrim" aria-hidden="true"></div>
 
   <div class="shell rhero-inner">
     <div class="rhero-copy">
@@ -59,16 +63,7 @@ $GLOBALS['ithrive_needs_field_robot'] = true;
         </ul>
       <?php endif; ?>
     </div>
-
-    <div class="rhero-stage">
-      <?php /* data-field-robot is the hook field-robot.js binds to. It appends
-               its own canvas, so a WebGL failure leaves an empty box rather
-               than a black rectangle where a canvas would have been. */ ?>
-      <div class="rhero-robot" data-field-robot
-           role="img"
-           aria-label="An interactive 3D robot standing in a field of flowers, whose head, eyes and arms follow your pointer."></div>
-    </div>
   </div>
 
-  <p class="rhero-hint" aria-hidden="true"><?= icon('compass') ?>Move your pointer — he follows</p>
+  <p class="rhero-hint" aria-hidden="true"><?= icon('compass') ?>Move your pointer — he watches</p>
 </section>
