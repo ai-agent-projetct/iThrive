@@ -154,9 +154,9 @@ $techName = [
  *           would force the page wider than the viewport. `style` spreads last
  *           inside the component, so this is where that is undone.
  *
- * The section is the carousel and nothing else — no heading, no list. The
- * cards carry their own titles and copy in the artwork, which is why there is
- * nothing to caption them with.
+ * The heading is real text above it. The cards carry their titles and copy in
+ * the artwork, which a crawler cannot read, so the section says what it is
+ * before the deck starts turning.
  */
 $deckShots = [];
 foreach (range(1, 6) as $n) {
@@ -167,6 +167,15 @@ foreach (range(1, 6) as $n) {
 }
 ?>
 <section class="section lz" data-stage>
+  <div class="shell">
+    <?php component('section-head', [
+        'eyebrow' => 'What This Includes',
+        'title'   => 'Capabilities you get, spelled out',
+        'lead'    => 'No line item here is aspirational — each one is something we have '
+                   . 'shipped on a platform that is live today.',
+    ]); ?>
+  </div>
+
   <div class="ok-deck" data-ok="stacked-carousel" aria-hidden="true"
        data-props='<?= e(json_encode([
            'images' => $deckShots,
