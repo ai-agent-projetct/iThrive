@@ -1,5 +1,5 @@
 // Stacked Carousel — Originkit
-// Originkit — props baked into the default export.
+// Originkit preset `custom-style` — props baked into the default export.
 "use client"
 
 /**
@@ -975,13 +975,16 @@ function __OriginkitBase_StackedCarousel3D(props: Props) {
 
 const __originkitPresetProps = {
   "images": [
-    "blob:https://www.originkit.dev/04f683bc-a4a0-4186-8d8a-68cb6d55324f",
-    "blob:https://www.originkit.dev/dd58a17f-c00f-49fb-9f9d-ad11a078bfd2",
-    "blob:https://www.originkit.dev/3fbac218-838f-4ae8-bf4e-77c8d656a3bb",
-    "blob:https://www.originkit.dev/97c9b9df-82cc-48f7-b41e-67fd40bd5d51",
-    "blob:https://www.originkit.dev/f6ffb8d0-57c5-4ba2-97a2-234ff137b814",
-    "blob:https://www.originkit.dev/041b09ee-2e5a-4924-bc9d-e700f3399fa7"
-  ]
+    "blob:https://www.originkit.dev/088fc4de-8a4a-48b5-a3bd-0e8e6bf537ca",
+    "blob:https://www.originkit.dev/356a3a08-91c2-4bea-b581-c28dd08ccbf5",
+    "blob:https://www.originkit.dev/c514fc23-772f-4a10-ace0-17dcd544d0a5",
+    "blob:https://www.originkit.dev/cff11df5-1baa-4e90-bc6e-5dec7c50cc42",
+    "blob:https://www.originkit.dev/2fe16bb8-1144-4f05-914b-7e6126319492",
+    "blob:https://www.originkit.dev/4661f344-cfd9-4b60-870d-20733f7c15ab"
+  ],
+  "cardWidth": 514,
+  "cardHeight": 380,
+  "speed": 80
 };
 
 export default function StackedCarousel3D(props: Record<string, unknown>) {
