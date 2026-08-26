@@ -153,6 +153,10 @@ $techName = [
  *   style   the component's host carries minWidth 1200 / minHeight 800, which
  *           would force the page wider than the viewport. `style` spreads last
  *           inside the component, so this is where that is undone.
+ *   card    bigger than the preset's 514x380, and at the artwork's own 3:2
+ *           rather than the preset's 1.35:1 — the cards were being stretched
+ *           vertically, which on a picture that is mostly a dashboard shows as
+ *           squashed type.
  *
  * The heading is real text above it. The cards carry their titles and copy in
  * the artwork, which a crawler cannot read, so the section says what it is
@@ -165,6 +169,18 @@ foreach (range(1, 6) as $n) {
         $deckShots[] = asset($file);
     }
 }
+
+/*
+ * Handed to the deck backwards, on purpose.
+ *
+ * A plane's z rises with its index and the camera looks down -z, so the higher
+ * the index the nearer the card. Drifting forward, each card is followed by the
+ * one with the next index DOWN — so the list is walked in reverse as the deck
+ * passes you, and 01..06 arrives as 06..01. Reversing here puts them back in
+ * order without touching the component, which is the registry's and should stay
+ * byte-for-byte what it shipped.
+ */
+$deckShots = array_reverse($deckShots);
 ?>
 <section class="section lz" data-stage>
   <div class="shell">
@@ -178,8 +194,10 @@ foreach (range(1, 6) as $n) {
 
   <div class="ok-deck" data-ok="stacked-carousel" aria-hidden="true"
        data-props='<?= e(json_encode([
-           'images' => $deckShots,
-           'style'  => ['minWidth' => 0, 'minHeight' => 0],
+           'images'     => $deckShots,
+           'cardWidth'  => 780,
+           'cardHeight' => 520,
+           'style'      => ['minWidth' => 0, 'minHeight' => 0],
        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) ?>'></div>
 </section>
 
