@@ -38,15 +38,21 @@ $schema = [
 
 require dirname(__DIR__) . '/header.php';
 
-component('page-hero', [
-    // Each service group has its own artwork, so the fifteen detail pages stay
-    // visually distinct from one another without fifteen bespoke drawings.
-    'art'     => $svc['group_slug'],
-    'crumb'   => ['label' => 'All services', 'href' => 'services.php'],
-    'eyebrow' => $svc['group'],
-    'title'   => $svc['title'],
-    'lead'    => $svc['lead'],
-]);
+/* A route can hand this template its own hero — ai-native-product-development
+   does. Everything below the hero is the same for every service. */
+if (!empty($heroComponent)) {
+    component($heroComponent, ['svc' => $svc]);
+} else {
+    component('page-hero', [
+        // Each service group has its own artwork, so the fifteen detail pages stay
+        // visually distinct from one another without fifteen bespoke drawings.
+        'art'     => $svc['group_slug'],
+        'crumb'   => ['label' => 'All services', 'href' => 'services.php'],
+        'eyebrow' => $svc['group'],
+        'title'   => $svc['title'],
+        'lead'    => $svc['lead'],
+    ]);
+}
 ?>
 
 <section class="section section--flush-top">

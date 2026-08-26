@@ -47,9 +47,12 @@ component('chat-widget');
 
 <?php if (!empty($heroScene)): ?>
 <script type="module" src="<?= e(asset('assets/js/hero-scene.js')) ?>" data-scene="<?= e($heroScene) ?>"></script>
-<?php /* robot.js builds its scene at module load, so it is imported only when a
-         mount is actually on the page — that also keeps the 40KB off every
-         other route. */ ?>
+<?php endif; ?>
+<?php /* robot.js builds its scene at module load, so it is imported only where a
+         mount actually rendered — that keeps the 40KB off every other route.
+         Gated on its own flag rather than on $heroScene, or a page with a robot
+         and no hero scene silently gets no robot. */ ?>
+<?php if (!empty($GLOBALS['ithrive_needs_robot'])): ?>
 <script type="module">
   if (document.querySelector('[data-robot-canvas]')) {
     import('<?= e(asset('assets/js/robot.js')) ?>');

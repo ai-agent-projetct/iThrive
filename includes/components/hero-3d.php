@@ -15,6 +15,9 @@
 declare(strict_types=1);
 
 $hero = $hero ?? HOME_HERO;
+
+// Tells includes/footer.php to import the robot module.
+$GLOBALS['ithrive_needs_robot'] = true;
 ?>
 <section class="hero hero--split">
   <div class="shell hero-inner">

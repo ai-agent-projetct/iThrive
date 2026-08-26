@@ -4540,6 +4540,132 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 }
 
 /* =========================================================================
+   Robot hero — AI-Native Product Development
+   ========================================================================= */
+
+.rhero {
+  position: relative;
+  isolation: isolate;
+  min-height: min(94vh, 900px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #04050a;
+}
+
+/* The field sits along the bottom, faded into the dark at its top edge so it
+   reads as ground receding into night rather than a video pasted on. */
+.rhero-field {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(190px, 32%, 320px);
+  z-index: -2;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 58%);
+          mask-image: linear-gradient(to bottom, transparent, #000 58%);
+}
+.rhero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: .62;
+}
+
+/* One cool light from above — the whole lighting design of the reference. */
+.rhero-light {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 46% at 62% 6%, rgba(150, 205, 255, .20), transparent 68%),
+    radial-gradient(38% 34% at 62% 52%, rgba(90, 150, 235, .14), transparent 70%);
+}
+
+.rhero-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  padding: 120px 0 96px;
+}
+
+.rhero-title {
+  margin: 14px 0 0;
+  font-size: clamp(2.2rem, 4.2vw, 3.7rem);
+  line-height: 1.06;
+  letter-spacing: -.025em;
+  color: #fff;
+  text-shadow: 0 2px 40px rgba(0, 0, 0, .8);
+}
+.rhero-lead {
+  max-width: 52ch;
+  margin: 20px 0 0;
+  font-size: clamp(.98rem, 1.15vw, 1.1rem);
+  line-height: 1.68;
+  color: rgba(228, 234, 246, .8);
+}
+.rhero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+
+.rhero-stats {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 34px;
+  margin: 34px 0 0;
+  padding: 26px 0 0;
+  border-top: 1px solid var(--line);
+}
+.rhero-stats li { display: flex; flex-direction: column; gap: 3px; }
+.rhero-stat-value { font-size: 1.5rem; font-weight: 800; color: var(--cyan); line-height: 1; }
+.rhero-stat-label { font-size: .78rem; color: var(--muted); }
+
+/* The robot stands on the field, so the stage is bottom-aligned and the canvas
+   is allowed to be taller than the copy beside it. */
+.rhero-stage {
+  position: relative;
+  align-self: end;
+  height: clamp(420px, 48vw, 640px);
+}
+.rhero-robot { display: block; width: 100%; height: 100%; }
+
+.rhero-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(8, 12, 20, .7);
+  backdrop-filter: var(--blur);
+  color: var(--muted);
+  font-size: .78rem;
+  pointer-events: none;
+}
+.rhero-hint .icon { width: 15px; height: 15px; color: var(--cyan); }
+
+@media (max-width: 980px) {
+  .rhero-inner { grid-template-columns: 1fr; padding: 104px 0 84px; }
+  .rhero-stage { height: clamp(320px, 72vw, 440px); order: -1; }
+  .rhero-hint { display: none; }
+}
+
+/* A field that never stops moving behind a page someone is trying to read is
+   exactly what this setting is for. */
+@media (prefers-reduced-motion: reduce) {
+  .rhero-video { display: none; }
+  .rhero-field { background: url('../video/ai-field-poster.jpg') center top / cover no-repeat; }
+}
+
+/* =========================================================================
    Tech magnet — the stack that follows the cursor
    ========================================================================= */
 

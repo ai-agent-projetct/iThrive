@@ -208,6 +208,7 @@ eyeTexture.colorSpace = THREE.SRGBColorSpace;
    land ~22 deg either side of the nose rather than wrapping onto the temples. */
 const EYE_L = 162, EYE_R = 350, EYE_Y = 126;
 const EYE_W = 100, EYE_H = 132;
+const MOUTH_X = (EYE_L + EYE_R) / 2;   // centred between the eyes
 
 function roundedRect(g, x, y, w, h, r) {
   const rr = Math.min(r, h / 2, w / 2);
@@ -295,9 +296,63 @@ function drawEyes({ offsetX, offsetY, openness, width, shape, glow }) {
         roundedRect(ectx, x, y, w * (s * 0.28 + 0.72), h * (s * 0.28 + 0.72), 38);
       }
     }
+
+    drawMouth(pass, offsetX, offsetY, openness, shape);
   }
   ectx.restore();
   eyeTexture.needsUpdate = true;
+}
+
+/* The mouth sits below the visor and reads the same expression the eyes do.
+   It trails the eyes rather than matching them — a mouth that slides as far as
+   the pupils looks like it is sliding off the face. Drawn inside the same two
+   passes as the eyes so its glow is the eyes' glow, not a second look. */
+const MOUTH_Y = 214;
+
+function drawMouth(pass, offsetX, offsetY, openness, shape) {
+  const x = MOUTH_X + offsetX * 0.45;
+  const y = MOUTH_Y + offsetY * 0.45;
+  const s = pass.scale;
+
+  ectx.lineWidth = pass.lw * 0.72;
+
+  if (shape === 'sleep') {
+    // Barely there: a short flat line, the face at rest.
+    ectx.beginPath();
+    ectx.moveTo(x - 26, y);
+    ectx.lineTo(x + 26, y);
+    ectx.stroke();
+
+  } else if (shape === 'happy') {
+    ectx.beginPath();
+    ectx.arc(x, y - 22, 46 * (s * 0.3 + 0.7), Math.PI * 0.18, Math.PI * 0.82);
+    ectx.stroke();
+
+  } else if (shape === 'angry') {
+    // The same arc flipped — a frown.
+    ectx.beginPath();
+    ectx.arc(x, y + 24, 42 * (s * 0.3 + 0.7), Math.PI * 1.2, Math.PI * 1.8);
+    ectx.stroke();
+
+  } else if (shape === 'surprised') {
+    ectx.beginPath();
+    ectx.ellipse(x, y, 24 * (s * 0.3 + 0.7), 30 * (s * 0.3 + 0.7), 0, 0, Math.PI * 2);
+    ectx.stroke();
+
+  } else if (shape === 'curious') {
+    // Off to one side, the way a person's mouth goes when they are unsure.
+    ectx.beginPath();
+    ectx.arc(x + 16, y - 12, 30 * (s * 0.3 + 0.7), Math.PI * 0.15, Math.PI * 0.7);
+    ectx.stroke();
+
+  } else {
+    // Neutral, but never a dead flat line — a hint of a smile, and it closes
+    // with a blink so the whole face reacts rather than just the eyes.
+    const lift = 14 + 10 * openness;
+    ectx.beginPath();
+    ectx.arc(x, y - lift, 40 * (s * 0.3 + 0.7), Math.PI * 0.22, Math.PI * 0.78);
+    ectx.stroke();
+  }
 }
 
 /* ------------------------------------------------------------------ *
