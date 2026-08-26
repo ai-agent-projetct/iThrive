@@ -331,15 +331,16 @@ $techName = [
                    . 'they were on a slide. Cloud is whichever of the three you are already on.',
     ]); ?>
 
-    <?php /* Origin Kit's Word Globe, fed the section's own technology names —
-             the sphere is literally woven out of the stack it introduces. The
-             names are in the list below either way, because a canvas is
-             invisible to a crawler. */ ?>
-    <div class="lz-globe" data-word-globe aria-hidden="true"
-         data-word="<?= e(implode(' · ', array_map(static fn (string $k): string => $techName[$k] ?? $k, array_merge(...array_column($stack, 'items'))))) ?>"
-         data-twist="50" data-letter-spacing="1150" data-speed="7"
-         data-rotation-side="counterclockwise" data-color="#9BE6FB"
-         data-font-size="15"></div>
+    <?php /* Origin Kit's Bubble Burst, in place of the Word Globe: drag to
+             spin it, click to pop it and watch the tear sweep out from where
+             you struck before the film draws itself back together. Decorative
+             — the stack it introduces is the grid below. */ ?>
+    <div class="lz-bubble" data-bubble-burst aria-hidden="true"
+         data-tint="#FFFFFF" data-sheen="#03D1F5" data-iridescence="26"
+         data-rim="1" data-gloss="20" data-wobble="20" data-lip="20"
+         data-ragged="22" data-direction="left" data-drag-sensitivity="5"
+         data-size-percent="85" data-speed="4"></div>
+    <p class="lz-bubble-hint" aria-hidden="true"><?= icon('sparkles') ?>Drag to spin &middot; click to pop</p>
 
     <div class="techwall">
       <?php foreach ($stack as $g): ?>

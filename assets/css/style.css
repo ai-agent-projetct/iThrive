@@ -4723,19 +4723,33 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   backdrop-filter: saturate(140%) blur(9px);
 }
 
-/* ---- the word globe ----------------------------------------------------- */
+/* ---- the bubble --------------------------------------------------------- */
 
-.lz-globe {
+.lz-bubble {
   position: relative;
   width: 100%;
-  height: clamp(320px, 42vw, 460px);
-  margin: -12px auto 26px;
+  height: clamp(320px, 40vw, 440px);
+  margin: -8px auto 4px;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.lz-bubble.is-grabbing { cursor: grabbing; }
+.lz-bubble canvas { display: block; width: 100%; height: 100%; }
+
+.lz-bubble-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 30px;
+  font-size: .76rem;
+  color: var(--text-faint);
   pointer-events: none;
 }
-.lz-globe canvas { display: block; width: 100%; height: 100%; }
+.lz-bubble-hint .icon { width: 14px; height: 14px; color: var(--cyan); }
 
 @media (max-width: 760px) {
-  .lz-globe { height: 280px; }
+  .lz-bubble { height: 280px; }
   .lusion .lz { margin-inline: 0; border-radius: 0; }
   .lusion .lz::before, .lusion .lz::after { display: none; }
 }
