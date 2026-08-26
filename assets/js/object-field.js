@@ -49,15 +49,19 @@ function build(mount) {
   const camera = new THREE.PerspectiveCamera(38, boxW() / boxH(), 0.1, 100);
   camera.position.set(0, 0, 15);
 
-  /* ---- materials: the four-colour palette ------------------------------ */
+  /* ---- materials: the logo's own gradient ------------------------------ */
 
-  const mats = [
-    new THREE.MeshPhysicalMaterial({ color: 0xf2f4f8, roughness: 0.24, metalness: 0.05, clearcoat: 0.9, clearcoatRoughness: 0.14 }),
-    new THREE.MeshPhysicalMaterial({ color: 0x9aa3b2, roughness: 0.3,  metalness: 0.12, clearcoat: 0.8, clearcoatRoughness: 0.2 }),
-    new THREE.MeshPhysicalMaterial({ color: 0x0d1220, roughness: 0.2,  metalness: 0.3,  clearcoat: 1,   clearcoatRoughness: 0.1 }),
-    new THREE.MeshPhysicalMaterial({ color: 0x1b3df0, roughness: 0.22, metalness: 0.1,  clearcoat: 0.95, clearcoatRoughness: 0.12 }),
-    new THREE.MeshPhysicalMaterial({ color: 0x03d1f5, roughness: 0.24, metalness: 0.1,  clearcoat: 0.95, clearcoatRoughness: 0.12 }),
-  ];
+  /*
+   * Sampled from assets/img/logo-mark.png rather than borrowed from the
+   * reference: the mark runs bright cyan through two blues into violet. The
+   * reference's navy, white and black are its brand, not ours, so the cluster
+   * walks the logo instead.
+   */
+  const mats = [0x03D1F5, 0x2FA8E8, 0x0B6CD4, 0x0940C4, 0x4A3AE8, 0x7D42F4].map(
+    (color) => new THREE.MeshPhysicalMaterial({
+      color, roughness: 0.23, metalness: 0.1, clearcoat: 0.95, clearcoatRoughness: 0.12,
+    })
+  );
 
   /* ---- lighting -------------------------------------------------------- */
 
@@ -141,26 +145,33 @@ function build(mount) {
 
   /* ---- pointer --------------------------------------------------------- */
 
-  // In world units on the cluster's plane, so a push is the same strength
-  // wherever the stage happens to be sized.
-  const push = new THREE.Vector3(999, 999, 0);
+  /*
+   * Tracked on the window, not on the mount.
+   *
+   * The field sits at z-index -1 behind the section's own content, so the cards
+   * and the copy swallow every pointer event before the canvas ever sees one —
+   * listening on the element meant the cluster almost never reacted. The
+   * position is converted through the mount's own rect instead.
+   */
+  const aim = new THREE.Vector2(0, 0);
   let pointerIn = false;
 
-  mount.addEventListener('pointermove', (e) => {
+  window.addEventListener('pointermove', (e) => {
     const r = mount.getBoundingClientRect();
-    const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
-    const ny = -((e.clientY - r.top) / r.height) * 2 + 1;
-    const h = Math.tan((camera.fov * Math.PI / 180) / 2) * camera.position.z;
-    push.set(nx * h * camera.aspect, ny * h, 0);
-    pointerIn = true;
+    aim.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    aim.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+    // A margin either side, so the cluster starts reacting just before the
+    // cursor crosses into the section rather than snapping on at the edge.
+    pointerIn = aim.x > -1.35 && aim.x < 1.35 && aim.y > -1.35 && aim.y < 1.35;
   }, { passive: true });
-  mount.addEventListener('pointerleave', () => { pointerIn = false; });
 
   /* ---- loop ------------------------------------------------------------ */
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let onScreen = false, raf = 0, last = 0;
   const _v = new THREE.Vector3();
+  const _target = new THREE.Vector3();
+  const _invQ = new THREE.Quaternion();
 
   function progress() {
     const r = mount.getBoundingClientRect();
@@ -178,6 +189,9 @@ function build(mount) {
     const p = progress();
     cluster.rotation.y = -0.9 + p * 1.8;
     cluster.rotation.x = -0.25 + p * 0.5;
+    // Setting .rotation does not refresh .quaternion on its own, and the push
+    // maths below reads the quaternion.
+    cluster.quaternion.setFromEuler(cluster.rotation);
 
     for (const it of pieces) {
       if (!reduce) {
@@ -186,27 +200,32 @@ function build(mount) {
         it.piece.rotation.z += it.spin.z * dt;
       }
 
-      // Shove away from the pointer, then ease back to where it lives.
-      let tx = 0, ty = 0;
+      /*
+       * Shove away from the pointer, then ease back.
+       *
+       * Measured where the cursor actually is — on screen. The piece is
+       * projected to normalised device coordinates and compared with the
+       * pointer there, so "near the cursor" means near it in the picture rather
+       * than near it in a rotating local space the viewer cannot see. The push
+       * is then taken back through the camera and through the cluster's own
+       * rotation, or a spinning cluster would scatter its pieces sideways.
+       */
+      _target.set(0, 0, 0);
       if (pointerIn) {
-        _v.copy(it.home).applyEuler(cluster.rotation);
-        const dx = _v.x - push.x;
-        const dy = _v.y - push.y;
+        _v.copy(it.home).applyQuaternion(cluster.quaternion).project(camera);
+        const dx = _v.x - aim.x;
+        const dy = (_v.y - aim.y) / Math.max(camera.aspect, 0.0001);
         const d = Math.hypot(dx, dy);
-        const RADIUS = 3.4;
-        if (d < RADIUS && d > 0.001) {
-          const f = (1 - d / RADIUS) * 1.9;
-          tx = (dx / d) * f;
-          ty = (dy / d) * f;
+        const RADIUS = 0.42;      // in NDC — a little under half the viewport
+        if (d < RADIUS && d > 1e-4) {
+          const f = (1 - d / RADIUS) * 2.6;
+          _target.set((dx / d) * f, (dy / d) * f, 0)
+            .applyQuaternion(camera.quaternion)   // screen push -> world
+            .applyQuaternion(_invQ.copy(cluster.quaternion).invert());  // -> local
         }
       }
-      it.offset.x += (tx - it.offset.x) * 0.09;
-      it.offset.y += (ty - it.offset.y) * 0.09;
-      it.piece.position.set(
-        it.home.x + it.offset.x,
-        it.home.y + it.offset.y,
-        it.home.z
-      );
+      it.offset.lerp(_target, 0.12);
+      it.piece.position.copy(it.home).add(it.offset);
     }
 
     renderer.render(scene, camera);
