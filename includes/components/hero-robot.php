@@ -5,12 +5,12 @@
  * Staged after the reference film: a near-black field, one cool light from
  * above, and a figure standing in flowers. The field is that film, cropped to
  * the band below its own robot so ours is the only one in frame; the light and
- * the dark are CSS; the robot is the mascot from assets/js/robot.js, which
- * already tracks the pointer with its head, its eyes and its arms — the whole
- * point of putting it here rather than a still.
+ * the dark are CSS; the robot is that film's own humanoid, rebuilt as a rig in
+ * assets/js/field-robot.js so he can look at you — head, eyes, and the arm on
+ * your side, which reaches.
  *
- * The mouth is new, and it lives with the eyes in that file so every expression
- * moves the whole face.
+ * His canvas is transparent, so he composites onto the real footage rather than
+ * standing on a rendered floor that would never match it.
  *
  * Nothing here is load-bearing for the page: no WebGL leaves the lit field and
  * the copy, and a browser that will not autoplay leaves the poster frame.
@@ -20,8 +20,8 @@
 
 declare(strict_types=1);
 
-// Tells includes/footer.php to import the robot module. Same idiom as the eyes.
-$GLOBALS['ithrive_needs_robot'] = true;
+// Tells includes/footer.php to import the module. Same idiom as the eyes.
+$GLOBALS['ithrive_needs_field_robot'] = true;
 ?>
 <section class="rhero">
 
@@ -61,12 +61,12 @@ $GLOBALS['ithrive_needs_robot'] = true;
     </div>
 
     <div class="rhero-stage">
-      <?php /* data-robot-canvas is the hook robot.js binds to; the badge URL is
-               resolved here so the chest mark loads from any depth. */ ?>
-      <canvas class="rhero-robot" data-robot-canvas
-              data-robot-badge="<?= e(asset('assets/img/robot-badge.png')) ?>"
-              role="img"
-              aria-label="An interactive 3D robot standing in a field of flowers, whose head, eyes, mouth and arms follow your pointer."></canvas>
+      <?php /* data-field-robot is the hook field-robot.js binds to. It appends
+               its own canvas, so a WebGL failure leaves an empty box rather
+               than a black rectangle where a canvas would have been. */ ?>
+      <div class="rhero-robot" data-field-robot
+           role="img"
+           aria-label="An interactive 3D robot standing in a field of flowers, whose head, eyes and arms follow your pointer."></div>
     </div>
   </div>
 

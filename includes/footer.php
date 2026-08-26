@@ -59,6 +59,10 @@ component('chat-widget');
   }
 </script>
 <?php endif; ?>
+<?php /* The film's humanoid, on the pages that stage him. */ ?>
+<?php if (!empty($GLOBALS['ithrive_needs_field_robot'])): ?>
+<script type="module" src="<?= e(asset('assets/js/field-robot.js')) ?>"></script>
+<?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/depth.js')) ?>" defer></script>

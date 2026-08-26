@@ -4631,6 +4631,7 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   height: clamp(420px, 48vw, 640px);
 }
 .rhero-robot { display: block; width: 100%; height: 100%; }
+.rhero-robot canvas { display: block; width: 100%; height: 100%; }
 
 .rhero-hint {
   position: absolute;
