@@ -96,11 +96,11 @@ $cases = [
 
 /** The cadence. Three habits, not a methodology diagram. */
 $agile = [
-    ['art' => 'agile-demo', 'title' => 'A demo every two weeks',
+    ['title' => 'A demo every two weeks',
      'body' => 'Working software on a call, not a status document. If a fortnight has passed with nothing to show, that is the thing worth discussing.'],
-    ['art' => 'agile-sprint', 'title' => 'Sprints you can see into',
+    ['title' => 'Sprints you can see into',
      'body' => 'The board is yours to read. What is in progress, what slipped and why, without waiting for a weekly summary to find out.'],
-    ['art' => 'agile-feedback', 'title' => 'Feedback that changes the next sprint',
+    ['title' => 'Feedback that changes the next sprint',
      'body' => 'What comes back from the demo is scoped into the sprint after it. That loop is the whole point of working this way.'],
 ];
 
@@ -190,21 +190,9 @@ $techName = [
       </ul>
     </div>
 
-    <?php /* Origin Kit's Rotunda Carousel: the camera stands inside a cylinder
-             of panels, so dragging sweeps the wall past you. The panels carry
-             the same five capabilities listed beside them. */ ?>
-    <div class="split-visual rotunda" data-reveal style="--d:2"
-         data-rotunda data-panel-width="2000" data-panel-height="1340"
-         data-gap="60" data-rounded="3" data-distance="42" data-tilt="0"
-         data-speed="100" data-damping="92" data-hover-slow="80">
-      <?php foreach ($aiFirst as $i => $item): ?>
-        <span data-rotunda-panel hidden
-              data-title="<?= e($item['title']) ?>"
-              data-body="<?= e($item['body']) ?>"
-              data-accent="<?= $i % 2 ? '#7D42F4' : '#03D1F5' ?>"></span>
-      <?php endforeach; ?>
-      <noscript><img src="<?= e(asset('assets/img/art/sec-ai-core.svg')) ?>"
-           width="560" height="420" loading="lazy" decoding="async" alt=""></noscript>
+    <div class="split-visual" data-reveal style="--d:2">
+      <img src="<?= e(asset('assets/img/art/sec-ai-core.svg')) ?>"
+           width="560" height="420" loading="lazy" decoding="async" draggable="false" alt="">
     </div>
   </div>
 </section>
@@ -218,23 +206,6 @@ $techName = [
                    . '— the closer the match, the more of the estimate is memory rather than guesswork.',
         'art'     => 'sec-usecases',
     ]); ?>
-
-    <?php /* Origin Kit's Spin Carousel — the four cases on a wheel you can
-             drag, flick or click to bring one to the front. The tabs below it
-             are the same four, and they are what works without a pointer. */ ?>
-    <div class="spin" data-reveal data-spin-carousel
-         data-speed="100" data-scale="64" data-aspect="136" data-rounded="24">
-      <div class="spin-ring" data-spin-ring>
-        <?php foreach ($cases as $i => $c): ?>
-          <article class="spin-card" data-spin-item style="--i:<?= $i ?>; --accent: <?= $i % 2 ? '#7D42F4' : '#03D1F5' ?>">
-            <span class="spin-icon"><?= icon($c['icon']) ?></span>
-            <h3><?= e($c['tab']) ?></h3>
-            <p><?= e($c['title']) ?></p>
-          </article>
-        <?php endforeach; ?>
-      </div>
-      <p class="spin-hint" aria-hidden="true"><?= icon('compass') ?>Drag, flick or click a card</p>
-    </div>
 
     <?php /* Radio-driven tabs: correct before any JavaScript runs, keyboard
              operable and announced without a line of ARIA plumbing. */ ?>
@@ -286,17 +257,9 @@ $techName = [
         you never wait a quarter to find out the thing being built is not the thing you wanted.
       </p>
 
-      <?php /* Origin Kit's Hover Image Reveal. The rows are the real list —
-               headings and sentences — so with no pointer, on a phone, or under
-               reduced motion the section is simply read. */ ?>
-      <ol class="agile hr" data-reveal data-hover-reveal style="--d:3"
-          <?php /* offsetX is negative because the rows sit in the right column:
-                   the component's default pushes the window right, which lands
-                   it on top of the very text it is illustrating. */ ?>
-          data-image-width="300" data-image-height="380" data-rounded="16"
-          data-offset-x="-400" data-offset-y="0" data-follow-strength="0">
+      <ol class="agile" data-reveal style="--d:3">
         <?php foreach ($agile as $i => $a): ?>
-          <li data-hr-row>
+          <li>
             <span class="agile-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
             <div>
               <h3><?= e($a['title']) ?></h3>
@@ -304,19 +267,6 @@ $techName = [
             </div>
           </li>
         <?php endforeach; ?>
-
-        <?php /* The cursor-following window and the reel inside it. Decorative
-                 — every picture restates the row it belongs to. */ ?>
-        <span class="hr-window" data-hr-window aria-hidden="true">
-          <span class="hr-reel" data-hr-reel>
-            <?php foreach ($agile as $a): ?>
-              <span class="hr-frame">
-                <img src="<?= e(asset('assets/img/art/' . $a['art'] . '.svg')) ?>"
-                     width="560" height="420" loading="lazy" decoding="async" draggable="false" alt="">
-              </span>
-            <?php endforeach; ?>
-          </span>
-        </span>
       </ol>
     </div>
   </div>
@@ -331,32 +281,24 @@ $techName = [
                    . 'they were on a slide. Cloud is whichever of the three you are already on.',
     ]); ?>
 
-    <?php /* Origin Kit's Bubble Burst, in place of the Word Globe: drag to
-             spin it, click to pop it and watch the tear sweep out from where
-             you struck before the film draws itself back together. Decorative
-             — the stack it introduces is the grid below. */ ?>
-    <div class="lz-bubble" data-bubble-burst aria-hidden="true"
-         data-tint="#FFFFFF" data-sheen="#03D1F5" data-iridescence="26"
-         data-rim="1" data-gloss="20" data-wobble="20" data-lip="20"
-         data-ragged="22" data-direction="left" data-drag-sensitivity="5"
-         data-size-percent="85" data-speed="4"></div>
-    <p class="lz-bubble-hint" aria-hidden="true"><?= icon('sparkles') ?>Drag to spin &middot; click to pop</p>
+    <?php /* Origin Kit's Word Globe, fed the section's own technology names —
+             the sphere is literally woven out of the stack it introduces. The
+             names are in the list below either way, because a canvas is
+             invisible to a crawler. */ ?>
+    <div class="lz-globe" data-word-globe aria-hidden="true"
+         data-word="<?= e(implode(' · ', array_map(static fn (string $k): string => $techName[$k] ?? $k, array_merge(...array_column($stack, 'items'))))) ?>"
+         data-twist="50" data-letter-spacing="1150" data-speed="7"
+         data-rotation-side="counterclockwise" data-color="#9BE6FB"
+         data-font-size="15"></div>
 
     <div class="techwall">
       <?php foreach ($stack as $g): ?>
         <section class="techwall-group" data-reveal>
           <h3 class="techwall-head"><span><?= icon($g['icon']) ?></span><?= e($g['title']) ?></h3>
-          <?php /* Origin Kit's Interactive Grid: hovering a card lifts it and
-                   ripples into its four neighbours. Each card keeps its
-                   technology's name as text, so the grid is still a readable
-                   list of the stack and not forty logos with no labels. */ ?>
-          <ul class="techwall-list igrid" data-igrid
-              data-columns="4" data-rounded="8" data-logo-scale="3"
-              data-perspective="1600" data-rotate-x="0" data-rotate-y="0"
-              data-glow-intensity="50">
+          <ul class="techwall-list">
             <?php foreach ($g['items'] as $slug): ?>
               <?php if (!is_file(ROOT_PATH . '/assets/img/tech/' . $slug . '.svg')) { continue; } ?>
-              <li class="igrid-card" data-igrid-card tabindex="0">
+              <li class="techwall-item">
                 <img src="<?= e(asset('assets/img/tech/' . $slug . '.svg')) ?>"
                      width="26" height="26" loading="lazy" decoding="async" alt="">
                 <span><?= e($techName[$slug] ?? $slug) ?></span>
