@@ -11,6 +11,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/config.php';
 
 $page      = $page      ?? 'home';
+$bodyClass = $bodyClass ?? null;
 $pageTitle = $pageTitle ?? SITE_NAME;
 $pageDesc  = $pageDesc  ?? SITE_TAGLINE;
 $heroScene = $heroScene ?? null;
@@ -77,7 +78,10 @@ $ogAbs   = site_origin() . asset($ogImg);
          including this. It is raw markup by contract, so it is echoed as-is. */ ?>
 <?= $extraHead ?? '' ?>
 </head>
-<body class="page-<?= e($page) ?>">
+<?php /* $bodyClass lets one route opt into a treatment the other pages in
+         its section do not get — ai-native-product-development uses it for
+         the staged, scroll-driven layer. */ ?>
+<body class="page-<?= e($page) ?><?= !empty($bodyClass) ? ' ' . e($bodyClass) : '' ?>">
 
 <a class="skip-link" href="#main">Skip to content</a>
 

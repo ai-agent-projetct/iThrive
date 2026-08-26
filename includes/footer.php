@@ -63,6 +63,13 @@ component('chat-widget');
 <?php if (!empty($GLOBALS['ithrive_needs_film_robot'])): ?>
 <script src="<?= e(asset('assets/js/film-robot.js')) ?>" defer></script>
 <?php endif; ?>
+<?php /* The staged, scroll-driven layer and its two 3D pieces. Scoped to the
+         pages that opt in, so no other route pays for them. */ ?>
+<?php if (($bodyClass ?? '') === 'lusion'): ?>
+<script src="<?= e(asset('assets/js/lusion-stage.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/word-globe.js')) ?>" defer></script>
+<script type="module" src="<?= e(asset('assets/js/object-field.js')) ?>"></script>
+<?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/depth.js')) ?>" defer></script>

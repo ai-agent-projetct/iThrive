@@ -137,7 +137,12 @@ $techName = [
 ];
 ?>
 
-<section class="section">
+<section class="section lz" data-stage>
+  <?php /* The object field, after lusion.co: a cluster of tumbling solids that
+           the scroll turns and the pointer pushes aside. Decorative, and the
+           section reads exactly the same without it. */ ?>
+  <div class="lz-field" data-object-field aria-hidden="true"></div>
+
   <div class="shell">
     <?php component('section-head', [
         'eyebrow' => 'End To End',
@@ -161,13 +166,11 @@ $techName = [
   </div>
 </section>
 
-<section class="section section--panel">
+<section class="section section--panel lz" data-stage>
   <div class="shell split">
     <div>
       <p class="eyebrow" data-reveal>AI-First Product Engineering</p>
-      <h2 class="section-title section-title--left" data-reveal style="--d:1">
-        The model sits at the centre, not on the side
-      </h2>
+      <h2 class="section-title section-title--left" data-reveal data-lz-split style="--d:1">The model sits at the centre, not on the side</h2>
       <p class="prose" data-reveal style="--d:2">
         Adding a chat box to a finished product is the cheapest possible use of a model and the
         least useful. These are the places we build intelligence into the product itself, where it
@@ -194,7 +197,7 @@ $techName = [
   </div>
 </section>
 
-<section class="section">
+<section class="section lz" data-stage>
   <div class="shell">
     <?php component('section-head', [
         'eyebrow' => 'Use Cases',
@@ -239,7 +242,7 @@ $techName = [
   </div>
 </section>
 
-<section class="section section--panel">
+<section class="section section--panel lz" data-stage>
   <div class="shell split">
     <div class="split-visual" data-reveal>
       <img src="<?= e(asset('assets/img/art/sec-agile.svg')) ?>"
@@ -248,7 +251,7 @@ $techName = [
 
     <div>
       <p class="eyebrow" data-reveal>How We Work</p>
-      <h2 class="section-title section-title--left" data-reveal style="--d:1">Our agile approach</h2>
+      <h2 class="section-title section-title--left" data-reveal data-lz-split style="--d:1">Our agile approach</h2>
       <p class="prose" data-reveal style="--d:2">
         Two-week cycles, and you are in all of them. The point is not the ceremony — it is that
         you never wait a quarter to find out the thing being built is not the thing you wanted.
@@ -269,7 +272,7 @@ $techName = [
   </div>
 </section>
 
-<section class="section">
+<section class="section lz" data-stage>
   <div class="shell">
     <?php component('section-head', [
         'eyebrow' => 'Technology',
@@ -277,6 +280,16 @@ $techName = [
         'lead'    => 'Chosen because we run them in production and can defend each one, not because '
                    . 'they were on a slide. Cloud is whichever of the three you are already on.',
     ]); ?>
+
+    <?php /* Origin Kit's Word Globe, fed the section's own technology names —
+             the sphere is literally woven out of the stack it introduces. The
+             names are in the list below either way, because a canvas is
+             invisible to a crawler. */ ?>
+    <div class="lz-globe" data-word-globe aria-hidden="true"
+         data-word="<?= e(implode(' · ', array_map(static fn (string $k): string => $techName[$k] ?? $k, array_merge(...array_column($stack, 'items'))))) ?>"
+         data-twist="50" data-letter-spacing="1150" data-speed="7"
+         data-rotation-side="counterclockwise" data-color="#9BE6FB"
+         data-font-size="15"></div>
 
     <div class="techwall">
       <?php foreach ($stack as $g): ?>
@@ -298,21 +311,21 @@ $techName = [
   </div>
 </section>
 
-<section class="section section--tight">
+<section class="section section--tight lz" data-stage>
   <div class="shell">
     <?php /* The claim, attributed. The figures are PwC's, not measurements of
              ours, and the sentence says so. */ ?>
     <div class="claim" data-reveal>
       <p class="claim-eyebrow"><?= icon('zap') ?>The pace has already moved</p>
-      <h2 class="claim-title">Your competitors are shipping in half the time</h2>
+      <h2 class="claim-title" data-lz-split>Your competitors are shipping in half the time</h2>
       <p class="claim-body">
         PwC's research puts the effect of AI on product work at up to half the development time and
         around a third off R&amp;D cost. Whether or not those are your numbers, the direction is not
         in dispute — and the gap compounds every quarter you wait.
       </p>
       <div class="claim-actions">
-        <a class="btn btn-primary" href="<?= e(url('contact.php')) ?>">Talk to an engineer<?= icon('arrow') ?></a>
-        <a class="btn btn-ghost" href="<?= e(url('case-studies.php')) ?>">See what we have shipped</a>
+        <a class="btn btn-primary" data-magnet href="<?= e(url('contact.php')) ?>">Talk to an engineer<?= icon('arrow') ?></a>
+        <a class="btn btn-ghost" data-magnet href="<?= e(url('case-studies.php')) ?>">See what we have shipped</a>
       </div>
     </div>
   </div>

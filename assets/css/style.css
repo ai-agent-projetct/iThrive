@@ -4635,6 +4635,119 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 }
 
 /* =========================================================================
+   The staged, scroll-driven layer (body.lusion)
+   ========================================================================= */
+
+/*
+ * After lusion.co: content on rounded plates inset from the page edge, each
+ * arriving as it crosses the fold rather than sitting there already resolved.
+ * --in is written by assets/js/lusion-stage.js, 0 below the fold to 1 once the
+ * plate has cleared — so scrolling back up plays it backwards.
+ */
+.lusion .lz {
+  --in: 1;               /* resolved by default: no JS, nothing hidden */
+  position: relative;
+  isolation: isolate;
+  margin-inline: clamp(10px, 2vw, 26px);
+  border-radius: clamp(18px, 2.4vw, 34px);
+  overflow: clip;
+}
+
+.lusion--live .lz {
+  opacity: calc(.25 + var(--in) * .75);
+  transform: translate3d(0, calc((1 - var(--in)) * 44px), 0)
+             scale(calc(.972 + var(--in) * .028));
+  transition: opacity .12s linear;
+  will-change: transform, opacity;
+}
+
+/* Corner marks — the small registration crosses lusion rules its plates with. */
+.lusion .lz::before,
+.lusion .lz::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  width: 13px;
+  height: 13px;
+  opacity: calc(var(--in) * .34);
+  pointer-events: none;
+  background:
+    linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat;
+  color: var(--cyan);
+}
+.lusion .lz::before { top: 18px; left: 18px; }
+.lusion .lz::after  { top: 18px; right: 18px; }
+
+/* The panel plates already carry a surface; the plain ones get one here so the
+   inset actually reads as a plate rather than as a gap. */
+.lusion .lz.section:not(.section--panel) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .022), transparent 40%);
+  border: 1px solid var(--line);
+}
+
+/* ---- headings that resolve line by line -------------------------------- */
+
+.lz-lines { display: block; }
+.lz-line  { display: block; overflow: hidden; }
+.lz-line-in {
+  display: block;
+  /* Each line trails the one above it, so the heading resolves downward. */
+  transform: translateY(calc((1 - clamp(0, var(--in, 1) * 1.6 - var(--i) * .18, 1)) * 105%));
+  opacity: clamp(0, var(--in, 1) * 2 - var(--i) * .2, 1);
+  transition: none;
+}
+
+/* ---- the object field --------------------------------------------------- */
+
+.lz-field {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* Pulled back hard. The cards above are translucent by design, so a field at
+     full strength reads straight through them and the copy becomes unreadable
+     — it is depth behind the plate, not a foreground element. */
+  -webkit-mask-image: radial-gradient(90% 78% at 50% 42%, #000 12%, transparent 68%);
+          mask-image: radial-gradient(90% 78% at 50% 42%, #000 12%, transparent 68%);
+  opacity: calc(var(--in, 1) * .38);
+  filter: blur(1.5px) saturate(115%);
+}
+.lz-field canvas { display: block; width: 100%; height: 100%; }
+
+/* Anything the field sits behind stops being translucent, or the solids show
+   through the copy laid over them. */
+.lusion .lz .card,
+.lusion .lz .techwall-group,
+.lusion .lz .uctabs-panel {
+  background: color-mix(in srgb, var(--ink-2) 94%, transparent);
+  backdrop-filter: saturate(140%) blur(9px);
+}
+
+/* ---- the word globe ----------------------------------------------------- */
+
+.lz-globe {
+  position: relative;
+  width: 100%;
+  height: clamp(320px, 42vw, 460px);
+  margin: -12px auto 26px;
+  pointer-events: none;
+}
+.lz-globe canvas { display: block; width: 100%; height: 100%; }
+
+@media (max-width: 760px) {
+  .lz-globe { height: 280px; }
+  .lusion .lz { margin-inline: 0; border-radius: 0; }
+  .lusion .lz::before, .lusion .lz::after { display: none; }
+}
+
+/* A page that reassembles itself on every scroll is the exact thing this
+   setting exists to switch off. */
+@media (prefers-reduced-motion: reduce) {
+  .lusion--live .lz { opacity: 1; transform: none; }
+  .lz-line-in { transform: none; opacity: 1; }
+}
+
+/* =========================================================================
    AI-Native Product Development — page sections
    ========================================================================= */
 
