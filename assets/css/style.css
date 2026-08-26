@@ -4561,7 +4561,6 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
    while the inline height stays as set, which squashes the film and slides the
    robot away from where the eyes are drawn. It is sized explicitly here. */
 .rhero-video { position: absolute; max-width: none; will-change: transform; }
-.rhero-eyes  { position: absolute; inset: 0; pointer-events: none; }
 
 /* Darkens the left of the frame so the copy has something to sit on, and lifts
    the bottom edge out of pure black. The robot is on the right, untouched. */
@@ -4612,25 +4611,6 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 .rhero-stat-value { font-size: 1.5rem; font-weight: 800; color: var(--cyan); line-height: 1; }
 .rhero-stat-label { font-size: .78rem; color: var(--muted); }
 
-.rhero-hint {
-  position: absolute;
-  left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 9px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(8, 12, 20, .7);
-  backdrop-filter: var(--blur);
-  color: var(--muted);
-  font-size: .78rem;
-  pointer-events: none;
-}
-.rhero-hint .icon { width: 15px; height: 15px; color: var(--cyan); }
 
 @media (max-width: 900px) {
   /* Portrait: the film takes a band of its own at the top and the copy sits
@@ -4643,7 +4623,6 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
     background: linear-gradient(to bottom, rgba(4, 5, 10, .3) 0%, rgba(4, 5, 10, 0) 40%, rgba(4, 5, 10, .85) 88%, #04050a 100%);
   }
   .rhero-inner { padding: calc(58vh - 48px) 0 72px; }
-  .rhero-hint { display: none; }
 }
 
 /* A film that never stops moving behind copy someone is trying to read is

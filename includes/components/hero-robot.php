@@ -5,11 +5,10 @@
  * The hero is the reference film itself — that robot, in that field, with that
  * lighting. Not a rebuild of him: a rebuild is not him.
  *
- * What the film cannot do on its own is look at you, so assets/js/film-robot.js
- * draws glowing eyes and a mouth onto the dark visor he already has, and those
- * follow your pointer. The visor is a fixed point in the frame — across the
- * whole twelve seconds his head moves two pixels — so it needs measuring once,
- * not tracking.
+ * assets/js/film-robot.js frames it: pushed in past "cover" and anchored on the
+ * robot so he has real presence rather than standing small in a wide shot, with
+ * the copy on the darkened left. It also leans the picture a few pixels against
+ * the pointer, which is the one depth cue a static frame can honestly offer.
  *
  * Nothing here is load-bearing: no JavaScript leaves the film playing, and a
  * browser that will not autoplay leaves the poster frame. Either way the copy
@@ -32,7 +31,6 @@ $GLOBALS['ithrive_needs_film_robot'] = true;
            src="<?= e(asset('assets/video/ai-robot-film.mp4')) ?>"
            poster="<?= e(asset('assets/video/ai-robot-film-poster.jpg')) ?>"
            autoplay muted loop playsinline preload="auto"></video>
-    <canvas class="rhero-eyes"></canvas>
   </div>
 
   <?php /* Darkens the left of the frame so the copy has something to sit on,
@@ -65,5 +63,4 @@ $GLOBALS['ithrive_needs_film_robot'] = true;
     </div>
   </div>
 
-  <p class="rhero-hint" aria-hidden="true"><?= icon('compass') ?>Move your pointer — he watches</p>
 </section>
