@@ -70,6 +70,9 @@ component('chat-widget');
 <script src="<?= e(asset('assets/js/word-globe.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/interactive-grid.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/hover-image-reveal.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/spin-carousel.js')) ?>" defer></script>
+<script type="module" src="<?= e(asset('assets/js/stacked-carousel.js')) ?>"></script>
+<script type="module" src="<?= e(asset('assets/js/rotunda-carousel.js')) ?>"></script>
 <script type="module" src="<?= e(asset('assets/js/object-field.js')) ?>"></script>
 <?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>

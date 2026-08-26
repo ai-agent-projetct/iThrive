@@ -190,9 +190,21 @@ $techName = [
       </ul>
     </div>
 
-    <div class="split-visual" data-reveal style="--d:2">
-      <img src="<?= e(asset('assets/img/art/sec-ai-core.svg')) ?>"
-           width="560" height="420" loading="lazy" decoding="async" draggable="false" alt="">
+    <?php /* Origin Kit's Rotunda Carousel: the camera stands inside a cylinder
+             of panels, so dragging sweeps the wall past you. The panels carry
+             the same five capabilities listed beside them. */ ?>
+    <div class="split-visual rotunda" data-reveal style="--d:2"
+         data-rotunda data-panel-width="2000" data-panel-height="1340"
+         data-gap="60" data-rounded="3" data-distance="42" data-tilt="0"
+         data-speed="100" data-damping="92" data-hover-slow="80">
+      <?php foreach ($aiFirst as $i => $item): ?>
+        <span data-rotunda-panel hidden
+              data-title="<?= e($item['title']) ?>"
+              data-body="<?= e($item['body']) ?>"
+              data-accent="<?= $i % 2 ? '#7D42F4' : '#03D1F5' ?>"></span>
+      <?php endforeach; ?>
+      <noscript><img src="<?= e(asset('assets/img/art/sec-ai-core.svg')) ?>"
+           width="560" height="420" loading="lazy" decoding="async" alt=""></noscript>
     </div>
   </div>
 </section>
@@ -206,6 +218,23 @@ $techName = [
                    . '— the closer the match, the more of the estimate is memory rather than guesswork.',
         'art'     => 'sec-usecases',
     ]); ?>
+
+    <?php /* Origin Kit's Spin Carousel — the four cases on a wheel you can
+             drag, flick or click to bring one to the front. The tabs below it
+             are the same four, and they are what works without a pointer. */ ?>
+    <div class="spin" data-reveal data-spin-carousel
+         data-speed="100" data-scale="64" data-aspect="136" data-rounded="24">
+      <div class="spin-ring" data-spin-ring>
+        <?php foreach ($cases as $i => $c): ?>
+          <article class="spin-card" data-spin-item style="--i:<?= $i ?>; --accent: <?= $i % 2 ? '#7D42F4' : '#03D1F5' ?>">
+            <span class="spin-icon"><?= icon($c['icon']) ?></span>
+            <h3><?= e($c['tab']) ?></h3>
+            <p><?= e($c['title']) ?></p>
+          </article>
+        <?php endforeach; ?>
+      </div>
+      <p class="spin-hint" aria-hidden="true"><?= icon('compass') ?>Drag, flick or click a card</p>
+    </div>
 
     <?php /* Radio-driven tabs: correct before any JavaScript runs, keyboard
              operable and announced without a line of ARIA plumbing. */ ?>

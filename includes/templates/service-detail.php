@@ -73,9 +73,18 @@ if (!empty($heroComponent)) {
         'art'     => 'sec-capabilities',
     ]); ?>
 
-    <div class="grid grid-3">
+    <?php /* On a page that opts into the staged treatment these same cards are
+             also the source for Origin Kit's Stacked Carousel — the deck reads
+             its titles and copy straight off them. Everywhere else this is an
+             ordinary grid and nothing changes. */ ?>
+    <div class="grid grid-3<?= ($bodyClass ?? '') === 'lusion' ? ' scarousel-src' : '' ?>"
+         <?= ($bodyClass ?? '') === 'lusion' ? 'data-stacked-carousel data-card-width="420" data-card-height="300" data-gap="100" data-direction="forward" data-speed="100" data-pitch="-11" data-yaw="17"' : '' ?>>
       <?php foreach ($svc['capabilities'] as $i => $cap): ?>
-        <article class="card card--numbered" data-reveal style="--d:<?= $i % 3 ?>">
+        <article class="card card--numbered" data-reveal style="--d:<?= $i % 3 ?>"
+                 data-stacked-card
+                 data-title="<?= e($cap['title']) ?>"
+                 data-body="<?= e($cap['body']) ?>"
+                 data-accent="<?= $i % 2 ? '#7D42F4' : '#03D1F5' ?>">
           <span class="card-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
           <h3 class="card-title"><?= e($cap['title']) ?></h3>
           <p class="card-body"><?= e($cap['body']) ?></p>
