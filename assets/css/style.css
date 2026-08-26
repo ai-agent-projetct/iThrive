@@ -4635,6 +4635,194 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 }
 
 /* =========================================================================
+   AI-Native Product Development — page sections
+   ========================================================================= */
+
+/* ---- AI-first: what the model actually does ---------------------------- */
+
+.aifirst { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 20px; }
+.aifirst li { display: flex; gap: 16px; }
+.aifirst-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(3, 209, 245, .08);
+}
+.aifirst-icon .icon { width: 18px; height: 18px; color: var(--cyan); }
+.aifirst h3 { margin: 0 0 4px; font-size: 1rem; font-weight: 700; color: var(--text); }
+.aifirst p  { margin: 0; font-size: .92rem; line-height: 1.62; color: var(--muted); }
+
+/* ---- use cases, tabbed with radios ------------------------------------- */
+
+/*
+ * No JavaScript here on purpose. Radio inputs plus :checked sibling selectors
+ * give a tab strip that is correct on first paint, works with the keyboard and
+ * is announced by a screen reader without a line of ARIA plumbing — all of
+ * which a hand-rolled tablist has to be taught.
+ */
+.uctabs { margin-top: 8px; }
+
+.uctabs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.uctabs-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+}
+.uctabs-tab .icon { width: 17px; height: 17px; }
+.uctabs-tab:hover { color: var(--text); border-color: var(--line-strong); }
+
+/* The radios are direct children of .uctabs, ahead of both the bar and the
+   panels, so one `~` reaches the matching label and the matching panel. */
+#uc-retail:checked     ~ .uctabs-bar [for="uc-retail"],
+#uc-healthcare:checked ~ .uctabs-bar [for="uc-healthcare"],
+#uc-saas:checked       ~ .uctabs-bar [for="uc-saas"],
+#uc-logistics:checked  ~ .uctabs-bar [for="uc-logistics"] {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--cyan) 55%, transparent);
+  background: rgba(3, 209, 245, .12);
+}
+#uc-retail:focus-visible     ~ .uctabs-bar [for="uc-retail"],
+#uc-healthcare:focus-visible ~ .uctabs-bar [for="uc-healthcare"],
+#uc-saas:focus-visible       ~ .uctabs-bar [for="uc-saas"],
+#uc-logistics:focus-visible  ~ .uctabs-bar [for="uc-logistics"] {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.uctabs-panel {
+  display: none;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: 32px clamp(22px, 3vw, 40px);
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+#uc-retail:checked     ~ [data-uc="retail"],
+#uc-healthcare:checked ~ [data-uc="healthcare"],
+#uc-saas:checked       ~ [data-uc="saas"],
+#uc-logistics:checked  ~ [data-uc="logistics"] { display: block; }
+
+.uctabs-title { margin: 0 0 12px; font-size: clamp(1.15rem, 1.9vw, 1.45rem); color: var(--text); }
+.uctabs-body  { margin: 0; font-size: .96rem; line-height: 1.7; color: var(--muted); }
+
+.uctabs-points { list-style: none; margin: 22px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); display: grid; gap: 12px; }
+.uctabs-points li { display: flex; align-items: flex-start; gap: 11px; font-size: .92rem; color: var(--text); }
+.uctabs-tick { flex: none; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 999px; background: rgba(3, 209, 245, .14); }
+.uctabs-tick .icon { width: 12px; height: 12px; color: var(--cyan); }
+
+/* ---- the agile cadence -------------------------------------------------- */
+
+.agile { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 22px; counter-reset: none; }
+.agile li { display: flex; gap: 18px; }
+.agile-num {
+  flex: none;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--cyan);
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+.agile h3 { margin: 0 0 5px; font-size: 1rem; font-weight: 700; color: var(--text); }
+.agile p  { margin: 0; font-size: .92rem; line-height: 1.62; color: var(--muted); }
+
+/* ---- the stack wall ----------------------------------------------------- */
+
+.techwall {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+  gap: 20px;
+}
+.techwall-group {
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.techwall-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.techwall-head span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgba(3, 209, 245, .1); }
+.techwall-head .icon { width: 16px; height: 16px; color: var(--cyan); }
+
+.techwall-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 9px; }
+.techwall-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px 7px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .02);
+  font-size: .82rem;
+  color: var(--text);
+}
+/* The marks carry their own brand colour, so they are left alone — inverting
+   them turned React red and Docker orange. The four whose brand colour is too
+   dark to survive a dark page are lifted individually rather than the whole
+   set being flattened to white. */
+.techwall-item img { width: 18px; height: 18px; }
+.techwall-item img[src*="openai"],
+.techwall-item img[src*="pandas"],
+.techwall-item img[src*="django"],
+.techwall-item img[src*="nextdotjs"] { filter: brightness(0) invert(1); opacity: .9; }
+
+/* ---- the closing claim -------------------------------------------------- */
+
+.claim {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(34px, 5vw, 62px);
+  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 26%, transparent);
+  background:
+    radial-gradient(80% 140% at 12% 0%, rgba(3, 209, 245, .16), transparent 62%),
+    radial-gradient(70% 130% at 88% 100%, rgba(125, 66, 244, .18), transparent 64%),
+    var(--surface);
+  text-align: center;
+}
+.claim-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: var(--cyan);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.claim-eyebrow .icon { width: 15px; height: 15px; }
+.claim-title { margin: 0; font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.12; letter-spacing: -.02em; color: var(--text); }
+.claim-body { max-width: 62ch; margin: 18px auto 0; font-size: 1rem; line-height: 1.7; color: var(--muted); }
+.claim-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 30px; }
+
+/* =========================================================================
    Tech magnet — the stack that follows the cursor
    ========================================================================= */
 

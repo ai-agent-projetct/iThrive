@@ -523,6 +523,100 @@ def sec_lines(rng):
     return ''.join(s)
 
 
+def sec_360(rng):
+    """A closed ring of six stages — product development all the way round."""
+    s = [grid_bg()]
+    cx, cy, r = W / 2, H / 2, 128
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" stroke="url(#g)" '
+             f'stroke-opacity=".3" stroke-width="1.4" stroke-dasharray="5 7"/>')
+    for i in range(6):
+        a = -math.pi / 2 + i * math.tau / 6
+        x, y = cx + math.cos(a) * r, cy + math.sin(a) * r
+        # the arc onward to the next stage, so the ring reads as a cycle
+        a2 = a + math.tau / 6
+        x2, y2 = cx + math.cos(a2) * r, cy + math.sin(a2) * r
+        s.append(f'<path d="M{x:.0f} {y:.0f}A{r} {r} 0 0 1 {x2:.0f} {y2:.0f}" '
+                 f'stroke="url(#g)" stroke-opacity="{.28 + i * .08:.2f}" stroke-width="2" fill="none"/>')
+        s.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="26" fill="#0B0F17" '
+                 f'stroke="url(#g)" stroke-opacity=".8" stroke-width="1.6"/>')
+        s.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{5 + i % 3}" fill="url(#g)" '
+                 f'fill-opacity="{.5 + i * .07:.2f}"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="42" fill="url(#g)" fill-opacity=".16" '
+             f'stroke="url(#g)" stroke-opacity=".7" stroke-width="1.8"/>')
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="15" fill="url(#g)" fill-opacity=".75"/>')
+    return ''.join(s)
+
+
+def sec_ai_core(rng):
+    """A model at the centre with capabilities wired into it."""
+    s = [grid_bg()]
+    cx, cy = W / 2, H / 2
+    for i in range(5):
+        a = -math.pi * 0.92 + i * (math.pi * 1.84 / 4)
+        x, y = cx + math.cos(a) * 178, cy + math.sin(a) * 132
+        s.append(f'<path d="M{x:.0f} {y:.0f}Q{(x + cx) / 2:.0f} {y:.0f} {cx} {cy}" '
+                 f'stroke="url(#g)" stroke-opacity=".4" stroke-width="1.5" fill="none"/>')
+        s.append(f'<rect x="{x - 30:.0f}" y="{y - 17:.0f}" width="60" height="34" rx="10" '
+                 f'fill="#0B0F17" stroke="url(#g)" stroke-opacity=".72" stroke-width="1.5"/>')
+        s.append(f'<rect x="{x - 15:.0f}" y="{y - 3:.0f}" width="30" height="6" rx="3" '
+                 f'fill="url(#g)" fill-opacity=".6"/>')
+    # the core, drawn as a small dense net rather than a plain disc
+    s.append(f'<circle cx="{cx}" cy="{cy}" r="46" fill="url(#g)" fill-opacity=".18" '
+             f'stroke="url(#g)" stroke-opacity=".8" stroke-width="2"/>')
+    pts = [(cx + math.cos(k * math.tau / 7) * 26, cy + math.sin(k * math.tau / 7) * 26) for k in range(7)]
+    for i, (x1, y1) in enumerate(pts):
+        for x2, y2 in pts[i + 1:]:
+            s.append(f'<path d="M{x1:.0f} {y1:.0f}L{x2:.0f} {y2:.0f}" stroke="url(#g)" '
+                     f'stroke-opacity=".22" stroke-width="1"/>')
+    for x, y in pts:
+        s.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="4.5" fill="url(#g)"/>')
+    return ''.join(s)
+
+
+def sec_usecases(rng):
+    """Four industry panels, one lit — the tabs below this drawing."""
+    s = [grid_bg()]
+    for i in range(4):
+        x = 62 + (i % 2) * 224
+        y = 96 + (i // 2) * 132
+        lit = i == 1
+        s.append(f'<rect x="{x}" y="{y}" width="182" height="104" rx="16" fill="#0B0F17" '
+                 f'stroke="url(#g)" stroke-opacity="{.85 if lit else .34}" stroke-width="{2 if lit else 1.4}"/>')
+        if lit:
+            s.append(f'<rect x="{x}" y="{y}" width="182" height="104" rx="16" '
+                     f'fill="url(#g)" fill-opacity=".12"/>')
+        s.append(f'<circle cx="{x + 30}" cy="{y + 30}" r="11" fill="url(#g)" '
+                 f'fill-opacity="{.8 if lit else .4}"/>')
+        for k in range(3):
+            s.append(f'<rect x="{x + 22}" y="{y + 54 + k * 14}" width="{138 - k * 34}" height="6" '
+                     f'rx="3" fill="url(#g)" fill-opacity="{.5 - k * .12 if lit else .24 - k * .06:.2f}"/>')
+    return ''.join(s)
+
+
+def sec_agile(rng):
+    """Sprints as a repeating loop with a demo at the close of each."""
+    s = [grid_bg()]
+    cy = H / 2
+    for i in range(3):
+        cx = 116 + i * 164
+        s.append(f'<path d="M{cx} {cy - 54}a54 54 0 1 1 -38 16" stroke="url(#g)" '
+                 f'stroke-opacity="{.4 + i * .16:.2f}" stroke-width="2.2" fill="none" '
+                 f'stroke-linecap="round"/>')
+        s.append(f'<path d="M{cx - 46} {cy + 4}l8 16 16-8" stroke="url(#g)" '
+                 f'stroke-opacity="{.5 + i * .16:.2f}" stroke-width="2.2" fill="none" '
+                 f'stroke-linecap="round" stroke-linejoin="round"/>')
+        s.append(f'<circle cx="{cx}" cy="{cy}" r="26" fill="url(#g)" '
+                 f'fill-opacity="{.14 + i * .08:.2f}" stroke="url(#g)" '
+                 f'stroke-opacity="{.6 + i * .12:.2f}" stroke-width="1.6"/>')
+        s.append(f'<text x="{cx}" y="{cy + 6}" fill="#DCE6F5" fill-opacity="{.55 + i * .15:.2f}" '
+                 f'font-family="sans-serif" font-size="17" font-weight="700" '
+                 f'text-anchor="middle">{i + 1}</text>')
+        if i < 2:
+            s.append(f'<path d="M{cx + 62} {cy}h34" stroke="url(#g)" stroke-opacity=".45" '
+                     f'stroke-width="1.6" stroke-dasharray="4 5"/>')
+    return ''.join(s)
+
+
 RECIPES = {
     # recurring section marks
     'sec-commitments':  sec_commitments,
@@ -535,6 +629,12 @@ RECIPES = {
     'sec-roles':        sec_roles,
     'sec-patterns':     sec_patterns,
     'sec-lines':        sec_lines,
+
+    # ai-native product development page
+    'sec-360':      sec_360,
+    'sec-ai-core':  sec_ai_core,
+    'sec-usecases': sec_usecases,
+    'sec-agile':    sec_agile,
 
     # swipe-stack cards, web development page
     'why-price':     why_price,
