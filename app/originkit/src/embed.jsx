@@ -24,10 +24,12 @@ import { createRoot } from 'react-dom/client';
 
 import InteractiveGrid from './components/originkit/interactive-grid.tsx';
 import SwipeStack from './components/originkit/swipe-stack.tsx';
+import StackedCarousel from './components/originkit/stacked-carousel.tsx';
 
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
   'swipe-stack': SwipeStack,
+  'stacked-carousel': StackedCarousel,
 };
 
 function mount(host) {

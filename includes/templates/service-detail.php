@@ -64,6 +64,10 @@ if (!empty($heroComponent)) {
   </div>
 </section>
 
+<?php /* The capabilities grid, on every service page but the one that opts
+         into the staged treatment — that page replaces this whole section with
+         Origin Kit's Stacked Carousel, in its extras file. */ ?>
+<?php if (($bodyClass ?? '') !== 'lusion'): ?>
 <section class="section">
   <div class="shell">
     <?php component('section-head', [
@@ -84,6 +88,7 @@ if (!empty($heroComponent)) {
     </div>
   </div>
 </section>
+<?php endif; ?>
 
 <?php
 /**
@@ -94,7 +99,9 @@ if (!empty($heroComponent)) {
  * and the other fourteen pages are untouched.
  */
 if (is_file(__DIR__ . '/../components/service-extras-' . $svc['slug'] . '.php')) {
-    component('service-extras-' . $svc['slug']);
+    // Passed explicitly: component() scopes its own variables, so an extras
+    // file that reads $svc has to be handed it.
+    component('service-extras-' . $svc['slug'], ['svc' => $svc]);
 }
 ?>
 

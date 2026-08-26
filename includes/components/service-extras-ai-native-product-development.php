@@ -11,6 +11,8 @@
  *
  * The template picks this file up automatically from its name; nothing is
  * registered anywhere and the other fourteen service pages are untouched.
+ *
+ * @var array $svc The service, from service().
  */
 
 declare(strict_types=1);
@@ -136,6 +138,55 @@ $techName = [
     'tailwindcss' => 'Tailwind CSS',
 ];
 ?>
+
+<?php
+/*
+ * Origin Kit's Stacked Carousel, standing where the capabilities grid used to.
+ *
+ * The registry's own source, unmodified, in app/originkit. Its default export
+ * bakes in a preset whose images are blob: URLs from originkit.dev — those
+ * resolve nowhere but that site, so `images` is always passed here; props
+ * spread after the preset, so ours win.
+ *
+ * `style` is passed too, because the component's host carries minWidth 1200 /
+ * minHeight 800 and would otherwise force the page wider than the viewport.
+ */
+$deckShots = array_values(array_map(
+    static fn (array $w): string => asset('assets/img/work/' . $w['slug'] . '.jpg'),
+    array_filter(WEB_WORK, static fn (array $w): bool => is_file(ROOT_PATH . '/assets/img/work/' . $w['slug'] . '.jpg'))
+));
+?>
+<section class="section lz" data-stage>
+  <div class="shell">
+    <?php component('section-head', [
+        'eyebrow' => 'What This Includes',
+        'title'   => 'Capabilities you get, spelled out',
+        'lead'    => 'No line item here is aspirational — each one is something we have shipped on a platform that is live today.',
+    ]); ?>
+  </div>
+
+  <div class="ok-deck" data-ok="stacked-carousel" aria-hidden="true"
+       data-props='<?= e(json_encode([
+           'images'     => $deckShots,
+           'cardWidth'  => 420,
+           'cardHeight' => 300,
+           'gap'        => 100,
+           'speed'      => 50,
+           'direction'  => 'forward',
+           'camera'     => ['tilt' => 50, 'angle' => 0],
+           'style'      => ['minWidth' => 0, 'minHeight' => 0],
+       ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) ?>'></div>
+
+  <?php /* The deck shows pictures, so the capabilities stay as text — this is
+           the section that says what the service actually includes. */ ?>
+  <div class="shell">
+    <ul class="deck-list">
+      <?php foreach ($svc['capabilities'] as $cap): ?>
+        <li><b><?= e($cap['title']) ?></b> <?= e($cap['body']) ?></li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+</section>
 
 <section class="section lz" data-stage>
   <?php /* The object field, after lusion.co: a cluster of tumbling solids that
