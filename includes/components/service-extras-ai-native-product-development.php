@@ -148,17 +148,23 @@ $techName = [
  *
  *   images  the preset's are blob: URLs from originkit.dev, which resolve on
  *           that site and nowhere else. Props spread after the preset, so ours
- *           win. Everything else the preset sets is left alone.
+ *           win. These are the six capability cards, in order — the same six
+ *           the preset was built around. Everything else it sets is left alone.
  *   style   the component's host carries minWidth 1200 / minHeight 800, which
  *           would force the page wider than the viewport. `style` spreads last
  *           inside the component, so this is where that is undone.
  *
- * The section is the carousel and nothing else — no heading, no list.
+ * The section is the carousel and nothing else — no heading, no list. The
+ * cards carry their own titles and copy in the artwork, which is why there is
+ * nothing to caption them with.
  */
-$deckShots = array_values(array_map(
-    static fn (array $w): string => asset('assets/img/work/' . $w['slug'] . '.jpg'),
-    array_filter(WEB_WORK, static fn (array $w): bool => is_file(ROOT_PATH . '/assets/img/work/' . $w['slug'] . '.jpg'))
-));
+$deckShots = [];
+foreach (range(1, 6) as $n) {
+    $file = 'assets/img/capabilities/cap-' . str_pad((string) $n, 2, '0', STR_PAD_LEFT) . '.jpg';
+    if (is_file(ROOT_PATH . '/' . $file)) {
+        $deckShots[] = asset($file);
+    }
+}
 ?>
 <section class="section lz" data-stage>
   <div class="ok-deck" data-ok="stacked-carousel" aria-hidden="true"
