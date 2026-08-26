@@ -69,6 +69,9 @@ component('chat-widget');
 <script src="<?= e(asset('assets/js/lusion-stage.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/word-globe.js')) ?>" defer></script>
 <script type="module" src="<?= e(asset('assets/js/object-field.js')) ?>"></script>
+<?php /* Origin Kit's components are React, as the registry ships them, so they
+         come in as an island bundle — see app/originkit. */ ?>
+<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
 <?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>

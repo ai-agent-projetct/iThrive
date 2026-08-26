@@ -4858,6 +4858,45 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 .agile h3 { margin: 0 0 5px; font-size: 1rem; font-weight: 700; color: var(--text); }
 .agile p  { margin: 0; font-size: .92rem; line-height: 1.62; color: var(--muted); }
 
+/* ---- Origin Kit islands -------------------------------------------------- */
+
+/*
+ * These are the registry's own React components, mounted by app/originkit.
+ * They style themselves inline, so all this does is give each one a box to
+ * live in — anything else here would be fighting the component.
+ */
+.ok-grid  { width: 100%; height: 190px; }
+.ok-stack { width: 100%; height: 440px; margin: 8px 0 4px; }
+
+.ok-stack-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 26px;
+  font-size: .76rem;
+  color: var(--text-faint);
+}
+.ok-stack-hint .icon { width: 14px; height: 14px; color: var(--cyan); }
+
+/* The grid paints logos without labels, so the names sit beneath it. */
+.techwall-names {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: 14px 0 0;
+  padding: 0;
+  font-size: .74rem;
+  color: var(--text-dim);
+}
+.techwall-names li::after { content: '·'; margin-left: 12px; color: var(--text-faint); }
+.techwall-names li:last-child::after { content: ''; }
+
+@media (max-width: 760px) {
+  .ok-stack { height: 380px; }
+}
+
 /* ---- the stack wall ----------------------------------------------------- */
 
 .techwall {

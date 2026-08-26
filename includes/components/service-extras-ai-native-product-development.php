@@ -295,14 +295,41 @@ $techName = [
       <?php foreach ($stack as $g): ?>
         <section class="techwall-group" data-reveal>
           <h3 class="techwall-head"><span><?= icon($g['icon']) ?></span><?= e($g['title']) ?></h3>
-          <ul class="techwall-list">
+          <?php
+          // Origin Kit's Interactive Grid, mounted by app/originkit. Its props
+          // are the registry's own; the logos are this group's.
+          $logos = array_values(array_map(
+              static fn (string $k): array => ['src' => asset('assets/img/tech/' . $k . '.svg')],
+              array_filter($g['items'], static fn (string $k): bool => is_file(ROOT_PATH . '/assets/img/tech/' . $k . '.svg'))
+          ));
+          ?>
+          <div class="ok-grid" data-ok="interactive-grid" aria-hidden="true"
+               data-props='<?= e(json_encode([
+                   'images'        => $logos,
+                   'columns'       => 4,
+                   'rows'          => 2,
+                   'gap'           => 8,
+                   'padding'       => '0px',
+                   'rounded'       => 8,
+                   'logoScale'     => 4,
+                   'cardFill'      => '#0B0F17',
+                   'cardBorder'    => '#232A38',
+                   'shadow'        => true,
+                   'cardShadow'    => 'rgba(3, 209, 245, 0.18)',
+                   'glow'          => true,
+                   'glowStart'     => 'rgba(3, 209, 245, 0.5)',
+                   'glowEnd'       => '#03D1F5',
+                   'glowIntensity' => 50,
+                   'perspective'   => 1600,
+                   'rotateX'       => 0,
+                   'rotateY'       => 0,
+               ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) ?>'></div>
+
+          <?php /* The grid paints logos with no labels, so the names stay here
+                   as text — this is the section that claims the stack. */ ?>
+          <ul class="techwall-names">
             <?php foreach ($g['items'] as $slug): ?>
-              <?php if (!is_file(ROOT_PATH . '/assets/img/tech/' . $slug . '.svg')) { continue; } ?>
-              <li class="techwall-item">
-                <img src="<?= e(asset('assets/img/tech/' . $slug . '.svg')) ?>"
-                     width="26" height="26" loading="lazy" decoding="async" alt="">
-                <span><?= e($techName[$slug] ?? $slug) ?></span>
-              </li>
+              <li><?= e($techName[$slug] ?? $slug) ?></li>
             <?php endforeach; ?>
           </ul>
         </section>
@@ -323,6 +350,26 @@ $techName = [
         around a third off R&amp;D cost. Whether or not those are your numbers, the direction is not
         in dispute — and the gap compounds every quarter you wait.
       </p>
+      <?php
+      // Origin Kit's Swipe Stack, dealt from the sites we have shipped.
+      $deck = array_values(array_map(
+          static fn (array $w): array => ['src' => asset('assets/img/work/' . $w['slug'] . '.jpg')],
+          array_filter(WEB_WORK, static fn (array $w): bool => is_file(ROOT_PATH . '/assets/img/work/' . $w['slug'] . '.jpg'))
+      ));
+      ?>
+      <div class="ok-stack" data-ok="swipe-stack" aria-hidden="true"
+           data-props='<?= e(json_encode([
+               'images'         => $deck,
+               'cardWidth'      => 300,
+               'cardHeight'     => 400,
+               'cardRadius'     => 4,
+               'swipeThreshold' => 50,
+               'tiltAngleStart' => 0,
+               'tiltAngle'      => -45,
+               'xOffset'        => 200,
+           ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) ?>'></div>
+      <p class="ok-stack-hint" aria-hidden="true"><?= icon('compass') ?>Drag a card to send it to the back</p>
+
       <div class="claim-actions">
         <a class="btn btn-primary" data-magnet href="<?= e(url('contact.php')) ?>">Talk to an engineer<?= icon('arrow') ?></a>
         <a class="btn btn-ghost" data-magnet href="<?= e(url('case-studies.php')) ?>">See what we have shipped</a>
