@@ -4635,6 +4635,365 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
 }
 
 /* =========================================================================
+   The Aleph treatment (body.aleph)
+   ========================================================================= */
+
+/*
+ * amaterasu.ai/aleph's palette, measured off the page rather than guessed: a
+ * pale aqua ground, deep navy for type, one aqua accent.
+ *
+ * The site's own tokens are redefined here rather than a parallel set being
+ * invented, so every component already written — cards, buttons, section heads,
+ * the tabs — picks the new colours up without being touched.
+ */
+body.aleph {
+  --ink:          #F2F8FA;   /* the ground, not an ink: this page is light */
+  --ink-2:        #FFFFFF;
+  --ink-3:        #E8F2F5;
+  --line:         rgba(27, 41, 120, .12);
+  --line-strong:  rgba(27, 41, 120, .26);
+
+  --cyan:         #1B2978;   /* the accent role, taken by the navy */
+  --purple:       #75CDD6;
+  --cyan-soft:    rgba(27, 41, 120, .08);
+  --purple-soft:  rgba(117, 205, 214, .18);
+  --grad:         linear-gradient(120deg, #1B2978 0%, #2E5CA8 50%, #75CDD6 100%);
+  --grad-soft:    linear-gradient(120deg, rgba(27, 41, 120, .1), rgba(117, 205, 214, .18));
+
+  --text:         #10204F;
+  --text-dim:     #46578C;
+  --text-faint:   #7C8BB4;
+
+  --glass:        rgba(27, 41, 120, .04);
+  --glass-hi:     rgba(27, 41, 120, .07);
+
+  background: #F2F8FA;
+  color: var(--text);
+}
+
+/* The site chrome is built for a dark page, so it is inverted here rather than
+   left as a black bar across a pale one. */
+body.aleph .site-header { background: rgba(242, 248, 250, .82); border-bottom: 1px solid var(--line); }
+body.aleph .nav-link { color: var(--text-dim); }
+body.aleph .nav-link:hover, body.aleph .nav-link.is-active { color: var(--text); }
+body.aleph .brand-name, body.aleph .brand-sub { color: var(--text); }
+body.aleph .site-footer { background: #E8F2F5; border-top: 1px solid var(--line); }
+body.aleph .site-footer p, body.aleph .site-footer span { color: var(--text-dim); }
+body.aleph .site-footer a, body.aleph .footer-head { color: var(--text); }
+body.aleph .section--panel { background: #EAF3F6; }
+body.aleph .card,
+body.aleph .uctabs-panel,
+body.aleph .techwall-group {
+  background: #FFFFFF;
+  border-color: var(--line);
+  box-shadow: 0 10px 30px rgba(27, 41, 120, .06);
+}
+/* The site-wide hex field is drawn for a dark ground and reads as scratches on
+   a pale one. */
+body.aleph .hex-bg { display: none; }
+
+/* The bands and chrome that carry their own dark colour rather than reading it
+   from a token — each one has to be told, or it stays a black slab on a pale
+   page. */
+body.aleph .stats-band {
+  background: var(--line);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(27, 41, 120, .06);
+}
+/* The dark lives on the cell, not the band — overriding the band alone leaves
+   four black tiles sitting inside a white frame. */
+body.aleph .stat-cell { background: #FFFFFF; }
+body.aleph .stat-value, body.aleph .hero-chip-value { color: #1B2978; }
+body.aleph .stat-label, body.aleph .hero-chip-label { color: var(--text-dim); }
+body.aleph .btn-ghost { color: #1B2978; border-color: var(--line-strong); }
+body.aleph .btn-ghost:hover { background: rgba(27, 41, 120, .06); }
+body.aleph .tag, body.aleph .filter-tab { background: #FFFFFF; border-color: var(--line); color: var(--text-dim); }
+body.aleph .tag--cyan { background: rgba(27, 41, 120, .07); color: #1B2978; }
+body.aleph .section-title, body.aleph .card-title, body.aleph h2, body.aleph h3 { color: var(--text); }
+body.aleph .section-lead, body.aleph .card-body, body.aleph .prose { color: var(--text-dim); }
+body.aleph .eyebrow { color: #2E5CA8; }
+body.aleph .card-num { color: rgba(27, 41, 120, .45); }
+body.aleph .card-icon { background: rgba(27, 41, 120, .07); border-color: var(--line); }
+body.aleph .card-icon .icon { color: #1B2978; }
+/* The chat launcher and the contact modal are dark-on-dark by design. */
+body.aleph .chat-launcher { border-color: var(--line-strong); }
+
+/* ---- the AI-Enablement sections ----------------------------------------- */
+
+/* Its tabs reuse the use-case component; only the ids differ. */
+#ae-retail:checked     ~ .uctabs-bar [for="ae-retail"],
+#ae-healthcare:checked ~ .uctabs-bar [for="ae-healthcare"],
+#ae-saas:checked       ~ .uctabs-bar [for="ae-saas"],
+#ae-logistics:checked  ~ .uctabs-bar [for="ae-logistics"],
+#ae-fintech:checked    ~ .uctabs-bar [for="ae-fintech"] {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--cyan) 55%, transparent);
+  background: var(--cyan-soft);
+}
+#ae-retail:checked     ~ [data-ae="retail"],
+#ae-healthcare:checked ~ [data-ae="healthcare"],
+#ae-saas:checked       ~ [data-ae="saas"],
+#ae-logistics:checked  ~ [data-ae="logistics"],
+#ae-fintech:checked    ~ [data-ae="fintech"] { display: block; }
+
+.ae-value {
+  margin: 0 0 10px;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--cyan);
+}
+
+.ae-core {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 26px 40px;
+}
+.ae-core-item { display: flex; gap: 15px; }
+.ae-core-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--cyan-soft);
+}
+.ae-core-icon .icon { width: 18px; height: 18px; color: var(--cyan); }
+.ae-core-item h3 { margin: 0 0 5px; font-size: 1rem; font-weight: 700; color: var(--text); }
+.ae-core-item p  { margin: 0; font-size: .9rem; line-height: 1.6; color: var(--muted, var(--text-dim)); }
+
+.ae-road {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 26px 34px;
+  margin: 0;
+  padding: 0;
+  counter-reset: none;
+}
+.ae-road li { padding-top: 20px; border-top: 1px solid var(--line-strong); }
+.ae-road-num { display: block; margin-bottom: 12px; font-size: .82rem; font-weight: 800; color: var(--cyan); font-variant-numeric: tabular-nums; }
+.ae-road h3 { margin: 0 0 7px; font-size: 1.02rem; font-weight: 700; color: var(--text); }
+.ae-road p  { margin: 0; font-size: .9rem; line-height: 1.62; color: var(--text-dim); }
+
+.ae-comply {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 22px;
+}
+.ae-comply section {
+  padding: 26px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+}
+.ae-comply h3 { margin: 0 0 14px; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); }
+.ae-comply ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ae-comply li { font-size: .88rem; color: var(--text-dim); }
+
+/* ---- the hero ----------------------------------------------------------- */
+
+.alx {
+  position: relative;
+  isolation: isolate;
+  min-height: 260vh;             /* three scenes' worth of scroll */
+  color: var(--text);
+}
+
+/* Ground, circles, figure and copy all pin to the viewport and are pulled back
+   out of flow, so the section scrolls its full height while the picture holds
+   still — which is what the reference's virtual scroll looks like from outside. */
+.alx-ground,
+.alx-circles,
+.alx-stage,
+.alx-copy {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+}
+
+.alx-ground {
+  z-index: -2;
+  background:
+    radial-gradient(120% 90% at 50% 110%, rgba(117, 205, 214, .55), transparent 62%),
+    radial-gradient(90% 70% at 18% 8%, rgba(255, 255, 255, .9), transparent 60%),
+    linear-gradient(180deg, #F7FCFD 0%, #DCEEF2 100%);
+}
+
+/* The reference's flower-of-life ring behind the figure — seven circles, drawn
+   as seven radial gradients rather than seven elements. */
+.alx-circles {
+  z-index: -1;
+  pointer-events: none;
+  opacity: .55;
+  -webkit-mask-image: radial-gradient(58% 52% at 50% 46%, #000 40%, transparent 78%);
+          mask-image: radial-gradient(58% 52% at 50% 46%, #000 40%, transparent 78%);
+  background:
+    radial-gradient(circle at 50% 46%, transparent 0 21%, rgba(27, 41, 120, .17) 21% 21.25%, transparent 21.25%),
+    radial-gradient(circle at 50% 25%, transparent 0 21%, rgba(27, 41, 120, .13) 21% 21.25%, transparent 21.25%),
+    radial-gradient(circle at 50% 67%, transparent 0 21%, rgba(27, 41, 120, .13) 21% 21.25%, transparent 21.25%),
+    radial-gradient(circle at 32% 35%, transparent 0 21%, rgba(27, 41, 120, .13) 21% 21.25%, transparent 21.25%),
+    radial-gradient(circle at 68% 35%, transparent 0 21%, rgba(27, 41, 120, .13) 21% 21.25%, transparent 21.25%),
+    radial-gradient(circle at 32% 57%, transparent 0 21%, rgba(27, 41, 120, .13) 21% 21.25%, transparent 21.25%),
+    radial-gradient(circle at 68% 57%, transparent 0 21%, rgba(27, 41, 120, .13) 21% 21.25%, transparent 21.25%);
+}
+
+.alx-stage { display: grid; place-items: end center; pointer-events: none; }
+.alx-figure {
+  /* Held back deliberately. The source is about 300 pixels of robot lifted out
+     of the film, so past roughly twice that the upscale is what you notice
+     rather than the figure. */
+  height: min(64vh, 560px);
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 60px rgba(27, 41, 120, .28));
+}
+/* Placed over the figure's head, which is where the reference puts its own. */
+.alx-field {
+  position: absolute;
+  top: max(23vh, 152px);
+  left: 50%;
+  width: min(22vh, 200px);
+  height: min(22vh, 200px);
+  transform: translateX(-52%);
+}
+
+/* ---- the copy ----------------------------------------------------------- */
+
+.alx-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+}
+.alx-copy > * { pointer-events: auto; }
+
+.alx-eyebrow {
+  margin: 0 0 18px;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #2E5CA8;
+}
+
+.alx-title {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(2.4rem, 5.4vw, 4.8rem);
+  line-height: 1.03;
+  letter-spacing: -.03em;
+  font-weight: 400;
+}
+/* The reference's two-tone heading: the first line a lighter tint of the
+   second, so the pair reads as one sentence stressed on its close. */
+.alx-title-a { display: block; color: rgba(27, 41, 120, .42); }
+.alx-title-b { display: block; color: #1B2978; font-weight: 600; }
+
+.alx-leads { position: relative; margin: 26px 0 0; min-height: 6.4em; max-width: 34ch; }
+.alx-lead {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  font-size: clamp(.98rem, 1.2vw, 1.12rem);
+  line-height: 1.65;
+  color: #35477E;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .55s var(--ease), transform .55s var(--ease);
+}
+.alx-lead.is-on { opacity: 1; transform: none; }
+/* With no script nothing gets is-on, so they stack and all three simply read. */
+.alx:not(.alx--live) .alx-leads { min-height: 0; }
+.alx:not(.alx--live) .alx-lead { position: relative; opacity: 1; transform: none; margin-bottom: 12px; }
+
+.alx-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.alx-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  border: 1px solid #1B2978;
+  background: #1B2978;
+  color: #FFFFFF;
+  font-size: .92rem;
+  font-weight: 600;
+  transition: background .25s var(--ease), color .25s var(--ease);
+}
+.alx-btn:hover { background: #24358F; }
+.alx-btn .icon { width: 16px; height: 16px; }
+.alx-btn--ghost { background: transparent; color: #1B2978; }
+.alx-btn--ghost:hover { background: rgba(27, 41, 120, .07); }
+
+/* ---- furniture ---------------------------------------------------------- */
+
+.alx-label,
+.alx-scroll { position: sticky; height: 0; z-index: 2; }
+
+.alx-label {
+  top: calc(100vh - 66px);
+  margin: 0 0 0 clamp(20px, 4vw, 62px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #2E5CA8;
+}
+.alx-dot { width: 7px; height: 7px; border-radius: 50%; background: #75CDD6; }
+
+.alx-scroll {
+  top: calc(100vh - 106px);
+  display: block;
+  width: 52px;
+  margin-left: auto;
+  margin-right: clamp(20px, 4vw, 62px);
+}
+.alx-scroll span {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, .7);
+  color: #1B2978;
+  transition: background .25s var(--ease);
+}
+.alx-scroll:hover span { background: #FFFFFF; }
+.alx-scroll .icon { width: 17px; height: 17px; }
+
+@media (max-width: 900px) {
+  /* Nothing pins on a phone: the hero becomes an ordinary stacked block and
+     all three leads are simply read in order. */
+  .alx { min-height: auto; }
+  .alx-ground, .alx-circles, .alx-stage, .alx-copy {
+    position: relative;
+    height: auto;
+    margin-bottom: 0;
+  }
+  .alx-ground, .alx-circles { position: absolute; inset: 0; height: auto; }
+  .alx-stage { padding-top: 88px; }
+  .alx-figure { height: 48vh; }
+  .alx-field { display: none; }
+  .alx-copy { padding: 34px 0 72px; }
+  .alx-leads { min-height: 0; }
+  .alx-lead { position: relative; opacity: 1; transform: none; margin-bottom: 12px; }
+  .alx-label, .alx-scroll { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alx-lead { transition: none; }
+}
+
+/* =========================================================================
    The staged, scroll-driven layer (body.lusion)
    ========================================================================= */
 

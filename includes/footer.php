@@ -73,6 +73,12 @@ component('chat-widget');
          come in as an island bundle — see app/originkit. */ ?>
 <script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
 <?php endif; ?>
+<?php /* The Aleph hero's particle field, on the pages that stage it. Its own
+         gate, outside the lusion block — those are different treatments and
+         nesting this inside that one is why it never loaded. */ ?>
+<?php if (!empty($GLOBALS['ithrive_needs_aleph'])): ?>
+<script src="<?= e(asset('assets/js/aleph.js')) ?>" defer></script>
+<?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/depth.js')) ?>" defer></script>
