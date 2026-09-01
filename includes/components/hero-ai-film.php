@@ -13,10 +13,10 @@
  * difference between a scrub that lands on the frame you asked for and one that
  * walks backwards to find a keyframe first.
  *
- * The copy sits over the film rather than beside it, because this clip is
- * 16:9 and fills the frame; there is no leftover column to put it in. It is
- * real markup over the picture, so it is also the only version of this a
- * crawler can read — a scrubbed film is invisible to one.
+ * The film carries nothing but itself. The copy that used to sit over it is the
+ * section immediately below — which is also the only version of it a crawler
+ * can read, since a scrubbed film is invisible to one. Two sections from one
+ * component, so the order cannot be got wrong by whoever includes it.
  *
  * Degrades: touch and reduced-motion skip the scrub entirely and play the clip
  * inline, which scrub.js handles; no JavaScript at all leaves the poster frame
@@ -48,24 +48,29 @@ $poster = ROOT_PATH . '/assets/img/ai-film-poster.jpg';
         </video>
       <?php endif; ?>
 
-      <?php /* Darkens the lower half so the copy has something to sit on, and
-               keeps the top of the frame clear of the fixed header. */ ?>
+      <?php /* Only enough darkening at the top edge to keep the frame clear of
+               the fixed header. Nothing sits on the film now, so there is
+               nothing else to hold down. */ ?>
       <div class="afilm-scrim" aria-hidden="true"></div>
 
-      <div class="shell afilm-copy">
-        <p class="eyebrow"><?= e($svc['group']) ?></p>
-        <h1 class="afilm-title"><?= e($svc['title']) ?></h1>
-        <p class="afilm-lead"><?= e($svc['lead']) ?></p>
-
-        <div class="afilm-actions">
-          <a class="btn btn-primary" href="<?= e(url('contact.php')) ?>">
-            Talk to an engineer<?= icon('arrow') ?>
-          </a>
-          <a class="btn btn-ghost" href="#what-we-add">See what we add</a>
-        </div>
-      </div>
-
       <span class="afilm-progress" aria-hidden="true"><span data-scrub-bar></span></span>
+    </div>
+  </div>
+</section>
+
+<?php /* Section two: the page's own introduction, in ordinary markup below the
+         film rather than over it. The h1 lives here. */ ?>
+<section class="section afilm-intro">
+  <div class="shell">
+    <p class="eyebrow" data-reveal><?= e($svc['group']) ?></p>
+    <h1 class="afilm-title" data-reveal style="--d:1"><?= e($svc['title']) ?></h1>
+    <p class="afilm-lead" data-reveal style="--d:2"><?= e($svc['lead']) ?></p>
+
+    <div class="afilm-actions" data-reveal style="--d:3">
+      <a class="btn btn-primary" href="<?= e(url('contact.php')) ?>">
+        Talk to an engineer<?= icon('arrow') ?>
+      </a>
+      <a class="btn btn-ghost" href="#what-we-add">See what we add</a>
     </div>
   </div>
 </section>
