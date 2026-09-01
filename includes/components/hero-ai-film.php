@@ -31,7 +31,9 @@ $src    = ROOT_PATH . '/videos/ai-film.mp4';
 $mobile = ROOT_PATH . '/videos/ai-film-mobile.mp4';
 $poster = ROOT_PATH . '/assets/img/ai-film-poster.jpg';
 ?>
-<section class="afilm" data-scrub aria-label="<?= e($svc['title']) ?>">
+<?php /* data-scrub-ease: a gentler pull than the 0.16 default, because this
+         is a long clip over a long track and the default snaps. */ ?>
+<section class="afilm" data-scrub data-scrub-ease="0.07" aria-label="<?= e($svc['title']) ?>">
   <div class="afilm-track">
     <div class="afilm-sticky">
 

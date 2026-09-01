@@ -82,6 +82,15 @@
 
     const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 
+    /*
+     * How hard the playhead is pulled toward the scroll position each frame.
+     * Lower is smoother and laggier: the film glides into place instead of
+     * snapping to it. Per section rather than global, because the right value
+     * depends on how much film is mapped across how much scroll — a long clip
+     * on a long track wants a gentler pull than a short one.
+     */
+    const ease = parseFloat(section.dataset.scrubEase) || 0.16;
+
     let target = 0;
     let current = 0;
     let visible = true;
@@ -103,7 +112,7 @@
       // nothing after it the playhead would stop short of the end.
       target = progress() * duration;
 
-      current += (target - current) * 0.16;
+      current += (target - current) * ease;
       if (Math.abs(target - current) < 0.004) current = target;
 
       if (!video.seeking && Math.abs(video.currentTime - current) > 1 / 48) {

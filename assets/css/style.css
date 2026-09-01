@@ -4651,11 +4651,12 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
  * How long the scrub takes is entirely this number: the clip is mapped across
  * the track's travel, which is the height minus the one viewport the sticky
  * stage occupies. At 320vh that was 220vh of scroll for 41 seconds of film —
- * about five viewport-heights a second, which reads as a fast-forward. At 700
- * it is 600vh for the same 41 seconds, so one screen of scrolling advances
- * roughly seven seconds instead of nineteen.
+ * about five viewport-heights a second, which reads as a fast-forward. At 1300
+ * it is 1200vh for the same 41 seconds, so one screen of scrolling advances
+ * about three and a half seconds instead of nineteen — a deliberate walk
+ * through the film rather than a scrub past it.
  */
-.scrub--live .afilm-track { height: 700vh; }
+.scrub--live .afilm-track { height: 1300vh; }
 
 .afilm-sticky {
   position: sticky;
