@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 $serviceSlug = 'ai-enablement';
 
-// This page runs the Aleph treatment: its own palette, its own hero, and the
-// scroll-driven scenes in assets/js/aleph.js. Everything is scoped to
-// body.aleph, so no other route is touched.
-$heroComponent = 'hero-aleph';
-$bodyClass     = 'aleph';
+// The hero is the film, scrubbed by scroll — see components/hero-ai-film.php.
+// No body class: this page wears the site's own colours like every other.
+$heroComponent = 'hero-ai-film';
 
 require dirname(__DIR__) . '/includes/templates/service-detail.php';
