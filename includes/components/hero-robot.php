@@ -26,11 +26,19 @@ $GLOBALS['ithrive_needs_film_robot'] = true;
 
   <?php /* The film. Decorative and muted — it is the picture, not something
            anyone is being asked to sit and watch. */ ?>
+  <?php /* Carried at the master's own 1928x1072 rather than downscaled. The
+           hero pushes in past cover — 1.5x on a wide screen — so the browser
+           already scales this up by about a quarter before it is painted; a
+           smaller file would be magnified on top of that, which is what made
+           the previous 1440x800 encode look soft. Phones get their own cut,
+           because they crop far less and need none of that resolution. */ ?>
   <div class="rhero-film" data-film-robot aria-hidden="true">
     <video class="rhero-video"
-           src="<?= e(asset('assets/video/ai-robot-film.mp4')) ?>"
            poster="<?= e(asset('assets/video/ai-robot-film-poster.jpg')) ?>"
-           autoplay muted loop playsinline preload="auto"></video>
+           autoplay muted loop playsinline preload="auto">
+      <source src="<?= e(asset('assets/video/ai-robot-film-mobile.mp4')) ?>" type="video/mp4" media="(max-width: 900px)">
+      <source src="<?= e(asset('assets/video/ai-robot-film.mp4')) ?>" type="video/mp4">
+    </video>
   </div>
 
   <?php /* Darkens the left of the frame so the copy has something to sit on,
