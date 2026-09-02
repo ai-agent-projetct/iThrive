@@ -1,0 +1,34 @@
+/*
+ * Corrections to the ported AI-Development-company stylesheet.
+ *
+ * These live apart from assets/css/ai-dev.css on purpose: that file is a
+ * machine transform of the source project's style.css (every selector scoped
+ * under .aidev), so it can be regenerated from a fresh pull at any time. Edits
+ * made inside it would be lost the moment it was. Loaded after it, so these win.
+ *
+ * Keep this file small, and keep each rule's reason with it.
+ */
+
+/*
+ * The 4-layer stack's cards.
+ *
+ * Source: `grid-template-columns: 210px 1fr auto`. The third column is the row
+ * of technology chips, and `auto` lets it take its max-content width — which it
+ * does, because the stack sits in the 1.15fr half of a two-column section and
+ * gets 727px rather than the 1020px its own max-width is written for. The chips
+ * took ~330px of that, leaving the title and description a 107px column that
+ * wrapped every single word onto its own line, nine lines deep.
+ *
+ * Giving the last two columns proportional widths instead lets the chips wrap
+ * (which they already do) and hands the prose back a readable measure.
+ */
+.aidev .eco-layer-card {
+  grid-template-columns: 160px minmax(0, 1.15fr) minmax(0, 1fr);
+}
+
+@media (max-width: 1200px) {
+  /* One column below the two-column split; the badge no longer needs its rail. */
+  .aidev .eco-layer-card {
+    grid-template-columns: 120px minmax(0, 1fr);
+  }
+}

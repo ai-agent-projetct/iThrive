@@ -120,6 +120,7 @@ const NAV_ITEMS = [
                 [
                     'heading' => 'AI-First Product Development',
                     'links'   => [
+                        ['label' => 'AI Development Company',           'href' => 'services/ai-development-company.php'],
                         ['label' => 'AI-Native Product Development',    'href' => 'services/ai-native-product-development.php'],
                         ['label' => 'AI Enablement for Existing Products', 'href' => 'services/ai-enablement.php'],
                         ['label' => 'AI Solutions for eCommerce',       'href' => 'services/ai-for-ecommerce.php'],

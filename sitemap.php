@@ -18,7 +18,8 @@ $routes = [
     'services.php'         => ['monthly', '0.9'],
     // Listed by hand: this landing page has no entry in SERVICES, so the loop
     // over all_services() below never reaches it.
-    'services/software-development.php' => ['monthly', '0.9'],
+    'services/software-development.php'   => ['monthly', '0.9'],
+    'services/ai-development-company.php' => ['monthly', '0.9'],
     'solutions.php'        => ['monthly', '0.9'],
     'case-studies.php'     => ['monthly', '0.9'],
     'company/about.php'    => ['yearly',  '0.7'],

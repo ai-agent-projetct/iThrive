@@ -363,7 +363,8 @@ function site_routes(): array
         'services.php'        => 'Services',
         // Standalone landing page: it has no entry in SERVICES, so the loop
         // below over all_services() never picks it up.
-        'services/software-development.php' => 'Custom Software Development',
+        'services/software-development.php'   => 'Custom Software Development',
+        'services/ai-development-company.php' => 'AI Development Company',
         'solutions.php'       => 'Solutions',
         'case-studies.php'    => 'Case Studies',
         'company/about.php'   => 'About iThrive',
