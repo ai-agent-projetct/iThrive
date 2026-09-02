@@ -38,7 +38,15 @@ $schema = [
 
 require dirname(__DIR__) . '/header.php';
 
-/* A route can hand this template its own hero — ai-native-product-development
+/* A route can lead with a scroll-scrubbed film and keep its ordinary hero as
+   the section below — ecommerce-development does. This is additive: the hero
+   that follows is untouched, so the h1 and the copy stay where a crawler finds
+   them. See components/film-hero.php for the parameters. */
+if (!empty($heroFilm)) {
+    component('film-hero', $heroFilm);
+}
+
+/* A route can also replace the hero outright — ai-native-product-development
    does. Everything below the hero is the same for every service. */
 if (!empty($heroComponent)) {
     component($heroComponent, ['svc' => $svc]);
