@@ -94,14 +94,9 @@
                 </div>
             </div>
 
-            <?php /* The right-hand panel is gone: the robot is no longer a
-                     picture beside the copy, he is the room it stands in. Its
-                     caption survives as a marker at the foot of the section. */ ?>
-        </div>
-
-        <div class="robot-hud-tag robot-hud-tag--floating">
-            <span class="robot-status-dot"></span>
-            <span>iThrive AI Cognitive Robot · 360° Interactive Gaze Active</span>
+            <?php /* The right-hand panel is gone, and so is the caption pill it
+                     carried. Both drew a box in the robot's half of the hero;
+                     he needs neither to be read as a robot. */ ?>
         </div>
     </div>
 </section>
