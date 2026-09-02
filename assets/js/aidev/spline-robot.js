@@ -207,6 +207,35 @@
             }
           });
 
+          /*
+           * The head, and why this one colour.
+           *
+           * `color` is the material's albedo — the gloss lives in its roughness
+           * and its reflections, which this does not touch. So a DARK, saturated
+           * value tints the visor while the highlight sweeping its crown and the
+           * reflection down its face survive: it reads as coloured glass. A
+           * bright one does not. Tried on the way here: #22D3EE turned the shell
+           * into flat cyan plastic and the depth vanished, and #8B2FC9 was not
+           * much better. This is dark enough to stay glass.
+           *
+           * Violet against the cyan the lights lay on his body is the headline's
+           * own gradient, which runs cyan to violet directly above him.
+           *
+           * `Head 2` is the shell mesh; `Head` is the empty that parents it and
+           * has no material of its own.
+           */
+          const HEAD_GLASS = '#2A1B5E';
+
+          app.getAllObjects().forEach((obj) => {
+            if (obj && obj.name === 'Head 2' && obj.type === 'Mesh') {
+              try {
+                obj.color = HEAD_GLASS;
+              } catch (e) {
+                /* Leave the head as authored rather than fail the whole scene. */
+              }
+            }
+          });
+
           mount.classList.add('is-live');
           // Handy for checking his rig from the console; nothing reads it.
           window.__splineRobot = app;
