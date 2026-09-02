@@ -1,4 +1,27 @@
 <?php declare(strict_types=1); ?>
+
+<?php
+/*
+ * iThrive AI, on every page.
+ *
+ * The assistant used to sit on the home page alone. It is the same grounded
+ * agent the chat widget talks to, it already answers in six languages, and it
+ * already speaks through handlers/tts.php rather than relying on a voice being
+ * installed on the device — so there was no reason for it to be reachable from
+ * one route out of thirty.
+ *
+ * Rendered here, inside <main>, so it is the last thing on every page before
+ * the footer. The home page composes it itself, higher up where it belongs in
+ * that page's argument, so it is skipped here to avoid a second copy and a
+ * duplicate id. Any route that does not want it sets $noAssistant before
+ * including this file.
+ */
+if (($page ?? '') !== 'home' && empty($noAssistant)) {
+    component('ai-assistant');
+    // Tells the script block below to bring its behaviour and its orb.
+    $GLOBALS['ithrive_has_assistant'] = true;
+}
+?>
 </main>
 
 <footer class="site-footer">
@@ -45,8 +68,14 @@ component('contact-modal');
 component('chat-widget');
 ?>
 
-<?php if (!empty($heroScene)): ?>
-<script type="module" src="<?= e(asset('assets/js/hero-scene.js')) ?>" data-scene="<?= e($heroScene) ?>"></script>
+<?php /* The orb. hero-scene.js draws it into [data-orb-canvas], which is the
+         assistant's face as well as the home hero's — so it is needed wherever
+         the assistant rendered, not only where a page asked for a hero scene.
+         Without it the CSS orb stands in, which is why nothing here is gated on
+         WebGL. */ ?>
+<?php $orbScene = $heroScene ?? (!empty($GLOBALS['ithrive_has_assistant']) ? 'neural' : ''); ?>
+<?php if (!empty($orbScene)): ?>
+<script type="module" src="<?= e(asset('assets/js/hero-scene.js')) ?>" data-scene="<?= e($orbScene) ?>"></script>
 <?php endif; ?>
 <?php /* robot.js builds its scene at module load, so it is imported only where a
          mount actually rendered — that keeps the 40KB off every other route.
@@ -81,6 +110,11 @@ component('chat-widget');
          under reduced motion, and idles when the pointer stops. */ ?>
 <script src="<?= e(asset('assets/js/hexbg.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/scrub.js')) ?>" defer></script>
+<?php /* The assistant's behaviour, wherever it rendered — the home page's own
+         copy included. */ ?>
+<?php if (($page ?? '') === 'home' || !empty($GLOBALS['ithrive_has_assistant'])): ?>
+<script src="<?= e(asset('assets/js/assistant.js')) ?>" defer></script>
+<?php endif; ?>
 <?php /* Loaded wherever components/watch-eyes.php actually rendered. */ ?>
 <?php if (!empty($GLOBALS['ithrive_needs_eyes'])): ?>
 <script src="<?= e(asset('assets/js/eyes.js')) ?>" defer></script>
@@ -92,7 +126,6 @@ component('chat-widget');
 <script src="<?= e(asset('assets/js/entry-gate.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/tech-magnet.js')) ?>" defer></script>
-<script src="<?= e(asset('assets/js/assistant.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/film.js')) ?>" defer></script>
 <?php endif; ?>
 </body>
