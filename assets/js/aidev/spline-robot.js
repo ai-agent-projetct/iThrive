@@ -60,27 +60,53 @@
    * there. Wherever the cursor is on the page, he gets a proportional position
    * inside his own frame and turns to it — which is what the reference does.
    *
+   * TWO SOURCES OF TRUTH WAS THE BUG. The canvas also received the real pointer
+   * natively whenever the cursor was over it, so the scene got both positions,
+   * alternating every frame. Logged, dragging across the page:
+   *
+   *     1200(real) 1416(mapped) 1240(real) 1434(mapped) 1280(real) ...
+   *
+   * — two targets 215px apart, sixty times a second. Over him it juddered; off
+   * him only the mapped one arrived and it moved cleanly, so the two halves of
+   * the page behaved differently and the far side read as lag. The native
+   * pointermove is now stopped before it reaches the canvas, so exactly one
+   * position drives him, everywhere.
+   *
    * Notes on the mechanics:
-   * - The canvas keeps its own pointer events, so the scene's built-in hover and
-   *   click reactions still fire when you are actually over him.
+   * - Only `pointermove`/`mousemove` are blocked. down, up, click and over still
+   *   reach the canvas, so the scene's own click reaction survives.
+   * - Blocking happens in the capture phase on the mount, which the event passes
+   *   through on its way down. Doing it on the canvas itself is unreliable: at
+   *   the target, listeners run in registration order regardless of the capture
+   *   flag, so the scene's own handler could still go first.
    * - Replays are flagged and skipped on the way back in, or dispatching on the
-   *   canvas would bubble to window and feed itself forever.
-   * - Coalesced into one rAF, so a fast mouse costs one dispatch per frame
-   *   rather than one per event.
+   *   canvas would feed itself forever.
+   * - The position is eased toward the pointer rather than snapped to it, and
+   *   the loop keeps running for a moment after the mouse stops so the motion
+   *   settles instead of halting. This is what actually makes it smooth.
+   * - The loop idles when he is off screen, and stops once it has caught up.
    */
   function followWholePage() {
-    let queued = 0;
-    let px = 0;
-    let py = 0;
+    /* How hard the aim is pulled toward the cursor each frame. Low is smooth
+       and trailing, high is snappy and abrupt; this is the compromise. */
+    const EASE = 0.16;
+    /* Below this many pixels the aim has arrived and the loop can stop. */
+    const SETTLED = 0.4;
 
-    const replay = () => {
-      queued = 0;
-      const r = canvas.getBoundingClientRect();
-      if (!r.width || !r.height) return;
+    let raf = 0;
+    let onScreen = true;
+    let havePointer = false;
+    let targetX = 0, targetY = 0;   // where the cursor actually is
+    let aimX = 0, aimY = 0;         // where he is currently looking
 
-      const x = r.left + (px / window.innerWidth) * r.width;
-      const y = r.top + (py / window.innerHeight) * r.height;
+    /* One source of truth: the scene never sees the raw pointer. */
+    ['pointermove', 'mousemove'].forEach((type) => {
+      mount.addEventListener(type, (e) => {
+        if (!e.spliceReplay) e.stopPropagation();
+      }, true);
+    });
 
+    const send = (x, y) => {
       ['pointermove', 'mousemove'].forEach((type) => {
         const Ctor = type === 'pointermove' && window.PointerEvent ? PointerEvent : MouseEvent;
         const ev = new Ctor(type, {
@@ -92,12 +118,55 @@
       });
     };
 
+    const frame = () => {
+      const r = canvas.getBoundingClientRect();
+      if (!r.width || !r.height) { raf = 0; return; }
+
+      aimX += (targetX - aimX) * EASE;
+      aimY += (targetY - aimY) * EASE;
+
+      send(
+        r.left + (aimX / window.innerWidth) * r.width,
+        r.top + (aimY / window.innerHeight) * r.height
+      );
+
+      // Keep going until the aim has caught up with the cursor.
+      if (Math.abs(targetX - aimX) < SETTLED && Math.abs(targetY - aimY) < SETTLED) {
+        aimX = targetX;
+        aimY = targetY;
+        raf = 0;
+        return;
+      }
+      raf = requestAnimationFrame(frame);
+    };
+
+    const wake = () => {
+      if (!raf && onScreen && havePointer) raf = requestAnimationFrame(frame);
+    };
+
     window.addEventListener('pointermove', (e) => {
       if (e.spliceReplay) return;
-      px = e.clientX;
-      py = e.clientY;
-      if (!queued) queued = requestAnimationFrame(replay);
-    }, { passive: true });
+      targetX = e.clientX;
+      targetY = e.clientY;
+      if (!havePointer) {           // first sighting: start from where he is
+        havePointer = true;
+        aimX = targetX;
+        aimY = targetY;
+      }
+      wake();
+      /* CAPTURE, and it has to be. The mount's own capture listener above stops
+         native pointermove so the scene cannot see it — and propagation stopped
+         there never bubbles back to window, so a bubble-phase listener here
+         would go deaf the moment the cursor was over him. Window capture is the
+         first step of the journey, before anything can stop it. */
+    }, { passive: true, capture: true });
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        onScreen = entry.isIntersecting;
+        if (onScreen) wake();
+      }, { threshold: 0 }).observe(mount);
+    }
   }
 
   /*
