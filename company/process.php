@@ -43,6 +43,12 @@ component('page-hero', [
   </div>
 </section>
 
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'process-sprint-board', 'caption' => 'The board is yours to read: what is in progress, what slipped, and why.']); ?>
+  </div>
+</section>
+
 <section class="section section--panel">
   <div class="shell">
     <?php component('section-head', [

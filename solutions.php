@@ -127,6 +127,15 @@ component('page-hero', [
 </section>
 
 <?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'solutions-analytics', 'caption' => 'Forecasts and anomaly alerts alongside the reporting, not in a separate tool nobody logs into.']); ?>
+  </div>
+</section>
+
+<?php
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Want either product running against your own data?',

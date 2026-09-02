@@ -61,6 +61,15 @@ component('page-hero', [
 </section>
 
 <?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'careers-studio', 'caption' => 'Our engineering floor — where most of what we ship gets argued about first.']); ?>
+  </div>
+</section>
+
+<?php
 component('cta', ['cta' => [
     'eyebrow'   => 'Work With Us',
     'title'     => 'Or come to us as a client instead.',

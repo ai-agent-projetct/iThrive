@@ -5274,3 +5274,53 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   .csshot--1, .csshot--2 { grid-column: span 6; }
   .csshot--3, .csshot--4, .csshot--5 { grid-column: span 2; }
 }
+
+/* ==========================================================================
+   Page figure — the picture band on routes that had no photography
+   (components/page-figure.php)
+   ========================================================================== */
+
+.pfig {
+  margin: clamp(40px, 6vw, 72px) 0;
+}
+
+.pfig-frame {
+  position: relative;
+  aspect-ratio: var(--pfig-ratio, 21 / 8);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  /* The band sits on the page's own ink, so an image that fades at its edges
+     lands on the same colour rather than on a lighter card. */
+  background: var(--ink-2);
+}
+
+.pfig-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* A wash pulling the picture toward the page's palette, so a generated image
+   and the hand-built sections read as one site rather than two. */
+.pfig-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(11, 15, 23, 0.28) 0%, rgba(11, 15, 23, 0) 38%),
+    linear-gradient(0deg, rgba(11, 15, 23, 0.42) 0%, rgba(11, 15, 23, 0) 46%);
+}
+
+.pfig-caption {
+  margin-top: 12px;
+  font-size: .9rem;
+  color: var(--text-faint);
+}
+
+@media (max-width: 760px) {
+  /* A 21:8 letterbox is a slot on a phone; give it back some height. */
+  .pfig-frame { aspect-ratio: 16 / 10; }
+}

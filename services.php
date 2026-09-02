@@ -42,6 +42,12 @@ component('page-hero', [
   </div>
 </section>
 
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'services-architecture', 'caption' => 'Every engagement starts with the system drawn out before a line of it is written.']); ?>
+  </div>
+</section>
+
 <section class="section section--panel">
   <div class="shell">
     <?php component('section-head', [
@@ -68,6 +74,15 @@ component('page-hero', [
         <?php component('service-card', ['item' => $item, 'index' => $i % 3]); ?>
       <?php endforeach; ?>
     </div>
+  </div>
+</section>
+
+<?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'services-surfaces', 'caption' => 'One product across browser, tablet and phone, on an architecture that survives the second year.']); ?>
   </div>
 </section>
 
