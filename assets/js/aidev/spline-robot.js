@@ -194,7 +194,11 @@
            * every edge it catches: shoulders, forearms, knees, the collar. He
            * reads immediately, he is the page's colour, and he is still himself.
            */
-          const ACCENT = '#22D3EE';   // the page's primary accent
+          /* The logo's own colours, not the ported page's near-misses. Sampled
+             from assets/img/logo-mark.png, the mark runs cyan #00c0ff through
+             blue #0080ff to indigo #4040e0; the site states the ends of that
+             itself as --cyan #00F2FE and --purple #9D4EDD in style.css. */
+          const ACCENT = '#00F2FE';   // --cyan, the logo's cyan
           const LIFT = 2.1;           // authored for white; this page is not
 
           app.getAllObjects().forEach((obj) => {
@@ -218,13 +222,15 @@
            * into flat cyan plastic and the depth vanished, and #8B2FC9 was not
            * much better. This is dark enough to stay glass.
            *
-           * Violet against the cyan the lights lay on his body is the headline's
-           * own gradient, which runs cyan to violet directly above him.
+           * This is the logo's indigo (#4040e0) taken down until it is glass.
+             With the logo's cyan on the lights, the head and the body then carry
+             the two ends of the mark itself rather than two colours that merely
+             look like it.
            *
            * `Head 2` is the shell mesh; `Head` is the empty that parents it and
            * has no material of its own.
            */
-          const HEAD_GLASS = '#2A1B5E';
+          const HEAD_GLASS = '#241C6B';
 
           app.getAllObjects().forEach((obj) => {
             if (obj && obj.name === 'Head 2' && obj.type === 'Mesh') {

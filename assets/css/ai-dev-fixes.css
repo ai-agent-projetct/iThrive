@@ -156,10 +156,12 @@
   width: 88%;
   aspect-ratio: 1;
   border-radius: 50%;
+  /* The site's own --cyan #00F2FE and --purple #9D4EDD, which are the ends of
+     the logo mark — not the ported page's near-misses. */
   background:
     radial-gradient(circle at 50% 45%,
-      rgba(34, 211, 238, 0.20) 0%,
-      rgba(139, 47, 201, 0.16) 38%,
+      rgba(0, 242, 254, 0.18) 0%,
+      rgba(157, 78, 221, 0.16) 38%,
       rgba(5, 6, 15, 0) 70%);
   filter: blur(6px);
   pointer-events: none;
