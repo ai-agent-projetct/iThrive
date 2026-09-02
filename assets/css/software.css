@@ -97,7 +97,11 @@
   padding: calc(var(--header-h) + 72px) 0 88px;
 }
 
-.sd-hero .shell { width: 100%; }
+/* The flex parent stretches the shell in the cross axis, not the main one, so
+   this only ever needed to opt out of `align-items: center` squeezing it — and
+   `width: 100%` did that by throwing away .shell's own gutter and centering,
+   which ran the headline into the left edge of the screen. */
+.sd-hero .shell { align-self: stretch; }
 
 /* The hero gets a soft bloom rather than a slab. The corridor is at its widest
    and nearest here, and boxing the headline would waste it — so the copy is

@@ -4655,8 +4655,12 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
  * it is 1200vh for the same 41 seconds, so one screen of scrolling advances
  * about three and a half seconds instead of nineteen — a deliberate walk
  * through the film rather than a scrub past it.
+ *
+ * It is a variable because the right number is per-clip, not per-site: a
+ * 64-second film wants half again as much track as a 41-second one just to
+ * scrub at the same pace. Instances set --track; 1300vh stays the default.
  */
-.scrub--live .afilm-track { height: 1300vh; }
+.scrub--live .afilm-track { height: var(--track, 1300vh); }
 
 .afilm-sticky {
   position: sticky;

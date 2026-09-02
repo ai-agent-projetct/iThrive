@@ -70,9 +70,17 @@
     /* ---- the scrub ------------------------------------------------------ */
 
     let duration = parseFloat(section.dataset.scrubDuration) || 0;
-    video.addEventListener('loadedmetadata', () => {
+
+    // Read it now AND on the event. This script is deferred, so a video whose
+    // metadata is already in the cache has fired loadedmetadata before we could
+    // listen for it — and a section with no data-scrub-duration to fall back on
+    // would then sit at zero forever, with the frame loop returning early and
+    // the playhead never moving.
+    const readDuration = () => {
       if (isFinite(video.duration) && video.duration > 0) duration = video.duration;
-    });
+    };
+    readDuration();
+    video.addEventListener('loadedmetadata', readDuration);
 
     // fastSeek skips the exact-frame search. With a keyframe every third frame
     // the nearest one is effectively the frame asked for.

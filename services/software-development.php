@@ -94,7 +94,45 @@ require dirname(__DIR__) . '/includes/header.php';
 <div class="sd-page" data-software-page>
   <div class="sd-progress" data-sd-progress aria-hidden="true"></div>
 
-  <!-- ── Hero · the problem, unordered ──────────────────────────────── -->
+  <?php /*
+     ── The film ────────────────────────────────────────────────────────
+     The hero is the clip, and scrolling is what plays it: assets/js/scrub.js
+     binds any [data-scrub] section holding a [data-scrub-video] and ties the
+     playhead to how far you have scrolled through it. Same mechanism as the AI
+     Enablement hero, same .afilm styles, so this adds markup and no CSS.
+
+     --track is the whole speed dial. 2600vh leaves 2500vh of travel for 64
+     seconds of film — about 420 pixels of scrolling per second, the slowest
+     walk on the site. data-scrub-ease softens how hard the playhead is pulled
+     toward that position; 0.05 glides where the 0.16 default snaps.
+
+     Cut all-intra (a keyframe every third frame), which is what lets a seek
+     land on the frame asked for instead of walking back to find one.
+
+     Degrades: touch and reduced-motion skip the scrub and play it inline, which
+     scrub.js handles; no JavaScript leaves the poster. Nothing here is content —
+     every word is in the hero below, where a crawler can read it.
+  */ ?>
+  <section class="afilm" data-scrub data-scrub-ease="0.05" style="--track:2600vh"
+           aria-label="Custom software development at iThrive">
+    <div class="afilm-track">
+      <div class="afilm-sticky">
+        <?php /* preload="auto": a scrub is only smooth once the frames are
+                 buffered — a seek into an unbuffered region paints nothing. */ ?>
+        <video class="afilm-video" data-scrub-video
+               muted playsinline preload="auto" disablepictureinpicture
+               poster="<?= e(asset('assets/img/software-film-poster.jpg')) ?>">
+          <source src="<?= e(asset('videos/software-film-mobile.mp4')) ?>" type="video/mp4" media="(max-width: 860px)">
+          <source src="<?= e(asset('videos/software-film.mp4')) ?>" type="video/mp4">
+        </video>
+
+        <div class="afilm-scrim" aria-hidden="true"></div>
+        <span class="afilm-progress" aria-hidden="true"><span data-scrub-bar></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 2 · the problem, unordered ─────────────────────────── -->
   <section class="sd-hero" data-stage="brief">
     <?php /* The hero plate: this page playing on a laptop in a lit room, with a
              slow push-in. Decoration only — every word below is real HTML in
