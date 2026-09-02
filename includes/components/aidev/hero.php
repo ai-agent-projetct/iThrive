@@ -10,6 +10,16 @@
     <div class="hero-ambient-glow hero-glow-1"></div>
     <div class="hero-ambient-glow hero-glow-2"></div>
 
+    <?php /* The robot owns the whole section rather than a panel in the corner:
+             he stands behind the copy, and the pointer drives him from anywhere
+             over it. See assets/js/aidev/spline-robot.js. */ ?>
+    <div id="spline-robot" class="spline-robot"
+         data-runtime="<?= e(asset('assets/vendor/spline/spline-runtime.js')) ?>"
+         data-scene="<?= e(asset('assets/vendor/spline/robot.splinecode')) ?>">
+        <span class="spline-robot-wash" aria-hidden="true"></span>
+        <canvas aria-label="Interactive 3D robot that follows your cursor"></canvas>
+    </div>
+
     <div class="container">
         <div class="hero-grid-layout">
             <!-- Left Hero Content -->
@@ -84,31 +94,14 @@
                 </div>
             </div>
 
-            <!-- Right Hero 3D Robot Avatar -->
-            <div class="hero-robot-stage">
-                <div id="robot-canvas-container" class="robot-canvas-container corner-bracket-wrap">
-                    <div class="corner-bracket-bottom-left"></div>
-                    <div class="corner-bracket-bottom-right"></div>
-                    
-                    <?php /* The robot is the Spline scene from the reference,
-                             run here rather than rebuilt — see
-                             assets/js/aidev/spline-robot.js. The wash behind him
-                             is what a black robot needs to read against a black
-                             page; it sits under the canvas, never over it. */ ?>
-                    <div id="spline-robot" class="spline-robot"
-                         data-runtime="<?= e(asset('assets/vendor/spline/spline-runtime.js')) ?>"
-                         data-scene="<?= e(asset('assets/vendor/spline/robot.splinecode')) ?>">
-                        <span class="spline-robot-wash" aria-hidden="true"></span>
-                        <canvas aria-label="Interactive 3D robot that follows your cursor"></canvas>
-                    </div>
+            <?php /* The right-hand panel is gone: the robot is no longer a
+                     picture beside the copy, he is the room it stands in. Its
+                     caption survives as a marker at the foot of the section. */ ?>
+        </div>
 
-                    <!-- HUD Tag -->
-                    <div class="robot-hud-tag">
-                        <span class="robot-status-dot"></span>
-                        <span>iThrive AI Cognitive Robot · 360° Interactive Gaze Active</span>
-                    </div>
-                </div>
-            </div>
+        <div class="robot-hud-tag robot-hud-tag--floating">
+            <span class="robot-status-dot"></span>
+            <span>iThrive AI Cognitive Robot · 360° Interactive Gaze Active</span>
         </div>
     </div>
 </section>

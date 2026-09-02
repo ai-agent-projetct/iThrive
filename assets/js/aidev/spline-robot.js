@@ -46,6 +46,61 @@
   if (!RUNTIME || !SCENE) return;
 
   /*
+   * Make him watch the whole page, not just his own corner.
+   *
+   * Spline normalises the pointer against the canvas rect. He now occupies the
+   * right-hand side of the hero, so everywhere else — the headline, the prompt
+   * bar, the buttons — is off that rect, the normalised value runs past the
+   * range his look-at accepts, and he saturates. Measured: inside his box the
+   * head swings [-0.09,-0.26] to [0.60,0.32]; across the entire left half of the
+   * page it moved 0.02 and stared at the corner. That reads exactly as "the
+   * mouse only works in the box", because effectively it did.
+   *
+   * So the real pointer is mapped from the viewport onto his rect and replayed
+   * there. Wherever the cursor is on the page, he gets a proportional position
+   * inside his own frame and turns to it — which is what the reference does.
+   *
+   * Notes on the mechanics:
+   * - The canvas keeps its own pointer events, so the scene's built-in hover and
+   *   click reactions still fire when you are actually over him.
+   * - Replays are flagged and skipped on the way back in, or dispatching on the
+   *   canvas would bubble to window and feed itself forever.
+   * - Coalesced into one rAF, so a fast mouse costs one dispatch per frame
+   *   rather than one per event.
+   */
+  function followWholePage() {
+    let queued = 0;
+    let px = 0;
+    let py = 0;
+
+    const replay = () => {
+      queued = 0;
+      const r = canvas.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+
+      const x = r.left + (px / window.innerWidth) * r.width;
+      const y = r.top + (py / window.innerHeight) * r.height;
+
+      ['pointermove', 'mousemove'].forEach((type) => {
+        const Ctor = type === 'pointermove' && window.PointerEvent ? PointerEvent : MouseEvent;
+        const ev = new Ctor(type, {
+          clientX: x, clientY: y, bubbles: true, cancelable: true,
+          pointerType: 'mouse', view: window,
+        });
+        ev.spliceReplay = true;
+        canvas.dispatchEvent(ev);
+      });
+    };
+
+    window.addEventListener('pointermove', (e) => {
+      if (e.spliceReplay) return;
+      px = e.clientX;
+      py = e.clientY;
+      if (!queued) queued = requestAnimationFrame(replay);
+    }, { passive: true });
+  }
+
+  /*
    * Only load once he is near the viewport. He is the hero, so that is almost
    * immediately — but it keeps the scene off the wire for anyone who lands deep
    * in the page from a link, and it means the fetch never competes with the
@@ -58,18 +113,35 @@
 
         return app.load(SCENE).then(() => {
           /*
-           * Lift the scene's own lights. Authored against white, they leave him
-           * unreadable on this background; this is the smallest change that
-           * makes him legible without touching what he is.
+           * Colour, and the reason it is done to the light rather than to him.
+           *
+           * The scene is lit for a white studio, so on this page he was a black
+           * shape with no edges. Painting the meshes brand-cyan does fix that —
+           * I tried it — but a flat repaint throws away the gloss and the panel
+           * seams that make him look machined, and it stops being the robot from
+           * the reference.
+           *
+           * Tinting the light instead keeps the body black and lays cyan along
+           * every edge it catches: shoulders, forearms, knees, the collar. He
+           * reads immediately, he is the page's colour, and he is still himself.
            */
-          ['Point Light', 'Directional Light', 'Spot Light'].forEach((name) => {
-            const light = app.findObjectByName(name);
-            if (light && typeof light.intensity === 'number') {
-              light.intensity = light.intensity * 1.9;
+          const ACCENT = '#22D3EE';   // the page's primary accent
+          const LIFT = 2.1;           // authored for white; this page is not
+
+          app.getAllObjects().forEach((obj) => {
+            if (!obj || !/light/i.test(obj.type || '')) return;
+            try {
+              obj.color = ACCENT;
+              if (typeof obj.intensity === 'number') obj.intensity *= LIFT;
+            } catch (e) {
+              /* A scene without a settable light is simply left as authored. */
             }
           });
 
           mount.classList.add('is-live');
+          // Handy for checking his rig from the console; nothing reads it.
+          window.__splineRobot = app;
+          followWholePage();
           return app;
         });
       })

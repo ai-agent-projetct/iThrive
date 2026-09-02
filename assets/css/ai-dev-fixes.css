@@ -53,19 +53,106 @@
 }
 
 /*
- * The hero robot's stage.
+ * The hero robot's stage — the whole section, not a panel in it.
  *
- * The scene renders with a transparent background, so the page's own colour is
- * what he stands in — which is what was asked for, and also the problem: he is
- * glossy black on a near-black page. The wash is a soft brand-coloured pool
- * behind him for the silhouette to read against, sitting under the canvas so it
- * never touches the robot's own colour.
+ * He sits behind everything the hero says, so the copy reads across him and the
+ * pointer drives him from anywhere over it. The scene renders transparent, so
+ * the page's own colour is what he stands in.
+ *
+ * He keeps the pointer. The gaze-follow comes from a window listener and works
+ * either way, but the scene's OWN reactions — the hover and click states baked
+ * into it — are dispatched on the canvas, so `pointer-events: none` silently
+ * threw those away. It was there to stop the canvas swallowing the hero's
+ * buttons, which stopped being a risk the moment he moved out of the copy's
+ * column: he starts at 54%, the buttons end well before it, and `.container`
+ * outranks him where the two do meet.
  */
 .aidev .spline-robot {
   position: absolute;
-  inset: 0;
+  z-index: 1;
   display: grid;
   place-items: center;
+
+  /* The right-hand side of the section, floor to ceiling — not a panel, and not
+     across the words either. He gets the full height the section has, the copy
+     keeps its own column, and neither is laid over the other. Spline centres him
+     in this box and reads the pointer from the same box, so sizing it places
+     him and his aim together. */
+  inset: 0 0 0 54%;
+}
+
+/*
+ * The hero's own content rides above him — but only catches the pointer where
+ * it actually is. The container is the full 1360px of the shell and sits at
+ * z-index 3, so left as-is it lies across the robot's whole upper body and
+ * swallows every hover and click meant for him; `elementFromPoint` over his
+ * chest returned .hero-grid-layout, not the canvas. Transparent container,
+ * solid copy: the words and buttons stay clickable, and everything either side
+ * of them reaches him.
+ */
+.aidev .hero-section > .container {
+  position: relative;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.aidev .hero-content { pointer-events: auto; }
+
+/*
+ * One column now the robot has the right-hand side to himself. The copy keeps a
+ * readable measure instead of stretching the full width, and the panel that
+ * used to hold him is gone.
+ */
+.aidev .hero-grid-layout { grid-template-columns: minmax(0, 1fr); }
+
+/* A grid item's `min-width` defaults to `auto`, which resolves to its
+   min-content width — and the hero's nowrap ticker makes that 497px. On a phone
+   that pushed the whole column past a 342px track and the headline was clipped
+   mid-word by the wrapper's overflow. Clamping it lets the ticker truncate,
+   which it is already styled to do, instead of dragging the column with it. */
+.aidev .hero-content { min-width: 0; width: 100%; }
+.aidev .hero-content { max-width: 750px; }
+
+/*
+ * No scrim over the copy: he stands beside it, not behind it, so there is
+ * nothing to darken. This only softens the seam where his column begins, so the
+ * two halves read as one room rather than two panels butted together.
+ */
+.aidev .hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0 46% 0 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(5, 6, 15, 0) 72%,
+    rgba(5, 6, 15, 0.55) 100%);
+}
+
+/* The caption, freed from the panel it used to sit in. `left: auto` is the load-
+   bearing line: the base rule pins left:20px, and with a right offset as well
+   the pill stretched the full width of the hero and laid itself over both
+   buttons. */
+.aidev .robot-hud-tag--floating {
+  position: absolute;
+  z-index: 3;
+  left: auto;
+  right: 2.4rem;
+  bottom: 2rem;
+  width: max-content;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  /* A phone has no side to put him on. He takes the lower third of the hero as
+     his own band, under the copy rather than through it, and the section grows
+     to make room. */
+  .aidev .hero-section { padding-bottom: 42vh; }
+  .aidev .spline-robot { inset: auto 0 0 0; height: 40vh; }
+  .aidev .hero-content { max-width: none; }
+
+  .aidev .hero-section::after { inset: 0; background: none; }
+  .aidev .robot-hud-tag--floating { display: none; }
 }
 
 .aidev .spline-robot canvas {
