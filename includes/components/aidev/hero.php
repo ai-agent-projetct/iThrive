@@ -90,8 +90,17 @@
                     <div class="corner-bracket-bottom-left"></div>
                     <div class="corner-bracket-bottom-right"></div>
                     
-                    <!-- WebGL 3D Robot Canvas -->
-                    <canvas id="robot-3d-canvas"></canvas>
+                    <?php /* The robot is the Spline scene from the reference,
+                             run here rather than rebuilt — see
+                             assets/js/aidev/spline-robot.js. The wash behind him
+                             is what a black robot needs to read against a black
+                             page; it sits under the canvas, never over it. */ ?>
+                    <div id="spline-robot" class="spline-robot"
+                         data-runtime="<?= e(asset('assets/vendor/spline/spline-runtime.js')) ?>"
+                         data-scene="<?= e(asset('assets/vendor/spline/robot.splinecode')) ?>">
+                        <span class="spline-robot-wash" aria-hidden="true"></span>
+                        <canvas aria-label="Interactive 3D robot that follows your cursor"></canvas>
+                    </div>
 
                     <!-- HUD Tag -->
                     <div class="robot-hud-tag">

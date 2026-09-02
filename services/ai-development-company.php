@@ -149,7 +149,6 @@ require dirname(__DIR__) . '/includes/header.php';
 <script defer src="<?= e(asset('assets/vendor/three/three.r128.min.js')) ?>"></script>
 <?php foreach ([
     'particle-mesh',
-    'robot-3d',
     'neural-core-3d',
     'liquid-glass-carousel',
     'rotunda-carousel',
@@ -157,6 +156,11 @@ require dirname(__DIR__) . '/includes/header.php';
 ] as $script): ?>
 <script defer src="<?= e(asset('assets/js/aidev/' . $script . '.js')) ?>"></script>
 <?php endforeach; ?>
+
+<?php /* The hero robot. A module, because it imports the Spline runtime — and
+         it replaces the port's own robot-3d.js, which is no longer loaded: that
+         one hand-built a lookalike, and the brief was this robot. */ ?>
+<script type="module" src="<?= e(asset('assets/js/aidev/spline-robot.js')) ?>"></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
