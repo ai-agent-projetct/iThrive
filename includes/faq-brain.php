@@ -206,6 +206,42 @@ const FAQ_LEXICON = [
     'അനുസരണ' => 'compliance governance', 'ಅನುಸರಣೆ' => 'compliance governance',
     'సమ్మతి' => 'compliance governance', 'अनुपालन' => 'compliance governance',
     'नियम' => 'compliance rules governance',
+    // search / ranking — the web pages' own FAQs turn on this and the brain had
+    // no word for it in any script
+    'தேடுபொறி' => 'seo search ranking google', 'தரவரிசை' => 'ranking seo',
+    'கூகிள்' => 'google search seo',
+    'തിരയൽ' => 'seo search ranking google', 'റാങ്ക്' => 'ranking seo',
+    'ಹುಡುಕಾಟ' => 'seo search ranking google', 'ಶ್ರೇಣಿ' => 'ranking seo',
+    'శోధన' => 'seo search ranking google', 'ర్యాంక్' => 'ranking seo',
+    'खोज' => 'seo search ranking google', 'रैंक' => 'ranking seo',
+    'गूगल' => 'google search seo', 'सर्च' => 'search seo',
+
+    // design / redesign / rebuild
+    'வடிவமைப்பு' => 'design redesign ui', 'மறுவடிவமைப்பு' => 'redesign rebuild',
+    'ഡിസൈൻ' => 'design redesign ui', 'ವಿನ್ಯಾಸ' => 'design redesign ui',
+    'డిజైన్' => 'design redesign ui', 'डिज़ाइन' => 'design redesign ui',
+    'डिजाइन' => 'design redesign ui', 'नया रूप' => 'redesign rebuild',
+
+    // hosting / domain / migration — the handover questions
+    'டொமைன்' => 'domain hosting', 'ஹோஸ்டிங்' => 'hosting server domain',
+    'இடம்பெயர்' => 'migrate migration move',
+    'ഡൊമെയ്ൻ' => 'domain hosting', 'ಡೊಮೇನ್' => 'domain hosting',
+    'డొమైన్' => 'domain hosting', 'डोमेन' => 'domain hosting',
+    'होस्टिंग' => 'hosting server domain', 'माइग्रेट' => 'migrate migration move',
+
+    // the app stores
+    'ஆப் ஸ்டோர்' => 'app store submission play store', 'பிளே ஸ்டோர்' => 'play store app store',
+    'ആപ്പ് സ്റ്റോർ' => 'app store submission play store',
+    'ಪ್ಲೇ ಸ್ಟೋರ್' => 'play store app store',
+    'ప్లే స్టోర్' => 'play store app store',
+    'ऐप स्टोर' => 'app store submission play store', 'प्ले स्टोर' => 'play store app store',
+
+    // flutter / cross-platform, written in each script as people actually type it
+    'ஃப்ளட்டர்' => 'flutter cross platform dart',
+    'ഫ്ലട്ടർ' => 'flutter cross platform dart',
+    'ಫ್ಲಟರ್' => 'flutter cross platform dart',
+    'ఫ్లట్టర్' => 'flutter cross platform dart',
+    'फ्लटर' => 'flutter cross platform dart', 'फ़्लटर' => 'flutter cross platform dart',
 ];
 
 /** Tokens too common to carry meaning. */

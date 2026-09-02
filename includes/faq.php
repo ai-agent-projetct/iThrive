@@ -36,6 +36,7 @@ const FAQ_CATEGORIES = [
     'cloud'        => 'Cloud, DevOps & Infrastructure',
     'growth'       => 'Ideation, Business Growth & ROI Strategy',
     'ai-delivery'  => 'AI Development: Delivery, Cost, Compliance & Ownership',
+    'page-faq'     => 'Answers Published on the Service Pages Themselves',
 ];
 
 const FAQ = [
@@ -702,5 +703,398 @@ const FAQ = [
              . 'cleanly to a human the moment they should stop guessing. The assistant on this site is '
              . 'one, answering in English, Tamil, Malayalam, Kannada, Telugu and Hindi.',
         'terms' => 'voicebot chatbot voice assistant multilingual language tamil hindi telugu kannada malayalam speech ivr call bot conversational',
+    ],
+
+    // ---- 11. Answers the individual pages already published ---------------
+    //
+    // software-development, web-development and flutter-app-development each
+    // carry ten question-and-answer pairs on the page itself. None had ever
+    // reached the answer book, so the assistant could not answer one of them
+    // even though the words were already written and approved. Harvested
+    // verbatim rather than rewritten - the page and the assistant should not
+    // give two different answers to the same question.
+
+    [
+        'id' => 'q81', 'cat' => 'page-faq',
+        'q' => 'How do I know whether we need custom software at all?',
+        'a' => 'Start with the workflow, not the software. If the process that costs you the most time is '
+            . 'one a packaged tool models well, buy the tool — we will tell you so. Custom is worth it when '
+            . 'the workflow is specific to how you compete, when you are paying for integration workarounds '
+            . 'every month, or when per-seat licensing has quietly become larger than a build would have '
+            . 'been.',
+        'terms' => 'know whether need custom software development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q82', 'cat' => 'page-faq',
+        'q' => 'What does custom software development cost in Chennai?',
+        'a' => 'A focused first release generally lands between ₹4L and ₹9L; a production platform several '
+            . 'teams depend on between ₹10L and ₹25L; core enterprise systems above ₹25L. The variables '
+            . 'that move the number most are the count of integrations, whether the data has to be '
+            . 'migrated, and whether the environment is regulated. We give a written estimate with the '
+            . 'assumptions listed, so you can see what would change it.',
+        'terms' => 'custom software development cost chennai platform system erp bespoke',
+    ],
+    [
+        'id' => 'q83', 'cat' => 'page-faq',
+        'q' => 'How long does a project take?',
+        'a' => 'Discovery is about two weeks. A first production release is typically six to fourteen weeks '
+            . 'after that, depending on scope. You see working software every fortnight throughout, so the '
+            . 'timeline is visible rather than promised.',
+        'terms' => 'long project take custom software development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q84', 'cat' => 'page-faq',
+        'q' => 'Can you integrate with the systems we already run?',
+        'a' => 'Yes — that is most of what enterprise work is. We integrate with ERPs, CRMs, accounting '
+            . 'packages, payment gateways, logistics partners and hardware on the floor. Where a system has '
+            . 'no API, we use file, database or UI-level automation and put a proper contract layer in '
+            . 'front of it so the rest of your software does not have to know.',
+        'terms' => 'integrate systems already run custom software development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q85', 'cat' => 'page-faq',
+        'q' => 'Who owns the code and the data?',
+        'a' => 'You do, from the first week. The repository sits in your organisation, cloud accounts are in '
+            . 'your name, and domains and data never route through us. There is no escrow clause because '
+            . 'there is nothing to escrow.',
+        'terms' => 'owns code data custom software development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q86', 'cat' => 'page-faq',
+        'q' => 'How do you handle security?',
+        'a' => 'Threat modelling during design, least-privilege access, encryption in transit and at rest, '
+            . 'secrets in a managed store rather than the repository, dependency scanning in CI, and an '
+            . 'OWASP-aligned review before launch. For regulated work we produce the evidence your auditor '
+            . 'asks for and sit in that review with you.',
+        'terms' => 'handle security custom software development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q87', 'cat' => 'page-faq',
+        'q' => 'What happens after launch?',
+        'a' => 'Either we hand over — with runbooks, architecture documentation and a training session — or '
+            . 'we keep running it on a monthly retainer with monitoring, an SLA and a continuing roadmap. '
+            . 'Both are normal; the choice is usually about whether you have an internal team to receive '
+            . 'it.',
+        'terms' => 'happens launch custom software development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q88', 'cat' => 'page-faq',
+        'q' => 'Do you work with startups or only enterprises?',
+        'a' => 'Both. For startups the useful shape is a tight first release aimed at proving one thing, '
+            . 'then iterating on what real users do. For enterprises it is usually modernisation or a '
+            . 'platform several departments depend on. The engineering discipline is the same; the '
+            . 'sequencing is not.',
+        'terms' => 'work startups only enterprises custom software development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q89', 'cat' => 'page-faq',
+        'q' => 'Can you take over software someone else built?',
+        'a' => 'Regularly. We start with a paid audit — architecture, dependency and security review, plus '
+            . 'an honest assessment of what should be kept. Taking over a codebase without that audit is '
+            . 'how a rescue becomes a rewrite by accident.',
+        'terms' => 'take software someone else built custom development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q90', 'cat' => 'page-faq',
+        'q' => 'Where do you work from, and does that matter?',
+        'a' => 'Our studios are in Coimbatore and Chennai, and we deliver across India, the Gulf and the '
+            . 'United States. It matters mainly for the first phase: being able to sit in a room with the '
+            . 'people whose workflow you are modelling makes discovery considerably better.',
+        'terms' => 'work matter custom software development platform system erp bespoke',
+    ],
+    [
+        'id' => 'q91', 'cat' => 'page-faq',
+        'q' => 'How much does website development cost in Chennai?',
+        'a' => 'A business website from iThrive Software costs between ₹65,000 and ₹1,50,000 and takes three '
+            . 'to five weeks. An e-commerce platform runs ₹1,80,000 to ₹4,50,000 over six to ten weeks, and '
+            . 'a custom web application ₹3,50,000 to ₹9,00,000 over eight to sixteen weeks. The price is '
+            . 'fixed in writing before work starts, and covers design, development, technical SEO, '
+            . 'accessibility testing and launch.',
+        'terms' => 'website development cost chennai web site online presence seo google',
+    ],
+    [
+        'id' => 'q92', 'cat' => 'page-faq',
+        'q' => 'How long does it take to build a website?',
+        'a' => 'Three to five weeks for a business website, six to ten weeks for an e-commerce store, and '
+            . 'eight to sixteen weeks for a web application. The largest variable is content: projects '
+            . 'where copy and photography are ready typically finish at the shorter end of the range.',
+        'terms' => 'long take build website web site online presence seo google',
+    ],
+    [
+        'id' => 'q93', 'cat' => 'page-faq',
+        'q' => 'Do you work with businesses outside Chennai and Coimbatore?',
+        'a' => 'Yes. iThrive Software delivers to clients across Tamil Nadu, Bangalore and the rest of '
+            . 'India, and has studios in Chennai, Coimbatore and Bangalore. Discovery and design sign-off '
+            . 'can be done on-site for clients in those three cities; delivery runs remotely against a '
+            . 'staging URL you can open at any time.',
+        'terms' => 'work businesses outside chennai coimbatore website web site online presence seo google',
+    ],
+    [
+        'id' => 'q94', 'cat' => 'page-faq',
+        'q' => 'Will my website rank on Google?',
+        'a' => 'The engineering that ranking depends on is included: server-rendered markup, structured '
+            . 'data, clean URL structure, sitemaps, redirects and Core Web Vitals inside Google\'s '
+            . 'thresholds. No agency can honestly promise a position, because ranking also depends on '
+            . 'content, competition and domain history — but the technical foundation is built in rather '
+            . 'than sold back to you later.',
+        'terms' => 'website rank google web site online presence seo',
+    ],
+    [
+        'id' => 'q95', 'cat' => 'page-faq',
+        'q' => 'Do I own the website and the code?',
+        'a' => 'Yes, completely. Code, domain, hosting accounts and content belong to you from day one and '
+            . 'live in your own repositories and accounts. iThrive Software does not hold your domain, does '
+            . 'not use proprietary licences you have to keep renting, and hands over full access at launch.',
+        'terms' => 'own website code web site online presence seo google',
+    ],
+    [
+        'id' => 'q96', 'cat' => 'page-faq',
+        'q' => 'Can you redesign my existing website without losing my Google rankings?',
+        'a' => 'Yes. A redesign begins with a crawl of the existing site to record every indexed URL, then a '
+            . 'redirect map that preserves them. URL structure is kept wherever it already works, and the '
+            . 'cutover is staged with rollback ready rather than switched over in one go.',
+        'terms' => 'redesign existing website without losing google rankings web site online presence seo',
+    ],
+    [
+        'id' => 'q97', 'cat' => 'page-faq',
+        'q' => 'What technology do you build websites with?',
+        'a' => 'Mostly Python with Django or FastAPI on the back end, React or server-rendered PHP on the '
+            . 'front end, PostgreSQL for data, and Nginx with Cloudflare in front. WordPress is used when a '
+            . 'client\'s team already knows it and the site is content-led. The stack is chosen for what the '
+            . 'project needs, not for what is fashionable.',
+        'terms' => 'technology build websites website web site online presence seo google',
+    ],
+    [
+        'id' => 'q98', 'cat' => 'page-faq',
+        'q' => 'Do you provide website maintenance after launch?',
+        'a' => 'Yes. Maintenance retainers cover security patching, backups, uptime monitoring, content '
+            . 'updates and a named engineer with an agreed response window. Sites launched without a '
+            . 'retainer still receive a 30-day defect warranty.',
+        'terms' => 'provide website maintenance launch web site online presence seo google',
+    ],
+    [
+        'id' => 'q99', 'cat' => 'page-faq',
+        'q' => 'Will my website work properly on mobile phones?',
+        'a' => 'Every site is built mobile-first and tested on real devices, not just a resized desktop '
+            . 'browser. Layouts hold from a 360-pixel Android screen upward, and performance budgets are '
+            . 'measured on a mid-range device on 4G rather than on a developer\'s laptop.',
+        'terms' => 'website work properly mobile phones web site online presence seo google',
+    ],
+    [
+        'id' => 'q100', 'cat' => 'page-faq',
+        'q' => 'Can you integrate payments, WhatsApp and my CRM?',
+        'a' => 'Yes. Razorpay, Stripe, UPI and cash-on-delivery reconciliation, WhatsApp Business enquiry '
+            . 'routing, and CRM integrations including Zoho, HubSpot and Salesforce are all standard work. '
+            . 'Integrations are wired during development sprints rather than bolted on after launch.',
+        'terms' => 'integrate payments whatsapp crm website web site online presence seo google',
+    ],
+    [
+        'id' => 'q101', 'cat' => 'page-faq',
+        'q' => 'Why choose iThrive Software as your Flutter app development company in Chennai?',
+        'a' => 'iThrive Software is a Flutter app development company in Chennai with studios in Coimbatore '
+            . 'and Bangalore, building production Flutter apps in Dart for iOS, Android, web and desktop '
+            . 'from a single codebase. You get 100% source code and IP ownership, fixed milestone pricing '
+            . 'agreed in writing before work starts, a signed NDA, and store submission handled end to end '
+            . 'for both Apple App Store and Google Play.',
+        'terms' => 'choose ithrive software flutter app development company chennai dart cross platform ios android',
+    ],
+    [
+        'id' => 'q102', 'cat' => 'page-faq',
+        'q' => 'How much does Flutter app development cost in India?',
+        'a' => 'A basic Flutter app costs ₹2,20,000 to ₹3,80,000 and a feature-rich build with payments, '
+            . 'live location or on-device AI runs ₹6,50,000 to ₹12,00,000. Those are Indian market averages '
+            . 'for 2026. Flutter is what keeps them 30 to 50 percent below the cost of building separate '
+            . 'native iOS and Android apps, because one Dart codebase ships to both stores instead of two '
+            . 'teams building the same product twice.',
+        'terms' => 'flutter app development cost india dart cross platform ios android',
+    ],
+    [
+        'id' => 'q103', 'cat' => 'page-faq',
+        'q' => 'How long does it take to build a Flutter app?',
+        'a' => 'Five to seven weeks for a straightforward Flutter app, seven to ten weeks for most builds, '
+            . 'and ten to fourteen weeks for a regulated or AI-heavy one such as fintech or healthcare. '
+            . 'iThrive Software works in two-week sprints with an installable build every Friday, so '
+            . 'progress is something you run on your own phone rather than read in a status report.',
+        'terms' => 'long take build flutter app dart cross platform ios android',
+    ],
+    [
+        'id' => 'q104', 'cat' => 'page-faq',
+        'q' => 'Is Flutter better than React Native for app development?',
+        'a' => 'For most products, yes, and the reason is rendering. Flutter draws every pixel itself '
+            . 'through its Impeller engine rather than bridging to each platform’s native widgets, so an '
+            . 'app looks and behaves identically on iOS and Android and animation holds up at 120 FPS on '
+            . 'displays that support it. React Native remains the better answer when a team is already deep '
+            . 'in JavaScript or the app leans heavily on native modules. iThrive Software builds both and '
+            . 'will say which one your project actually needs.',
+        'terms' => 'flutter better react native app development dart cross platform ios android',
+    ],
+    [
+        'id' => 'q105', 'cat' => 'page-faq',
+        'q' => 'Can a Flutter app do everything a native app can?',
+        'a' => 'Yes. Camera, GPS, Bluetooth, biometrics, background tasks, push notifications, in-app '
+            . 'purchases and on-device machine learning are all available to Flutter through platform '
+            . 'channels, and where a plugin does not exist iThrive Software writes the native Swift or '
+            . 'Kotlin side. The practical limit is not capability but very specialised platform features on '
+            . 'release day, which sometimes need a native shim for a few weeks.',
+        'terms' => 'flutter app everything native dart cross platform ios android',
+    ],
+    [
+        'id' => 'q106', 'cat' => 'page-faq',
+        'q' => 'Do you build Flutter apps for clients outside Chennai?',
+        'a' => 'Yes. iThrive Software delivers Flutter app development across Tamil Nadu, Bangalore and the '
+            . 'rest of India, with studios in Chennai, Coimbatore and Bangalore. Discovery and design '
+            . 'sign-off can happen on-site in any of those three cities; delivery runs remotely with an '
+            . 'installable build each sprint.',
+        'terms' => 'build flutter apps clients outside chennai dart cross platform app ios android',
+    ],
+    [
+        'id' => 'q107', 'cat' => 'page-faq',
+        'q' => 'Will I own the Flutter source code and the IP?',
+        'a' => 'Yes, completely. On milestone sign-off iThrive Software transfers the GitHub or GitLab '
+            . 'organisation itself rather than a zip file, with commit history, branches and CI pipelines '
+            . 'intact. Cloud accounts, the Apple Developer and Google Play listings, signing keys, '
+            . 'environment secrets and the Figma files move into your name at the same time.',
+        'terms' => 'own flutter source code dart cross platform app ios android',
+    ],
+    [
+        'id' => 'q108', 'cat' => 'page-faq',
+        'q' => 'Do you handle App Store and Google Play submission for Flutter apps?',
+        'a' => 'Yes. App signing, screenshots, privacy and data-safety declarations, metadata and the '
+            . 'review-rejection cycle are all handled for both stores until the app is live. One Flutter '
+            . 'codebase produces both builds, so a release goes to iOS and Android together rather than one '
+            . 'lagging the other by a sprint.',
+        'terms' => 'handle app store google play submission flutter apps dart cross platform ios android',
+    ],
+    [
+        'id' => 'q109', 'cat' => 'page-faq',
+        'q' => 'What support do you provide after a Flutter app launches?',
+        'a' => 'Every build ships with a 90-day warranty at no cost: any defect traceable to our code is '
+            . 'fixed at our expense, same-business-day response, fix targeted within 72 hours by severity. '
+            . 'After that, annual plans cover Flutter and Dart SDK upgrades, OS releases and dependency '
+            . 'drift — the work that keeps an app installable and submittable three years on, which is the '
+            . 'real risk over that horizon.',
+        'terms' => 'support provide flutter app launches dart cross platform ios android',
+    ],
+    [
+        'id' => 'q110', 'cat' => 'page-faq',
+        'q' => 'Can you convert an existing native or React Native app to Flutter?',
+        'a' => 'Yes. iThrive Software migrates existing iOS, Android and React Native apps to Flutter, '
+            . 'usually screen by screen behind the existing shell so the app stays shippable throughout '
+            . 'rather than going dark for a rewrite. The starting point is an audit of the current codebase '
+            . 'and its analytics, so the migration order follows what users actually touch.',
+        'terms' => 'convert existing native react app flutter dart cross platform ios android',
+    ],
+
+    // ---- 12. Pages that published no FAQ of their own ----------------------
+    //
+    // AI Enablement, AI-Native Product Development and E-commerce Development
+    // each ran without a single question and answer, on the site or in the
+    // book, so the assistant had nothing to say about three of the services it
+    // sells. Written from what those pages actually claim, so the page and the
+    // assistant cannot contradict each other. Filed under the existing
+    // categories rather than a new one, because that is where a reader looking
+    // for them would go.
+
+    [
+        'id' => 'q111', 'cat' => 'ai-assistant',
+        'q' => 'Can you add AI to our existing product without a rewrite?',
+        'a' => 'Yes — that is the whole point of the enablement work. Intelligence ships as a separate '
+            . 'service alongside your platform rather than through it, behind a feature flag. Your existing '
+            . 'product keeps running untouched, and the AI layer can be switched off in one call if it '
+            . 'misbehaves.',
+        'terms' => 'add ai existing product rewrite sidecar alongside feature flag enable enablement retrofit legacy without rebuild',
+    ],
+    [
+        'id' => 'q112', 'cat' => 'ai-assistant',
+        'q' => 'How do you decide which AI features are actually worth building?',
+        'a' => 'We instrument the product you already have, find where users stall and where support tickets '
+            . 'cluster, then rank the candidate features by effort against measured impact. The audit comes '
+            . 'before the build, so the first thing we ship is the one with evidence behind it.',
+        'terms' => 'which ai features worth building audit opportunity prioritise roi evidence impact stall tickets decide',
+    ],
+    [
+        'id' => 'q113', 'cat' => 'ai-assistant',
+        'q' => 'What happens if the AI gets something wrong in production?',
+        'a' => 'Every agent action has a deterministic fallback path and, where a wrong move would cost '
+            . 'something, a human approval gate. Outputs are schema-validated, there are cost ceilings, and '
+            . 'every run is traced — so when something is wrong you can see exactly which step did it and '
+            . 'roll back that step.',
+        'terms' => 'ai wrong mistake error production fallback guardrail approval rollback hallucination safety trace incident',
+    ],
+    [
+        'id' => 'q114', 'cat' => 'ai-assistant',
+        'q' => 'Will adding AI slow our existing product down?',
+        'a' => 'No, because it does not sit in the request path unless it has to. The intelligence runs as '
+            . 'its own service with its own scaling, and where a response has to be synchronous we hold it '
+            . 'to a latency budget agreed up front and fall back to the non-AI path if it is exceeded.',
+        'terms' => 'slow performance latency speed impact existing product degrade response time budget synchronous',
+    ],
+    [
+        'id' => 'q115', 'cat' => 'ai-native',
+        'q' => 'What is the difference between an AI-native product and one with AI bolted on?',
+        'a' => 'A bolted-on product is a normal application with a chat box added. An AI-native one is '
+            . 'architected the other way round: the agent owns the workflow and the interface exists so a '
+            . 'person can supervise it. That changes the data model, the permissions and the error '
+            . 'handling, which is why it is hard to retrofit.',
+        'terms' => 'ai native versus bolted on difference chat box architecture agent owns workflow greenfield rethink',
+    ],
+    [
+        'id' => 'q116', 'cat' => 'ai-native',
+        'q' => 'How do you stop an AI product from hallucinating?',
+        'a' => 'Retrieval grounded in your own corpus with citations back to the source document, '
+            . 'schema-validated outputs so a malformed answer fails rather than ships, and an evaluation '
+            . 'harness with a golden dataset that runs on every prompt or model change. Quality regressions '
+            . 'get caught in CI rather than by customers.',
+        'terms' => 'hallucinate hallucination accuracy wrong answers grounding citations eval harness golden dataset quality regression rag',
+    ],
+    [
+        'id' => 'q117', 'cat' => 'ai-native',
+        'q' => 'How long does it take to get an agentic product into production?',
+        'a' => 'Six to ten weeks for a greenfield agent in production. That covers the agent design, the '
+            . 'retrieval architecture, the evaluation suite and the observability — not a demo, but the '
+            . 'version with the guardrails and the traces that let you run it in front of customers.',
+        'terms' => 'how long agentic agent production timeline weeks greenfield ai native build ship launch',
+    ],
+    [
+        'id' => 'q118', 'cat' => 'ai-native',
+        'q' => 'How do you measure whether an AI feature is working?',
+        'a' => 'Against the number it was built to move, agreed before the build starts, and measured '
+            . 'against a held-out control rather than a dashboard. Every agent run is traced and costed per '
+            . 'customer and per feature, so the benefit and the bill are both visible.',
+        'terms' => 'measure success metrics roi working evaluate control group traced costed observability proof value',
+    ],
+    [
+        'id' => 'q119', 'cat' => 'ecommerce',
+        'q' => 'Do you build on Shopify, or custom?',
+        'a' => 'Both, and the choice follows the catalogue rather than fashion. Shopify Plus and headless '
+            . 'Shopify with a Next.js storefront where the commerce engine is standard; a custom Node.js or '
+            . 'Python engine where pricing, bundling or fulfilment rules are specific enough that fighting '
+            . 'a platform costs more than building one.',
+        'terms' => 'shopify custom headless woocommerce platform choose ecommerce build storefront nextjs magento which',
+    ],
+    [
+        'id' => 'q120', 'cat' => 'ecommerce',
+        'q' => 'Can you migrate our existing store without losing SEO or order history?',
+        'a' => 'Yes. URLs are mapped one to one with 301 redirects before launch, structured data is carried '
+            . 'across, and order and customer history is migrated and reconciled against the old system '
+            . 'before the switch. We keep the old store live until the counts match.',
+        'terms' => 'migrate migration existing store seo rankings order history data move replatform redirect 301 lose traffic',
+    ],
+    [
+        'id' => 'q121', 'cat' => 'ecommerce',
+        'q' => 'What does AI actually do for an e-commerce store?',
+        'a' => 'Ranking that reflects what each shopper has browsed, bought and abandoned rather than what '
+            . 'is being promoted this week; semantic catalogue search that understands a description '
+            . 'instead of matching keywords; and support deflection on the questions that repeat. Measured '
+            . 'on conversion and return rate, not on engagement.',
+        'terms' => 'ai ecommerce retail recommendation personalisation search conversion basket returns deflection ranking product discovery',
+    ],
+    [
+        'id' => 'q122', 'cat' => 'ecommerce',
+        'q' => 'Can you integrate payments, WhatsApp and our logistics provider?',
+        'a' => 'Yes — Razorpay, Stripe, PayU and UPI for payments, WhatsApp Business for order updates and '
+            . 'support, and the major Indian courier aggregators for fulfilment and tracking. These are '
+            . 'integrations we have shipped before rather than ones we would be exploring on your budget.',
+        'terms' => 'integrate payments razorpay stripe upi whatsapp logistics courier shipping delivery tracking fulfilment gateway',
     ],
 ];
