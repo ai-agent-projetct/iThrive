@@ -170,6 +170,42 @@ const FAQ_LEXICON = [
     'പഴയ' => 'legacy old modernization', 'ಹಳೆಯ' => 'legacy old modernization',
     'పాత' => 'legacy old modernization', 'पुराना' => 'legacy old modernization',
     'आधुनिक' => 'modernization upgrade',
+    // vision / OCR — the AI Development Company page's own subject matter, and
+    // a topic the answer book gained entries for (q79) with no way for a
+    // non-English question to reach them.
+    'பார்வை' => 'vision computer vision', 'படம்' => 'image vision', 'புகைப்பட' => 'image photo vision',
+    'ஸ்கேன்' => 'scan ocr', 'ஆவணம்' => 'document ocr',
+    'ദൃശ്യ' => 'vision computer vision', 'ചിത്ര' => 'image vision', 'സ്കാൻ' => 'scan ocr',
+    'ರೇಖಾ' => 'image vision', 'ದೃಷ್ಟಿ' => 'vision computer vision', 'ಚಿತ್ರ' => 'image vision',
+    'ದಾಖಲೆ' => 'document ocr',
+    'దృష్టి' => 'vision computer vision', 'చిత్ర' => 'image vision', 'పత్ర' => 'document ocr',
+    'दृष्टि' => 'vision computer vision', 'छवि' => 'image vision', 'चित्र' => 'image vision',
+    'दस्तावेज' => 'document ocr', 'स्कैन' => 'scan ocr',
+
+    // voice / speech — the assistant itself is the worked example (q80)
+    'குரல்' => 'voice speech voicebot', 'பேச' => 'speech talk voice',
+    'ശബ്ദ' => 'voice speech voicebot', 'സംസാരി' => 'speech talk voice',
+    'ಧ್ವನಿ' => 'voice speech voicebot', 'ಮಾತನಾಡ' => 'speech talk voice',
+    'వాయిస్' => 'voice speech voicebot', 'మాట్లాడ' => 'speech talk voice',
+    'आवाज' => 'voice speech voicebot', 'बोल' => 'speech talk voice', 'वॉइस' => 'voice voicebot',
+
+    // where we are — the city questions the AI Development Company page ranks
+    // for, so they have to work in the languages those cities actually speak
+    'சென்னை' => 'chennai city location', 'பெங்களூரு' => 'bangalore city location',
+    'கோயம்புத்தூர்' => 'coimbatore city location', 'இடம்' => 'location where office',
+    'ചെന്നൈ' => 'chennai city location', 'ബെംഗളൂരു' => 'bangalore city location',
+    'ಬೆಂಗಳೂರು' => 'bangalore city location', 'ಚೆನ್ನೈ' => 'chennai city location',
+    'హైదరాబాద్' => 'hyderabad city location', 'చెన్నై' => 'chennai city location',
+    'चेन्नई' => 'chennai city location', 'बैंगलोर' => 'bangalore city location',
+    'हैदराबाद' => 'hyderabad city location', 'कोयंबटूर' => 'coimbatore city location',
+    'कहाँ' => 'where location', 'कार्यालय' => 'office location',
+
+    // compliance, by name — GDPR/HIPAA/ISO travel untranslated, but the words
+    // around them do not
+    'இணக்க' => 'compliance governance', 'தணிக்கை' => 'audit compliance',
+    'അനുസരണ' => 'compliance governance', 'ಅನುಸರಣೆ' => 'compliance governance',
+    'సమ్మతి' => 'compliance governance', 'अनुपालन' => 'compliance governance',
+    'नियम' => 'compliance rules governance',
 ];
 
 /** Tokens too common to carry meaning. */

@@ -35,6 +35,7 @@ const FAQ_CATEGORIES = [
     'modernise'    => 'Digital Product Engineering, Modernization & ERP',
     'cloud'        => 'Cloud, DevOps & Infrastructure',
     'growth'       => 'Ideation, Business Growth & ROI Strategy',
+    'ai-delivery'  => 'AI Development: Delivery, Cost, Compliance & Ownership',
 ];
 
 const FAQ = [
@@ -608,5 +609,98 @@ const FAQ = [
              . 'today means your platform continuously captures data, learns user preferences, automates '
              . 'internal costs and stays ahead of competitors still running legacy systems.',
         'terms' => 'competitive advantage long term future why now strategy ahead moat legacy competitors',
+    ],
+    // ---- 10. AI development: delivery, cost, compliance, ownership --------
+    //
+    // Drawn from the AI Development Company page's own accordion, which the
+    // brain had never been given, plus the gaps its content left. Measured
+    // before adding these: "do you do computer vision and OCR" fell straight
+    // through to the demo boundary, and "are you an AI development company in
+    // Bangalore" matched an unrelated entry about what AI-First means.
+
+    [
+        'id' => 'q71', 'cat' => 'ai-delivery',
+        'q' => 'How long does it take to build a custom enterprise AI solution?',
+        'a' => 'It depends on scope and how ready your data is. A proof of concept or an interactive '
+             . 'MVP typically takes four to six weeks. An enterprise production system - domain LLM '
+             . 'fine-tuning, RAG ingestion pipelines, an automated evaluation suite and legacy ERP '
+             . 'integration - generally runs three to six months.',
+        'terms' => 'how long timeline duration weeks months build enterprise ai solution poc mvp delivery time schedule',
+    ],
+    [
+        'id' => 'q72', 'cat' => 'ai-delivery',
+        'q' => 'How much does AI development cost in India compared to Western agencies?',
+        'a' => 'Building with an AI development company in India typically costs 50 to 65 per cent less '
+             . 'than a comparable US or European firm. Focused MVPs and chatbots generally land between '
+             . '$15,000 and $50,000; large multimodal LLM architectures with distributed compute run '
+             . 'from $80,000 to $200,000 and up.',
+        'terms' => 'cost price pricing budget how much india cheaper western usa europe compare rate expensive dollars',
+    ],
+    [
+        'id' => 'q73', 'cat' => 'ai-delivery',
+        'q' => 'Can your AI models integrate into our existing ERP, CRM and legacy databases?',
+        'a' => 'Yes. We build non-invasive REST microservices, GraphQL APIs and middleware connectors '
+             . 'that talk to SAP, Salesforce, Microsoft Dynamics, Oracle and proprietary SQL or NoSQL '
+             . 'data lakes - without downtime and without disrupting daily operations.',
+        'terms' => 'integrate integration erp crm legacy database sap salesforce dynamics oracle existing systems connect middleware api',
+    ],
+    [
+        'id' => 'q74', 'cat' => 'ai-delivery',
+        'q' => 'Who owns the intellectual property, the model weights and the data?',
+        'a' => 'You do - 100 per cent. Proprietary datasets, fine-tuned model checkpoints, vector '
+             . 'embeddings and custom codebases all belong to your organisation on completion. We sign '
+             . 'a bilateral NDA before any discovery discussion begins.',
+        'terms' => 'ip intellectual property own ownership weights data nda rights code belongs licence copyright',
+    ],
+    [
+        'id' => 'q75', 'cat' => 'ai-delivery',
+        'q' => 'Why build a custom AI model instead of just using public APIs like ChatGPT?',
+        'a' => 'Generic APIs are fine for simple tasks. Enterprise systems tend to need guaranteed zero '
+             . 'data leakage, sub-100ms latency, deterministic accuracy rather than hallucination, and a '
+             . 'fixed compute cost instead of per-token pricing that balloons at scale. A custom '
+             . 'fine-tuned model runs privately in your own environment.',
+        'terms' => 'custom model versus public api chatgpt openai why build own private latency hallucination token cost scale',
+    ],
+    [
+        'id' => 'q76', 'cat' => 'ai-delivery',
+        'q' => 'How do you ensure data security, GDPR and HIPAA compliance?',
+        'a' => 'We work to ISO/IEC 27001, SOC 2 Type II and the NIST AI Risk Management Framework. '
+             . 'Pipelines carry automatic PII redaction, end-to-end encryption in transit and at rest, '
+             . 'role-based access control, and deployment inside isolated virtual private clouds.',
+        'terms' => 'security gdpr hipaa compliance iso 27001 soc2 nist governance pii encryption rbac vpc privacy audit safe',
+    ],
+    [
+        'id' => 'q77', 'cat' => 'ai-delivery',
+        'q' => 'What happens after launch? Do you provide MLOps and model maintenance?',
+        'a' => 'Yes. Continuous post-launch support and MLOps: 24/7 telemetry monitoring, model drift '
+             . 'detection, automated re-training triggers as new data arrives, security patching, and '
+             . 'dedicated SLA response times.',
+        'terms' => 'after launch support maintenance mlops monitoring drift retraining sla ongoing post production upkeep',
+    ],
+    [
+        'id' => 'q78', 'cat' => 'ai-delivery',
+        'q' => 'Are you an AI development company in Chennai, Bangalore, Hyderabad and Coimbatore?',
+        'a' => 'Yes. iThrive builds AI systems from engineering centres in Chennai, Bangalore, Hyderabad '
+             . 'and Coimbatore, delivering to clients across India, the USA, the UK, Singapore and the '
+             . 'UAE. See /services/ai-development-company.php',
+        'terms' => 'ai development company city chennai bangalore bengaluru hyderabad coimbatore india location office where based near me',
+    ],
+    [
+        'id' => 'q79', 'cat' => 'ai-delivery',
+        'q' => 'Do you build computer vision and OCR systems?',
+        'a' => 'Yes. Document and invoice reading, optical defect detection on a production line, '
+             . 'medical imaging support and image classification at volumes nobody can staff for - '
+             . 'built on YOLO, SAM and document AI models, with the confidence score surfaced so a '
+             . 'person reviews the cases the model is unsure about.',
+        'terms' => 'computer vision ocr image detection yolo sam document ai invoice defect inspection recognition scanning visual camera',
+    ],
+    [
+        'id' => 'q80', 'cat' => 'ai-delivery',
+        'q' => 'Can you build a multilingual voicebot or chatbot?',
+        'a' => 'Yes - assistants that answer in the language the customer actually speaks, across 25+ '
+             . 'Indian and international languages, grounded in your own documentation and escalating '
+             . 'cleanly to a human the moment they should stop guessing. The assistant on this site is '
+             . 'one, answering in English, Tamil, Malayalam, Kannada, Telugu and Hindi.',
+        'terms' => 'voicebot chatbot voice assistant multilingual language tamil hindi telugu kannada malayalam speech ivr call bot conversational',
     ],
 ];
