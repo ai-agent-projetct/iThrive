@@ -1,5 +1,6 @@
 /*
- * Corrections to the ported AI-Development-company stylesheet.
+ * Corrections to the ported AI-Development-company stylesheet, plus this site's
+ * own additions to that page (see the stack-reveal block at the end).
  *
  * These live apart from assets/css/ai-dev.css on purpose: that file is a
  * machine transform of the source project's style.css (every selector scoped
@@ -8,6 +9,24 @@
  *
  * Keep this file small, and keep each rule's reason with it.
  */
+
+/*
+ * The wrapper must clip, not scroll.
+ *
+ * The source's `body { overflow-x: hidden }` became `.aidev { overflow-x:
+ * hidden }` when the sheet was scoped. On a body that is harmless — the browser
+ * propagates body overflow to the viewport — but on an ordinary div it forces
+ * overflow-y to `auto`, which makes .aidev its own scroll container. Everything
+ * `position: sticky` inside it then sticks to a 24,000px-tall box instead of the
+ * viewport, and simply scrolls away: that is what the stack-reveal deck below
+ * does without this line.
+ *
+ * `clip` still prevents sideways scrolling but creates no scroll container, so
+ * the other axis stays `visible` and sticky keeps working.
+ */
+.aidev {
+  overflow-x: clip;
+}
 
 /*
  * The 4-layer stack's cards.
@@ -85,4 +104,184 @@
       rgba(5, 6, 15, 0) 70%);
   filter: blur(6px);
   pointer-events: none;
+}
+
+/* ==========================================================================
+   Stack reveal — the "five AI functions" deck (components/aidev/stack-reveal.php)
+   ==========================================================================
+
+   Modelled on stack-scroll-reveal.framer.ai, whose behaviour I measured rather
+   than guessed: four sticky cards pinned at staggered offsets carrying STATIC
+   scales. The pile-up is stickiness, not animation — so there is no JavaScript
+   here, and the deck works with scripting off.
+
+   Each card pins --gap lower and --shrink smaller than the one before, so every
+   card's head stays visible under the ones that land on top of it.
+   -------------------------------------------------------------------------- */
+
+.aidev .stackrev { position: relative; }
+
+.aidev .stackrev-head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 3.5rem;
+}
+
+.aidev .stackrev-list {
+  /* The deck is measured from here, so the cards' `top` needs one place to
+     read the site header's height from. */
+  --pin: 104px;
+  --gap: 18px;
+  --shrink: 0.035;
+
+  max-width: 940px;
+  margin: 0 auto;
+  /* Room under the last card so the deck finishes assembling before the next
+     section arrives and shoves it off screen. */
+  padding-bottom: 22vh;
+}
+
+.aidev .stackrev-card {
+  position: sticky;
+  top: calc(var(--pin) + var(--i) * var(--gap));
+
+  /* `scale` rather than a transform, so the entrance animation below can own
+     `transform` outright without either clobbering the other. */
+  scale: calc(1 - var(--i) * var(--shrink));
+  transform-origin: top center;
+
+  /* Each card needs its own run of scroll before the next one lands. */
+  margin-bottom: 34vh;
+
+  padding: 2.5rem 2.75rem 2.25rem;
+  border-radius: 22px;
+  border: 1px solid rgba(34, 211, 238, 0.22);
+  background:
+    linear-gradient(150deg, rgba(19, 24, 48, 0.97) 0%, rgba(9, 11, 24, 0.99) 68%);
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.72),
+    0 0 44px rgba(34, 211, 238, 0.08);
+  /* Opaque enough that a card genuinely hides the one it covers. */
+  backdrop-filter: blur(6px);
+}
+
+.aidev .stackrev-card:last-child { margin-bottom: 0; }
+
+/* A hairline of brand along the top edge, which is the part that stays visible
+   once a card is buried. It is the only way to tell the deck apart at a glance. */
+.aidev .stackrev-card::before {
+  content: '';
+  position: absolute;
+  left: 2.75rem;
+  right: 2.75rem;
+  top: 0;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: linear-gradient(90deg, #22D3EE 0%, #3B5EFD 45%, #8B2FC9 75%, #D946EF 100%);
+}
+
+.aidev .stackrev-card-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.aidev .stackrev-num {
+  font-family: var(--font-mono, monospace);
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(135deg, #22D3EE 0%, #8B2FC9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aidev .stackrev-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-cyan, #22D3EE);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+}
+
+.aidev .stackrev-title {
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  line-height: 1.22;
+  margin: 0 0 0.85rem;
+  color: #FFF;
+}
+
+.aidev .stackrev-body {
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0 0 1.5rem;
+  max-width: 62ch;
+}
+
+.aidev .stackrev-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.aidev .stackrev-chips li {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  color: var(--text-secondary, #9AA4C0);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  padding: 0.42rem 0.75rem;
+}
+
+/*
+ * The arrival tilt — the one part that really is animated.
+ *
+ * Driven by the scroll position of the card itself rather than by a listener,
+ * so it costs no JavaScript and cannot fall out of sync with the scroll.
+ * Unsupported browsers skip the block entirely and the cards arrive upright,
+ * which loses the flourish and none of the structure.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .aidev .stackrev-card {
+      animation: stackrev-arrive linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 26%;
+    }
+
+    @keyframes stackrev-arrive {
+      from {
+        transform: perspective(1400px) rotateX(11deg) translateY(46px);
+        opacity: 0.35;
+      }
+      to {
+        transform: perspective(1400px) rotateX(0deg) translateY(0);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .aidev .stackrev-list {
+    --pin: 88px;
+    --gap: 11px;
+    --shrink: 0.022;
+  }
+
+  .aidev .stackrev-card {
+    padding: 1.9rem 1.6rem;
+    margin-bottom: 26vh;
+  }
+
+  .aidev .stackrev-card::before { left: 1.6rem; right: 1.6rem; }
 }

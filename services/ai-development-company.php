@@ -108,6 +108,7 @@ require dirname(__DIR__) . '/includes/header.php';
   <?php foreach ([
       'hero',            // 3D robot, prompt bar and ticker
       'stats-bar',       // trust stats
+      'stack-reveal',    // section 3: the five functions, as a sticky deck
       'awards-strip',    // certifications marquee
       'solutions',       // numbered rail 01–09 with the video showcase
       'gateway-facts',   // quick-facts row
