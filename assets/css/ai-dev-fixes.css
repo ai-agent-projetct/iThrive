@@ -192,3 +192,125 @@
 /* The ported sheet sets .container to a 1360px shell; the panels want the
    site's own --shell so they line up with the home page's deck exactly. */
 .aidev .pstack { max-width: none; }
+
+/* ==========================================================================
+   Our Enterprise AI Solutions — the polaroid gallery
+   ==========================================================================
+
+   After Soyeb's paid "Polaroid Scroll" component, built from its description
+   rather than its code (it publishes none). The glide is set by
+   assets/js/aidev/polaroid-scroll.js as --glide; everything else is here.
+   -------------------------------------------------------------------------- */
+
+.aidev .polaroid-section { overflow: hidden; }
+
+.aidev .polaroid-head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 4rem;
+}
+
+/* Three lanes on a canvas wider than the window, so the wall reads as bigger
+   than the frame it is seen through. */
+.aidev .polaroid-scroll {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 3.5vw, 56px);
+  /* Wide, but not wider than the window. 132vw gave the "large canvas" feel and
+     also pushed the outer lanes off both edges before the glide had even
+     started, so three of the nine were clipped mid-sentence at rest. The canvas
+     reads as generous because the cards are big and they move — not because it
+     overhangs the screen. */
+  width: min(1680px, 100%);
+  margin-inline: auto;
+  padding: 0 clamp(20px, 4vw, 60px);
+  align-items: start;
+}
+
+/* Each lane is offset so the three rows never line up into a grid. */
+.aidev .polaroid { grid-column: calc(var(--lane) + 1); }
+.aidev .polaroid:nth-child(3n + 2) { margin-top: clamp(48px, 7vw, 120px); }
+.aidev .polaroid:nth-child(3n + 3) { margin-top: clamp(24px, 3.5vw, 64px); }
+
+.aidev .polaroid {
+  margin: 0 0 clamp(40px, 5vw, 88px);
+  padding: 14px 14px 0;
+  border-radius: 6px;
+  /* The polaroid itself: a pale card, not a dark one — the whole point is that
+     it looks like a print pinned to a board. */
+  background: linear-gradient(180deg, #F4F6FA 0%, #E6EAF2 100%);
+  box-shadow:
+    0 30px 60px -22px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+
+  /* Depth: near cards sit larger and sharper, far ones smaller and softer.
+     --glide is the horizontal travel the script sets. */
+  transform:
+    translate3d(var(--glide, 0px), 0, 0)
+    rotate(var(--tilt, 0deg))
+    scale(calc(1 - var(--depth, 0) * 0.16));
+  filter: brightness(calc(1 - var(--depth, 0) * 0.22)) saturate(calc(1 - var(--depth, 0) * 0.2));
+  transform-origin: 50% 40%;
+  will-change: transform;
+}
+
+/* 4:3, big — the picture is the point. */
+.aidev .polaroid-photo {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #0B0F17;
+}
+
+.aidev .polaroid-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* The wide bottom lip a polaroid has, with the writing on it. */
+.aidev .polaroid-caption {
+  padding: 18px 8px 22px;
+  color: #10182A;
+}
+
+.aidev .polaroid-num {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #4A5878;
+}
+
+.aidev .polaroid-title {
+  margin: 6px 0 8px;
+  font-size: clamp(1.02rem, 1.25vw, 1.24rem);
+  line-height: 1.25;
+  font-weight: 800;
+  color: #0B1224;
+}
+
+.aidev .polaroid-body {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #3C4966;
+}
+
+/* Reduced motion, or no script: the wall stops travelling but stays a gallery. */
+.aidev .polaroid-scroll.is-static .polaroid { transform: rotate(var(--tilt, 0deg)); }
+
+@media (max-width: 1100px) {
+  .aidev .polaroid-scroll { grid-template-columns: repeat(2, minmax(0, 1fr)); width: min(1100px, 100%); }
+  .aidev .polaroid { grid-column: auto; }
+  .aidev .polaroid:nth-child(3n + 2),
+  .aidev .polaroid:nth-child(3n + 3) { margin-top: 0; }
+}
+
+@media (max-width: 700px) {
+  .aidev .polaroid-scroll { grid-template-columns: minmax(0, 1fr); width: 100%; }
+  /* One column on a phone: the shear has nowhere to go, and a tilted card in a
+     single column just looks broken. */
+  .aidev .polaroid { transform: none !important; filter: none; }
+}

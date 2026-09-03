@@ -209,5 +209,8 @@ require dirname(__DIR__) . '/includes/header.php';
          NEXT one has risen, which is the tilt. */ ?>
 <script src="<?= e(asset('assets/js/process-panels.js')) ?>" defer></script>
 
+<?php /* The polaroid gallery's glide — see the note in the script. */ ?>
+<script src="<?= e(asset('assets/js/aidev/polaroid-scroll.js')) ?>" defer></script>
+
 <?php
 require dirname(__DIR__) . '/includes/footer.php';

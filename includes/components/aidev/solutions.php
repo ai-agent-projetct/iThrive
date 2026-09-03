@@ -1,256 +1,98 @@
 <?php
 /**
- * iThrive AI - ChainGPT-Style Solutions Section with Interactive Scroll & Video Deck
- * Path: sections/solutions.php
+ * Our Enterprise AI Solutions — as a scroll-driven polaroid gallery.
+ *
+ * After Soyeb's "Polaroid Scroll" on the Framer marketplace, whose own
+ * description is the spec: photos that "gently glide across the screen as you
+ * scroll, creating the feeling of a curated gallery rather than a traditional
+ * image grid… each polaroid smoothly moves across a large canvas, naturally
+ * changing composition and focus to create depth, motion, and visual interest."
+ *
+ * That component is a paid one ($9) with no public module, unlike Framer's Cover
+ * Flow Gallery in section four, which publishes its code and is therefore run
+ * here verbatim. This is the described behaviour built from scratch rather than
+ * a copy of their file — the honest option when the source is not available.
+ *
+ * The mechanics, in assets/js/aidev/polaroid-scroll.js:
+ * - Every polaroid has a lane (--lane), a depth (--depth) and a tilt. Depth
+ *   drives how far it travels, how big it is and how sharp: near cards glide
+ *   further and stay crisp, far cards drift slowly and sit back. That is the
+ *   "changing composition and focus" the reference describes.
+ * - Travel is tied to the section's own scroll progress, not to each card's, so
+ *   the whole wall moves as one thing.
+ *
+ * Degrades: with no JavaScript the polaroids sit in their lanes as a static
+ * gallery, and every solution's name and description is ordinary markup either
+ * way — the picture is never the only copy of the information.
+ *
+ * The nine are the same nine this section has always listed.
  */
+
+declare(strict_types=1);
+
+/**
+ * lane   which row it rides in (0 top, 2 bottom)
+ * depth  0 = nearest and sharpest, 1 = furthest and softest
+ * tilt   the handled, pinned-to-a-board feel; degrees
+ */
+$solutions = [
+    ['n' => '01', 'img' => 'strategy',    'lane' => 0, 'depth' => 0.10, 'tilt' => -3.2,
+     'title' => 'AI Strategy & Consulting',
+     'body'  => 'We instrument what you already run, find where the money and the hours actually go, and rank the AI opportunities by effort against measured impact before anyone writes code.'],
+    ['n' => '02', 'img' => 'product',     'lane' => 1, 'depth' => 0.55, 'tilt' => 2.4,
+     'title' => 'Custom AI Product Development',
+     'body'  => 'Greenfield products built around an agentic core — the model owns the workflow and the interface exists so a person can supervise it, not the other way round.'],
+    ['n' => '03', 'img' => 'genai',       'lane' => 2, 'depth' => 0.28, 'tilt' => -1.6,
+     'title' => 'Generative AI & LLM Agents',
+     'body'  => 'Fine-tuned models and multi-step agents on your own corpus, with typed tool contracts, approval gates and a trace on every run.'],
+    ['n' => '04', 'img' => 'voice',       'lane' => 0, 'depth' => 0.70, 'tilt' => 3.0,
+     'title' => 'Conversational AI & Voicebots',
+     'body'  => 'Assistants that answer in the language the customer speaks — 25+ of them — grounded in your documentation and escalating cleanly the moment they should stop guessing.'],
+    ['n' => '05', 'img' => 'vision',      'lane' => 1, 'depth' => 0.15, 'tilt' => -2.2,
+     'title' => 'Computer Vision, OCR & Video AI',
+     'body'  => 'Reading documents, inspecting product on the line and classifying footage at a volume nobody can staff for, with the uncertain cases routed to a person.'],
+    ['n' => '06', 'img' => 'integration', 'lane' => 2, 'depth' => 0.62, 'tilt' => 2.0,
+     'title' => 'Enterprise AI Integration',
+     'body'  => 'Non-invasive services and middleware into SAP, Salesforce, Dynamics, Oracle and your own data lakes — no downtime and no rewrite of the systems that earn.'],
+    ['n' => '07', 'img' => 'analytics',   'lane' => 0, 'depth' => 0.34, 'tilt' => -2.8,
+     'title' => 'Predictive Analytics & BI',
+     'body'  => 'Forecasts, churn and demand models with anomaly alerts that page someone, measured against a held-out control rather than a dashboard.'],
+    ['n' => '08', 'img' => 'governance',  'lane' => 1, 'depth' => 0.78, 'tilt' => 1.4,
+     'title' => 'AI Security & Compliance',
+     'body'  => 'ISO/IEC 27001, SOC 2 Type II and the NIST AI Risk Management Framework, with PII redaction, RBAC and an audit trail that predates the audit.'],
+    ['n' => '09', 'img' => 'edge',        'lane' => 2, 'depth' => 0.22, 'tilt' => -3.6,
+     'title' => 'Edge AI, Robotics & IoT',
+     'body'  => 'Models quantised to run on the device where the decision is made, so a dropped connection does not stop the line.'],
+];
 ?>
-<section id="solutions" class="section-padding">
-    <div class="container">
-        <!-- Section Header -->
-        <div style="text-align: center; max-width: 820px; margin: 0 auto 3.5rem;">
-            <div class="section-tag">
-                <span class="dot"></span>
-                <span>ENGINEERING CAPABILITIES</span>
-            </div>
-            <h2 class="section-title">
-                Our Enterprise <span class="text-gradient">AI Solutions</span>
-            </h2>
-            <p class="section-desc center">
-                Explore our full-lifecycle AI systems. Hover or click any solution below to preview the live interactive neural pipeline and video demonstration.
-            </p>
-        </div>
-
-        <!-- Interactive Split Video Showcase Deck (ChainGPT exact pattern) -->
-        <div class="solutions-deck-layout">
-            
-            <!-- Left Column: 01–09 Solution Selectors -->
-            <div class="solutions-selector-rail">
-                
-                <!-- 01: AI Strategy & Consulting -->
-                <div class="solution-deck-item active" data-solution-index="01" data-video-src="<?= e(asset('videos/aidev/ai_healthcare.mp4')) ?>" data-title="01: AI Strategy & Enterprise Feasibility" data-desc="Strategic enterprise roadmapping, LLM compute budget audits, and ROI feasibility assessments." data-tag="STRATEGY & FEASIBILITY" data-latency="Sub-200ms" data-accuracy="99.8%">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">01</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">AI Strategy &amp; Consulting</h3>
-                            <span class="sol-mini-tag">ENTERPRISE AUDIT</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Enterprise AI maturity auditing, architecture selection, and PoC feasibility to maximize ROI before writing model code.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> Enterprise AI Maturity Auditing</li>
-                        <li><i class="fa-solid fa-check"></i> Architecture &amp; Tech Stack Selection</li>
-                        <li><i class="fa-solid fa-check"></i> Proof-of-Concept (PoC) Feasibility</li>
-                    </ul>
-                </div>
-
-                <!-- 02: Custom AI Product Development -->
-                <div class="solution-deck-item" data-solution-index="02" data-video-src="<?= e(asset('videos/aidev/taxi_ai.mp4')) ?>" data-title="02: Custom AI Product & 3D SaaS Development" data-desc="Bespoke AI platforms, full-stack microservices, 3D WebGL interfaces, and mobile applications." data-tag="PRODUCT & 3D WEB" data-latency="Sub-100ms" data-accuracy="99.6%">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">02</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">Custom AI Product Development</h3>
-                            <span class="sol-mini-tag">FULL-STACK SAAS & 3D</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Bespoke AI-powered web SaaS platforms, mobile applications, and 3D digital interactive products tailored to your proprietary workflows.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> Full-Stack AI SaaS Platforms</li>
-                        <li><i class="fa-solid fa-check"></i> WebGL 3D Interactive Interfaces</li>
-                        <li><i class="fa-solid fa-check"></i> High-Throughput Microservice APIs</li>
-                    </ul>
-                </div>
-
-                <!-- 03: Generative AI & Autonomous LLM Agents -->
-                <div class="solution-deck-item" data-solution-index="03" data-video-src="<?= e(asset('videos/aidev/ai_healthcare.mp4')) ?>" data-title="03: Generative AI & Autonomous LLM Agents" data-desc="Domain fine-tuned LLMs, private RAG knowledge retrieval, and LangGraph multi-agent orchestration." data-tag="LLMS & RAG AGENTS" data-latency="Sub-400ms" data-accuracy="99.4%">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">03</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">Generative AI &amp; LLM Agents</h3>
-                            <span class="sol-mini-tag">RAG & LORA TUNING</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Custom fine-tuned LLMs, private RAG pipelines on your knowledge base, and autonomous decision-making agents executing multi-step jobs.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> Retrieval-Augmented Generation (RAG)</li>
-                        <li><i class="fa-solid fa-check"></i> LoRA &amp; QLoRA Model Fine-Tuning</li>
-                        <li><i class="fa-solid fa-check"></i> Multi-Agent Orchestration (LangGraph)</li>
-                    </ul>
-                </div>
-
-                <!-- 04: Conversational AI & Multilingual Voicebots -->
-                <div class="solution-deck-item" data-solution-index="04" data-video-src="<?= e(asset('videos/aidev/foodtime.mp4')) ?>" data-title="04: Conversational AI & Multilingual Voicebots" data-desc="Ultra-low latency conversational voicebots in 25+ Indian and global languages with emotion recognition." data-tag="VOICEBOTS & NLP" data-latency="Sub-350ms" data-accuracy="99.2%">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">04</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">Conversational AI &amp; Voicebots</h3>
-                            <span class="sol-mini-tag">25+ LANGUAGES</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Ultra-low-latency voice agents and contextual chatbots conducting human-like conversations across 25+ Indian and international languages.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> Multilingual NLP (Tamil, Hindi, Telugu, English)</li>
-                        <li><i class="fa-solid fa-check"></i> Real-Time Speech-to-Speech Inferencing</li>
-                        <li><i class="fa-solid fa-check"></i> Omnichannel CRM Integration (WhatsApp, Web)</li>
-                    </ul>
-                </div>
-
-                <!-- 05: Computer Vision, OCR & Video AI -->
-                <div class="solution-deck-item" data-solution-index="05" data-video-src="<?= e(asset('videos/aidev/ai_healthcare.mp4')) ?>" data-title="05: Computer Vision, OCR & Video AI" data-desc="YOLOv10 object tracking, industrial defect inspection, document OCR extraction, and video generation." data-tag="VISION & VIDEO AI" data-latency="60 FPS" data-accuracy="99.7%">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">05</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">Computer Vision, OCR &amp; Video AI</h3>
-                            <span class="sol-mini-tag">YOLOV10 & OCR</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Advanced visual intelligence for industrial defect inspection, real-time video surveillance, medical imaging scans, and document extraction.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> Real-Time Object Tracking (YOLOv10)</li>
-                        <li><i class="fa-solid fa-check"></i> Invoice, Passport &amp; Document OCR</li>
-                        <li><i class="fa-solid fa-check"></i> Generative Video &amp; Animation Pipelines</li>
-                    </ul>
-                </div>
-
-                <!-- 06: Enterprise AI Integration -->
-                <div class="solution-deck-item" data-solution-index="06" data-video-src="<?= e(asset('videos/aidev/taxi_ai.mp4')) ?>" data-title="06: Enterprise System AI Integration" data-desc="Seamlessly inject predictive and generative capabilities into SAP, Salesforce, Oracle, and data lakes." data-tag="SYSTEM INTEGRATION" data-latency="Sub-50ms" data-accuracy="99.9%">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">06</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">Enterprise AI Integration</h3>
-                            <span class="sol-mini-tag">SAP & SALESFORCE</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Seamlessly inject predictive and generative capabilities into your legacy ERP, CRM, HRMS, and data lakes without operational disruptions.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> SAP, Salesforce &amp; Oracle Connectors</li>
-                        <li><i class="fa-solid fa-check"></i> Vector DB Ingestion (Pinecone / Milvus)</li>
-                        <li><i class="fa-solid fa-check"></i> Zero-Downtime Microservice Pipelines</li>
-                    </ul>
-                </div>
-
-                <!-- 07: Predictive Analytics & BI -->
-                <div class="solution-deck-item" data-solution-index="07" data-video-src="<?= e(asset('videos/aidev/meetoo_dating.mp4')) ?>" data-title="07: Predictive Business Analytics & Forecasting" data-desc="Time-series financial forecasting, customer churn models, dynamic pricing, and anomaly detection." data-tag="PREDICTIVE BI" data-latency="Real-Time" data-accuracy="98.9%">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">07</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">Predictive Analytics &amp; BI</h3>
-                            <span class="sol-mini-tag">TIME-SERIES ML</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Transform historical raw data into high-precision predictive forecasts, dynamic pricing engines, customer churn models, and dashboards.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> Financial &amp; Demand Forecasting</li>
-                        <li><i class="fa-solid fa-check"></i> Churn &amp; Lifetime Value (LTV) Modeling</li>
-                        <li><i class="fa-solid fa-check"></i> Real-time Anomaly Alert Engines</li>
-                    </ul>
-                </div>
-
-                <!-- 08: AI Security & Governance -->
-                <div class="solution-deck-item" data-solution-index="08" data-video-src="<?= e(asset('videos/aidev/ai_healthcare.mp4')) ?>" data-title="08: AI Security, Governance & Compliance" data-desc="Real-time prompt injection defense, automatic PII masking, hallucination mitigation, and ISO 27001 auditing." data-tag="SECURITY VAULT" data-latency="Zero-Leakage" data-accuracy="ISO 27001">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">08</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">AI Security &amp; Compliance</h3>
-                            <span class="sol-mini-tag">NIST AI RMF</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Hardened AI guardrails, PII data sanitization, hallucination mitigation, and full regulatory alignment with ISO 27001, GDPR, and NIST AI RMF.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> Real-Time Prompt Injection Defense</li>
-                        <li><i class="fa-solid fa-check"></i> Automatic PII &amp; Sensitive Data Redaction</li>
-                        <li><i class="fa-solid fa-check"></i> Full Audit Trails &amp; RBAC Control</li>
-                    </ul>
-                </div>
-
-                <!-- 09: Edge AI, Robotics & IoT -->
-                <div class="solution-deck-item" data-solution-index="09" data-video-src="<?= e(asset('videos/aidev/taxi_ai.mp4')) ?>" data-title="09: Edge AI, Robotics & Smart IoT" data-desc="INT8 quantized neural models running on NVIDIA Jetson, drones, and IoT hardware with zero cloud lag." data-tag="EDGE TENSORRT" data-latency="Sub-5ms" data-accuracy="99.5%">
-                    <div class="sol-deck-header">
-                        <span class="sol-num">09</span>
-                        <div class="sol-deck-title-wrap">
-                            <h3 class="sol-title">Edge AI, Robotics &amp; IoT</h3>
-                            <span class="sol-mini-tag">NVIDIA JETSON</span>
-                        </div>
-                    </div>
-                    <p class="sol-desc">
-                        Ultra-compact, quantized neural networks running directly on edge hardware, NVIDIA Jetson, drones, and smart IoT sensors with sub-ms latency.
-                    </p>
-                    <ul class="sol-features">
-                        <li><i class="fa-solid fa-check"></i> Model Quantization (INT8 / FP16 TensorRT)</li>
-                        <li><i class="fa-solid fa-check"></i> NVIDIA Jetson &amp; Raspberry Pi Deployments</li>
-                        <li><i class="fa-solid fa-check"></i> Zero-Cloud Offline Inference</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Right Column: Sticky Cyber Glass Video Showcase Deck -->
-            <div class="solutions-video-sticky-deck">
-                <div class="deck-video-frame corner-bracket-wrap">
-                    <div class="corner-bracket-bottom-left"></div>
-                    <div class="corner-bracket-bottom-right"></div>
-
-                    <!-- Video Header Bar -->
-                    <div class="deck-video-topbar">
-                        <div class="deck-live-indicator">
-                            <span class="deck-live-dot"></span>
-                            <span id="deck-solution-tag">LIVE DEMO · STRATEGY & FEASIBILITY</span>
-                        </div>
-                        <div class="deck-hud-badges">
-                            <span class="deck-hud-pill" id="deck-latency-pill"><i class="fa-solid fa-gauge-high"></i> Latency: Sub-200ms</span>
-                            <span class="deck-hud-pill" id="deck-accuracy-pill"><i class="fa-solid fa-bullseye"></i> Accuracy: 99.8%</span>
-                        </div>
-                    </div>
-
-                    <!-- Active Scrollable Video Player with HUD & Scrub Sync -->
-                    <div class="deck-video-player-container">
-                        <video id="deck-live-video" autoplay muted loop playsinline poster="<?= e(asset('assets/img/aidev/ithrive-robot-companion.jpg')) ?>">
-                            <source src="<?= e(asset('videos/aidev/solutions-scroll-video.mp4')) ?>" type="video/mp4">
-                        </video>
-                        <div class="deck-video-glow-overlay"></div>
-                        <div class="deck-scroll-scrub-indicator">
-                            <div class="deck-scroll-scrub-fill" id="deck-scroll-scrub-fill"></div>
-                        </div>
-                        <div class="deck-scroll-pill-badge" id="deck-scroll-pill-badge">
-                            <i class="fa-solid fa-arrows-up-down"></i> SCROLL SYNC · <span id="deck-scroll-pct">0%</span>
-                        </div>
-                    </div>
-
-                    <!-- Video Details & Direct CTAs -->
-                    <div class="deck-video-footer">
-                        <div>
-                            <h4 id="deck-video-title" class="deck-video-h4">01: AI Strategy &amp; Enterprise Feasibility</h4>
-                            <p id="deck-video-desc" class="deck-video-p">Strategic enterprise roadmapping, LLM compute budget audits, and ROI feasibility assessments.</p>
-                        </div>
-                        
-                        <div class="deck-cta-row">
-                            <a href="#contact" class="btn btn-primary btn-sm">
-                                <span>Deploy This Solution</span>
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </a>
-                            <button id="deck-expand-btn" class="btn btn-secondary btn-sm" onclick="expandDeckVideo()">
-                                <i class="fa-solid fa-expand"></i>
-                                <span>Full Screen</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+<section id="solutions" class="section-padding polaroid-section">
+  <div class="container">
+    <div class="polaroid-head">
+      <span class="section-badge"><span class="dot"></span> ENGINEERING CAPABILITIES</span>
+      <h2 class="section-title">Our Enterprise <span class="gradient-text">AI Solutions</span></h2>
+      <p class="section-subtitle">
+        Nine things we build. Scroll, and the wall moves past you.
+      </p>
     </div>
+  </div>
+
+  <?php /* The canvas is wider than the viewport on purpose: the polaroids ride
+           across it, so the gallery reads as bigger than the window it is seen
+           through. */ ?>
+  <div class="polaroid-scroll" data-polaroid>
+    <?php foreach ($solutions as $s): ?>
+      <figure class="polaroid"
+              style="--lane: <?= (int) $s['lane'] ?>; --depth: <?= e((string) $s['depth']) ?>; --tilt: <?= e((string) $s['tilt']) ?>deg;">
+        <div class="polaroid-photo">
+          <img src="<?= e(asset('assets/img/aidev/solutions/' . $s['img'] . '.jpg')) ?>"
+               alt="" width="1200" height="900" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="polaroid-caption">
+          <span class="polaroid-num"><?= e($s['n']) ?></span>
+          <h3 class="polaroid-title"><?= e($s['title']) ?></h3>
+          <p class="polaroid-body"><?= e($s['body']) ?></p>
+        </figcaption>
+      </figure>
+    <?php endforeach; ?>
+  </div>
 </section>
