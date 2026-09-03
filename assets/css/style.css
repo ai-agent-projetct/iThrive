@@ -318,6 +318,61 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 .card-icon .icon { width: 23px; height: 23px; }
 
+/* A photographed card: the picture takes the icon tile's place at the top,
+   bleeding to the card's edges, with the icon kept as a small badge on it. */
+.card--photo { padding: 0 0 26px; }
+
+.card-figure {
+  position: relative;
+  margin: 0 0 22px;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--glass-hi);
+}
+
+.card-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .88;
+  transition: transform .5s var(--ease), opacity .3s var(--ease);
+}
+
+.card--photo:hover .card-figure img { transform: scale(1.045); opacity: 1; }
+
+/* Keeps the photograph from fighting the title for contrast. */
+.card-figure::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 42%, var(--glass) 100%);
+  pointer-events: none;
+}
+
+.card-figure-icon {
+  position: absolute;
+  z-index: 1;
+  left: 20px;
+  bottom: 14px;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: rgba(10, 14, 22, .72);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  color: var(--cyan);
+}
+.card-figure-icon .icon { width: 19px; height: 19px; }
+
+.card--photo .card-title,
+.card--photo .card-body,
+.card--photo .tag-row,
+.card--photo .card-link { margin-left: 28px; margin-right: 28px; }
+
 .card-title { font-size: 1.12rem; margin-bottom: 10px; }
 .card-body  { color: var(--text-dim); font-size: .93rem; }
 

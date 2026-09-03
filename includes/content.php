@@ -586,12 +586,12 @@ const AI_SOLUTIONS = [
         'short'   => 'Your ad platforms, CRM, storefront and finance data unified into one model — then read by an agent that tells you what to change this week.',
         'lead'    => 'Most businesses do not have a data problem, they have a seventeen-dashboard problem. iThrive Insights collapses those into one semantic model and puts an analyst agent on top of it.',
         'features' => [
-            ['icon' => 'database',    'title' => 'Unified data model',      'body' => 'Connectors for Google Ads, Meta, GA4, HubSpot, Shopify, Razorpay and your own Postgres, resolved into one consistent set of entities and metrics.'],
-            ['icon' => 'brain',       'title' => 'Analyst agent',           'body' => 'Ask in plain language, get an answer with the SQL it ran and the assumptions it made. Every figure traces back to a source row.'],
-            ['icon' => 'trending-up', 'title' => 'Attribution modelling',   'body' => 'Multi-touch attribution across paid, organic and direct, so budget decisions rest on contribution rather than last-click.'],
-            ['icon' => 'zap',         'title' => 'Anomaly detection',       'body' => 'Continuous monitoring on every key metric, alerting on a genuine break in pattern instead of ordinary weekly noise.'],
-            ['icon' => 'target',      'title' => 'Recommended actions',     'body' => 'Weekly ranked recommendations — shift this budget, pause that campaign, restock this SKU — each with the expected effect stated.'],
-            ['icon' => 'users',       'title' => 'Cohort intelligence',     'body' => 'Automatic customer segmentation by behaviour and value, with churn risk scored per cohort.'],
+            ['icon' => 'database',    'photo' => 'insights-01', 'title' => 'Unified data model',      'body' => 'Connectors for Google Ads, Meta, GA4, HubSpot, Shopify, Razorpay and your own Postgres, resolved into one consistent set of entities and metrics.'],
+            ['icon' => 'brain',       'photo' => 'insights-02', 'title' => 'Analyst agent',           'body' => 'Ask in plain language, get an answer with the SQL it ran and the assumptions it made. Every figure traces back to a source row.'],
+            ['icon' => 'trending-up', 'photo' => 'insights-03', 'title' => 'Attribution modelling',   'body' => 'Multi-touch attribution across paid, organic and direct, so budget decisions rest on contribution rather than last-click.'],
+            ['icon' => 'zap',         'photo' => 'insights-04', 'title' => 'Anomaly detection',       'body' => 'Continuous monitoring on every key metric, alerting on a genuine break in pattern instead of ordinary weekly noise.'],
+            ['icon' => 'target',      'photo' => 'insights-05', 'title' => 'Recommended actions',     'body' => 'Weekly ranked recommendations — shift this budget, pause that campaign, restock this SKU — each with the expected effect stated.'],
+            ['icon' => 'users',       'photo' => 'insights-06', 'title' => 'Cohort intelligence',     'body' => 'Automatic customer segmentation by behaviour and value, with churn risk scored per cohort.'],
         ],
         'metrics' => [
             ['value' => '17→1', 'label' => 'Dashboards replaced'],
@@ -609,12 +609,12 @@ const AI_SOLUTIONS = [
         'short'   => 'A site assistant that reads buying intent live, answers from your own content, and routes a genuinely hot lead to a human before they leave.',
         'lead'    => 'A chat widget that answers questions is a support tool. iThrive AIChat scores intent on every message and changes its own objective — inform, qualify, or hand over — based on what the visitor is actually doing.',
         'features' => [
-            ['icon' => 'target',   'title' => 'Real-time intent mapping', 'body' => 'Every message and page event feeds a live intent score, separating a researcher from a buyer inside the first two exchanges.'],
-            ['icon' => 'search',   'title' => 'Grounded answers',         'body' => 'Responses drawn from your own site, docs and pricing with citations — and an honest "I do not know" rather than an invented answer.'],
-            ['icon' => 'workflow', 'title' => 'Qualification flows',      'body' => 'Your qualification criteria encoded as agent objectives, gathering budget, timeline and authority conversationally.'],
-            ['icon' => 'phone',    'title' => 'Live handover',            'body' => 'High-intent conversations escalate to a human in Slack or your CRM with the full transcript and score attached.'],
-            ['icon' => 'calendar', 'title' => 'Direct booking',           'body' => 'Calendar integration so a qualified visitor books the call inside the chat rather than being sent to a form.'],
-            ['icon' => 'shield',   'title' => 'Guardrails',               'body' => 'Topic boundaries, prompt-injection filtering and a full audit log of every conversation the agent has had.'],
+            ['icon' => 'target',   'photo' => 'aichat-01', 'title' => 'Real-time intent mapping', 'body' => 'Every message and page event feeds a live intent score, separating a researcher from a buyer inside the first two exchanges.'],
+            ['icon' => 'search',   'photo' => 'aichat-02', 'title' => 'Grounded answers',         'body' => 'Responses drawn from your own site, docs and pricing with citations — and an honest "I do not know" rather than an invented answer.'],
+            ['icon' => 'workflow', 'photo' => 'aichat-03', 'title' => 'Qualification flows',      'body' => 'Your qualification criteria encoded as agent objectives, gathering budget, timeline and authority conversationally.'],
+            ['icon' => 'phone',    'photo' => 'aichat-04', 'title' => 'Live handover',            'body' => 'High-intent conversations escalate to a human in Slack or your CRM with the full transcript and score attached.'],
+            ['icon' => 'calendar', 'photo' => 'aichat-05', 'title' => 'Direct booking',           'body' => 'Calendar integration so a qualified visitor books the call inside the chat rather than being sent to a form.'],
+            ['icon' => 'shield',   'photo' => 'aichat-06', 'title' => 'Guardrails',               'body' => 'Topic boundaries, prompt-injection filtering and a full audit log of every conversation the agent has had.'],
         ],
         'metrics' => [
             ['value' => '2 msgs','label' => 'To a reliable intent score'],
@@ -1353,10 +1353,10 @@ const ABOUT = [
         'We build these in Python because one language across API, data pipeline and model layer keeps teams small and decisions fast. We build them AI-first because the interesting problems now sit in judgment rather than storage. And we hand them over documented, because a platform you cannot maintain without us is not an asset.',
     ],
     'values'  => [
-        ['icon' => 'target',   'title' => 'Outcome over output',   'body' => 'We agree the number we will be judged on before the work starts, and report against it even when it is unflattering.'],
-        ['icon' => 'search',   'title' => 'Argue early',           'body' => 'If the requested feature is wrong, we say so in discovery rather than building it and invoicing for it.'],
-        ['icon' => 'layers',   'title' => 'Build to hand over',    'body' => 'Documentation, runbooks and pairing are part of delivery. Lock-in is a business model we decline to have.'],
-        ['icon' => 'shield',   'title' => 'Boring where it counts','body' => 'Novel in the model layer, deliberately conventional in auth, payments and deployment.'],
+        ['icon' => 'target',   'photo' => 'about-01', 'title' => 'Outcome over output',   'body' => 'We agree the number we will be judged on before the work starts, and report against it even when it is unflattering.'],
+        ['icon' => 'search',   'photo' => 'about-02', 'title' => 'Argue early',           'body' => 'If the requested feature is wrong, we say so in discovery rather than building it and invoicing for it.'],
+        ['icon' => 'layers',   'photo' => 'about-03', 'title' => 'Build to hand over',    'body' => 'Documentation, runbooks and pairing are part of delivery. Lock-in is a business model we decline to have.'],
+        ['icon' => 'shield',   'photo' => 'about-04', 'title' => 'Boring where it counts','body' => 'Novel in the model layer, deliberately conventional in auth, payments and deployment.'],
     ],
 ];
 
@@ -1372,10 +1372,10 @@ const CAREERS = [
     'title'   => 'Senior engineers who would rather own a problem than a ticket.',
     'lead'    => 'We hire few people and give each of them real scope. Everyone here writes code, talks to clients, and is accountable for something in production.',
     'perks'   => [
-        ['icon' => 'brain',    'title' => 'Real AI work',        'body' => 'Agentic systems and production ML, not a chat widget bolted onto a CRUD app for a demo.'],
-        ['icon' => 'users',    'title' => 'Small teams',         'body' => 'Squads of three to five with direct client contact. No layer of account managers between you and the problem.'],
-        ['icon' => 'clock',    'title' => 'Sane delivery',       'body' => 'Fortnightly cadence and honest estimates. Crunch is treated as a planning failure, because it is one.'],
-        ['icon' => 'lightbulb','title' => 'Learning budget',     'body' => 'Annual budget and dedicated time for courses, conferences and certification.'],
+        ['icon' => 'brain',    'photo' => 'careers-01', 'title' => 'Real AI work',        'body' => 'Agentic systems and production ML, not a chat widget bolted onto a CRUD app for a demo.'],
+        ['icon' => 'users',    'photo' => 'careers-02', 'title' => 'Small teams',         'body' => 'Squads of three to five with direct client contact. No layer of account managers between you and the problem.'],
+        ['icon' => 'clock',    'photo' => 'careers-03', 'title' => 'Sane delivery',       'body' => 'Fortnightly cadence and honest estimates. Crunch is treated as a planning failure, because it is one.'],
+        ['icon' => 'lightbulb','photo' => 'careers-04', 'title' => 'Learning budget',     'body' => 'Annual budget and dedicated time for courses, conferences and certification.'],
     ],
     'roles'   => [
         ['title' => 'Senior Python Engineer (AI Platforms)', 'type' => 'Full-time', 'location' => 'Coimbatore / Remote', 'body' => 'FastAPI, LangGraph and PostgreSQL. You will own an agentic platform end to end, including the eval harness that keeps it honest.'],

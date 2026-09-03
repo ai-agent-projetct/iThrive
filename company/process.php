@@ -61,12 +61,12 @@ component('page-hero', [
     <div class="grid grid-3">
       <?php
       $rules = [
-          ['icon' => 'target',   'title' => 'One success metric, agreed in writing', 'body' => 'Before the build starts we write down the number that decides whether this worked, and we report against it even when the reading is unflattering.'],
-          ['icon' => 'calendar', 'title' => 'Fortnightly demos on real data',        'body' => 'Every second week you see the actual system running, not a deck about it. Slippage surfaces at week two rather than month four.'],
-          ['icon' => 'shield',   'title' => 'Production hygiene from release one',   'body' => 'Auth, backups, error tracking, CI/CD and rollback ship with the first deploy. These are cheap now and ruinous to retrofit.'],
-          ['icon' => 'search',   'title' => 'We argue in discovery, not in invoicing','body' => 'If a requested feature is wrong, you hear it before it is built. Building something we know is a mistake and charging for it is not a service.'],
-          ['icon' => 'layers',   'title' => 'Everything is documented to hand over',  'body' => 'Architecture notes, runbooks and a working local environment. Another team should be able to pick this up without calling us.'],
-          ['icon' => 'lock',     'title' => 'You own the source, always',             'body' => 'Repositories, infrastructure and accounts are in your name from day one. There is no version of this where we hold your product hostage.'],
+          ['icon' => 'target',   'photo' => 'process-01', 'title' => 'One success metric, agreed in writing', 'body' => 'Before the build starts we write down the number that decides whether this worked, and we report against it even when the reading is unflattering.'],
+          ['icon' => 'calendar', 'photo' => 'process-02', 'title' => 'Fortnightly demos on real data',        'body' => 'Every second week you see the actual system running, not a deck about it. Slippage surfaces at week two rather than month four.'],
+          ['icon' => 'shield',   'photo' => 'process-03', 'title' => 'Production hygiene from release one',   'body' => 'Auth, backups, error tracking, CI/CD and rollback ship with the first deploy. These are cheap now and ruinous to retrofit.'],
+          ['icon' => 'search',   'photo' => 'process-04', 'title' => 'We argue in discovery, not in invoicing','body' => 'If a requested feature is wrong, you hear it before it is built. Building something we know is a mistake and charging for it is not a service.'],
+          ['icon' => 'layers',   'photo' => 'process-05', 'title' => 'Everything is documented to hand over',  'body' => 'Architecture notes, runbooks and a working local environment. Another team should be able to pick this up without calling us.'],
+          ['icon' => 'lock',     'photo' => 'process-06', 'title' => 'You own the source, always',             'body' => 'Repositories, infrastructure and accounts are in your name from day one. There is no version of this where we hold your product hostage.'],
       ];
       foreach ($rules as $i => $rule) {
           component('feature-card', ['item' => $rule, 'index' => $i % 3]);

@@ -47,7 +47,13 @@ const ROOT   = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
  * already on the site.
  */
 const STYLE = 'Editorial technology photography, 35mm, shallow depth of field, natural candid moment. '
-  + 'Dark moody interior, cool blue and cyan colour grade with a hint of violet, strong window light. '
+  /* The grade is the site palette, named in hex so every frame lands on the
+     same dark navy the pages are painted in rather than merely "dark and
+     blue". Shadows at #0B0F17, practicals and screen spill at #00F2FE, the
+     violet only as a rim. Warm light anywhere in frame breaks the set. */
+  + 'Colour grade: near-black desaturated navy shadows #0B0F17, cyan #00F2FE practical and screen light, '
+  + 'a violet #7C5CFF rim on edges only. Cool white balance throughout, no warm or orange tones anywhere. '
+  + 'Dark moody interior, low-key lighting, strong cool window light. '
   + 'Real people at work in a modern Indian software office, no posing for camera. '
   + 'No text, no logos, no watermarks, no charts, no graphs, no diagrams, no UI screenshots.';
 
@@ -154,6 +160,60 @@ const PLAN = {
       ['trail-03', 'a vertical shot of two monitors side on, an API response and a terminal'],
       ['trail-04', 'a vertical shot of a wall-mounted dashboard in a dark office, someone walking past'],
       ['trail-05', 'a vertical shot over a support engineer at a helpdesk queue, headset on the desk'],
+    ],
+  },
+
+  /*
+   * The card grids that were still icon-only after the bands were done — the
+   * two /solutions feature grids, the about values, the careers perks and the
+   * process commitments. includes/components/feature-card.php looks these up
+   * by the slug in the content array and falls back to the icon tile until the
+   * file lands, so nothing breaks part-way through a run.
+   */
+  cards: {
+    dir: 'assets/img/cards/photo', ratio: '3:2', items: [
+      ['about-01', 'a team reading one number on a large wall screen, nobody celebrating, just assessing'],
+      ['about-02', 'two colleagues disagreeing across a whiteboard early in a project, respectful and direct'],
+      ['about-03', 'an engineer walking a client through a runbook on a shared monitor'],
+      ['about-04', 'a plain, well-kept server cabinet with an engineer closing its door'],
+
+      ['careers-01', 'an engineer watching an autonomous agent work through a task on a large screen'],
+      ['careers-02', 'four people at one cluster of desks, no partitions, talking across them'],
+      ['careers-03', 'an office at a normal hour with people leaving, one lamp still on'],
+      ['careers-04', 'an engineer at a desk with a technical book open beside a laptop of course material'],
+
+      ['insights-01', 'a data engineer joining several source systems on one wide monitor'],
+      ['insights-02', 'someone typing a plain-language question at a laptop, an answer forming above'],
+      ['insights-03', 'a marketing analyst comparing channel performance across two screens'],
+      ['insights-04', 'an alert catching an operator mid-stride in a dim monitoring room'],
+      ['insights-05', 'a weekly planning meeting with a short ranked list on the screen'],
+      ['insights-06', 'an analyst studying customer segments on a monitor, notes on paper beside'],
+
+      ['aichat-01', 'a visitor browsing a website on a laptop while an assistant panel sits open beside'],
+      ['aichat-02', 'a support lead checking an answer against the source document open on the desk'],
+      ['aichat-03', 'a sales engineer taking notes while a qualification conversation runs on screen'],
+      ['aichat-04', 'a salesperson picking up a headset as a hot lead notification arrives'],
+      ['aichat-05', 'a calendar booking being confirmed on a laptop, a diary open beside it'],
+      ['aichat-06', 'a security engineer reviewing a filtered conversation log at a terminal'],
+
+      ['process-01', 'one figure written large on a whiteboard with two people standing in front of it'],
+      ['process-02', 'a fortnightly demo, a laptop mirrored to a screen, four people watching'],
+      ['process-03', 'an engineer checking backup and error-tracking status before a first deploy'],
+      ['process-04', 'a discovery session where one person is clearly pushing back on a proposal'],
+      ['process-05', 'a printed architecture document beside a laptop, being annotated by hand'],
+      ['process-06', 'a laptop showing a repository being transferred, two people shaking hands behind'],
+    ],
+  },
+
+  /* Blog thumbnails. The six post cards had icons and nothing else. */
+  blog: {
+    dir: 'assets/img/blog/photo', ratio: '3:2', items: [
+      ['post-01', 'an architect at a whiteboard separating one service out from a large existing system'],
+      ['post-02', 'an engineer watching an evaluation suite finish, reading the pass and fail counts'],
+      ['post-03', 'an old system and a new one side by side on two monitors, one engineer between them'],
+      ['post-04', 'a clothing warehouse aisle with someone measuring a garment beside a laptop'],
+      ['post-05', 'a hospital reception workstation with a scheduling screen and a member of staff'],
+      ['post-06', 'a single laptop of Python code with a model training run in a second window'],
     ],
   },
 };

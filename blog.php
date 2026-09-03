@@ -19,8 +19,21 @@ component('page-hero', [
   <div class="shell">
     <div class="grid grid-3">
       <?php foreach (BLOG_POSTS as $i => $post): ?>
-        <article class="card" data-reveal style="--d:<?= $i % 3 ?>">
-          <span class="card-icon"><?= icon($post['icon']) ?></span>
+        <?php
+        /* A thumbnail once the photography run has produced one; the icon tile
+           it replaces stays as the fallback, so this is safe before then. */
+        $thumb = 'assets/img/blog/photo/post-' . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) . '.jpg';
+        $hasThumb = is_file(ROOT_PATH . '/' . $thumb);
+        ?>
+        <article class="card<?= $hasThumb ? ' card--photo' : '' ?>" data-reveal style="--d:<?= $i % 3 ?>">
+          <?php if ($hasThumb): ?>
+            <figure class="card-figure">
+              <img src="<?= e(asset($thumb)) ?>" width="600" height="400" alt="" loading="lazy" decoding="async">
+              <span class="card-figure-icon"><?= icon($post['icon']) ?></span>
+            </figure>
+          <?php else: ?>
+            <span class="card-icon"><?= icon($post['icon']) ?></span>
+          <?php endif; ?>
 
           <div class="post-meta">
             <span class="post-cat"><?= e($post['category']) ?></span>
