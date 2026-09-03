@@ -1,0 +1,1644 @@
+<!doctype html><meta charset="utf-8"><title>Service bands</title>
+<style>
+  * { box-sizing: border-box; margin: 0 }
+  body { background:#05060F; display:flex; flex-direction:column; gap:16px; padding:16px; width:1712px }
+  .band {
+    position: relative; width:1680px; height:640px; overflow:hidden;
+    background:
+      radial-gradient(110% 140% at 8% 12%, color-mix(in srgb, var(--tint) 26%, transparent) 0%, transparent 58%),
+      radial-gradient(100% 130% at 94% 92%, color-mix(in srgb, var(--tint2) 24%, transparent) 0%, transparent 62%),
+      linear-gradient(140deg, #0B1020 0%, #05070F 60%, #080B16 100%);
+  }
+  .band::before {
+    content:''; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(120% 110% at 40% 45%, #000 0%, transparent 82%);
+  }
+  .band svg { position:absolute; inset:0; width:100%; height:100% }
+</style>
+
+<div class="band" id="band-ai-for-ecommerce" style="--tint:#22D3EE; --tint2:#6366F1">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-ai-for-ecommerce" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#22D3EE" stroke-width="4" opacity=".9"
+          filter="url(#g-ai-for-ecommerce)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#22D3EE" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#22D3EE"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Recommendation engines</text>
+        <circle cx="300" cy="320" r="7" fill="#22D3EE"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#22D3EE" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#22D3EE"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Fit and sizing models</text>
+        <circle cx="650" cy="320" r="7" fill="#22D3EE"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#22D3EE" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#22D3EE"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Semantic search</text>
+        <circle cx="1000" cy="320" r="7" fill="#22D3EE"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#22D3EE" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#22D3EE"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.92)">Intent-based merchandising</text>
+        <circle cx="300" cy="320" r="7" fill="#22D3EE"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#22D3EE" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#22D3EE"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Support deflection</text>
+        <circle cx="650" cy="320" r="7" fill="#22D3EE"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#22D3EE" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#22D3EE"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Demand forecasting</text>
+        <circle cx="1000" cy="320" r="7" fill="#22D3EE"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #22D3EE 15%, transparent)" stroke="#22D3EE" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#22D3EE">AI-FIRST PRODUCT DEVELOPMENT</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">FastAPI</text>
+      </g>
+      <g>
+        <rect x="467" y="556" width="162" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="482" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">scikit-learn</text>
+      </g>
+      <g>
+        <rect x="645" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="660" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PyTorch</text>
+      </g>
+      <g>
+        <rect x="768" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="783" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">OpenSearch</text>
+      </g>
+      <g>
+        <rect x="924" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="939" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Redis</text>
+      </g>
+      <g>
+        <rect x="1025" y="556" width="316" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1040" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Shopify / WooCommerce APIs</text>
+      </g>
+      <g>
+        <rect x="1357" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1372" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-cloud-devops" style="--tint:#3B82F6; --tint2:#7C3AED">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-cloud-devops" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#3B82F6" stroke-width="4" opacity=".9"
+          filter="url(#g-cloud-devops)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#3B82F6"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Infrastructure as code</text>
+        <circle cx="300" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#3B82F6"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">CI/CD pipelines</text>
+        <circle cx="650" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#3B82F6"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Containerisation</text>
+        <circle cx="1000" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#3B82F6"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Observability</text>
+        <circle cx="300" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#3B82F6"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Cost engineering</text>
+        <circle cx="650" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#3B82F6"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Security baseline</text>
+        <circle cx="1000" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #3B82F6 15%, transparent)" stroke="#3B82F6" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#3B82F6">DIGITAL PRODUCT ENGINEERING</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="129" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Terraform</text>
+      </g>
+      <g>
+        <rect x="377" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="392" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Docker</text>
+      </g>
+      <g>
+        <rect x="489" y="556" width="184" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="504" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">GitHub Actions</text>
+      </g>
+      <g>
+        <rect x="689" y="556" width="63" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="704" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">AWS</text>
+      </g>
+      <g>
+        <rect x="768" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="783" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Grafana</text>
+      </g>
+      <g>
+        <rect x="891" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="906" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Prometheus</text>
+      </g>
+      <g>
+        <rect x="1047" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1062" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Sentry</text>
+      </g>
+      <g>
+        <rect x="1159" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1174" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1271" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1286" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">FastAPI</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-custom-product-development" style="--tint:#3B82F6; --tint2:#7C3AED">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-custom-product-development" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#3B82F6" stroke-width="4" opacity=".9"
+          filter="url(#g-custom-product-development)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#3B82F6"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Domain modelling</text>
+        <circle cx="300" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#3B82F6"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Role-based access</text>
+        <circle cx="650" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#3B82F6"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Integration layer</text>
+        <circle cx="1000" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#3B82F6"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Workflow automation</text>
+        <circle cx="300" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#3B82F6"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Reporting and exports</text>
+        <circle cx="650" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#3B82F6"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Documented handover</text>
+        <circle cx="1000" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #3B82F6 15%, transparent)" stroke="#3B82F6" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#3B82F6">DIGITAL PRODUCT ENGINEERING</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django</text>
+      </g>
+      <g>
+        <rect x="456" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="471" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PostgreSQL</text>
+      </g>
+      <g>
+        <rect x="612" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="627" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Celery</text>
+      </g>
+      <g>
+        <rect x="724" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="739" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React</text>
+      </g>
+      <g>
+        <rect x="825" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="840" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Docker</text>
+      </g>
+      <g>
+        <rect x="937" y="556" width="151" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="952" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">AWS / Azure</text>
+      </g>
+      <g>
+        <rect x="1104" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1119" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1216" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1231" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-dedicated-engineering-team" style="--tint:#A855F7; --tint2:#DB2777">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-dedicated-engineering-team" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#A855F7" stroke-width="4" opacity=".9"
+          filter="url(#g-dedicated-engineering-team)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#A855F7"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Ring-fenced allocation</text>
+        <circle cx="300" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#A855F7"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Embedded rituals</text>
+        <circle cx="650" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#A855F7"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Technical leadership</text>
+        <circle cx="1000" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#A855F7"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Elastic composition</text>
+        <circle cx="300" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#A855F7"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Knowledge retention</text>
+        <circle cx="650" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#A855F7"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Transparent reporting</text>
+        <circle cx="1000" cy="320" r="7" fill="#A855F7"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #A855F7 15%, transparent)" stroke="#A855F7" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#A855F7">ENGAGEMENT MODELS</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React</text>
+      </g>
+      <g>
+        <rect x="445" y="556" width="162" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="460" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React Native</text>
+      </g>
+      <g>
+        <rect x="623" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="638" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PostgreSQL</text>
+      </g>
+      <g>
+        <rect x="779" y="556" width="63" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="794" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">AWS</text>
+      </g>
+      <g>
+        <rect x="858" y="556" width="173" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="873" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Jira / Linear</text>
+      </g>
+      <g>
+        <rect x="1047" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1062" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1159" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1174" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">FastAPI</text>
+      </g>
+      <g>
+        <rect x="1282" y="556" width="129" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1297" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">LangGraph</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-ecommerce-development" style="--tint:#00E5FF; --tint2:#0284C7">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-ecommerce-development" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#00E5FF" stroke-width="4" opacity=".9"
+          filter="url(#g-ecommerce-development)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#00E5FF"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Checkout optimisation</text>
+        <circle cx="300" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#00E5FF"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Payments and wallets</text>
+        <circle cx="650" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#00E5FF"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Inventory and OMS</text>
+        <circle cx="1000" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#00E5FF"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.92)">Catalogue and merchandising</text>
+        <circle cx="300" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#00E5FF"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Returns and support</text>
+        <circle cx="650" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#00E5FF"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Headless or platform</text>
+        <circle cx="1000" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #00E5FF 15%, transparent)" stroke="#00E5FF" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#00E5FF">CORE SERVICES</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django</text>
+      </g>
+      <g>
+        <rect x="456" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="471" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Shopify</text>
+      </g>
+      <g>
+        <rect x="579" y="556" width="151" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="594" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">WooCommerce</text>
+      </g>
+      <g>
+        <rect x="746" y="556" width="118" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="761" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Razorpay</text>
+      </g>
+      <g>
+        <rect x="880" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="895" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React</text>
+      </g>
+      <g>
+        <rect x="981" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="996" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">OpenSearch</text>
+      </g>
+      <g>
+        <rect x="1137" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1152" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1249" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1264" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-micro-saas-development" style="--tint:#3B82F6; --tint2:#7C3AED">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-micro-saas-development" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#3B82F6" stroke-width="4" opacity=".9"
+          filter="url(#g-micro-saas-development)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#3B82F6"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.92)">Multi-tenancy from day one</text>
+        <circle cx="300" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#3B82F6"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.92)">Billing and subscriptions</text>
+        <circle cx="650" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#3B82F6"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Self-serve onboarding</text>
+        <circle cx="1000" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#3B82F6"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Usage metering</text>
+        <circle cx="300" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#3B82F6"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Product analytics</text>
+        <circle cx="650" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#3B82F6"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Lean infrastructure</text>
+        <circle cx="1000" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #3B82F6 15%, transparent)" stroke="#3B82F6" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#3B82F6">DIGITAL PRODUCT ENGINEERING</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="206" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django / FastAPI</text>
+      </g>
+      <g>
+        <rect x="566" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="581" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PostgreSQL</text>
+      </g>
+      <g>
+        <rect x="722" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="737" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Stripe</text>
+      </g>
+      <g>
+        <rect x="834" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="849" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React</text>
+      </g>
+      <g>
+        <rect x="935" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="950" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Docker</text>
+      </g>
+      <g>
+        <rect x="1047" y="556" width="162" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1062" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Render / AWS</text>
+      </g>
+      <g>
+        <rect x="1225" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1240" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1337" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1352" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-mvp-development" style="--tint:#00E5FF; --tint2:#0284C7">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-mvp-development" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#00E5FF" stroke-width="4" opacity=".9"
+          filter="url(#g-mvp-development)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#00E5FF"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Scope negotiation</text>
+        <circle cx="300" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#00E5FF"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Complete core loop</text>
+        <circle cx="650" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#00E5FF"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Production hygiene</text>
+        <circle cx="1000" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#00E5FF"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Instrumentation</text>
+        <circle cx="300" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#00E5FF"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Launch support</text>
+        <circle cx="650" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#00E5FF"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">A scalable base</text>
+        <circle cx="1000" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #00E5FF 15%, transparent)" stroke="#00E5FF" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#00E5FF">CORE SERVICES</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="206" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">FastAPI / Django</text>
+      </g>
+      <g>
+        <rect x="566" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="581" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React</text>
+      </g>
+      <g>
+        <rect x="667" y="556" width="162" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="682" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React Native</text>
+      </g>
+      <g>
+        <rect x="845" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="860" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PostgreSQL</text>
+      </g>
+      <g>
+        <rect x="1001" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1016" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Stripe</text>
+      </g>
+      <g>
+        <rect x="1113" y="556" width="63" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1128" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">AWS</text>
+      </g>
+      <g>
+        <rect x="1192" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1207" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1304" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1319" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">FastAPI</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-on-demand-resources" style="--tint:#A855F7; --tint2:#DB2777">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-on-demand-resources" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#A855F7" stroke-width="4" opacity=".9"
+          filter="url(#g-on-demand-resources)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#A855F7"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Specialist roles</text>
+        <circle cx="300" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#A855F7"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Direct reporting</text>
+        <circle cx="650" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#A855F7"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Fast start</text>
+        <circle cx="1000" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#A855F7"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Overlap hours</text>
+        <circle cx="300" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#A855F7"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Backfill guarantee</text>
+        <circle cx="650" cy="320" r="7" fill="#A855F7"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#A855F7" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#A855F7"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">No lock-in</text>
+        <circle cx="1000" cy="320" r="7" fill="#A855F7"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #A855F7 15%, transparent)" stroke="#A855F7" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#A855F7">ENGAGEMENT MODELS</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PyTorch</text>
+      </g>
+      <g>
+        <rect x="467" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="482" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React</text>
+      </g>
+      <g>
+        <rect x="568" y="556" width="162" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="583" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React Native</text>
+      </g>
+      <g>
+        <rect x="746" y="556" width="129" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="761" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Terraform</text>
+      </g>
+      <g>
+        <rect x="891" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="906" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Playwright</text>
+      </g>
+      <g>
+        <rect x="1047" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1062" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1159" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1174" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">FastAPI</text>
+      </g>
+      <g>
+        <rect x="1282" y="556" width="250" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1297" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PostgreSQL + PostGIS</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-poc-development" style="--tint:#00E5FF; --tint2:#0284C7">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-poc-development" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#00E5FF" stroke-width="4" opacity=".9"
+          filter="url(#g-poc-development)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#00E5FF"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">One question, defined</text>
+        <circle cx="300" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#00E5FF"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Model and data probing</text>
+        <circle cx="650" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#00E5FF"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Throwaway by design</text>
+        <circle cx="1000" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#00E5FF"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Honest reporting</text>
+        <circle cx="300" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#00E5FF"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.92)">Cost and latency modelling</text>
+        <circle cx="650" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#00E5FF"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Production roadmap</text>
+        <circle cx="1000" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #00E5FF 15%, transparent)" stroke="#00E5FF" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#00E5FF">CORE SERVICES</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Jupyter</text>
+      </g>
+      <g>
+        <rect x="467" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="482" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">FastAPI</text>
+      </g>
+      <g>
+        <rect x="590" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="605" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PyTorch</text>
+      </g>
+      <g>
+        <rect x="713" y="556" width="129" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="728" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Streamlit</text>
+      </g>
+      <g>
+        <rect x="858" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="873" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Docker</text>
+      </g>
+      <g>
+        <rect x="970" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="985" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1082" y="556" width="107" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1097" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">FastAPI</text>
+      </g>
+      <g>
+        <rect x="1205" y="556" width="250" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1220" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PostgreSQL + PostGIS</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-product-modernization" style="--tint:#3B82F6; --tint2:#7C3AED">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-product-modernization" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#3B82F6" stroke-width="4" opacity=".9"
+          filter="url(#g-product-modernization)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#3B82F6"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Legacy assessment</text>
+        <circle cx="300" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#3B82F6"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.92)">Strangler-fig migration</text>
+        <circle cx="650" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#3B82F6"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Data migration</text>
+        <circle cx="1000" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#3B82F6"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Test net first</text>
+        <circle cx="300" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#3B82F6"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.92)">Framework and runtime upgrades</text>
+        <circle cx="650" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#3B82F6" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#3B82F6"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Zero-downtime cutover</text>
+        <circle cx="1000" cy="320" r="7" fill="#3B82F6"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #3B82F6 15%, transparent)" stroke="#3B82F6" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#3B82F6">DIGITAL PRODUCT ENGINEERING</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="344" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="359" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django</text>
+      </g>
+      <g>
+        <rect x="456" y="556" width="305" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="471" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Legacy PHP / .NET bridges</text>
+      </g>
+      <g>
+        <rect x="777" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="792" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PostgreSQL</text>
+      </g>
+      <g>
+        <rect x="933" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="948" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Nginx</text>
+      </g>
+      <g>
+        <rect x="1034" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1049" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Docker</text>
+      </g>
+      <g>
+        <rect x="1146" y="556" width="129" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1161" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Terraform</text>
+      </g>
+      <g>
+        <rect x="1291" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1306" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1403" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1418" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django</text>
+      </g>
+  </svg>
+</div>
+
+<div class="band" id="band-reactjs-development" style="--tint:#00E5FF; --tint2:#0284C7">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- userSpaceOnUse, because the spine is a horizontal line: its bounding
+           box has zero height, so a filter region in objectBoundingBox
+           percentages resolves to nothing and the stroke never paints. -->
+      <filter id="g-reactjs-development" filterUnits="userSpaceOnUse"
+              x="80" y="280" width="1140" height="80">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <path d="M120 320 H 1170" stroke="#00E5FF" stroke-width="4" opacity=".9"
+          filter="url(#g-reactjs-development)"/>
+    
+      <g>
+        <path d="M300 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="170" r="6" fill="#00E5FF"/>
+        <text x="183" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">State architecture</text>
+        <circle cx="300" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M650 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="170" r="6" fill="#00E5FF"/>
+        <text x="533" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Data-dense interfaces</text>
+        <circle cx="650" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M1000 213 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="127" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="170" r="6" fill="#00E5FF"/>
+        <text x="883" y="178" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Design system build</text>
+        <circle cx="1000" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M300 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="135" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="163" cy="470" r="6" fill="#00E5FF"/>
+        <text x="183" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Type safety</text>
+        <circle cx="300" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M650 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="485" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="513" cy="470" r="6" fill="#00E5FF"/>
+        <text x="533" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Testing strategy</text>
+        <circle cx="650" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+      <g>
+        <path d="M1000 427 V 320" stroke="#00E5FF" stroke-width="2"
+              stroke-dasharray="6 7" opacity=".5"/>
+        <rect x="835" y="427" width="330" height="86" rx="14"
+              fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+        <circle cx="863" cy="470" r="6" fill="#00E5FF"/>
+        <text x="883" y="478" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="20" fill="rgba(232,238,248,.92)">Render performance</text>
+        <circle cx="1000" cy="320" r="7" fill="#00E5FF"/>
+      </g>
+
+    <g>
+      <rect x="1226" y="266" width="316" height="108" rx="18"
+            fill="color-mix(in srgb, #00E5FF 15%, transparent)" stroke="#00E5FF" stroke-width="3"/>
+      <text x="1384" y="314" text-anchor="middle" font-family="'Space Grotesk',system-ui,sans-serif"
+            font-size="28" font-weight="700" fill="#F4F8FF">IN PRODUCTION</text>
+      <text x="1384" y="346" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace"
+            font-size="16" fill="rgba(232,238,248,.62)">SOURCE AND IP · YOURS</text>
+    </g>
+
+    <text x="120" y="70" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="20"
+          letter-spacing="5" fill="#00E5FF">CORE SERVICES</text>
+    <text x="120" y="582" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="16"
+          letter-spacing="3" fill="rgba(255,255,255,.4)">BUILT ON</text>
+    
+      <g>
+        <rect x="232" y="556" width="85" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="247" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">React</text>
+      </g>
+      <g>
+        <rect x="333" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="348" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">TypeScript</text>
+      </g>
+      <g>
+        <rect x="489" y="556" width="184" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="504" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">TanStack Query</text>
+      </g>
+      <g>
+        <rect x="689" y="556" width="74" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="704" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Vite</text>
+      </g>
+      <g>
+        <rect x="779" y="556" width="129" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="794" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Storybook</text>
+      </g>
+      <g>
+        <rect x="924" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="939" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Playwright</text>
+      </g>
+      <g>
+        <rect x="1080" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1095" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Python</text>
+      </g>
+      <g>
+        <rect x="1192" y="556" width="96" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1207" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">Django</text>
+      </g>
+      <g>
+        <rect x="1304" y="556" width="140" height="40" rx="20"
+              fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+        <text x="1319" y="582" font-family="'JetBrains Mono',ui-monospace,monospace"
+              font-size="17" fill="rgba(232,238,248,.74)">PostgreSQL</text>
+      </g>
+  </svg>
+</div>
+<script>window.__ids = [...document.querySelectorAll('.band')].map(b => b.id)</script>

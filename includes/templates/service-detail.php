@@ -98,6 +98,30 @@ if (!empty($heroComponent)) {
 </section>
 <?php endif; ?>
 
+<?php /*
+ * The service's own picture band.
+ *
+ * These routes were the last pages on the site with no picture at all — six or
+ * seven images each, every one of them a logo or card chrome. Each band is
+ * drawn from that service's own capabilities and stack (see
+ * tools/service-bands.mjs), so no two pages share one and the picture cannot
+ * drift from the copy above it.
+ *
+ * The file test is on the section, not left to page-figure: page-figure alone
+ * returns silently and would leave this wrapper behind as an empty band of
+ * padding on any service that has no picture of its own.
+ */ ?>
+<?php if (is_file(ROOT_PATH . '/assets/img/pages/services/' . $svc['slug'] . '.jpg')): ?>
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', [
+        'src'     => 'pages/services/' . $svc['slug'],
+        'caption' => 'Six capabilities on one delivery spine, over the stack ' . $svc['title'] . ' actually runs on.',
+    ]); ?>
+  </div>
+</section>
+<?php endif; ?>
+
 <?php
 /**
  * Per-service extras.
