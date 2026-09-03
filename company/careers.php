@@ -70,6 +70,24 @@ component('page-hero', [
 </section>
 
 <?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'careers-pairing', 'caption' => 'Most of what we know got passed on at somebody else\'s desk.']); ?>
+  </div>
+</section>
+
+<?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'careers-launch', 'caption' => 'The part everyone remembers, which is roughly two per cent of the job.']); ?>
+  </div>
+</section>
+
+<?php
 component('cta', ['cta' => [
     'eyebrow'   => 'Work With Us',
     'title'     => 'Or come to us as a client instead.',

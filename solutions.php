@@ -136,6 +136,24 @@ component('page-hero', [
 </section>
 
 <?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'solutions-conversational', 'caption' => 'Both products answer in the language the customer actually speaks.']); ?>
+  </div>
+</section>
+
+<?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'solutions-constellation', 'caption' => 'Retrieval over your own corpus, not a general model guessing at your business.']); ?>
+  </div>
+</section>
+
+<?php
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Want either product running against your own data?',

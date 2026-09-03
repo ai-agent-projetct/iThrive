@@ -110,4 +110,22 @@ component('page-hero', [
   </div>
 </section>
 
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'contact-chennai', 'caption' => 'Chennai HQ, with studios in Coimbatore and Bangalore.']); ?>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'contact-consultation', 'caption' => 'A 45-minute call, an NDA if you want one, and a straight answer about fit.']); ?>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'contact-partnership', 'caption' => 'Most engagements start as one thing and turn out to be another. That is fine.']); ?>
+  </div>
+</section>
 <?php require __DIR__ . '/includes/footer.php'; ?>

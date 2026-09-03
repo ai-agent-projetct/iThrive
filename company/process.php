@@ -110,6 +110,24 @@ component('page-hero', [
 </section>
 
 <?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'process-workshop', 'caption' => 'Discovery: two weeks of arguing with the problem before anyone writes code.']); ?>
+  </div>
+</section>
+
+<?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'process-pipeline', 'caption' => 'Releasing is a routine Tuesday rather than an event someone has to be awake for.']); ?>
+  </div>
+</section>
+
+<?php
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Discovery starts with one honest paragraph.',

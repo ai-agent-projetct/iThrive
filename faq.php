@@ -100,6 +100,33 @@ foreach (FAQ as $entry) {
 <?php endforeach; ?>
 
 <?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'faq-panels', 'caption' => 'Seventy of these started as questions somebody actually asked us.']); ?>
+  </div>
+</section>
+
+<?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'faq-support', 'caption' => 'When the answer here is not enough, a person picks it up.']); ?>
+  </div>
+</section>
+
+<?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'faq-knowledge-graph', 'caption' => 'Every answer on this page is also fed to the assistant, in six languages.']); ?>
+  </div>
+</section>
+
+<?php
 component('cta', ['cta' => [
     'eyebrow'   => 'Still Deciding?',
     'title'     => 'Ask the one we have not answered.',

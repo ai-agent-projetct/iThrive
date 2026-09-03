@@ -87,6 +87,15 @@ component('page-hero', [
 </section>
 
 <?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'services-studio', 'caption' => 'The floor where it gets built — and where the argument about how happens first.']); ?>
+  </div>
+</section>
+
+<?php
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Not sure which of these you need?',

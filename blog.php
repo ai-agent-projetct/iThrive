@@ -42,6 +42,33 @@ component('page-hero', [
 </section>
 
 <?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'blog-desk', 'caption' => 'Written by the engineers who did the work, not by a content team.']); ?>
+  </div>
+</section>
+
+<?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'blog-benchmarks', 'caption' => 'Numbers we measured ourselves, with the method next to them.']); ?>
+  </div>
+</section>
+
+<?php
+?>
+
+<section class="section section--tight">
+  <div class="shell">
+    <?php component('page-figure', ['src' => 'blog-idea', 'caption' => 'Most posts start as an argument nobody could settle.']); ?>
+  </div>
+</section>
+
+<?php
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Prefer the version where we look at your codebase?',
