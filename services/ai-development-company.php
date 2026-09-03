@@ -134,6 +134,7 @@ require dirname(__DIR__) . '/includes/header.php';
       ['vault', 'Isolated VPCs, encryption in transit and at rest, and an audit trail that predates the audit.'],
       'why-us',          // the advantage, and the Indian AI hubs
       ['campus', 'Chennai, Bangalore, Hyderabad and Coimbatore \u2014 the four floors this gets built on.'],
+      'assistant',       // iThrive AI, above the case studies (see below)
       'case-studies',    // featured work and video highlights
       'testimonials',    // client testimonials
       'blog-insights',   // insights, benchmarks and the video strip
@@ -141,6 +142,15 @@ require dirname(__DIR__) . '/includes/header.php';
       'cta-contact',     // closing CTA and the RFP form
       'video-modal',     // the dialog the solutions rail plays into
   ] as $section) {
+      /* iThrive AI sits inside this page rather than at the foot of it, so it
+         comes before the case studies instead of after everything. $noAssistant
+         stops includes/footer.php adding its own copy lower down. */
+      if ($section === 'assistant') {
+          component('ai-assistant');
+          $noAssistant = true;
+          continue;
+      }
+
       if (is_array($section)) {
           [$src, $caption] = $section;
           echo '<section class="section-padding" style="padding-top:0;padding-bottom:3.5rem"><div class="container">';
@@ -192,6 +202,12 @@ require dirname(__DIR__) . '/includes/header.php';
          so it asks for it here. Mounts are lazy: the bundle attaches nothing
          until a [data-ok] host is near the viewport. */ ?>
 <script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+
+<?php /* The five-functions deck is the home page's own stacking panels, so it
+         needs the script that drives them: it lights each statement word by
+         word and, more importantly, sets --exit on every panel from how far the
+         NEXT one has risen, which is the tilt. */ ?>
+<script src="<?= e(asset('assets/js/process-panels.js')) ?>" defer></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
