@@ -105,19 +105,35 @@ require dirname(__DIR__) . '/includes/header.php';
 <div class="aidev">
 
   <?php /* The order is the source page's own, section for section. */ ?>
-  <?php foreach ([
+  <?php
+  /*
+   * The page, in order. A plain string is one of the ported sections; an array
+   * is a picture band between two of them.
+   *
+   * The photographs are the ones the credential gallery used to carry, before
+   * section four became designed cards. They were too good to bin and they are
+   * literally the subject matter of the sections they now sit under — the stack
+   * runs on that hardware, the compliance section is about that vault.
+   */
+  foreach ([
       'hero',            // 3D robot, prompt bar and ticker
       'stats-bar',       // trust stats
       'stack-reveal',    // section 3: the five functions, as a sticky deck
-      'awards-strip',    // certifications marquee
-      'solutions',       // numbered rail 01–09 with the video showcase
+      'awards-strip',    // section 4: Framer's cover flow, with the designed cards
+      'solutions',       // numbered rail 01-09 with the video showcase
       'gateway-facts',   // quick-facts row
+      ['cloud-form', 'Everything here deploys into your own cloud tenancy, not ours.'],
       'ecosystem',       // 4-layer architecture stack
+      ['datacentre', 'The four layers run on this: dedicated capacity, not shared inference.'],
       'process',         // 6-step development process
       'technologies',    // technology matrix filter grid
+      ['gpu-cluster', 'A100 and H100 clusters, because training on anything less is a slower way to the same place.'],
       'industries',      // industries we transform
+      ['global-network', 'Deployed for clients across India, the USA, the UK, Singapore and the UAE.'],
       'compliance',      // security, ISO 27001, AI governance
+      ['vault', 'Isolated VPCs, encryption in transit and at rest, and an audit trail that predates the audit.'],
       'why-us',          // the advantage, and the Indian AI hubs
+      ['campus', 'Chennai, Bangalore, Hyderabad and Coimbatore \u2014 the four floors this gets built on.'],
       'case-studies',    // featured work and video highlights
       'testimonials',    // client testimonials
       'blog-insights',   // insights, benchmarks and the video strip
@@ -125,6 +141,13 @@ require dirname(__DIR__) . '/includes/header.php';
       'cta-contact',     // closing CTA and the RFP form
       'video-modal',     // the dialog the solutions rail plays into
   ] as $section) {
+      if (is_array($section)) {
+          [$src, $caption] = $section;
+          echo '<section class="section-padding" style="padding-top:0;padding-bottom:3.5rem"><div class="container">';
+          component('page-figure', ['src' => 'aidev/scenes/' . $src, 'caption' => $caption, 'ratio' => '21 / 9']);
+          echo '</div></section>';
+          continue;
+      }
       component('aidev/' . $section);
   } ?>
 

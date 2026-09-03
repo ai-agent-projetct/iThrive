@@ -43,9 +43,16 @@
             <div class="coverflow-mount"
                  data-ok="coverflow-gallery"
                  data-props='<?= e(json_encode([
+                     /* Designed cards, not photographs. Each is real markup
+                        rendered at 520x660 — twice the gallery's 260x330, so the
+                        type stays sharp — from tools/credential-cards.html. An
+                        image model cannot set "ISO/IEC 27001" or "TensorRT"
+                        without mangling them, and a credential card is mostly
+                        words. The photographs those cards replaced now illustrate
+                        the sections further down the page. */
                      'images' => array_map(
-                         static fn (string $f): string => asset('assets/img/aidev/certs/' . $f . '.jpg'),
-                         ['cert-aws', 'cert-microsoft', 'cert-google', 'cert-nvidia', 'cert-security', 'cert-hubs']
+                         static fn (string $f): string => asset('assets/img/aidev/cards/' . $f . '.png'),
+                         ['aws', 'microsoft', 'google', 'nvidia', 'security', 'hubs']
                      ),
                      'layout'  => ['cardWidth' => 260, 'cardHeight' => 330, 'gap' => 94, 'radius' => 18],
                      'depth'   => ['perspective' => 1200, 'rotation' => 45, 'scaleFalloff' => 4,
@@ -60,7 +67,7 @@
                         fan is balanced rather than running off one side. */
                      'motionSettings' => ['interaction' => 'drag', 'activeIndex' => 2,
                                           'springPreset' => 'Bouncy', 'dragSensitivity' => 1],
-                     'styleSettings'  => ['backgroundColor' => '#0B0E1C', 'borderWidth' => 1,
+                     'styleSettings'  => ['backgroundColor' => 'transparent', 'borderWidth' => 1,
                                           'borderColor' => 'rgba(0, 242, 254, 0.28)', 'shadow' => true,
                                           'shadowColor' => 'rgba(0, 0, 0, 0.65)', 'shadowBlur' => 44,
                                           'shadowY' => 20, 'activeGlow' => true,

@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
-$file = ROOT_PATH . '/assets/img/pages/' . $src . '.jpg';
+/* A bare name lives in assets/img/pages; a name containing a slash is a path
+   relative to assets/img, so a page can point at its own picture set. */
+$rel  = str_contains($src, '/') ? 'assets/img/' . $src . '.jpg' : 'assets/img/pages/' . $src . '.jpg';
+$file = ROOT_PATH . '/' . $rel;
 
 /* No file, no empty frame. */
 if (!is_file($file)) {
@@ -31,7 +34,7 @@ $ratio   = $ratio ?? '21 / 8';
 ?>
 <figure class="pfig" style="--pfig-ratio: <?= e($ratio) ?>">
   <div class="pfig-frame">
-    <img src="<?= e(asset('assets/img/pages/' . $src . '.jpg')) ?>"
+    <img src="<?= e(asset($rel)) ?>"
          alt="<?= e($alt !== '' ? $alt : $caption) ?>"
          loading="lazy" decoding="async">
   </div>
