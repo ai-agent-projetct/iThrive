@@ -1,0 +1,4 @@
+https://framer.com/m/ThreeD-magazine-framer-vWSZ.js@0T7JS6GmO5Ie67Z04tPC
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

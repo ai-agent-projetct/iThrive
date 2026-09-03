@@ -1,0 +1,3 @@
+import{jsx as _jsx}from"react/jsx-runtime";import{createContext,useState}from"react";export const MagazineContext=/*#__PURE__*/createContext({page:0,setPage:()=>{}});export function MagazineProvider({children}){const[page,setPage]=useState(0);return /*#__PURE__*/_jsx(MagazineContext.Provider,{value:{page,setPage},children:children});}
+export const __FramerMetadata__ = {"exports":{"MagazineProvider":{"type":"reactComponent","name":"MagazineProvider","slots":["children"],"annotations":{"framerContractVersion":"1"}},"MagazineContext":{"type":"variable","annotations":{"framerContractVersion":"1"}},"__FramerMetadata__":{"type":"variable"}}}
+//# sourceMappingURL=./Magazine_context.map

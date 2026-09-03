@@ -1097,4 +1097,34 @@ const FAQ = [
             . 'integrations we have shipped before rather than ones we would be exploring on your budget.',
         'terms' => 'integrate payments razorpay stripe upi whatsapp logistics courier shipping delivery tracking fulfilment gateway',
     ],
+    [
+        'id' => 'q123', 'cat' => 'saas',
+        'q' => 'How do you decide what goes into an MVP and what gets cut?',
+        'a' => 'We start from the single number the product has to move, agreed in writing before any '
+            . 'scoping. Anything that cannot move that number in the first release goes on a roadmap you '
+            . 'can still see, rather than into the build. A typical arrival list has forty items and a '
+            . 'typical first release has six. That fortnight of arguing is the cheapest work on the '
+            . 'project, and skipping it is why most failed MVPs were never really an MVP.',
+        'terms' => 'mvp scope what goes in cut features prioritise decide minimum viable roadmap trim six features one metric',
+    ],
+    [
+        'id' => 'q124', 'cat' => 'saas',
+        'q' => 'Will an MVP have to be rewritten when it succeeds?',
+        'a' => 'Not if it was built properly. iThrive Software writes an MVP on modular services, typed '
+            . 'end to end, with CI/CD and a database schema that does not need replacing at ten thousand '
+            . 'users. Small is a scope decision, not a quality one. What is deliberately left out is '
+            . 'features, never the foundations — which is why our MVPs grow into the product rather than '
+            . 'being thrown away in month six.',
+        'terms' => 'mvp rewrite throwaway scale later technical debt architecture prototype production quality foundations grow',
+    ],
+    [
+        'id' => 'q125', 'cat' => 'saas',
+        'q' => 'What happens after the MVP launches?',
+        'a' => 'We release to a real cohort, instrument the loop and watch the agreed metric for a '
+            . 'fortnight. Then there are three honest outcomes: scale it, change it, or stop — decided by '
+            . 'the number rather than by whoever is most senior in the room. Two of those three save you '
+            . 'a year. Every build also carries a 90-day warranty: any defect traceable to our code is '
+            . 'fixed at our expense.',
+        'terms' => 'after mvp launch next steps iterate scale stop pivot cohort metric warranty support post launch',
+    ],
 ];

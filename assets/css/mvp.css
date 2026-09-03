@@ -1,0 +1,505 @@
+/*
+ * The MVP Development page.
+ *
+ * Its own theme, on purpose. The AI Development Company page is cyan and violet
+ * neon on navy; this one is signal amber and electric lime on warm charcoal —
+ * a workshop rather than a laboratory. The two pages share components (both run
+ * Framer's, through the same Origin Kit island) and share the site's header and
+ * footer, and nothing else. A page that borrows another page's components
+ * should not also borrow its colours, or the site has one look wearing two names.
+ *
+ * Everything is scoped under `.mvp`, so none of it can reach the shared header,
+ * footer or chat widget.
+ *
+ * The Framer components are mounted into `[data-ok]` hosts and style themselves
+ * from the props the PHP hands them; what is here is the page around them, plus
+ * the sizing each host needs. Two of those hosts need a DEFINITE height rather
+ * than a min-height — a component whose root is `height: 100%` collapses to
+ * nothing inside a min-height box, which is what made the cover flow gallery on
+ * the AI page invisible until it was measured.
+ */
+
+.mvp {
+  --ink: #F4F4F6;
+  --ink-dim: rgba(244, 244, 246, 0.66);
+  --ink-faint: rgba(244, 244, 246, 0.42);
+  --amber: #FF8A3D;
+  --lime: #C6FF4A;
+  --ground: #08080B;
+  --panel: #101015;
+  --line: rgba(255, 255, 255, 0.11);
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --display: 'Outfit', 'Space Grotesk', system-ui, sans-serif;
+
+  position: relative;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  /* clip, never hidden: `hidden` would force overflow-y to auto and make this
+     wrapper its own scroll container, which breaks every sticky inside it. */
+  overflow-x: clip;
+}
+
+/* A blueprint grid under the whole page, fading out so it never fights text. */
+.mvp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 58px 58px;
+  mask-image: linear-gradient(180deg, #000 0%, transparent 22%, transparent 78%, #000 100%);
+}
+
+.mvp > * { position: relative; z-index: 1; }
+
+.mvp-shell {
+  width: min(1280px, calc(100% - 3rem));
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Shared section furniture
+   ========================================================================== */
+
+.mvp-sec { padding: clamp(72px, 9vw, 132px) 0; }
+.mvp-sec--panel { background: var(--panel); border-block: 1px solid var(--line); }
+.mvp-sec--tight { padding: clamp(48px, 6vw, 84px) 0; }
+
+.mvp-head { max-width: 820px; margin-bottom: clamp(38px, 5vw, 64px); }
+.mvp-head--mid { margin-inline: auto; text-align: center; }
+
+.mvp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 1rem;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.mvp-eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  background: var(--amber);
+}
+
+.mvp-head--mid .mvp-eyebrow { justify-content: center; }
+
+.mvp-title {
+  margin: 0 0 1rem;
+  font-family: var(--display);
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.mvp-title em { font-style: normal; color: var(--amber); }
+.mvp-title b { font-weight: 800; color: var(--lime); }
+
+.mvp-sub {
+  margin: 0;
+  max-width: 68ch;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(0.98rem, 1.2vw, 1.1rem);
+  line-height: 1.65;
+  color: var(--ink-dim);
+}
+
+.mvp-head--mid .mvp-sub { margin-inline: auto; }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
+.mvp-hero {
+  padding: clamp(56px, 7vw, 104px) 0 clamp(56px, 7vw, 96px);
+  /* A warm wash behind the copy, so the charcoal is not flat. */
+  background:
+    radial-gradient(70% 90% at 8% 0%, rgba(255, 138, 61, 0.16) 0%, transparent 62%),
+    radial-gradient(60% 80% at 96% 88%, rgba(198, 255, 74, 0.10) 0%, transparent 64%);
+}
+
+.mvp-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  gap: clamp(32px, 4vw, 64px);
+  align-items: center;
+}
+
+.mvp-h1 {
+  margin: 0 0 0.5rem;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+/* The typewriter is a Framer component; this is the line it sits on, sized so
+   the layout does not jump as words of different lengths cycle through. */
+.mvp-typeline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  min-height: clamp(2.6rem, 5.4vw, 4.4rem);
+  margin-bottom: 1.4rem;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  color: var(--lime);
+}
+
+.mvp-typeline .mvp-type-host { flex: 1 1 auto; min-width: 0; }
+
+.mvp-lead {
+  margin: 0 0 2rem;
+  max-width: 56ch;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1rem, 1.25vw, 1.14rem);
+  line-height: 1.65;
+  color: var(--ink-dim);
+}
+
+.mvp-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.6rem; }
+
+.mvp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.94rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.mvp-btn svg { width: 16px; height: 16px; }
+.mvp-btn:hover { transform: translateY(-2px); }
+.mvp-btn--primary { background: var(--amber); color: #14100B; }
+.mvp-btn--primary:hover { filter: brightness(1.08); }
+.mvp-btn--ghost { border-color: var(--line); color: var(--ink); background: rgba(255, 255, 255, 0.03); }
+.mvp-btn--ghost:hover { border-color: var(--lime); color: var(--lime); }
+
+.mvp-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.mvp-stat { padding: 18px 16px; background: var(--ground); }
+.mvp-stat b {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 2.3vw, 2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--lime);
+}
+.mvp-stat span {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/*
+ * The magazine's stage.
+ *
+ * A definite height, not a min-height: the component sizes its canvas to its
+ * container, and inside a min-height box that resolves to zero and nothing is
+ * drawn. It also wants the pointer — orbiting it is the whole point — so
+ * touch-action is off, and the page keeps scrolling because the component only
+ * claims the drag.
+ */
+.mvp-magazine {
+  height: clamp(420px, 46vw, 620px);
+  border-radius: 22px;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 70% at 50% 40%, rgba(255, 138, 61, 0.14) 0%, transparent 66%),
+    #0A0A0E;
+  border: 1px solid var(--line);
+  touch-action: pan-y;
+}
+
+.mvp-magazine canvas { display: block; }
+
+.mvp-mag-hint {
+  margin: 10px 0 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ==========================================================================
+   Kinetic marquee
+   ========================================================================== */
+
+.mvp-marquee {
+  padding: clamp(28px, 3.4vw, 48px) 0;
+  border-block: 1px solid var(--line);
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.mvp-marquee-host { height: clamp(90px, 9vw, 140px); }
+
+/* ==========================================================================
+   Before / after
+   ========================================================================== */
+
+.mvp-compare {
+  height: clamp(300px, 34vw, 520px);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.mvp-compare-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 1.1rem;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+
+.mvp-compare-legend b { color: var(--ink); font-weight: 700; }
+
+/* ==========================================================================
+   Hosts for the rest of the Framer set
+   ========================================================================== */
+
+.mvp-cards-host    { height: clamp(460px, 46vw, 560px); }
+.mvp-stack-host    { min-height: 420px; }
+.mvp-arc-host      { height: clamp(400px, 44vw, 600px); }
+.mvp-timeline-host { min-height: 100vh; }
+
+/* ==========================================================================
+   The CTA band, over a moving gradient
+   ========================================================================== */
+
+.mvp-band {
+  position: relative;
+  padding: clamp(72px, 9vw, 128px) 0;
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+}
+
+.mvp-band-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.mvp-band .mvp-shell { position: relative; z-index: 1; }
+
+.mvp-band-inner {
+  max-width: 880px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.mvp-band-quote {
+  margin: 0 0 1.2rem;
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 3.6vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.mvp-band-quote span { color: var(--lime); }
+
+/* ==========================================================================
+   Reasons grid
+   ========================================================================== */
+
+.mvp-reasons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.mvp-reason {
+  position: relative;
+  padding: 30px 28px 34px;
+  background: var(--ground);
+  transition: background 0.3s ease;
+}
+
+.mvp-reason:hover { background: #0D0D12; }
+
+/* A hairline that fills on hover — the only motion these cards need. */
+.mvp-reason::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--amber), var(--lime));
+  transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.mvp-reason:hover::after { width: 100%; }
+
+.mvp-reason-n {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+}
+
+.mvp-reason h3 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-size: 1.24rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.mvp-reason p {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-dim);
+}
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+
+.mvp-faq { display: grid; gap: 12px; max-width: 900px; margin-inline: auto; }
+
+.mvp-q {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.mvp-q[open] { border-color: rgba(255, 138, 61, 0.42); background: rgba(255, 138, 61, 0.05); }
+
+.mvp-q summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 20px 24px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.35vw, 1.12rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.mvp-q summary::-webkit-details-marker { display: none; }
+
+.mvp-q summary::after {
+  content: '';
+  flex: none;
+  margin-left: auto;
+  width: 13px;
+  height: 13px;
+  border-right: 2px solid var(--amber);
+  border-bottom: 2px solid var(--amber);
+  transform: rotate(45deg) translate(-3px, -3px);
+  transition: transform 0.3s ease;
+}
+
+.mvp-q[open] summary::after { transform: rotate(225deg) translate(-3px, -3px); }
+
+.mvp-q-body {
+  padding: 0 24px 22px 24px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.68;
+  color: var(--ink-dim);
+}
+
+/* ==========================================================================
+   Closing CTA
+   ========================================================================== */
+
+.mvp-final { text-align: center; }
+.mvp-final .mvp-actions { justify-content: center; margin-bottom: 0; }
+
+/* ==========================================================================
+   Narrow
+   ========================================================================== */
+
+@media (max-width: 1000px) {
+  .mvp-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  /* The magazine goes first on a phone: it is the thing worth touching, and
+     below the copy it would be three screens down. */
+  .mvp-hero-art { order: -1; }
+  .mvp-magazine { height: clamp(340px, 78vw, 460px); }
+  .mvp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mvp-timeline-host { min-height: 80vh; }
+}
+
+@media (max-width: 560px) {
+  .mvp-shell { width: calc(100% - 2rem); }
+  .mvp-typeline { display: block; }
+}
+
+/* ==========================================================================
+   The constraints wheel
+   ==========================================================================
+
+   Framer lists this as "Kinetic Text Slider"; the component underneath is
+   InfiniteTextWheel — a vertical wheel, not a horizontal marquee. It needs real
+   height or every item lands on the same line, which is what a 130px band did
+   to it.
+   -------------------------------------------------------------------------- */
+
+.mvp-wheelsec { overflow: hidden; }
+
+.mvp-wheel-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+}
+
+.mvp-wheel-host { height: clamp(320px, 34vw, 440px); }
+
+@media (max-width: 900px) {
+  .mvp-wheel-grid { grid-template-columns: minmax(0, 1fr); }
+  .mvp-wheel-host { height: 320px; }
+}

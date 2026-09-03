@@ -1,0 +1,4 @@
+https://framer.com/m/CurvedGalleryArc-qwHMD7.js@4uXxGoDMNzm1vKeQ36fA
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

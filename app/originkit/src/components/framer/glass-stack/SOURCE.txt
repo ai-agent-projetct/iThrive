@@ -1,0 +1,4 @@
+https://framer.com/m/AppleGlassStack-1H0xTm.js@iHl3lDAeehdt4X1PnBEQ
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

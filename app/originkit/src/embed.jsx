@@ -19,20 +19,51 @@
  * far below the fold.
  */
 
-import { StrictMode } from 'react';
+import { StrictMode, Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import InteractiveGrid from './components/originkit/interactive-grid.tsx';
 import SwipeStack from './components/originkit/swipe-stack.tsx';
 import StackedCarousel from './components/originkit/stacked-carousel.tsx';
-/* Framer's own Cover Flow Gallery, unmodified — see components/framer/. */
+/*
+ * Framer's own components, unmodified — see components/framer/.
+ *
+ * coverflow-gallery came across as a single file; the rest were vendored with
+ * tools/fetch-framer.mjs, which walks each module's own imports and rewrites
+ * only the remote URLs. Everything else is byte-for-byte what Framer serves,
+ * so any of them can be re-fetched and dropped over the old copy.
+ */
 import CoverflowGallery from './components/framer/coverflow-gallery.js';
+/* The magazine carries its own WebGL engine — a megabyte on its own, and more
+   than the whole rest of this bundle. Lazily imported so the pages that do not
+   mount it never fetch it; vite splits it into its own chunk automatically. */
+const Magazine3D = lazy(() => import('./components/framer/magazine-3d/index.js'));
+import GradientMotionBg from './components/framer/gradient-motion-bg/index.js';
+import CardShowcase from './components/framer/card-showcase/index.js';
+import ScrollTimeline from './components/framer/scroll-timeline/index.js';
+import CurvedGalleryArc from './components/framer/curved-gallery-arc/index.js';
+import InfinityText from './components/framer/infinity-text/index.js';
+import TypewriterEffect from './components/framer/typewriter-effect/index.js';
+import SplitReveal from './components/framer/split-reveal/index.js';
+import GlassStack from './components/framer/glass-stack/index.js';
+import DitheringHover from './components/framer/dithering-hover/index.js';
 
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
   'swipe-stack': SwipeStack,
   'stacked-carousel': StackedCarousel,
   'coverflow-gallery': CoverflowGallery,
+  /* The MVP Development page's set. */
+  'magazine-3d': Magazine3D,
+  'gradient-motion-bg': GradientMotionBg,
+  'card-showcase': CardShowcase,
+  'scroll-timeline': ScrollTimeline,
+  'curved-gallery-arc': CurvedGalleryArc,
+  'infinity-text': InfinityText,
+  'typewriter-effect': TypewriterEffect,
+  'split-reveal': SplitReveal,
+  'glass-stack': GlassStack,
+  'dithering-hover': DitheringHover,
 };
 
 function mount(host) {
@@ -51,9 +82,14 @@ function mount(host) {
     console.warn('[originkit] bad props on', name, e.message);
   }
 
+  /* Suspense because some entries are lazy — see Magazine3D. The fallback is
+     nothing on purpose: the host already has its own sizing and background, so
+     a spinner would only add a flash before the real thing arrives. */
   createRoot(host).render(
     <StrictMode>
-      <Component {...props} />
+      <Suspense fallback={null}>
+        <Component {...props} />
+      </Suspense>
     </StrictMode>
   );
   host.dataset.okReady = '1';

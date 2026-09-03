@@ -1,0 +1,17 @@
+import{useEffect,useMemo,useState}from"react";import{SRGBColorSpace,VideoTexture}from"./837f1a07-de45-4d4e-8701-0528f7768e14.js";import{resolveVideoSrc}from"./Types_controls.js";// Grace period before pausing a video that left view, so the page-turn
+// animation doesn't show an abrupt pause/reset.
+const VIDEO_PAUSE_BUFFER_MS=1e3;/**
+ * Owns a page face's <video> element + VideoTexture and, crucially, its
+ * network loading. The element is created without a `src`, so nothing is
+ * fetched until `shouldLoad` becomes true — opening the magazine then only
+ * downloads the video(s) on the prioritised spread rather than all of them.
+ */export function usePageVideoTexture(media,{shouldLoad,active}){const isVideo=media?.type==="video";const src=resolveVideoSrc(media);const poster=isVideo?media?.videoPoster?.src??"":"";const autoplay=isVideo?media?.videoAutoplay!==false:false;const loop=isVideo?media?.videoLoop??true:true;const muted=isVideo?media?.videoMuted??true:true;const playbackRate=isVideo?media?.videoPlaybackRate||1:1;const[sizeVersion,setSizeVersion]=useState(0);// Create the element once per source, but leave `src` unset: deferring it
+// to the loading effect is what keeps off-priority videos off the network.
+const video=useMemo(()=>{if(!isVideo||!src){return undefined;}const element=document.createElement("video");element.crossOrigin="anonymous";element.playsInline=true;element.preload="none";element.poster=poster;return element;},[isVideo,poster,src]);const videoTexture=useMemo(()=>{if(!video){return undefined;}const texture=new VideoTexture(video);texture.colorSpace=SRGBColorSpace;return texture;},[video]);useEffect(()=>{if(!video){return;}video.loop=loop;video.muted=muted;video.playbackRate=playbackRate;},[loop,muted,playbackRate,video]);useEffect(()=>{if(!video){return;}const handleLoadedMetadata=()=>setSizeVersion(version=>version+1);video.addEventListener("loadedmetadata",handleLoadedMetadata);return()=>{video.removeEventListener("loadedmetadata",handleLoadedMetadata);};},[video]);// Begin fetching only for prioritised spreads; release the source again for
+// pages that fall out of priority so they don't hold network/decoder resources.
+useEffect(()=>{if(!video||!src){return;}if(shouldLoad){if(video.getAttribute("src")!==src){video.src=src;}video.preload="auto";video.load();}else{video.pause();video.removeAttribute("src");video.preload="none";video.load();}},[shouldLoad,src,video]);// Play the visible face from the start; keep it running through a short
+// buffer after it leaves view so turning a page doesn't show a hard cut.
+useEffect(()=>{if(!video){return;}if(active&&autoplay){try{video.currentTime=0;}catch{// currentTime may throw before metadata loads; ignore
+}const playPromise=video.play();if(playPromise){playPromise.catch(()=>undefined);}return;}const timeout=setTimeout(()=>{video.pause();try{video.currentTime=0;}catch{// ignore
+}},VIDEO_PAUSE_BUFFER_MS);return()=>clearTimeout(timeout);},[active,autoplay,video]);useEffect(()=>{return()=>{if(video){video.pause();video.removeAttribute("src");video.load();}videoTexture?.dispose();};},[video,videoTexture]);return{videoTexture,sizeVersion};}
+export const __FramerMetadata__ = {"exports":{"usePageVideoTexture":{"type":"function","annotations":{"framerContractVersion":"1"}},"__FramerMetadata__":{"type":"variable"}}}

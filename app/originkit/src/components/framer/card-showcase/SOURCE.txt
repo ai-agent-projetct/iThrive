@@ -1,0 +1,4 @@
+https://framer.com/m/CardShowcase-3qxj.js@1dwe9Z9NXC9obVzYe7mU
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.
