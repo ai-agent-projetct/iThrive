@@ -206,13 +206,17 @@ let failed = 0;
 for (const t of todo) {
   fs.mkdirSync(path.dirname(t.file), { recursive: true });
 
-  const png = path.join(tmp, `${t.set}-${t.name}.png`);
+  /* POSIX separators: the path is handed to a bash script. */
+  const png = path.join(tmp, `${t.set}-${t.name}.png`).split(path.sep).join('/');
   const prompt = `${STYLE} Subject: ${t.subject}. Cinematic, high detail.`;
 
   try {
     /* Fifteen minutes: codex reasons before it draws, and a slow call is
        still cheaper than losing the slot and regenerating it later. */
-    execFileSync(BRIDGE, [prompt, png, '--size', SOURCE[t.ratio] || '1536x1024'],
+    /* Through bash, not directly. The wrapper is a shell script with a
+       shebang, and Windows has no idea what to do with that — spawning it
+       straight from node is an instant ENOENT on all 64. */
+    execFileSync('bash', [BRIDGE, prompt, png, '--size', SOURCE[t.ratio] || '1536x1024'],
       { stdio: ['ignore', 'pipe', 'pipe'], timeout: 15 * 60 * 1000 });
   } catch (e) {
     failed++;
