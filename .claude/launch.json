@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ithrive",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".tools/serve.mjs", "8100"],
+      "port": 8100,
+      "url": "http://localhost:8100",
+      "autoPort": false
+    }
+  ]
+}

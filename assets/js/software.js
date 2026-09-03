@@ -56,6 +56,33 @@
 
   if (tabs.length) showMode(tabs[0].dataset.modeTab, false);
 
+  /* ---- the mock window turns with the pointer --------------------------- */
+
+  // The window is inside a `perspective` frustum, so these are real rotations
+  // in 3D space, not a skew. Fine pointers only: on a touch screen there is no
+  // hover to drive it, and the resting angle already reads as dimensional.
+  if (!reduced && window.matchMedia('(pointer: fine)').matches) {
+    root.querySelectorAll('.sd-panel').forEach((panel) => {
+      const win = panel.querySelector('.sd-window');
+      if (!win) return;
+
+      panel.addEventListener('pointermove', (e) => {
+        const r = panel.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        win.style.setProperty('--ry', (-9 + x * 18).toFixed(2) + 'deg');
+        win.style.setProperty('--rx', (-y * 10).toFixed(2) + 'deg');
+        win.style.transitionDuration = '.12s';
+      });
+
+      panel.addEventListener('pointerleave', () => {
+        win.style.removeProperty('--ry');
+        win.style.removeProperty('--rx');
+        win.style.transitionDuration = '';
+      });
+    });
+  }
+
   /* ---- reveal on scroll ------------------------------------------------- */
 
   // The site's main.js already reveals [data-reveal]. This handles the page's

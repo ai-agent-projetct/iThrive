@@ -78,7 +78,9 @@ function start(mount) {
 
     const hex = '#' + accent.toString(16).padStart(6, '0');
 
-    g.fillStyle = '#0E1420';
+    // Lighter than the page ink on purpose: a screen the same colour as the
+    // room it hangs in is a rectangle you cannot see.
+    g.fillStyle = '#131C2C';
     g.fillRect(0, 0, W, H);
 
     // Title bar with the three dots every window has.
@@ -200,7 +202,7 @@ function start(mount) {
       new THREE.LineBasicMaterial({
         color: [CYAN, PURPLE, BLUE][i % 3],
         transparent: true,
-        opacity: 0.5,
+        opacity: 0.68,
         fog: true,
       })
     );
@@ -218,7 +220,7 @@ function start(mount) {
     const grid = new THREE.GridHelper(300, 60, CYAN, BLUE);
     grid.position.set(0, y, -110);
     grid.material.transparent = true;
-    grid.material.opacity = 0.13;
+    grid.material.opacity = 0.17;
     grid.material.fog = true;
     scene.add(grid);
   });
