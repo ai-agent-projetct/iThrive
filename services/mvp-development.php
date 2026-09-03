@@ -235,8 +235,21 @@ $extraHead = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigi
 
 require dirname(__DIR__) . '/includes/header.php';
 
-/** Paths for the components, which take image props as plain strings. */
-$img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
+/**
+ * The picture for a slot, preferring a photograph.
+ *
+ * assets/img/mvp/photo/<set>-<n>.jpg is a real photograph made by
+ * tools/mvp-photos.mjs; assets/img/mvp/<set>/<n>.jpg is the drawn composition
+ * tools/mvp-art.mjs makes. The photograph wins wherever one exists, so the set
+ * can be filled in a few at a time — the page picks up each new file with no
+ * edit here — and the drawn version is what shows until then.
+ */
+$img = static function (string $rel): string {
+    [$set, $file] = explode('/', $rel, 2);
+    $photo = 'assets/img/mvp/photo/' . $set . '-' . $file;
+
+    return asset(is_file(ROOT_PATH . '/' . $photo) ? $photo : 'assets/img/mvp/' . $rel);
+};
 ?>
 
 <div class="mvp">
