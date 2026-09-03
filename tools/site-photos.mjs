@@ -27,9 +27,11 @@
  * halfway, or a top-up that only covers part of the set, picks up exactly where
  * it left off. Delete a file to have it made again.
  *
- * The key comes from the environment (HIGGSFIELD_API_KEY / HIGGSFIELD_SECRET);
- * nothing is committed. Without it the tool prints the plan and stops, which is
- * the useful behaviour when the credits are not there either.
+ * The backend is OpenAI gpt-image-2 through the codex CLI, which authenticates
+ * against the user's ChatGPT subscription — no API key and no image credits,
+ * which is what makes finishing a set of this size practical. Each call takes a
+ * few minutes because codex reasons before it draws, so this is a background
+ * job, not something to wait on.
  */
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -170,48 +172,69 @@ for (const set of wanted) {
   }
 }
 
-console.log(`${todo.length} to generate — 1 credit each on nano_banana, so ${todo.length} credits.`);
+console.log(`${todo.length} to generate, free on the ChatGPT subscription — a few minutes each.`);
 if (listOnly || !todo.length) {
   todo.forEach((t) => console.log(`  ${t.dir}/${t.name}.jpg  [${t.ratio}]  ${t.subject.slice(0, 62)}…`));
   process.exit(0);
 }
 
-const KEY    = process.env.HIGGSFIELD_API_KEY;
-const SECRET = process.env.HIGGSFIELD_SECRET;
-if (!KEY || !SECRET) {
-  console.error('\nHIGGSFIELD_API_KEY / HIGGSFIELD_SECRET are not set, so nothing was generated.');
-  console.error('Set them and run again, or generate these through the MCP tools —');
-  console.error('the prompts above are the whole brief.');
-  process.exit(2);
-}
+const BRIDGE = path.join(process.env.HOME || process.env.USERPROFILE,
+  '.claude', 'skills', 'gpt-image-bridge', 'bin', 'gpt-image-2');
+
+/*
+ * gpt-image-2 draws at its own three sizes, so ask for the nearest one and let
+ * ffmpeg take the target ratio out of the middle. Cropping a good photograph is
+ * safer than asking the model for an aspect it does not offer and being handed
+ * a letterboxed one back.
+ */
+const SOURCE = {
+  '21:9': '1536x1024', '3:2': '1536x1024', '4:3': '1536x1024',
+  '1:1': '1024x1024', '2:3': '1024x1536',
+};
+
+const TARGET = {
+  '21:9': [1500, 643], '3:2': [1400, 933], '4:3': [1200, 900],
+  '1:1': [1000, 1000], '2:3': [900, 1350],
+};
+
+const tmp = path.join(ROOT, '.photo-tmp');
+fs.mkdirSync(tmp, { recursive: true });
+
+let made = 0;
+let failed = 0;
 
 for (const t of todo) {
   fs.mkdirSync(path.dirname(t.file), { recursive: true });
 
-  const res = await fetch('https://platform.higgsfield.ai/v1/text2image/nano_banana', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', 'hf-api-key': KEY, 'hf-secret': SECRET },
-    body: JSON.stringify({ params: { prompt: `${STYLE} Subject: ${t.subject}.`, aspect_ratio: t.ratio } }),
-  });
-  if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
-  const job = await res.json();
+  const png = path.join(tmp, `${t.set}-${t.name}.png`);
+  const prompt = `${STYLE} Subject: ${t.subject}. Cinematic, high detail.`;
 
-  let url = null;
-  for (let i = 0; i < 60 && !url; i++) {
-    await new Promise((r) => setTimeout(r, 3000));
-    const s = await (await fetch(`https://platform.higgsfield.ai/v1/job-sets/${job.id}`, {
-      headers: { 'hf-api-key': KEY, 'hf-secret': SECRET },
-    })).json();
-    url = s?.jobs?.[0]?.results?.raw?.url ?? null;
-    if (s?.jobs?.[0]?.status === 'failed') throw new Error(`failed: ${t.set}/${t.name}`);
+  try {
+    /* Fifteen minutes: codex reasons before it draws, and a slow call is
+       still cheaper than losing the slot and regenerating it later. */
+    execFileSync(BRIDGE, [prompt, png, '--size', SOURCE[t.ratio] || '1536x1024'],
+      { stdio: ['ignore', 'pipe', 'pipe'], timeout: 15 * 60 * 1000 });
+  } catch (e) {
+    failed++;
+    console.error(`FAILED   ${t.set}/${t.name}: ${String(e.message).slice(0, 110)}`);
+    continue;
   }
-  if (!url) throw new Error(`timed out: ${t.set}/${t.name}`);
 
-  const png = t.file.replace(/\.jpg$/, '.png');
-  fs.writeFileSync(png, Buffer.from(await (await fetch(url)).arrayBuffer()));
+  if (!fs.existsSync(png)) {
+    failed++;
+    console.error(`NO FILE  ${t.set}/${t.name}`);
+    continue;
+  }
+
+  const [w, h] = TARGET[t.ratio] || [1400, 933];
   execFileSync(FFMPEG, ['-hide_banner', '-loglevel', 'error', '-y', '-i', png,
-    '-vf', 'scale=1500:-1', '-q:v', '4', t.file]);
+    '-vf', `scale=${w}:${h}:force_original_aspect_ratio=increase,crop=${w}:${h}`,
+    '-q:v', '4', t.file]);
   fs.unlinkSync(png);
 
-  console.log(`${(t.set + '/' + t.name).padEnd(28)} ${(fs.statSync(t.file).size / 1024).toFixed(0)}KB`);
+  made++;
+  const kb = (fs.statSync(t.file).size / 1024).toFixed(0);
+  console.log(`[${made}/${todo.length}] ${(t.set + '/' + t.name).padEnd(30)} ${kb}KB`);
 }
+
+console.log(`\ndone: ${made} made, ${failed} failed, of ${todo.length}`);

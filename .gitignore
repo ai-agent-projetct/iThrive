@@ -26,3 +26,4 @@ app/mobile/node_modules/
 graphify-out/
 # Local Claude Code state. launch.json is shared (see below); this is not.
 .claude/settings.local.json
+.photo-tmp/
