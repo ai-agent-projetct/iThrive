@@ -53,7 +53,14 @@ for (let pass = 1; pass <= 10; pass++) {
   if (before === 0) { console.log('brief complete.'); break; }
 
   console.log(`\n=== pass ${pass}: ${before} left ===`);
-  spawnSync(process.execPath, [JOB], { stdio: 'inherit' });
+  const r = spawnSync(process.execPath, [JOB], { stdio: 'inherit' });
+
+  /* Exit 2 is site-photos saying the codex quota is spent, not that this slot
+     went wrong. The reset is days away, so another pass buys nothing. */
+  if (r.status === 2) {
+    console.log('\nquota exhausted — stopping. Rerun this once codex resets.');
+    break;
+  }
 
   const after = remaining();
   console.log(`pass ${pass}: ${before - after} made, ${after} left`);

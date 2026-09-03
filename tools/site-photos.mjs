@@ -262,6 +262,7 @@ fs.mkdirSync(tmp, { recursive: true });
 
 let made = 0;
 let failed = 0;
+let quota = false;   /* set when codex says the account is out, which ends the run */
 
 for (const t of todo) {
   fs.mkdirSync(path.dirname(t.file), { recursive: true });
@@ -279,6 +280,25 @@ for (const t of todo) {
     execFileSync('bash', [BRIDGE, prompt, png, '--size', SOURCE[t.ratio] || '1536x1024'],
       { stdio: ['ignore', 'pipe', 'pipe'], timeout: 15 * 60 * 1000 });
   } catch (e) {
+    /*
+     * A quota that has run out is not this slot failing, it is every remaining
+     * slot failing, and the reset is days away. Say so once and stop: the first
+     * night this ran, 57 of 60 slots each took a full call to find that out,
+     * and the log read like 57 unrelated faults instead of one exhausted
+     * account. The wrapper prints codex's own message, reset time and all, so
+     * the useful line is quoted rather than summarised.
+     */
+    const said = String(e.stderr || '') + String(e.stdout || '') + String(e.message || '');
+    const limit = said.match(/[^\n]*usage limit[^\n]*/i);
+    if (limit) {
+      console.error(`\nSTOPPED at ${t.set}/${t.name} — the codex image quota is spent.`);
+      console.error(`  ${limit[0].trim()}`);
+      console.error(`  ${todo.length - made} of ${todo.length} still to do; rerun when it resets and`);
+      console.error('  they will be picked up, since finished ones are skipped.');
+      quota = true;
+      break;
+    }
+
     failed++;
     console.error(`FAILED   ${t.set}/${t.name}: ${String(e.message).slice(0, 110)}`);
     continue;
@@ -302,3 +322,8 @@ for (const t of todo) {
 }
 
 console.log(`\ndone: ${made} made, ${failed} failed, of ${todo.length}`);
+
+/* Exit 2 for an exhausted quota, so photos-until-done.mjs can tell "nothing
+   left to do" apart from "nothing I can do until the quota resets", and stop
+   rather than spending its remaining passes rediscovering the same thing. */
+if (quota) process.exit(2);
