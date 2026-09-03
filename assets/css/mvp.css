@@ -1,60 +1,70 @@
 /*
  * The MVP Development page.
  *
- * Its own theme, on purpose. The AI Development Company page is cyan and violet
- * neon on navy; this one is signal amber and electric lime on warm charcoal —
- * a workshop rather than a laboratory. The two pages share components (both run
- * Framer's, through the same Origin Kit island) and share the site's header and
- * footer, and nothing else. A page that borrows another page's components
- * should not also borrow its colours, or the site has one look wearing two names.
+ * The palette is the SITE's, not this page's own. An earlier pass gave it amber
+ * and lime on warm charcoal, which read as a different site rather than a
+ * different page — so everything here now comes from style.css's own tokens:
+ * ink #0B0F17 under the cyan #00F2FE / #4EA8FF / violet #9D4EDD ramp every other
+ * route already wears. What makes this page distinct is its layout and its
+ * components, which is the right place for the difference.
  *
- * Everything is scoped under `.mvp`, so none of it can reach the shared header,
+ * Everything is scoped under `.mvp`, so none of it reaches the shared header,
  * footer or chat widget.
  *
- * The Framer components are mounted into `[data-ok]` hosts and style themselves
- * from the props the PHP hands them; what is here is the page around them, plus
- * the sizing each host needs. Two of those hosts need a DEFINITE height rather
- * than a min-height — a component whose root is `height: 100%` collapses to
- * nothing inside a min-height box, which is what made the cover flow gallery on
- * the AI page invisible until it was measured.
+ * Framer components mount into `[data-ok]` hosts and style themselves from the
+ * props the PHP hands them; what is here is the page around them plus the sizing
+ * each host needs. Several hosts take a DEFINITE height rather than a min-height
+ * — a component whose root is `height: 100%` collapses to nothing inside a
+ * min-height box, which is what made the cover flow gallery on the AI page
+ * invisible until it was measured.
  */
 
 .mvp {
-  --ink: #F4F4F6;
-  --ink-dim: rgba(244, 244, 246, 0.66);
-  --ink-faint: rgba(244, 244, 246, 0.42);
-  --amber: #FF8A3D;
-  --lime: #C6FF4A;
-  --ground: #08080B;
-  --panel: #101015;
-  --line: rgba(255, 255, 255, 0.11);
+  --ink: #0B0F17;
+  --ink-2: #0E1420;
+  --ink-3: #131B2A;
+  --cyan: #00F2FE;
+  --blue: #4EA8FF;
+  --purple: #9D4EDD;
+  --text: #EAF0FA;
+  --dim: #9AA7BD;
+  --faint: #6B7A93;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-2: rgba(255, 255, 255, 0.16);
+  --grad: linear-gradient(120deg, #00F2FE 0%, #4EA8FF 45%, #9D4EDD 100%);
   --mono: 'JetBrains Mono', ui-monospace, monospace;
   --display: 'Outfit', 'Space Grotesk', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   position: relative;
-  background: var(--ground);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--text);
   font-family: 'Space Grotesk', system-ui, sans-serif;
-  /* clip, never hidden: `hidden` would force overflow-y to auto and make this
+  /* clip, never hidden: `hidden` forces overflow-y to auto and makes this
      wrapper its own scroll container, which breaks every sticky inside it. */
   overflow-x: clip;
 }
 
-/* A blueprint grid under the whole page, fading out so it never fights text. */
-.mvp::before {
-  content: '';
-  position: absolute;
+/*
+ * The reactive hexagon field.
+ *
+ * A canvas pinned behind everything, lit near the pointer, its colour taken
+ * from where the pointer sits across the width — cyan at the left edge through
+ * blue to violet at the right, the same seven stops the mobile app page uses.
+ * assets/js/mvp-hex.js draws it; this is only the stage.
+ */
+.mvp-hex {
+  position: fixed;
   inset: 0;
-  pointer-events: none;
   z-index: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 58px 58px;
-  mask-image: linear-gradient(180deg, #000 0%, transparent 22%, transparent 78%, #000 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
 }
 
-.mvp > * { position: relative; z-index: 1; }
+.mvp-hex.is-live { opacity: 1; }
+
+.mvp > *:not(.mvp-hex) { position: relative; z-index: 1; }
 
 .mvp-shell {
   width: min(1280px, calc(100% - 3rem));
@@ -62,14 +72,19 @@
 }
 
 /* ==========================================================================
-   Shared section furniture
+   Section furniture
    ========================================================================== */
 
-.mvp-sec { padding: clamp(72px, 9vw, 132px) 0; }
-.mvp-sec--panel { background: var(--panel); border-block: 1px solid var(--line); }
+.mvp-sec { padding: clamp(72px, 9vw, 128px) 0; }
+
+.mvp-sec--panel {
+  background: linear-gradient(180deg, rgba(14, 20, 32, 0.92), rgba(11, 15, 23, 0.92));
+  border-block: 1px solid var(--line);
+}
+
 .mvp-sec--tight { padding: clamp(48px, 6vw, 84px) 0; }
 
-.mvp-head { max-width: 820px; margin-bottom: clamp(38px, 5vw, 64px); }
+.mvp-head { max-width: 820px; margin-bottom: clamp(38px, 5vw, 60px); }
 .mvp-head--mid { margin-inline: auto; text-align: center; }
 
 .mvp-eyebrow {
@@ -82,37 +97,40 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--cyan);
 }
 
-.mvp-eyebrow::before {
-  content: '';
-  width: 22px;
-  height: 2px;
-  background: var(--amber);
-}
-
+.mvp-eyebrow::before { content: ''; width: 22px; height: 2px; background: var(--grad); }
 .mvp-head--mid .mvp-eyebrow { justify-content: center; }
 
 .mvp-title {
   margin: 0 0 1rem;
   font-family: var(--display);
-  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  font-size: clamp(2rem, 4.4vw, 3.3rem);
   font-weight: 800;
-  line-height: 1.04;
+  line-height: 1.05;
   letter-spacing: -0.035em;
 }
 
-.mvp-title em { font-style: normal; color: var(--amber); }
-.mvp-title b { font-weight: 800; color: var(--lime); }
+/* One gradient wash for the emphasised words, so the page never invents a
+   colour the rest of the site does not use. */
+.mvp-title em,
+.mvp-title b {
+  font-style: normal;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 .mvp-sub {
   margin: 0;
   max-width: 68ch;
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(0.98rem, 1.2vw, 1.1rem);
-  line-height: 1.65;
-  color: var(--ink-dim);
+  font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+  line-height: 1.7;
+  color: var(--dim);
 }
 
 .mvp-head--mid .mvp-sub { margin-inline: auto; }
@@ -122,26 +140,25 @@
    ========================================================================== */
 
 .mvp-hero {
-  padding: clamp(56px, 7vw, 104px) 0 clamp(56px, 7vw, 96px);
-  /* A warm wash behind the copy, so the charcoal is not flat. */
+  padding: clamp(56px, 7vw, 100px) 0 clamp(56px, 7vw, 92px);
   background:
-    radial-gradient(70% 90% at 8% 0%, rgba(255, 138, 61, 0.16) 0%, transparent 62%),
-    radial-gradient(60% 80% at 96% 88%, rgba(198, 255, 74, 0.10) 0%, transparent 64%);
+    radial-gradient(70% 90% at 6% 0%, rgba(0, 242, 254, 0.13) 0%, transparent 62%),
+    radial-gradient(60% 80% at 98% 92%, rgba(157, 78, 221, 0.15) 0%, transparent 64%);
 }
 
 .mvp-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
-  gap: clamp(32px, 4vw, 64px);
+  gap: clamp(32px, 4vw, 60px);
   align-items: center;
 }
 
 .mvp-h1 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.4rem;
   font-family: var(--display);
-  font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+  font-size: clamp(2.3rem, 5vw, 4rem);
   font-weight: 900;
-  line-height: 0.98;
+  line-height: 1;
   letter-spacing: -0.045em;
 }
 
@@ -150,14 +167,13 @@
 .mvp-typeline {
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
-  min-height: clamp(2.6rem, 5.4vw, 4.4rem);
-  margin-bottom: 1.4rem;
+  min-height: clamp(2.5rem, 5.2vw, 4.2rem);
+  margin-bottom: 1.3rem;
   font-family: var(--display);
-  font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+  font-size: clamp(2.3rem, 5vw, 4rem);
   font-weight: 900;
   letter-spacing: -0.045em;
-  color: var(--lime);
+  color: var(--cyan);
 }
 
 .mvp-typeline .mvp-type-host { flex: 1 1 auto; min-width: 0; }
@@ -166,12 +182,12 @@
   margin: 0 0 2rem;
   max-width: 56ch;
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(1rem, 1.25vw, 1.14rem);
-  line-height: 1.65;
-  color: var(--ink-dim);
+  font-size: clamp(1rem, 1.25vw, 1.1rem);
+  line-height: 1.7;
+  color: var(--dim);
 }
 
-.mvp-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.6rem; }
+.mvp-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.4rem; }
 
 .mvp-btn {
   display: inline-flex;
@@ -189,10 +205,10 @@
 
 .mvp-btn svg { width: 16px; height: 16px; }
 .mvp-btn:hover { transform: translateY(-2px); }
-.mvp-btn--primary { background: var(--amber); color: #14100B; }
-.mvp-btn--primary:hover { filter: brightness(1.08); }
-.mvp-btn--ghost { border-color: var(--line); color: var(--ink); background: rgba(255, 255, 255, 0.03); }
-.mvp-btn--ghost:hover { border-color: var(--lime); color: var(--lime); }
+.mvp-btn--primary { background: var(--grad); color: #06131C; }
+.mvp-btn--primary:hover { filter: brightness(1.1); }
+.mvp-btn--ghost { border-color: var(--line-2); color: var(--text); background: rgba(255, 255, 255, 0.035); }
+.mvp-btn--ghost:hover { border-color: var(--cyan); color: var(--cyan); }
 
 .mvp-stats {
   display: grid;
@@ -204,7 +220,8 @@
   overflow: hidden;
 }
 
-.mvp-stat { padding: 18px 16px; background: var(--ground); }
+.mvp-stat { padding: 18px 16px; background: rgba(11, 15, 23, 0.86); }
+
 .mvp-stat b {
   display: block;
   font-family: var(--display);
@@ -212,8 +229,12 @@
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.03em;
-  color: var(--lime);
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
+
 .mvp-stat span {
   display: block;
   margin-top: 6px;
@@ -221,25 +242,21 @@
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--faint);
 }
 
 /*
- * The magazine's stage.
- *
- * A definite height, not a min-height: the component sizes its canvas to its
- * container, and inside a min-height box that resolves to zero and nothing is
- * drawn. It also wants the pointer — orbiting it is the whole point — so
- * touch-action is off, and the page keeps scrolling because the component only
- * claims the drag.
+ * The magazine's stage. A definite height, not a min-height: the component
+ * sizes its canvas to its container, and inside a min-height box that resolves
+ * to zero and nothing is drawn.
  */
 .mvp-magazine {
-  height: clamp(420px, 46vw, 620px);
+  height: clamp(420px, 46vw, 610px);
   border-radius: 22px;
   overflow: hidden;
   background:
-    radial-gradient(70% 70% at 50% 40%, rgba(255, 138, 61, 0.14) 0%, transparent 66%),
-    #0A0A0E;
+    radial-gradient(70% 70% at 50% 40%, rgba(0, 242, 254, 0.10) 0%, transparent 66%),
+    rgba(9, 13, 21, 0.9);
   border: 1px solid var(--line);
   touch-action: pan-y;
 }
@@ -253,54 +270,110 @@
   font-size: 0.68rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--faint);
 }
 
 /* ==========================================================================
-   Kinetic marquee
+   The opening statement, with its band
    ========================================================================== */
 
-.mvp-marquee {
-  padding: clamp(28px, 3.4vw, 48px) 0;
-  border-block: 1px solid var(--line);
-  background: var(--panel);
-  overflow: hidden;
+.mvp-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(28px, 4vw, 60px);
+  align-items: center;
 }
 
-.mvp-marquee-host { height: clamp(90px, 9vw, 140px); }
-
-/* ==========================================================================
-   Before / after
-   ========================================================================== */
-
-.mvp-compare {
-  height: clamp(300px, 34vw, 520px);
+.mvp-figure {
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--line);
+  background: var(--ink-2);
 }
 
-.mvp-compare-legend {
+.mvp-figure img { display: block; width: 100%; height: auto; }
+
+.mvp-points { margin: 1.6rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.7rem; }
+
+.mvp-points li {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.4rem;
-  margin-top: 1.1rem;
-  font-family: var(--mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.1em;
-  color: var(--ink-faint);
+  gap: 0.7rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--dim);
 }
 
-.mvp-compare-legend b { color: var(--ink); font-weight: 700; }
+.mvp-points li::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--grad);
+}
 
 /* ==========================================================================
-   Hosts for the rest of the Framer set
+   Advantage rows — image one side, words the other, alternating
    ========================================================================== */
 
-.mvp-cards-host    { height: clamp(460px, 46vw, 560px); }
-.mvp-stack-host    { min-height: 420px; }
-.mvp-arc-host      { height: clamp(400px, 44vw, 600px); }
-.mvp-timeline-host { min-height: 100vh; }
+.mvp-advantages { display: grid; gap: clamp(32px, 5vw, 72px); }
+
+.mvp-adv {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(24px, 3.5vw, 56px);
+  align-items: center;
+}
+
+/* Every other row swaps sides, so the eye zig-zags down instead of scanning
+   five identical rows. */
+.mvp-adv:nth-child(even) .mvp-adv-art { order: 2; }
+
+.mvp-adv-art {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+  transition: border-color 0.4s ease, transform 0.4s var(--ease);
+}
+
+.mvp-adv:hover .mvp-adv-art { border-color: rgba(0, 242, 254, 0.34); transform: translateY(-4px); }
+.mvp-adv-art img { display: block; width: 100%; height: auto; }
+
+.mvp-adv-n {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--cyan);
+}
+
+.mvp-adv h3 {
+  margin: 0.7rem 0;
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 2.3vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.mvp-adv p {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+/* ==========================================================================
+   Framer hosts
+   ========================================================================== */
+
+.mvp-cards-host { height: clamp(460px, 46vw, 560px); }
+.mvp-stack-host { min-height: 420px; }
+.mvp-arc-host   { height: clamp(400px, 44vw, 600px); }
 
 /* ==========================================================================
    The CTA band, over a moving gradient
@@ -308,85 +381,215 @@
 
 .mvp-band {
   position: relative;
-  padding: clamp(72px, 9vw, 128px) 0;
+  padding: clamp(72px, 9vw, 120px) 0;
   overflow: hidden;
   border-block: 1px solid var(--line);
 }
 
-.mvp-band-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
+.mvp-band-bg { position: absolute; inset: 0; z-index: 0; }
 .mvp-band .mvp-shell { position: relative; z-index: 1; }
-
-.mvp-band-inner {
-  max-width: 880px;
-  margin-inline: auto;
-  text-align: center;
-}
+.mvp-band-inner { max-width: 880px; margin-inline: auto; text-align: center; }
 
 .mvp-band-quote {
   margin: 0 0 1.2rem;
   font-family: var(--display);
-  font-size: clamp(1.7rem, 3.6vw, 2.8rem);
+  font-size: clamp(1.7rem, 3.5vw, 2.7rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.12;
   letter-spacing: -0.035em;
 }
 
-.mvp-band-quote span { color: var(--lime); }
+.mvp-band-quote span { color: var(--cyan); }
 
 /* ==========================================================================
-   Reasons grid
+   The process stepper — click a step, its card opens
+   ==========================================================================
+
+   Built here rather than taken from the marketplace: the two components that
+   do this shape (Workflow Cards, Pixel Hover Card) are canvas exports whose
+   props are per-instance ids with the content baked into variants, so six
+   steps of our own copy cannot be handed to them.
+   -------------------------------------------------------------------------- */
+
+.mvp-stepper {
+  display: grid;
+  grid-template-columns: minmax(260px, 350px) minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 44px);
+  align-items: start;
+}
+
+.mvp-steplist { display: grid; gap: 8px; }
+
+.mvp-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--dim);
+  font-family: var(--display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-align: left;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.mvp-step:hover { border-color: var(--line-2); color: var(--text); transform: translateX(3px); }
+
+.mvp-step-n {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--line-2);
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--faint);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.mvp-step[aria-selected="true"] {
+  border-color: rgba(0, 242, 254, 0.42);
+  background: rgba(0, 242, 254, 0.07);
+  color: var(--text);
+}
+
+.mvp-step[aria-selected="true"] .mvp-step-n {
+  background: var(--grad);
+  border-color: transparent;
+  color: #06131C;
+}
+
+/* The card. One panel is shown at a time and the rest are hidden rather than
+   absent, so with no script every step's content is still on the page. */
+.mvp-stepcards { position: relative; }
+
+.mvp-stepcard {
+  display: none;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(19, 27, 42, 0.9), rgba(11, 15, 23, 0.95));
+}
+
+.mvp-stepcard.is-open { display: block; animation: mvp-card-in 0.45s var(--ease) both; }
+
+@keyframes mvp-card-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* No script: show every card as a plain stack rather than only the first. */
+.mvp-stepper:not(.is-live) .mvp-stepcard { display: block; margin-bottom: 16px; }
+
+.mvp-stepcard-art { background: var(--ink-2); }
+
+/* Cropped rather than shown whole: the illustrations are 3:2, and at the card's
+   full width that put the step's own words below the fold. */
+.mvp-stepcard-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+}
+
+.mvp-stepcard-body { padding: clamp(20px, 2.4vw, 30px); }
+
+.mvp-stepcard-k {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.mvp-stepcard h3 {
+  margin: 0.6rem 0 0.7rem;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.mvp-stepcard p {
+  margin: 0 0 1rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.mvp-stepcard-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mvp-stepcard-meta li {
+  padding: 6px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text);
+}
+
+/* ==========================================================================
+   Reasons grid — each with a picture head
    ========================================================================== */
 
 .mvp-reasons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  overflow: hidden;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
 }
 
 .mvp-reason {
   position: relative;
-  padding: 30px 28px 34px;
-  background: var(--ground);
-  transition: background 0.3s ease;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.35s ease, transform 0.35s ease, background 0.35s ease;
 }
 
-.mvp-reason:hover { background: #0D0D12; }
-
-/* A hairline that fills on hover — the only motion these cards need. */
-.mvp-reason::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 0;
-  background: linear-gradient(90deg, var(--amber), var(--lime));
-  transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+.mvp-reason:hover {
+  border-color: rgba(0, 242, 254, 0.34);
+  background: rgba(255, 255, 255, 0.035);
+  transform: translateY(-4px);
 }
 
-.mvp-reason:hover::after { width: 100%; }
+.mvp-reason-art { background: var(--ink-2); }
+.mvp-reason-art img { display: block; width: 100%; height: auto; }
+.mvp-reason-body { padding: 22px 24px 26px; }
 
 .mvp-reason-n {
   font-family: var(--mono);
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.16em;
-  color: var(--amber);
+  color: var(--cyan);
 }
 
 .mvp-reason h3 {
-  margin: 12px 0 10px;
+  margin: 10px 0 9px;
   font-family: var(--display);
-  font-size: 1.24rem;
+  font-size: 1.18rem;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
@@ -394,16 +597,23 @@
 .mvp-reason p {
   margin: 0;
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--ink-dim);
+  font-size: 0.9rem;
+  line-height: 1.62;
+  color: var(--dim);
 }
 
 /* ==========================================================================
    FAQ
    ========================================================================== */
 
-.mvp-faq { display: grid; gap: 12px; max-width: 900px; margin-inline: auto; }
+.mvp-faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(26px, 3.5vw, 52px);
+  align-items: start;
+}
+
+.mvp-faq { display: grid; gap: 10px; }
 
 .mvp-q {
   border: 1px solid var(--line);
@@ -413,17 +623,17 @@
   transition: border-color 0.3s ease, background 0.3s ease;
 }
 
-.mvp-q[open] { border-color: rgba(255, 138, 61, 0.42); background: rgba(255, 138, 61, 0.05); }
+.mvp-q[open] { border-color: rgba(0, 242, 254, 0.4); background: rgba(0, 242, 254, 0.045); }
 
 .mvp-q summary {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 20px 24px;
+  padding: 18px 22px;
   cursor: pointer;
   list-style: none;
   font-family: var(--display);
-  font-size: clamp(1rem, 1.35vw, 1.12rem);
+  font-size: clamp(0.98rem, 1.3vw, 1.08rem);
   font-weight: 700;
   letter-spacing: -0.015em;
 }
@@ -434,10 +644,10 @@
   content: '';
   flex: none;
   margin-left: auto;
-  width: 13px;
-  height: 13px;
-  border-right: 2px solid var(--amber);
-  border-bottom: 2px solid var(--amber);
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid var(--cyan);
+  border-bottom: 2px solid var(--cyan);
   transform: rotate(45deg) translate(-3px, -3px);
   transition: transform 0.3s ease;
 }
@@ -445,15 +655,15 @@
 .mvp-q[open] summary::after { transform: rotate(225deg) translate(-3px, -3px); }
 
 .mvp-q-body {
-  padding: 0 24px 22px 24px;
+  padding: 0 22px 20px;
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.68;
-  color: var(--ink-dim);
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--dim);
 }
 
 /* ==========================================================================
-   Closing CTA
+   Closing
    ========================================================================== */
 
 .mvp-final { text-align: center; }
@@ -464,42 +674,28 @@
    ========================================================================== */
 
 @media (max-width: 1000px) {
-  .mvp-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .mvp-hero-grid,
+  .mvp-intro-grid,
+  .mvp-faq-grid { grid-template-columns: minmax(0, 1fr); }
   /* The magazine goes first on a phone: it is the thing worth touching, and
      below the copy it would be three screens down. */
   .mvp-hero-art { order: -1; }
   .mvp-magazine { height: clamp(340px, 78vw, 460px); }
   .mvp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .mvp-timeline-host { min-height: 80vh; }
+
+  .mvp-adv,
+  .mvp-stepper { grid-template-columns: minmax(0, 1fr); }
+  /* The alternating swap only makes sense in two columns. */
+  .mvp-adv:nth-child(even) .mvp-adv-art { order: 0; }
 }
 
 @media (max-width: 560px) {
   .mvp-shell { width: calc(100% - 2rem); }
   .mvp-typeline { display: block; }
+  .mvp-step { font-size: 0.92rem; padding: 14px 15px; }
 }
 
-/* ==========================================================================
-   The constraints wheel
-   ==========================================================================
-
-   Framer lists this as "Kinetic Text Slider"; the component underneath is
-   InfiniteTextWheel — a vertical wheel, not a horizontal marquee. It needs real
-   height or every item lands on the same line, which is what a 130px band did
-   to it.
-   -------------------------------------------------------------------------- */
-
-.mvp-wheelsec { overflow: hidden; }
-
-.mvp-wheel-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(28px, 4vw, 64px);
-  align-items: center;
-}
-
-.mvp-wheel-host { height: clamp(320px, 34vw, 440px); }
-
-@media (max-width: 900px) {
-  .mvp-wheel-grid { grid-template-columns: minmax(0, 1fr); }
-  .mvp-wheel-host { height: 320px; }
+@media (prefers-reduced-motion: reduce) {
+  .mvp-stepcard.is-open { animation: none; }
+  .mvp-hex { display: none; }
 }

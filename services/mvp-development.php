@@ -3,39 +3,44 @@
  * MVP Development — the one service page that is not the shared layout.
  *
  * Built after absoluteapplabs.com/mvp-development-company, section for section,
- * but written in iThrive's own words and given its own theme: signal amber and
- * electric lime on warm charcoal, deliberately not the cyan-and-violet the AI
- * Development Company page wears. See assets/css/mvp.css.
+ * in iThrive's own words.
  *
- * Nine of its sections are Framer marketplace components, running as Framer
- * publishes them. They arrive through the Origin Kit island the same way the AI
- * page runs the Cover Flow Gallery: a `[data-ok]` host with its props as JSON,
- * mounted lazily once it is near the viewport.
+ * It wears the SITE's palette rather than one of its own. An earlier pass gave
+ * it amber and lime on warm charcoal; against every other route that read as a
+ * different site rather than a different page, so the colours are style.css's
+ * own tokens now — ink #0B0F17 under the cyan / blue / violet ramp — and what
+ * makes this page distinct is its layout and its components.
  *
- *   hero          3D Magazine          orbit and flip a real WebGL book
- *   hero line     Typewriter Effect    the headline's second line cycles
- *   marquee       Infinity Text        a curved kinetic band
- *   compare       Split Reveal         drag between two scopes
- *   why           Card Showcase        auto-advancing progress cards
- *   inside        Glass Stack          glassmorphic panels
- *   band          Gradient Motion BG   a moving gradient behind the quote
- *   industries    Curved Gallery Arc   a draggable 3D arc
- *   process       Scroll Timeline      scroll-driven milestones
+ * Six sections are Framer marketplace components, running as Framer publishes
+ * them. They arrive through the Origin Kit island the same way the AI page runs
+ * the Cover Flow Gallery: a `[data-ok]` host with its props as JSON, mounted
+ * lazily once it is near the viewport.
  *
- * All ten were vendored with tools/fetch-framer.mjs, which walks each module's
- * own imports and rewrites only the remote URLs — everything else is
- * byte-for-byte what Framer serves, so any of them can be re-fetched and
- * dropped over the old copy. Every one is free and published; nothing here is
- * a lookalike of a paid component.
+ *   hero        3D Magazine          orbit and flip a real WebGL book
+ *   hero line   Typewriter Effect    the headline's second line cycles
+ *   why         Card Showcase        auto-advancing progress cards
+ *   inside      Glass Stack          glassmorphic panels
+ *   band        Gradient Motion BG   a moving gradient behind the quote
+ *   industries  Curved Gallery Arc   a draggable 3D arc
  *
- * The pictures are all rendered from markup by tools/mvp-art.mjs, in the same
- * palette: eight portrait pages for the magazine, five cards, five panel
- * backgrounds, eight industry squares and the before/after pair.
+ * Two sections are this page's own, deliberately:
+ *
+ *   advantages  five alternating image/text rows
+ *   process     six steps; clicking one opens its card
+ *
+ * The process stepper was going to be Framer's Workflow Cards, but that and
+ * Pixel Hover Card are both canvas exports whose props are per-instance ids
+ * with the content baked into variants — six steps of our own copy cannot be
+ * handed to them. Built here instead, with the same click-to-open behaviour.
+ *
+ * Every picture is rendered from markup by tools/mvp-art.mjs, in the same
+ * palette: eight magazine pages, one opening band, five card motifs, five
+ * advantage panels, five panel grounds, eight industry squares, six step
+ * illustrations, six reason heads and one beside the FAQ.
  *
  * Degrades: every Framer host has real markup around it — headings, copy, the
- * FAQ in <details> elements — so with the island absent the page still reads
- * completely and a crawler sees all of it. The magazine's own pages are also
- * listed as an ordinary <ol> for the same reason.
+ * FAQ in <details>, the stepper's six cards — so with the island absent the
+ * page still reads completely and a crawler sees all of it.
  */
 
 declare(strict_types=1);
@@ -54,7 +59,7 @@ $ogImage   = 'service-' . $svc['group_slug'];
  * Content
  * ------------------------------------------------------------------------ */
 
-/** The magazine's pages, in order. Eight images, rendered by tools/mvp-art.mjs. */
+/** The magazine's pages, in order. */
 $playbook = [
     ['01', 'Front cover — The MVP Playbook'],
     ['02', 'Week 0 — one metric, agreed in writing'],
@@ -73,13 +78,32 @@ $stats = [
     ['40+', 'MVPs shipped since 2019'],
 ];
 
-/** The five reasons an MVP beats a full build — the card showcase. */
+/** Why an MVP beats a full build — the card showcase. */
 $why = [
     ['01', 'Evidence over opinion', 'A room full of senior opinions is not data. Twelve weeks and a live cohort is — and the cohort disagrees with the room more often than anyone expects.', 'Validation'],
     ['02', 'A tenth of the burn',   'A full build spends the budget before a single user has proved anything about it. An MVP spends a tenth, and buys the same answer.', 'Cost'],
     ['03', 'Traction raises rounds','Investors fund a curve. A pitch deck describes one; a released product with instrumented usage produces one.', 'Funding'],
     ['04', 'The architecture survives', 'Small does not mean throwaway. What we write in week three is the thing that scales in year two, because it was written that way.', 'Engineering'],
     ['05', 'A real stop condition', 'If the number does not move, you stop — having spent twelve weeks rather than two years, and knowing exactly why.', 'Discipline'],
+];
+
+/** The advantage of an MVP-first approach — five alternating rows. */
+$advantages = [
+    ['01', 'Build What Users Actually Need',
+     'Features are chosen from what a real cohort does, not from the loudest opinion in the room. '
+     . 'Every release is instrumented, so the next set of features is argued from behaviour rather than from a workshop.'],
+    ['02', 'Reduce Development Costs by 60%',
+     'Six features instead of forty, and no rebuild of work nobody wanted. Most of the saving is not in '
+     . 'building faster — it is in the thirty-four things that never get built at all.'],
+    ['03', 'Speed to Market With Real Insights',
+     'Live in twelve weeks with analytics from day one. You reach the market while the idea is still '
+     . 'yours alone, and you reach the second release aimed by data instead of by another round of guessing.'],
+    ['04', 'Agile Product Development',
+     'Two-week sprints against real data, with an installable build at the end of every one. Priorities '
+     . 'can change between sprints without renegotiating the contract, and slippage shows up in week four rather than month seven.'],
+    ['05', 'Validate Your Hypothesis Quickly and Cheaply',
+     'One number, one threshold, one date, agreed before anything is scoped. If it does not move you stop '
+     . '— twelve weeks in, with the answer and most of the budget still in hand.'],
 ];
 
 /** What is actually inside an MVP — the glass stack. */
@@ -103,25 +127,48 @@ $industries = [
     ['08', 'Media',         'Ingest, rights and distribution'],
 ];
 
-/** The twelve weeks — the scroll timeline. bg/fg are the component's own keys. */
-$timeline = [
-    ['bg' => '#0B0B0E', 'fg' => '#FF8A3D', 'year' => '00', 'eyebrow' => '01/ Week 0 — discovery and the one metric',
-     'desc' => 'Two days with the people who will actually use it. We leave with the single number that decides whether this MVP worked, a threshold against it, and a date.'],
-    ['bg' => '#FF8A3D', 'fg' => '#14100B', 'year' => '02', 'eyebrow' => '02/ Weeks 1–2 — scope, negotiated down',
-     'desc' => 'Your list has forty items. Six can move the metric. The other thirty-four go on a roadmap you can still see — the hardest fortnight of the build, and the cheapest.'],
-    ['bg' => '#101016', 'fg' => '#C6FF4A', 'year' => '08', 'eyebrow' => '03/ Weeks 3–8 — the core loop, built',
-     'desc' => 'Two-week sprints against real data, with something installable at the end of each one. Slippage shows up in week four rather than month seven.'],
-    ['bg' => '#C6FF4A', 'fg' => '#12140A', 'year' => '10', 'eyebrow' => '04/ Weeks 9–10 — production hygiene',
-     'desc' => 'Auth, roles, backups, rate limits, error tracking and the admin screen. The unglamorous half that decides whether the MVP survives its first hundred users.'],
-    ['bg' => '#0B0B0E', 'fg' => '#F4F4F6', 'year' => '12', 'eyebrow' => '05/ Weeks 11–12 — real users, watched',
-     'desc' => 'We release to a real cohort, instrument the loop and watch the metric for a fortnight. You get numbers, not an opinion about numbers.'],
-    ['bg' => '#161620', 'fg' => '#FF8A3D', 'year' => '13+', 'eyebrow' => '06/ After — ship, stop, or scale',
-     'desc' => 'Three honest outcomes, decided by the number rather than by whoever is most senior in the room. Two of them save you a year.'],
+/** The six steps. Click one and its card opens — see assets/js/mvp-page.js. */
+$steps = [
+    ['01', 'Start With Clear Goals', 'Week 0 · 2 days',
+     'We run collaborative sessions with the people who will actually use the product, validate the idea '
+     . 'against what the market already does, and leave with the single number this MVP has to move — with a '
+     . 'threshold against it and a date. Nothing gets scoped until that number is written down.',
+     ['One agreed metric', 'Signed success criteria', 'Market validation']],
+
+    ['02', 'Identify the Essential Features', 'Weeks 1–2',
+     'We narrow your idea to the minimum set of features that makes the MVP genuinely useful and genuinely '
+     . 'testable. Your list usually has forty items on it; six of them can move the number. The other '
+     . 'thirty-four go on a roadmap you can still see, in priority order, so nothing is lost — only deferred.',
+     ['Feature ranking', 'A visible roadmap', 'Scope in writing']],
+
+    ['03', 'Create the Basic Screens & Flow', 'Weeks 2–3',
+     'We lay out the key screens and the interactions between them, so you know exactly how the MVP will '
+     . 'behave before a line of it is written. Arguments about the flow happen on a clickable prototype '
+     . 'rather than in a sprint, where they are ten times cheaper.',
+     ['Wireframes', 'Clickable prototype', 'User flow map']],
+
+    ['04', 'Build the Working MVP', 'Weeks 4–8',
+     'We develop the core product: clean UI, a stable backend, and the primary features needed for real '
+     . 'use. Two-week sprints against real data, with something installable at the end of each one, so '
+     . 'progress is a build you run yourself rather than a status report you read.',
+     ['Fortnightly builds', 'Production architecture', 'Real data, not fixtures']],
+
+    ['05', 'Test & Launch', 'Weeks 9–12',
+     'The MVP is tested for usability and performance — automated suites, a real device matrix, load under '
+     . 'the traffic you actually expect — then launched where your users can reach it easily. Auth, backups, '
+     . 'rate limits, error tracking and the admin screen all ship with it.',
+     ['QA and load testing', 'Store or web launch', 'Monitoring from day one']],
+
+    ['06', 'Review & Iterate Next Steps', 'Ongoing',
+     'Our agile process runs on iterative sprints with regular reviews, so the MVP adapts to what users '
+     . 'actually do rather than to what the plan assumed. We watch the number for a fortnight and then take '
+     . 'one of three honest decisions: scale it, change it, or stop.',
+     ['Cohort analytics', 'Sprint reviews', 'Scale, change or stop']],
 ];
 
 /** Why teams pick iThrive for this. */
 $reasons = [
-    ['01', 'We argue the scope down', 'Most agencies quote your list back to you because the list is the invoice. We will tell you which six items matter and put the rest on a roadmap, in writing, before we start.'],
+    ['01', 'We argue the scope down', 'Most agencies quote your list back to you, because the list is the invoice. We will tell you which six items matter and put the rest on a roadmap, in writing, before we start.'],
     ['02', 'Senior engineers only',   'No practice-on-your-project staffing. The people in the discovery call are the people who write the code, and there are fewer of them than you expect.'],
     ['03', 'Installable every Friday','A build you can run yourself at the end of every sprint. Progress is something you hold, not a status report you read.'],
     ['04', 'Full ownership, day one', 'The repository, cloud accounts, domain, signing keys and Figma files go into your name with history intact — including the right to take it elsewhere.'],
@@ -165,11 +212,14 @@ $extraHead = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigi
 
 require dirname(__DIR__) . '/includes/header.php';
 
-/** Absolute URLs for the components, which take image props as plain strings. */
+/** Paths for the components, which take image props as plain strings. */
 $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
 ?>
 
 <div class="mvp">
+
+  <?php /* The reactive honeycomb, behind everything. See assets/js/mvp-page.js. */ ?>
+  <canvas class="mvp-hex" data-mvp-hex aria-hidden="true"></canvas>
 
   <?php /* ---------------------------------------------------------------
            Hero — a 3D magazine you can orbit, and a headline that types
@@ -183,9 +233,8 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
         <h1 class="mvp-h1">Launch an MVP that proves the idea</h1>
 
         <?php /* Framer's Typewriter Effect cycles the second line. The first
-                 word is in the markup too, so the headline is never a blank
-                 line before the island mounts — and a crawler reads a complete
-                 sentence either way. */ ?>
+                 phrase is in the markup too, so the headline is never a blank
+                 line before the island mounts. */ ?>
         <p class="mvp-typeline">
           <span class="mvp-type-host"
                 data-ok="typewriter-effect"
@@ -198,10 +247,10 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
                     ],
                     'typingSpeed'   => 62,
                     'deletingSpeed' => 34,
-                    'pauseDuration' => 1700,
-                    'cursorColor'   => '#FF8A3D',
+                    'pauseDuration' => 1800,
+                    'cursorColor'   => '#9D4EDD',
                     'cursorWidth'   => 4,
-                    'textColor'     => '#C6FF4A',
+                    'textColor'     => '#00F2FE',
                     'font'          => ['fontSize' => 'inherit', 'fontWeight' => 900, 'letterSpacing' => '-0.045em'],
                 ], JSON_THROW_ON_ERROR)) ?>'><noscript>in twelve weeks.</noscript></span>
         </p>
@@ -217,7 +266,7 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
                   data-modal-open data-modal-service="MVP Development">
             Start your MVP<?= icon('arrow') ?>
           </button>
-          <a class="mvp-btn mvp-btn--ghost" href="#process">See the 12-week plan<?= icon('arrow') ?></a>
+          <a class="mvp-btn mvp-btn--ghost" href="#process">See the 6-step process<?= icon('arrow') ?></a>
         </div>
 
         <div class="mvp-stats">
@@ -228,17 +277,17 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
       </div>
 
       <div class="mvp-hero-art">
-        <?php /* Framer's 3D Magazine. Orbit it, flip it, throw it — it is a
-                 real WebGL book, and its pages are the playbook this practice
-                 actually runs. The engine is a megabyte, so embed.jsx imports
-                 this one lazily and only a page that mounts it pays. */ ?>
+        <?php /* Framer's 3D Magazine. Orbit it, flip it — it is a real WebGL
+                 book, and its pages are the playbook this practice runs. The
+                 engine is a megabyte, so embed.jsx imports this one lazily and
+                 only a page that mounts it pays. */ ?>
         <div class="mvp-magazine"
              data-ok="magazine-3d"
              data-props='<?= e(json_encode([
                  'openAtPage' => 0,
                  'pages' => array_map(static fn (array $p): array => [
                      'type'  => 'image',
-                     'gloss' => 34,
+                     'gloss' => 30,
                      'image' => [
                          'src'       => $img('playbook/' . $p[0] . '.jpg'),
                          'srcSet'    => $img('playbook/' . $p[0] . '.jpg'),
@@ -251,32 +300,39 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
                      'pageSize' => ['sizeType' => 'preset', 'preset' => 'portrait-3-4',
                                     'width' => 1.28, 'height' => 1.71],
                      'fitMedia'   => 'stretch',
-                     'hoverColor' => '#FF8A3D',
-                     'gloss'      => 34,
+                     'hoverColor' => '#00F2FE',
+                     'gloss'      => 30,
                      'curve'      => 22,
                  ],
                  'animation' => [
                      'enterAnimation' => ['type' => 'none', 'speed' => 1, 'delay' => 0],
                      'autoFlip'       => ['enabled' => false, 'timing' => 2.5],
-                     'float'          => ['enabled' => true, 'intensity' => 1,
-                                          'speed' => 1.6, 'rotationIntensity' => 1.6],
+                     /* A slow breath rather than a spin. At the component's own
+                        defaults (intensity 1, speed 2, rotation 2) the book
+                        swung enough to be distracting beside body copy. */
+                     'float'          => ['enabled' => true, 'intensity' => 0.30,
+                                          'speed' => 0.5, 'rotationIntensity' => 0.28],
                  ],
                  'shadow' => true,
-                 /* Zoom is a trade against the frame: at 1.62 the cover ran off the
-                    right edge and lost its last letters; at 1.15 the book was a
-                    postage stamp in a 620px box. 1.22 is the value that still
-                    fits the taller, narrower stage a phone gives it. */
-                 'camera' => ['position' => ['x' => 0, 'y' => 0.95, 'z' => 3.3],
-                              'rotation' => ['x' => 82, 'y' => 0, 'z' => 0], 'zoom' => 1.22, 'fov' => 45],
+                 /*
+                  * Swept against the real frame rather than guessed. 1.25 and
+                  * above run the cover off the right edge and eat "EDITION 04";
+                  * 0.95 fits with room to spare but reads small. 1.10 is the
+                  * largest that keeps the whole cover inside the box.
+                  *
+                  * Camera x moves the book the SAME way, not the opposite: +0.9
+                  * pushed it further right and started clipping again, so a
+                  * small negative value is what centres it.
+                  */
+                 'camera' => ['position' => ['x' => -0.5, 'y' => 0.95, 'z' => 3.3],
+                              'rotation' => ['x' => 82, 'y' => 0, 'z' => 0], 'zoom' => 1.10, 'fov' => 45],
                  'orbitControls' => [
                      'enabled' => true,
                      'zoom'    => ['enabled' => false, 'min' => 0.1, 'max' => 10],
                      /*
-                      * Both axes are clamped, and the azimuth is the one that
-                      * matters: left infinite, a single sideways drag spins the
-                      * book past edge-on and leaves the hero showing a white
-                      * line. A generous cone still reads as free rotation, and
-                      * cannot be left in a state nobody can read.
+                      * Both axes clamped, and the azimuth is the one that
+                      * matters: left infinite, one sideways drag spins the book
+                      * past edge-on and leaves the hero showing a white line.
                       */
                      'rotation'=> ['enabled' => true, 'polarInfinite' => false,
                                    'polarMin' => 66, 'polarMax' => 104,
@@ -299,100 +355,41 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
     </div>
   </section>
 
-  <?php /* --- The six constraints, as a text wheel ---------------------------
-           Framer publishes this as "Kinetic Text Slider"; its component is
-           called InfiniteTextWheel, and that is what it is — a vertical wheel
-           that curves its items around a centre and springs between them. It
-           was in a 130px band first, which stacked all six words on one line. */ ?>
-  <section class="mvp-sec mvp-sec--panel mvp-wheelsec">
-    <div class="mvp-shell mvp-wheel-grid">
+  <?php /* --- The opening statement ---------------------------------------- */ ?>
+  <section class="mvp-sec mvp-sec--panel">
+    <div class="mvp-shell mvp-intro-grid">
+      <figure class="mvp-figure">
+        <img src="<?= e($img('intro/01.jpg')) ?>" width="1680" height="640"
+             alt="Twelve weeks from an idea to a number you can trust"
+             loading="lazy" decoding="async">
+      </figure>
+
       <div>
-        <p class="mvp-eyebrow">The Constraints</p>
-        <h2 class="mvp-title">Six things we hold <b>every MVP</b> to</h2>
+        <p class="mvp-eyebrow">MVP Development Services</p>
+        <h2 class="mvp-title">Launch an MVP that validates your <em>product's potential</em></h2>
         <p class="mvp-sub">
-          None of them is negotiable, and the first one decides the other five.
-          Spin the wheel.
+          A minimum viable product is not a cheap version of your product. It is the smallest thing
+          that can be wrong in public — the one loop that tells you, with real users and real numbers,
+          whether the idea behind it holds up. We build that loop, ship it, and measure it.
         </p>
+
+        <ul class="mvp-points">
+          <li>One metric agreed in writing before anything is scoped, with a threshold and a date.</li>
+          <li>Six features in a typical v1, and a visible roadmap for the thirty-four we deferred.</li>
+          <li>Production architecture from week three, so success does not force a rewrite.</li>
+          <li>The repository, the accounts and the keys in your name from day one.</li>
+        </ul>
       </div>
-
-      <div class="mvp-wheel-host"
-           data-ok="infinity-text"
-           data-props='<?= e(json_encode([
-               /* Plain strings: the component filters with item.trim(), so an
-                  array of objects throws before it renders anything. */
-               'items' => ['ONE METRIC', 'SIX FEATURES', 'TWELVE WEEKS',
-                           'REAL USERS', 'YOUR CODE', 'SHIP OR STOP'],
-               /*
-                * lineHeight has to be a STRING here, and that is the whole
-                * difference between a wheel and a pile.
-                *
-                * The component sets its row pitch to fontValueToPixels(lineHeight),
-                * which returns a NUMBER unchanged — so lineHeight: 1 meant a row
-                * height of one pixel and all six words landed on the same line.
-                * A string under 3 with no unit is multiplied by the font size,
-                * which is the ratio it was written to take.
-                *
-                * 'variant' is a Framer canvas font token and does nothing off it;
-                * fontWeight and fontFamily are what actually reach the style.
-                */
-               'font'  => ['fontSize' => 46, 'lineHeight' => '1.28', 'letterSpacing' => '-0.04em',
-                           'textAlign' => 'left', 'fontWeight' => 800,
-                           'fontFamily' => "'Outfit', 'Space Grotesk', sans-serif"],
-               'color'      => '#F4F4F6',
-               'arrowColor' => '#FF8A3D',
-               'arrowSize'  => 20,
-               'arrowGap'   => 26,
-               'sideGap'    => 30,
-               'rowGap'     => 6,
-               'curve'      => 74,
-           ], JSON_THROW_ON_ERROR)) ?>'></div>
-    </div>
-  </section>
-
-  <?php /* --- The scope argument, as a drag ------------------------------- */ ?>
-  <section class="mvp-sec">
-    <div class="mvp-shell">
-      <div class="mvp-head">
-        <p class="mvp-eyebrow">The Actual Problem</p>
-        <h2 class="mvp-title">Most failed MVPs were never an <em>MVP</em></h2>
-        <p class="mvp-sub">
-          They were a full product with a smaller budget. Fourteen features, nine months, and the first
-          honest signal arriving after the money has gone. Drag the handle: the left is the roadmap most
-          founders arrive with, the right is what we agree to build first.
-        </p>
-      </div>
-
-      <div class="mvp-compare"
-           data-ok="split-reveal"
-           data-props='<?= e(json_encode([
-               'beforeImage'  => ['src' => $img('compare/before.jpg'), 'alt' => 'A fourteen-feature v1 roadmap'],
-               'afterImage'   => ['src' => $img('compare/after.jpg'),  'alt' => 'A six-feature MVP scope'],
-               'initialPosition' => 46,
-               'fit'          => 'cover',
-               'showHandle'   => true,
-               'handleSize'   => 46,
-               'handleColor'  => '#FF8A3D',
-               'handleIconColor' => '#14100B',
-               'dividerWidth' => 2,
-               'dividerColor' => '#C6FF4A',
-               'dividerShadow'=> true,
-               'borderRadius' => '0px',
-           ], JSON_THROW_ON_ERROR)) ?>'></div>
-
-      <p class="mvp-compare-legend">
-        <span><b>Left</b> — 14 features, ~9 months, first signal after launch</span>
-        <span><b>Right</b> — 6 features, 12 weeks, first signal in week 13</span>
-      </p>
     </div>
   </section>
 
   <?php /* --- Why an MVP wins ---------------------------------------------- */ ?>
-  <section class="mvp-sec mvp-sec--panel">
+  <section class="mvp-sec">
     <div class="mvp-shell">
       <div class="mvp-head mvp-head--mid">
         <p class="mvp-eyebrow">Why MVP First</p>
-        <h2 class="mvp-title">Five reasons an MVP beats a <b>full build</b></h2>
-        <p class="mvp-sub">Not because it is cheaper. Because it answers the question sooner.</p>
+        <h2 class="mvp-title">Why MVPs are ideal for <b>launching new products</b></h2>
+        <p class="mvp-sub">Not because they are cheaper. Because they answer the question sooner.</p>
       </div>
 
       <div class="mvp-cards-host"
@@ -405,21 +402,50 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
                    'tag'         => $c[3],
                    'image'       => ['src' => $img('why/' . $c[0] . '.jpg'), 'alt' => $c[1]],
                ], $why),
-               'progressColor' => '#FF8A3D',
+               'progressColor' => '#00F2FE',
                'animationSpeed'=> 6,
                'loop'          => true,
-               'textColor'     => '#F4F4F6',
-               'numberColor'   => '#C6FF4A',
-               'tagColor'      => '#FF8A3D',
+               'textColor'     => '#EAF0FA',
+               'numberColor'   => '#00F2FE',
+               'tagColor'      => '#9D4EDD',
                'imageRadius'   => 18,
                'padding'       => 0,
                'contentImageGap' => 40,
            ], JSON_THROW_ON_ERROR)) ?>'></div>
 
-      <?php /* The five, as plain text, for a reader with no island. */ ?>
       <ul class="sr-only">
         <?php foreach ($why as $c): ?><li><?= e($c[0] . '. ' . $c[1] . ' — ' . $c[2]) ?></li><?php endforeach; ?>
       </ul>
+    </div>
+  </section>
+
+  <?php /* --- Advantage of an MVP-first approach ----------------------------- */ ?>
+  <section class="mvp-sec mvp-sec--panel" id="advantages">
+    <div class="mvp-shell">
+      <div class="mvp-head mvp-head--mid">
+        <p class="mvp-eyebrow">The Advantage</p>
+        <h2 class="mvp-title">Advantage of an <em>MVP-first</em> approach</h2>
+        <p class="mvp-sub">
+          Five things you get from building the smallest useful version first — and one of them is
+          simply the money you do not spend.
+        </p>
+      </div>
+
+      <div class="mvp-advantages">
+        <?php foreach ($advantages as [$n, $title, $body]): ?>
+          <article class="mvp-adv">
+            <figure class="mvp-adv-art">
+              <img src="<?= e($img('advantage/' . $n . '.jpg')) ?>" width="1200" height="800"
+                   alt="<?= e($title) ?>" loading="lazy" decoding="async">
+            </figure>
+            <div>
+              <span class="mvp-adv-n">Advantage <?= e($n) ?></span>
+              <h3><?= e($title) ?></h3>
+              <p><?= e($body) ?></p>
+            </div>
+          </article>
+        <?php endforeach; ?>
+      </div>
     </div>
   </section>
 
@@ -448,8 +474,8 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
                'glassOpacity'    => 24,
                'borderRadius'    => 18,
                'padding'         => 30,
-               'titleColor'      => '#F4F4F6',
-               'bodyColor'       => 'rgba(244,244,246,0.72)',
+               'titleColor'      => '#EAF0FA',
+               'bodyColor'       => 'rgba(234,240,250,0.72)',
                'hoverLift'       => 10,
                'containerPadding'=> 0,
                'backgroundBlur'  => 14,
@@ -462,20 +488,22 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
     <div class="mvp-band-bg"
          data-ok="gradient-motion-bg"
          data-props='<?= e(json_encode([
-             'colorStops'     => ['#FF8A3D', '#C6FF4A', '#7A3BFF'],
-             'baseBackground' => '#08080B',
+             'colorStops'     => ['#00F2FE', '#4EA8FF', '#9D4EDD'],
+             'baseBackground' => '#0B0F17',
              'blendMode'      => 'screen',
-             'opacity'        => 52,
-             'contrast'       => 108,
+             'opacity'        => 48,
+             'contrast'       => 106,
              'shapeStyle'     => 'Blob',
              'blobCount'      => 3,
-             'blurAmount'     => 150,
+             'blurAmount'     => 160,
              'sizeMin'        => 55,
              'sizeMax'        => 88,
              'animate'        => true,
-             'speed'          => 26,
+             /* Slower than the component's default 40: this sits behind a
+                sentence somebody is meant to read. */
+             'speed'          => 16,
              'motionStyle'    => 'Drift',
-             'motionRange'    => 52,
+             'motionRange'    => 46,
              'seed'           => 12,
              'grainEnabled'   => true,
              'grainAmount'    => 12,
@@ -502,7 +530,7 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
     <div class="mvp-shell">
       <div class="mvp-head mvp-head--mid">
         <p class="mvp-eyebrow">Footprint</p>
-        <h2 class="mvp-title">Where our MVPs have <b>gone live</b></h2>
+        <h2 class="mvp-title">Our MVP footprint across <b>industries</b></h2>
         <p class="mvp-sub">Eight sectors, and the part of each one an MVP usually has to prove first. Drag the arc.</p>
       </div>
     </div>
@@ -517,11 +545,13 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
              'backgroundColor' => 'rgba(0,0,0,0)',
              'cardSize'        => 250,
              'gap'             => 26,
-             /* The fan only reads as an arc past about 150; below that the cards
-                sit in what looks like an ordinary row. */
+             /* The fan only reads as an arc past about 150; below that the
+                cards sit in what looks like an ordinary row. */
              'curve'           => 190,
              'perspective'     => 1500,
-             'autoScrollSpeed' => 16,
+             /* Slow: at the default the arc slides fast enough that reading a
+                card means chasing it. */
+             'autoScrollSpeed' => 6,
              'dragSpeed'       => 1.1,
              'inertia'         => 0.94,
              'borderRadius'    => 18,
@@ -532,42 +562,76 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
     </ul>
   </section>
 
-  <?php /* --- The twelve weeks ------------------------------------------------ */ ?>
-  <section class="mvp-sec mvp-sec--tight" id="process">
+  <?php /* --- The six steps, click to open ------------------------------------ */ ?>
+  <section class="mvp-sec mvp-sec--panel" id="process">
     <div class="mvp-shell">
       <div class="mvp-head mvp-head--mid">
-        <p class="mvp-eyebrow">The Twelve Weeks</p>
-        <h2 class="mvp-title">How we turn a prototype into a <em>product</em></h2>
-        <p class="mvp-sub">Six stages. Keep scrolling and each one takes the screen in turn.</p>
+        <p class="mvp-eyebrow">The Process</p>
+        <h2 class="mvp-title">How we turn prototypes into <b>scalable products</b></h2>
+        <p class="mvp-sub">
+          We break your idea into achievable milestones with our proven MVP development services,
+          simplifying the entire product development cycle so every step feels clear, structured and
+          within reach. Pick a step to open it.
+        </p>
+      </div>
+
+      <div class="mvp-stepper" data-stepper>
+        <div class="mvp-steplist" role="tablist" aria-label="MVP development process">
+          <?php foreach ($steps as $i => [$n, $title]): ?>
+            <button class="mvp-step" type="button" role="tab" data-step
+                    id="mvp-step-<?= e($n) ?>" aria-controls="mvp-card-<?= e($n) ?>"
+                    aria-selected="<?= $i === 0 ? 'true' : 'false' ?>">
+              <span class="mvp-step-n"><?= e($n) ?></span>
+              <span><?= e($title) ?></span>
+            </button>
+          <?php endforeach; ?>
+        </div>
+
+        <div class="mvp-stepcards">
+          <?php foreach ($steps as $i => [$n, $title, $when, $body, $meta]): ?>
+            <article class="mvp-stepcard<?= $i === 0 ? ' is-open' : '' ?>"
+                     data-stepcard role="tabpanel"
+                     id="mvp-card-<?= e($n) ?>" aria-labelledby="mvp-step-<?= e($n) ?>">
+              <figure class="mvp-stepcard-art">
+                <img src="<?= e($img('step/' . $n . '.jpg')) ?>" width="1200" height="800"
+                     alt="<?= e($title) ?>" loading="lazy" decoding="async">
+              </figure>
+              <div class="mvp-stepcard-body">
+                <p class="mvp-stepcard-k">Step <?= e($n) ?> · <?= e($when) ?></p>
+                <h3><?= e($title) ?></h3>
+                <p><?= e($body) ?></p>
+                <ul class="mvp-stepcard-meta">
+                  <?php foreach ($meta as $m): ?><li><?= e($m) ?></li><?php endforeach; ?>
+                </ul>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        </div>
       </div>
     </div>
-
-    <div class="mvp-timeline-host"
-         data-ok="scroll-timeline"
-         data-props='<?= e(json_encode(['items' => $timeline], JSON_THROW_ON_ERROR)) ?>'></div>
-
-    <ol class="sr-only">
-      <?php foreach ($timeline as $t): ?>
-        <li><?= e($t['year'] . ' — ' . $t['eyebrow'] . '. ' . $t['desc']) ?></li>
-      <?php endforeach; ?>
-    </ol>
   </section>
 
   <?php /* --- Why us ------------------------------------------------------- */ ?>
-  <section class="mvp-sec mvp-sec--panel">
+  <section class="mvp-sec">
     <div class="mvp-shell">
       <div class="mvp-head mvp-head--mid">
         <p class="mvp-eyebrow">Why iThrive</p>
-        <h2 class="mvp-title">Six things you can hold us to</h2>
-        <p class="mvp-sub">Every one of these is in the contract, not just on the page.</p>
+        <h2 class="mvp-title">Why choose us for <em>MVP development</em></h2>
+        <p class="mvp-sub">Six things you can hold us to — every one of them in the contract, not just on the page.</p>
       </div>
 
       <div class="mvp-reasons">
         <?php foreach ($reasons as [$n, $title, $body]): ?>
           <article class="mvp-reason">
-            <span class="mvp-reason-n"><?= e($n) ?></span>
-            <h3><?= e($title) ?></h3>
-            <p><?= e($body) ?></p>
+            <figure class="mvp-reason-art">
+              <img src="<?= e($img('reason/' . $n . '.jpg')) ?>" width="600" height="420"
+                   alt="" loading="lazy" decoding="async">
+            </figure>
+            <div class="mvp-reason-body">
+              <span class="mvp-reason-n"><?= e($n) ?></span>
+              <h3><?= e($title) ?></h3>
+              <p><?= e($body) ?></p>
+            </div>
           </article>
         <?php endforeach; ?>
       </div>
@@ -575,15 +639,19 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
   </section>
 
   <?php /* --- FAQ ------------------------------------------------------------ */ ?>
-  <section class="mvp-sec" id="faq">
-    <div class="mvp-shell">
-      <div class="mvp-head mvp-head--mid">
+  <section class="mvp-sec mvp-sec--panel" id="faq">
+    <div class="mvp-shell mvp-faq-grid">
+      <div>
         <p class="mvp-eyebrow">Straight Answers</p>
         <h2 class="mvp-title">MVP development, <b>answered</b></h2>
         <p class="mvp-sub">
-          The same answers iThrive AI gives — these come from the site's own answer book, so the
-          assistant at the corner of this page will say the same thing in any of six languages.
+          These come from the site's own answer book, so iThrive AI at the corner of this page will
+          say the same thing in any of six languages.
         </p>
+        <figure class="mvp-figure" style="margin-top:1.8rem">
+          <img src="<?= e($img('faq/01.jpg')) ?>" width="1200" height="800"
+               alt="" loading="lazy" decoding="async">
+        </figure>
       </div>
 
       <div class="mvp-faq">
@@ -621,10 +689,13 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
 
 </div>
 
-<?php /* The island that carries all nine Framer components. Mounts are lazy:
-         nothing is built until its host is near the viewport, and the
-         magazine's WebGL engine is a separate chunk fetched only here. */ ?>
+<?php /* The island that carries the Framer components. Mounts are lazy: nothing
+         is built until its host is near the viewport, and the magazine's WebGL
+         engine is a separate chunk fetched only here. */ ?>
 <script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+
+<?php /* The honeycomb and the stepper — this page's own two behaviours. */ ?>
+<script src="<?= e(asset('assets/js/mvp-page.js')) ?>" defer></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
