@@ -282,71 +282,55 @@
     show(0, false);
   }
 
+
   /* ======================================================================
      4. The sticky spiral
      ======================================================================
 
-     After Framer's "Sticky Spiral Steps" ($1, no published module). Its
-     description is the whole spec: "Show your process as an animated spiral.
-     It sticks in place while people scroll, and each step pops in one by one."
+     After Framer's "Sticky Spiral Steps" ($1, no published module) — built
+     from its live demo at stickyspiral.framer.website rather than from the
+     listing's one-line description, because "an animated spiral" does not say
+     what it is and the first attempt at it, a flat 2D spiral, was nothing like
+     the real thing.
 
-     So: the stage sticks for the length of a tall track, and the section's own
-     scroll progress decides how many of the six have landed. The line draws
-     with it, and the hub in the eye of the spiral carries whichever step
-     arrived last.
+     Measured off that demo: every card transform is a multiple of 45 degrees
+     about Y under transform-style: preserve-3d. The cards are on a helix, and
+     scroll turns the whole helix so each one swings to the front in turn.
+
+     All this does is convert scroll into --a, "how far along the helix we
+     are", in steps. The CSS does the rest.
 
      Progress is sampled per frame while the section is on screen, never on the
-     scroll event — the last event of a gesture measures a rect the browser has
-     not finished settling, and with nothing after it to correct the reading the
-     final step never lands. That is the same lesson the roadmap on the mobile
-     page already learned.
+     scroll event: the last event of a gesture measures a rect the browser has
+     not settled, and with nothing after it to correct the reading the helix
+     stops short of the final card. Same lesson the mobile page's roadmap
+     already learned.
      ====================================================================== */
 
   const spiral = document.querySelector('[data-spiral]');
 
   if (spiral && !reduced && window.matchMedia('(min-width: 901px)').matches) {
-    const track = spiral.querySelector('[data-spiral-track]');
-    const cards = Array.from(spiral.querySelectorAll('[data-spiral-card]'));
-    const line  = spiral.querySelector('[data-spiral-line]');
-    const hubN  = spiral.querySelector('[data-spiral-hub-n]');
-    const hubT  = spiral.querySelector('[data-spiral-hub-t]');
-    const hubB  = spiral.querySelector('[data-spiral-hub-b]');
-    const bar   = spiral.querySelector('[data-spiral-prog]');
+    const track = spiral.querySelector('[data-helix-track]');
+    const helix = spiral.querySelector('[data-helix]');
+    const cards = Array.from(spiral.querySelectorAll('[data-helix-card]'));
+    const bar   = spiral.querySelector('[data-helix-bar]');
+    const label = spiral.querySelector('[data-helix-label]');
     const n = cards.length;
-
-    const len = line ? line.getTotalLength() : 0;
-    if (line && len) {
-      line.style.strokeDasharray = len;
-      line.style.strokeDashoffset = len;
-    }
 
     let raf = 0;
     let onScreen = false;
     let last = -1;
 
     function paint(p) {
-      /* Each card owns a slice of the scroll and pops when it is reached. The
-         0.06 lead means a card is already arriving as its slice opens rather
-         than appearing exactly on the boundary. */
-      let current = -1;
-      for (let i = 0; i < n; i++) {
-        const at = (i + 0.5) / n;
-        const inYet = p >= at - 0.06;
-        cards[i].classList.toggle('is-in', inYet);
-        if (inYet) current = i;
-      }
+      /* 0 puts card one at the front, 1 puts the last one there. */
+      const a = p * (n - 1);
+      helix.style.setProperty('--a', a.toFixed(4));
 
-      cards.forEach((c, i) => c.classList.toggle('is-current', i === current));
+      const front = Math.round(a);
+      cards.forEach((c, i) => c.classList.toggle('is-front', i === front));
 
-      if (line && len) line.style.strokeDashoffset = len * (1 - Math.min(1, p * 1.12));
-      if (bar) bar.style.width = Math.round(Math.min(1, p) * 100) + '%';
-
-      if (current >= 0 && hubN) {
-        const c = cards[current];
-        hubN.textContent = c.dataset.n;
-        hubT.textContent = c.dataset.title;
-        hubB.textContent = c.dataset.body;
-      }
+      if (bar) bar.style.width = Math.round(p * 100) + '%';
+      if (label) label.textContent = String(front + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
     }
 
     function frame() {
@@ -357,7 +341,7 @@
       const range = r.height - window.innerHeight;
       const p = range <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / range));
 
-      if (Math.abs(p - last) < 0.0006) return;
+      if (Math.abs(p - last) < 0.0004) return;
       last = p;
       paint(p);
     }

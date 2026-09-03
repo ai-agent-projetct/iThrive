@@ -1044,178 +1044,160 @@
   .mvp-folder-body { transition: none; }
 }
 
+
 /* ==========================================================================
    Sticky spiral steps — after Framer's paid "Sticky Spiral Steps"
    ==========================================================================
 
-   Its own description is the whole spec: "Show your process as an animated
-   spiral. It sticks in place while people scroll, and each step pops in one by
-   one." It is a $1 listing, and a paid listing publishes no module, so this is
-   that behaviour built rather than that file run.
+   Built from the live demo at stickyspiral.framer.website rather than from the
+   listing's one-line description, because the description ("an animated
+   spiral") does not say what it actually is and the first attempt at it — a
+   flat 2D spiral of small cards — was nothing like the real thing.
 
-   The track is tall; the stage inside it sticks for the whole of it. Six cards
-   sit on an elliptical spiral whose coordinates come from the PHP — the same
-   1000x640 grid the SVG uses, so the drawn spiral and the cards agree exactly
-   at any width. Scroll progress reveals them in order and draws the line.
+   What the demo actually does, measured in the browser: the cards are large
+   panels on a HELIX around a vertical axis, stepping 45 degrees and dropping a
+   fixed distance each time. The stage is sticky and the whole helix turns and
+   rises as you scroll, so each card swings to the front in turn. The ones past
+   90 degrees show their reverse — mirrored text — and that is the effect, not a
+   bug: the demo leaves backface-visibility alone and so does this.
+
+   Every transform matrix on the demo was a multiple of 45 degrees about Y with
+   transform-style: preserve-3d, which is where the 45 here comes from.
    -------------------------------------------------------------------------- */
 
-.mvp-spiral-track {
-  /* One viewport for the stage, plus a screen-third of travel per step. With
-     less than this the six pops land on top of each other. */
-  height: calc(100vh + 6 * 38vh);
+.mvp-helix-track {
+  /* A screen and a half of travel per step. Less and the helix spins faster
+     than the cards can be read on the way past. */
+  height: calc(100vh + 6 * 62vh);
 }
 
-.mvp-spiral-stage {
+.mvp-helix-stage {
   position: sticky;
   top: var(--header-h, 76px);
   height: calc(100vh - var(--header-h, 76px));
   display: grid;
   place-items: center;
-}
-
-/* The 1000x640 grid everything is placed on. */
-.mvp-spiral-plane {
-  position: relative;
-  width: min(1180px, 100%);
-  aspect-ratio: 1000 / 640;
-  max-height: 100%;
-}
-
-.mvp-spiral-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.mvp-spiral-line {
-  fill: none;
-  stroke: url(#mvp-spiral-grad);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  transition: stroke-dashoffset 0.5s var(--ease);
-}
-
-.mvp-spiral-base {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.07);
-  stroke-width: 2;
-  vector-effect: non-scaling-stroke;
-}
-
-/* A card, pinned by its centre to a point on the spiral. */
-.mvp-spiral-card {
-  position: absolute;
-  width: 23%;
-  transform: translate(-50%, -50%) scale(0.82);
-  opacity: 0;
-  border: 1px solid var(--line-2);
-  border-radius: 16px;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(19, 27, 42, 0.94), rgba(11, 15, 23, 0.96));
-  box-shadow: 0 22px 50px -26px rgba(0, 0, 0, 0.9);
-  transition: opacity 0.5s ease, transform 0.6s var(--ease), border-color 0.4s ease;
-  pointer-events: none;
+  /* The camera. Everything below is a real 3D scene, not a flat fake. */
+  perspective: 1850px;
+  perspective-origin: 50% 46%;
 }
 
-/* The pop. Each card arrives at its own point in the scroll. */
-.mvp-spiral-card.is-in {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  pointer-events: auto;
+.mvp-helix {
+  position: relative;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  /*
+   * --a is how far along the helix we are, in steps, and the script sets it
+   * from scroll. The container takes the card's own placement back off, so
+   * whichever card --a points at ends up front and centre.
+   */
+  transform:
+    translateY(calc(var(--a, 0) * -150px))
+    rotateY(calc(var(--a, 0) * -45deg));
 }
 
-.mvp-spiral-card.is-current {
-  border-color: rgba(0, 242, 254, 0.55);
-  box-shadow: 0 22px 50px -26px rgba(0, 0, 0, 0.9), 0 0 0 4px rgba(0, 242, 254, 0.1);
+.mvp-helix-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* The demo's front card measures about 500x325 in a 1440x900 viewport.
+     At 40vw mine was 760 wide and ran off the stage in both directions. */
+  width: clamp(280px, 30vw, 430px);
+  margin: -152px 0 0 calc(clamp(280px, 30vw, 430px) / -2);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(13, 18, 29, 0.97), rgba(8, 11, 19, 0.99));
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.95);
+  /* Placed on the cylinder, then dropped: rotateY spins about the axis,
+     translateZ pushes it out to the radius, translateY walks it down the helix.
+     translateY is last because rotateY leaves the Y axis alone, so the drop
+     stays vertical in world space. */
+  transform:
+    rotateY(calc(var(--k) * 45deg))
+    /* Wide enough that a card subtends less than the 45 degrees between two
+       of them — at a smaller radius the neighbour swung across the front
+       card and ate the first word of its title. */
+    translateZ(clamp(360px, 40vw, 640px))
+    translateY(calc(var(--k) * 150px));
+  transition: border-color 0.4s ease;
 }
 
-.mvp-spiral-art { background: rgba(14, 20, 32, 0.7); }
+.mvp-helix-card.is-front { border-color: rgba(0, 242, 254, 0.45); }
 
-.mvp-spiral-art img {
+.mvp-helix-art { background: rgba(14, 20, 32, 0.7); }
+
+.mvp-helix-art img {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 21 / 6;
   object-fit: cover;
+  opacity: 0.8;
 }
 
-.mvp-spiral-card-body { padding: 12px 14px 14px; }
+.mvp-helix-body { padding: 20px 24px 24px; }
 
-.mvp-spiral-n {
-  font-family: var(--mono);
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--cyan);
-}
-
-.mvp-spiral-card h3 {
-  margin: 5px 0 0;
+.mvp-helix-card h3 {
+  margin: 0;
   font-family: var(--display);
-  font-size: 0.95rem;
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
   font-weight: 800;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
-/* The hub, in the eye of the spiral: whichever step has just landed. */
-.mvp-spiral-hub {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  /* 26, not 30: at 30 the first card reached into it. */
-  width: 26%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.mvp-spiral-hub-n {
-  font-family: var(--display);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.05em;
+.mvp-helix-card h3 span {
   background: var(--grad);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.mvp-spiral-hub p {
-  margin: 10px 0 0;
+/* The hairline under the title, which is the demo's own card anatomy. */
+.mvp-helix-rule {
+  height: 1px;
+  margin: 16px 0 16px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04));
+}
+
+.mvp-helix-card p {
+  margin: 0;
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.86rem;
-  line-height: 1.6;
+  font-size: 0.94rem;
+  line-height: 1.65;
   color: var(--dim);
 }
 
-.mvp-spiral-hub b {
-  display: block;
-  margin-top: 4px;
-  font-family: var(--display);
-  font-size: 1.02rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text);
+/* A readout, so it is obvious the scroll is turning something. */
+.mvp-helix-hud {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 6%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
 
-/* Progress along the section, so it is obvious the scroll is doing something. */
-.mvp-spiral-prog {
-  position: absolute;
-  left: 50%;
-  bottom: -2%;
-  transform: translateX(-50%);
-  width: 26%;
+.mvp-helix-bar {
+  width: 190px;
   height: 3px;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.1);
   overflow: hidden;
 }
 
-.mvp-spiral-prog span {
+.mvp-helix-bar span {
   display: block;
   width: 0;
   height: 100%;
@@ -1225,46 +1207,54 @@
 }
 
 /*
- * No script, a short viewport, or reduced motion: the spiral is not the point,
- * the six reasons are. They become an ordinary grid and the track stops being
- * three screens tall.
+ * No script, a narrow screen, or reduced motion: a helix needs depth and a
+ * sticky stage, and a phone has neither to spare. It becomes a plain grid of
+ * six — the six reasons are the point, the helix is how they arrive.
  */
-.mvp-spiral:not(.is-live) .mvp-spiral-track { height: auto; }
-.mvp-spiral:not(.is-live) .mvp-spiral-stage { position: static; height: auto; }
-.mvp-spiral:not(.is-live) .mvp-spiral-plane { aspect-ratio: auto; display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
-.mvp-spiral:not(.is-live) .mvp-spiral-svg,
-.mvp-spiral:not(.is-live) .mvp-spiral-hub,
-.mvp-spiral:not(.is-live) .mvp-spiral-prog { display: none; }
-.mvp-spiral:not(.is-live) .mvp-spiral-card {
-  position: static; width: auto; opacity: 1; transform: none; pointer-events: auto;
+.mvp-spiral:not(.is-live) .mvp-helix-track,
+.mvp-spiral:not(.is-live) .mvp-helix-stage { height: auto; }
+
+.mvp-spiral:not(.is-live) .mvp-helix-stage {
+  position: static;
+  display: block;
+  overflow: visible;
+  perspective: none;
 }
 
+.mvp-spiral:not(.is-live) .mvp-helix {
+  width: auto;
+  height: auto;
+  transform: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.mvp-spiral:not(.is-live) .mvp-helix-card {
+  position: static;
+  width: auto;
+  margin: 0;
+  transform: none;
+}
+
+.mvp-spiral:not(.is-live) .mvp-helix-hud { display: none; }
+
 @media (max-width: 900px) {
-  /* A spiral needs width this has not got, and a sticky stage on a phone eats
-     the whole screen for one card at a time. */
-  .mvp-spiral .mvp-spiral-track { height: auto; }
-  .mvp-spiral .mvp-spiral-stage { position: static; height: auto; }
-  .mvp-spiral .mvp-spiral-plane {
-    aspect-ratio: auto;
+  .mvp-spiral .mvp-helix-track,
+  .mvp-spiral .mvp-helix-stage { height: auto; }
+  .mvp-spiral .mvp-helix-stage { position: static; display: block; overflow: visible; perspective: none; }
+  .mvp-spiral .mvp-helix {
+    width: auto;
+    height: auto;
+    transform: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 16px;
   }
-  .mvp-spiral .mvp-spiral-svg,
-  .mvp-spiral .mvp-spiral-hub,
-  .mvp-spiral .mvp-spiral-prog { display: none; }
-  .mvp-spiral .mvp-spiral-card {
-    position: static;
-    width: auto;
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-  }
-  .mvp-spiral .mvp-spiral-card-body { padding: 16px 18px 20px; }
-  .mvp-spiral .mvp-spiral-card h3 { font-size: 1.1rem; }
+  .mvp-spiral .mvp-helix-card { position: static; width: auto; margin: 0; transform: none; }
+  .mvp-spiral .mvp-helix-hud { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mvp-spiral-card { transition: opacity 0.2s ease; }
+  .mvp-helix { transition: none; }
 }

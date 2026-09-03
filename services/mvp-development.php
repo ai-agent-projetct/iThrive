@@ -717,51 +717,11 @@ $img = static function (string $rel): string {
     </div>
   </section>
 
-  <?php /* --- Why us, on a sticky spiral -------------------------------------
-           After Framer's paid "Sticky Spiral Steps" — see assets/css/mvp.css
-           and assets/js/mvp-page.js for what its description asks for.
-
-           The six points sit on an elliptical spiral: the angle turns 60 degrees
-           a step and both radii grow, so the line opens outward rather than
-           closing on itself. Both the cards and the drawn path are placed on
-           this same 1000x640 grid, so they agree at any width — the cards by
-           percentage, the SVG by viewBox.
+  <?php /* --- Why us, on a sticky 3D helix -------------------------------------
+           After Framer's paid "Sticky Spiral Steps", built from its live demo
+           at stickyspiral.framer.website — see assets/css/mvp.css for what was
+           measured off it and why the first attempt was wrong.
            --------------------------------------------------------------- */ ?>
-  <?php
-  $plane = ['w' => 1000, 'h' => 640];
-  $spiral = [];
-  foreach ($reasons as $i => $r) {
-      $deg = -120 + $i * 60;
-      $rad = deg2rad($deg);
-      /* Separate radii, because the plane is wider than it is tall — one radius
-         would bunch the top and bottom steps together. */
-      /*
-       * Both radii are bounded by the card, not by taste. A card is 230 grid
-       * units wide and 180 tall, so its centre has to stay inside y 90..550 or
-       * it hangs off the plane, and two neighbours need 180 units between them.
-       * ry 180..225 is the range that holds for all six; at 165..240 step one
-       * clipped step two and step six ran off the bottom.
-       */
-      $rx = 300 + $i * 28;
-      $ry = 180 + $i * 9;
-      $spiral[] = [
-          'x' => 500 + $rx * sin($rad),
-          'y' => 320 - $ry * cos($rad),
-      ];
-  }
-
-  /* The path itself, sampled finely enough to be a curve rather than a hexagon. */
-  $pts = [];
-  for ($t = 0; $t <= 100; $t++) {
-      $f = $t / 100;
-      $deg = -140 + $f * (5 * 60 + 40);
-      $rad = deg2rad($deg);
-      $rx = 288 + $f * 5 * 28;
-      $ry = 173 + $f * 5 * 9;
-      $pts[] = round(500 + $rx * sin($rad), 1) . ' ' . round(320 - $ry * cos($rad), 1);
-  }
-  $spiralD = 'M ' . implode(' L ', $pts);
-  ?>
   <section class="mvp-sec mvp-spiral" data-spiral>
     <div class="mvp-shell">
       <div class="mvp-head mvp-head--mid">
@@ -769,55 +729,35 @@ $img = static function (string $rel): string {
         <h2 class="mvp-title">Why choose us for <em>MVP development</em></h2>
         <p class="mvp-sub">
           Six things you can hold us to — every one of them in the contract, not just on the page.
-          Keep scrolling: they arrive one at a time.
+          Keep scrolling: the spiral turns one to the front at a time.
         </p>
       </div>
     </div>
 
-    <div class="mvp-spiral-track" data-spiral-track>
-      <div class="mvp-spiral-stage">
-        <div class="mvp-spiral-plane">
-
-          <svg class="mvp-spiral-svg" viewBox="0 0 <?= $plane['w'] ?> <?= $plane['h'] ?>"
-               preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <defs>
-              <linearGradient id="mvp-spiral-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#00F2FE"/>
-                <stop offset="0.5" stop-color="#4EA8FF"/>
-                <stop offset="1" stop-color="#9D4EDD"/>
-              </linearGradient>
-            </defs>
-            <path class="mvp-spiral-base" d="<?= e($spiralD) ?>"/>
-            <path class="mvp-spiral-line" data-spiral-line d="<?= e($spiralD) ?>"/>
-          </svg>
-
+    <div class="mvp-helix-track" data-helix-track>
+      <div class="mvp-helix-stage">
+        <div class="mvp-helix" data-helix>
           <?php foreach ($reasons as $i => [$n, $title, $body]): ?>
-            <article class="mvp-spiral-card" data-spiral-card
-                     data-n="<?= e($n) ?>" data-title="<?= e($title) ?>" data-body="<?= e($body) ?>"
-                     style="left: <?= round($spiral[$i]['x'] / $plane['w'] * 100, 3) ?>%;
-                            top: <?= round($spiral[$i]['y'] / $plane['h'] * 100, 3) ?>%;">
-              <figure class="mvp-spiral-art">
+            <article class="mvp-helix-card<?= $i === 0 ? ' is-front' : '' ?>"
+                     data-helix-card style="--k: <?= $i ?>;">
+              <figure class="mvp-helix-art">
                 <img src="<?= e($img('reason/' . $n . '.jpg')) ?>" width="600" height="420"
                      alt="" loading="lazy" decoding="async">
               </figure>
-              <div class="mvp-spiral-card-body">
-                <span class="mvp-spiral-n"><?= e($n) ?></span>
-                <h3><?= e($title) ?></h3>
+              <div class="mvp-helix-body">
+                <h3><span><?= e((string) (int) $n) ?>.</span> <?= e($title) ?></h3>
+                <div class="mvp-helix-rule" aria-hidden="true"></div>
+                <p><?= e($body) ?></p>
               </div>
             </article>
           <?php endforeach; ?>
-
-          <?php /* The eye of the spiral: whichever point has just landed, in
-                   full. The cards are small by necessity — six of them have to
-                   fit on one screen — so this is where the sentence is read. */ ?>
-          <div class="mvp-spiral-hub">
-            <span class="mvp-spiral-hub-n" data-spiral-hub-n><?= e($reasons[0][0]) ?></span>
-            <b data-spiral-hub-t><?= e($reasons[0][1]) ?></b>
-            <p data-spiral-hub-b><?= e($reasons[0][2]) ?></p>
-          </div>
-
-          <div class="mvp-spiral-prog"><span data-spiral-prog></span></div>
         </div>
+
+        <p class="mvp-helix-hud">
+          <span data-helix-label>01 / 06</span>
+          <span class="mvp-helix-bar"><span data-helix-bar></span></span>
+          <span>Scroll to turn</span>
+        </p>
       </div>
     </div>
   </section>
