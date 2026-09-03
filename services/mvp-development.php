@@ -254,9 +254,6 @@ $img = static function (string $rel): string {
 
 <div class="mvp">
 
-  <?php /* The reactive honeycomb, behind everything. See assets/js/mvp-page.js. */ ?>
-  <canvas class="mvp-hex" data-mvp-hex aria-hidden="true"></canvas>
-
   <?php /* ---------------------------------------------------------------
            Hero — a 3D magazine you can orbit, and a headline that types
            --------------------------------------------------------------- */ ?>

@@ -37,13 +37,18 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   position: relative;
-  /* The page's own wash lives here, on the wrapper, so it paints BEHIND the
-     hexagon canvas. It used to sit on .mvp-hero, which is a z-index 1 child —
-     the honeycomb was drawn under it and could not be seen at all. */
+  /*
+   * Translucent washes only — NO opaque ink.
+   *
+   * The site already draws a hexagon field on every page (assets/js/hexbg.js,
+   * a fixed canvas at z-index 0 behind the flow). An opaque background here
+   * painted straight over it, which is why this page appeared to have no
+   * pointer effect while every other page had one. The body's own ink shows
+   * through underneath.
+   */
   background:
     radial-gradient(70% 60% at 6% 2%, rgba(0, 242, 254, 0.10) 0%, transparent 58%),
-    radial-gradient(60% 50% at 98% 34%, rgba(157, 78, 221, 0.12) 0%, transparent 60%),
-    var(--ink);
+    radial-gradient(60% 50% at 98% 34%, rgba(157, 78, 221, 0.12) 0%, transparent 60%);
   color: var(--text);
   font-family: 'Space Grotesk', system-ui, sans-serif;
   /* clip, never hidden: `hidden` forces overflow-y to auto and makes this
@@ -51,26 +56,8 @@
   overflow-x: clip;
 }
 
-/*
- * The reactive hexagon field.
- *
- * A canvas pinned behind everything, lit near the pointer, its colour taken
- * from where the pointer sits across the width — cyan at the left edge through
- * blue to violet at the right, the same seven stops the mobile app page uses.
- * assets/js/mvp-hex.js draws it; this is only the stage.
- */
-.mvp-hex {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
+.mvp > * { position: relative; z-index: 1; }
 
-.mvp-hex.is-live { opacity: 1; }
-
-.mvp > *:not(.mvp-hex) { position: relative; z-index: 1; }
 
 .mvp-shell {
   width: min(1280px, calc(100% - 3rem));
@@ -553,7 +540,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .mvp-stepcard.is-open { animation: none; }
-  .mvp-hex { display: none; }
 }
 
 /* ==========================================================================

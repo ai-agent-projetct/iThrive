@@ -1,10 +1,9 @@
 /**
  * The MVP Development page's own three behaviours.
  *
- *  1. The reactive hexagon field behind the page.
- *  2. The folder cards in the industries section.
- *  3. The wheel timeline in the process section.
- *  4. The sticky spiral in the "why choose us" section.
+ *  1. The folder cards in the industries section.
+ *  2. The wheel timeline in the process section.
+ *  3. The sticky spiral in the "why choose us" section.
  *
  * Three of those are Framer marketplace components the page cannot run: Card —
  * Folder is $6, Wheel Timeline $14 and Sticky Spiral Steps $1, and a paid
@@ -12,9 +11,9 @@
  * instead, the same way the polaroid gallery on the AI Development page was —
  * see the notes on each below for what the description actually says.
  *
- * All four degrade to nothing: with this file absent the page keeps its
- * ordinary background, every folder shows its content, the wheel becomes a
- * plain list of six steps, and the spiral becomes an ordinary grid of six.
+ * All three degrade to nothing: with this file absent every folder shows its
+ * content, the wheel becomes a plain list of six steps, and the spiral becomes
+ * an ordinary grid of six.
  */
 
 (function () {
@@ -22,125 +21,14 @@
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ======================================================================
-     1. The hexagon field
-     ======================================================================
-
-     After the mobile app page's HexagonGridBg, which this site already runs:
-     a honeycomb that lights around the pointer, its colour taken from where
-     the pointer sits across the width — cyan at the left edge, through blue,
-     to violet at the right. Same seven stops, so the two pages agree.
-     ====================================================================== */
-
-  const canvas = document.querySelector('[data-mvp-hex]');
-
-  if (canvas && !reduced) {
-    const ctx = canvas.getContext('2d');
-
-    const STOPS = [
-      [0, 242, 254], [0, 190, 255], [78, 168, 255], [90, 130, 245],
-      [120, 100, 235], [157, 78, 221], [190, 90, 230],
-    ];
-
-    const RADIUS = 26;
-    /* Reach and alpha were both raised: at 210px and 0.16 the field was there
-       but nobody could see it through the sections sitting over it. The
-       sections are translucent now and this is bright enough to read through
-       them. */
-    const REACH = 300;
-    const W = Math.sqrt(3) * RADIUS;
-    const H = 1.5 * RADIUS;
-
-    let w = 0;
-    let h = 0;
-    let mx = -9999;
-    let my = -9999;
-    let raf = 0;
-
-    function size() {
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
-      w = canvas.clientWidth;
-      h = canvas.clientHeight;
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function zone(ratio) {
-      const t = Math.max(0, Math.min(1, ratio)) * (STOPS.length - 1);
-      const i = Math.floor(t);
-      const j = Math.min(STOPS.length - 1, i + 1);
-      const f = t - i;
-      const a = STOPS[i];
-      const b = STOPS[j];
-
-      return [
-        Math.round(a[0] + (b[0] - a[0]) * f),
-        Math.round(a[1] + (b[1] - a[1]) * f),
-        Math.round(a[2] + (b[2] - a[2]) * f),
-      ].join(', ');
-    }
-
-    function hexPath(x, y) {
-      ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const a = (Math.PI / 3) * i - Math.PI / 6;
-        const hx = x + RADIUS * Math.cos(a);
-        const hy = y + RADIUS * Math.sin(a);
-        if (i === 0) ctx.moveTo(hx, hy); else ctx.lineTo(hx, hy);
-      }
-      ctx.closePath();
-    }
-
-    function frame() {
-      raf = 0;
-      ctx.clearRect(0, 0, w, h);
-
-      const rgb = zone(mx / Math.max(1, w));
-      const cols = Math.ceil(w / W) + 2;
-      const rows = Math.ceil(h / H) + 2;
-
-      for (let r = -1; r < rows; r++) {
-        for (let c = -1; c < cols; c++) {
-          const x = c * W + (r % 2 ? W / 2 : 0);
-          const y = r * H;
-
-          const dx = mx - x;
-          const dy = my - y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d > REACH) continue;      // unlit cells are never drawn
-
-          const lit = Math.pow(1 - d / REACH, 1.4);
-          hexPath(x, y);
-          ctx.fillStyle = `rgba(${rgb}, ${(lit * 0.30).toFixed(3)})`;
-          ctx.fill();
-          ctx.strokeStyle = `rgba(${rgb}, ${(lit * 0.95).toFixed(3)})`;
-          ctx.lineWidth = 1.6;
-          ctx.stroke();
-        }
-      }
-    }
-
-    /* Only the cells near the pointer, and only when it has moved: a
-       full-screen honeycomb redrawn every frame was 6,000 paths a frame for a
-       decoration nobody is looking at. */
-    const schedule = () => { if (!raf) raf = requestAnimationFrame(frame); };
-
-    window.addEventListener('pointermove', (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      schedule();
-    }, { passive: true });
-
-    window.addEventListener('pointerleave', () => { mx = my = -9999; schedule(); }, { passive: true });
-    window.addEventListener('resize', () => { size(); schedule(); }, { passive: true });
-
-    size();
-    canvas.classList.add('is-live');
-  }
+  /* The hexagon field that used to live here is gone. The site already draws
+     one on every page from assets/js/hexbg.js — this page was painting an
+     opaque background over it and then drawing a second, broken copy: a
+     <canvas> is a replaced element, so inset:0 with width:auto left it at its
+     intrinsic 300x150 in the top-left corner. */
 
   /* ======================================================================
-     2. Folder cards
+     1. Folder cards
      ======================================================================
 
      After Framer's "Card — Folder" ($6, no published module). Its own
@@ -175,7 +63,7 @@
   }
 
   /* ======================================================================
-     3. The wheel timeline
+     2. The wheel timeline
      ======================================================================
 
      After Framer's "Wheel Timeline" ($14, no published module), described as
@@ -284,7 +172,7 @@
 
 
   /* ======================================================================
-     4. The sticky spiral
+     3. The sticky spiral
      ======================================================================
 
      After Framer's "Sticky Spiral Steps" ($1, no published module) — built
