@@ -1,194 +1,232 @@
 <?php
 /**
- * iThrive AI - Section 4: 6-Step AI SDLC Process (Framer StimulatedSlider Component)
- * Path: sections/process.php
+ * Our 6-Step AI Development Process — the mobile page's roadmap, stood upright.
+ *
+ * The reference is the "Our Process Flow" section on
+ * /services/mobile-app-development.php: a road that draws itself as you scroll,
+ * a traveller riding it, and stops that pop in on arrival and recede once passed.
+ * That one runs horizontally — the scene is sticky and slides sideways so
+ * vertical scroll becomes travel along the road. This is the same object turned
+ * 90 degrees, which removes the trick entirely: scrolling down IS travel, so the
+ * scene needs no sticky and no sideways shift.
+ *
+ * Everything else is kept:
+ *  - The road is a real SVG path. The unbuilt road is one stroke, the built road
+ *    a second drawn on with strokeDashoffset, so the tarmac is genuinely laid
+ *    ahead of the traveller rather than revealed from behind a mask.
+ *  - The traveller's position comes from getPointAtLength on that same path, and
+ *    each stop's arrival threshold is found by searching the path for its own
+ *    point — nothing is hand-timed, so the curve can be redrawn and the cards
+ *    still light in the right order.
+ *  - Stops alternate either side of the road, rise on arrival and settle back
+ *    once passed, so there is always one card worth reading.
+ *
+ * What is new here is the picture: the six images this section already carried
+ * ride in the cards, which is what the brief asked for.
+ *
+ * The SVG stretches with preserveAspectRatio="none" and every stroke carries
+ * vector-effect="non-scaling-stroke": the scene's height is fixed in pixels (a
+ * card has to fit) while its width is the container's, so the two axes scale
+ * differently and only non-scaling strokes survive that without going oval.
+ * Because the box scales, a point in user units is a percentage of it, which is
+ * how the cards and stems stay welded to the road at any width.
+ *
+ * Degrades: with no JavaScript the road sits unbuilt and every card is present,
+ * in order, fully readable. Reduced motion gets the finished road and all six
+ * cards up at once. Below 900px the road becomes a plain left rail and the
+ * cards stack, because a snaking road needs width it does not have there.
  */
+
+declare(strict_types=1);
+
+/**
+ * The scene's geometry, in SVG user units. ROW is the vertical pitch between
+ * stops and therefore the height a card has to live in; the path below is drawn
+ * to cross the centre line of each row, alternating side.
+ */
+$row  = 520;   // a card measures ~470px tall; the pitch has to clear it
+$roadW = 1200;
+$roadH = $row * 6;
+
+/**
+ * The road: a long vertical snake, ±90 either side of centre. Each stop sits
+ * exactly on a control point, so the card coordinates below are the path's own
+ * and not an approximation of it.
+ *
+ * The amplitude is a trade, and ±120 lost it: every unit the road swings toward
+ * a card is a unit taken off that card's gutter, and at ±120 the outer edge of a
+ * card sat 56px from the window on a 1440 screen — tighter than anything else on
+ * the page. ±90 still reads as a snake and leaves each card 37% of the scene.
+ */
+$roadD = 'M 600 0'
+       . ' C 600 100, 510 155, 510 260'
+       . ' S 690 620, 690 780'
+       . ' S 510 1140, 510 1300'
+       . ' S 690 1660, 690 1820'
+       . ' S 510 2180, 510 2340'
+       . ' S 690 2700, 690 2860'
+       . ' L 690 ' . $roadH;
+
+/**
+ * x/y are the point on the road; side follows from x. Everything else is the
+ * content this section has always carried, plus a duration per stage.
+ */
+$steps = [
+    ['num' => '01', 'x' => 510, 'y' => 260,  'side' => 'left',
+     'icon' => 'fa-magnifying-glass-chart', 'tone' => 'cyan',
+     'img' => 'human-with-tech-engineer', 'tag' => 'AUDIT & ROI',
+     'title' => 'Discovery &amp; Feasibility',
+     'lede'  => 'Before a line of code',
+     'desc'  => 'We evaluate the proprietary data you already hold, audit token economics against real volumes, map the security boundary and rank the work by return rather than by novelty.',
+     'time'  => '1–2 weeks',
+     'out'   => 'Blueprint: AI system specification'],
+
+    ['num' => '02', 'x' => 690, 'y' => 780,  'side' => 'right',
+     'icon' => 'fa-database', 'tone' => 'blue',
+     'img' => 'process-step-data-etl', 'tag' => 'VECTOR ETL',
+     'title' => 'Data Ingestion &amp; ETL',
+     'lede'  => 'The corpus, made usable',
+     'desc'  => 'Document parsing, semantic chunking, high-dimensional embeddings and PII masking — the unglamorous half of every RAG system, and the half that decides whether it answers correctly.',
+     'time'  => '2–3 weeks',
+     'out'   => 'Lake: clean vector embeddings'],
+
+    ['num' => '03', 'x' => 510, 'y' => 1300, 'side' => 'left',
+     'icon' => 'fa-brain', 'tone' => 'magenta',
+     'img' => 'human-ai-collaboration', 'tag' => 'LORA TUNING',
+     'title' => 'Model Tuning &amp; RAG',
+     'lede'  => 'Adapted, not just prompted',
+     'desc'  => 'Domain LoRA and QLoRA fine-tuning, context compression, a private retrieval pipeline with reranking, and LangGraph flows where one model call is not enough to finish the job.',
+     'time'  => '3–5 weeks',
+     'out'   => 'Model: fine-tuned weights and an eval suite'],
+
+    ['num' => '04', 'x' => 690, 'y' => 1820, 'side' => 'right',
+     'icon' => 'fa-shield-virus', 'tone' => 'violet',
+     'img' => 'process-step-security-audit', 'tag' => 'RED TEAMING',
+     'title' => 'Safety &amp; Bias Audits',
+     'lede'  => 'Broken here, not in production',
+     'desc'  => 'Automated red-teaming against hallucination thresholds and jailbreaks, latency under stress, and the NIST AI Risk Management Framework applied as a checklist someone signs.',
+     'time'  => '1–2 weeks',
+     'out'   => 'Audit: zero-leakage certificate'],
+
+    ['num' => '05', 'x' => 510, 'y' => 2340, 'side' => 'left',
+     'icon' => 'fa-rocket', 'tone' => 'green',
+     'img' => 'ithrive-innovation-lab', 'tag' => 'KUBERNETES',
+     'title' => 'Deploy &amp; Integrate',
+     'lede'  => 'Into your tenancy, not ours',
+     'desc'  => 'Kubernetes services with vLLM or Triton acceleration on AWS, Azure or GCP, wired into the CRM and ERP you already run through connectors that need no downtime to install.',
+     'time'  => '2–3 weeks',
+     'out'   => 'Deploy: high-throughput production APIs'],
+
+    ['num' => '06', 'x' => 690, 'y' => 2860, 'side' => 'right',
+     'icon' => 'fa-gauge-high', 'tone' => 'cyan',
+     'img' => 'case-study-fleet-ai', 'tag' => '24/7 MLOPS',
+     'title' => 'MLOps &amp; SLA Support',
+     'lede'  => 'The part that never ends',
+     'desc'  => 'Real-time telemetry, drift detection with automated re-training triggers, cost per query on a dashboard, and a 99.8% uptime SLA with a person on the other end of it.',
+     'time'  => 'Ongoing',
+     'out'   => 'SLA: 24/7 uptime and telemetry'],
+];
 ?>
-<section id="process" class="section-fullscreen-16-9 stimulated-slider-section">
-    <div class="container-16-9">
-        <!-- Section Header & HUD inside 16:9 Container -->
-        <div class="section-header-16-9">
-            <div style="text-align: center; margin-bottom: 0.65rem;">
-                <div class="section-tag" style="margin-bottom: 0.35rem;">
-                    <span class="dot"></span>
-                    <span>SYSTEMATIC 6-STEP SDLC</span>
-                </div>
-                <h2 class="section-title" style="font-size: 1.85rem; margin-bottom: 0.35rem;">
-                    Our 6-Step <span class="text-gradient">AI Development Process</span>
-                </h2>
-            </div>
+<section id="process" class="vroad"
+         data-vroad
+         style="--road-w: <?= $roadW ?>; --road-h: <?= $roadH ?>;">
 
-            <!-- 6-Step Top Quick Selection Pills -->
-            <div class="quick-pills-bar">
-                <button class="quick-pill-btn slider-pill-btn active" data-step-target="0"><i class="fa-solid fa-magnifying-glass-chart"></i> 01 Discovery</button>
-                <button class="quick-pill-btn slider-pill-btn" data-step-target="1"><i class="fa-solid fa-database"></i> 02 Ingestion</button>
-                <button class="quick-pill-btn slider-pill-btn" data-step-target="2"><i class="fa-solid fa-brain"></i> 03 Tuning</button>
-                <button class="quick-pill-btn slider-pill-btn" data-step-target="3"><i class="fa-solid fa-shield-virus"></i> 04 Audits</button>
-                <button class="quick-pill-btn slider-pill-btn" data-step-target="4"><i class="fa-solid fa-rocket"></i> 05 Deploy</button>
-                <button class="quick-pill-btn slider-pill-btn" data-step-target="5"><i class="fa-solid fa-gauge-high"></i> 06 MLOps</button>
-            </div>
-        </div>
-
-        <!-- Framer StimulatedSlider Container -->
-        <div class="stimulated-slider-container" id="stimulated-slider-root">
-            
-            <!-- Edge Click Navigation Zones -->
-            <button class="slider-edge-click edge-left" id="slider-edge-prev" aria-label="Previous Step"></button>
-            <button class="slider-edge-click edge-right" id="slider-edge-next" aria-label="Next Step"></button>
-
-            <!-- Dynamic Sliding Track -->
-            <div class="stimulated-slider-track" id="stimulated-slider-track">
-                
-                <!-- Slide 01: Discovery & Feasibility -->
-                <div class="stimulated-slide-card corner-bracket-wrap active" data-index="0" data-img="<?= e(asset('assets/img/aidev/human-with-tech-engineer.jpg')) ?>" data-deliverable="AI Architecture Blueprint" data-tag="FEASIBILITY & AUDIT">
-                    <div class="slide-card-media">
-                        <img src="<?= e(asset('assets/img/aidev/human-with-tech-engineer.jpg')) ?>" alt="Discovery &amp; Feasibility" loading="eager" draggable="false">
-                        <span class="slide-step-badge">STEP 01</span>
-                        <span class="slide-tag-pill">AUDIT &amp; ROI</span>
-                    </div>
-                    <div class="slide-card-body">
-                        <div class="slide-icon-row">
-                            <div class="slide-icon-box cyan"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-                            <h3 class="slide-title">Discovery &amp; Feasibility</h3>
-                        </div>
-                        <p class="slide-desc">
-                            We evaluate proprietary data, audit token economics, analyze security boundaries, and architect high-ROI production roadmaps.
-                        </p>
-                        <div class="slide-deliverable-box">
-                            <i class="fa-solid fa-file-contract" style="color: var(--accent-cyan);"></i>
-                            <span>Blueprint: AI System Specification</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 02: Data Ingestion & ETL -->
-                <div class="stimulated-slide-card corner-bracket-wrap" data-index="1" data-img="<?= e(asset('assets/img/aidev/process-step-data-etl.jpg')) ?>" data-deliverable="Clean Vector Knowledge Lake" data-tag="VECTOR INGESTION">
-                    <div class="slide-card-media">
-                        <img src="<?= e(asset('assets/img/aidev/process-step-data-etl.jpg')) ?>" alt="Data Ingestion &amp; ETL" loading="eager" draggable="false">
-                        <span class="slide-step-badge">STEP 02</span>
-                        <span class="slide-tag-pill">VECTOR ETL</span>
-                    </div>
-                    <div class="slide-card-body">
-                        <div class="slide-icon-row">
-                            <div class="slide-icon-box blue"><i class="fa-solid fa-database"></i></div>
-                            <h3 class="slide-title">Data Ingestion &amp; ETL</h3>
-                        </div>
-                        <p class="slide-desc">
-                            Automated document parsing, semantic chunking, high-dimensional vector embeddings, and enterprise PII masking.
-                        </p>
-                        <div class="slide-deliverable-box">
-                            <i class="fa-solid fa-server" style="color: var(--accent-blue);"></i>
-                            <span>Lake: Clean Vector Embeddings</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 03: Model Tuning & RAG -->
-                <div class="stimulated-slide-card corner-bracket-wrap" data-index="2" data-img="<?= e(asset('assets/img/aidev/human-ai-collaboration.jpg')) ?>" data-deliverable="Fine-Tuned Model Checkpoint" data-tag="LORA & LANGGRAPH">
-                    <div class="slide-card-media">
-                        <img src="<?= e(asset('assets/img/aidev/human-ai-collaboration.jpg')) ?>" alt="Model Tuning &amp; RAG" loading="eager" draggable="false">
-                        <span class="slide-step-badge">STEP 03</span>
-                        <span class="slide-tag-pill">LORA TUNING</span>
-                    </div>
-                    <div class="slide-card-body">
-                        <div class="slide-icon-row">
-                            <div class="slide-icon-box magenta"><i class="fa-solid fa-brain"></i></div>
-                            <h3 class="slide-title">Model Tuning &amp; RAG</h3>
-                        </div>
-                        <p class="slide-desc">
-                            Domain LoRA / QLoRA fine-tuning, context compression, private RAG pipelines, and LangGraph multi-agent cognitive flows.
-                        </p>
-                        <div class="slide-deliverable-box">
-                            <i class="fa-solid fa-microchip" style="color: var(--accent-magenta);"></i>
-                            <span>Model: Fine-Tuned Weights</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 04: Safety & Bias Audits -->
-                <div class="stimulated-slide-card corner-bracket-wrap" data-index="3" data-img="<?= e(asset('assets/img/aidev/process-step-security-audit.jpg')) ?>" data-deliverable="Zero-Leakage Audit Certificate" data-tag="SECURITY & NIST">
-                    <div class="slide-card-media">
-                        <img src="<?= e(asset('assets/img/aidev/process-step-security-audit.jpg')) ?>" alt="Safety &amp; Bias Audits" loading="eager" draggable="false">
-                        <span class="slide-step-badge">STEP 04</span>
-                        <span class="slide-tag-pill">RED TEAMING</span>
-                    </div>
-                    <div class="slide-card-body">
-                        <div class="slide-icon-row">
-                            <div class="slide-icon-box violet"><i class="fa-solid fa-shield-virus"></i></div>
-                            <h3 class="slide-title">Safety &amp; Bias Audits</h3>
-                        </div>
-                        <p class="slide-desc">
-                            Automated red-teaming for hallucination thresholds, jailbreak defense, latency stress testing, and NIST AI RMF governance.
-                        </p>
-                        <div class="slide-deliverable-box">
-                            <i class="fa-solid fa-shield-halved" style="color: var(--accent-violet);"></i>
-                            <span>Audit: Zero-Leakage Certificate</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 05: Deploy & Integrate -->
-                <div class="stimulated-slide-card corner-bracket-wrap" data-index="4" data-img="<?= e(asset('assets/img/aidev/ithrive-innovation-lab.jpg')) ?>" data-deliverable="Production Microservice Endpoints" data-tag="VLLM CLUSTERS">
-                    <div class="slide-card-media">
-                        <img src="<?= e(asset('assets/img/aidev/ithrive-innovation-lab.jpg')) ?>" alt="Deploy &amp; Integrate" loading="eager" draggable="false">
-                        <span class="slide-step-badge">STEP 05</span>
-                        <span class="slide-tag-pill">KUBERNETES</span>
-                    </div>
-                    <div class="slide-card-body">
-                        <div class="slide-icon-row">
-                            <div class="slide-icon-box green"><i class="fa-solid fa-rocket"></i></div>
-                            <h3 class="slide-title">Deploy &amp; Integrate</h3>
-                        </div>
-                        <p class="slide-desc">
-                            Kubernetes microservice clusters, vLLM / Triton acceleration on AWS/Azure/GCP, and non-invasive enterprise CRM connectors.
-                        </p>
-                        <div class="slide-deliverable-box">
-                            <i class="fa-solid fa-network-wired" style="color: #10B981;"></i>
-                            <span>Deploy: High-Throughput APIs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 06: MLOps & SLA Support -->
-                <div class="stimulated-slide-card corner-bracket-wrap" data-index="5" data-img="<?= e(asset('assets/img/aidev/case-study-fleet-ai.jpg')) ?>" data-deliverable="24/7 Telemetry &amp; SLA Guarantee" data-tag="99.8% SLA">
-                    <div class="slide-card-media">
-                        <img src="<?= e(asset('assets/img/aidev/case-study-fleet-ai.jpg')) ?>" alt="MLOps &amp; SLA Support" loading="eager" draggable="false">
-                        <span class="slide-step-badge">STEP 06</span>
-                        <span class="slide-tag-pill">24/7 MLOPS</span>
-                    </div>
-                    <div class="slide-card-body">
-                        <div class="slide-icon-row">
-                            <div class="slide-icon-box cyan"><i class="fa-solid fa-gauge-high"></i></div>
-                            <h3 class="slide-title">MLOps &amp; SLA Support</h3>
-                        </div>
-                        <p class="slide-desc">
-                            Real-time telemetry, model drift detection, automated re-training triggers, and 24/7 enterprise 99.8% uptime SLA guarantee.
-                        </p>
-                        <div class="slide-deliverable-box">
-                            <i class="fa-solid fa-clock" style="color: var(--accent-cyan);"></i>
-                            <span>SLA: 24/7 Uptime &amp; Telemetry</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Controls Row -->
-        <div class="liquid-controls-bar" style="margin-top: 0.5rem;">
-            <button class="liquid-nav-btn" id="slider-btn-prev" aria-label="Previous Step">
-                <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            
-            <div class="rotunda-hint-pill">
-                <i class="fa-solid fa-computer-mouse"></i>
-                <span>SCROLL OR CLICK EDGES TO NAVIGATE STEPS</span>
-            </div>
-
-            <button class="liquid-nav-btn" id="slider-btn-next" aria-label="Next Step">
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-        </div>
+  <div class="container">
+    <div class="vroad-head">
+      <div class="section-tag"><span class="dot"></span><span>SYSTEMATIC 6-STEP SDLC</span></div>
+      <h2 class="section-title">Our 6-Step <span class="text-gradient">AI Development Process</span></h2>
+      <p class="vroad-sub">
+        Six stages, in the order they actually happen. Scroll, and the road builds ahead of you.
+      </p>
+      <?php /* The same number the traveller is at, as a bar — the reference's
+               own progress readout. Filled by the script. */ ?>
+      <p class="vroad-progress" aria-hidden="true"><span></span></p>
     </div>
-</section>
+  </div>
 
+  <div class="vroad-scene" data-vroad-scene>
+
+    <svg class="vroad-svg"
+         viewBox="0 0 <?= $roadW ?> <?= $roadH ?>"
+         preserveAspectRatio="none"
+         aria-hidden="true" focusable="false">
+      <defs>
+        <?php /* Vertical, so the gradient runs down the road rather than across
+                 it — cyan into blue into violet, the logo's own ramp. */ ?>
+        <linearGradient id="vroad-tarmac" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#00E5FF"/>
+          <stop offset="0.5" stop-color="#3B82F6"/>
+          <stop offset="1"   stop-color="#A855F7"/>
+        </linearGradient>
+        <filter id="vroad-glow" x="-60%" y="-20%" width="220%" height="140%">
+          <feGaussianBlur stdDeviation="10" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <?php /* The unbuilt road ahead. */ ?>
+      <path class="vroad-base" d="<?= e($roadD) ?>" vector-effect="non-scaling-stroke"/>
+
+      <?php /* The built road. The script sets stroke-dasharray/offset from the
+               measured length, so with no script this simply stays undrawn. */ ?>
+      <path class="vroad-live" data-vroad-path d="<?= e($roadD) ?>"
+            filter="url(#vroad-glow)" vector-effect="non-scaling-stroke"/>
+
+      <?php /* Centre line, laid with the road. */ ?>
+      <path class="vroad-dashes" data-vroad-dashes d="<?= e($roadD) ?>"
+            vector-effect="non-scaling-stroke"/>
+
+      <?php /* A stem from the tarmac out to each card. Drawn at zero length and
+               grown by the script on arrival. */ ?>
+      <?php foreach ($steps as $s): ?>
+        <?php $to = $s['side'] === 'left' ? $s['x'] - 70 : $s['x'] + 70; ?>
+        <line class="vroad-stem" data-vroad-stem
+              x1="<?= $s['x'] ?>" y1="<?= $s['y'] ?>"
+              x2="<?= $s['x'] ?>" y2="<?= $s['y'] ?>"
+              data-x2="<?= $to ?>" vector-effect="non-scaling-stroke"/>
+      <?php endforeach; ?>
+    </svg>
+
+    <?php /* The traveller. Hidden until the script has a point for it. */ ?>
+    <span class="vroad-traveller" data-vroad-traveller aria-hidden="true">
+      <span class="vroad-traveller-core"></span>
+    </span>
+
+    <?php foreach ($steps as $s): ?>
+      <?php
+        /* Percentages of the scene box, which is exactly what a user-unit
+           coordinate is once the SVG is stretched over it. */
+        $topPc = round($s['y'] / $roadH * 100, 4);
+        $gutPc = round(($s['side'] === 'left' ? $roadW - ($s['x'] - 70) : $s['x'] + 70) / $roadW * 100, 4);
+      ?>
+      <article class="vroad-stop vroad-stop--<?= e($s['side']) ?>"
+               data-vroad-stop
+               data-x="<?= $s['x'] ?>" data-y="<?= $s['y'] ?>"
+               style="top: <?= $topPc ?>%; <?= $s['side'] === 'left' ? 'right' : 'left' ?>: <?= $gutPc ?>%;">
+
+        <div class="vroad-photo">
+          <img src="<?= e(asset('assets/img/aidev/' . $s['img'] . '.jpg')) ?>"
+               alt="" width="1200" height="900" loading="lazy" decoding="async" draggable="false">
+          <span class="vroad-badge">STEP <?= e($s['num']) ?></span>
+          <span class="vroad-tag"><?= e($s['tag']) ?></span>
+        </div>
+
+        <div class="vroad-body">
+          <header class="vroad-row">
+            <span class="vroad-icon <?= e($s['tone']) ?>"><i class="fa-solid <?= e($s['icon']) ?>"></i></span>
+            <h3 class="vroad-title"><?= $s['title'] ?></h3>
+          </header>
+
+          <p class="vroad-lede"><?= e($s['lede']) ?></p>
+          <p class="vroad-desc"><?= e($s['desc']) ?></p>
+
+          <footer class="vroad-foot">
+            <span class="vroad-time"><i class="fa-regular fa-clock"></i><?= e($s['time']) ?></span>
+            <span class="vroad-out"><?= e($s['out']) ?></span>
+          </footer>
+        </div>
+      </article>
+    <?php endforeach; ?>
+
+  </div>
+</section>

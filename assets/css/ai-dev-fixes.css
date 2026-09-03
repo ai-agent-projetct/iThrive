@@ -314,3 +314,327 @@
      single column just looks broken. */
   .aidev .polaroid { transform: none !important; filter: none; }
 }
+
+/* ==========================================================================
+   Our 6-Step AI Development Process — the roadmap, vertical
+   ==========================================================================
+
+   The mobile page's "Our Process Flow" turned upright. Its own styles live in
+   app/mobile/src/embed.css and are written against a sticky scene that tracks
+   sideways; standing the road up removes that mechanism entirely, so the two
+   sections share their behaviour and their look but not a stylesheet.
+
+   Positions come from assets/js/aidev/roadmap-vertical.js — everything below is
+   the surface.
+   -------------------------------------------------------------------------- */
+
+.aidev .vroad {
+  position: relative;
+  padding: 6rem 0 4rem;
+}
+
+.aidev .vroad-head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 3rem;
+}
+
+.aidev .vroad-sub {
+  margin: 0.9rem 0 0;
+  color: var(--text-secondary, rgba(226, 232, 240, 0.72));
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+/* The reference's progress readout: how far along the road you are. */
+.aidev .vroad-progress {
+  height: 3px;
+  width: min(320px, 60%);
+  margin: 1.6rem auto 0;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.09);
+  overflow: hidden;
+}
+
+.aidev .vroad-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #00E5FF, #3B82F6, #A855F7);
+  transition: width 0.18s linear;
+}
+
+/*
+ * The scene. Height is fixed in pixels because a card has to fit in a row;
+ * width is whatever the page gives it. The two axes therefore scale
+ * differently, which is exactly why the SVG uses preserveAspectRatio="none"
+ * and every stroke is non-scaling — and why a point in user units is simply a
+ * percentage of this box, which is how the cards stay welded to the road.
+ */
+.aidev .vroad-scene {
+  position: relative;
+  width: min(1300px, calc(100% - 4rem));
+  height: calc(var(--road-h, 3120) * 1px);
+  margin: 0 auto;
+}
+
+.aidev .vroad-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.aidev .vroad-base {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.07);
+  stroke-width: 34;
+  stroke-linecap: round;
+}
+
+.aidev .vroad-live {
+  fill: none;
+  stroke: url(#vroad-tarmac);
+  stroke-width: 34;
+  stroke-linecap: round;
+  opacity: 0.95;
+  /* The glide. It lives here rather than in the script on purpose — see the
+     note at the top of roadmap-vertical.js. */
+  transition: stroke-dashoffset 0.24s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.aidev .vroad-dashes {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.24s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.aidev .vroad-stem {
+  stroke: rgba(0, 229, 255, 0.5);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+  transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* The traveller, riding the tarmac. */
+.aidev .vroad-traveller {
+  position: absolute;
+  z-index: 3;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.55) 0%, rgba(0, 229, 255, 0) 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: left 0.24s cubic-bezier(0.22, 0.61, 0.36, 1),
+              top 0.24s cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 0.3s ease;
+}
+
+.aidev .vroad-traveller.is-riding { opacity: 1; }
+
+.aidev .vroad-traveller-core {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 16px 4px rgba(0, 229, 255, 0.85);
+}
+
+/*
+ * A stop. Its vertical centre is the road's own point; the horizontal edge is
+ * pinned 92 user-units clear of it, which is where the stem lands.
+ *
+ * Arrival is the reference's: it rises off the page, rotates level and settles.
+ * `filter: brightness()` rather than opacity for the receding state — an
+ * animated opacity under 1 makes the whole card transparent to what is behind
+ * it, which on this page meant the next card reading straight through it.
+ */
+.aidev .vroad-stop {
+  position: absolute;
+  z-index: 2;
+  width: min(440px, 33vw);
+  transform: translateY(-50%) translateZ(0) rotateY(var(--turn, 0deg)) scale(0.94);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.92) 0%, rgba(9, 12, 22, 0.96) 100%);
+  box-shadow: 0 26px 60px -30px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  opacity: 0.28;
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 0.45s ease,
+              filter 0.45s ease,
+              border-color 0.45s ease,
+              box-shadow 0.45s ease;
+}
+
+.aidev .vroad-stop--left  { --turn: 14deg;  transform-origin: 100% 50%; }
+.aidev .vroad-stop--right { --turn: -14deg; transform-origin: 0% 50%; }
+
+.aidev .vroad-stop.is-live {
+  --turn: 0deg;
+  opacity: 1;
+  transform: translateY(-50%) translateZ(0) rotateY(0deg) scale(1);
+  border-color: rgba(0, 229, 255, 0.28);
+  box-shadow: 0 34px 80px -34px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(0, 229, 255, 0.10);
+}
+
+/* Passed stops stay legible but step back, so the eye keeps the newest. */
+.aidev .vroad-stop.is-passed {
+  filter: brightness(0.62) saturate(0.8);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px -32px rgba(0, 0, 0, 0.9);
+}
+
+.aidev .vroad-photo {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #070A12;
+}
+
+.aidev .vroad-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.aidev .vroad-badge,
+.aidev .vroad-tag {
+  position: absolute;
+  top: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  backdrop-filter: blur(8px);
+}
+
+.aidev .vroad-badge {
+  left: 12px;
+  color: #04121A;
+  background: rgba(0, 229, 255, 0.92);
+}
+
+.aidev .vroad-tag {
+  right: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(8, 12, 22, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.aidev .vroad-body { padding: 1.1rem 1.25rem 1.25rem; }
+
+.aidev .vroad-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.aidev .vroad-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #04121A;
+  background: #00E5FF;
+}
+
+.aidev .vroad-icon.blue    { background: #3B82F6; color: #FFFFFF; }
+.aidev .vroad-icon.magenta { background: #E040FB; color: #FFFFFF; }
+.aidev .vroad-icon.violet  { background: #A855F7; color: #FFFFFF; }
+.aidev .vroad-icon.green   { background: #10B981; color: #04121A; }
+
+.aidev .vroad-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #F1F5F9;
+}
+
+.aidev .vroad-lede {
+  margin: 0 0 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(0, 229, 255, 0.85);
+}
+
+.aidev .vroad-desc {
+  margin: 0 0 0.95rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(203, 213, 225, 0.82);
+}
+
+.aidev .vroad-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+}
+
+.aidev .vroad-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #E2E8F0;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.aidev .vroad-out { color: rgba(148, 163, 184, 0.9); }
+
+/* No script, or reduced motion: the road is finished and every card is up. */
+.aidev .vroad.is-static .vroad-stop,
+.aidev .vroad:not(.is-live) .vroad-stop {
+  opacity: 1;
+  filter: none;
+  transform: translateY(-50%) rotateY(0deg) scale(1);
+}
+
+/*
+ * Below 1024px the snake has no width to snake in: the gutter either side of the
+ * road is 37% of the scene, and 37% of a tablet is not a card. The road becomes
+ * a straight rail down the left and the cards stack beside it — the same
+ * information, laid out the way a narrow screen can actually hold it.
+ */
+@media (max-width: 1024px) {
+  .aidev .vroad-scene {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid rgba(0, 229, 255, 0.28);
+  }
+
+  .aidev .vroad-svg,
+  .aidev .vroad-traveller { display: none; }
+
+  .aidev .vroad-stop {
+    position: static;
+    width: 100%;
+    opacity: 1;
+    filter: none;
+    transform: none !important;
+  }
+}
+

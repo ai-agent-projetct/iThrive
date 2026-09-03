@@ -212,5 +212,8 @@ require dirname(__DIR__) . '/includes/header.php';
 <?php /* The polaroid gallery's glide — see the note in the script. */ ?>
 <script src="<?= e(asset('assets/js/aidev/polaroid-scroll.js')) ?>" defer></script>
 
+<?php /* The 6-step process, as the mobile page's roadmap stood upright. */ ?>
+<script src="<?= e(asset('assets/js/aidev/roadmap-vertical.js')) ?>" defer></script>
+
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
