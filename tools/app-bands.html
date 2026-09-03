@@ -1,0 +1,472 @@
+<!doctype html><meta charset="utf-8"><title>App bands</title>
+<style>
+  * { box-sizing:border-box; margin:0 }
+  body { background:#05060F; display:flex; flex-direction:column; gap:16px; padding:16px; width:1712px }
+  .band {
+    position:relative; width:1680px; height:640px; overflow:hidden;
+    background:
+      radial-gradient(110% 140% at 8% 12%, color-mix(in srgb, var(--tint) 26%, transparent) 0%, transparent 58%),
+      radial-gradient(100% 130% at 94% 92%, color-mix(in srgb, var(--tint2) 24%, transparent) 0%, transparent 62%),
+      linear-gradient(140deg, #0B1020 0%, #05070F 60%, #080B16 100%);
+  }
+  .band::before {
+    content:''; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image: radial-gradient(120% 110% at 40% 45%, #000 0%, transparent 82%);
+  }
+  .band svg { position:absolute; inset:0; width:100%; height:100% }
+</style>
+
+<div class="band" id="band-mobile-architecture" style="--tint:#22D3EE; --tint2:#0284C7">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#22D3EE"/>
+      </marker>
+    </defs>
+    
+    <text x="110" y="66" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" letter-spacing="5" fill="#22D3EE">MOBILE ARCHITECTURE</text>
+    <text x="110" y="122" font-family="'Space Grotesk','Outfit',system-ui,sans-serif" font-size="38" font-weight="800"
+         fill="#F2F7FF">One app, and the three layers under it</text>
+
+    <!-- the device -->
+    <rect x="122" y="216" width="176" height="316" rx="26"
+          fill="rgba(255,255,255,.045)" stroke="#22D3EE" stroke-width="3"/>
+    <rect x="146" y="252" width="128" height="212" rx="8" fill="rgba(34,211,238,.10)"/>
+    <rect x="188" y="228" width="44" height="8" rx="4" fill="rgba(255,255,255,.25)"/>
+    <text x="210" y="562" text-anchor="middle" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.6)">iOS · ANDROID</text>
+    <text x="210" y="296" text-anchor="middle" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace"
+             font-size="15" fill="rgba(240,246,255,.9)">Native UI</text><text x="210" y="352" text-anchor="middle" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace"
+             font-size="15" fill="rgba(240,246,255,.9)">On-device AI</text><text x="210" y="408" text-anchor="middle" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace"
+             font-size="15" fill="rgba(240,246,255,.9)">Offline cache</text>
+
+    
+  <path d="M310 374 L386 374" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+    
+  <g>
+    <rect x="398" y="314" width="250" height="120" rx="14"
+          fill="color-mix(in srgb, #22D3EE 16%, transparent)"
+          stroke="#22D3EE" stroke-width="3"/>
+    <text x="523" y="372" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">BFF / API</text>
+    <text x="523" y="396" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">ONE CONTRACT PER SCREEN</text>
+  </g>
+
+    
+  <path d="M660 374 L736 230" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="748" y="196" width="292" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="894" y="237" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">Auth / SSO</text>
+    
+  </g>
+  <path d="M660 374 L736 326" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="748" y="292" width="292" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="894" y="333" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">Payments</text>
+    
+  </g>
+  <path d="M660 374 L736 422" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="748" y="388" width="292" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="894" y="429" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">Push & Deep links</text>
+    
+  </g>
+  <path d="M660 374 L736 518" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="748" y="484" width="292" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="894" y="525" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">Analytics</text>
+    
+  </g>
+
+    
+  <path d="M1052 374 L1128 374" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+    
+  <g>
+    <rect x="1140" y="296" width="250" height="156" rx="14"
+          fill="color-mix(in srgb, #22D3EE 16%, transparent)"
+          stroke="#22D3EE" stroke-width="3"/>
+    <text x="1265" y="372" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">DATA</text>
+    <text x="1265" y="396" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">POSTGRES · REDIS · S3</text>
+  </g>
+
+    <text x="110" y="592" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15" letter-spacing="3"
+          fill="rgba(255,255,255,.4)">EVERY LAYER YOURS ON HANDOVER — SOURCE, KEYS AND ACCOUNTS</text>
+  </svg>
+</div>
+
+<div class="band" id="band-mobile-release" style="--tint:#3B82F6; --tint2:#7C3AED">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#3B82F6"/>
+      </marker>
+    </defs>
+    
+    <text x="110" y="66" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" letter-spacing="5" fill="#3B82F6">RELEASE PIPELINE</text>
+    <text x="110" y="122" font-family="'Space Grotesk','Outfit',system-ui,sans-serif" font-size="38" font-weight="800"
+         fill="#F2F7FF">From a commit to both stores, on a schedule</text>
+
+    
+  <g>
+    <rect x="110" y="268" width="232" height="104" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="226" y="318" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">COMMIT</text>
+    <text x="226" y="342" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">TRUNK</text>
+  </g>
+  <path d="M346 320 L364 320" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+  <g>
+    <rect x="372" y="268" width="232" height="104" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="488" y="318" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">CI BUILD</text>
+    <text x="488" y="342" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">SIGNED</text>
+  </g>
+  <path d="M608 320 L626 320" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+  <g>
+    <rect x="634" y="268" width="232" height="104" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="750" y="318" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">DEVICE MATRIX</text>
+    <text x="750" y="342" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">18 REAL DEVICES</text>
+  </g>
+  <path d="M870 320 L888 320" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+  <g>
+    <rect x="896" y="268" width="232" height="104" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="1012" y="318" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">INTERNAL TRACK</text>
+    <text x="1012" y="342" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">TESTFLIGHT / PLAY</text>
+  </g>
+  <path d="M1132 320 L1150 320" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+  <g>
+    <rect x="1158" y="268" width="232" height="104" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="1274" y="318" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">STORE REVIEW</text>
+    <text x="1274" y="342" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">METADATA READY</text>
+  </g>
+  <path d="M1394 320 L1412 320" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+  <g>
+    <rect x="1420" y="268" width="232" height="104" rx="14"
+          fill="color-mix(in srgb, #3B82F6 16%, transparent)"
+          stroke="#3B82F6" stroke-width="3"/>
+    <text x="1536" y="318" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">LIVE</text>
+    <text x="1536" y="342" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">BOTH STORES</text>
+  </g>
+
+    <!-- rollback, which is the half of a pipeline nobody draws -->
+    <path d="M1450 392 C 1450 470, 300 470, 226 470 L 226 388" stroke="#3B82F6"
+          stroke-width="2.5" stroke-dasharray="8 8" opacity=".7" marker-end="url(#head)"/>
+    <text x="740" y="500" text-anchor="middle" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="16"
+          fill="rgba(232,238,248,.62)">ROLLBACK IS ONE FLAG, NOT A HOTFIX RELEASE</text>
+
+    <text x="110" y="592" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15" letter-spacing="3"
+          fill="rgba(255,255,255,.4)">BUILT ON</text>
+    <g>
+    <rect x="240" y="566" width="106" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="253" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Fastlane</text>
+  </g><g>
+    <rect x="472" y="566" width="166" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="485" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">GitHub Actions</text>
+  </g><g>
+    <rect x="704" y="566" width="106" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="717" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Firebase</text>
+  </g><g>
+    <rect x="936" y="566" width="86" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="949" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Sentry</text>
+  </g><g>
+    <rect x="1168" y="566" width="136" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="1181" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Crashlytics</text>
+  </g>
+  </svg>
+</div>
+
+<div class="band" id="band-flutter-codebase" style="--tint:#22D3EE; --tint2:#0891B2">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#22D3EE"/>
+      </marker>
+    </defs>
+    
+    <text x="110" y="66" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" letter-spacing="5" fill="#22D3EE">ONE CODEBASE</text>
+    <text x="110" y="122" font-family="'Space Grotesk','Outfit',system-ui,sans-serif" font-size="38" font-weight="800"
+         fill="#F2F7FF">One Dart source, four places it runs</text>
+
+    
+  <g>
+    <rect x="110" y="236" width="300" height="150" rx="14"
+          fill="color-mix(in srgb, #22D3EE 16%, transparent)"
+          stroke="#22D3EE" stroke-width="3"/>
+    <text x="260" y="309" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">lib/</text>
+    <text x="260" y="333" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">ONE DART CODEBASE</text>
+  </g>
+    <text x="260" y="410" text-anchor="middle" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.6)">WIDGETS · STATE · TESTS</text>
+
+    
+  <path d="M260 424 L260 452" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+    
+  <g>
+    <rect x="110" y="464" width="300" height="76" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="260" y="500" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">PLATFORM CHANNELS</text>
+    <text x="260" y="524" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">ONLY WHERE NATIVE IS UNAVOIDABLE</text>
+  </g>
+
+    
+  <path d="M422 330 L486 330" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+    
+  <g>
+    <rect x="498" y="270" width="226" height="120" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="611" y="328" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">FLUTTER</text>
+    <text x="611" y="352" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">ENGINE + SKIA</text>
+  </g>
+
+    
+  <path d="M736 330 L800 202" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="812" y="168" width="280" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="952" y="200" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">iOS</text>
+    <text x="952" y="224" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">APP STORE</text>
+  </g>
+  <path d="M736 330 L800 302" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="812" y="268" width="280" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="952" y="300" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">ANDROID</text>
+    <text x="952" y="324" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">PLAY</text>
+  </g>
+  <path d="M736 330 L800 402" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="812" y="368" width="280" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="952" y="400" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">WEB</text>
+    <text x="952" y="424" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">CANVASKIT</text>
+  </g>
+  <path d="M736 330 L800 502" stroke="#22D3EE" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="812" y="468" width="280" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="952" y="500" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">DESKTOP</text>
+    <text x="952" y="524" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">WIN · MACOS</text>
+  </g>
+
+    <text x="110" y="592" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15" letter-spacing="3"
+          fill="rgba(255,255,255,.4)">BUILT ON</text>
+    <g>
+    <rect x="500" y="566" width="86" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="513" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Dart 3</text>
+  </g><g>
+    <rect x="710" y="566" width="106" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="723" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Riverpod</text>
+  </g><g>
+    <rect x="920" y="566" width="76" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="933" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Melos</text>
+  </g><g>
+    <rect x="1130" y="566" width="106" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="1143" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Firebase</text>
+  </g><g>
+    <rect x="1340" y="566" width="66" height="34" rx="17"
+          fill="rgba(255,255,255,.055)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+    <text x="1353" y="589" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15"
+          fill="rgba(232,238,248,.72)">Isar</text>
+  </g>
+  </svg>
+</div>
+
+<div class="band" id="band-flutter-flavours" style="--tint:#3B82F6; --tint2:#6366F1">
+  <svg viewBox="0 0 1680 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#3B82F6"/>
+      </marker>
+    </defs>
+    
+    <text x="110" y="66" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" letter-spacing="5" fill="#3B82F6">FLAVOURS AND CHANNELS</text>
+    <text x="110" y="122" font-family="'Space Grotesk','Outfit',system-ui,sans-serif" font-size="38" font-weight="800"
+         fill="#F2F7FF">Three builds from one source, and they cannot mix</text>
+
+    
+  <g>
+    <rect x="110" y="280" width="240" height="120" rx="14"
+          fill="color-mix(in srgb, #3B82F6 16%, transparent)"
+          stroke="#3B82F6" stroke-width="3"/>
+    <text x="230" y="338" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">lib/ + main_*</text>
+    <text x="230" y="362" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">ONE ENTRY PER FLAVOUR</text>
+  </g>
+
+    
+  <path d="M362 340 L430 254" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="442" y="220" width="330" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="607" y="252" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">dev</text>
+    <text x="607" y="276" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">MOCKS · VERBOSE LOGS</text>
+  </g>
+  <path d="M362 340 L430 364" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="442" y="330" width="330" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="607" y="362" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">staging</text>
+    <text x="607" y="386" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">REAL API · TEST KEYS</text>
+  </g>
+  <path d="M362 340 L430 474" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8" stroke-dasharray="7 7" marker-end="url(#head)"/>
+  <g>
+    <rect x="442" y="440" width="330" height="68" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="607" y="472" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">prod</text>
+    <text x="607" y="496" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">LIVE KEYS · NO LOGS</text>
+  </g>
+
+    
+  <path d="M784 340 L852 340" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+    
+  <g>
+    <rect x="864" y="280" width="250" height="120" rx="14"
+          fill="rgba(255,255,255,.05)"
+          stroke="rgba(255,255,255,.17)" stroke-width="2"/>
+    <text x="989" y="338" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">CI</text>
+    <text x="989" y="362" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="14" fill="rgba(232,238,248,.55)">SIGNED PER FLAVOUR</text>
+  </g>
+
+    
+  <path d="M1126 340 L1194 296" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+    
+  <path d="M1126 340 L1194 384" stroke="#3B82F6" stroke-width="2.5"
+        opacity=".8"  marker-end="url(#head)"/>
+    
+  <g>
+    <rect x="1206" y="262" width="250" height="68" rx="14"
+          fill="color-mix(in srgb, #3B82F6 16%, transparent)"
+          stroke="#3B82F6" stroke-width="3"/>
+    <text x="1331" y="303" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">APP STORE</text>
+    
+  </g>
+    
+  <g>
+    <rect x="1206" y="350" width="250" height="68" rx="14"
+          fill="color-mix(in srgb, #3B82F6 16%, transparent)"
+          stroke="#3B82F6" stroke-width="3"/>
+    <text x="1331" y="391" text-anchor="middle"
+          font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="19" fill="rgba(240,246,255,.94)">PLAY</text>
+    
+  </g>
+
+    <text x="110" y="592" font-family="'JetBrains Mono','Fira Code',ui-monospace,monospace" font-size="15" letter-spacing="3"
+          fill="rgba(255,255,255,.4)">A PROD BUILD CANNOT REACH A TEST DATABASE — THAT IS THE POINT</text>
+  </svg>
+</div>
+<script>window.__ids = [...document.querySelectorAll('.band')].map(b => b.id)</script>

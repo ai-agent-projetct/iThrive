@@ -44,6 +44,15 @@ const MOBILE = {
 
   studioTitle: 'Chennai Mobile App Studio',
   studioKeyword: 'Mobile App Development Company in Chennai',
+
+  /* The two picture bands. Drawn by tools/app-bands.mjs; see PictureBand.jsx
+     for why these two subjects and not photographs. */
+  bands: [
+    { img: 'mobile-architecture',
+      caption: 'The three layers under a mobile app — device, one API contract per screen, and the services behind it. All of it yours on handover.' },
+    { img: 'mobile-release',
+      caption: 'From a commit to both stores: signed CI builds, a real device matrix, internal tracks, and a rollback that is one flag rather than a hotfix release.' },
+  ],
 };
 
 const FLUTTER = {
@@ -122,6 +131,13 @@ const FLUTTER = {
       q: 'Can you convert an existing native or React Native app to Flutter?',
       a: 'Yes. iThrive Software migrates existing iOS, Android and React Native apps to Flutter, usually screen by screen behind the existing shell so the app stays shippable throughout rather than going dark for a rewrite. The starting point is an audit of the current codebase and its analytics, so the migration order follows what users actually touch.',
     },
+  ],
+
+  bands: [
+    { img: 'flutter-codebase',
+      caption: 'One Dart codebase, four places it runs — with platform channels only where native is genuinely unavoidable.' },
+    { img: 'flutter-flavours',
+      caption: 'Dev, staging and production built from one source and signed separately, so a production build cannot reach a test database.' },
   ],
 };
 

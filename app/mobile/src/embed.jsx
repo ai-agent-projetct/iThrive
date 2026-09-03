@@ -29,6 +29,8 @@ import FaqSection from './components/FaqSection';
 import ContactSection from './components/ContactSection';
 import ProposalModal from './components/ProposalModal';
 import HexagonGridBg from './components/HexagonGridBg';
+import PictureBand from './components/PictureBand';
+import V from './variant';
 
 import './embed.css';
 
@@ -77,11 +79,17 @@ function MobileAppPage() {
           onScreenChange={setActiveScreen}
           onOpenConsultation={openConsultationModal}
         />
+        {/* The architecture, drawn — see components/PictureBand.jsx */}
+        <PictureBand {...V.bands[0]} />
+
         <InteractiveAppBuilder onOpenConsultation={openConsultationModal} />
         <TechMagnetSection />
         <TechStackSection />
         <CostCtaSection />
         <CaseStudiesSection onOpenConsultation={openConsultationModal} />
+        {/* The release road, drawn, right before the roadmap walks it */}
+        <PictureBand {...V.bands[1]} />
+
         <ProcessRoadmap />
         <ChennaiPresence onOpenConsultation={openConsultationModal} />
         <FaqSection />
