@@ -21,6 +21,21 @@ declare(strict_types=1);
 /* A bare name lives in assets/img/pages; a name containing a slash is a path
    relative to assets/img, so a page can point at its own picture set. */
 $rel  = str_contains($src, '/') ? 'assets/img/' . $src . '.jpg' : 'assets/img/pages/' . $src . '.jpg';
+
+/*
+ * A photograph, if one has been made for this slot, beats the drawing.
+ *
+ * Some of the site's pictures had to be drawn — the service bands, the
+ * capability panels — because no image generator was reachable when they were
+ * needed. tools/site-photos.mjs writes real photographs into a 
+ * subfolder beside each of those, and this is what picks them up: no page has
+ * to be edited as they land, and a set can be filled a few at a time.
+ */
+$photo = dirname($rel) . '/photo/' . basename($rel);
+if (is_file(ROOT_PATH . '/' . $photo)) {
+    $rel = $photo;
+}
+
 $file = ROOT_PATH . '/' . $rel;
 
 /* No file, no empty frame. */
