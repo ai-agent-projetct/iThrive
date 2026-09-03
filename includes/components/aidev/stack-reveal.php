@@ -99,6 +99,17 @@ $functions = [
           </ul>
         </article>
       <?php endforeach; ?>
+
+      <?php /* The last card's runway.
+               A sticky element is constrained by its parent's CONTENT box, and
+               it cannot be pushed past that box minus its own bottom margin. So
+               giving the last card a margin does nothing: the margin pushes the
+               content edge down and is then subtracted straight back off, and
+               its sticky window stays at zero — measured at 41px against 762px
+               for the card before it, which is why the fifth one scrolled by
+               without ever pinning. Padding on the list is no use either, being
+               outside the content box. It needs a SIBLING, and this is it. */ ?>
+      <span class="stackrev-tail" aria-hidden="true"></span>
     </div>
 
   </div>

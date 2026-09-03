@@ -197,9 +197,20 @@
 
   max-width: 940px;
   margin: 0 auto;
-  /* Room under the last card so the deck finishes assembling before the next
-     section arrives and shoves it off screen. */
-  padding-bottom: 22vh;
+
+  /*
+   * No `perspective` here, deliberately. Sharing one vanishing point across the
+   * deck looks marginally better and breaks the stack: it puts every card in one
+   * 3D rendering context, and the compositor then sorts them by depth rather
+   * than by paint order, so buried cards show straight through the opaque face
+   * of the card in front. Confirmed it was the cause by elimination —
+   * elementFromPoint reported the front card on top the whole time, so it was
+   * never a stacking-order bug. Each card carries its own perspective() inside
+   * its transform instead, which keeps them flat to each other.
+   */
+
+  /* Nothing here holds the last card up: see its margin-bottom below. */
+  padding-bottom: 8vh;
 }
 
 .aidev .stackrev-card {
@@ -214,19 +225,47 @@
   /* Each card needs its own run of scroll before the next one lands. */
   margin-bottom: 34vh;
 
+  /* Later cards must paint over earlier ones. DOM order alone stopped being
+     enough once these were transformed: a transform makes each card its own
+     stacking context, and the buried ones were showing through the front card's
+     face — card three's heading was legible across card four. */
+  z-index: calc(var(--i) + 1);
+
   padding: 2.5rem 2.75rem 2.25rem;
   border-radius: 22px;
   border: 1px solid rgba(34, 211, 238, 0.22);
-  background:
-    linear-gradient(150deg, rgba(19, 24, 48, 0.97) 0%, rgba(9, 11, 24, 0.99) 68%);
+  /* Fully opaque, for the same reason: a card has to hide what it covers.
+     It was 0.97, which is invisible on its own and not invisible over text. */
+  background: linear-gradient(150deg, #131830 0%, #090B18 68%);
   box-shadow:
     0 28px 70px rgba(0, 0, 0, 0.72),
-    0 0 44px rgba(34, 211, 238, 0.08);
-  /* Opaque enough that a card genuinely hides the one it covers. */
-  backdrop-filter: blur(6px);
+    0 0 44px rgba(0, 242, 254, 0.08);
 }
 
-.aidev .stackrev-card:last-child { margin-bottom: 0; }
+/*
+ * The last card needs a margin like all the others, and this is the whole
+ * reason the fifth one never finished.
+ *
+ * A sticky element is constrained by its parent's CONTENT box, not its padding
+ * box. With margin-bottom:0 the list's content ended exactly at this card's
+ * bottom edge, so its sticky range was `contentBottom - cardHeight - flowTop`
+ * = zero: it scrolled past its own offset without ever pinning, while cards one
+ * to four pinned fine on the strength of their own 34vh margins. Padding on the
+ * list looked like the fix and does nothing, because padding is outside the
+ * content box.
+ *
+ * A little more than the others, so the card the section ends on is held long
+ * enough to read rather than glimpsed on its way out.
+ */
+.aidev .stackrev-card:last-of-type { margin-bottom: 0; }
+
+/* The runway the last card pins against — see the note in stack-reveal.php.
+   A little longer than a card's own 34vh, so the one the section ends on is
+   held long enough to read rather than glimpsed on its way past. */
+.aidev .stackrev-tail {
+  display: block;
+  height: 52vh;
+}
 
 /* A hairline of brand along the top edge, which is the part that stays visible
    once a card is buried. It is the only way to tell the deck apart at a glance. */
@@ -313,20 +352,75 @@
  */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    /*
+     * One animation across the card's whole pass, not just its arrival.
+     *
+     * It used to run entry 5% -> cover 26% and stop, so a card tilted in and
+     * then sat perfectly flat for the rest of the section: no depth once the
+     * deck had formed. The range now reaches cover 78%, and the last keyframe
+     * takes the card BACK into the screen as the next one lands on it. So the
+     * front card is always upright and everything under it is pitched away —
+     * which is what makes the stack look three-dimensional rather than like
+     * sheets of paper.
+     */
     .aidev .stackrev-card {
-      animation: stackrev-arrive linear both;
+      animation: stackrev-pass linear both;
       animation-timeline: view();
-      animation-range: entry 5% cover 26%;
+      animation-range: entry 2% cover 78%;
     }
 
-    @keyframes stackrev-arrive {
-      from {
-        transform: perspective(1400px) rotateX(11deg) translateY(46px);
-        opacity: 0.35;
+    /*
+     * The last card does not get buried, because nothing lands on top of it. It
+     * runs the arrival and then holds upright and full — it is the note the
+     * section ends on, so it should not be pitching away and dimming while the
+     * reader is still on it.
+     */
+    .aidev .stackrev-card:last-of-type {
+      animation-name: stackrev-arrive-and-hold;
+    }
+
+    @keyframes stackrev-arrive-and-hold {
+      0% {
+        transform: perspective(1400px) rotateX(18deg) translateY(64px);
+        filter: brightness(0.34);
       }
-      to {
+      34%, 100% {
         transform: perspective(1400px) rotateX(0deg) translateY(0);
-        opacity: 1;
+        filter: brightness(1);
+      }
+    }
+
+    @keyframes stackrev-pass {
+      /* arriving: pitched forward, low, dark */
+      0% {
+        transform: perspective(1400px) rotateX(18deg) translateY(64px);
+        filter: brightness(0.34);
+      }
+      /* landed: upright, full, at the front */
+      34% {
+        transform: perspective(1400px) rotateX(0deg) translateY(0);
+        filter: brightness(1);
+      }
+      /* held while it is the card being read */
+      58% {
+        transform: perspective(1400px) rotateX(0deg) translateY(0);
+        filter: brightness(1);
+      }
+      /*
+       * Being buried: pitched back and DARKENED, never faded.
+       *
+       * This used opacity, and that was the bug behind the whole "cards showing
+       * through each other" problem — which was never a stacking-order bug at
+       * all. A card mid-animation sat at opacity 0.9068, and a card that is 9%
+       * transparent shows you 9% of the cards stacked behind it. Painting the
+       * front card solid red proved it: the buried card's text bled through the
+       * red. brightness() darkens the card and everything on it while leaving it
+       * completely opaque, which is what a card at the back of a stack should
+       * be.
+       */
+      100% {
+        transform: perspective(1400px) rotateX(-9deg) translateY(-14px);
+        filter: brightness(0.62);
       }
     }
   }
