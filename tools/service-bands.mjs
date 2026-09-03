@@ -50,6 +50,9 @@ const SLUGS = [
   'dedicated-engineering-team', 'ecommerce-development', 'micro-saas-development',
   'mvp-development', 'on-demand-resources', 'poc-development',
   'product-modernization', 'reactjs-development',
+  /* Also on the shared layout, and also without a picture of its own — it
+     replaces the hero rather than the body, so everything below still applies. */
+  'ai-native-product-development',
 ];
 
 const browser = await chromium.launch({ channel: 'chrome' });
