@@ -638,3 +638,299 @@
   }
 }
 
+
+/* ==========================================================================
+   The 6-Layer iThrive AI Stack — the arced focus carousel
+   ==========================================================================
+
+   After arcedfocuscarousel.framer.website. The geometry — angle step, radius,
+   scale and opacity per position — is set by assets/js/aidev/arced-carousel.js
+   from readings taken off the live reference; everything here is surface, plus
+   the one structural fact the script depends on: the stage is the box whose
+   width the radius is a fraction of.
+   -------------------------------------------------------------------------- */
+
+.aidev .arced-head {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 2.5rem;
+}
+
+/*
+ * The stage. Its arms run off the bottom and are clipped — that is the
+ * reference's own look, a fan wider than the window it is seen through — so it
+ * clips rather than growing to fit.
+ */
+.aidev .arced-stage {
+  position: relative;
+  height: clamp(600px, 54vw, 760px);
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.aidev .arced-arc {
+  position: absolute;
+  inset: 0;
+  /* The focus card's centre. Everything else is placed relative to this point
+     by the script, on a circle whose top is here. */
+  --arc-top: 210px;
+}
+
+.aidev .arced-card {
+  position: absolute;
+  left: 50%;
+  top: var(--arc-top);
+  width: 320px;              /* 480 at the 1.5 focus scale — 4:3, and big */
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  background: #0A0E1A;
+  overflow: hidden;
+  cursor: pointer;
+  /* Placed by the script; this is only the fallback for no-JS. */
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 50%;
+  box-shadow: 0 30px 70px -28px rgba(0, 0, 0, 0.95);
+  transition: transform 0.62s cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 0.45s ease,
+              box-shadow 0.45s ease;
+  will-change: transform;
+}
+
+.aidev .arced-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.aidev .arced-card.is-focus {
+  cursor: default;
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.95),
+              0 0 0 1px color-mix(in srgb, var(--tint) 45%, transparent);
+}
+
+.aidev .arced-card:focus-visible {
+  outline: 2px solid var(--tint);
+  outline-offset: 4px;
+}
+
+/*
+ * The copy, in the gap between the arms. It sits above the arc because the
+ * outer cards pass behind it on their way down.
+ */
+.aidev .arced-copy {
+  position: absolute;
+  left: 50%;
+  bottom: 74px;
+  z-index: 1200;
+  transform: translateX(-50%);
+  width: min(760px, calc(100% - 2rem));
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.aidev .arced-nav {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(10, 14, 26, 0.72);
+  color: #E2E8F0;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.aidev .arced-nav:hover {
+  border-color: rgba(0, 229, 255, 0.55);
+  color: #00E5FF;
+  transform: scale(1.06);
+}
+
+/* One panel is shown at a time, but all six are in the markup — the others are
+   hidden, not absent, so the section reads whole without the script. */
+.aidev .arced-panels { position: relative; text-align: center; }
+
+.aidev .arced-panel { display: none; }
+.aidev .arced-panel.is-shown { display: block; }
+
+/* No script: show every layer as a plain list rather than only the first. */
+.aidev .arced-stage:not(.is-live) .arced-panel { display: block; margin-bottom: 2rem; }
+
+.aidev .arced-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.5rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tint);
+}
+
+.aidev .arced-title {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.3rem, 2.1vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #F8FAFC;
+}
+
+.aidev .arced-body {
+  margin: 0 auto 0.9rem;
+  max-width: 620px;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: rgba(203, 213, 225, 0.82);
+}
+
+.aidev .arced-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.aidev .arced-pills li {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--tint) 30%, transparent);
+  background: color-mix(in srgb, var(--tint) 10%, transparent);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: #E2E8F0;
+}
+
+.aidev .arced-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #04121A;
+  background: var(--tint);
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.aidev .arced-cta:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.aidev .arced-cta svg { width: 15px; height: 15px; }
+
+.aidev .arced-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  z-index: 1200;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aidev .arced-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.24);
+  cursor: pointer;
+  transition: width 0.35s ease, background 0.35s ease;
+}
+
+.aidev .arced-dot.is-on { width: 24px; background: #00E5FF; }
+
+/* The 3D neural core, now below the carousel rather than beside it. */
+.aidev .arced-core {
+  max-width: 900px;
+  margin: 3.5rem auto 0;
+  padding: 1.5rem;
+  border: 1px solid rgba(139, 47, 201, 0.35);
+  background: radial-gradient(circle at center, rgba(139, 47, 201, 0.1) 0%, rgba(11, 14, 28, 0.95) 80%);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 40px rgba(139, 47, 201, 0.25);
+}
+
+.aidev .arced-core-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1rem;
+}
+
+.aidev .arced-core-name { font-weight: 700; color: #FFF; font-size: 1.05rem; }
+.aidev .arced-core-sub { font-size: 0.82rem; color: var(--text-muted); }
+.aidev .arced-core-stat { text-align: right; }
+.aidev .arced-core-stat span {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #10B981;
+}
+.aidev .arced-core-stat div { font-size: 0.72rem; color: var(--accent-cyan); }
+
+@media (max-width: 900px) {
+  /* A narrow screen cannot hold a fan. The focus card stays, the rest sit far
+     enough out to read as depth without demanding width the page has not got. */
+  .aidev .arced-stage { height: clamp(520px, 118vw, 640px); }
+  .aidev .arced-arc { --arc-top: 165px; }
+  .aidev .arced-card { width: min(230px, 62vw); }
+  .aidev .arced-copy { bottom: 62px; gap: 0.4rem; }
+  .aidev .arced-nav { width: 36px; height: 36px; }
+  .aidev .arced-core-foot { flex-direction: column; align-items: flex-start; }
+  .aidev .arced-core-stat { text-align: left; }
+}
+
+/*
+ * On a phone the copy will not fit in the gap between the arms — measured at
+ * 390px it is 266px tall against a 520px stage, and it landed across the focus
+ * card. So it stops being an overlay: the arc keeps its own clipped box and the
+ * words and dots follow it in ordinary flow underneath.
+ */
+@media (max-width: 700px) {
+  .aidev .arced-stage { height: auto; overflow: visible; }
+
+  .aidev .arced-arc {
+    position: relative;
+    inset: auto;
+    height: 340px;
+    overflow: hidden;
+    --arc-top: 152px;
+  }
+
+  .aidev .arced-card { width: min(212px, 58vw); }
+
+  .aidev .arced-copy {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-top: 1.75rem;
+    padding: 0 0.5rem;
+  }
+
+  .aidev .arced-dots {
+    position: static;
+    transform: none;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .aidev .arced-title { font-size: 1.22rem; }
+  .aidev .arced-body { font-size: 0.86rem; }
+}

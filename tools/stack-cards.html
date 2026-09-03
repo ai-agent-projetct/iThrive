@@ -1,0 +1,476 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Stack layer cards</title>
+<!--
+  The six 4:3 cards the AI Development Company page's arced focus carousel
+  shows — assets/img/aidev/stack/layer-01..06.jpg.
+
+  Rendered by tools/render-stack-cards.mjs at 1200x900, which is twice the size
+  the focus card is ever displayed at (480x360), so it survives a retina screen.
+
+  Why drawn rather than photographed: the six layers are architecture, and a
+  stock photograph of a server room says nothing about retrieval or guardrails.
+  Each card carries the layer's own diagram — the thing that layer actually does
+  — over the tint that layer wears everywhere else on the page.
+
+  Every motif is plain SVG built from the layer's own vocabulary. No external
+  request: the fonts are the ones already on the page, and if they are missing
+  the fallback stack still sets.
+-->
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; margin: 0; }
+
+  body {
+    background: #05060F;
+    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 1240px;
+  }
+
+  .card {
+    position: relative;
+    width: 1200px;
+    height: 900px;
+    overflow: hidden;
+    border-radius: 0;               /* the page rounds it; art must reach the edge */
+    background:
+      radial-gradient(120% 90% at 12% 8%, color-mix(in srgb, var(--tint) 30%, transparent) 0%, transparent 58%),
+      radial-gradient(100% 80% at 92% 96%, color-mix(in srgb, var(--tint2) 26%, transparent) 0%, transparent 60%),
+      linear-gradient(160deg, #0B1020 0%, #05070F 62%, #080B16 100%);
+    color: #E8EEF8;
+    isolation: isolate;
+  }
+
+  /* A faint engineering grid under everything, so the motifs read as drawn on
+     a plan rather than floating. */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(120% 100% at 50% 30%, #000 0%, transparent 78%);
+  }
+
+  .num {
+    position: absolute;
+    top: 44px;
+    left: 56px;
+    font-size: 150px;
+    font-weight: 800;
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    background: linear-gradient(160deg, var(--tint) 0%, var(--tint2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    opacity: 0.95;
+  }
+
+  .kicker {
+    position: absolute;
+    top: 74px;
+    right: 56px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--tint) 45%, transparent);
+    background: color-mix(in srgb, var(--tint) 12%, rgba(5,7,15,.7));
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--tint);
+  }
+
+  .name {
+    position: absolute;
+    left: 56px;
+    top: 214px;
+    width: 560px;
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .say {
+    position: absolute;
+    left: 56px;
+    top: 390px;
+    width: 500px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 23px;
+    line-height: 1.5;
+    color: rgba(214, 225, 242, 0.72);
+  }
+
+  .chips {
+    position: absolute;
+    left: 56px;
+    bottom: 56px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+    width: 700px;
+  }
+
+  .chips span {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.05);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 17px;
+    color: rgba(232, 238, 248, .88);
+  }
+
+  /* The motif sits in the right-hand third and bleeds off the edge, so the card
+     reads as a window onto a bigger diagram. */
+  .art { position: absolute; right: -40px; top: 96px; width: 660px; height: 708px; }
+  .art svg { width: 100%; height: 100%; overflow: visible; }
+
+  .stroke { fill: none; stroke: var(--tint); stroke-width: 2.5; }
+  .dim    { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 2; }
+  .fillt  { fill: color-mix(in srgb, var(--tint) 16%, transparent); }
+  .dot    { fill: var(--tint); }
+  .glow   { filter: drop-shadow(0 0 14px color-mix(in srgb, var(--tint) 70%, transparent)); }
+  .lab    { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 15px; fill: rgba(255,255,255,.5); letter-spacing: .08em; }
+</style>
+
+<body>
+
+<!-- 01 · Data ingestion & vector infrastructure ------------------------------
+     A document falling into a shard grid: raw pages on the left, an index of
+     buckets on the right, one vector lighting up. -->
+<div class="card" id="card-01" style="--tint:#00E5FF; --tint2:#0891B2">
+  <div class="num">01</div>
+  <div class="kicker">LAYER 01</div>
+  <div class="name">Data Ingestion &amp; Vector Infrastructure</div>
+  <p class="say">Parsing, chunking, embedding and hybrid indexing. The floor everything above it stands on.</p>
+  <div class="chips"><span>Pinecone</span><span>Milvus</span><span>Qdrant</span><span>pgvector</span></div>
+  <div class="art">
+    <svg viewBox="0 0 660 708">
+      <!-- source documents -->
+      <g class="dim">
+        <rect x="24" y="120" width="128" height="164" rx="8"/>
+        <rect x="44" y="96"  width="128" height="164" rx="8"/>
+        <rect x="64" y="72"  width="128" height="164" rx="8"/>
+      </g>
+      <g stroke="rgba(255,255,255,.3)" stroke-width="2">
+        <path d="M84 108h88M84 132h88M84 156h60M84 180h88"/>
+      </g>
+      <!-- the pipe -->
+      <path class="stroke glow" d="M196 154 C 262 154, 262 300, 330 300"/>
+      <circle class="dot glow" cx="330" cy="300" r="7"/>
+      <text class="lab" x="206" y="196">CHUNK · EMBED</text>
+      <!-- the index: 6x5 shard grid -->
+      <g id="grid01"></g>
+      <text class="lab" x="372" y="196">VECTOR INDEX · 1536-D</text>
+      <!-- streaming ticks below -->
+      <g class="dim"><path d="M24 470h610"/></g>
+      <g id="ticks01"></g>
+      <text class="lab" x="24" y="512">STREAMING ETL</text>
+    </svg>
+  </div>
+</div>
+
+<!-- 02 · Foundation models, fine-tuning & quantisation -----------------------
+     A dense weight matrix with a small low-rank adapter beside it — literally
+     what LoRA is — and a quantisation step-down. -->
+<div class="card" id="card-02" style="--tint:#3B82F6; --tint2:#1D4ED8">
+  <div class="num">02</div>
+  <div class="kicker">LAYER 02</div>
+  <div class="name">Foundation Models, Fine-Tuning &amp; Quantisation</div>
+  <p class="say">Domain-adapted weights, low-rank adapters and quantised serving sized to real traffic.</p>
+  <div class="chips"><span>Llama 3.1</span><span>Mistral</span><span>LoRA / QLoRA</span><span>vLLM / Triton</span></div>
+  <div class="art">
+    <svg viewBox="0 0 660 708">
+      <text class="lab" x="24" y="52">BASE WEIGHTS · FROZEN</text>
+      <g id="w02"></g>
+      <!-- the adapter: two thin bars, rank r -->
+      <text class="lab" x="392" y="52">LoRA ADAPTER · RANK 16</text>
+      <rect class="fillt" x="392" y="70" width="46" height="230" rx="4"/>
+      <rect class="stroke" x="392" y="70" width="46" height="230" rx="4"/>
+      <rect class="fillt" x="452" y="70" width="184" height="46" rx="4"/>
+      <rect class="stroke" x="452" y="70" width="184" height="46" rx="4"/>
+      <path class="stroke glow" d="M356 186 h30"/>
+      <!-- quantisation ladder -->
+      <text class="lab" x="24" y="400">FP32 → FP16 → INT8</text>
+      <g id="q02"></g>
+      <!-- throughput -->
+      <text class="lab" x="24" y="612">THROUGHPUT · BATCHED</text>
+      <g id="t02"></g>
+    </svg>
+  </div>
+</div>
+
+<!-- 03 · Retrieval & knowledge grounding -------------------------------------
+     A query fanning to candidates, a rerank column, and one answer with a
+     citation line running back to its source. -->
+<div class="card" id="card-03" style="--tint:#6366F1; --tint2:#4338CA">
+  <div class="num">03</div>
+  <div class="kicker">LAYER 03</div>
+  <div class="name">Retrieval &amp; Knowledge Grounding</div>
+  <p class="say">Hybrid retrieval, cross-encoder reranking and a citation on every claim.</p>
+  <div class="chips"><span>BM25 + dense</span><span>Cross-encoder</span><span>Compression</span><span>Citations</span></div>
+  <div class="art">
+    <svg viewBox="0 0 660 708">
+      <text class="lab" x="20" y="40">QUERY</text>
+      <circle class="dot glow" cx="46" cy="300" r="9"/>
+      <g id="fan03"></g>
+      <text class="lab" x="250" y="40">CANDIDATES · k=40</text>
+      <g id="cand03"></g>
+      <text class="lab" x="470" y="40">RERANKED · k=6</text>
+      <g id="rank03"></g>
+      <!-- the citation line: from the top-ranked result back to a document -->
+      <path class="stroke glow" stroke-dasharray="7 7" d="M600 132 C 640 250, 400 560, 210 560"/>
+      <rect class="dim" x="80" y="512" width="120" height="96" rx="8"/>
+      <text class="lab" x="80" y="640">SOURCE DOC · p.14</text>
+    </svg>
+  </div>
+</div>
+
+<!-- 04 · Agentic orchestration ----------------------------------------------
+     A real state machine with a human approval gate on the branch that costs
+     money — the thing this layer is actually for. -->
+<div class="card" id="card-04" style="--tint:#A855F7; --tint2:#7E22CE">
+  <div class="num">04</div>
+  <div class="kicker">LAYER 04</div>
+  <div class="name">Agentic Orchestration &amp; Autonomous Tools</div>
+  <p class="say">State machines, typed tools, long-term memory — and a gate before anything expensive.</p>
+  <div class="chips"><span>LangGraph</span><span>CrewAI</span><span>AutoGen</span><span>FastAPI</span></div>
+  <div class="art">
+    <svg viewBox="0 0 660 708">
+      <g id="fsm04"></g>
+    </svg>
+  </div>
+</div>
+
+<!-- 05 · Evaluation, safety & compliance ------------------------------------
+     A scorecard of eval runs, a shield over the input path, and an audit trail
+     of hashed entries. -->
+<div class="card" id="card-05" style="--tint:#E040FB; --tint2:#A21CAF">
+  <div class="num">05</div>
+  <div class="kicker">LAYER 05</div>
+  <div class="name">Evaluation, Safety &amp; Compliance Guardrails</div>
+  <p class="say">A golden set on every change, injection defence, PII masking and a trail an auditor can read.</p>
+  <div class="chips"><span>Golden-set evals</span><span>Injection defence</span><span>PII masking</span><span>NIST AI RMF</span></div>
+  <div class="art">
+    <svg viewBox="0 0 660 708">
+      <text class="lab" x="20" y="40">EVAL RUNS · PASS RATE</text>
+      <g id="ev05"></g>
+      <!-- shield -->
+      <path class="fillt" d="M470 300 l86 -34 86 34 v96 c0 74 -52 122 -86 138 -34 -16 -86 -64 -86 -138z"/>
+      <path class="stroke glow" d="M470 300 l86 -34 86 34 v96 c0 74 -52 122 -86 138 -34 -16 -86 -64 -86 -138z"/>
+      <path class="stroke" d="M524 402 l24 26 44 -54"/>
+      <text class="lab" x="470" y="562">INJECTION · PII · RBAC</text>
+      <!-- audit trail -->
+      <text class="lab" x="250" y="600">AUDIT TRAIL</text>
+      <g id="au05"></g>
+    </svg>
+  </div>
+</div>
+
+<!-- 06 · Experience, delivery & MLOps ---------------------------------------
+     A live drift chart crossing its threshold and triggering a re-train, over
+     a device row — the two halves of "after launch". -->
+<div class="card" id="card-06" style="--tint:#10B981; --tint2:#047857">
+  <div class="num">06</div>
+  <div class="kicker">LAYER 06</div>
+  <div class="name">Experience, Delivery &amp; MLOps</div>
+  <p class="say">Front ends over the stack, drift detection that retrains itself, and an SLA with a person behind it.</p>
+  <div class="chips"><span>WebGL / Three.js</span><span>Flutter AI</span><span>Drift detection</span><span>99.8% SLA</span></div>
+  <div class="art">
+    <svg viewBox="0 0 660 708">
+      <text class="lab" x="20" y="40">EMBEDDING DRIFT · 30d</text>
+      <g id="dr06"></g>
+      <!-- devices -->
+      <rect class="dim" x="20"  y="470" width="230" height="150" rx="10"/>
+      <rect class="dim" x="272" y="470" width="104" height="150" rx="12"/>
+      <rect class="dim" x="398" y="470" width="150" height="112" rx="10"/>
+      <g class="stroke"><path d="M40 500h110M40 524h180M40 548h84"/></g>
+      <g class="dim"><path d="M292 500h64M292 522h64M292 544h40"/></g>
+      <text class="lab" x="20" y="660">WEB · MOBILE · EDGE</text>
+    </svg>
+  </div>
+</div>
+
+<script>
+  /* The repetitive parts of each motif, generated rather than typed out — a
+     32-cell shard grid is not something to hand-write, and a seeded generator
+     keeps every render of these cards identical. */
+  const svg = (t, a) => {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', t);
+    for (const k in a) el.setAttribute(k, a[k]);
+    return el;
+  };
+  const put = (id, nodes) => { const g = document.getElementById(id); nodes.forEach(n => g.appendChild(n)); };
+  /* Array.push() returns a length, not the node, so a label needs its own
+     constructor rather than being poked after the fact. */
+  const txt = (a, s) => { const n = svg('text', a); n.textContent = s; return n; };
+
+  /* Deterministic pseudo-random, so re-running the renderer produces the same
+     six images and the diff stays empty. */
+  let seed = 20260903;
+  const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+
+  /* 01 — shard grid + streaming ticks */
+  {
+    const cells = [];
+    for (let r = 0; r < 5; r++) for (let c = 0; c < 6; c++) {
+      const lit = rnd() > 0.72;
+      cells.push(svg('rect', {
+        x: 372 + c * 46, y: 220 + r * 46, width: 36, height: 36, rx: 5,
+        class: lit ? 'fillt' : '', stroke: lit ? 'currentColor' : 'rgba(255,255,255,.16)',
+        'stroke-width': 2, fill: lit ? undefined : 'none',
+      }));
+    }
+    cells.push(svg('circle', { cx: 372 + 2 * 46 + 18, cy: 220 + 2 * 46 + 18, r: 9, class: 'dot glow' }));
+    put('grid01', cells);
+
+    const ticks = [];
+    for (let i = 0; i < 34; i++) {
+      const h = 8 + rnd() * 44;
+      ticks.push(svg('rect', { x: 24 + i * 18, y: 470 - h, width: 8, height: h, rx: 3,
+        fill: i % 5 === 0 ? 'currentColor' : 'rgba(255,255,255,.22)' }));
+    }
+    put('ticks01', ticks);
+  }
+
+  /* 02 — weight matrix, quantisation ladder, throughput bars */
+  {
+    const w = [];
+    for (let r = 0; r < 7; r++) for (let c = 0; c < 9; c++) {
+      const v = rnd();
+      w.push(svg('rect', { x: 24 + c * 37, y: 70 + r * 33, width: 29, height: 25, rx: 3,
+        fill: 'currentColor', opacity: (0.12 + v * 0.55).toFixed(2) }));
+    }
+    put('w02', w);
+
+    const q = [];
+    [[24, 96, 1], [150, 64, 0.66], [252, 40, 0.4]].forEach(([x, h, o], i) => {
+      q.push(svg('rect', { x, y: 420 + (96 - h), width: 92, height: h, rx: 6, class: 'fillt' }));
+      q.push(svg('rect', { x, y: 420 + (96 - h), width: 92, height: h, rx: 6, class: 'stroke' }));
+      if (i < 2) q.push(svg('path', { class: 'stroke', d: `M${x + 100} 470 h18` }));
+    });
+    put('q02', q);
+
+    const t = [];
+    for (let i = 0; i < 26; i++) {
+      const h = 10 + rnd() * 56;
+      t.push(svg('rect', { x: 24 + i * 24, y: 590 - h, width: 14, height: h, rx: 3,
+        fill: 'currentColor', opacity: (0.25 + (i / 26) * 0.7).toFixed(2) }));
+    }
+    put('t02', t);
+  }
+
+  /* 03 — the fan, the candidate column, the reranked column */
+  {
+    const fan = [], cand = [], rank = [];
+    for (let i = 0; i < 9; i++) {
+      const y = 76 + i * 52;
+      fan.push(svg('path', { class: 'dim', d: `M56 300 C 150 300, 160 ${y}, 250 ${y}` }));
+      cand.push(svg('rect', { x: 250, y: y - 13, width: 126, height: 26, rx: 5,
+        fill: 'rgba(255,255,255,.06)', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 2 }));
+    }
+    put('fan03', fan); put('cand03', cand);
+
+    for (let i = 0; i < 6; i++) {
+      const y = 120 + i * 62;
+      rank.push(svg('path', { class: 'stroke', opacity: 0.5, d: `M382 ${180 + i * 40} C 430 ${180 + i * 40}, 430 ${y}, 470 ${y}` }));
+      rank.push(svg('rect', { x: 470, y: y - 16, width: 166, height: 32, rx: 6, class: 'fillt' }));
+      rank.push(svg('rect', { x: 470, y: y - 16, width: 166, height: 32, rx: 6, class: 'stroke' }));
+      rank.push(txt({ x: 486, y: y + 5, class: 'lab' }, '0.' + (98 - i * 7)));
+    }
+    put('rank03', rank);
+  }
+
+  /* 04 — the state machine */
+  {
+    const N = [
+      ['PLAN',     96,  86],
+      ['RETRIEVE', 96,  246],
+      ['TOOL CALL',96,  406],
+      ['APPROVE',  380, 246],
+      ['ACT',      380, 406],
+      ['DONE',     380, 566],
+    ];
+    const g = [];
+    N.forEach(([label, x, y], i) => {
+      const gate = label === 'APPROVE';
+      g.push(svg('rect', { x, y, width: 190, height: 74, rx: gate ? 37 : 10,
+        class: gate ? 'fillt' : '', fill: gate ? undefined : 'rgba(255,255,255,.05)',
+        stroke: gate ? 'currentColor' : 'rgba(255,255,255,.2)', 'stroke-width': gate ? 3 : 2 }));
+      const t = svg('text', { x: x + 95, y: y + 45, class: 'lab', 'text-anchor': 'middle' });
+      t.textContent = label;
+      if (gate) { t.setAttribute('fill', '#fff'); }
+      g.push(t);
+    });
+    // edges
+    [
+      'M191 160 v 86', 'M191 320 v 86',
+      'M286 283 h 94', 'M475 320 v 86', 'M475 480 v 86',
+      // the loop back from ACT to PLAN, which is what makes it an agent
+      'M380 443 C 300 443, 300 123, 286 123',
+    ].forEach(d => g.push(svg('path', { class: 'stroke', opacity: 0.62, d,
+      'marker-end': 'none', 'stroke-dasharray': d.includes('C') ? '8 8' : 'none' })));
+    g.push(txt({ x: 380, y: 224, class: 'lab' }, 'HUMAN GATE'));
+    put('fsm04', g);
+  }
+
+  /* 05 — eval bars + audit trail */
+  {
+    const ev = [];
+    for (let i = 0; i < 12; i++) {
+      const pass = 0.55 + rnd() * 0.42;
+      const h = Math.round(pass * 190);
+      ev.push(svg('rect', { x: 20 + i * 34, y: 70 + (190 - h), width: 22, height: h, rx: 4,
+        fill: 'currentColor', opacity: pass > 0.85 ? 0.9 : 0.35 }));
+    }
+    ev.push(svg('path', { class: 'stroke', 'stroke-dasharray': '8 8', d: 'M14 106 h 424' }));
+    ev.push(txt({ x: 14, y: 96, class: 'lab' }, 'THRESHOLD 0.92'));
+    put('ev05', ev);
+
+    const au = [];
+    for (let i = 0; i < 5; i++) {
+      const y = 616 + i * 20;
+      au.push(svg('rect', { x: 250, y, width: 14, height: 14, rx: 3, fill: 'currentColor', opacity: 0.8 }));
+      au.push(svg('rect', { x: 274, y: y + 3, width: 60 + rnd() * 300, height: 8, rx: 4, fill: 'rgba(255,255,255,.2)' }));
+    }
+    put('au05', au);
+  }
+
+  /* 06 — the drift chart that crosses and triggers a re-train */
+  {
+    const g = [];
+    let x = 20, y = 340, d = `M${x} ${y}`;
+    const pts = [];
+    for (let i = 1; i <= 30; i++) {
+      x = 20 + i * 20;
+      y = 340 - i * 5.4 + (rnd() - 0.5) * 34;
+      pts.push([x, y]);
+      d += ` L${x} ${y.toFixed(1)}`;
+    }
+    g.push(svg('path', { class: 'dim', d: 'M20 200 H 620' }));
+    g.push(txt({ x: 20, y: 190, class: 'lab' }, 'RETRAIN TRIGGER'));
+    g.push(svg('path', { class: 'stroke glow', d }));
+    const cross = pts.find(p => p[1] < 200) || pts[pts.length - 1];
+    g.push(svg('circle', { cx: cross[0], cy: cross[1], r: 10, class: 'dot glow' }));
+    g.push(svg('path', { class: 'stroke', 'stroke-dasharray': '6 6', d: `M${cross[0]} ${cross[1]} v ${400 - cross[1]}` }));
+    g.push(txt({ x: cross[0] + 14, y: 396, class: 'lab' }, 'AUTO RE-TRAIN'));
+    put('dr06', g);
+  }
+
+  /* `currentColor` inside each motif has to resolve to that card's tint. */
+  document.querySelectorAll('.card').forEach(c => {
+    c.querySelector('.art svg').style.color = getComputedStyle(c).getPropertyValue('--tint').trim();
+  });
+
+  window.__ids = [...document.querySelectorAll('.card')].map(c => c.id);
+</script>

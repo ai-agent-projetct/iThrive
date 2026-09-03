@@ -123,8 +123,8 @@ require dirname(__DIR__) . '/includes/header.php';
       'solutions',       // numbered rail 01-09 with the video showcase
       'gateway-facts',   // quick-facts row
       ['cloud-form', 'Everything here deploys into your own cloud tenancy, not ours.'],
-      'ecosystem',       // 4-layer architecture stack
-      ['datacentre', 'The four layers run on this: dedicated capacity, not shared inference.'],
+      'ecosystem',       // the six-layer stack, as an arced focus carousel
+      ['datacentre', 'The six layers run on this: dedicated capacity, not shared inference.'],
       'process',         // 6-step development process
       'technologies',    // technology matrix filter grid
       ['gpu-cluster', 'A100 and H100 clusters, because training on anything less is a slower way to the same place.'],
@@ -214,6 +214,9 @@ require dirname(__DIR__) . '/includes/header.php';
 
 <?php /* The 6-step process, as the mobile page's roadmap stood upright. */ ?>
 <script src="<?= e(asset('assets/js/aidev/roadmap-vertical.js')) ?>" defer></script>
+
+<?php /* The 6-layer stack's arced focus carousel. */ ?>
+<script src="<?= e(asset('assets/js/aidev/arced-carousel.js')) ?>" defer></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
