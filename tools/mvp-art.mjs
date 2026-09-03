@@ -101,204 +101,168 @@ function playbookPage(p) {
 
 /* ---- motifs -------------------------------------------------------------- */
 
-/** Why an MVP wins — the card showcase. Abstract: the component prints the words. */
-function whyArt(i, tint) {
+/*
+ * The motifs.
+ *
+ * These were bar charts, scatter plots and flow diagrams. Read back on the page
+ * they looked like a slide deck — the brief was pictures, not graphs. They are
+ * now compositions: layered light, glass planes, depth of field. Still drawn
+ * rather than photographed, because no image generator is reachable from this
+ * machine right now (see the note in the page's header comment) — but they read
+ * as imagery instead of as diagrams, and every one of them is a swap away from
+ * a photograph when a generator is back.
+ */
+
+/** A soft field of light: the base every scene is built on. */
+function field(tint, seedShift = 0) {
   const g = [];
-  if (i === 0) {                       // evidence: a scatter settling on a trend
-    for (let k = 0; k < 44; k++) {
-      const x = 560 + k * 14;
-      const y = 600 - k * 8.6 + (rnd() - 0.5) * 150;
-      g.push(`<circle cx="${x}" cy="${y.toFixed(0)}" r="7" fill="${tint}" opacity="${(0.25 + rnd() * 0.6).toFixed(2)}"/>`);
-    }
-    g.push(`<path d="M560 600 L1170 220" stroke="${tint}" stroke-width="5" opacity=".9"/>`);
-  } else if (i === 1) {                // burn: one tall bar against one short
-    g.push(`<rect x="660" y="140" width="170" height="540" rx="12" fill="${tint}" opacity=".16"/>`);
-    g.push(`<rect x="660" y="140" width="170" height="540" rx="12" fill="none" stroke="${tint}" stroke-width="3"/>`);
-    g.push(`<rect x="900" y="626" width="170" height="54" rx="12" fill="${tint}" opacity=".95"/>`);
-    g.push(`<path d="M660 700 H 1070" stroke="rgba(255,255,255,.16)" stroke-width="2"/>`);
-  } else if (i === 2) {                // traction: a curve through a grid
-    let d = 'M600 650';
-    for (let k = 1; k <= 24; k++) d += ` L${600 + k * 24} ${(650 - Math.pow(k, 1.72) * 1.45).toFixed(0)}`;
-    for (let k = 0; k < 6; k++) g.push(`<path d="M600 ${180 + k * 96} H 1180" stroke="rgba(255,255,255,.08)" stroke-width="2"/>`);
-    g.push(`<path d="${d}" fill="none" stroke="${tint}" stroke-width="6" opacity=".95"/>`);
-  } else if (i === 3) {                // architecture: nested frames that hold
-    for (let k = 0; k < 5; k++) {
-      const s = k * 54;
-      g.push(`<rect x="${640 + s}" y="${160 + s}" width="${500 - s * 2}" height="${490 - s * 2}" rx="16"
-        fill="none" stroke="${tint}" stroke-width="${k === 0 ? 4 : 2}" opacity="${(0.9 - k * 0.15).toFixed(2)}"/>`);
-    }
-  } else {                             // stop condition: a run that ends at a bar
-    g.push(`<path d="M580 400 H 1030" stroke="${tint}" stroke-width="5" opacity=".9"/>`);
-    g.push(`<rect x="1052" y="240" width="18" height="320" rx="9" fill="${tint}"/>`);
-    for (let k = 0; k < 8; k++) g.push(`<circle cx="${620 + k * 56}" cy="400" r="10" fill="${tint}" opacity=".5"/>`);
+  for (let k = 0; k < 5; k++) {
+    const cx = 180 + ((k * 7 + seedShift) % 5) * 220 + rnd() * 120;
+    const cy = 140 + ((k * 3 + seedShift) % 4) * 160 + rnd() * 90;
+    const r = 180 + rnd() * 240;
+    g.push(`<circle cx="${cx.toFixed(0)}" cy="${cy.toFixed(0)}" r="${r.toFixed(0)}"
+      fill="url(#blur-${seedShift})" opacity="${(0.16 + rnd() * 0.3).toFixed(2)}"/>`);
   }
 
-  return svg('0 0 1200 800', g.join(''));
+  return `<defs>
+    <radialGradient id="blur-${seedShift}">
+      <stop offset="0" stop-color="${tint}" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="${tint}" stop-opacity="0"/>
+    </radialGradient>
+  </defs>${g.join('')}`;
+}
+
+/*
+ * Glass planes catching the light.
+ *
+ * The first version stepped their heights down in order, which made every scene
+ * read as a bar chart — exactly what these were drawn to stop being. Heights,
+ * offsets and angles are all scattered now, so they look like panes at
+ * different depths rather than a series.
+ */
+function planes(tint, n, skew) {
+  const g = [];
+  for (let k = 0; k < n; k++) {
+    const w = 92 + rnd() * 120;
+    const h = 200 + rnd() * 430;
+    const x = -40 + rnd() * 1120;
+    const y = 40 + rnd() * 420;
+    const rot = skew + (rnd() - 0.5) * 16;
+    const near = rnd();
+    g.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) rotate(${rot.toFixed(1)})">
+      <rect x="0" y="0" width="${w.toFixed(0)}" height="${h.toFixed(0)}" rx="${(14 + rnd() * 16).toFixed(0)}"
+        fill="rgba(255,255,255,${(0.012 + near * 0.05).toFixed(3)})"
+        stroke="${tint}" stroke-width="${(0.8 + near * 1.8).toFixed(1)}"
+        opacity="${(0.22 + near * 0.68).toFixed(2)}"/>
+      <rect x="0" y="0" width="${w.toFixed(0)}" height="${(h * (0.2 + rnd() * 0.4)).toFixed(0)}"
+        rx="${(14 + rnd() * 16).toFixed(0)}" fill="${tint}" opacity="${(0.04 + near * 0.14).toFixed(3)}"/>
+    </g>`);
+  }
+
+  return g.join('');
+}
+
+/** Long streaks of light, as a camera would smear them. */
+function streaks(tint, n, y0, spread) {
+  const g = [];
+  for (let k = 0; k < n; k++) {
+    const y = y0 + k * spread + rnd() * 18;
+    const x1 = -60 + rnd() * 300;
+    const x2 = x1 + 500 + rnd() * 700;
+    const w = 2 + rnd() * 9;
+    g.push(`<rect x="${x1.toFixed(0)}" y="${y.toFixed(0)}" width="${(x2 - x1).toFixed(0)}" height="${w.toFixed(1)}"
+      rx="${(w / 2).toFixed(1)}" fill="${tint}" opacity="${(0.12 + rnd() * 0.5).toFixed(2)}"/>`);
+  }
+
+  return g.join('');
+}
+
+/** Why an MVP wins — the card showcase. Abstract: the component prints the words. */
+function whyArt(i, tint) {
+  const scenes = [
+    () => field(tint, 1) + streaks(tint, 14, 150, 42),
+    () => field(tint, 2) + planes(tint, 5, -8),
+    () => field(tint, 3) + streaks(tint, 9, 120, 66) + planes(tint, 3, 6),
+    () => field(tint, 4) + planes(tint, 6, 4),
+    () => field(tint, 5) + streaks(tint, 18, 90, 36),
+  ];
+
+  return svg('0 0 1200 800', scenes[i]());
 }
 
 /** The five advantages of building MVP-first. */
 const ADVANTAGE = [
   ['01', 'Build What Users Actually Need',
-   'Features are chosen from observed behaviour rather than from the loudest opinion in the room. The cohort decides what stays.',
-   CYAN, 'need'],
+   'Features are chosen from observed behaviour rather than from the loudest opinion in the room.',
+   CYAN, 0],
   ['02', 'Reduce Development Costs by 60%',
-   'Six features instead of forty, and no rebuild of work that was never wanted. The saving comes from what does not get built.',
-   BLUE, 'cost'],
+   'Six features instead of forty, and no rebuild of work that was never wanted.',
+   BLUE, 1],
   ['03', 'Speed to Market With Real Insights',
-   'Live in twelve weeks, instrumented from day one, so the second release is aimed by data instead of by another workshop.',
-   PURPLE, 'speed'],
+   'Live in twelve weeks, instrumented from day one.', PURPLE, 2],
   ['04', 'Agile Product Development',
-   'Two-week sprints against real data, with an installable build every Friday. Slippage shows up in week four, not month seven.',
-   CYAN, 'agile'],
+   'Two-week sprints against real data, with an installable build every Friday.', CYAN, 3],
   ['05', 'Validate Your Hypothesis Quickly and Cheaply',
-   'One number, one threshold, one date. If it does not move you stop — twelve weeks in rather than two years and a full budget.',
-   BLUE, 'validate'],
+   'One number, one threshold, one date.', BLUE, 4],
 ];
 
 function advantageArt(kind, tint) {
-  const g = [];
-  if (kind === 'need') {               // a funnel of many wants to a few builds
-    for (let k = 0; k < 14; k++) {
-      const y = 120 + k * 34;
-      const w = 300 - Math.abs(k - 6.5) * 12;
-      g.push(`<rect x="${(600 - w / 2).toFixed(0)}" y="${y}" width="${w.toFixed(0)}" height="18" rx="9"
-        fill="${tint}" opacity="${k > 4 && k < 10 ? 0.9 : 0.16}"/>`);
-    }
-    g.push(`<path d="M470 596 L600 700 L730 596" fill="none" stroke="${tint}" stroke-width="4" opacity=".8"/>`);
-    g.push(`<text x="600" y="770" text-anchor="middle" class="lab">SIX THAT MOVE THE NUMBER</text>`);
-  } else if (kind === 'cost') {        // two stacks: what a full build spends vs an MVP
-    for (let k = 0; k < 10; k++) {
-      g.push(`<rect x="330" y="${640 - k * 52}" width="200" height="40" rx="8" fill="${tint}" opacity=".16"/>`);
-      g.push(`<rect x="330" y="${640 - k * 52}" width="200" height="40" rx="8" fill="none" stroke="${tint}" stroke-width="1.6" opacity=".5"/>`);
-    }
-    for (let k = 0; k < 4; k++) {
-      g.push(`<rect x="670" y="${640 - k * 52}" width="200" height="40" rx="8" fill="${tint}" opacity=".92"/>`);
-    }
-    g.push(`<text x="430" y="712" text-anchor="middle" class="lab">FULL BUILD</text>`);
-    g.push(`<text x="770" y="712" text-anchor="middle" class="lab">MVP · 60% LESS</text>`);
-  } else if (kind === 'speed') {       // a short runway against a long one
-    g.push(`<path d="M180 470 H 1020" stroke="rgba(255,255,255,.14)" stroke-width="3"/>`);
-    g.push(`<path d="M180 470 H 520" stroke="${tint}" stroke-width="10" stroke-linecap="round"/>`);
-    for (let k = 0; k <= 8; k++) {
-      g.push(`<path d="M${180 + k * 105} 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/>`);
-      g.push(`<text x="${180 + k * 105}" y="530" text-anchor="middle" class="lab">${k * 3}</text>`);
-    }
-    g.push(`<circle cx="520" cy="470" r="17" fill="${tint}"/>`);
-    g.push(`<text x="520" y="410" text-anchor="middle" class="lab">LIVE · WEEK 12</text>`);
-    g.push(`<text x="600" y="600" text-anchor="middle" class="lab">MONTHS</text>`);
-  } else if (kind === 'agile') {       // sprints, each ending in a build
-    for (let k = 0; k < 6; k++) {
-      const x = 150 + k * 155;
-      g.push(`<rect x="${x}" y="380" width="120" height="120" rx="16" fill="${tint}" opacity="${(0.14 + k * 0.14).toFixed(2)}"/>`);
-      g.push(`<rect x="${x}" y="380" width="120" height="120" rx="16" fill="none" stroke="${tint}" stroke-width="2"/>`);
-      g.push(`<circle cx="${x + 60}" cy="560" r="9" fill="${tint}"/>`);
-      if (k < 5) g.push(`<path d="M${x + 126} 440 h 22" stroke="${tint}" stroke-width="3" opacity=".7"/>`);
-    }
-    g.push(`<path d="M210 560 H 990" stroke="${tint}" stroke-width="2" opacity=".4"/>`);
-    g.push(`<text x="600" y="640" text-anchor="middle" class="lab">A BUILD AT THE END OF EVERY SPRINT</text>`);
-  } else {                             // validate: one threshold, pass or stop
-    g.push(`<path d="M170 430 H 1030" stroke="${tint}" stroke-width="3" stroke-dasharray="10 10" opacity=".8"/>`);
-    g.push(`<text x="170" y="404" class="lab">THRESHOLD</text>`);
-    let d = 'M200 640';
-    for (let k = 1; k <= 20; k++) {
-      const x = 200 + k * 41;
-      const y = 640 - k * 13 + (rnd() - 0.5) * 40;
-      d += ` L${x} ${y.toFixed(0)}`;
-    }
-    g.push(`<path d="${d}" fill="none" stroke="${tint}" stroke-width="5"/>`);
-    g.push(`<circle cx="1020" cy="392" r="16" fill="${tint}"/>`);
-    g.push(`<text x="600" y="716" text-anchor="middle" class="lab">TWELVE WEEKS TO THE ANSWER</text>`);
-  }
+  const scenes = [
+    () => field(tint, 11) + planes(tint, 6, -6) + streaks(tint, 6, 620, 30),
+    () => field(tint, 12) + streaks(tint, 20, 110, 34),
+    () => field(tint, 13) + streaks(tint, 8, 240, 60) + planes(tint, 4, 9),
+    () => field(tint, 14) + planes(tint, 7, 3),
+    () => field(tint, 15) + streaks(tint, 12, 160, 48) + planes(tint, 2, -10),
+  ];
 
-  return svg('0 0 1200 800', g.join(''));
+  return svg('0 0 1200 800', scenes[kind]());
 }
 
 /** The six process steps. */
 const STEPS = [
-  ['01', 'Start With Clear Goals', 'goals', CYAN],
-  ['02', 'Identify the Essential Features', 'features', BLUE],
-  ['03', 'Create the Basic Screens & Flow', 'flow', PURPLE],
-  ['04', 'Build the Working MVP', 'build', CYAN],
-  ['05', 'Test & Launch', 'launch', BLUE],
-  ['06', 'Review & Iterate Next Steps', 'iterate', PURPLE],
+  ['01', 'Start With Clear Goals', 0, CYAN],
+  ['02', 'Identify the Essential Features', 1, BLUE],
+  ['03', 'Create the Basic Screens & Flow', 2, PURPLE],
+  ['04', 'Build the Working MVP', 3, CYAN],
+  ['05', 'Test & Launch', 4, BLUE],
+  ['06', 'Review & Iterate Next Steps', 5, PURPLE],
 ];
 
 function stepArt(kind, tint) {
-  const g = [];
-  if (kind === 'goals') {              // a target with one ring lit
-    for (let k = 4; k >= 0; k--) {
-      g.push(`<circle cx="600" cy="400" r="${70 + k * 62}" fill="none" stroke="${tint}"
-        stroke-width="${k === 0 ? 5 : 2}" opacity="${(0.9 - k * 0.16).toFixed(2)}"/>`);
-    }
-    g.push(`<circle cx="600" cy="400" r="22" fill="${tint}"/>`);
-    g.push(`<path d="M240 700 L590 412" stroke="${tint}" stroke-width="3" opacity=".55"/>`);
-  } else if (kind === 'features') {     // a long list, six selected
-    for (let k = 0; k < 16; k++) {
-      const x = 340 + (k % 2) * 280;
-      const y = 150 + Math.floor(k / 2) * 62;
-      const on = [0, 1, 4, 5, 8, 11].includes(k);
-      g.push(`<rect x="${x}" y="${y}" width="250" height="44" rx="10"
-        fill="${on ? tint : 'rgba(255,255,255,.04)'}" opacity="${on ? 0.9 : 1}"
-        stroke="${on ? tint : 'rgba(255,255,255,.14)'}" stroke-width="2"/>`);
-    }
-  } else if (kind === 'flow') {         // wireframe screens joined by arrows
-    for (let k = 0; k < 3; k++) {
-      const x = 190 + k * 300;
-      g.push(`<rect x="${x}" y="250" width="200" height="310" rx="18" fill="rgba(255,255,255,.04)"
-        stroke="${tint}" stroke-width="2.5"/>`);
-      g.push(`<rect x="${x + 22}" y="286" width="120" height="14" rx="7" fill="${tint}" opacity=".8"/>`);
-      for (let r = 0; r < 4; r++) g.push(`<rect x="${x + 22}" y="${324 + r * 30}" width="${156 - r * 22}" height="10" rx="5" fill="rgba(255,255,255,.22)"/>`);
-      g.push(`<rect x="${x + 22}" y="482" width="100" height="34" rx="17" fill="${tint}" opacity=".9"/>`);
-      if (k < 2) g.push(`<path d="M${x + 208} 405 h 76" stroke="${tint}" stroke-width="3" opacity=".8"/>`);
-    }
-  } else if (kind === 'build') {        // a stack assembling
-    for (let k = 0; k < 6; k++) {
-      g.push(`<rect x="${300 + k * 12}" y="${600 - k * 78}" width="600" height="62" rx="12"
-        fill="${tint}" opacity="${(0.14 + k * 0.13).toFixed(2)}"
-        stroke="${tint}" stroke-width="1.6"/>`);
-    }
-  } else if (kind === 'launch') {       // a checked release going out
-    g.push(`<rect x="300" y="220" width="600" height="360" rx="22" fill="rgba(255,255,255,.04)" stroke="${tint}" stroke-width="2.5"/>`);
-    for (let k = 0; k < 4; k++) {
-      g.push(`<circle cx="360" cy="${290 + k * 74}" r="16" fill="none" stroke="${tint}" stroke-width="3"/>`);
-      g.push(`<path d="M351 ${290 + k * 74} l7 8 12 -15" stroke="${tint}" stroke-width="3" fill="none"/>`);
-      g.push(`<rect x="400" y="${281 + k * 74}" width="${420 - k * 60}" height="16" rx="8" fill="rgba(255,255,255,.2)"/>`);
-    }
-    g.push(`<path d="M900 400 h 160" stroke="${tint}" stroke-width="4"/>`);
-    g.push(`<path d="M1030 380 l30 20 -30 20 z" fill="${tint}"/>`);
-  } else {                              // iterate: a loop that comes back round
-    g.push(`<path d="M600 200 A 200 200 0 1 1 400 400" fill="none" stroke="${tint}" stroke-width="6" stroke-linecap="round"/>`);
-    g.push(`<path d="M372 356 l28 46 -56 0 z" fill="${tint}"/>`);
-    for (let k = 0; k < 6; k++) {
-      const a = (Math.PI * 2 * k) / 6 - Math.PI / 2;
-      g.push(`<circle cx="${(600 + Math.cos(a) * 200).toFixed(0)}" cy="${(400 + Math.sin(a) * 200).toFixed(0)}" r="13" fill="${tint}" opacity="${(0.35 + k * 0.11).toFixed(2)}"/>`);
-    }
-    g.push(`<circle cx="600" cy="400" r="54" fill="none" stroke="${tint}" stroke-width="2" opacity=".5"/>`);
-  }
+  const scenes = [
+    () => field(tint, 21) + planes(tint, 4, -7),
+    () => field(tint, 22) + streaks(tint, 16, 120, 40),
+    () => field(tint, 23) + planes(tint, 6, 5),
+    () => field(tint, 24) + planes(tint, 5, -4) + streaks(tint, 7, 560, 32),
+    () => field(tint, 25) + streaks(tint, 11, 180, 52),
+    () => field(tint, 26) + planes(tint, 3, 8) + streaks(tint, 13, 130, 44),
+  ];
 
-  return svg('0 0 1200 800', g.join(''));
+  return svg('0 0 1200 800', scenes[kind]());
 }
 
-/* Faint circuitry for the glass panels' grounds — these sit UNDER the panel's
-   own title and body, so they have to stay well below reading contrast. */
-function insideArt(tint) {
-  const lines = [];
-  for (let i = 0; i < 16; i++) {
-    const y = 40 + i * 48;
-    const x1 = rnd() * 500;
-    const x2 = x1 + 180 + rnd() * 560;
-    lines.push(`<path d="M${x1.toFixed(0)} ${y} H ${x2.toFixed(0)}" stroke="${tint}"
-      stroke-width="${rnd() > 0.8 ? 2 : 1}" opacity="${(0.05 + rnd() * 0.14).toFixed(2)}"/>`);
-    if (rnd() > 0.7) lines.push(`<circle cx="${x2.toFixed(0)}" cy="${y}" r="4" fill="${tint}" opacity=".3"/>`);
-  }
+/*
+ * The image trail's pictures.
+ *
+ * These used to be a faint ground UNDER the glass panels' own text, so they were
+ * drawn well below reading contrast. The section is now Framer's Image Trail
+ * Effect, where they are the subject and follow the cursor at full strength —
+ * so they are proper compositions, and portrait, which is the shape the trail
+ * lays them out in.
+ */
+function trailArt(i, tint) {
+  const scenes = [
+    () => field(tint, 41) + planes(tint, 3, -8),
+    () => field(tint, 42) + streaks(tint, 14, 90, 46),
+    () => field(tint, 43) + planes(tint, 4, 6),
+    () => field(tint, 44) + streaks(tint, 10, 120, 56) + planes(tint, 2, -5),
+    () => field(tint, 45) + planes(tint, 5, 4) + streaks(tint, 6, 520, 40),
+  ];
 
-  return svg('0 0 1200 800', lines.join(''));
+  return svg('0 0 760 950', scenes[i]());
 }
 
-const INSIDE = [
-  ['The core loop', CYAN], ['Auth, roles, billing', BLUE], ['One real integration', PURPLE],
-  ['Instrumentation', CYAN], ['The admin screen', BLUE],
-];
+const TRAIL = [CYAN, BLUE, PURPLE, CYAN, BLUE];
 
 const INDUSTRY = [
   ['FINTECH', 'KYC, ledgers, reconciliation', CYAN],
@@ -312,21 +276,21 @@ const INDUSTRY = [
 ];
 
 const REASONS = [
-  ['01', 'scope', CYAN], ['02', 'senior', BLUE], ['03', 'friday', PURPLE],
-  ['04', 'own', CYAN], ['05', 'survive', BLUE], ['06', 'warranty', PURPLE],
+  ['01', 0, CYAN], ['02', 1, BLUE], ['03', 2, PURPLE],
+  ['04', 3, CYAN], ['05', 4, BLUE], ['06', 5, PURPLE],
 ];
 
 function reasonArt(kind, tint) {
-  const g = [];
-  const at = (x, y, r, o) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${tint}" opacity="${o}"/>`;
-  if (kind === 'scope')      { for (let k = 0; k < 9; k++) g.push(`<rect x="60" y="${40 + k * 46}" width="${420 - k * 34}" height="26" rx="13" fill="${tint}" opacity="${k < 3 ? 0.9 : 0.16}"/>`); }
-  else if (kind === 'senior'){ for (let k = 0; k < 4; k++) { g.push(at(100 + k * 120, 200, 46, k < 4 ? 0.85 : 0.2)); g.push(`<rect x="${64 + k * 120}" y="262" width="72" height="86" rx="36" fill="${tint}" opacity=".55"/>`); } }
-  else if (kind === 'friday'){ for (let k = 0; k < 5; k++) { g.push(`<rect x="${60 + k * 106}" y="150" width="82" height="140" rx="12" fill="none" stroke="${tint}" stroke-width="2.5" opacity=".8"/>`); g.push(at(101 + k * 106, 330, 12, 0.9)); } g.push(`<path d="M101 330 H 525" stroke="${tint}" stroke-width="2" opacity=".5"/>`); }
-  else if (kind === 'own')   { g.push(`<rect x="120" y="90" width="360" height="260" rx="20" fill="none" stroke="${tint}" stroke-width="3"/>`); g.push(`<path d="M200 220 l50 52 110 -122" stroke="${tint}" stroke-width="7" fill="none" stroke-linecap="round"/>`); }
-  else if (kind === 'survive'){ for (let k = 0; k < 5; k++) g.push(`<rect x="${90 + k * 18}" y="${300 - k * 52}" width="330" height="44" rx="10" fill="${tint}" opacity="${(0.16 + k * 0.16).toFixed(2)}" stroke="${tint}" stroke-width="1.4"/>`); }
-  else                       { g.push(`<path d="M300 70 l150 62 v110 c0 92 -66 152 -150 176 -84 -24 -150 -84 -150 -176 V132 z" fill="${tint}" opacity=".14" stroke="${tint}" stroke-width="3"/>`); g.push(`<text x="300" y="250" text-anchor="middle" class="big">90</text>`); }
+  const scenes = [
+    () => field(tint, 31) + planes(tint, 3, -6),
+    () => field(tint, 32) + streaks(tint, 9, 60, 40),
+    () => field(tint, 33) + planes(tint, 4, 5),
+    () => field(tint, 34) + streaks(tint, 12, 40, 32),
+    () => field(tint, 35) + planes(tint, 2, -9),
+    () => field(tint, 36) + streaks(tint, 7, 70, 48),
+  ];
 
-  return svg('0 0 600 420', g.join(''));
+  return svg('0 0 600 420', scenes[kind]());
 }
 
 /* ---- the page --------------------------------------------------------------- */
@@ -393,10 +357,10 @@ const css = `
   .adv .art { position:relative; flex:1; margin-top:8px }
   .adv .art svg { position:absolute; inset:0; width:100%; height:100% }
 
-  /* inside grounds */
-  .ins { position:relative; width:1200px; height:800px; overflow:hidden;
-         background:linear-gradient(150deg,#0F1622 0%,#070A11 70%) }
-  .ins .glow { position:absolute; width:900px; height:900px; border-radius:50%; filter:blur(110px); opacity:.22 }
+  /* trail pictures — portrait, because that is the shape the trail lays out */
+  .ins { position:relative; width:760px; height:950px; overflow:hidden;
+         background:radial-gradient(80% 60% at 70% 12%, var(--wash) 0%, transparent 62%),
+                    linear-gradient(155deg,#101825 0%,#070A11 70%) }
   .ins svg { position:absolute; inset:0; width:100%; height:100% }
 
   /* industry squares 900x900 — centred, wide safe margin: the arc crops these */
@@ -438,18 +402,7 @@ ${PLAYBOOK.map((p, i) => `<div class="shot" id="s-playbook-${String(i + 1).padSt
 <div class="shot" id="s-intro-01">
   <div class="band">
     <div class="grain"></div>
-    ${(() => {
-      const g = [];
-      for (let k = 0; k < 22; k++) {
-        const x = 90 + k * 30;
-        const h = 40 + rnd() * 300;
-        g.push(`<rect x="${x}" y="${(560 - h).toFixed(0)}" width="15" height="${h.toFixed(0)}" rx="7"
-          fill="${k < 8 ? CYAN : k < 15 ? BLUE : PURPLE}" opacity="${(0.25 + k * 0.032).toFixed(2)}"/>`);
-      }
-      g.push(`<path d="M90 560 H 760" stroke="rgba(255,255,255,.18)" stroke-width="2"/>`);
-
-      return svg('0 0 800 640', g.join(''));
-    })()}
+    ${svg('0 0 800 640', field(CYAN, 51) + streaks(BLUE, 16, 90, 34) + planes(PURPLE, 3, -6))}
     <h3>Twelve weeks from an idea to a number<br>you can actually trust.</h3>
     <p>One metric, six features, a real cohort — and three honest outcomes at the end of it.</p>
   </div>
@@ -475,11 +428,10 @@ ${ADVANTAGE.map(([n, , , tint, kind]) => `
   </div>
 </div>`).join('')}
 
-${INSIDE.map(([, tint], i) => `
-<div class="shot" id="s-inside-0${i + 1}">
-  <div class="ins">
-    <div class="glow" style="background:${tint}; left:${-200 + i * 90}px; top:${-160 + i * 40}px"></div>
-    ${insideArt(tint)}<div class="grain"></div>
+${TRAIL.map((tint, i) => `
+<div class="shot" id="s-trail-0${i + 1}">
+  <div class="ins" style="--wash:${tint}34">
+    ${trailArt(i, tint)}<div class="grain"></div>
   </div>
 </div>`).join('')}
 
@@ -510,20 +462,7 @@ ${REASONS.map(([n, kind, tint]) => `
 <div class="shot" id="s-faq-01">
   <div class="m" style="--wash:${PURPLE}33">
     <div class="grain"></div>
-    ${(() => {
-      const g = [];
-      for (let k = 0; k < 6; k++) {
-        const y = 130 + k * 100;
-        g.push(`<rect x="200" y="${y}" width="800" height="72" rx="14" fill="rgba(255,255,255,.04)"
-          stroke="${k === 2 ? CYAN : 'rgba(255,255,255,.14)'}" stroke-width="${k === 2 ? 3 : 2}"/>`);
-        g.push(`<rect x="240" y="${y + 28}" width="${420 - k * 40}" height="16" rx="8"
-          fill="${k === 2 ? CYAN : 'rgba(255,255,255,.24)'}"/>`);
-        g.push(`<path d="M940 ${y + 30} l-14 14 -14 -14" stroke="${k === 2 ? CYAN : 'rgba(255,255,255,.4)'}"
-          stroke-width="3" fill="none"/>`);
-      }
-
-      return svg('0 0 1200 800', g.join(''));
-    })()}
+    ${svg('0 0 1200 800', field(PURPLE, 61) + planes(CYAN, 5, -5) + streaks(BLUE, 9, 560, 38))}
   </div>
 </div>
 

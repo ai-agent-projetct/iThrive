@@ -63,10 +63,10 @@
   .adv .art { position:relative; flex:1; margin-top:8px }
   .adv .art svg { position:absolute; inset:0; width:100%; height:100% }
 
-  /* inside grounds */
-  .ins { position:relative; width:1200px; height:800px; overflow:hidden;
-         background:linear-gradient(150deg,#0F1622 0%,#070A11 70%) }
-  .ins .glow { position:absolute; width:900px; height:900px; border-radius:50%; filter:blur(110px); opacity:.22 }
+  /* trail pictures — portrait, because that is the shape the trail lays out */
+  .ins { position:relative; width:760px; height:950px; overflow:hidden;
+         background:radial-gradient(80% 60% at 70% 12%, var(--wash) 0%, transparent 62%),
+                    linear-gradient(155deg,#101825 0%,#070A11 70%) }
   .ins svg { position:absolute; inset:0; width:100%; height:100% }
 
   /* industry squares 900x900 — centred, wide safe margin: the arc crops these */
@@ -149,29 +149,54 @@
 <div class="shot" id="s-intro-01">
   <div class="band">
     <div class="grain"></div>
-    <svg viewBox="0 0 800 640" preserveAspectRatio="xMidYMid meet"><rect x="90" y="265" width="15" height="295" rx="7"
-          fill="#00F2FE" opacity="0.25"/><rect x="120" y="360" width="15" height="200" rx="7"
-          fill="#00F2FE" opacity="0.28"/><rect x="150" y="339" width="15" height="221" rx="7"
-          fill="#00F2FE" opacity="0.31"/><rect x="180" y="355" width="15" height="205" rx="7"
-          fill="#00F2FE" opacity="0.35"/><rect x="210" y="447" width="15" height="113" rx="7"
-          fill="#00F2FE" opacity="0.38"/><rect x="240" y="244" width="15" height="316" rx="7"
-          fill="#00F2FE" opacity="0.41"/><rect x="270" y="406" width="15" height="154" rx="7"
-          fill="#00F2FE" opacity="0.44"/><rect x="300" y="406" width="15" height="154" rx="7"
-          fill="#00F2FE" opacity="0.47"/><rect x="330" y="228" width="15" height="332" rx="7"
-          fill="#4EA8FF" opacity="0.51"/><rect x="360" y="330" width="15" height="230" rx="7"
-          fill="#4EA8FF" opacity="0.54"/><rect x="390" y="240" width="15" height="320" rx="7"
-          fill="#4EA8FF" opacity="0.57"/><rect x="420" y="267" width="15" height="293" rx="7"
-          fill="#4EA8FF" opacity="0.60"/><rect x="450" y="434" width="15" height="126" rx="7"
-          fill="#4EA8FF" opacity="0.63"/><rect x="480" y="442" width="15" height="118" rx="7"
-          fill="#4EA8FF" opacity="0.67"/><rect x="510" y="447" width="15" height="113" rx="7"
-          fill="#4EA8FF" opacity="0.70"/><rect x="540" y="248" width="15" height="312" rx="7"
-          fill="#9D4EDD" opacity="0.73"/><rect x="570" y="383" width="15" height="177" rx="7"
-          fill="#9D4EDD" opacity="0.76"/><rect x="600" y="466" width="15" height="94" rx="7"
-          fill="#9D4EDD" opacity="0.79"/><rect x="630" y="479" width="15" height="81" rx="7"
-          fill="#9D4EDD" opacity="0.83"/><rect x="660" y="417" width="15" height="143" rx="7"
-          fill="#9D4EDD" opacity="0.86"/><rect x="690" y="262" width="15" height="298" rx="7"
-          fill="#9D4EDD" opacity="0.89"/><rect x="720" y="275" width="15" height="285" rx="7"
-          fill="#9D4EDD" opacity="0.92"/><path d="M90 560 H 760" stroke="rgba(255,255,255,.18)" stroke-width="2"/></svg>
+    <svg viewBox="0 0 800 640" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-51">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="502" cy="668" r="325"
+      fill="url(#blur-51)" opacity="0.32"/><circle cx="869" cy="543" r="271"
+      fill="url(#blur-51)" opacity="0.27"/><circle cx="297" cy="357" r="404"
+      fill="url(#blur-51)" opacity="0.41"/><circle cx="654" cy="163" r="238"
+      fill="url(#blur-51)" opacity="0.43"/><circle cx="1115" cy="636" r="213"
+      fill="url(#blur-51)" opacity="0.26"/><rect x="185" y="105" width="1152" height="8.8"
+      rx="4.4" fill="#4EA8FF" opacity="0.19"/><rect x="229" y="136" width="804" height="2.9"
+      rx="1.5" fill="#4EA8FF" opacity="0.59"/><rect x="-51" y="160" width="553" height="6.4"
+      rx="3.2" fill="#4EA8FF" opacity="0.40"/><rect x="213" y="202" width="641" height="5.7"
+      rx="2.9" fill="#4EA8FF" opacity="0.17"/><rect x="235" y="229" width="937" height="2.5"
+      rx="1.3" fill="#4EA8FF" opacity="0.29"/><rect x="7" y="265" width="857" height="9.5"
+      rx="4.8" fill="#4EA8FF" opacity="0.30"/><rect x="56" y="298" width="506" height="2.7"
+      rx="1.3" fill="#4EA8FF" opacity="0.24"/><rect x="224" y="342" width="605" height="5.4"
+      rx="2.7" fill="#4EA8FF" opacity="0.29"/><rect x="43" y="372" width="887" height="10.8"
+      rx="5.4" fill="#4EA8FF" opacity="0.23"/><rect x="160" y="398" width="713" height="10.8"
+      rx="5.4" fill="#4EA8FF" opacity="0.45"/><rect x="-5" y="446" width="682" height="7.9"
+      rx="4.0" fill="#4EA8FF" opacity="0.23"/><rect x="1" y="465" width="597" height="8.9"
+      rx="4.5" fill="#4EA8FF" opacity="0.53"/><rect x="-28" y="514" width="567" height="7.8"
+      rx="3.9" fill="#4EA8FF" opacity="0.19"/><rect x="219" y="532" width="855" height="9.1"
+      rx="4.6" fill="#4EA8FF" opacity="0.14"/><rect x="-23" y="583" width="1100" height="8.9"
+      rx="4.5" fill="#4EA8FF" opacity="0.59"/><rect x="203" y="615" width="994" height="7.6"
+      rx="3.8" fill="#4EA8FF" opacity="0.55"/><g transform="translate(190 237) rotate(-9.2)">
+      <rect x="0" y="0" width="104" height="387" rx="14"
+        fill="rgba(255,255,255,0.049)"
+        stroke="#9D4EDD" stroke-width="2.1"
+        opacity="0.72"/>
+      <rect x="0" y="0" width="104" height="104"
+        rx="17" fill="#9D4EDD" opacity="0.144"/>
+    </g><g transform="translate(102 413) rotate(-10.0)">
+      <rect x="0" y="0" width="137" height="574" rx="19"
+        fill="rgba(255,255,255,0.049)"
+        stroke="#9D4EDD" stroke-width="2.1"
+        opacity="0.73"/>
+      <rect x="0" y="0" width="137" height="320"
+        rx="16" fill="#9D4EDD" opacity="0.144"/>
+    </g><g transform="translate(333 189) rotate(-8.8)">
+      <rect x="0" y="0" width="118" height="356" rx="19"
+        fill="rgba(255,255,255,0.043)"
+        stroke="#9D4EDD" stroke-width="1.9"
+        opacity="0.64"/>
+      <rect x="0" y="0" width="118" height="163"
+        rx="17" fill="#9D4EDD" opacity="0.126"/>
+    </g></svg>
     <h3>Twelve weeks from an idea to a number<br>you can actually trust.</h3>
     <p>One metric, six features, a real cohort — and three honest outcomes at the end of it.</p>
   </div>
@@ -179,28 +204,212 @@
 
 <div class="shot" id="s-why-01">
       <div class="m" style="--wash:#00F2FE33">
-        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><circle cx="560" cy="665" r="7" fill="#00F2FE" opacity="0.71"/><circle cx="574" cy="538" r="7" fill="#00F2FE" opacity="0.65"/><circle cx="588" cy="652" r="7" fill="#00F2FE" opacity="0.51"/><circle cx="602" cy="515" r="7" fill="#00F2FE" opacity="0.81"/><circle cx="616" cy="507" r="7" fill="#00F2FE" opacity="0.27"/><circle cx="630" cy="493" r="7" fill="#00F2FE" opacity="0.55"/><circle cx="644" cy="558" r="7" fill="#00F2FE" opacity="0.57"/><circle cx="658" cy="601" r="7" fill="#00F2FE" opacity="0.37"/><circle cx="672" cy="518" r="7" fill="#00F2FE" opacity="0.31"/><circle cx="686" cy="474" r="7" fill="#00F2FE" opacity="0.84"/><circle cx="700" cy="533" r="7" fill="#00F2FE" opacity="0.29"/><circle cx="714" cy="481" r="7" fill="#00F2FE" opacity="0.41"/><circle cx="728" cy="455" r="7" fill="#00F2FE" opacity="0.56"/><circle cx="742" cy="538" r="7" fill="#00F2FE" opacity="0.47"/><circle cx="756" cy="438" r="7" fill="#00F2FE" opacity="0.48"/><circle cx="770" cy="397" r="7" fill="#00F2FE" opacity="0.30"/><circle cx="784" cy="423" r="7" fill="#00F2FE" opacity="0.71"/><circle cx="798" cy="521" r="7" fill="#00F2FE" opacity="0.34"/><circle cx="812" cy="428" r="7" fill="#00F2FE" opacity="0.46"/><circle cx="826" cy="446" r="7" fill="#00F2FE" opacity="0.46"/><circle cx="840" cy="436" r="7" fill="#00F2FE" opacity="0.83"/><circle cx="854" cy="377" r="7" fill="#00F2FE" opacity="0.32"/><circle cx="868" cy="446" r="7" fill="#00F2FE" opacity="0.43"/><circle cx="882" cy="475" r="7" fill="#00F2FE" opacity="0.65"/><circle cx="896" cy="452" r="7" fill="#00F2FE" opacity="0.36"/><circle cx="910" cy="349" r="7" fill="#00F2FE" opacity="0.65"/><circle cx="924" cy="334" r="7" fill="#00F2FE" opacity="0.29"/><circle cx="938" cy="323" r="7" fill="#00F2FE" opacity="0.33"/><circle cx="952" cy="400" r="7" fill="#00F2FE" opacity="0.74"/><circle cx="966" cy="408" r="7" fill="#00F2FE" opacity="0.31"/><circle cx="980" cy="281" r="7" fill="#00F2FE" opacity="0.64"/><circle cx="994" cy="278" r="7" fill="#00F2FE" opacity="0.25"/><circle cx="1008" cy="389" r="7" fill="#00F2FE" opacity="0.55"/><circle cx="1022" cy="360" r="7" fill="#00F2FE" opacity="0.28"/><circle cx="1036" cy="371" r="7" fill="#00F2FE" opacity="0.32"/><circle cx="1050" cy="353" r="7" fill="#00F2FE" opacity="0.71"/><circle cx="1064" cy="355" r="7" fill="#00F2FE" opacity="0.75"/><circle cx="1078" cy="338" r="7" fill="#00F2FE" opacity="0.67"/><circle cx="1092" cy="291" r="7" fill="#00F2FE" opacity="0.77"/><circle cx="1106" cy="204" r="7" fill="#00F2FE" opacity="0.51"/><circle cx="1120" cy="212" r="7" fill="#00F2FE" opacity="0.53"/><circle cx="1134" cy="217" r="7" fill="#00F2FE" opacity="0.69"/><circle cx="1148" cy="167" r="7" fill="#00F2FE" opacity="0.35"/><circle cx="1162" cy="180" r="7" fill="#00F2FE" opacity="0.48"/><path d="M560 600 L1170 220" stroke="#00F2FE" stroke-width="5" opacity=".9"/></svg>
+        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-1">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="499" cy="387" r="286"
+      fill="url(#blur-1)" opacity="0.43"/><circle cx="858" cy="207" r="199"
+      fill="url(#blur-1)" opacity="0.32"/><circle cx="280" cy="661" r="351"
+      fill="url(#blur-1)" opacity="0.36"/><circle cx="738" cy="503" r="240"
+      fill="url(#blur-1)" opacity="0.25"/><circle cx="1146" cy="324" r="309"
+      fill="url(#blur-1)" opacity="0.40"/><rect x="187" y="159" width="568" height="10.3"
+      rx="5.2" fill="#00F2FE" opacity="0.41"/><rect x="-5" y="195" width="588" height="9.1"
+      rx="4.5" fill="#00F2FE" opacity="0.53"/><rect x="174" y="241" width="815" height="5.6"
+      rx="2.8" fill="#00F2FE" opacity="0.58"/><rect x="88" y="289" width="1096" height="7.9"
+      rx="3.9" fill="#00F2FE" opacity="0.35"/><rect x="66" y="323" width="1072" height="4.1"
+      rx="2.0" fill="#00F2FE" opacity="0.22"/><rect x="112" y="367" width="1119" height="8.5"
+      rx="4.3" fill="#00F2FE" opacity="0.60"/><rect x="53" y="420" width="698" height="3.1"
+      rx="1.6" fill="#00F2FE" opacity="0.30"/><rect x="41" y="445" width="656" height="9.7"
+      rx="4.8" fill="#00F2FE" opacity="0.56"/><rect x="91" y="487" width="997" height="3.5"
+      rx="1.7" fill="#00F2FE" opacity="0.25"/><rect x="-34" y="541" width="824" height="9.0"
+      rx="4.5" fill="#00F2FE" opacity="0.53"/><rect x="42" y="576" width="1017" height="4.2"
+      rx="2.1" fill="#00F2FE" opacity="0.19"/><rect x="137" y="615" width="562" height="9.0"
+      rx="4.5" fill="#00F2FE" opacity="0.54"/><rect x="-23" y="659" width="656" height="6.5"
+      rx="3.3" fill="#00F2FE" opacity="0.34"/><rect x="-42" y="701" width="830" height="5.7"
+      rx="2.8" fill="#00F2FE" opacity="0.56"/></svg>
         <span class="n">01</span>
       </div></div><div class="shot" id="s-why-02">
       <div class="m" style="--wash:#4EA8FF33">
-        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="660" y="140" width="170" height="540" rx="12" fill="#4EA8FF" opacity=".16"/><rect x="660" y="140" width="170" height="540" rx="12" fill="none" stroke="#4EA8FF" stroke-width="3"/><rect x="900" y="626" width="170" height="54" rx="12" fill="#4EA8FF" opacity=".95"/><path d="M660 700 H 1070" stroke="rgba(255,255,255,.16)" stroke-width="2"/></svg>
+        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-2">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="713" cy="535" r="283"
+      fill="url(#blur-2)" opacity="0.20"/><circle cx="1154" cy="321" r="269"
+      fill="url(#blur-2)" opacity="0.33"/><circle cx="477" cy="190" r="337"
+      fill="url(#blur-2)" opacity="0.44"/><circle cx="849" cy="667" r="245"
+      fill="url(#blur-2)" opacity="0.32"/><circle cx="259" cy="508" r="249"
+      fill="url(#blur-2)" opacity="0.18"/><g transform="translate(-28 337) rotate(-1.7)">
+      <rect x="0" y="0" width="159" height="450" rx="21"
+        fill="rgba(255,255,255,0.016)"
+        stroke="#4EA8FF" stroke-width="0.9"
+        opacity="0.28"/>
+      <rect x="0" y="0" width="159" height="263"
+        rx="15" fill="#4EA8FF" opacity="0.052"/>
+    </g><g transform="translate(39 307) rotate(-10.4)">
+      <rect x="0" y="0" width="162" height="489" rx="24"
+        fill="rgba(255,255,255,0.058)"
+        stroke="#4EA8FF" stroke-width="2.4"
+        opacity="0.84"/>
+      <rect x="0" y="0" width="162" height="268"
+        rx="16" fill="#4EA8FF" opacity="0.168"/>
+    </g><g transform="translate(413 344) rotate(-0.8)">
+      <rect x="0" y="0" width="111" height="434" rx="24"
+        fill="rgba(255,255,255,0.030)"
+        stroke="#4EA8FF" stroke-width="1.5"
+        opacity="0.47"/>
+      <rect x="0" y="0" width="111" height="94"
+        rx="19" fill="#4EA8FF" opacity="0.091"/>
+    </g><g transform="translate(394 66) rotate(-11.6)">
+      <rect x="0" y="0" width="139" height="602" rx="28"
+        fill="rgba(255,255,255,0.061)"
+        stroke="#4EA8FF" stroke-width="2.6"
+        opacity="0.89"/>
+      <rect x="0" y="0" width="139" height="159"
+        rx="27" fill="#4EA8FF" opacity="0.179"/>
+    </g><g transform="translate(884 380) rotate(-10.1)">
+      <rect x="0" y="0" width="196" height="207" rx="18"
+        fill="rgba(255,255,255,0.043)"
+        stroke="#4EA8FF" stroke-width="1.9"
+        opacity="0.64"/>
+      <rect x="0" y="0" width="196" height="57"
+        rx="25" fill="#4EA8FF" opacity="0.127"/>
+    </g></svg>
         <span class="n">02</span>
       </div></div><div class="shot" id="s-why-03">
       <div class="m" style="--wash:#9D4EDD33">
-        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M600 180 H 1180" stroke="rgba(255,255,255,.08)" stroke-width="2"/><path d="M600 276 H 1180" stroke="rgba(255,255,255,.08)" stroke-width="2"/><path d="M600 372 H 1180" stroke="rgba(255,255,255,.08)" stroke-width="2"/><path d="M600 468 H 1180" stroke="rgba(255,255,255,.08)" stroke-width="2"/><path d="M600 564 H 1180" stroke="rgba(255,255,255,.08)" stroke-width="2"/><path d="M600 660 H 1180" stroke="rgba(255,255,255,.08)" stroke-width="2"/><path d="M600 650 L624 649 L648 645 L672 640 L696 634 L720 627 L744 618 L768 609 L792 598 L816 587 L840 574 L864 560 L888 546 L912 531 L936 514 L960 497 L984 479 L1008 460 L1032 441 L1056 420 L1080 399 L1104 377 L1128 355 L1152 331 L1176 307" fill="none" stroke="#9D4EDD" stroke-width="6" opacity=".95"/></svg>
+        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-3">
+      <stop offset="0" stop-color="#9D4EDD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#9D4EDD" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="842" cy="647" r="204"
+      fill="url(#blur-3)" opacity="0.43"/><circle cx="201" cy="545" r="278"
+      fill="url(#blur-3)" opacity="0.27"/><circle cx="722" cy="370" r="306"
+      fill="url(#blur-3)" opacity="0.31"/><circle cx="1089" cy="221" r="322"
+      fill="url(#blur-3)" opacity="0.40"/><circle cx="406" cy="652" r="349"
+      fill="url(#blur-3)" opacity="0.43"/><rect x="1" y="125" width="1072" height="7.3"
+      rx="3.6" fill="#9D4EDD" opacity="0.33"/><rect x="124" y="186" width="1178" height="5.3"
+      rx="2.6" fill="#9D4EDD" opacity="0.53"/><rect x="45" y="253" width="988" height="4.8"
+      rx="2.4" fill="#9D4EDD" opacity="0.30"/><rect x="186" y="333" width="644" height="10.6"
+      rx="5.3" fill="#9D4EDD" opacity="0.27"/><rect x="60" y="390" width="919" height="2.0"
+      rx="1.0" fill="#9D4EDD" opacity="0.14"/><rect x="200" y="454" width="510" height="7.5"
+      rx="3.8" fill="#9D4EDD" opacity="0.28"/><rect x="79" y="523" width="619" height="6.6"
+      rx="3.3" fill="#9D4EDD" opacity="0.37"/><rect x="-17" y="586" width="1109" height="9.3"
+      rx="4.7" fill="#9D4EDD" opacity="0.37"/><rect x="-31" y="655" width="775" height="9.6"
+      rx="4.8" fill="#9D4EDD" opacity="0.58"/><g transform="translate(735 153) rotate(12.2)">
+      <rect x="0" y="0" width="183" height="300" rx="28"
+        fill="rgba(255,255,255,0.058)"
+        stroke="#9D4EDD" stroke-width="2.4"
+        opacity="0.84"/>
+      <rect x="0" y="0" width="183" height="101"
+        rx="18" fill="#9D4EDD" opacity="0.168"/>
+    </g><g transform="translate(522 397) rotate(7.4)">
+      <rect x="0" y="0" width="178" height="363" rx="19"
+        fill="rgba(255,255,255,0.059)"
+        stroke="#9D4EDD" stroke-width="2.5"
+        opacity="0.86"/>
+      <rect x="0" y="0" width="178" height="186"
+        rx="27" fill="#9D4EDD" opacity="0.171"/>
+    </g><g transform="translate(377 219) rotate(3.2)">
+      <rect x="0" y="0" width="161" height="607" rx="17"
+        fill="rgba(255,255,255,0.042)"
+        stroke="#9D4EDD" stroke-width="1.9"
+        opacity="0.63"/>
+      <rect x="0" y="0" width="161" height="297"
+        rx="24" fill="#9D4EDD" opacity="0.124"/>
+    </g></svg>
         <span class="n">03</span>
       </div></div><div class="shot" id="s-why-04">
       <div class="m" style="--wash:#00F2FE33">
-        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="640" y="160" width="500" height="490" rx="16"
-        fill="none" stroke="#00F2FE" stroke-width="4" opacity="0.90"/><rect x="694" y="214" width="392" height="382" rx="16"
-        fill="none" stroke="#00F2FE" stroke-width="2" opacity="0.75"/><rect x="748" y="268" width="284" height="274" rx="16"
-        fill="none" stroke="#00F2FE" stroke-width="2" opacity="0.60"/><rect x="802" y="322" width="176" height="166" rx="16"
-        fill="none" stroke="#00F2FE" stroke-width="2" opacity="0.45"/><rect x="856" y="376" width="68" height="58" rx="16"
-        fill="none" stroke="#00F2FE" stroke-width="2" opacity="0.30"/></svg>
+        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-4">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="1101" cy="229" r="240"
+      fill="url(#blur-4)" opacity="0.37"/><circle cx="455" cy="671" r="317"
+      fill="url(#blur-4)" opacity="0.20"/><circle cx="859" cy="494" r="314"
+      fill="url(#blur-4)" opacity="0.43"/><circle cx="271" cy="367" r="229"
+      fill="url(#blur-4)" opacity="0.19"/><circle cx="736" cy="219" r="286"
+      fill="url(#blur-4)" opacity="0.38"/><g transform="translate(491 444) rotate(10.2)">
+      <rect x="0" y="0" width="210" height="438" rx="30"
+        fill="rgba(255,255,255,0.044)"
+        stroke="#00F2FE" stroke-width="1.9"
+        opacity="0.65"/>
+      <rect x="0" y="0" width="210" height="186"
+        rx="26" fill="#00F2FE" opacity="0.129"/>
+    </g><g transform="translate(319 136) rotate(1.6)">
+      <rect x="0" y="0" width="180" height="305" rx="20"
+        fill="rgba(255,255,255,0.052)"
+        stroke="#00F2FE" stroke-width="2.2"
+        opacity="0.76"/>
+      <rect x="0" y="0" width="180" height="109"
+        rx="24" fill="#00F2FE" opacity="0.151"/>
+    </g><g transform="translate(604 284) rotate(6.5)">
+      <rect x="0" y="0" width="187" height="212" rx="23"
+        fill="rgba(255,255,255,0.029)"
+        stroke="#00F2FE" stroke-width="1.4"
+        opacity="0.45"/>
+      <rect x="0" y="0" width="187" height="84"
+        rx="19" fill="#00F2FE" opacity="0.087"/>
+    </g><g transform="translate(367 166) rotate(7.9)">
+      <rect x="0" y="0" width="163" height="543" rx="16"
+        fill="rgba(255,255,255,0.056)"
+        stroke="#00F2FE" stroke-width="2.4"
+        opacity="0.81"/>
+      <rect x="0" y="0" width="163" height="210"
+        rx="20" fill="#00F2FE" opacity="0.162"/>
+    </g><g transform="translate(167 296) rotate(-1.6)">
+      <rect x="0" y="0" width="98" height="338" rx="21"
+        fill="rgba(255,255,255,0.029)"
+        stroke="#00F2FE" stroke-width="1.4"
+        opacity="0.46"/>
+      <rect x="0" y="0" width="98" height="99"
+        rx="23" fill="#00F2FE" opacity="0.089"/>
+    </g><g transform="translate(466 165) rotate(-3.1)">
+      <rect x="0" y="0" width="104" height="481" rx="30"
+        fill="rgba(255,255,255,0.018)"
+        stroke="#00F2FE" stroke-width="1.0"
+        opacity="0.30"/>
+      <rect x="0" y="0" width="104" height="237"
+        rx="16" fill="#00F2FE" opacity="0.057"/>
+    </g></svg>
         <span class="n">04</span>
       </div></div><div class="shot" id="s-why-05">
       <div class="m" style="--wash:#4EA8FF33">
-        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M580 400 H 1030" stroke="#4EA8FF" stroke-width="5" opacity=".9"/><rect x="1052" y="240" width="18" height="320" rx="9" fill="#4EA8FF"/><circle cx="620" cy="400" r="10" fill="#4EA8FF" opacity=".5"/><circle cx="676" cy="400" r="10" fill="#4EA8FF" opacity=".5"/><circle cx="732" cy="400" r="10" fill="#4EA8FF" opacity=".5"/><circle cx="788" cy="400" r="10" fill="#4EA8FF" opacity=".5"/><circle cx="844" cy="400" r="10" fill="#4EA8FF" opacity=".5"/><circle cx="900" cy="400" r="10" fill="#4EA8FF" opacity=".5"/><circle cx="956" cy="400" r="10" fill="#4EA8FF" opacity=".5"/><circle cx="1012" cy="400" r="10" fill="#4EA8FF" opacity=".5"/></svg>
+        <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-5">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="213" cy="380" r="388"
+      fill="url(#blur-5)" opacity="0.42"/><circle cx="707" cy="152" r="186"
+      fill="url(#blur-5)" opacity="0.29"/><circle cx="1145" cy="629" r="298"
+      fill="url(#blur-5)" opacity="0.40"/><circle cx="500" cy="527" r="371"
+      fill="url(#blur-5)" opacity="0.43"/><circle cx="905" cy="384" r="355"
+      fill="url(#blur-5)" opacity="0.31"/><rect x="173" y="100" width="848" height="5.5"
+      rx="2.8" fill="#4EA8FF" opacity="0.26"/><rect x="206" y="143" width="1043" height="9.5"
+      rx="4.7" fill="#4EA8FF" opacity="0.33"/><rect x="4" y="174" width="941" height="5.5"
+      rx="2.7" fill="#4EA8FF" opacity="0.54"/><rect x="233" y="202" width="500" height="7.3"
+      rx="3.6" fill="#4EA8FF" opacity="0.29"/><rect x="191" y="239" width="673" height="8.5"
+      rx="4.3" fill="#4EA8FF" opacity="0.24"/><rect x="21" y="277" width="569" height="10.4"
+      rx="5.2" fill="#4EA8FF" opacity="0.29"/><rect x="11" y="311" width="868" height="8.0"
+      rx="4.0" fill="#4EA8FF" opacity="0.50"/><rect x="190" y="346" width="1042" height="7.3"
+      rx="3.6" fill="#4EA8FF" opacity="0.28"/><rect x="43" y="387" width="526" height="7.8"
+      rx="3.9" fill="#4EA8FF" opacity="0.33"/><rect x="19" y="423" width="938" height="2.6"
+      rx="1.3" fill="#4EA8FF" opacity="0.15"/><rect x="56" y="452" width="742" height="3.0"
+      rx="1.5" fill="#4EA8FF" opacity="0.48"/><rect x="51" y="500" width="757" height="3.2"
+      rx="1.6" fill="#4EA8FF" opacity="0.36"/><rect x="-23" y="535" width="829" height="8.2"
+      rx="4.1" fill="#4EA8FF" opacity="0.39"/><rect x="163" y="572" width="780" height="9.6"
+      rx="4.8" fill="#4EA8FF" opacity="0.24"/><rect x="122" y="604" width="1172" height="5.6"
+      rx="2.8" fill="#4EA8FF" opacity="0.29"/><rect x="213" y="638" width="1013" height="6.8"
+      rx="3.4" fill="#4EA8FF" opacity="0.23"/><rect x="23" y="671" width="804" height="4.4"
+      rx="2.2" fill="#4EA8FF" opacity="0.44"/><rect x="213" y="714" width="863" height="11.0"
+      rx="5.5" fill="#4EA8FF" opacity="0.51"/></svg>
         <span class="n">05</span>
       </div></div>
 
@@ -209,161 +418,469 @@
   <div class="adv" style="--wash:#00F2FE30; --tint:#00F2FE">
     <div class="grain"></div>
     <span class="idx">ADVANTAGE 01</span>
-    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="489" y="120" width="222" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><rect x="483" y="154" width="234" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><rect x="477" y="188" width="246" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><rect x="471" y="222" width="258" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><rect x="465" y="256" width="270" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><rect x="459" y="290" width="282" height="18" rx="9"
-        fill="#00F2FE" opacity="0.9"/><rect x="453" y="324" width="294" height="18" rx="9"
-        fill="#00F2FE" opacity="0.9"/><rect x="453" y="358" width="294" height="18" rx="9"
-        fill="#00F2FE" opacity="0.9"/><rect x="459" y="392" width="282" height="18" rx="9"
-        fill="#00F2FE" opacity="0.9"/><rect x="465" y="426" width="270" height="18" rx="9"
-        fill="#00F2FE" opacity="0.9"/><rect x="471" y="460" width="258" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><rect x="477" y="494" width="246" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><rect x="483" y="528" width="234" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><rect x="489" y="562" width="222" height="18" rx="9"
-        fill="#00F2FE" opacity="0.16"/><path d="M470 596 L600 700 L730 596" fill="none" stroke="#00F2FE" stroke-width="4" opacity=".8"/><text x="600" y="770" text-anchor="middle" class="lab">SIX THAT MOVE THE NUMBER</text></svg></div>
+    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-11">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="506" cy="701" r="187"
+      fill="url(#blur-11)" opacity="0.17"/><circle cx="863" cy="548" r="353"
+      fill="url(#blur-11)" opacity="0.27"/><circle cx="290" cy="327" r="415"
+      fill="url(#blur-11)" opacity="0.33"/><circle cx="645" cy="166" r="331"
+      fill="url(#blur-11)" opacity="0.42"/><circle cx="1085" cy="688" r="397"
+      fill="url(#blur-11)" opacity="0.25"/><g transform="translate(311 444) rotate(-2.9)">
+      <rect x="0" y="0" width="174" height="347" rx="22"
+        fill="rgba(255,255,255,0.042)"
+        stroke="#00F2FE" stroke-width="1.9"
+        opacity="0.63"/>
+      <rect x="0" y="0" width="174" height="151"
+        rx="18" fill="#00F2FE" opacity="0.124"/>
+    </g><g transform="translate(343 255) rotate(-5.1)">
+      <rect x="0" y="0" width="145" height="283" rx="28"
+        fill="rgba(255,255,255,0.034)"
+        stroke="#00F2FE" stroke-width="1.6"
+        opacity="0.52"/>
+      <rect x="0" y="0" width="145" height="135"
+        rx="26" fill="#00F2FE" opacity="0.101"/>
+    </g><g transform="translate(934 80) rotate(-0.4)">
+      <rect x="0" y="0" width="187" height="340" rx="24"
+        fill="rgba(255,255,255,0.016)"
+        stroke="#00F2FE" stroke-width="1.0"
+        opacity="0.28"/>
+      <rect x="0" y="0" width="187" height="102"
+        rx="16" fill="#00F2FE" opacity="0.052"/>
+    </g><g transform="translate(850 263) rotate(0.3)">
+      <rect x="0" y="0" width="143" height="346" rx="14"
+        fill="rgba(255,255,255,0.044)"
+        stroke="#00F2FE" stroke-width="2.0"
+        opacity="0.66"/>
+      <rect x="0" y="0" width="143" height="147"
+        rx="27" fill="#00F2FE" opacity="0.131"/>
+    </g><g transform="translate(217 459) rotate(0.8)">
+      <rect x="0" y="0" width="128" height="233" rx="24"
+        fill="rgba(255,255,255,0.016)"
+        stroke="#00F2FE" stroke-width="1.0"
+        opacity="0.28"/>
+      <rect x="0" y="0" width="128" height="124"
+        rx="25" fill="#00F2FE" opacity="0.052"/>
+    </g><g transform="translate(501 117) rotate(-10.0)">
+      <rect x="0" y="0" width="104" height="311" rx="30"
+        fill="rgba(255,255,255,0.032)"
+        stroke="#00F2FE" stroke-width="1.5"
+        opacity="0.49"/>
+      <rect x="0" y="0" width="104" height="149"
+        rx="28" fill="#00F2FE" opacity="0.095"/>
+    </g><rect x="157" y="634" width="1024" height="9.3"
+      rx="4.7" fill="#00F2FE" opacity="0.38"/><rect x="194" y="663" width="1095" height="3.6"
+      rx="1.8" fill="#00F2FE" opacity="0.24"/><rect x="226" y="691" width="1087" height="9.8"
+      rx="4.9" fill="#00F2FE" opacity="0.37"/><rect x="63" y="710" width="1105" height="8.8"
+      rx="4.4" fill="#00F2FE" opacity="0.40"/><rect x="14" y="747" width="960" height="7.3"
+      rx="3.7" fill="#00F2FE" opacity="0.16"/><rect x="178" y="779" width="643" height="6.6"
+      rx="3.3" fill="#00F2FE" opacity="0.33"/></svg></div>
   </div>
 </div>
 <div class="shot" id="s-advantage-02">
   <div class="adv" style="--wash:#4EA8FF30; --tint:#4EA8FF">
     <div class="grain"></div>
     <span class="idx">ADVANTAGE 02</span>
-    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="330" y="640" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="640" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="588" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="588" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="536" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="536" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="484" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="484" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="432" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="432" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="380" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="380" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="328" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="328" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="276" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="276" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="224" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="224" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="330" y="172" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".16"/><rect x="330" y="172" width="200" height="40" rx="8" fill="none" stroke="#4EA8FF" stroke-width="1.6" opacity=".5"/><rect x="670" y="640" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".92"/><rect x="670" y="588" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".92"/><rect x="670" y="536" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".92"/><rect x="670" y="484" width="200" height="40" rx="8" fill="#4EA8FF" opacity=".92"/><text x="430" y="712" text-anchor="middle" class="lab">FULL BUILD</text><text x="770" y="712" text-anchor="middle" class="lab">MVP · 60% LESS</text></svg></div>
+    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-12">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="692" cy="185" r="234"
+      fill="url(#blur-12)" opacity="0.36"/><circle cx="1078" cy="656" r="326"
+      fill="url(#blur-12)" opacity="0.25"/><circle cx="511" cy="523" r="214"
+      fill="url(#blur-12)" opacity="0.40"/><circle cx="879" cy="338" r="299"
+      fill="url(#blur-12)" opacity="0.45"/><circle cx="225" cy="184" r="198"
+      fill="url(#blur-12)" opacity="0.33"/><rect x="110" y="128" width="712" height="4.5"
+      rx="2.3" fill="#4EA8FF" opacity="0.47"/><rect x="177" y="149" width="600" height="5.7"
+      rx="2.9" fill="#4EA8FF" opacity="0.20"/><rect x="31" y="193" width="626" height="4.4"
+      rx="2.2" fill="#4EA8FF" opacity="0.39"/><rect x="176" y="225" width="957" height="7.4"
+      rx="3.7" fill="#4EA8FF" opacity="0.57"/><rect x="92" y="251" width="691" height="7.6"
+      rx="3.8" fill="#4EA8FF" opacity="0.29"/><rect x="97" y="295" width="1052" height="6.5"
+      rx="3.3" fill="#4EA8FF" opacity="0.20"/><rect x="111" y="331" width="868" height="10.8"
+      rx="5.4" fill="#4EA8FF" opacity="0.26"/><rect x="209" y="364" width="647" height="4.7"
+      rx="2.4" fill="#4EA8FF" opacity="0.33"/><rect x="182" y="386" width="538" height="9.4"
+      rx="4.7" fill="#4EA8FF" opacity="0.29"/><rect x="35" y="427" width="1015" height="9.4"
+      rx="4.7" fill="#4EA8FF" opacity="0.20"/><rect x="44" y="458" width="685" height="7.3"
+      rx="3.7" fill="#4EA8FF" opacity="0.13"/><rect x="56" y="500" width="747" height="11.0"
+      rx="5.5" fill="#4EA8FF" opacity="0.54"/><rect x="-12" y="535" width="802" height="8.2"
+      rx="4.1" fill="#4EA8FF" opacity="0.28"/><rect x="234" y="552" width="655" height="7.8"
+      rx="3.9" fill="#4EA8FF" opacity="0.25"/><rect x="-30" y="603" width="1066" height="6.1"
+      rx="3.1" fill="#4EA8FF" opacity="0.28"/><rect x="131" y="632" width="506" height="3.8"
+      rx="1.9" fill="#4EA8FF" opacity="0.15"/><rect x="187" y="670" width="883" height="5.8"
+      rx="2.9" fill="#4EA8FF" opacity="0.49"/><rect x="-19" y="704" width="860" height="5.0"
+      rx="2.5" fill="#4EA8FF" opacity="0.42"/><rect x="-56" y="733" width="912" height="3.9"
+      rx="1.9" fill="#4EA8FF" opacity="0.19"/><rect x="-16" y="761" width="976" height="6.7"
+      rx="3.4" fill="#4EA8FF" opacity="0.15"/></svg></div>
   </div>
 </div>
 <div class="shot" id="s-advantage-03">
   <div class="adv" style="--wash:#9D4EDD30; --tint:#9D4EDD">
     <div class="grain"></div>
     <span class="idx">ADVANTAGE 03</span>
-    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M180 470 H 1020" stroke="rgba(255,255,255,.14)" stroke-width="3"/><path d="M180 470 H 520" stroke="#9D4EDD" stroke-width="10" stroke-linecap="round"/><path d="M180 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="180" y="530" text-anchor="middle" class="lab">0</text><path d="M285 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="285" y="530" text-anchor="middle" class="lab">3</text><path d="M390 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="390" y="530" text-anchor="middle" class="lab">6</text><path d="M495 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="495" y="530" text-anchor="middle" class="lab">9</text><path d="M600 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="600" y="530" text-anchor="middle" class="lab">12</text><path d="M705 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="705" y="530" text-anchor="middle" class="lab">15</text><path d="M810 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="810" y="530" text-anchor="middle" class="lab">18</text><path d="M915 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="915" y="530" text-anchor="middle" class="lab">21</text><path d="M1020 452 v 36" stroke="rgba(255,255,255,.2)" stroke-width="2"/><text x="1020" y="530" text-anchor="middle" class="lab">24</text><circle cx="520" cy="470" r="17" fill="#9D4EDD"/><text x="520" y="410" text-anchor="middle" class="lab">LIVE · WEEK 12</text><text x="600" y="600" text-anchor="middle" class="lab">MONTHS</text></svg></div>
+    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-13">
+      <stop offset="0" stop-color="#9D4EDD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#9D4EDD" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="914" cy="308" r="367"
+      fill="url(#blur-13)" opacity="0.36"/><circle cx="295" cy="148" r="296"
+      fill="url(#blur-13)" opacity="0.38"/><circle cx="672" cy="666" r="208"
+      fill="url(#blur-13)" opacity="0.36"/><circle cx="1110" cy="501" r="362"
+      fill="url(#blur-13)" opacity="0.45"/><circle cx="462" cy="326" r="390"
+      fill="url(#blur-13)" opacity="0.17"/><rect x="44" y="252" width="692" height="3.8"
+      rx="1.9" fill="#9D4EDD" opacity="0.41"/><rect x="192" y="316" width="701" height="10.1"
+      rx="5.1" fill="#9D4EDD" opacity="0.25"/><rect x="206" y="371" width="793" height="9.9"
+      rx="4.9" fill="#9D4EDD" opacity="0.16"/><rect x="74" y="434" width="808" height="4.8"
+      rx="2.4" fill="#9D4EDD" opacity="0.52"/><rect x="34" y="496" width="920" height="3.7"
+      rx="1.8" fill="#9D4EDD" opacity="0.44"/><rect x="106" y="549" width="518" height="4.9"
+      rx="2.4" fill="#9D4EDD" opacity="0.28"/><rect x="8" y="615" width="627" height="7.1"
+      rx="3.6" fill="#9D4EDD" opacity="0.52"/><rect x="130" y="675" width="1087" height="3.3"
+      rx="1.7" fill="#9D4EDD" opacity="0.53"/><g transform="translate(844 96) rotate(10.1)">
+      <rect x="0" y="0" width="105" height="486" rx="28"
+        fill="rgba(255,255,255,0.033)"
+        stroke="#9D4EDD" stroke-width="1.5"
+        opacity="0.50"/>
+      <rect x="0" y="0" width="105" height="216"
+        rx="17" fill="#9D4EDD" opacity="0.098"/>
+    </g><g transform="translate(971 319) rotate(14.7)">
+      <rect x="0" y="0" width="195" height="322" rx="14"
+        fill="rgba(255,255,255,0.049)"
+        stroke="#9D4EDD" stroke-width="2.1"
+        opacity="0.72"/>
+      <rect x="0" y="0" width="195" height="179"
+        rx="30" fill="#9D4EDD" opacity="0.144"/>
+    </g><g transform="translate(147 106) rotate(4.1)">
+      <rect x="0" y="0" width="184" height="327" rx="28"
+        fill="rgba(255,255,255,0.029)"
+        stroke="#9D4EDD" stroke-width="1.4"
+        opacity="0.46"/>
+      <rect x="0" y="0" width="184" height="112"
+        rx="25" fill="#9D4EDD" opacity="0.089"/>
+    </g><g transform="translate(665 290) rotate(7.7)">
+      <rect x="0" y="0" width="119" height="320" rx="21"
+        fill="rgba(255,255,255,0.034)"
+        stroke="#9D4EDD" stroke-width="1.6"
+        opacity="0.52"/>
+      <rect x="0" y="0" width="119" height="99"
+        rx="18" fill="#9D4EDD" opacity="0.102"/>
+    </g></svg></div>
   </div>
 </div>
 <div class="shot" id="s-advantage-04">
   <div class="adv" style="--wash:#00F2FE30; --tint:#00F2FE">
     <div class="grain"></div>
     <span class="idx">ADVANTAGE 04</span>
-    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="150" y="380" width="120" height="120" rx="16" fill="#00F2FE" opacity="0.14"/><rect x="150" y="380" width="120" height="120" rx="16" fill="none" stroke="#00F2FE" stroke-width="2"/><circle cx="210" cy="560" r="9" fill="#00F2FE"/><path d="M276 440 h 22" stroke="#00F2FE" stroke-width="3" opacity=".7"/><rect x="305" y="380" width="120" height="120" rx="16" fill="#00F2FE" opacity="0.28"/><rect x="305" y="380" width="120" height="120" rx="16" fill="none" stroke="#00F2FE" stroke-width="2"/><circle cx="365" cy="560" r="9" fill="#00F2FE"/><path d="M431 440 h 22" stroke="#00F2FE" stroke-width="3" opacity=".7"/><rect x="460" y="380" width="120" height="120" rx="16" fill="#00F2FE" opacity="0.42"/><rect x="460" y="380" width="120" height="120" rx="16" fill="none" stroke="#00F2FE" stroke-width="2"/><circle cx="520" cy="560" r="9" fill="#00F2FE"/><path d="M586 440 h 22" stroke="#00F2FE" stroke-width="3" opacity=".7"/><rect x="615" y="380" width="120" height="120" rx="16" fill="#00F2FE" opacity="0.56"/><rect x="615" y="380" width="120" height="120" rx="16" fill="none" stroke="#00F2FE" stroke-width="2"/><circle cx="675" cy="560" r="9" fill="#00F2FE"/><path d="M741 440 h 22" stroke="#00F2FE" stroke-width="3" opacity=".7"/><rect x="770" y="380" width="120" height="120" rx="16" fill="#00F2FE" opacity="0.70"/><rect x="770" y="380" width="120" height="120" rx="16" fill="none" stroke="#00F2FE" stroke-width="2"/><circle cx="830" cy="560" r="9" fill="#00F2FE"/><path d="M896 440 h 22" stroke="#00F2FE" stroke-width="3" opacity=".7"/><rect x="925" y="380" width="120" height="120" rx="16" fill="#00F2FE" opacity="0.84"/><rect x="925" y="380" width="120" height="120" rx="16" fill="none" stroke="#00F2FE" stroke-width="2"/><circle cx="985" cy="560" r="9" fill="#00F2FE"/><path d="M210 560 H 990" stroke="#00F2FE" stroke-width="2" opacity=".4"/><text x="600" y="640" text-anchor="middle" class="lab">A BUILD AT THE END OF EVERY SPRINT</text></svg></div>
+    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-14">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="1172" cy="525" r="259"
+      fill="url(#blur-14)" opacity="0.20"/><circle cx="481" cy="375" r="300"
+      fill="url(#blur-14)" opacity="0.37"/><circle cx="841" cy="168" r="299"
+      fill="url(#blur-14)" opacity="0.46"/><circle cx="287" cy="694" r="221"
+      fill="url(#blur-14)" opacity="0.36"/><circle cx="676" cy="503" r="417"
+      fill="url(#blur-14)" opacity="0.45"/><g transform="translate(1035 92) rotate(5.6)">
+      <rect x="0" y="0" width="203" height="205" rx="28"
+        fill="rgba(255,255,255,0.051)"
+        stroke="#00F2FE" stroke-width="2.2"
+        opacity="0.75"/>
+      <rect x="0" y="0" width="203" height="95"
+        rx="20" fill="#00F2FE" opacity="0.150"/>
+    </g><g transform="translate(671 337) rotate(6.6)">
+      <rect x="0" y="0" width="127" height="615" rx="20"
+        fill="rgba(255,255,255,0.022)"
+        stroke="#00F2FE" stroke-width="1.2"
+        opacity="0.36"/>
+      <rect x="0" y="0" width="127" height="295"
+        rx="29" fill="#00F2FE" opacity="0.069"/>
+    </g><g transform="translate(440 415) rotate(9.4)">
+      <rect x="0" y="0" width="167" height="369" rx="22"
+        fill="rgba(255,255,255,0.049)"
+        stroke="#00F2FE" stroke-width="2.1"
+        opacity="0.72"/>
+      <rect x="0" y="0" width="167" height="98"
+        rx="30" fill="#00F2FE" opacity="0.143"/>
+    </g><g transform="translate(515 97) rotate(5.8)">
+      <rect x="0" y="0" width="168" height="399" rx="29"
+        fill="rgba(255,255,255,0.058)"
+        stroke="#00F2FE" stroke-width="2.4"
+        opacity="0.84"/>
+      <rect x="0" y="0" width="168" height="120"
+        rx="26" fill="#00F2FE" opacity="0.167"/>
+    </g><g transform="translate(265 284) rotate(4.7)">
+      <rect x="0" y="0" width="182" height="227" rx="15"
+        fill="rgba(255,255,255,0.033)"
+        stroke="#00F2FE" stroke-width="1.6"
+        opacity="0.51"/>
+      <rect x="0" y="0" width="182" height="93"
+        rx="21" fill="#00F2FE" opacity="0.099"/>
+    </g><g transform="translate(554 428) rotate(-4.1)">
+      <rect x="0" y="0" width="136" height="290" rx="28"
+        fill="rgba(255,255,255,0.047)"
+        stroke="#00F2FE" stroke-width="2.0"
+        opacity="0.69"/>
+      <rect x="0" y="0" width="136" height="71"
+        rx="24" fill="#00F2FE" opacity="0.137"/>
+    </g><g transform="translate(835 175) rotate(0.5)">
+      <rect x="0" y="0" width="204" height="529" rx="20"
+        fill="rgba(255,255,255,0.031)"
+        stroke="#00F2FE" stroke-width="1.5"
+        opacity="0.48"/>
+      <rect x="0" y="0" width="204" height="196"
+        rx="27" fill="#00F2FE" opacity="0.094"/>
+    </g></svg></div>
   </div>
 </div>
 <div class="shot" id="s-advantage-05">
   <div class="adv" style="--wash:#4EA8FF30; --tint:#4EA8FF">
     <div class="grain"></div>
     <span class="idx">ADVANTAGE 05</span>
-    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M170 430 H 1030" stroke="#4EA8FF" stroke-width="3" stroke-dasharray="10 10" opacity=".8"/><text x="170" y="404" class="lab">THRESHOLD</text><path d="M200 640 L241 642 L282 599 L323 617 L364 578 L405 585 L446 555 L487 565 L528 522 L569 512 L610 505 L651 490 L692 478 L733 464 L774 462 L815 438 L856 438 L897 407 L938 419 L979 412 L1020 378" fill="none" stroke="#4EA8FF" stroke-width="5"/><circle cx="1020" cy="392" r="16" fill="#4EA8FF"/><text x="600" y="716" text-anchor="middle" class="lab">TWELVE WEEKS TO THE ANSWER</text></svg></div>
+    <div class="art"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-15">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="194" cy="703" r="236"
+      fill="url(#blur-15)" opacity="0.43"/><circle cx="709" cy="509" r="365"
+      fill="url(#blur-15)" opacity="0.32"/><circle cx="1176" cy="380" r="269"
+      fill="url(#blur-15)" opacity="0.23"/><circle cx="410" cy="147" r="212"
+      fill="url(#blur-15)" opacity="0.40"/><circle cx="875" cy="685" r="268"
+      fill="url(#blur-15)" opacity="0.36"/><rect x="161" y="165" width="916" height="10.5"
+      rx="5.2" fill="#4EA8FF" opacity="0.23"/><rect x="84" y="219" width="657" height="2.2"
+      rx="1.1" fill="#4EA8FF" opacity="0.60"/><rect x="179" y="269" width="789" height="10.2"
+      rx="5.1" fill="#4EA8FF" opacity="0.54"/><rect x="159" y="320" width="869" height="10.0"
+      rx="5.0" fill="#4EA8FF" opacity="0.46"/><rect x="207" y="366" width="508" height="2.0"
+      rx="1.0" fill="#4EA8FF" opacity="0.36"/><rect x="-48" y="409" width="882" height="4.1"
+      rx="2.0" fill="#4EA8FF" opacity="0.18"/><rect x="23" y="462" width="1092" height="3.0"
+      rx="1.5" fill="#4EA8FF" opacity="0.38"/><rect x="-11" y="503" width="778" height="8.4"
+      rx="4.2" fill="#4EA8FF" opacity="0.13"/><rect x="85" y="548" width="680" height="6.5"
+      rx="3.3" fill="#4EA8FF" opacity="0.46"/><rect x="-7" y="602" width="678" height="7.3"
+      rx="3.7" fill="#4EA8FF" opacity="0.42"/><rect x="35" y="649" width="691" height="4.7"
+      rx="2.3" fill="#4EA8FF" opacity="0.42"/><rect x="-10" y="704" width="920" height="10.4"
+      rx="5.2" fill="#4EA8FF" opacity="0.39"/><g transform="translate(544 54) rotate(-3.3)">
+      <rect x="0" y="0" width="160" height="244" rx="18"
+        fill="rgba(255,255,255,0.016)"
+        stroke="#4EA8FF" stroke-width="0.9"
+        opacity="0.27"/>
+      <rect x="0" y="0" width="160" height="55"
+        rx="28" fill="#4EA8FF" opacity="0.051"/>
+    </g><g transform="translate(720 65) rotate(-8.7)">
+      <rect x="0" y="0" width="93" height="338" rx="17"
+        fill="rgba(255,255,255,0.051)"
+        stroke="#4EA8FF" stroke-width="2.2"
+        opacity="0.75"/>
+      <rect x="0" y="0" width="93" height="161"
+        rx="28" fill="#4EA8FF" opacity="0.149"/>
+    </g></svg></div>
   </div>
 </div>
 
 
-<div class="shot" id="s-inside-01">
-  <div class="ins">
-    <div class="glow" style="background:#00F2FE; left:-200px; top:-160px"></div>
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M445 40 H 708" stroke="#00F2FE"
-      stroke-width="1" opacity="0.06"/><path d="M416 88 H 853" stroke="#00F2FE"
-      stroke-width="1" opacity="0.15"/><circle cx="853" cy="88" r="4" fill="#00F2FE" opacity=".3"/><path d="M238 136 H 557" stroke="#00F2FE"
-      stroke-width="1" opacity="0.15"/><path d="M270 184 H 903" stroke="#00F2FE"
-      stroke-width="1" opacity="0.17"/><path d="M462 232 H 966" stroke="#00F2FE"
-      stroke-width="1" opacity="0.08"/><path d="M392 280 H 1028" stroke="#00F2FE"
-      stroke-width="1" opacity="0.16"/><path d="M199 328 H 893" stroke="#00F2FE"
-      stroke-width="1" opacity="0.12"/><circle cx="893" cy="328" r="4" fill="#00F2FE" opacity=".3"/><path d="M326 376 H 760" stroke="#00F2FE"
-      stroke-width="1" opacity="0.11"/><circle cx="760" cy="376" r="4" fill="#00F2FE" opacity=".3"/><path d="M114 424 H 403" stroke="#00F2FE"
-      stroke-width="1" opacity="0.13"/><circle cx="403" cy="424" r="4" fill="#00F2FE" opacity=".3"/><path d="M363 472 H 1076" stroke="#00F2FE"
-      stroke-width="2" opacity="0.10"/><path d="M62 520 H 446" stroke="#00F2FE"
-      stroke-width="1" opacity="0.10"/><path d="M427 568 H 1105" stroke="#00F2FE"
-      stroke-width="1" opacity="0.12"/><circle cx="1105" cy="568" r="4" fill="#00F2FE" opacity=".3"/><path d="M82 616 H 406" stroke="#00F2FE"
-      stroke-width="1" opacity="0.06"/><path d="M386 664 H 1031" stroke="#00F2FE"
-      stroke-width="1" opacity="0.10"/><circle cx="1031" cy="664" r="4" fill="#00F2FE" opacity=".3"/><path d="M123 712 H 383" stroke="#00F2FE"
-      stroke-width="1" opacity="0.14"/><path d="M390 760 H 1044" stroke="#00F2FE"
-      stroke-width="1" opacity="0.07"/></svg><div class="grain"></div>
+<div class="shot" id="s-trail-01">
+  <div class="ins" style="--wash:#00F2FE34">
+    <svg viewBox="0 0 760 950" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-41">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="413" cy="342" r="322"
+      fill="url(#blur-41)" opacity="0.17"/><circle cx="910" cy="186" r="382"
+      fill="url(#blur-41)" opacity="0.38"/><circle cx="196" cy="624" r="262"
+      fill="url(#blur-41)" opacity="0.41"/><circle cx="642" cy="511" r="353"
+      fill="url(#blur-41)" opacity="0.36"/><circle cx="1138" cy="367" r="392"
+      fill="url(#blur-41)" opacity="0.32"/><g transform="translate(96 46) rotate(-14.3)">
+      <rect x="0" y="0" width="96" height="430" rx="17"
+        fill="rgba(255,255,255,0.036)"
+        stroke="#00F2FE" stroke-width="1.7"
+        opacity="0.54"/>
+      <rect x="0" y="0" width="96" height="212"
+        rx="14" fill="#00F2FE" opacity="0.106"/>
+    </g><g transform="translate(55 281) rotate(-9.1)">
+      <rect x="0" y="0" width="93" height="228" rx="28"
+        fill="rgba(255,255,255,0.049)"
+        stroke="#00F2FE" stroke-width="2.1"
+        opacity="0.72"/>
+      <rect x="0" y="0" width="93" height="91"
+        rx="25" fill="#00F2FE" opacity="0.143"/>
+    </g><g transform="translate(784 112) rotate(-11.2)">
+      <rect x="0" y="0" width="122" height="230" rx="27"
+        fill="rgba(255,255,255,0.018)"
+        stroke="#00F2FE" stroke-width="1.0"
+        opacity="0.30"/>
+      <rect x="0" y="0" width="122" height="130"
+        rx="18" fill="#00F2FE" opacity="0.056"/>
+    </g></svg><div class="grain"></div>
   </div>
 </div>
-<div class="shot" id="s-inside-02">
-  <div class="ins">
-    <div class="glow" style="background:#4EA8FF; left:-110px; top:-120px"></div>
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M250 40 H 677" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.06"/><path d="M205 88 H 882" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.17"/><path d="M63 136 H 684" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.10"/><path d="M323 184 H 814" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.18"/><path d="M263 232 H 595" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.14"/><path d="M144 280 H 357" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.13"/><path d="M354 328 H 1034" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.11"/><circle cx="1034" cy="328" r="4" fill="#4EA8FF" opacity=".3"/><path d="M39 376 H 546" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.06"/><path d="M176 424 H 867" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.17"/><path d="M79 472 H 564" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.15"/><circle cx="564" cy="472" r="4" fill="#4EA8FF" opacity=".3"/><path d="M183 520 H 713" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.10"/><path d="M468 568 H 865" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.09"/><circle cx="865" cy="568" r="4" fill="#4EA8FF" opacity=".3"/><path d="M451 616 H 720" stroke="#4EA8FF"
-      stroke-width="2" opacity="0.17"/><path d="M412 664 H 1046" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.14"/><path d="M96 712 H 671" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.09"/><path d="M446 760 H 723" stroke="#4EA8FF"
-      stroke-width="2" opacity="0.11"/></svg><div class="grain"></div>
+<div class="shot" id="s-trail-02">
+  <div class="ins" style="--wash:#4EA8FF34">
+    <svg viewBox="0 0 760 950" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-42">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="629" cy="462" r="251"
+      fill="url(#blur-42)" opacity="0.43"/><circle cx="1117" cy="318" r="282"
+      fill="url(#blur-42)" opacity="0.35"/><circle cx="501" cy="176" r="409"
+      fill="url(#blur-42)" opacity="0.28"/><circle cx="906" cy="645" r="215"
+      fill="url(#blur-42)" opacity="0.29"/><circle cx="236" cy="464" r="341"
+      fill="url(#blur-42)" opacity="0.43"/><rect x="108" y="95" width="1185" height="5.5"
+      rx="2.8" fill="#4EA8FF" opacity="0.27"/><rect x="2" y="149" width="911" height="5.4"
+      rx="2.7" fill="#4EA8FF" opacity="0.45"/><rect x="139" y="185" width="1100" height="3.8"
+      rx="1.9" fill="#4EA8FF" opacity="0.21"/><rect x="77" y="229" width="712" height="10.4"
+      rx="5.2" fill="#4EA8FF" opacity="0.51"/><rect x="38" y="291" width="637" height="3.3"
+      rx="1.7" fill="#4EA8FF" opacity="0.51"/><rect x="192" y="337" width="951" height="4.1"
+      rx="2.0" fill="#4EA8FF" opacity="0.45"/><rect x="164" y="374" width="980" height="2.2"
+      rx="1.1" fill="#4EA8FF" opacity="0.42"/><rect x="114" y="426" width="795" height="10.4"
+      rx="5.2" fill="#4EA8FF" opacity="0.26"/><rect x="-11" y="463" width="527" height="9.0"
+      rx="4.5" fill="#4EA8FF" opacity="0.18"/><rect x="139" y="518" width="1143" height="7.5"
+      rx="3.8" fill="#4EA8FF" opacity="0.32"/><rect x="-26" y="550" width="625" height="3.6"
+      rx="1.8" fill="#4EA8FF" opacity="0.18"/><rect x="63" y="606" width="738" height="8.8"
+      rx="4.4" fill="#4EA8FF" opacity="0.26"/><rect x="118" y="654" width="628" height="2.7"
+      rx="1.3" fill="#4EA8FF" opacity="0.26"/><rect x="-37" y="697" width="1117" height="4.1"
+      rx="2.0" fill="#4EA8FF" opacity="0.55"/></svg><div class="grain"></div>
   </div>
 </div>
-<div class="shot" id="s-inside-03">
-  <div class="ins">
-    <div class="glow" style="background:#9D4EDD; left:-20px; top:-80px"></div>
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M427 40 H 1045" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.12"/><path d="M451 88 H 961" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.06"/><path d="M353 136 H 1043" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.08"/><circle cx="1043" cy="136" r="4" fill="#9D4EDD" opacity=".3"/><path d="M292 184 H 706" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.14"/><circle cx="706" cy="184" r="4" fill="#9D4EDD" opacity=".3"/><path d="M183 232 H 821" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.10"/><path d="M155 280 H 539" stroke="#9D4EDD"
-      stroke-width="2" opacity="0.16"/><path d="M476 328 H 828" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.11"/><path d="M2 376 H 205" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.17"/><path d="M307 424 H 663" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.11"/><path d="M257 472 H 713" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.07"/><circle cx="713" cy="472" r="4" fill="#9D4EDD" opacity=".3"/><path d="M407 520 H 869" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.06"/><path d="M422 568 H 1117" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.08"/><path d="M135 616 H 810" stroke="#9D4EDD"
-      stroke-width="2" opacity="0.17"/><path d="M112 664 H 692" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.12"/><circle cx="692" cy="664" r="4" fill="#9D4EDD" opacity=".3"/><path d="M295 712 H 999" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.16"/><circle cx="999" cy="712" r="4" fill="#9D4EDD" opacity=".3"/><path d="M288 760 H 999" stroke="#9D4EDD"
-      stroke-width="1" opacity="0.11"/></svg><div class="grain"></div>
+<div class="shot" id="s-trail-03">
+  <div class="ins" style="--wash:#9D4EDD34">
+    <svg viewBox="0 0 760 950" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-43">
+      <stop offset="0" stop-color="#9D4EDD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#9D4EDD" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="842" cy="624" r="395"
+      fill="url(#blur-43)" opacity="0.36"/><circle cx="230" cy="483" r="419"
+      fill="url(#blur-43)" opacity="0.39"/><circle cx="736" cy="386" r="322"
+      fill="url(#blur-43)" opacity="0.43"/><circle cx="1149" cy="210" r="369"
+      fill="url(#blur-43)" opacity="0.18"/><circle cx="460" cy="645" r="326"
+      fill="url(#blur-43)" opacity="0.18"/><g transform="translate(1016 101) rotate(7.1)">
+      <rect x="0" y="0" width="160" height="320" rx="25"
+        fill="rgba(255,255,255,0.043)"
+        stroke="#9D4EDD" stroke-width="1.9"
+        opacity="0.64"/>
+      <rect x="0" y="0" width="160" height="184"
+        rx="28" fill="#9D4EDD" opacity="0.127"/>
+    </g><g transform="translate(383 300) rotate(7.3)">
+      <rect x="0" y="0" width="131" height="398" rx="27"
+        fill="rgba(255,255,255,0.060)"
+        stroke="#9D4EDD" stroke-width="2.5"
+        opacity="0.88"/>
+      <rect x="0" y="0" width="131" height="145"
+        rx="17" fill="#9D4EDD" opacity="0.175"/>
+    </g><g transform="translate(11 360) rotate(1.3)">
+      <rect x="0" y="0" width="139" height="474" rx="29"
+        fill="rgba(255,255,255,0.060)"
+        stroke="#9D4EDD" stroke-width="2.5"
+        opacity="0.88"/>
+      <rect x="0" y="0" width="139" height="214"
+        rx="15" fill="#9D4EDD" opacity="0.176"/>
+    </g><g transform="translate(69 266) rotate(8.3)">
+      <rect x="0" y="0" width="189" height="604" rx="20"
+        fill="rgba(255,255,255,0.041)"
+        stroke="#9D4EDD" stroke-width="1.8"
+        opacity="0.62"/>
+      <rect x="0" y="0" width="189" height="232"
+        rx="22" fill="#9D4EDD" opacity="0.122"/>
+    </g></svg><div class="grain"></div>
   </div>
 </div>
-<div class="shot" id="s-inside-04">
-  <div class="ins">
-    <div class="glow" style="background:#00F2FE; left:70px; top:-40px"></div>
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M301 40 H 590" stroke="#00F2FE"
-      stroke-width="1" opacity="0.14"/><path d="M492 88 H 812" stroke="#00F2FE"
-      stroke-width="1" opacity="0.11"/><path d="M284 136 H 538" stroke="#00F2FE"
-      stroke-width="1" opacity="0.10"/><path d="M453 184 H 1057" stroke="#00F2FE"
-      stroke-width="1" opacity="0.08"/><path d="M484 232 H 1157" stroke="#00F2FE"
-      stroke-width="1" opacity="0.15"/><circle cx="1157" cy="232" r="4" fill="#00F2FE" opacity=".3"/><path d="M277 280 H 723" stroke="#00F2FE"
-      stroke-width="2" opacity="0.17"/><path d="M492 328 H 986" stroke="#00F2FE"
-      stroke-width="1" opacity="0.15"/><path d="M160 376 H 468" stroke="#00F2FE"
-      stroke-width="1" opacity="0.16"/><path d="M196 424 H 723" stroke="#00F2FE"
-      stroke-width="1" opacity="0.05"/><path d="M291 472 H 839" stroke="#00F2FE"
-      stroke-width="1" opacity="0.12"/><path d="M154 520 H 665" stroke="#00F2FE"
-      stroke-width="1" opacity="0.10"/><path d="M373 568 H 1043" stroke="#00F2FE"
-      stroke-width="1" opacity="0.12"/><path d="M24 616 H 383" stroke="#00F2FE"
-      stroke-width="1" opacity="0.14"/><path d="M175 664 H 603" stroke="#00F2FE"
-      stroke-width="1" opacity="0.13"/><path d="M327 712 H 760" stroke="#00F2FE"
-      stroke-width="1" opacity="0.06"/><path d="M499 760 H 1088" stroke="#00F2FE"
-      stroke-width="1" opacity="0.09"/><circle cx="1088" cy="760" r="4" fill="#00F2FE" opacity=".3"/></svg><div class="grain"></div>
+<div class="shot" id="s-trail-04">
+  <div class="ins" style="--wash:#00F2FE34">
+    <svg viewBox="0 0 760 950" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-44">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="1073" cy="143" r="230"
+      fill="url(#blur-44)" opacity="0.45"/><circle cx="423" cy="677" r="306"
+      fill="url(#blur-44)" opacity="0.36"/><circle cx="914" cy="503" r="354"
+      fill="url(#blur-44)" opacity="0.36"/><circle cx="187" cy="358" r="342"
+      fill="url(#blur-44)" opacity="0.29"/><circle cx="669" cy="222" r="332"
+      fill="url(#blur-44)" opacity="0.29"/><rect x="-44" y="132" width="643" height="5.3"
+      rx="2.7" fill="#00F2FE" opacity="0.53"/><rect x="-52" y="184" width="923" height="2.1"
+      rx="1.0" fill="#00F2FE" opacity="0.40"/><rect x="194" y="248" width="842" height="4.2"
+      rx="2.1" fill="#00F2FE" opacity="0.28"/><rect x="141" y="303" width="873" height="6.7"
+      rx="3.3" fill="#00F2FE" opacity="0.32"/><rect x="166" y="356" width="914" height="7.0"
+      rx="3.5" fill="#00F2FE" opacity="0.35"/><rect x="217" y="401" width="745" height="3.9"
+      rx="1.9" fill="#00F2FE" opacity="0.59"/><rect x="1" y="466" width="762" height="9.1"
+      rx="4.5" fill="#00F2FE" opacity="0.40"/><rect x="39" y="522" width="863" height="9.4"
+      rx="4.7" fill="#00F2FE" opacity="0.43"/><rect x="72" y="582" width="913" height="9.0"
+      rx="4.5" fill="#00F2FE" opacity="0.25"/><rect x="-27" y="629" width="757" height="10.1"
+      rx="5.1" fill="#00F2FE" opacity="0.37"/><g transform="translate(1003 179) rotate(-12.5)">
+      <rect x="0" y="0" width="119" height="201" rx="24"
+        fill="rgba(255,255,255,0.054)"
+        stroke="#00F2FE" stroke-width="2.3"
+        opacity="0.80"/>
+      <rect x="0" y="0" width="119" height="106"
+        rx="29" fill="#00F2FE" opacity="0.159"/>
+    </g><g transform="translate(570 419) rotate(-3.6)">
+      <rect x="0" y="0" width="144" height="250" rx="21"
+        fill="rgba(255,255,255,0.047)"
+        stroke="#00F2FE" stroke-width="2.1"
+        opacity="0.70"/>
+      <rect x="0" y="0" width="144" height="68"
+        rx="28" fill="#00F2FE" opacity="0.139"/>
+    </g></svg><div class="grain"></div>
   </div>
 </div>
-<div class="shot" id="s-inside-05">
-  <div class="ins">
-    <div class="glow" style="background:#4EA8FF; left:160px; top:0px"></div>
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M433 40 H 1095" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.07"/><path d="M218 88 H 792" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.12"/><circle cx="792" cy="88" r="4" fill="#4EA8FF" opacity=".3"/><path d="M417 136 H 1011" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.17"/><path d="M464 184 H 1053" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.13"/><circle cx="1053" cy="184" r="4" fill="#4EA8FF" opacity=".3"/><path d="M248 232 H 648" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.18"/><circle cx="648" cy="232" r="4" fill="#4EA8FF" opacity=".3"/><path d="M388 280 H 1033" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.15"/><path d="M315 328 H 710" stroke="#4EA8FF"
-      stroke-width="2" opacity="0.08"/><circle cx="710" cy="328" r="4" fill="#4EA8FF" opacity=".3"/><path d="M0 376 H 510" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.09"/><circle cx="510" cy="376" r="4" fill="#4EA8FF" opacity=".3"/><path d="M124 424 H 709" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.11"/><path d="M49 472 H 749" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.09"/><path d="M263 520 H 818" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.08"/><circle cx="818" cy="520" r="4" fill="#4EA8FF" opacity=".3"/><path d="M387 568 H 896" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.12"/><path d="M18 616 H 558" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.12"/><path d="M313 664 H 527" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.06"/><path d="M173 712 H 417" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.16"/><path d="M183 760 H 439" stroke="#4EA8FF"
-      stroke-width="1" opacity="0.15"/></svg><div class="grain"></div>
+<div class="shot" id="s-trail-05">
+  <div class="ins" style="--wash:#4EA8FF34">
+    <svg viewBox="0 0 760 950" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-45">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="234" cy="357" r="340"
+      fill="url(#blur-45)" opacity="0.23"/><circle cx="633" cy="148" r="238"
+      fill="url(#blur-45)" opacity="0.41"/><circle cx="1106" cy="698" r="188"
+      fill="url(#blur-45)" opacity="0.44"/><circle cx="452" cy="496" r="181"
+      fill="url(#blur-45)" opacity="0.32"/><circle cx="850" cy="333" r="196"
+      fill="url(#blur-45)" opacity="0.20"/><g transform="translate(781 160) rotate(6.7)">
+      <rect x="0" y="0" width="163" height="614" rx="23"
+        fill="rgba(255,255,255,0.016)"
+        stroke="#4EA8FF" stroke-width="0.9"
+        opacity="0.28"/>
+      <rect x="0" y="0" width="163" height="333"
+        rx="19" fill="#4EA8FF" opacity="0.052"/>
+    </g><g transform="translate(43 240) rotate(-0.4)">
+      <rect x="0" y="0" width="187" height="493" rx="18"
+        fill="rgba(255,255,255,0.024)"
+        stroke="#4EA8FF" stroke-width="1.2"
+        opacity="0.38"/>
+      <rect x="0" y="0" width="187" height="170"
+        rx="24" fill="#4EA8FF" opacity="0.073"/>
+    </g><g transform="translate(1045 436) rotate(10.4)">
+      <rect x="0" y="0" width="205" height="324" rx="19"
+        fill="rgba(255,255,255,0.034)"
+        stroke="#4EA8FF" stroke-width="1.6"
+        opacity="0.51"/>
+      <rect x="0" y="0" width="205" height="161"
+        rx="21" fill="#4EA8FF" opacity="0.101"/>
+    </g><g transform="translate(531 369) rotate(1.9)">
+      <rect x="0" y="0" width="157" height="578" rx="16"
+        fill="rgba(255,255,255,0.021)"
+        stroke="#4EA8FF" stroke-width="1.1"
+        opacity="0.34"/>
+      <rect x="0" y="0" width="157" height="217"
+        rx="26" fill="#4EA8FF" opacity="0.064"/>
+    </g><g transform="translate(947 61) rotate(5.6)">
+      <rect x="0" y="0" width="127" height="511" rx="27"
+        fill="rgba(255,255,255,0.035)"
+        stroke="#4EA8FF" stroke-width="1.6"
+        opacity="0.53"/>
+      <rect x="0" y="0" width="127" height="280"
+        rx="23" fill="#4EA8FF" opacity="0.105"/>
+    </g><rect x="62" y="522" width="640" height="6.0"
+      rx="3.0" fill="#4EA8FF" opacity="0.44"/><rect x="113" y="577" width="758" height="4.7"
+      rx="2.4" fill="#4EA8FF" opacity="0.36"/><rect x="228" y="607" width="1055" height="5.7"
+      rx="2.8" fill="#4EA8FF" opacity="0.34"/><rect x="73" y="643" width="613" height="9.8"
+      rx="4.9" fill="#4EA8FF" opacity="0.58"/><rect x="109" y="681" width="1127" height="10.2"
+      rx="5.1" fill="#4EA8FF" opacity="0.26"/><rect x="183" y="736" width="973" height="4.9"
+      rx="2.5" fill="#4EA8FF" opacity="0.17"/></svg><div class="grain"></div>
   </div>
 </div>
 
@@ -428,89 +945,270 @@
 
 <div class="shot" id="s-step-01">
   <div class="m" style="--wash:#00F2FE33">
-    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><circle cx="600" cy="400" r="318" fill="none" stroke="#00F2FE"
-        stroke-width="2" opacity="0.26"/><circle cx="600" cy="400" r="256" fill="none" stroke="#00F2FE"
-        stroke-width="2" opacity="0.42"/><circle cx="600" cy="400" r="194" fill="none" stroke="#00F2FE"
-        stroke-width="2" opacity="0.58"/><circle cx="600" cy="400" r="132" fill="none" stroke="#00F2FE"
-        stroke-width="2" opacity="0.74"/><circle cx="600" cy="400" r="70" fill="none" stroke="#00F2FE"
-        stroke-width="5" opacity="0.90"/><circle cx="600" cy="400" r="22" fill="#00F2FE"/><path d="M240 700 L590 412" stroke="#00F2FE" stroke-width="3" opacity=".55"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-21">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="433" cy="387" r="236"
+      fill="url(#blur-21)" opacity="0.18"/><circle cx="903" cy="153" r="256"
+      fill="url(#blur-21)" opacity="0.43"/><circle cx="243" cy="694" r="265"
+      fill="url(#blur-21)" opacity="0.17"/><circle cx="683" cy="483" r="410"
+      fill="url(#blur-21)" opacity="0.44"/><circle cx="1150" cy="349" r="201"
+      fill="url(#blur-21)" opacity="0.18"/><g transform="translate(96 217) rotate(-2.7)">
+      <rect x="0" y="0" width="100" height="234" rx="25"
+        fill="rgba(255,255,255,0.018)"
+        stroke="#00F2FE" stroke-width="1.0"
+        opacity="0.31"/>
+      <rect x="0" y="0" width="100" height="49"
+        rx="24" fill="#00F2FE" opacity="0.058"/>
+    </g><g transform="translate(660 43) rotate(-11.1)">
+      <rect x="0" y="0" width="202" height="546" rx="29"
+        fill="rgba(255,255,255,0.033)"
+        stroke="#00F2FE" stroke-width="1.5"
+        opacity="0.50"/>
+      <rect x="0" y="0" width="202" height="261"
+        rx="26" fill="#00F2FE" opacity="0.098"/>
+    </g><g transform="translate(11 267) rotate(-5.4)">
+      <rect x="0" y="0" width="127" height="339" rx="29"
+        fill="rgba(255,255,255,0.026)"
+        stroke="#00F2FE" stroke-width="1.3"
+        opacity="0.42"/>
+      <rect x="0" y="0" width="127" height="92"
+        rx="18" fill="#00F2FE" opacity="0.080"/>
+    </g><g transform="translate(726 84) rotate(-12.7)">
+      <rect x="0" y="0" width="152" height="401" rx="23"
+        fill="rgba(255,255,255,0.040)"
+        stroke="#00F2FE" stroke-width="1.8"
+        opacity="0.61"/>
+      <rect x="0" y="0" width="152" height="185"
+        rx="15" fill="#00F2FE" opacity="0.120"/>
+    </g></svg>
     <span class="n">01</span>
   </div>
 </div>
 <div class="shot" id="s-step-02">
   <div class="m" style="--wash:#4EA8FF33">
-    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="340" y="150" width="250" height="44" rx="10"
-        fill="#4EA8FF" opacity="0.9"
-        stroke="#4EA8FF" stroke-width="2"/><rect x="620" y="150" width="250" height="44" rx="10"
-        fill="#4EA8FF" opacity="0.9"
-        stroke="#4EA8FF" stroke-width="2"/><rect x="340" y="212" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="620" y="212" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="340" y="274" width="250" height="44" rx="10"
-        fill="#4EA8FF" opacity="0.9"
-        stroke="#4EA8FF" stroke-width="2"/><rect x="620" y="274" width="250" height="44" rx="10"
-        fill="#4EA8FF" opacity="0.9"
-        stroke="#4EA8FF" stroke-width="2"/><rect x="340" y="336" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="620" y="336" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="340" y="398" width="250" height="44" rx="10"
-        fill="#4EA8FF" opacity="0.9"
-        stroke="#4EA8FF" stroke-width="2"/><rect x="620" y="398" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="340" y="460" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="620" y="460" width="250" height="44" rx="10"
-        fill="#4EA8FF" opacity="0.9"
-        stroke="#4EA8FF" stroke-width="2"/><rect x="340" y="522" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="620" y="522" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="340" y="584" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="620" y="584" width="250" height="44" rx="10"
-        fill="rgba(255,255,255,.04)" opacity="1"
-        stroke="rgba(255,255,255,.14)" stroke-width="2"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-22">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="729" cy="532" r="256"
+      fill="url(#blur-22)" opacity="0.35"/><circle cx="1060" cy="346" r="238"
+      fill="url(#blur-22)" opacity="0.42"/><circle cx="401" cy="197" r="413"
+      fill="url(#blur-22)" opacity="0.24"/><circle cx="891" cy="675" r="196"
+      fill="url(#blur-22)" opacity="0.44"/><circle cx="210" cy="525" r="337"
+      fill="url(#blur-22)" opacity="0.41"/><rect x="-6" y="137" width="793" height="6.6"
+      rx="3.3" fill="#4EA8FF" opacity="0.48"/><rect x="170" y="166" width="936" height="8.8"
+      rx="4.4" fill="#4EA8FF" opacity="0.36"/><rect x="77" y="204" width="523" height="9.8"
+      rx="4.9" fill="#4EA8FF" opacity="0.58"/><rect x="15" y="252" width="1083" height="3.5"
+      rx="1.7" fill="#4EA8FF" opacity="0.21"/><rect x="212" y="290" width="1039" height="9.5"
+      rx="4.7" fill="#4EA8FF" opacity="0.32"/><rect x="-4" y="334" width="531" height="2.5"
+      rx="1.3" fill="#4EA8FF" opacity="0.14"/><rect x="-13" y="374" width="883" height="3.6"
+      rx="1.8" fill="#4EA8FF" opacity="0.13"/><rect x="159" y="401" width="1082" height="3.9"
+      rx="2.0" fill="#4EA8FF" opacity="0.57"/><rect x="-47" y="454" width="1053" height="3.3"
+      rx="1.7" fill="#4EA8FF" opacity="0.13"/><rect x="-55" y="492" width="955" height="5.2"
+      rx="2.6" fill="#4EA8FF" opacity="0.15"/><rect x="-49" y="537" width="835" height="3.7"
+      rx="1.8" fill="#4EA8FF" opacity="0.14"/><rect x="200" y="577" width="974" height="6.8"
+      rx="3.4" fill="#4EA8FF" opacity="0.33"/><rect x="70" y="608" width="899" height="2.1"
+      rx="1.1" fill="#4EA8FF" opacity="0.21"/><rect x="46" y="648" width="586" height="3.9"
+      rx="1.9" fill="#4EA8FF" opacity="0.31"/><rect x="-3" y="689" width="839" height="7.7"
+      rx="3.8" fill="#4EA8FF" opacity="0.19"/><rect x="-46" y="735" width="1088" height="10.8"
+      rx="5.4" fill="#4EA8FF" opacity="0.24"/></svg>
     <span class="n">02</span>
   </div>
 </div>
 <div class="shot" id="s-step-03">
   <div class="m" style="--wash:#9D4EDD33">
-    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="190" y="250" width="200" height="310" rx="18" fill="rgba(255,255,255,.04)"
-        stroke="#9D4EDD" stroke-width="2.5"/><rect x="212" y="286" width="120" height="14" rx="7" fill="#9D4EDD" opacity=".8"/><rect x="212" y="324" width="156" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="212" y="354" width="134" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="212" y="384" width="112" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="212" y="414" width="90" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="212" y="482" width="100" height="34" rx="17" fill="#9D4EDD" opacity=".9"/><path d="M398 405 h 76" stroke="#9D4EDD" stroke-width="3" opacity=".8"/><rect x="490" y="250" width="200" height="310" rx="18" fill="rgba(255,255,255,.04)"
-        stroke="#9D4EDD" stroke-width="2.5"/><rect x="512" y="286" width="120" height="14" rx="7" fill="#9D4EDD" opacity=".8"/><rect x="512" y="324" width="156" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="512" y="354" width="134" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="512" y="384" width="112" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="512" y="414" width="90" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="512" y="482" width="100" height="34" rx="17" fill="#9D4EDD" opacity=".9"/><path d="M698 405 h 76" stroke="#9D4EDD" stroke-width="3" opacity=".8"/><rect x="790" y="250" width="200" height="310" rx="18" fill="rgba(255,255,255,.04)"
-        stroke="#9D4EDD" stroke-width="2.5"/><rect x="812" y="286" width="120" height="14" rx="7" fill="#9D4EDD" opacity=".8"/><rect x="812" y="324" width="156" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="812" y="354" width="134" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="812" y="384" width="112" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="812" y="414" width="90" height="10" rx="5" fill="rgba(255,255,255,.22)"/><rect x="812" y="482" width="100" height="34" rx="17" fill="#9D4EDD" opacity=".9"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-23">
+      <stop offset="0" stop-color="#9D4EDD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#9D4EDD" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="939" cy="647" r="367"
+      fill="url(#blur-23)" opacity="0.20"/><circle cx="184" cy="529" r="403"
+      fill="url(#blur-23)" opacity="0.32"/><circle cx="728" cy="375" r="284"
+      fill="url(#blur-23)" opacity="0.22"/><circle cx="1079" cy="224" r="384"
+      fill="url(#blur-23)" opacity="0.38"/><circle cx="410" cy="709" r="270"
+      fill="url(#blur-23)" opacity="0.24"/><g transform="translate(783 449) rotate(8.9)">
+      <rect x="0" y="0" width="211" height="616" rx="19"
+        fill="rgba(255,255,255,0.047)"
+        stroke="#9D4EDD" stroke-width="2.1"
+        opacity="0.70"/>
+      <rect x="0" y="0" width="211" height="199"
+        rx="29" fill="#9D4EDD" opacity="0.138"/>
+    </g><g transform="translate(140 233) rotate(4.2)">
+      <rect x="0" y="0" width="106" height="434" rx="25"
+        fill="rgba(255,255,255,0.027)"
+        stroke="#9D4EDD" stroke-width="1.3"
+        opacity="0.42"/>
+      <rect x="0" y="0" width="106" height="106"
+        rx="25" fill="#9D4EDD" opacity="0.081"/>
+    </g><g transform="translate(425 78) rotate(7.1)">
+      <rect x="0" y="0" width="132" height="454" rx="23"
+        fill="rgba(255,255,255,0.032)"
+        stroke="#9D4EDD" stroke-width="1.5"
+        opacity="0.49"/>
+      <rect x="0" y="0" width="132" height="162"
+        rx="16" fill="#9D4EDD" opacity="0.096"/>
+    </g><g transform="translate(661 444) rotate(-0.0)">
+      <rect x="0" y="0" width="142" height="322" rx="25"
+        fill="rgba(255,255,255,0.020)"
+        stroke="#9D4EDD" stroke-width="1.1"
+        opacity="0.32"/>
+      <rect x="0" y="0" width="142" height="127"
+        rx="30" fill="#9D4EDD" opacity="0.061"/>
+    </g><g transform="translate(895 74) rotate(0.0)">
+      <rect x="0" y="0" width="135" height="252" rx="17"
+        fill="rgba(255,255,255,0.059)"
+        stroke="#9D4EDD" stroke-width="2.5"
+        opacity="0.86"/>
+      <rect x="0" y="0" width="135" height="92"
+        rx="28" fill="#9D4EDD" opacity="0.172"/>
+    </g><g transform="translate(883 70) rotate(-1.2)">
+      <rect x="0" y="0" width="180" height="226" rx="25"
+        fill="rgba(255,255,255,0.043)"
+        stroke="#9D4EDD" stroke-width="1.9"
+        opacity="0.64"/>
+      <rect x="0" y="0" width="180" height="79"
+        rx="21" fill="#9D4EDD" opacity="0.126"/>
+    </g></svg>
     <span class="n">03</span>
   </div>
 </div>
 <div class="shot" id="s-step-04">
   <div class="m" style="--wash:#00F2FE33">
-    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="300" y="600" width="600" height="62" rx="12"
-        fill="#00F2FE" opacity="0.14"
-        stroke="#00F2FE" stroke-width="1.6"/><rect x="312" y="522" width="600" height="62" rx="12"
-        fill="#00F2FE" opacity="0.27"
-        stroke="#00F2FE" stroke-width="1.6"/><rect x="324" y="444" width="600" height="62" rx="12"
-        fill="#00F2FE" opacity="0.40"
-        stroke="#00F2FE" stroke-width="1.6"/><rect x="336" y="366" width="600" height="62" rx="12"
-        fill="#00F2FE" opacity="0.53"
-        stroke="#00F2FE" stroke-width="1.6"/><rect x="348" y="288" width="600" height="62" rx="12"
-        fill="#00F2FE" opacity="0.66"
-        stroke="#00F2FE" stroke-width="1.6"/><rect x="360" y="210" width="600" height="62" rx="12"
-        fill="#00F2FE" opacity="0.79"
-        stroke="#00F2FE" stroke-width="1.6"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-24">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="1083" cy="230" r="220"
+      fill="url(#blur-24)" opacity="0.40"/><circle cx="483" cy="698" r="268"
+      fill="url(#blur-24)" opacity="0.31"/><circle cx="840" cy="525" r="237"
+      fill="url(#blur-24)" opacity="0.39"/><circle cx="185" cy="363" r="339"
+      fill="url(#blur-24)" opacity="0.42"/><circle cx="668" cy="183" r="320"
+      fill="url(#blur-24)" opacity="0.41"/><g transform="translate(797 196) rotate(-4.2)">
+      <rect x="0" y="0" width="198" height="506" rx="14"
+        fill="rgba(255,255,255,0.047)"
+        stroke="#00F2FE" stroke-width="2.1"
+        opacity="0.70"/>
+      <rect x="0" y="0" width="198" height="128"
+        rx="25" fill="#00F2FE" opacity="0.138"/>
+    </g><g transform="translate(718 320) rotate(-3.9)">
+      <rect x="0" y="0" width="183" height="467" rx="19"
+        fill="rgba(255,255,255,0.035)"
+        stroke="#00F2FE" stroke-width="1.6"
+        opacity="0.53"/>
+      <rect x="0" y="0" width="183" height="263"
+        rx="26" fill="#00F2FE" opacity="0.104"/>
+    </g><g transform="translate(296 372) rotate(-0.1)">
+      <rect x="0" y="0" width="184" height="534" rx="21"
+        fill="rgba(255,255,255,0.053)"
+        stroke="#00F2FE" stroke-width="2.3"
+        opacity="0.78"/>
+      <rect x="0" y="0" width="184" height="159"
+        rx="18" fill="#00F2FE" opacity="0.155"/>
+    </g><g transform="translate(1074 278) rotate(-0.1)">
+      <rect x="0" y="0" width="200" height="284" rx="24"
+        fill="rgba(255,255,255,0.013)"
+        stroke="#00F2FE" stroke-width="0.8"
+        opacity="0.24"/>
+      <rect x="0" y="0" width="200" height="150"
+        rx="20" fill="#00F2FE" opacity="0.043"/>
+    </g><g transform="translate(291 437) rotate(-0.3)">
+      <rect x="0" y="0" width="196" height="230" rx="26"
+        fill="rgba(255,255,255,0.030)"
+        stroke="#00F2FE" stroke-width="1.4"
+        opacity="0.46"/>
+      <rect x="0" y="0" width="196" height="90"
+        rx="18" fill="#00F2FE" opacity="0.090"/>
+    </g><rect x="34" y="560" width="565" height="6.0"
+      rx="3.0" fill="#00F2FE" opacity="0.25"/><rect x="156" y="597" width="1071" height="9.3"
+      rx="4.7" fill="#00F2FE" opacity="0.51"/><rect x="93" y="626" width="1190" height="5.0"
+      rx="2.5" fill="#00F2FE" opacity="0.35"/><rect x="145" y="657" width="954" height="7.4"
+      rx="3.7" fill="#00F2FE" opacity="0.30"/><rect x="212" y="703" width="1196" height="9.3"
+      rx="4.6" fill="#00F2FE" opacity="0.47"/><rect x="101" y="733" width="787" height="7.1"
+      rx="3.5" fill="#00F2FE" opacity="0.34"/><rect x="19" y="763" width="887" height="8.0"
+      rx="4.0" fill="#00F2FE" opacity="0.40"/></svg>
     <span class="n">04</span>
   </div>
 </div>
 <div class="shot" id="s-step-05">
   <div class="m" style="--wash:#4EA8FF33">
-    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="300" y="220" width="600" height="360" rx="22" fill="rgba(255,255,255,.04)" stroke="#4EA8FF" stroke-width="2.5"/><circle cx="360" cy="290" r="16" fill="none" stroke="#4EA8FF" stroke-width="3"/><path d="M351 290 l7 8 12 -15" stroke="#4EA8FF" stroke-width="3" fill="none"/><rect x="400" y="281" width="420" height="16" rx="8" fill="rgba(255,255,255,.2)"/><circle cx="360" cy="364" r="16" fill="none" stroke="#4EA8FF" stroke-width="3"/><path d="M351 364 l7 8 12 -15" stroke="#4EA8FF" stroke-width="3" fill="none"/><rect x="400" y="355" width="360" height="16" rx="8" fill="rgba(255,255,255,.2)"/><circle cx="360" cy="438" r="16" fill="none" stroke="#4EA8FF" stroke-width="3"/><path d="M351 438 l7 8 12 -15" stroke="#4EA8FF" stroke-width="3" fill="none"/><rect x="400" y="429" width="300" height="16" rx="8" fill="rgba(255,255,255,.2)"/><circle cx="360" cy="512" r="16" fill="none" stroke="#4EA8FF" stroke-width="3"/><path d="M351 512 l7 8 12 -15" stroke="#4EA8FF" stroke-width="3" fill="none"/><rect x="400" y="503" width="240" height="16" rx="8" fill="rgba(255,255,255,.2)"/><path d="M900 400 h 160" stroke="#4EA8FF" stroke-width="4"/><path d="M1030 380 l30 20 -30 20 z" fill="#4EA8FF"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-25">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="229" cy="326" r="387"
+      fill="url(#blur-25)" opacity="0.27"/><circle cx="728" cy="212" r="371"
+      fill="url(#blur-25)" opacity="0.37"/><circle cx="1101" cy="620" r="184"
+      fill="url(#blur-25)" opacity="0.21"/><circle cx="434" cy="486" r="347"
+      fill="url(#blur-25)" opacity="0.26"/><circle cx="857" cy="367" r="326"
+      fill="url(#blur-25)" opacity="0.30"/><rect x="52" y="184" width="1143" height="4.4"
+      rx="2.2" fill="#4EA8FF" opacity="0.43"/><rect x="39" y="242" width="1060" height="5.4"
+      rx="2.7" fill="#4EA8FF" opacity="0.61"/><rect x="168" y="284" width="747" height="7.9"
+      rx="3.9" fill="#4EA8FF" opacity="0.16"/><rect x="57" y="347" width="681" height="4.0"
+      rx="2.0" fill="#4EA8FF" opacity="0.21"/><rect x="24" y="402" width="894" height="10.6"
+      rx="5.3" fill="#4EA8FF" opacity="0.29"/><rect x="45" y="457" width="774" height="8.0"
+      rx="4.0" fill="#4EA8FF" opacity="0.23"/><rect x="70" y="507" width="578" height="3.5"
+      rx="1.7" fill="#4EA8FF" opacity="0.19"/><rect x="200" y="551" width="646" height="6.0"
+      rx="3.0" fill="#4EA8FF" opacity="0.56"/><rect x="-28" y="602" width="502" height="10.3"
+      rx="5.1" fill="#4EA8FF" opacity="0.27"/><rect x="201" y="666" width="720" height="9.3"
+      rx="4.6" fill="#4EA8FF" opacity="0.20"/><rect x="70" y="713" width="760" height="4.9"
+      rx="2.4" fill="#4EA8FF" opacity="0.49"/></svg>
     <span class="n">05</span>
   </div>
 </div>
 <div class="shot" id="s-step-06">
   <div class="m" style="--wash:#9D4EDD33">
-    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><path d="M600 200 A 200 200 0 1 1 400 400" fill="none" stroke="#9D4EDD" stroke-width="6" stroke-linecap="round"/><path d="M372 356 l28 46 -56 0 z" fill="#9D4EDD"/><circle cx="600" cy="200" r="13" fill="#9D4EDD" opacity="0.35"/><circle cx="773" cy="300" r="13" fill="#9D4EDD" opacity="0.46"/><circle cx="773" cy="500" r="13" fill="#9D4EDD" opacity="0.57"/><circle cx="600" cy="600" r="13" fill="#9D4EDD" opacity="0.68"/><circle cx="427" cy="500" r="13" fill="#9D4EDD" opacity="0.79"/><circle cx="427" cy="300" r="13" fill="#9D4EDD" opacity="0.90"/><circle cx="600" cy="400" r="54" fill="none" stroke="#9D4EDD" stroke-width="2" opacity=".5"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-26">
+      <stop offset="0" stop-color="#9D4EDD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#9D4EDD" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="416" cy="469" r="240"
+      fill="url(#blur-26)" opacity="0.18"/><circle cx="857" cy="376" r="360"
+      fill="url(#blur-26)" opacity="0.29"/><circle cx="224" cy="151" r="393"
+      fill="url(#blur-26)" opacity="0.27"/><circle cx="636" cy="680" r="207"
+      fill="url(#blur-26)" opacity="0.42"/><circle cx="1098" cy="482" r="363"
+      fill="url(#blur-26)" opacity="0.27"/><g transform="translate(962 57) rotate(9.3)">
+      <rect x="0" y="0" width="97" height="522" rx="23"
+        fill="rgba(255,255,255,0.025)"
+        stroke="#9D4EDD" stroke-width="1.3"
+        opacity="0.40"/>
+      <rect x="0" y="0" width="97" height="185"
+        rx="28" fill="#9D4EDD" opacity="0.077"/>
+    </g><g transform="translate(-26 231) rotate(13.9)">
+      <rect x="0" y="0" width="147" height="453" rx="15"
+        fill="rgba(255,255,255,0.059)"
+        stroke="#9D4EDD" stroke-width="2.5"
+        opacity="0.86"/>
+      <rect x="0" y="0" width="147" height="122"
+        rx="16" fill="#9D4EDD" opacity="0.172"/>
+    </g><g transform="translate(268 446) rotate(11.1)">
+      <rect x="0" y="0" width="108" height="260" rx="17"
+        fill="rgba(255,255,255,0.014)"
+        stroke="#9D4EDD" stroke-width="0.9"
+        opacity="0.25"/>
+      <rect x="0" y="0" width="108" height="124"
+        rx="24" fill="#9D4EDD" opacity="0.046"/>
+    </g><rect x="170" y="146" width="509" height="9.4"
+      rx="4.7" fill="#9D4EDD" opacity="0.61"/><rect x="169" y="182" width="1001" height="10.6"
+      rx="5.3" fill="#9D4EDD" opacity="0.45"/><rect x="28" y="220" width="701" height="9.9"
+      rx="4.9" fill="#9D4EDD" opacity="0.34"/><rect x="239" y="265" width="941" height="6.2"
+      rx="3.1" fill="#9D4EDD" opacity="0.28"/><rect x="187" y="314" width="958" height="7.9"
+      rx="3.9" fill="#9D4EDD" opacity="0.46"/><rect x="-28" y="362" width="682" height="3.1"
+      rx="1.6" fill="#9D4EDD" opacity="0.53"/><rect x="163" y="411" width="1167" height="5.1"
+      rx="2.6" fill="#9D4EDD" opacity="0.34"/><rect x="-53" y="444" width="1155" height="9.0"
+      rx="4.5" fill="#9D4EDD" opacity="0.15"/><rect x="-8" y="495" width="922" height="10.7"
+      rx="5.3" fill="#9D4EDD" opacity="0.58"/><rect x="-21" y="535" width="814" height="4.5"
+      rx="2.3" fill="#9D4EDD" opacity="0.15"/><rect x="-1" y="584" width="666" height="3.4"
+      rx="1.7" fill="#9D4EDD" opacity="0.51"/><rect x="-26" y="629" width="956" height="2.4"
+      rx="1.2" fill="#9D4EDD" opacity="0.55"/><rect x="73" y="665" width="1175" height="9.1"
+      rx="4.6" fill="#9D4EDD" opacity="0.19"/></svg>
     <span class="n">06</span>
   </div>
 </div>
@@ -518,57 +1216,244 @@
 
 <div class="shot" id="s-reason-01">
   <div class="rea" style="--wash:#00F2FE30">
-    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><rect x="60" y="40" width="420" height="26" rx="13" fill="#00F2FE" opacity="0.9"/><rect x="60" y="86" width="386" height="26" rx="13" fill="#00F2FE" opacity="0.9"/><rect x="60" y="132" width="352" height="26" rx="13" fill="#00F2FE" opacity="0.9"/><rect x="60" y="178" width="318" height="26" rx="13" fill="#00F2FE" opacity="0.16"/><rect x="60" y="224" width="284" height="26" rx="13" fill="#00F2FE" opacity="0.16"/><rect x="60" y="270" width="250" height="26" rx="13" fill="#00F2FE" opacity="0.16"/><rect x="60" y="316" width="216" height="26" rx="13" fill="#00F2FE" opacity="0.16"/><rect x="60" y="362" width="182" height="26" rx="13" fill="#00F2FE" opacity="0.16"/><rect x="60" y="408" width="148" height="26" rx="13" fill="#00F2FE" opacity="0.16"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-31">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="486" cy="662" r="295"
+      fill="url(#blur-31)" opacity="0.41"/><circle cx="862" cy="470" r="245"
+      fill="url(#blur-31)" opacity="0.45"/><circle cx="220" cy="301" r="212"
+      fill="url(#blur-31)" opacity="0.34"/><circle cx="707" cy="171" r="205"
+      fill="url(#blur-31)" opacity="0.16"/><circle cx="1170" cy="696" r="307"
+      fill="url(#blur-31)" opacity="0.16"/><g transform="translate(3 407) rotate(-13.5)">
+      <rect x="0" y="0" width="144" height="351" rx="20"
+        fill="rgba(255,255,255,0.037)"
+        stroke="#00F2FE" stroke-width="1.7"
+        opacity="0.56"/>
+      <rect x="0" y="0" width="144" height="122"
+        rx="16" fill="#00F2FE" opacity="0.110"/>
+    </g><g transform="translate(888 312) rotate(0.9)">
+      <rect x="0" y="0" width="139" height="514" rx="25"
+        fill="rgba(255,255,255,0.022)"
+        stroke="#00F2FE" stroke-width="1.2"
+        opacity="0.35"/>
+      <rect x="0" y="0" width="139" height="253"
+        rx="23" fill="#00F2FE" opacity="0.068"/>
+    </g><g transform="translate(1004 164) rotate(1.5)">
+      <rect x="0" y="0" width="205" height="429" rx="29"
+        fill="rgba(255,255,255,0.053)"
+        stroke="#00F2FE" stroke-width="2.3"
+        opacity="0.78"/>
+      <rect x="0" y="0" width="205" height="103"
+        rx="18" fill="#00F2FE" opacity="0.156"/>
+    </g></svg>
   </div>
 </div>
 <div class="shot" id="s-reason-02">
   <div class="rea" style="--wash:#4EA8FF30">
-    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><circle cx="100" cy="200" r="46" fill="#4EA8FF" opacity="0.85"/><rect x="64" y="262" width="72" height="86" rx="36" fill="#4EA8FF" opacity=".55"/><circle cx="220" cy="200" r="46" fill="#4EA8FF" opacity="0.85"/><rect x="184" y="262" width="72" height="86" rx="36" fill="#4EA8FF" opacity=".55"/><circle cx="340" cy="200" r="46" fill="#4EA8FF" opacity="0.85"/><rect x="304" y="262" width="72" height="86" rx="36" fill="#4EA8FF" opacity=".55"/><circle cx="460" cy="200" r="46" fill="#4EA8FF" opacity="0.85"/><rect x="424" y="262" width="72" height="86" rx="36" fill="#4EA8FF" opacity=".55"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-32">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="679" cy="174" r="271"
+      fill="url(#blur-32)" opacity="0.31"/><circle cx="1145" cy="645" r="210"
+      fill="url(#blur-32)" opacity="0.41"/><circle cx="439" cy="547" r="328"
+      fill="url(#blur-32)" opacity="0.21"/><circle cx="926" cy="364" r="247"
+      fill="url(#blur-32)" opacity="0.44"/><circle cx="245" cy="166" r="407"
+      fill="url(#blur-32)" opacity="0.26"/><rect x="143" y="61" width="1053" height="7.1"
+      rx="3.5" fill="#4EA8FF" opacity="0.19"/><rect x="32" y="102" width="1006" height="2.4"
+      rx="1.2" fill="#4EA8FF" opacity="0.34"/><rect x="-20" y="156" width="1101" height="7.6"
+      rx="3.8" fill="#4EA8FF" opacity="0.13"/><rect x="222" y="193" width="894" height="8.0"
+      rx="4.0" fill="#4EA8FF" opacity="0.31"/><rect x="224" y="221" width="842" height="5.2"
+      rx="2.6" fill="#4EA8FF" opacity="0.18"/><rect x="143" y="265" width="886" height="7.1"
+      rx="3.5" fill="#4EA8FF" opacity="0.56"/><rect x="-45" y="315" width="1190" height="8.6"
+      rx="4.3" fill="#4EA8FF" opacity="0.13"/><rect x="-48" y="347" width="842" height="8.5"
+      rx="4.2" fill="#4EA8FF" opacity="0.43"/><rect x="99" y="383" width="741" height="2.7"
+      rx="1.3" fill="#4EA8FF" opacity="0.20"/></svg>
   </div>
 </div>
 <div class="shot" id="s-reason-03">
   <div class="rea" style="--wash:#9D4EDD30">
-    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><rect x="60" y="150" width="82" height="140" rx="12" fill="none" stroke="#9D4EDD" stroke-width="2.5" opacity=".8"/><circle cx="101" cy="330" r="12" fill="#9D4EDD" opacity="0.9"/><rect x="166" y="150" width="82" height="140" rx="12" fill="none" stroke="#9D4EDD" stroke-width="2.5" opacity=".8"/><circle cx="207" cy="330" r="12" fill="#9D4EDD" opacity="0.9"/><rect x="272" y="150" width="82" height="140" rx="12" fill="none" stroke="#9D4EDD" stroke-width="2.5" opacity=".8"/><circle cx="313" cy="330" r="12" fill="#9D4EDD" opacity="0.9"/><rect x="378" y="150" width="82" height="140" rx="12" fill="none" stroke="#9D4EDD" stroke-width="2.5" opacity=".8"/><circle cx="419" cy="330" r="12" fill="#9D4EDD" opacity="0.9"/><rect x="484" y="150" width="82" height="140" rx="12" fill="none" stroke="#9D4EDD" stroke-width="2.5" opacity=".8"/><circle cx="525" cy="330" r="12" fill="#9D4EDD" opacity="0.9"/><path d="M101 330 H 525" stroke="#9D4EDD" stroke-width="2" opacity=".5"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-33">
+      <stop offset="0" stop-color="#9D4EDD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#9D4EDD" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="899" cy="380" r="237"
+      fill="url(#blur-33)" opacity="0.35"/><circle cx="214" cy="205" r="382"
+      fill="url(#blur-33)" opacity="0.30"/><circle cx="687" cy="669" r="254"
+      fill="url(#blur-33)" opacity="0.22"/><circle cx="1070" cy="506" r="234"
+      fill="url(#blur-33)" opacity="0.26"/><circle cx="409" cy="344" r="183"
+      fill="url(#blur-33)" opacity="0.34"/><g transform="translate(-18 163) rotate(4.6)">
+      <rect x="0" y="0" width="162" height="379" rx="19"
+        fill="rgba(255,255,255,0.027)"
+        stroke="#9D4EDD" stroke-width="1.3"
+        opacity="0.42"/>
+      <rect x="0" y="0" width="162" height="193"
+        rx="29" fill="#9D4EDD" opacity="0.081"/>
+    </g><g transform="translate(298 353) rotate(0.3)">
+      <rect x="0" y="0" width="206" height="285" rx="29"
+        fill="rgba(255,255,255,0.031)"
+        stroke="#9D4EDD" stroke-width="1.5"
+        opacity="0.48"/>
+      <rect x="0" y="0" width="206" height="124"
+        rx="26" fill="#9D4EDD" opacity="0.093"/>
+    </g><g transform="translate(667 149) rotate(11.7)">
+      <rect x="0" y="0" width="209" height="530" rx="14"
+        fill="rgba(255,255,255,0.055)"
+        stroke="#9D4EDD" stroke-width="2.3"
+        opacity="0.80"/>
+      <rect x="0" y="0" width="209" height="125"
+        rx="23" fill="#9D4EDD" opacity="0.160"/>
+    </g><g transform="translate(468 261) rotate(1.4)">
+      <rect x="0" y="0" width="194" height="448" rx="29"
+        fill="rgba(255,255,255,0.040)"
+        stroke="#9D4EDD" stroke-width="1.8"
+        opacity="0.61"/>
+      <rect x="0" y="0" width="194" height="253"
+        rx="27" fill="#9D4EDD" opacity="0.119"/>
+    </g></svg>
   </div>
 </div>
 <div class="shot" id="s-reason-04">
   <div class="rea" style="--wash:#00F2FE30">
-    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><rect x="120" y="90" width="360" height="260" rx="20" fill="none" stroke="#00F2FE" stroke-width="3"/><path d="M200 220 l50 52 110 -122" stroke="#00F2FE" stroke-width="7" fill="none" stroke-linecap="round"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-34">
+      <stop offset="0" stop-color="#00F2FE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00F2FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="1084" cy="520" r="338"
+      fill="url(#blur-34)" opacity="0.42"/><circle cx="433" cy="342" r="306"
+      fill="url(#blur-34)" opacity="0.33"/><circle cx="901" cy="206" r="378"
+      fill="url(#blur-34)" opacity="0.18"/><circle cx="194" cy="688" r="373"
+      fill="url(#blur-34)" opacity="0.32"/><circle cx="684" cy="511" r="222"
+      fill="url(#blur-34)" opacity="0.23"/><rect x="39" y="43" width="1086" height="8.3"
+      rx="4.2" fill="#00F2FE" opacity="0.44"/><rect x="190" y="87" width="831" height="6.1"
+      rx="3.0" fill="#00F2FE" opacity="0.41"/><rect x="85" y="108" width="1132" height="9.1"
+      rx="4.6" fill="#00F2FE" opacity="0.34"/><rect x="24" y="138" width="786" height="10.0"
+      rx="5.0" fill="#00F2FE" opacity="0.55"/><rect x="204" y="173" width="1147" height="9.3"
+      rx="4.7" fill="#00F2FE" opacity="0.13"/><rect x="40" y="209" width="1109" height="2.7"
+      rx="1.4" fill="#00F2FE" opacity="0.51"/><rect x="91" y="238" width="1182" height="8.8"
+      rx="4.4" fill="#00F2FE" opacity="0.51"/><rect x="94" y="279" width="529" height="2.2"
+      rx="1.1" fill="#00F2FE" opacity="0.56"/><rect x="83" y="301" width="880" height="2.2"
+      rx="1.1" fill="#00F2FE" opacity="0.48"/><rect x="81" y="335" width="660" height="8.2"
+      rx="4.1" fill="#00F2FE" opacity="0.39"/><rect x="92" y="367" width="572" height="3.1"
+      rx="1.5" fill="#00F2FE" opacity="0.49"/><rect x="94" y="401" width="789" height="6.5"
+      rx="3.3" fill="#00F2FE" opacity="0.28"/></svg>
   </div>
 </div>
 <div class="shot" id="s-reason-05">
   <div class="rea" style="--wash:#4EA8FF30">
-    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><rect x="90" y="300" width="330" height="44" rx="10" fill="#4EA8FF" opacity="0.16" stroke="#4EA8FF" stroke-width="1.4"/><rect x="108" y="248" width="330" height="44" rx="10" fill="#4EA8FF" opacity="0.32" stroke="#4EA8FF" stroke-width="1.4"/><rect x="126" y="196" width="330" height="44" rx="10" fill="#4EA8FF" opacity="0.48" stroke="#4EA8FF" stroke-width="1.4"/><rect x="144" y="144" width="330" height="44" rx="10" fill="#4EA8FF" opacity="0.64" stroke="#4EA8FF" stroke-width="1.4"/><rect x="162" y="92" width="330" height="44" rx="10" fill="#4EA8FF" opacity="0.80" stroke="#4EA8FF" stroke-width="1.4"/></svg>
+    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-35">
+      <stop offset="0" stop-color="#4EA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4EA8FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="281" cy="686" r="199"
+      fill="url(#blur-35)" opacity="0.35"/><circle cx="672" cy="482" r="206"
+      fill="url(#blur-35)" opacity="0.26"/><circle cx="1079" cy="373" r="417"
+      fill="url(#blur-35)" opacity="0.24"/><circle cx="517" cy="160" r="321"
+      fill="url(#blur-35)" opacity="0.21"/><circle cx="894" cy="710" r="393"
+      fill="url(#blur-35)" opacity="0.35"/><g transform="translate(196 212) rotate(-7.8)">
+      <rect x="0" y="0" width="127" height="313" rx="14"
+        fill="rgba(255,255,255,0.059)"
+        stroke="#4EA8FF" stroke-width="2.5"
+        opacity="0.86"/>
+      <rect x="0" y="0" width="127" height="142"
+        rx="29" fill="#4EA8FF" opacity="0.172"/>
+    </g><g transform="translate(167 69) rotate(-9.7)">
+      <rect x="0" y="0" width="167" height="218" rx="25"
+        fill="rgba(255,255,255,0.054)"
+        stroke="#4EA8FF" stroke-width="2.3"
+        opacity="0.80"/>
+      <rect x="0" y="0" width="167" height="55"
+        rx="26" fill="#4EA8FF" opacity="0.159"/>
+    </g></svg>
   </div>
 </div>
 <div class="shot" id="s-reason-06">
   <div class="rea" style="--wash:#9D4EDD30">
-    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><path d="M300 70 l150 62 v110 c0 92 -66 152 -150 176 -84 -24 -150 -84 -150 -176 V132 z" fill="#9D4EDD" opacity=".14" stroke="#9D4EDD" stroke-width="3"/><text x="300" y="250" text-anchor="middle" class="big">90</text></svg>
+    <div class="grain"></div><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-36">
+      <stop offset="0" stop-color="#9D4EDD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#9D4EDD" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="441" cy="189" r="232"
+      fill="url(#blur-36)" opacity="0.43"/><circle cx="850" cy="697" r="417"
+      fill="url(#blur-36)" opacity="0.19"/><circle cx="190" cy="537" r="221"
+      fill="url(#blur-36)" opacity="0.24"/><circle cx="623" cy="361" r="336"
+      fill="url(#blur-36)" opacity="0.30"/><circle cx="1100" cy="195" r="219"
+      fill="url(#blur-36)" opacity="0.30"/><rect x="59" y="82" width="1126" height="8.4"
+      rx="4.2" fill="#9D4EDD" opacity="0.18"/><rect x="189" y="132" width="1172" height="2.0"
+      rx="1.0" fill="#9D4EDD" opacity="0.19"/><rect x="152" y="174" width="930" height="10.0"
+      rx="5.0" fill="#9D4EDD" opacity="0.56"/><rect x="65" y="226" width="981" height="6.9"
+      rx="3.4" fill="#9D4EDD" opacity="0.36"/><rect x="47" y="276" width="1011" height="7.2"
+      rx="3.6" fill="#9D4EDD" opacity="0.48"/><rect x="188" y="314" width="1110" height="3.7"
+      rx="1.9" fill="#9D4EDD" opacity="0.39"/><rect x="131" y="368" width="759" height="7.5"
+      rx="3.8" fill="#9D4EDD" opacity="0.18"/></svg>
   </div>
 </div>
 
 <div class="shot" id="s-faq-01">
   <div class="m" style="--wash:#9D4EDD33">
     <div class="grain"></div>
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><rect x="200" y="130" width="800" height="72" rx="14" fill="rgba(255,255,255,.04)"
-          stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="240" y="158" width="420" height="16" rx="8"
-          fill="rgba(255,255,255,.24)"/><path d="M940 160 l-14 14 -14 -14" stroke="rgba(255,255,255,.4)"
-          stroke-width="3" fill="none"/><rect x="200" y="230" width="800" height="72" rx="14" fill="rgba(255,255,255,.04)"
-          stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="240" y="258" width="380" height="16" rx="8"
-          fill="rgba(255,255,255,.24)"/><path d="M940 260 l-14 14 -14 -14" stroke="rgba(255,255,255,.4)"
-          stroke-width="3" fill="none"/><rect x="200" y="330" width="800" height="72" rx="14" fill="rgba(255,255,255,.04)"
-          stroke="#00F2FE" stroke-width="3"/><rect x="240" y="358" width="340" height="16" rx="8"
-          fill="#00F2FE"/><path d="M940 360 l-14 14 -14 -14" stroke="#00F2FE"
-          stroke-width="3" fill="none"/><rect x="200" y="430" width="800" height="72" rx="14" fill="rgba(255,255,255,.04)"
-          stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="240" y="458" width="300" height="16" rx="8"
-          fill="rgba(255,255,255,.24)"/><path d="M940 460 l-14 14 -14 -14" stroke="rgba(255,255,255,.4)"
-          stroke-width="3" fill="none"/><rect x="200" y="530" width="800" height="72" rx="14" fill="rgba(255,255,255,.04)"
-          stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="240" y="558" width="260" height="16" rx="8"
-          fill="rgba(255,255,255,.24)"/><path d="M940 560 l-14 14 -14 -14" stroke="rgba(255,255,255,.4)"
-          stroke-width="3" fill="none"/><rect x="200" y="630" width="800" height="72" rx="14" fill="rgba(255,255,255,.04)"
-          stroke="rgba(255,255,255,.14)" stroke-width="2"/><rect x="240" y="658" width="220" height="16" rx="8"
-          fill="rgba(255,255,255,.24)"/><path d="M940 660 l-14 14 -14 -14" stroke="rgba(255,255,255,.4)"
-          stroke-width="3" fill="none"/></svg>
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"><defs>
+    <radialGradient id="blur-61">
+      <stop offset="0" stop-color="#9D4EDD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#9D4EDD" stop-opacity="0"/>
+    </radialGradient>
+  </defs><circle cx="472" cy="301" r="330"
+      fill="url(#blur-61)" opacity="0.39"/><circle cx="889" cy="208" r="260"
+      fill="url(#blur-61)" opacity="0.25"/><circle cx="191" cy="669" r="223"
+      fill="url(#blur-61)" opacity="0.32"/><circle cx="647" cy="484" r="202"
+      fill="url(#blur-61)" opacity="0.43"/><circle cx="1074" cy="317" r="207"
+      fill="url(#blur-61)" opacity="0.24"/><g transform="translate(564 386) rotate(-4.8)">
+      <rect x="0" y="0" width="164" height="246" rx="16"
+        fill="rgba(255,255,255,0.018)"
+        stroke="#00F2FE" stroke-width="1.0"
+        opacity="0.29"/>
+      <rect x="0" y="0" width="164" height="73"
+        rx="18" fill="#00F2FE" opacity="0.055"/>
+    </g><g transform="translate(833 235) rotate(-1.1)">
+      <rect x="0" y="0" width="197" height="238" rx="16"
+        fill="rgba(255,255,255,0.014)"
+        stroke="#00F2FE" stroke-width="0.9"
+        opacity="0.24"/>
+      <rect x="0" y="0" width="197" height="106"
+        rx="20" fill="#00F2FE" opacity="0.045"/>
+    </g><g transform="translate(820 452) rotate(0.4)">
+      <rect x="0" y="0" width="148" height="357" rx="20"
+        fill="rgba(255,255,255,0.036)"
+        stroke="#00F2FE" stroke-width="1.7"
+        opacity="0.54"/>
+      <rect x="0" y="0" width="148" height="176"
+        rx="15" fill="#00F2FE" opacity="0.107"/>
+    </g><g transform="translate(458 387) rotate(-11.5)">
+      <rect x="0" y="0" width="106" height="574" rx="20"
+        fill="rgba(255,255,255,0.055)"
+        stroke="#00F2FE" stroke-width="2.3"
+        opacity="0.80"/>
+      <rect x="0" y="0" width="106" height="187"
+        rx="29" fill="#00F2FE" opacity="0.159"/>
+    </g><g transform="translate(619 374) rotate(-12.6)">
+      <rect x="0" y="0" width="101" height="570" rx="26"
+        fill="rgba(255,255,255,0.061)"
+        stroke="#00F2FE" stroke-width="2.6"
+        opacity="0.88"/>
+      <rect x="0" y="0" width="101" height="288"
+        rx="27" fill="#00F2FE" opacity="0.177"/>
+    </g><rect x="154" y="563" width="1025" height="9.7"
+      rx="4.8" fill="#4EA8FF" opacity="0.39"/><rect x="130" y="616" width="995" height="5.9"
+      rx="3.0" fill="#4EA8FF" opacity="0.40"/><rect x="18" y="641" width="579" height="8.0"
+      rx="4.0" fill="#4EA8FF" opacity="0.32"/><rect x="-6" y="688" width="560" height="5.4"
+      rx="2.7" fill="#4EA8FF" opacity="0.50"/><rect x="92" y="713" width="685" height="5.6"
+      rx="2.8" fill="#4EA8FF" opacity="0.38"/><rect x="99" y="768" width="510" height="2.4"
+      rx="1.2" fill="#4EA8FF" opacity="0.30"/><rect x="-6" y="799" width="681" height="10.4"
+      rx="5.2" fill="#4EA8FF" opacity="0.31"/><rect x="-60" y="838" width="824" height="5.7"
+      rx="2.9" fill="#4EA8FF" opacity="0.44"/><rect x="220" y="878" width="904" height="7.6"
+      rx="3.8" fill="#4EA8FF" opacity="0.17"/></svg>
   </div>
 </div>
 

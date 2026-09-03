@@ -47,6 +47,8 @@ import TypewriterEffect from './components/framer/typewriter-effect/index.js';
 import SplitReveal from './components/framer/split-reveal/index.js';
 import GlassStack from './components/framer/glass-stack/index.js';
 import DitheringHover from './components/framer/dithering-hover/index.js';
+import AnimatedPath from './components/framer/animated-path/index.js';
+import ImageTrail from './components/framer/image-trail/index.js';
 
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
@@ -64,6 +66,8 @@ const REGISTRY = {
   'split-reveal': SplitReveal,
   'glass-stack': GlassStack,
   'dithering-hover': DitheringHover,
+  'animated-path': AnimatedPath,
+  'image-trail': ImageTrail,
 };
 
 function mount(host) {

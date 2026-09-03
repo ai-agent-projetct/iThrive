@@ -115,16 +115,39 @@ $inside = [
     ['The admin nobody budgets for', 'Support needs to reset a password, refund an order and see why a job failed. Skipping this is the most common reason an MVP dies of operations rather than of demand.'],
 ];
 
-/** Eight industries — the curved arc. */
+/** Eight industries — the folder cards. */
 $industries = [
-    ['01', 'FinTech',       'KYC, ledgers and reconciliation'],
-    ['02', 'HealthTech',    'Triage, records and consent'],
-    ['03', 'Logistics',     'Dispatch, tracking and proof of delivery'],
-    ['04', 'Retail',        'Catalogue, checkout and returns'],
-    ['05', 'EdTech',        'Cohorts, progress and assessment'],
-    ['06', 'PropTech',      'Listings, tours and agreements'],
-    ['07', 'Manufacturing', 'Line data, quality and downtime'],
-    ['08', 'Media',         'Ingest, rights and distribution'],
+    ['01', 'FinTech', 'KYC, ledgers and reconciliation',
+     'The first thing a fintech MVP has to prove is that onboarding survives real identity checks. We build the KYC path, a double-entry ledger you can audit, and one reconciliation job — before any of the features people demo.',
+     ['KYC / AML onboarding', 'Double-entry ledger', 'UPI and card rails', 'Reconciliation']],
+
+    ['02', 'HealthTech', 'Triage, records and consent',
+     'Consent and record access come first, because nothing else can go live without them. The MVP proves one clinical pathway end to end with an audit trail, rather than eight pathways that cannot be turned on.',
+     ['Consent capture', 'Care pathway', 'ABDM / FHIR records', 'Audit trail']],
+
+    ['03', 'Logistics', 'Dispatch, tracking and proof of delivery',
+     'The loop that matters is assign, move, prove. We build dispatch, live tracking and proof of delivery for one lane, and only then argue about routing optimisation.',
+     ['Dispatch board', 'Live tracking', 'Proof of delivery', 'Carrier APIs']],
+
+    ['04', 'Retail', 'Catalogue, checkout and returns',
+     'Checkout is the only screen that has to be perfect on day one. The MVP proves catalogue to payment to return on real stock, with the merchandising rules left for release two.',
+     ['Catalogue and search', 'Checkout', 'Payments', 'Returns']],
+
+    ['05', 'EdTech', 'Cohorts, progress and assessment',
+     'An education MVP lives or dies on whether a cohort finishes something. We build enrolment, one full learning path and its assessment, then instrument completion.',
+     ['Enrolment', 'Learning path', 'Assessment', 'Completion analytics']],
+
+    ['06', 'PropTech', 'Listings, tours and agreements',
+     'The proof is a booking that turns into a signed agreement. Listings, a scheduled tour and e-sign, on real inventory — the CRM integrations come after somebody has actually signed.',
+     ['Listings', 'Tour scheduling', 'E-signature', 'Document vault']],
+
+    ['07', 'Manufacturing', 'Line data, quality and downtime',
+     'One line, instrumented properly, beats a plant-wide dashboard with nothing behind it. We take live data off a single line, flag the defects and account for the downtime.',
+     ['OPC-UA / MQTT ingest', 'Quality flags', 'Downtime reasons', 'OEE']],
+
+    ['08', 'Media', 'Ingest, rights and distribution',
+     'Rights are the constraint everything else hangs off. The MVP proves ingest, a rights window that is actually enforced, and one distribution target.',
+     ['Ingest pipeline', 'Rights windows', 'Transcode', 'One distribution target']],
 ];
 
 /** The six steps. Click one and its card opens — see assets/js/mvp-page.js. */
@@ -310,8 +333,8 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
                      /* A slow breath rather than a spin. At the component's own
                         defaults (intensity 1, speed 2, rotation 2) the book
                         swung enough to be distracting beside body copy. */
-                     'float'          => ['enabled' => true, 'intensity' => 0.30,
-                                          'speed' => 0.5, 'rotationIntensity' => 0.28],
+                     'float'          => ['enabled' => true, 'intensity' => 0.10,
+                                          'speed' => 0.22, 'rotationIntensity' => 0.09],
                  ],
                  'shadow' => true,
                  /*
@@ -431,6 +454,28 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
         </p>
       </div>
 
+      <?php /* Framer's Animated Path, drawing the route the five advantages sit
+               on: a dotted line with a lit dot travelling it, starting when the
+               section comes into view. */ ?>
+      <div class="mvp-path-band"
+           data-ok="animated-path"
+           data-props='<?= e(json_encode([
+               'lineColor'    => 'rgba(234,240,250,0.22)',
+               'dotColor'     => '#00F2FE',
+               'strokeWidth'  => 1.6,
+               'dashLength'   => 8,
+               'gapLength'    => 9,
+               'dotSize'      => 13,
+               /* Slow. The default 130 sends the dot across in about a second,
+                  which is a flicker rather than a journey. */
+               'speed'        => 46,
+               'trailLength'  => 0.34,
+               'startDelay'   => 0.2,
+               'startOnView'  => true,
+               'showBase'     => true,
+               'baseOpacity'  => 0.16,
+           ], JSON_THROW_ON_ERROR)) ?>'></div>
+
       <div class="mvp-advantages">
         <?php foreach ($advantages as [$n, $title, $body]): ?>
           <article class="mvp-adv">
@@ -449,37 +494,54 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
     </div>
   </section>
 
-  <?php /* --- What is inside ----------------------------------------------- */ ?>
+  <?php /* --- What is inside, as an image trail ------------------------------ */ ?>
   <section class="mvp-sec" id="inside">
     <div class="mvp-shell">
-      <div class="mvp-head">
+      <div class="mvp-head mvp-head--mid">
         <p class="mvp-eyebrow">Scope</p>
         <h2 class="mvp-title">What we actually build <em>inside</em> your MVP</h2>
         <p class="mvp-sub">
           Five things, every time. Everything else is a roadmap item pretending to be a requirement.
+          Move the cursor across the panel.
         </p>
       </div>
 
-      <div class="mvp-stack-host"
-           data-ok="glass-stack"
+      <?php /* Framer's Image Trail Effect: the pictures follow the pointer and
+               drift away behind it. It carries no text of its own, so the five
+               items are listed underneath — which is also what a reader with no
+               script gets. */ ?>
+      <div class="mvp-trail-host"
+           data-ok="image-trail"
            data-props='<?= e(json_encode([
-               'items' => array_map(static fn (array $i, int $n): array => [
-                   'title' => $i[0],
-                   'body'  => $i[1],
-                   'backgroundImage' => ['src' => $img('inside/0' . ($n + 1) . '.jpg'), 'alt' => ''],
+               'images' => array_map(static fn (array $i, int $n): array => [
+                   'src' => $img('trail/0' . ($n + 1) . '.jpg'),
+                   'alt' => $i[0],
                ], $inside, array_keys($inside)),
-               'direction'       => 'vertical',
-               'gap'             => 18,
-               'backgroundColor' => 'rgba(0,0,0,0)',
-               'glassOpacity'    => 24,
-               'borderRadius'    => 18,
-               'padding'         => 30,
-               'titleColor'      => '#EAF0FA',
-               'bodyColor'       => 'rgba(234,240,250,0.72)',
-               'hoverLift'       => 10,
-               'containerPadding'=> 0,
-               'backgroundBlur'  => 14,
+               'itemWidth'     => 210,
+               'aspectRatio'   => 1.25,
+               'radius'        => 16,
+               'threshold'     => 86,
+               'duration'      => 1.1,
+               'exitStyle'     => 'drift',
+               'driftStrength' => 70,
+               'maxRotation'   => 9,
+               'background'    => 'rgba(0,0,0,0)',
+               'cursorType'    => 'crosshair',
+               'cursorSize'    => 30,
+               'showHint'      => true,
+               'hintText'      => 'Move your cursor',
+               'hintColor'     => 'rgba(234,240,250,0.5)',
            ], JSON_THROW_ON_ERROR)) ?>'></div>
+
+      <div class="mvp-trail-list">
+        <?php foreach ($inside as $i => [$title, $body]): ?>
+          <div class="mvp-trail-item">
+            <i><?= e(str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT)) ?></i>
+            <b><?= e($title) ?></b>
+            <span><?= e($body) ?></span>
+          </div>
+        <?php endforeach; ?>
+      </div>
     </div>
   </section>
 
@@ -489,21 +551,21 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
          data-ok="gradient-motion-bg"
          data-props='<?= e(json_encode([
              'colorStops'     => ['#00F2FE', '#4EA8FF', '#9D4EDD'],
-             'baseBackground' => '#0B0F17',
+             'baseBackground' => 'rgba(11,15,23,0)',
              'blendMode'      => 'screen',
-             'opacity'        => 48,
+             'opacity'        => 44,
              'contrast'       => 106,
              'shapeStyle'     => 'Blob',
              'blobCount'      => 3,
-             'blurAmount'     => 160,
+             'blurAmount'     => 170,
              'sizeMin'        => 55,
              'sizeMax'        => 88,
              'animate'        => true,
-             /* Slower than the component's default 40: this sits behind a
-                sentence somebody is meant to read. */
-             'speed'          => 16,
+             /* Slower again. The component's default is 40; at 16 it still
+                drifted faster than a sentence takes to read. */
+             'speed'          => 7,
              'motionStyle'    => 'Drift',
-             'motionRange'    => 46,
+             'motionRange'    => 34,
              'seed'           => 12,
              'grainEnabled'   => true,
              'grainAmount'    => 12,
@@ -525,44 +587,58 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
     </div>
   </section>
 
-  <?php /* --- Industries ---------------------------------------------------- */ ?>
+  <?php /* --- Industries, as folder cards ------------------------------------ */ ?>
   <section class="mvp-sec">
     <div class="mvp-shell">
       <div class="mvp-head mvp-head--mid">
         <p class="mvp-eyebrow">Footprint</p>
         <h2 class="mvp-title">Our MVP footprint across <b>industries</b></h2>
-        <p class="mvp-sub">Eight sectors, and the part of each one an MVP usually has to prove first. Drag the arc.</p>
+        <p class="mvp-sub">
+          Eight sectors, and the part of each one an MVP has to prove before anything else is worth
+          building. Hover a folder to look inside; click to keep it open.
+        </p>
+      </div>
+
+      <?php /* After Framer's paid "Card — Folder" — see assets/css/mvp.css for
+               what its description asks for and how this is built. */ ?>
+      <div class="mvp-folders" data-folders>
+        <?php /*
+          An <article> with role="button", not a real <button>.
+
+          A button's content model is phrasing content, so the h3, p and ul this
+          card needs are invalid inside one — the parser hoists them straight
+          back out, which is exactly what collapsed this grid the first time.
+          role and tabindex give it the same keyboard behaviour without lying to
+          the parser about what it contains.
+        */ ?>
+        <?php foreach ($industries as [$n, $name, $short, $proves, $chips]): ?>
+          <article class="mvp-folder" data-folder role="button" tabindex="0"
+                   aria-expanded="false" aria-label="<?= e($name) ?> — open for detail">
+            <span class="mvp-folder-tab"><?= e($n) ?> · <?= e(strtoupper($name)) ?></span>
+
+            <div class="mvp-folder-body">
+              <figure class="mvp-folder-sheet">
+                <img src="<?= e($img('industry/' . $n . '.jpg')) ?>" width="900" height="900"
+                     alt="" loading="lazy" decoding="async">
+              </figure>
+
+              <div class="mvp-folder-flap">
+                <h3><?= e($name) ?></h3>
+                <p><?= e($short) ?></p>
+              </div>
+            </div>
+
+            <div class="mvp-folder-inner">
+              <p><?= e($proves) ?></p>
+              <ul><?php foreach ($chips as $c): ?><li><?= e($c) ?></li><?php endforeach; ?></ul>
+            </div>
+          </article>
+        <?php endforeach; ?>
       </div>
     </div>
-
-    <div class="mvp-arc-host"
-         data-ok="curved-gallery-arc"
-         data-props='<?= e(json_encode([
-             'images' => array_map(static fn (array $i): array => [
-                 'src' => $img('industry/' . $i[0] . '.jpg'),
-                 'alt' => $i[1] . ' — ' . $i[2],
-             ], $industries),
-             'backgroundColor' => 'rgba(0,0,0,0)',
-             'cardSize'        => 250,
-             'gap'             => 26,
-             /* The fan only reads as an arc past about 150; below that the
-                cards sit in what looks like an ordinary row. */
-             'curve'           => 190,
-             'perspective'     => 1500,
-             /* Slow: at the default the arc slides fast enough that reading a
-                card means chasing it. */
-             'autoScrollSpeed' => 6,
-             'dragSpeed'       => 1.1,
-             'inertia'         => 0.94,
-             'borderRadius'    => 18,
-         ], JSON_THROW_ON_ERROR)) ?>'></div>
-
-    <ul class="sr-only">
-      <?php foreach ($industries as $i): ?><li><?= e($i[1] . ' — ' . $i[2]) ?></li><?php endforeach; ?>
-    </ul>
   </section>
 
-  <?php /* --- The six steps, click to open ------------------------------------ */ ?>
+  <?php /* --- The six steps, on a wheel -------------------------------------- */ ?>
   <section class="mvp-sec mvp-sec--panel" id="process">
     <div class="mvp-shell">
       <div class="mvp-head mvp-head--mid">
@@ -571,36 +647,53 @@ $img = static fn (string $rel): string => asset('assets/img/mvp/' . $rel);
         <p class="mvp-sub">
           We break your idea into achievable milestones with our proven MVP development services,
           simplifying the entire product development cycle so every step feels clear, structured and
-          within reach. Pick a step to open it.
+          within reach. Turn the dial, or click a step.
         </p>
       </div>
 
-      <div class="mvp-stepper" data-stepper>
-        <div class="mvp-steplist" role="tablist" aria-label="MVP development process">
-          <?php foreach ($steps as $i => [$n, $title]): ?>
-            <button class="mvp-step" type="button" role="tab" data-step
-                    id="mvp-step-<?= e($n) ?>" aria-controls="mvp-card-<?= e($n) ?>"
-                    aria-selected="<?= $i === 0 ? 'true' : 'false' ?>">
-              <span class="mvp-step-n"><?= e($n) ?></span>
-              <span><?= e($title) ?></span>
-            </button>
-          <?php endforeach; ?>
+      <?php /* After Framer's paid "Wheel Timeline" — see assets/css/mvp.css and
+               assets/js/mvp-page.js. --a is each marker's angle on the ring and
+               --r its radius; the ring's own rotation is taken back off every
+               marker so the numbers stay upright as it turns. */ ?>
+      <div class="mvp-wheel" data-wheel>
+        <div class="mvp-dial">
+          <div class="mvp-ring" data-ring>
+            <?php foreach ($steps as $i => [$n, $title]): ?>
+              <button class="mvp-mark" type="button" role="tab" data-mark
+                      id="mvp-mark-<?= e($n) ?>" aria-controls="mvp-wcard-<?= e($n) ?>"
+                      aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"
+                      aria-label="Step <?= e($n) ?>: <?= e($title) ?>"
+                      style="--a: <?= $i * 60 ?>deg; --r: 40cqmin;"><?= e($n) ?></button>
+            <?php endforeach; ?>
+          </div>
+
+          <div class="mvp-hub">
+            <div>
+              <span class="mvp-hub-n" data-wheel-readout>01</span>
+              <small>of six</small>
+            </div>
+          </div>
+
+          <div class="mvp-dial-nav">
+            <button type="button" data-wheel-prev aria-label="Previous step">&#8249;</button>
+            <button type="button" data-wheel-next aria-label="Next step">&#8250;</button>
+          </div>
         </div>
 
-        <div class="mvp-stepcards">
+        <div class="mvp-wheelcards">
           <?php foreach ($steps as $i => [$n, $title, $when, $body, $meta]): ?>
-            <article class="mvp-stepcard<?= $i === 0 ? ' is-open' : '' ?>"
-                     data-stepcard role="tabpanel"
-                     id="mvp-card-<?= e($n) ?>" aria-labelledby="mvp-step-<?= e($n) ?>">
-              <figure class="mvp-stepcard-art">
+            <article class="mvp-wheelcard<?= $i === 0 ? ' is-open' : '' ?>"
+                     data-wheelcard role="tabpanel"
+                     id="mvp-wcard-<?= e($n) ?>" aria-labelledby="mvp-mark-<?= e($n) ?>">
+              <figure class="mvp-wheelcard-art">
                 <img src="<?= e($img('step/' . $n . '.jpg')) ?>" width="1200" height="800"
                      alt="<?= e($title) ?>" loading="lazy" decoding="async">
               </figure>
-              <div class="mvp-stepcard-body">
-                <p class="mvp-stepcard-k">Step <?= e($n) ?> · <?= e($when) ?></p>
+              <div class="mvp-wheelcard-body">
+                <p class="mvp-wheelcard-k">Step <?= e($n) ?> · <?= e($when) ?></p>
                 <h3><?= e($title) ?></h3>
                 <p><?= e($body) ?></p>
-                <ul class="mvp-stepcard-meta">
+                <ul class="mvp-wheelcard-meta">
                   <?php foreach ($meta as $m): ?><li><?= e($m) ?></li><?php endforeach; ?>
                 </ul>
               </div>

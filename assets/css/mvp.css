@@ -37,7 +37,13 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   position: relative;
-  background: var(--ink);
+  /* The page's own wash lives here, on the wrapper, so it paints BEHIND the
+     hexagon canvas. It used to sit on .mvp-hero, which is a z-index 1 child —
+     the honeycomb was drawn under it and could not be seen at all. */
+  background:
+    radial-gradient(70% 60% at 6% 2%, rgba(0, 242, 254, 0.10) 0%, transparent 58%),
+    radial-gradient(60% 50% at 98% 34%, rgba(157, 78, 221, 0.12) 0%, transparent 60%),
+    var(--ink);
   color: var(--text);
   font-family: 'Space Grotesk', system-ui, sans-serif;
   /* clip, never hidden: `hidden` forces overflow-y to auto and makes this
@@ -77,8 +83,10 @@
 
 .mvp-sec { padding: clamp(72px, 9vw, 128px) 0; }
 
+/* Translucent, not opaque. At 0.92 these covered the honeycomb completely and
+   the pointer effect only existed in the gaps between them. */
 .mvp-sec--panel {
-  background: linear-gradient(180deg, rgba(14, 20, 32, 0.92), rgba(11, 15, 23, 0.92));
+  background: linear-gradient(180deg, rgba(14, 20, 32, 0.55), rgba(11, 15, 23, 0.62));
   border-block: 1px solid var(--line);
 }
 
@@ -139,12 +147,9 @@
    Hero
    ========================================================================== */
 
-.mvp-hero {
-  padding: clamp(56px, 7vw, 100px) 0 clamp(56px, 7vw, 92px);
-  background:
-    radial-gradient(70% 90% at 6% 0%, rgba(0, 242, 254, 0.13) 0%, transparent 62%),
-    radial-gradient(60% 80% at 98% 92%, rgba(157, 78, 221, 0.15) 0%, transparent 64%);
-}
+/* No background of its own — see the note on .mvp. The hero has to let the
+   honeycomb through, and it is the first thing a pointer moves over. */
+.mvp-hero { padding: clamp(56px, 7vw, 100px) 0 clamp(56px, 7vw, 92px); }
 
 .mvp-hero-grid {
   display: grid;
@@ -220,7 +225,7 @@
   overflow: hidden;
 }
 
-.mvp-stat { padding: 18px 16px; background: rgba(11, 15, 23, 0.86); }
+.mvp-stat { padding: 18px 16px; background: rgba(11, 15, 23, 0.55); }
 
 .mvp-stat b {
   display: block;
@@ -256,7 +261,7 @@
   overflow: hidden;
   background:
     radial-gradient(70% 70% at 50% 40%, rgba(0, 242, 254, 0.10) 0%, transparent 66%),
-    rgba(9, 13, 21, 0.9);
+    rgba(9, 13, 21, 0.55);
   border: 1px solid var(--line);
   touch-action: pan-y;
 }
@@ -288,7 +293,7 @@
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: var(--ink-2);
+  background: rgba(14, 20, 32, 0.6);
 }
 
 .mvp-figure img { display: block; width: 100%; height: auto; }
@@ -335,7 +340,7 @@
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: var(--ink-2);
+  background: rgba(14, 20, 32, 0.6);
   transition: border-color 0.4s ease, transform 0.4s var(--ease);
 }
 
@@ -372,7 +377,6 @@
    ========================================================================== */
 
 .mvp-cards-host { height: clamp(460px, 46vw, 560px); }
-.mvp-stack-host { min-height: 420px; }
 .mvp-arc-host   { height: clamp(400px, 44vw, 600px); }
 
 /* ==========================================================================
@@ -402,154 +406,6 @@
 .mvp-band-quote span { color: var(--cyan); }
 
 /* ==========================================================================
-   The process stepper — click a step, its card opens
-   ==========================================================================
-
-   Built here rather than taken from the marketplace: the two components that
-   do this shape (Workflow Cards, Pixel Hover Card) are canvas exports whose
-   props are per-instance ids with the content baked into variants, so six
-   steps of our own copy cannot be handed to them.
-   -------------------------------------------------------------------------- */
-
-.mvp-stepper {
-  display: grid;
-  grid-template-columns: minmax(260px, 350px) minmax(0, 1fr);
-  gap: clamp(24px, 3vw, 44px);
-  align-items: start;
-}
-
-.mvp-steplist { display: grid; gap: 8px; }
-
-.mvp-step {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.9rem;
-  align-items: center;
-  width: 100%;
-  padding: 16px 18px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--dim);
-  font-family: var(--display);
-  font-size: 0.98rem;
-  font-weight: 700;
-  text-align: left;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-}
-
-.mvp-step:hover { border-color: var(--line-2); color: var(--text); transform: translateX(3px); }
-
-.mvp-step-n {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  border: 1px solid var(--line-2);
-  font-family: var(--mono);
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: var(--faint);
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-.mvp-step[aria-selected="true"] {
-  border-color: rgba(0, 242, 254, 0.42);
-  background: rgba(0, 242, 254, 0.07);
-  color: var(--text);
-}
-
-.mvp-step[aria-selected="true"] .mvp-step-n {
-  background: var(--grad);
-  border-color: transparent;
-  color: #06131C;
-}
-
-/* The card. One panel is shown at a time and the rest are hidden rather than
-   absent, so with no script every step's content is still on the page. */
-.mvp-stepcards { position: relative; }
-
-.mvp-stepcard {
-  display: none;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  overflow: hidden;
-  background: linear-gradient(180deg, rgba(19, 27, 42, 0.9), rgba(11, 15, 23, 0.95));
-}
-
-.mvp-stepcard.is-open { display: block; animation: mvp-card-in 0.45s var(--ease) both; }
-
-@keyframes mvp-card-in {
-  from { opacity: 0; transform: translateY(14px) scale(0.985); }
-  to   { opacity: 1; transform: none; }
-}
-
-/* No script: show every card as a plain stack rather than only the first. */
-.mvp-stepper:not(.is-live) .mvp-stepcard { display: block; margin-bottom: 16px; }
-
-.mvp-stepcard-art { background: var(--ink-2); }
-
-/* Cropped rather than shown whole: the illustrations are 3:2, and at the card's
-   full width that put the step's own words below the fold. */
-.mvp-stepcard-art img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 21 / 9;
-  object-fit: cover;
-}
-
-.mvp-stepcard-body { padding: clamp(20px, 2.4vw, 30px); }
-
-.mvp-stepcard-k {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--cyan);
-}
-
-.mvp-stepcard h3 {
-  margin: 0.6rem 0 0.7rem;
-  font-family: var(--display);
-  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-}
-
-.mvp-stepcard p {
-  margin: 0 0 1rem;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.98rem;
-  line-height: 1.7;
-  color: var(--dim);
-}
-
-.mvp-stepcard-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.mvp-stepcard-meta li {
-  padding: 6px 13px;
-  border-radius: 999px;
-  border: 1px solid var(--line-2);
-  background: rgba(255, 255, 255, 0.03);
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--text);
-}
-
-/* ==========================================================================
    Reasons grid — each with a picture head
    ========================================================================== */
 
@@ -564,7 +420,7 @@
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(11, 15, 23, 0.42);
   transition: border-color 0.35s ease, transform 0.35s ease, background 0.35s ease;
 }
 
@@ -574,7 +430,7 @@
   transform: translateY(-4px);
 }
 
-.mvp-reason-art { background: var(--ink-2); }
+.mvp-reason-art { background: rgba(14, 20, 32, 0.6); }
 .mvp-reason-art img { display: block; width: 100%; height: auto; }
 .mvp-reason-body { padding: 22px 24px 26px; }
 
@@ -698,4 +554,492 @@
 @media (prefers-reduced-motion: reduce) {
   .mvp-stepcard.is-open { animation: none; }
   .mvp-hex { display: none; }
+}
+
+/* ==========================================================================
+   Framer's Animated Path, as the advantage section's spine
+   ========================================================================== */
+
+.mvp-path-band {
+  height: clamp(150px, 16vw, 230px);
+  margin-bottom: clamp(24px, 3.5vw, 48px);
+}
+
+/* ==========================================================================
+   Framer's Image Trail, as the scope section
+   ========================================================================== */
+
+.mvp-trail-host {
+  height: clamp(380px, 42vw, 560px);
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(11, 15, 23, 0.35);
+}
+
+.mvp-trail-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  margin-top: clamp(22px, 3vw, 38px);
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.mvp-trail-item {
+  padding: 22px 22px 26px;
+  background: rgba(11, 15, 23, 0.5);
+  transition: background 0.3s ease;
+}
+
+.mvp-trail-item:hover { background: rgba(0, 242, 254, 0.07); }
+
+.mvp-trail-item i {
+  display: block;
+  margin-bottom: 10px;
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--cyan);
+}
+
+.mvp-trail-item b {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--display);
+  font-size: 1.04rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.mvp-trail-item span {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.89rem;
+  line-height: 1.62;
+  color: var(--dim);
+}
+
+/* ==========================================================================
+   Folder cards — after Framer's paid "Card — Folder"
+   ==========================================================================
+
+   Its description is the spec: folder-style cards with a smooth hover
+   animation, filed under "Encouraging to click". A tab, a picture inside, and
+   a front flap that falls forward on hover to show what is in the folder;
+   clicking latches it open for the rest of the copy.
+   -------------------------------------------------------------------------- */
+
+.mvp-folders {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: clamp(18px, 2.4vw, 30px);
+  perspective: 1400px;
+}
+
+.mvp-folder {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.mvp-folder:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 18px; }
+
+/* The tab. A folder is recognisable by this shape before anything else. */
+.mvp-folder-tab {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 14px;
+  padding: 8px 20px 10px;
+  border: 1px solid var(--line-2);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(180deg, rgba(30, 41, 61, 0.95), rgba(19, 27, 42, 0.95));
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--cyan);
+}
+
+.mvp-folder-body {
+  display: block;
+  position: relative;
+  height: 270px;
+  border: 1px solid var(--line-2);
+  border-radius: 0 16px 16px 16px;
+  background: linear-gradient(180deg, rgba(19, 27, 42, 0.7), rgba(11, 15, 23, 0.8));
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--ease), border-color 0.4s ease;
+}
+
+.mvp-folder:hover .mvp-folder-body,
+.mvp-folder.is-open .mvp-folder-body {
+  border-color: rgba(0, 242, 254, 0.4);
+  transform: translateY(-6px);
+}
+
+/* The picture, sitting down inside the folder. */
+.mvp-folder-sheet {
+  margin: 0;
+  position: absolute;
+  inset: 14px 14px 40px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(14, 20, 32, 0.7);
+  transform: translateY(10px) scale(0.96);
+  opacity: 0.5;
+  transition: transform 0.55s var(--ease), opacity 0.45s ease;
+}
+
+.mvp-folder:hover .mvp-folder-sheet,
+.mvp-folder.is-open .mvp-folder-sheet { transform: translateY(-16px) scale(1); opacity: 1; }
+
+.mvp-folder-sheet img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* The front flap. It falls forward about its own bottom edge, which is the
+   motion that makes the thing read as a folder rather than a card. */
+.mvp-folder-flap {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  height: 72%;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(14, 20, 32, 0.55) 0%, rgba(11, 15, 23, 0.97) 44%);
+  border-top: 1px solid var(--line-2);
+  transform-origin: 50% 100%;
+  transition: transform 0.55s var(--ease);
+  backface-visibility: hidden;
+}
+
+.mvp-folders.is-live .mvp-folder:hover .mvp-folder-flap,
+.mvp-folders.is-live .mvp-folder.is-open .mvp-folder-flap { transform: rotateX(-74deg); }
+
+/* The words on the flap fade as it falls. Left visible they read edge-on as a
+   smeared second copy of the title, sitting across the picture underneath. */
+.mvp-folder-flap > * { transition: opacity 0.3s ease; }
+
+.mvp-folders.is-live .mvp-folder:hover .mvp-folder-flap > *,
+.mvp-folders.is-live .mvp-folder.is-open .mvp-folder-flap > * { opacity: 0; }
+
+.mvp-folder-flap h3 {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-size: 1.14rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.mvp-folder-flap p {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.87rem;
+  line-height: 1.55;
+  color: var(--dim);
+}
+
+/* What the folder holds. Present in the markup either way, so it is readable
+   with no script; the script is what hides it until the folder opens. */
+.mvp-folder-inner {
+  margin-top: 12px;
+  padding: 16px 18px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(0, 242, 254, 0.05);
+}
+
+.mvp-folders.is-live .mvp-folder-inner { display: none; }
+
+.mvp-folders.is-live .mvp-folder.is-open .mvp-folder-inner {
+  display: block;
+  animation: mvp-card-in 0.4s var(--ease) both;
+}
+
+.mvp-folder-inner p {
+  margin: 0 0 10px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.89rem;
+  line-height: 1.65;
+  color: var(--dim);
+}
+
+.mvp-folder-inner ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+
+.mvp-folder-inner li {
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text);
+}
+
+@keyframes mvp-card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ==========================================================================
+   The wheel timeline — after Framer's paid "Wheel Timeline"
+   ==========================================================================
+
+   Described as an "interactive wheel timeline dial … a rotary timeline
+   component with Apple-inspired aesthetics". Turn it by dragging, by clicking
+   a marker, with the arrow keys or with the two buttons; whichever step
+   reaches the top is the one showing.
+   -------------------------------------------------------------------------- */
+
+.mvp-wheel {
+  display: grid;
+  grid-template-columns: minmax(300px, 430px) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 60px);
+  align-items: center;
+}
+
+/*
+ * A query container, so the markers can be placed a fraction of the DIAL out
+ * from its centre.
+ *
+ * They were pushed out with translateY(41%), and a percentage there resolves
+ * against the element being translated — 41% of a 54px marker is 22px, so all
+ * six sat in a pile behind the hub and the wheel looked empty. cqmin is a
+ * fraction of this box, which is the measurement actually wanted.
+ */
+.mvp-dial {
+  position: relative;
+  container-type: size;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+/*
+ * --ring has to be a REGISTERED property, not just a custom one.
+ *
+ * The ring rotates by it and every marker counter-rotates by it, so the numbers
+ * stay upright while the wheel turns. Unregistered, a custom property changes
+ * instantly: the ring transitioned smoothly to its new angle while each marker
+ * snapped its counter-rotation on the first frame, and the numbers visibly
+ * wobbled through every turn. Declared as an <angle> it interpolates, and the
+ * two halves of the transform move together.
+ */
+@property --ring {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.mvp-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.05) 0%, transparent 62%);
+  transform: rotate(var(--ring, 0deg));
+  transition: --ring 0.7s var(--ease);
+  cursor: grab;
+  touch-action: none;
+}
+
+.mvp-ring.is-dragging { transition: none; cursor: grabbing; }
+
+/* The detent ring, so the dial reads as a machined thing rather than a circle. */
+.mvp-ring::after {
+  content: '';
+  position: absolute;
+  inset: 13%;
+  pointer-events: none;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.09);
+}
+
+.mvp-mark {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: 54px;
+  height: 54px;
+  margin: -27px 0 0 -27px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+  background: rgba(14, 20, 32, 0.94);
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transform:
+    rotate(var(--a))
+    translateY(calc(var(--r) * -1))
+    rotate(calc(-1 * (var(--a) + var(--ring, 0deg))));
+  transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.mvp-mark[aria-selected="true"] {
+  background: var(--grad);
+  border-color: transparent;
+  color: #06131C;
+  box-shadow: 0 0 0 6px rgba(0, 242, 254, 0.12);
+}
+
+.mvp-mark:hover { color: var(--text); border-color: var(--cyan); }
+
+/* The hub: which step the dial is pointing at. */
+.mvp-hub {
+  position: relative;
+  z-index: 2;
+  width: 46%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(11, 15, 23, 0.6);
+  text-align: center;
+  pointer-events: none;
+}
+
+.mvp-hub-n {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 4.6vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mvp-hub small {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.mvp-dial-nav {
+  position: absolute;
+  z-index: 3;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.mvp-dial-nav button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: rgba(14, 20, 32, 0.96);
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.mvp-dial-nav button:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* The card the dial is pointing at. */
+.mvp-wheelcards { position: relative; }
+
+.mvp-wheelcard {
+  display: none;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(19, 27, 42, 0.62), rgba(11, 15, 23, 0.75));
+}
+
+.mvp-wheelcard.is-open { display: block; animation: mvp-card-in 0.45s var(--ease) both; }
+
+/* No script: every card shows, as a plain stack, and the dial is not drawn. */
+.mvp-wheel:not(.is-live) .mvp-wheelcard { display: block; margin-bottom: 16px; }
+.mvp-wheel:not(.is-live) .mvp-dial { display: none; }
+
+.mvp-wheelcard-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+}
+
+.mvp-wheelcard-body { padding: clamp(20px, 2.4vw, 30px); }
+
+.mvp-wheelcard-k {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.mvp-wheelcard h3 {
+  margin: 0.6rem 0 0.7rem;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.mvp-wheelcard p {
+  margin: 0 0 1rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.mvp-wheelcard-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+
+.mvp-wheelcard-meta li {
+  padding: 6px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text);
+}
+
+@media (max-width: 1000px) {
+  .mvp-wheel { grid-template-columns: minmax(0, 1fr); }
+  .mvp-dial { width: min(360px, 78vw); margin-inline: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mvp-ring,
+  .mvp-folder-flap,
+  .mvp-folder-sheet,
+  .mvp-folder-body { transition: none; }
 }

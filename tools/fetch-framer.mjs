@@ -42,6 +42,8 @@ const MANIFEST = {
   'split-reveal':       'https://framer.com/m/SplitReveal-n3BRa5.js@xXdEGKzmBtkRyyv0W3kE',
   'glass-stack':        'https://framer.com/m/AppleGlassStack-1H0xTm.js@iHl3lDAeehdt4X1PnBEQ',
   'dithering-hover':    'https://framer.com/m/DitheringHover-M1Hdlx.js@qxYaCKUi7dg86wla4Z0g',
+  'animated-path':      'https://framer.com/m/AnimatedPath-zpq9rv.js@POpugJ0TBxWL4GA458rY',
+  'image-trail':        'https://framer.com/m/ImageTrailEffect-IfXEqc.js@9lwVyb8puGYVdiViqG1C',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));
