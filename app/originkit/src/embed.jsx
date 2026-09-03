@@ -25,11 +25,14 @@ import { createRoot } from 'react-dom/client';
 import InteractiveGrid from './components/originkit/interactive-grid.tsx';
 import SwipeStack from './components/originkit/swipe-stack.tsx';
 import StackedCarousel from './components/originkit/stacked-carousel.tsx';
+/* Framer's own Cover Flow Gallery, unmodified — see components/framer/. */
+import CoverflowGallery from './components/framer/coverflow-gallery.js';
 
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
   'swipe-stack': SwipeStack,
   'stacked-carousel': StackedCarousel,
+  'coverflow-gallery': CoverflowGallery,
 };
 
 function mount(host) {

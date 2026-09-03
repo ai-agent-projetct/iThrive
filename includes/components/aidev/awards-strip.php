@@ -16,48 +16,77 @@
                 Certified AI Partner &amp; <span class="text-gradient">Security Benchmarks</span>
             </h2>
             <p class="section-desc center">
-                Engineered with certified cloud frameworks, NVIDIA GPU clusters, and ISO/SOC 2 Type II governance standards. Drag, scroll or use controls to inspect our credentials through the optical liquid glass lens.
+                Engineered with certified cloud frameworks, NVIDIA GPU clusters, and ISO/SOC 2 Type II governance standards. Drag the gallery to bring any credential to the front.
             </p>
         </div>
 
         <!-- WebGL Three.js Optical Liquid Glass Carousel Stage -->
+        <?php /*
+            Framer's Cover Flow Gallery, running here as the component Framer
+            publishes it — see app/originkit/src/components/framer. It is React,
+            so it arrives through the island bundle: this div is the mount, and
+            data-props is handed straight to the component.
+
+            The six cards are the credentials this section has always listed.
+            They are photographs of the subject matter, not certification marks:
+            an ISO or SOC 2 badge drawn by an image model would be a claim to an
+            accreditation rather than a picture of one.
+
+            The old liquid-glass canvas and its HUD are gone with it. The HUD
+            read from that carousel's index and would have sat on the first
+            card's text for ever once the carousel underneath it changed.
+        */ ?>
         <div class="liquid-glass-wrapper corner-bracket-wrap">
             <div class="corner-bracket-bottom-left"></div>
             <div class="corner-bracket-bottom-right"></div>
-            
-            <!-- Live Active Partner Info HUD -->
-            <div class="liquid-info-hud">
-                <div class="liquid-hud-badge"><i class="fa-solid fa-certificate"></i> CERTIFIED ENTERPRISE CREDENTIAL</div>
-                <h3 id="liquid-partner-title" class="liquid-partner-title">AWS Certified AI &amp; ML Partner</h3>
-                <p id="liquid-partner-desc" class="liquid-partner-desc">High-throughput AWS Bedrock foundation models, SageMaker distributed clusters &amp; P5 GPU clusters.</p>
+
+            <div class="coverflow-mount"
+                 data-ok="coverflow-gallery"
+                 data-props='<?= e(json_encode([
+                     'images' => array_map(
+                         static fn (string $f): string => asset('assets/img/aidev/certs/' . $f . '.jpg'),
+                         ['cert-aws', 'cert-microsoft', 'cert-google', 'cert-nvidia', 'cert-security', 'cert-hubs']
+                     ),
+                     'layout'  => ['cardWidth' => 260, 'cardHeight' => 330, 'gap' => 94, 'radius' => 18],
+                     'depth'   => ['perspective' => 1200, 'rotation' => 45, 'scaleFalloff' => 4,
+                                   'minScale' => 0.56, 'opacityFalloff' => 6, 'minOpacity' => 1,
+                                   'brightnessFalloff' => 0.09],
+                     /* 'drag' is the component's own default and the thing the
+                        reference demonstrates — the nearest card glides to the
+                        front as you pull across the stage. It is also load
+                        bearing: the drag handlers are gated on this exact value,
+                        so setting it to 'autoplay' silently turns dragging off,
+                        which is most of the component. Opens on card three so the
+                        fan is balanced rather than running off one side. */
+                     'motionSettings' => ['interaction' => 'drag', 'activeIndex' => 2,
+                                          'springPreset' => 'Bouncy', 'dragSensitivity' => 1],
+                     'styleSettings'  => ['backgroundColor' => '#0B0E1C', 'borderWidth' => 1,
+                                          'borderColor' => 'rgba(0, 242, 254, 0.28)', 'shadow' => true,
+                                          'shadowColor' => 'rgba(0, 0, 0, 0.65)', 'shadowBlur' => 44,
+                                          'shadowY' => 20, 'activeGlow' => true,
+                                          'glowColor' => 'rgba(0, 242, 254, 0.45)'],
+                     'indicators'     => ['showDots' => true,
+                                          'dotColor' => 'rgba(255, 255, 255, 0.28)',
+                                          'dotActiveColor' => '#00F2FE'],
+                 ], JSON_UNESCAPED_SLASHES)) ?>'>
             </div>
 
-            <!-- WebGL Canvas Container -->
-            <div id="liquid-glass-stage" class="liquid-glass-stage"></div>
-
-            <!-- Controls Row -->
-            <div class="liquid-controls-bar">
-                <button class="liquid-nav-btn" id="liquid-btn-prev" aria-label="Previous Partner">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                
-                <div class="liquid-dots-wrap" id="liquid-dots">
-                    <span class="liquid-dot active" data-index="0"></span>
-                    <span class="liquid-dot" data-index="1"></span>
-                    <span class="liquid-dot" data-index="2"></span>
-                    <span class="liquid-dot" data-index="3"></span>
-                    <span class="liquid-dot" data-index="4"></span>
-                    <span class="liquid-dot" data-index="5"></span>
-                </div>
-
-                <div class="liquid-counter-badge" id="liquid-counter">
-                    01 / 06
-                </div>
-
-                <button class="liquid-nav-btn" id="liquid-btn-next" aria-label="Next Partner">
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
+            <?php /* The credential names, which the gallery itself does not
+                     carry — it shows pictures. Real markup either way, so a
+                     crawler reads the list even though the cards are canvas-like
+                     to it. */ ?>
+            <ul class="coverflow-legend">
+                <?php foreach ([
+                    'Amazon Web Services',
+                    'Microsoft Cloud',
+                    'Google Cloud Platform',
+                    'NVIDIA AI Ecosystem',
+                    'Security &amp; Compliance',
+                    'Chennai &amp; Bangalore Hubs',
+                ] as $name): ?>
+                    <li><?= $name ?></li>
+                <?php endforeach; ?>
+            </ul>
         </div>
     </div>
 </section>

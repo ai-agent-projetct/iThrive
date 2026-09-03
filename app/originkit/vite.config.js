@@ -14,6 +14,16 @@ import react from '@vitejs/plugin-react';
  */
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      /* Framer's published components import its runtime. Only four symbols are
+         used and none of them does real work off the Framer canvas, so this
+         points them at a local stand-in — see components/framer/framer-shim.js.
+         Aliasing rather than editing lets the component stay byte-for-byte what
+         Framer serves, so it can be re-fetched and dropped in without a diff. */
+      framer: '/src/components/framer/framer-shim.js',
+    },
+  },
   build: {
     outDir: '../../assets/dist/originkit',
     emptyOutDir: true,

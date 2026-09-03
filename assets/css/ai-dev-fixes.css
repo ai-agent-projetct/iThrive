@@ -467,3 +467,64 @@
     gap: 0.45rem;
   }
 }
+
+/* ==========================================================================
+   Section 4 — Framer's Cover Flow Gallery
+   ==========================================================================
+
+   The component sizes and positions its own cards; this only gives it a stage
+   to stand on and dresses the credential list underneath it.
+   -------------------------------------------------------------------------- */
+
+.aidev .coverflow-mount {
+  position: relative;
+  width: 100%;
+  /* A DEFINITE height, not min-height. The component's own root is height:100%,
+     and a percentage height needs a parent height that is already resolved —
+     against min-height alone it computes to auto, the root collapses to zero,
+     and every card, positioned at top:50% with a negative margin, is clipped
+     out above it. Measured: the cards were in the DOM with their backgrounds
+     loaded and nothing was on screen. */
+  height: 460px;
+  /* The gallery reads a drag across itself, so the page must not take that
+     gesture away from it on a touch screen. */
+  touch-action: pan-y;
+}
+
+.aidev .coverflow-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.75rem;
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+}
+
+.aidev .coverflow-legend li {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted, #7A86A8);
+  position: relative;
+  padding-left: 1rem;
+}
+
+.aidev .coverflow-legend li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan, #00F2FE);
+  opacity: 0.7;
+}
+
+@media (max-width: 900px) {
+  .aidev .coverflow-mount { height: 380px; }
+  .aidev .coverflow-legend { gap: 0.45rem 1.1rem; }
+  .aidev .coverflow-legend li { font-size: 0.68rem; }
+}

@@ -163,5 +163,12 @@ require dirname(__DIR__) . '/includes/header.php';
          one hand-built a lookalike, and the brief was this robot. */ ?>
 <script type="module" src="<?= e(asset('assets/js/aidev/spline-robot.js')) ?>"></script>
 
+<?php /* The React island. It carries Framer's Cover Flow Gallery, which section
+         four runs — see includes/components/aidev/awards-strip.php. The footer
+         loads this bundle only for $bodyClass 'lusion', which this page is not,
+         so it asks for it here. Mounts are lazy: the bundle attaches nothing
+         until a [data-ok] host is near the viewport. */ ?>
+<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
