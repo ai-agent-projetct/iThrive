@@ -71,6 +71,48 @@ component('page-hero', [
   </div>
 </section>
 
+<?php
+/*
+ * The three engineering panels behind each product.
+ *
+ * These six images were drawn for this site and then had nowhere to go — the
+ * section they were made for became something else. They are diagrams of the
+ * six things that actually make an AI product work, so they belong on the two
+ * pages that describe AI products, split by which three each one leans on:
+ * AIChat is an agent a person supervises, Insights is retrieval a person has to
+ * be able to check.
+ *
+ * They are informative rather than decorative — each one is a labelled diagram —
+ * so every figure gets real alt text through its caption.
+ */
+$panels = $sol['slug'] === 'ithrive-aichat'
+    ? [
+        ['cap-01', 'Agentic workflow design — explicit state machines, tool contracts, and a human approval gate at the steps that matter.'],
+        ['cap-05', 'Human-in-the-loop UX — review queues, confidence surfacing and one-click correction, so your team supervises rather than babysits.'],
+        ['cap-04', 'Guardrails and fallbacks — schema-validated output, cost ceilings, prompt-injection filtering and a deterministic fallback path.'],
+      ]
+    : [
+        ['cap-02', 'Retrieval architecture — chunking, embedding and hybrid retrieval tuned against your corpus, with every citation traceable to a source document.'],
+        ['cap-03', 'Evaluation harness — a golden dataset and an automated eval suite on every prompt or model change, so regressions are caught in CI.'],
+        ['cap-06', 'Observability — full trace capture on every run: tokens, latency, tool calls and cost, broken down by customer and by feature.'],
+      ];
+?>
+<section class="section">
+  <div class="shell">
+    <?php component('section-head', [
+        'eyebrow' => 'How It Works',
+        'title'   => 'The three things that make it hold up',
+        'lead'    => 'Not the demo — the parts that decide whether it still works in month six.',
+    ]); ?>
+
+    <div class="grid grid-3 figure-row">
+      <?php foreach ($panels as [$img, $caption]): ?>
+        <?php component('page-figure', ['src' => 'capabilities/' . $img, 'ratio' => '3 / 2', 'caption' => $caption]); ?>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
 <section class="section section--panel">
   <div class="shell split">
     <div>

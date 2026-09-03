@@ -5324,3 +5324,10 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   /* A 21:8 letterbox is a slot on a phone; give it back some height. */
   .pfig-frame { aspect-ratio: 16 / 10; }
 }
+
+/* A row of picture bands rather than one across the page. `.pfig` carries a big
+   vertical margin because it is normally a full-width band between two blocks
+   of prose; inside a grid that margin becomes a gap on top of the gap, and the
+   captions stop lining up. */
+.figure-row .pfig { margin: 0; }
+.figure-row .pfig-caption { font-size: .82rem; line-height: 1.5; }
