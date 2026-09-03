@@ -4,16 +4,17 @@
  *  1. The reactive hexagon field behind the page.
  *  2. The folder cards in the industries section.
  *  3. The wheel timeline in the process section.
+ *  4. The sticky spiral in the "why choose us" section.
  *
- * Two of those are Framer marketplace components the page cannot run: Card —
- * Folder is $6 and Wheel Timeline is $14, and a paid listing publishes no
- * module. Built here from their own published descriptions instead, the same
- * way the polaroid gallery on the AI Development page was — see the notes on
- * each below for what the description actually says.
+ * Three of those are Framer marketplace components the page cannot run: Card —
+ * Folder is $6, Wheel Timeline $14 and Sticky Spiral Steps $1, and a paid
+ * listing publishes no module. Built here from their own published descriptions
+ * instead, the same way the polaroid gallery on the AI Development page was —
+ * see the notes on each below for what the description actually says.
  *
- * All three degrade to nothing: with this file absent the page keeps its
- * ordinary background, every folder shows its content, and the wheel becomes a
- * plain list of six steps with all six cards stacked.
+ * All four degrade to nothing: with this file absent the page keeps its
+ * ordinary background, every folder shows its content, the wheel becomes a
+ * plain list of six steps, and the spiral becomes an ordinary grid of six.
  */
 
 (function () {
@@ -279,5 +280,97 @@
 
     wheel.classList.add('is-live');
     show(0, false);
+  }
+
+  /* ======================================================================
+     4. The sticky spiral
+     ======================================================================
+
+     After Framer's "Sticky Spiral Steps" ($1, no published module). Its
+     description is the whole spec: "Show your process as an animated spiral.
+     It sticks in place while people scroll, and each step pops in one by one."
+
+     So: the stage sticks for the length of a tall track, and the section's own
+     scroll progress decides how many of the six have landed. The line draws
+     with it, and the hub in the eye of the spiral carries whichever step
+     arrived last.
+
+     Progress is sampled per frame while the section is on screen, never on the
+     scroll event — the last event of a gesture measures a rect the browser has
+     not finished settling, and with nothing after it to correct the reading the
+     final step never lands. That is the same lesson the roadmap on the mobile
+     page already learned.
+     ====================================================================== */
+
+  const spiral = document.querySelector('[data-spiral]');
+
+  if (spiral && !reduced && window.matchMedia('(min-width: 901px)').matches) {
+    const track = spiral.querySelector('[data-spiral-track]');
+    const cards = Array.from(spiral.querySelectorAll('[data-spiral-card]'));
+    const line  = spiral.querySelector('[data-spiral-line]');
+    const hubN  = spiral.querySelector('[data-spiral-hub-n]');
+    const hubT  = spiral.querySelector('[data-spiral-hub-t]');
+    const hubB  = spiral.querySelector('[data-spiral-hub-b]');
+    const bar   = spiral.querySelector('[data-spiral-prog]');
+    const n = cards.length;
+
+    const len = line ? line.getTotalLength() : 0;
+    if (line && len) {
+      line.style.strokeDasharray = len;
+      line.style.strokeDashoffset = len;
+    }
+
+    let raf = 0;
+    let onScreen = false;
+    let last = -1;
+
+    function paint(p) {
+      /* Each card owns a slice of the scroll and pops when it is reached. The
+         0.06 lead means a card is already arriving as its slice opens rather
+         than appearing exactly on the boundary. */
+      let current = -1;
+      for (let i = 0; i < n; i++) {
+        const at = (i + 0.5) / n;
+        const inYet = p >= at - 0.06;
+        cards[i].classList.toggle('is-in', inYet);
+        if (inYet) current = i;
+      }
+
+      cards.forEach((c, i) => c.classList.toggle('is-current', i === current));
+
+      if (line && len) line.style.strokeDashoffset = len * (1 - Math.min(1, p * 1.12));
+      if (bar) bar.style.width = Math.round(Math.min(1, p) * 100) + '%';
+
+      if (current >= 0 && hubN) {
+        const c = cards[current];
+        hubN.textContent = c.dataset.n;
+        hubT.textContent = c.dataset.title;
+        hubB.textContent = c.dataset.body;
+      }
+    }
+
+    function frame() {
+      raf = requestAnimationFrame(frame);
+      if (!onScreen) return;
+
+      const r = track.getBoundingClientRect();
+      const range = r.height - window.innerHeight;
+      const p = range <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / range));
+
+      if (Math.abs(p - last) < 0.0006) return;
+      last = p;
+      paint(p);
+    }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }, { threshold: 0 })
+        .observe(track);
+    } else {
+      onScreen = true;
+    }
+
+    raf = requestAnimationFrame(frame);
+    spiral.classList.add('is-live');
+    paint(0);
   }
 })();

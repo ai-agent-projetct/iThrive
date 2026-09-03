@@ -1043,3 +1043,228 @@
   .mvp-folder-sheet,
   .mvp-folder-body { transition: none; }
 }
+
+/* ==========================================================================
+   Sticky spiral steps — after Framer's paid "Sticky Spiral Steps"
+   ==========================================================================
+
+   Its own description is the whole spec: "Show your process as an animated
+   spiral. It sticks in place while people scroll, and each step pops in one by
+   one." It is a $1 listing, and a paid listing publishes no module, so this is
+   that behaviour built rather than that file run.
+
+   The track is tall; the stage inside it sticks for the whole of it. Six cards
+   sit on an elliptical spiral whose coordinates come from the PHP — the same
+   1000x640 grid the SVG uses, so the drawn spiral and the cards agree exactly
+   at any width. Scroll progress reveals them in order and draws the line.
+   -------------------------------------------------------------------------- */
+
+.mvp-spiral-track {
+  /* One viewport for the stage, plus a screen-third of travel per step. With
+     less than this the six pops land on top of each other. */
+  height: calc(100vh + 6 * 38vh);
+}
+
+.mvp-spiral-stage {
+  position: sticky;
+  top: var(--header-h, 76px);
+  height: calc(100vh - var(--header-h, 76px));
+  display: grid;
+  place-items: center;
+}
+
+/* The 1000x640 grid everything is placed on. */
+.mvp-spiral-plane {
+  position: relative;
+  width: min(1180px, 100%);
+  aspect-ratio: 1000 / 640;
+  max-height: 100%;
+}
+
+.mvp-spiral-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.mvp-spiral-line {
+  fill: none;
+  stroke: url(#mvp-spiral-grad);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  transition: stroke-dashoffset 0.5s var(--ease);
+}
+
+.mvp-spiral-base {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.07);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+/* A card, pinned by its centre to a point on the spiral. */
+.mvp-spiral-card {
+  position: absolute;
+  width: 23%;
+  transform: translate(-50%, -50%) scale(0.82);
+  opacity: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(19, 27, 42, 0.94), rgba(11, 15, 23, 0.96));
+  box-shadow: 0 22px 50px -26px rgba(0, 0, 0, 0.9);
+  transition: opacity 0.5s ease, transform 0.6s var(--ease), border-color 0.4s ease;
+  pointer-events: none;
+}
+
+/* The pop. Each card arrives at its own point in the scroll. */
+.mvp-spiral-card.is-in {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+.mvp-spiral-card.is-current {
+  border-color: rgba(0, 242, 254, 0.55);
+  box-shadow: 0 22px 50px -26px rgba(0, 0, 0, 0.9), 0 0 0 4px rgba(0, 242, 254, 0.1);
+}
+
+.mvp-spiral-art { background: rgba(14, 20, 32, 0.7); }
+
+.mvp-spiral-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.mvp-spiral-card-body { padding: 12px 14px 14px; }
+
+.mvp-spiral-n {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--cyan);
+}
+
+.mvp-spiral-card h3 {
+  margin: 5px 0 0;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+/* The hub, in the eye of the spiral: whichever step has just landed. */
+.mvp-spiral-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* 26, not 30: at 30 the first card reached into it. */
+  width: 26%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.mvp-spiral-hub-n {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mvp-spiral-hub p {
+  margin: 10px 0 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--dim);
+}
+
+.mvp-spiral-hub b {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--display);
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* Progress along the section, so it is obvious the scroll is doing something. */
+.mvp-spiral-prog {
+  position: absolute;
+  left: 50%;
+  bottom: -2%;
+  transform: translateX(-50%);
+  width: 26%;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.mvp-spiral-prog span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--grad);
+  transition: width 0.2s linear;
+}
+
+/*
+ * No script, a short viewport, or reduced motion: the spiral is not the point,
+ * the six reasons are. They become an ordinary grid and the track stops being
+ * three screens tall.
+ */
+.mvp-spiral:not(.is-live) .mvp-spiral-track { height: auto; }
+.mvp-spiral:not(.is-live) .mvp-spiral-stage { position: static; height: auto; }
+.mvp-spiral:not(.is-live) .mvp-spiral-plane { aspect-ratio: auto; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.mvp-spiral:not(.is-live) .mvp-spiral-svg,
+.mvp-spiral:not(.is-live) .mvp-spiral-hub,
+.mvp-spiral:not(.is-live) .mvp-spiral-prog { display: none; }
+.mvp-spiral:not(.is-live) .mvp-spiral-card {
+  position: static; width: auto; opacity: 1; transform: none; pointer-events: auto;
+}
+
+@media (max-width: 900px) {
+  /* A spiral needs width this has not got, and a sticky stage on a phone eats
+     the whole screen for one card at a time. */
+  .mvp-spiral .mvp-spiral-track { height: auto; }
+  .mvp-spiral .mvp-spiral-stage { position: static; height: auto; }
+  .mvp-spiral .mvp-spiral-plane {
+    aspect-ratio: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .mvp-spiral .mvp-spiral-svg,
+  .mvp-spiral .mvp-spiral-hub,
+  .mvp-spiral .mvp-spiral-prog { display: none; }
+  .mvp-spiral .mvp-spiral-card {
+    position: static;
+    width: auto;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .mvp-spiral .mvp-spiral-card-body { padding: 16px 18px 20px; }
+  .mvp-spiral .mvp-spiral-card h3 { font-size: 1.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mvp-spiral-card { transition: opacity 0.2s ease; }
+}
