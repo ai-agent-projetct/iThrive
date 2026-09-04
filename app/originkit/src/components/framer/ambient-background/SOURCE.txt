@@ -1,0 +1,4 @@
+https://framer.com/m/Ambient-Background-VzUF.js@PZ8HSlw6f90FHl45XCV4
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

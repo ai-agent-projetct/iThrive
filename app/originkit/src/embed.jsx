@@ -64,6 +64,16 @@ const PhysicsStickerWall = lazy(() => import('./components/framer/physics-sticke
    so it is lazy for the same reason as the rest of the heavy set. */
 const LiquidCarousel = lazy(() => import('./components/framer/liquid-carousel/index.js'));
 
+/* The Dedicated Team page's set — none of these is used by any other page. */
+import CircleExpandCard from './components/framer/circle-expand-card/index.js';
+import ImageScroller from './components/framer/image-scroller/index.js';
+import StickyScrollStory from './components/framer/sticky-scroll-story/index.js';
+import GradientBars from './components/framer/g-bars/index.js';
+import AmbientBackground from './components/framer/ambient-background/index.js';
+/* CurvedGalleryArc and GlassStack are already imported above with the MVP
+   set — registered long ago but never actually mounted on a page. The
+   Dedicated Team page is the first to use them. */
+
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
   'swipe-stack': SwipeStack,
@@ -90,6 +100,12 @@ const REGISTRY = {
   'interactive-pattern': InteractivePattern,
   'physics-sticker-wall': PhysicsStickerWall,
   'liquid-carousel': LiquidCarousel,
+  /* The Dedicated Team page's set. */
+  'circle-expand-card': CircleExpandCard,
+  'image-scroller': ImageScroller,
+  'sticky-scroll-story': StickyScrollStory,
+  'g-bars': GradientBars,
+  'ambient-background': AmbientBackground,
 };
 
 function mount(host) {

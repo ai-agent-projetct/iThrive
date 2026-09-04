@@ -1,0 +1,4 @@
+https://framer.com/m/Gradient-bars-background-PBP7eD.js@1az5mj0YIKKWNeAX6WXF
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

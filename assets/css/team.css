@@ -1,0 +1,647 @@
+/* ==========================================================================
+   Dedicated Engineering Team — the page's own styles
+   ==========================================================================
+
+   Fourth bespoke service page, fourth weighting of the same palette:
+
+     MVP    cyan-forward, around a magazine
+     PoC    blue-violet, around a blueprint
+     React  cyan-teal, around a component graph
+     Team   AMBER INTO CYAN, around a roster — seat marks, name plates, and a
+            signature rule that runs under every heading
+
+   Amber appears nowhere else on the site, and that is deliberate. Four dark
+   pages in one palette start to blur together; one colour that belongs to a
+   single page is the cheapest way to keep them apart.
+
+   The rule that is not taste: nothing here paints an opaque background. The
+   site draws a hexagon field on every page (assets/js/hexbg.js — a fixed
+   canvas at z-index 0 behind the flow) and the MVP page once shipped a wash
+   that covered it. Every wash here is translucent for that reason, including
+   the two Framer backgrounds, which are given transparent base colours in
+   their props rather than being allowed to fill.
+   -------------------------------------------------------------------------- */
+
+.tm {
+  --ink: #0B0F17;
+  --amber: #FFB042;
+  --cyan: #00F2FE;
+  --blue: #4EA8FF;
+  --text: #F3EDE4;
+  --dim: #CFC6B8;
+  --faint: #8C8375;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.18);
+  /* Amber first — the one ramp on this site that does not start at cyan. */
+  --grad: linear-gradient(120deg, #FFB042 0%, #00F2FE 62%, #4EA8FF 100%);
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --display: 'Space Grotesk', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  position: relative;
+  background:
+    radial-gradient(56% 44% at 8% 2%, rgba(255, 176, 66, 0.10) 0%, transparent 60%),
+    radial-gradient(50% 42% at 94% 44%, rgba(0, 242, 254, 0.09) 0%, transparent 62%);
+  color: var(--text);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  /* clip, never hidden — `hidden` would make this its own scroll container. */
+  overflow-x: clip;
+}
+
+.tm > * { position: relative; z-index: 1; }
+
+.tm-shell { width: min(1240px, 100% - 48px); margin-inline: auto; }
+.tm-sec { padding: clamp(72px, 9vw, 132px) 0; }
+
+/* --- Shared type ---------------------------------------------------------- */
+
+.tm-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+/* The seat mark — this page's own, where React uses JSX brackets and PoC a
+   corner tick. A square with the notch a chair-from-above would have. */
+.tm-seat {
+  position: relative;
+  width: 11px;
+  height: 11px;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+  opacity: 0.85;
+}
+
+.tm-seat::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -1px;
+  width: 5px;
+  height: 2px;
+  background: var(--ink);
+  transform: translateX(-50%);
+}
+
+.tm-title {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.tm-title em, .tm-h1 em, .tm-band-inner em, .tm-close em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tm-sub {
+  max-width: 62ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.tm-head { margin-bottom: clamp(38px, 5vw, 62px); }
+.tm-head--mid { text-align: center; }
+.tm-head--mid .tm-sub { margin-inline: auto; }
+
+/* --- Buttons: square-ish, where React's are pills and PoC's 10px ---------- */
+
+.tm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 28px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+              background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.tm-btn .icon { width: 17px; height: 17px; }
+
+.tm-btn--primary {
+  background: var(--grad);
+  color: #1A1204;
+  box-shadow: 0 14px 34px -16px rgba(255, 176, 66, 0.8);
+}
+
+.tm-btn--primary:hover { transform: translateY(-2px); box-shadow: 0 20px 42px -16px rgba(0, 242, 254, 0.85); }
+
+.tm-btn--ghost {
+  border-color: var(--line-2);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text);
+}
+
+.tm-btn--ghost:hover { border-color: var(--amber); background: rgba(255, 176, 66, 0.1); }
+
+.tm-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.tm-actions--mid { justify-content: center; }
+
+/* --- Hero ----------------------------------------------------------------- */
+
+.tm-hero { padding: clamp(48px, 7vw, 92px) 0 clamp(56px, 7vw, 100px); }
+
+.tm-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.98fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.tm-h1 {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.tm-lead {
+  max-width: 56ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1rem, 1.25vw, 1.09rem);
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+.tm-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 18px;
+  margin: 40px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.tm-stats li { display: flex; flex-direction: column; gap: 5px; }
+
+.tm-stats strong {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tm-stats span {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* Both hero stages need a real box before their scene measures the host. */
+.tm-arc-host,
+.tm-spline-host {
+  height: clamp(340px, 44vw, 500px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(16, 20, 28, 0.4);
+  overflow: hidden;
+}
+
+.tm-spline-host spline-viewer { display: block; width: 100%; height: 100%; }
+
+.tm-stage-hint {
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: center;
+}
+
+.tm-arc-list { margin: 0; padding: 26px 30px; list-style: none; color: var(--dim); }
+.tm-arc-list li { padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+
+/* --- The opening argument -------------------------------------------------- */
+
+.tm-open-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
+.tm-open-copy p {
+  max-width: 62ch;
+  margin: 0 0 16px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+/* --- Why build alone ------------------------------------------------------- */
+
+.tm-why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.tm-why-card { margin: 0; }
+
+/* The circle-expand card sizes to its host, so the host carries the shape. */
+.tm-why-host {
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.tm-why-card figcaption {
+  margin-top: 14px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.91rem;
+  line-height: 1.66;
+  color: var(--dim);
+}
+
+/* --- The ten roles --------------------------------------------------------- */
+
+.tm-scroller-host {
+  min-height: 300px;
+  margin-bottom: clamp(30px, 4vw, 52px);
+}
+
+.tm-role-list { margin: 0; padding: 0; border-top: 1px solid var(--line); }
+
+.tm-role-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  gap: clamp(16px, 3vw, 40px);
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.25s var(--ease);
+}
+
+.tm-role-row:hover { background: rgba(255, 176, 66, 0.045); }
+
+.tm-role-row dt {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.018em;
+}
+
+.tm-role-num {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+}
+
+.tm-role-row dd {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+/* --- Band ------------------------------------------------------------------ */
+
+.tm-band {
+  position: relative;
+  padding: clamp(56px, 7vw, 96px) 0;
+  border-block: 1px solid var(--line);
+  overflow: hidden;
+}
+
+/* The bar field sits behind the text and is not allowed to swallow clicks. */
+.tm-band-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.5; }
+
+.tm-band-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.tm-band-inner h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.6vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+/* --- Process --------------------------------------------------------------- */
+
+.tm-story-host { min-height: 260px; }
+
+.tm-step-fallback {
+  width: min(1240px, 100% - 48px);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.tm-step-fallback li {
+  display: grid;
+  gap: 6px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+
+.tm-step-fallback strong {
+  font-family: var(--display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.tm-step-fallback span {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+.tm-process-cta { margin-top: 40px; text-align: center; }
+
+/* --- Proof ----------------------------------------------------------------- */
+
+.tm-glass-host { min-height: 320px; }
+
+.tm-proof-fallback { margin: 0; padding: 0; list-style: none; }
+
+.tm-proof-fallback li {
+  display: grid;
+  gap: 6px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.tm-proof-fallback strong { font-family: var(--display); font-size: 1.05rem; font-weight: 700; }
+.tm-proof-fallback span { font-family: 'Inter', system-ui, sans-serif; font-size: 0.93rem; color: var(--dim); }
+
+/* --- Hiring models: three cards that turn over ----------------------------- */
+
+.tm-model-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  perspective: 1400px;
+}
+
+.tm-model {
+  aspect-ratio: 4 / 5;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.tm-model:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 20px; }
+
+.tm-model-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s var(--ease);
+  transition-delay: calc(var(--d, 0) * 40ms);
+}
+
+.tm-model.is-turned .tm-model-inner { transform: rotateY(180deg); }
+
+.tm-model-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  /* Without this both faces paint and the back shows through the front. */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: rgba(16, 20, 28, 0.6);
+}
+
+.tm-model-back { transform: rotateY(180deg); justify-content: center; }
+
+.tm-model-art { position: absolute; inset: 0; margin: 0; z-index: -1; }
+
+.tm-model-art img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+
+.tm-model-face::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(11, 15, 23, 0.94) 100%);
+  pointer-events: none;
+}
+
+.tm-model-face > * { position: relative; }
+
+.tm-model-num {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--amber);
+}
+
+.tm-model-face h3 {
+  margin: 8px 0 0;
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.028em;
+}
+
+.tm-model-turn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.tm-model-turn .icon { width: 14px; height: 14px; }
+
+.tm-model-back p {
+  margin: 12px 0 16px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.tm-tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+
+.tm-tags li {
+  padding: 5px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+/* --- FAQ ------------------------------------------------------------------- */
+
+.tm-faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: start;
+}
+
+.tm-faq-art { margin: 24px 0 0; }
+
+.tm-faq-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  opacity: 0.9;
+}
+
+.tm-faq-item { border-bottom: 1px solid var(--line); transition: border-color 0.3s var(--ease); }
+.tm-faq-item[open] { border-color: rgba(255, 176, 66, 0.45); }
+
+.tm-faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.018em;
+  cursor: pointer;
+  list-style: none;
+}
+
+.tm-faq-item summary::-webkit-details-marker { display: none; }
+.tm-faq-item summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+.tm-faq-mark { position: relative; flex: 0 0 auto; width: 15px; height: 15px; margin-top: 5px; }
+
+.tm-faq-mark::before, .tm-faq-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--amber);
+  transition: transform 0.32s var(--ease), opacity 0.32s var(--ease);
+}
+
+.tm-faq-mark::before { width: 15px; height: 2px; }
+.tm-faq-mark::after  { width: 2px; height: 15px; }
+.tm-faq-item[open] .tm-faq-mark::after { transform: rotate(90deg); opacity: 0; }
+
+.tm-faq-body { padding: 0 0 24px; }
+
+.tm-faq-body p {
+  max-width: 66ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+/* --- Close ----------------------------------------------------------------- */
+
+.tm-close {
+  position: relative;
+  padding: clamp(70px, 9vw, 124px) 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  overflow: hidden;
+}
+
+.tm-close-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.tm-close .tm-shell { position: relative; z-index: 1; }
+.tm-close .tm-eyebrow { justify-content: center; }
+
+.tm-close h2 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.tm-close-lead {
+  max-width: 60ch;
+  margin: 0 auto;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+/* --- Narrow ---------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .tm-hero-grid,
+  .tm-open-grid,
+  .tm-faq-grid,
+  .tm-role-row { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .tm-shell { width: min(1240px, 100% - 32px); }
+  .tm-band-inner { flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-model-inner { transition: none; }
+}

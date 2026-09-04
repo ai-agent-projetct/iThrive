@@ -78,3 +78,26 @@ can be traced and swapped, not because a credit is owed.
 - `assets/img/mvp/photo/industry-06.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
 - `assets/img/mvp/photo/industry-07.jpg` — EqualStock (unsplash.com/@equalstock), via unsplash
 - `assets/img/mvp/photo/industry-08.jpg` — Arlington Research (unsplash.com/@arlington_research), via unsplash
+- `assets/img/mvp/photo/intro-01.jpg` — charlesdeluvio (unsplash.com/@charlesdeluvio), via unsplash
+- `assets/img/mvp/photo/faq-01.jpg` — Jud Mackrill (unsplash.com/@judmackrill), via unsplash
+- `assets/img/mvp/photo/trail-01.jpg` — Priscilla Du Preez 🇨🇦 (unsplash.com/@priscilladupreez), via unsplash
+- `assets/img/mvp/photo/trail-02.jpg` — Amr Taha™ (unsplash.com/@amr_taha), via unsplash
+- `assets/img/mvp/photo/trail-03.jpg` — Paymo (unsplash.com/@paymo), via unsplash
+- `assets/img/mvp/photo/trail-04.jpg` — Tai Bui (unsplash.com/@agforl24), via unsplash
+- `assets/img/mvp/photo/trail-05.jpg` — Priscilla Du Preez 🇨🇦 (unsplash.com/@priscilladupreez), via unsplash
+- `assets/img/cards/photo/about-01.jpg` — Mario Gogh (unsplash.com/@mariogogh), via unsplash
+- `assets/img/cards/photo/about-02.jpg` — Walls.io (unsplash.com/@walls_io), via unsplash
+- `assets/img/cards/photo/about-03.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/cards/photo/about-04.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/cards/photo/careers-01.jpg` — Mina Rad (unsplash.com/@miinrad), via unsplash
+- `assets/img/cards/photo/careers-02.jpg` — Mimi Thian (unsplash.com/@mimithian), via unsplash
+- `assets/img/cards/photo/careers-03.jpg` — Lyubomyr Reverchuk (unsplash.com/@lreverchuk), via unsplash
+- `assets/img/cards/photo/careers-04.jpg` — Vooglam Eyewear (unsplash.com/@vooglam_official), via unsplash
+- `assets/img/cards/photo/insights-01.jpg` — Annie Spratt (unsplash.com/@anniespratt), via unsplash
+- `assets/img/cards/photo/insights-02.jpg` — Kaitlyn Baker (unsplash.com/@kaitlynbaker), via unsplash
+- `assets/img/cards/photo/insights-03.jpg` — Austin Distel (unsplash.com/@austindistel), via unsplash
+- `assets/img/cards/photo/insights-04.jpg` — Tim van der Kuip (unsplash.com/@timmykp), via unsplash
+- `assets/img/cards/photo/insights-05.jpg` — Mapbox (unsplash.com/@mapbox), via unsplash
+- `assets/img/cards/photo/insights-06.jpg` — Arlington Research (unsplash.com/@arlington_research), via unsplash
+- `assets/img/cards/photo/aichat-01.jpg` — The Connected Narrative (unsplash.com/@theconnectednarrative), via unsplash
+- `assets/img/cards/photo/aichat-02.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash

@@ -55,6 +55,13 @@ const MANIFEST = {
   'interactive-pattern': 'https://framer.com/m/Dots-1-9hMKym.js@Io2EJNUHmQKXYcZgVePZ',
   'physics-sticker-wall':'https://framer.com/m/PhysicsStickerWall-zHPbfb.js@e1ECKBDS8JUJUEvoBub9',
   'liquid-carousel':    'https://framer.com/m/liquid-glass-carousel-SkrkTr.js@kpCFFax8ciLkuLf0kMrs',
+
+  /* The Dedicated Team page's set. */
+  'circle-expand-card':  'https://framer.com/m/CircleExpandCard-Hwe1Cb.js@3oVhqtycivGXKTvLWUxu',
+  'image-scroller':      'https://framer.com/m/ImageScroller-kjnj.js@aP86nmOJy6tPfN0rRzeL',
+  'sticky-scroll-story': 'https://framer.com/m/StickyScrollStory-2-x6oztN.js@3u60lLOoADWXFvcvY5Ek',
+  'g-bars':              'https://framer.com/m/Gradient-bars-background-PBP7eD.js@1az5mj0YIKKWNeAX6WXF',
+  'ambient-background':  'https://framer.com/m/Ambient-Background-VzUF.js@PZ8HSlw6f90FHl45XCV4',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));

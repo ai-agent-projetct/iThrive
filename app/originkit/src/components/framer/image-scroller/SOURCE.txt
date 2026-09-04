@@ -1,0 +1,4 @@
+https://framer.com/m/ImageScroller-kjnj.js@aP86nmOJy6tPfN0rRzeL
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.
