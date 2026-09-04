@@ -1,0 +1,950 @@
+/* ==========================================================================
+   Product Modernization — the page's own styles
+   ==========================================================================
+
+   Eighth bespoke service page. The palette is the site's, unchanged; the type
+   is this page's own — Bricolage Grotesque, Figtree and Space Mono.
+
+   The motif is the STRANGLER FIG, which is the name of the technique this page
+   sells: a routing layer in front of the legacy system, new services taking it
+   over one endpoint at a time, both running until the last one moves. Legacy is
+   drawn dashed in slate; migrated is solid and lit. Slate rather than a second
+   hue on purpose — it is the same system on both sides of the line, not a
+   different brand.
+
+   Nothing here paints an opaque background, so the honeycomb reads through.
+   -------------------------------------------------------------------------- */
+
+.pm {
+  --cyan: #00F2FE;
+  --blue: #4EA8FF;
+  --purple: #9D4EDD;
+  --text: #EAF0FA;
+  --dim: #9AA7BD;
+  --faint: #6B7A93;
+  --old: #43506B;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.18);
+  --grad: linear-gradient(120deg, #00F2FE 0%, #4EA8FF 45%, #9D4EDD 100%);
+  --mono: 'Space Mono', ui-monospace, monospace;
+  --display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --body: 'Figtree', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  position: relative;
+  background:
+    radial-gradient(48% 40% at 86% 5%, rgba(0, 242, 254, 0.09) 0%, transparent 62%),
+    radial-gradient(46% 42% at 10% 60%, rgba(157, 78, 221, 0.08) 0%, transparent 64%);
+  color: var(--text);
+  font-family: var(--display);
+  overflow-x: clip;
+}
+
+.pm > * { position: relative; z-index: 1; }
+.pm-shell { width: min(1240px, 100% - 48px); margin-inline: auto; }
+.pm-sec { padding: clamp(72px, 9vw, 132px) 0; }
+
+/* --- Type ----------------------------------------------------------------- */
+
+.pm-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* The mark: two cells, one still dashed, one carried over. */
+.pm-mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 10px;
+}
+
+.pm-mark::before,
+.pm-mark::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+
+.pm-mark::before { left: 0; border: 1px dashed currentColor; opacity: 0.5; }
+.pm-mark::after { right: 0; border: 1px solid currentColor; background: currentColor; opacity: 0.85; }
+
+.pm-title {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.pm-title em,
+.pm-h1 em,
+.pm-band-inner em,
+.pm-close h2 em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pm-sub {
+  max-width: 68ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.74;
+  color: var(--dim);
+}
+
+.pm-head { margin-bottom: clamp(38px, 5vw, 62px); }
+.pm-head--mid { text-align: center; }
+.pm-head--mid .pm-sub { margin-inline: auto; }
+
+.pm-num {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--cyan);
+}
+
+/* --- Buttons: a full pill, this page's own ------------------------------- */
+
+.pm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 30px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+              background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.pm-btn .icon { width: 17px; height: 17px; }
+
+.pm-btn--primary {
+  background: var(--grad);
+  color: #06121A;
+  box-shadow: 0 14px 34px -16px rgba(0, 242, 254, 0.8);
+}
+
+.pm-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 44px -16px rgba(157, 78, 221, 0.85);
+}
+
+.pm-btn--ghost {
+  border-color: var(--line-2);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.pm-btn--ghost:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.1); }
+
+.pm-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.pm-actions--mid { justify-content: center; margin-top: 40px; }
+
+/* --- Hero ----------------------------------------------------------------- */
+
+.pm-hero {
+  position: relative;
+  padding: calc(var(--header-h, 76px) + clamp(30px, 5vw, 70px)) 0 clamp(56px, 7vw, 100px);
+  overflow: hidden;
+}
+
+.pm-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.26;
+  mask-image: radial-gradient(78% 72% at 72% 46%, #000 0%, transparent 78%);
+}
+
+.pm-hero-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(11, 15, 23, 0.6) 0%, transparent 45%, rgba(11, 15, 23, 0.72) 100%);
+}
+
+.pm-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: clamp(32px, 4vw, 60px);
+  align-items: center;
+}
+
+.pm-h1 {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+}
+
+.pm-lead {
+  max-width: 58ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: clamp(1rem, 1.2vw, 1.08rem);
+  line-height: 1.74;
+  color: var(--dim);
+}
+
+.pm-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
+  gap: 18px;
+  margin: 40px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.pm-stats li { display: flex; flex-direction: column; gap: 5px; }
+
+.pm-stats strong {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pm-stats span {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/*
+ * The migration wall.
+ *
+ * Eight two-sided cards. --front is how far the migration has reached along the
+ * diagonal (0 to 1); each tile carries its own --t, its place on that diagonal.
+ * The turn is computed here:
+ *
+ *     clamp(0, (front - t) * 14, 1) * 180deg
+ *
+ * so a tile is legacy while the front is behind it, turns through the middle as
+ * the front crosses it, and is modern once it has passed. The 14 sets how sharp
+ * the front is — lower is a wide gradient of half-turned tiles, higher is a
+ * clean line.
+ *
+ * All of it is CSS. At rest, with no pointer and no script and no animation
+ * frame, --front is 0.52 and the wall is already correctly mid-migration. Eight
+ * components on this site have rendered nothing by computing geometry like this
+ * inside requestAnimationFrame; the pointer here only moves one number.
+ */
+.pm-hero-stage { position: relative; }
+
+.pm-wall {
+  --front: 0.52;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  perspective: 1200px;
+}
+
+.pm-tile {
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+}
+
+.pm-tile-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(clamp(0, (var(--front) - var(--t)) * 14, 1) * 180deg));
+  transition: transform 0.5s var(--ease);
+}
+
+.pm-face {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.pm-face img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.pm-face figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 6px 8px 7px;
+  background: linear-gradient(0deg, rgba(11, 15, 23, 0.9), transparent);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.pm-face--old { border-color: rgba(67, 80, 107, 0.7); }
+.pm-face--old figcaption { color: var(--old); }
+
+.pm-face--new {
+  transform: rotateY(180deg);
+  border-color: rgba(0, 242, 254, 0.5);
+  box-shadow: 0 0 26px -6px rgba(0, 242, 254, 0.4);
+}
+
+.pm-face--new figcaption { color: var(--cyan); }
+
+.pm-stage-hint {
+  margin: 16px 0 0;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: center;
+}
+
+.pm-stage-hint [data-wall-pct] { color: var(--cyan); font-weight: 700; }
+
+/* --- Risks ---------------------------------------------------------------- */
+
+.pm-risk-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pm-risk {
+  position: relative;
+  padding-bottom: 26px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.pm-risk:hover { border-color: rgba(157, 78, 221, 0.5); transform: translateY(-4px); }
+
+.pm-risk-art { margin: 0; aspect-ratio: 18 / 13; overflow: hidden; }
+.pm-risk-art img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+
+.pm-risk-body { padding: 16px 18px 0; }
+
+.pm-risk-body h3 {
+  margin: 8px 0 8px;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pm-risk-body p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.87rem;
+  line-height: 1.62;
+  color: var(--dim);
+}
+
+/* The debt meter: how far the interest has run on this particular card. */
+.pm-meter {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.pm-meter span {
+  display: block;
+  width: var(--f);
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+}
+
+/* --- The drum ------------------------------------------------------------- */
+
+.pm-drum-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+/*
+ * Five panels on a cylinder, placed from their own --i. --a is which panel is
+ * fronted; the drum turns to bring it round. Correct at first paint, again.
+ */
+.pm-drum {
+  --a: 0;
+
+  position: relative;
+  height: clamp(360px, 40vw, 460px);
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+.pm-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(100%, 460px);
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(13, 19, 29, 0.94);
+  overflow: hidden;
+  /* 290px, not 340: at five panels the side ones sit 72 degrees round, so the
+     radius is very nearly how far they travel sideways — and at 340 they left
+     the column and overlapped the heading. */
+  transform:
+    translate(-50%, -50%)
+    rotateY(calc((var(--i) - var(--a)) * (360deg / var(--n))))
+    translateZ(290px);
+  opacity: 0.16;
+  pointer-events: none;
+  transition: transform 0.6s var(--ease), opacity 0.45s var(--ease),
+              border-color 0.45s var(--ease);
+}
+
+.pm-panel.is-front {
+  opacity: 1;
+  pointer-events: auto;
+  border-color: rgba(0, 242, 254, 0.5);
+  box-shadow: 0 34px 70px -30px rgba(0, 242, 254, 0.4);
+}
+
+.pm-panel figure { margin: 0; aspect-ratio: 41 / 28; overflow: hidden; }
+.pm-panel figure img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+
+.pm-panel-body { padding: 18px 22px 24px; }
+
+.pm-panel-body h3 {
+  margin: 8px 0 9px;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pm-panel-body p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.89rem;
+  line-height: 1.64;
+  color: var(--dim);
+}
+
+.pm-drum-nav { display: grid; gap: 8px; }
+
+.pm-drum-dot {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--display);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--faint);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease),
+              background-color 0.25s var(--ease);
+}
+
+.pm-drum-dot span {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--cyan);
+  opacity: 0.7;
+}
+
+.pm-drum-dot:hover { color: var(--text); border-color: var(--line-2); }
+
+.pm-drum-dot.is-on {
+  color: var(--text);
+  border-color: rgba(0, 242, 254, 0.55);
+  background: rgba(0, 242, 254, 0.07);
+}
+
+.pm-drum-dot.is-on span { opacity: 1; }
+
+/* --- Band ----------------------------------------------------------------- */
+
+.pm-band {
+  padding: clamp(56px, 7vw, 92px) 0;
+  border-block: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(0, 242, 254, 0.07), rgba(157, 78, 221, 0.07));
+}
+
+.pm-band-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+}
+
+/* Six cells: the first three carried over, the last three still dashed. */
+.pm-band-front {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 6px;
+}
+
+.pm-band-front i {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  border: 1px dashed rgba(67, 80, 107, 0.9);
+}
+
+.pm-band-front i:nth-child(-n+3) {
+  border: 1px solid rgba(0, 242, 254, 0.8);
+  background: rgba(0, 242, 254, 0.22);
+  animation: pm-carry 4.5s var(--ease) infinite alternate;
+}
+
+.pm-band-front i:nth-child(2) { animation-delay: -1.5s; }
+.pm-band-front i:nth-child(3) { animation-delay: -3s; }
+
+@keyframes pm-carry {
+  from { opacity: 0.45; }
+  to { opacity: 1; }
+}
+
+.pm-band-inner h2 {
+  flex: 1 1 280px;
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.03em;
+}
+
+/* --- The rail ------------------------------------------------------------- */
+
+.pm-rail {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 34px;
+  list-style: none;
+}
+
+/* The rail itself, behind the stops. */
+.pm-rail::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--cyan), var(--purple));
+  opacity: 0.35;
+}
+
+.pm-stop {
+  position: relative;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease);
+}
+
+.pm-stop:last-child { border-bottom: 0; }
+.pm-stop.is-open { border-color: rgba(0, 242, 254, 0.4); }
+.pm-stop:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+
+.pm-stop-dot {
+  position: absolute;
+  left: -34px;
+  top: 26px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--old);
+  border-radius: 4px;
+  background: #0B0F17;
+  transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease),
+              transform 0.3s var(--ease);
+}
+
+.pm-stop.is-open .pm-stop-dot {
+  border-color: var(--cyan);
+  background: rgba(0, 242, 254, 0.28);
+  transform: scale(1.15);
+}
+
+.pm-stop-head { display: flex; align-items: baseline; gap: 14px; }
+
+.pm-stop-head h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 1.7vw, 1.28rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.pm-stop-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.45s var(--ease), opacity 0.32s var(--ease),
+              padding-top 0.45s var(--ease);
+}
+
+.pm-stop-panel > * { overflow: hidden; }
+.pm-stop.is-open .pm-stop-panel { grid-template-rows: 1fr; opacity: 1; padding-top: 16px; }
+
+.pm-stop-panel > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.pm-stop-panel figure { margin: 0; border-radius: 12px; overflow: hidden; }
+
+.pm-stop-panel figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 43 / 27;
+  object-fit: cover;
+  opacity: 0.88;
+}
+
+.pm-stop-panel p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+/* --- Why ------------------------------------------------------------------ */
+
+.pm-why { position: relative; overflow: hidden; }
+
+/*
+ * The dot field needs an explicit height, not a min-height.
+ *
+ * Its root is height:100%, and a percentage height does not resolve against a
+ * parent whose computed height is auto. That is exactly why this component was
+ * recorded as "0 lit pixels of 1600 sampled" on an earlier page and wrongly
+ * written off. Absolute inset gives it a real box.
+ */
+.pm-why-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.5;
+  mask-image: radial-gradient(70% 60% at 50% 40%, #000 0%, transparent 82%);
+}
+
+.pm-why > .pm-shell { position: relative; z-index: 1; }
+
+.pm-why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.pm-why-card {
+  padding-bottom: 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.72);
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.pm-why-card:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-4px); }
+
+.pm-why-card figure { margin: 0 0 14px; aspect-ratio: 19 / 12; overflow: hidden; }
+.pm-why-card figure img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.84; }
+
+.pm-why-card .pm-num { display: block; padding: 0 20px; }
+
+.pm-why-card h3 {
+  margin: 8px 20px 8px;
+  font-family: var(--display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pm-why-card p {
+  margin: 0 20px;
+  font-family: var(--body);
+  font-size: 0.88rem;
+  line-height: 1.62;
+  color: var(--dim);
+}
+
+/* --- Models --------------------------------------------------------------- */
+
+.pm-model-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.pm-model {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.pm-model:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-4px); }
+
+.pm-model figure { margin: 0; aspect-ratio: 8 / 5; overflow: hidden; }
+.pm-model figure img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+
+.pm-model-body { padding: 18px 22px 24px; }
+
+.pm-model-body h3 {
+  margin: 8px 0 9px;
+  font-family: var(--display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pm-model-body p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.9rem;
+  line-height: 1.66;
+  color: var(--dim);
+}
+
+.pm-model-when {
+  margin-top: 10px !important;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--cyan);
+  opacity: 0.85;
+}
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.pm-faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: start;
+}
+
+.pm-faq-art { margin: 24px 0 0; }
+
+.pm-faq-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 40 / 31;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  opacity: 0.9;
+}
+
+.pm-faq-item { border-bottom: 1px solid var(--line); transition: border-color 0.3s var(--ease); }
+.pm-faq-item[open] { border-color: rgba(0, 242, 254, 0.42); }
+
+/* The rail numbers come from here, so they never enter the DOM as text. */
+.pm-faq-list { counter-reset: pm-faq; }
+.pm-faq-item { counter-increment: pm-faq; }
+
+.pm-faq-item summary::before {
+  content: counter(pm-faq, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--cyan);
+}
+
+.pm-faq-item summary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: 22px 0;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-weight: 600;
+  line-height: 1.42;
+  letter-spacing: -0.018em;
+  list-style: none;
+  cursor: pointer;
+}
+
+.pm-faq-item summary::-webkit-details-marker { display: none; }
+.pm-faq-item summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+.pm-faq-mark { position: relative; width: 15px; height: 15px; align-self: center; }
+
+.pm-faq-mark::before,
+.pm-faq-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--cyan);
+  transition: transform 0.32s var(--ease), opacity 0.32s var(--ease);
+}
+
+.pm-faq-mark::before { width: 15px; height: 2px; }
+.pm-faq-mark::after { width: 2px; height: 15px; }
+.pm-faq-item[open] .pm-faq-mark::after { transform: rotate(90deg); opacity: 0; }
+
+.pm-faq-body { padding: 0 0 24px 32px; }
+
+.pm-faq-body p {
+  max-width: 68ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  line-height: 1.76;
+  color: var(--dim);
+}
+
+/* --- Close ---------------------------------------------------------------- */
+
+.pm-close {
+  position: relative;
+  padding: clamp(70px, 9vw, 124px) 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  overflow: hidden;
+}
+
+.pm-close-wash {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(32% 40% at 34% 44%, rgba(0, 242, 254, 0.16) 0%, transparent 64%),
+    radial-gradient(32% 40% at 68% 58%, rgba(157, 78, 221, 0.16) 0%, transparent 64%);
+  animation: pm-float 26s ease-in-out infinite alternate;
+}
+
+@keyframes pm-float {
+  from { transform: translate3d(-2%, -2%, 0) scale(1); }
+  to { transform: translate3d(2%, 2%, 0) scale(1.07); }
+}
+
+.pm-close .pm-shell { position: relative; z-index: 1; }
+.pm-close .pm-eyebrow { justify-content: center; }
+
+.pm-close h2 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.035em;
+}
+
+.pm-close-lead {
+  max-width: 64ch;
+  margin: 0 auto;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.74;
+  color: var(--dim);
+}
+
+/* --- Narrow --------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .pm-risk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pm-why-grid,
+  .pm-model-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 980px) {
+  .pm-hero-grid,
+  .pm-drum-wrap,
+  .pm-faq-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .pm-stop-panel > div { grid-template-columns: minmax(0, 1fr); }
+  .pm-panel { width: min(100%, 380px); }
+}
+
+@media (max-width: 640px) {
+  .pm-shell { width: min(1240px, 100% - 32px); }
+  .pm-risk-grid,
+  .pm-why-grid,
+  .pm-model-grid { grid-template-columns: minmax(0, 1fr); }
+  .pm-band-inner { flex-direction: column; align-items: flex-start; }
+
+  /* Eight tiles across four columns is too fine on a phone. */
+  .pm-wall { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .pm-tile:nth-child(n+7) { display: none; }
+
+  .pm-drum { height: 420px; }
+  .pm-panel { width: min(100%, 300px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-tile-inner,
+  .pm-panel { transition: none; }
+  .pm-close-wash,
+  .pm-band-front i:nth-child(-n+3) { animation: none; }
+  .pm-risk:hover,
+  .pm-why-card:hover,
+  .pm-model:hover { transform: none; }
+}

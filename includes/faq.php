@@ -1278,4 +1278,37 @@ const FAQ = [
         'terms' => 'blockchain web3 crypto smart contract solidity ledger wallet custody on chain nft token defi',
         // Published on services/custom-product-development.php
     ],
+    [
+        'id' => 'q140', 'cat' => 'page-faq',
+        'q' => 'Why should we modernise at all? It still works.',
+        'a' => 'Because "still works" and "stable" are different things. A product that has run for '
+            . 'years without a catastrophe is usually not stable, it is stagnant: development is '
+            . 'slowing, maintenance costs are climbing, the framework has stopped receiving security '
+            . 'patches, and customers are comparing you to something built more recently. '
+            . 'Modernisation reduces the operational bill, closes the vulnerabilities and buys back '
+            . 'the agility to ship. If your system genuinely is fine, we will tell you that instead.',
+        'terms' => 'modernise modernize why bother still works legacy stagnant technical debt upgrade old system worth it',
+        // Published on services/product-modernization.php
+    ],
+    [
+        'id' => 'q141', 'cat' => 'page-faq',
+        'q' => 'Will modernisation disrupt what we are running now?',
+        'a' => 'That is what the approach is designed to prevent. A routing layer goes in front of the '
+            . 'legacy system and new services take over endpoints one at a time, with both running '
+            . 'until the last one moves. Each step is feature-flagged and reversible, cutovers are '
+            . 'blue-green, and planned downtime is zero. Your feature roadmap keeps shipping '
+            . 'throughout — being asked to stand still for a year is why big-bang rewrites fail.',
+        'terms' => 'disrupt disruption downtime outage operations running now migration risk cutover parallel rollback strangler',
+        // Published on services/product-modernization.php
+    ],
+    [
+        'id' => 'q142', 'cat' => 'page-faq',
+        'q' => 'Can modernisation be shaped around our business?',
+        'a' => 'It has to be. The order of work is decided by your constraints, not by a reference '
+            . 'architecture: the compliance deadline, the integration that breaks most often, the '
+            . 'module your team most dreads touching. We sequence around those, and we are explicit '
+            . 'about what we are deliberately not doing yet and why.',
+        'terms' => 'customised customized tailored shaped around our business bespoke sequence priorities constraints roadmap order',
+        // Published on services/product-modernization.php
+    ],
 ];
