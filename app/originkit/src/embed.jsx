@@ -81,6 +81,10 @@ import MotionGallery from './components/framer/motion-gallery/index.js';
 const WaterRipple = lazy(() => import('./components/framer/ripple/index.js'));
 import BrushReveal from './components/framer/brush-reveal/index.js';
 import PixelateOnHover from './components/framer/pixelate-on-hover/index.js';
+/* The Micro-SaaS page's set. Both were triaged first: neither creates a canvas
+   nor drives its layout from requestAnimationFrame, which is what disqualified
+   five other candidates. */
+import LogoBlur from './components/framer/logo-blur/index.js';
 /* Ours, not Framer's — it loads the client's own GLB. three.js again, so lazy. */
 const Logo3D = lazy(() => import('./components/logo-3d.jsx'));
 /* CurvedGalleryArc and GlassStack are already imported above with the MVP
@@ -128,6 +132,7 @@ const REGISTRY = {
   'ripple': WaterRipple,
   'brush-reveal': BrushReveal,
   'pixelate-on-hover': PixelateOnHover,
+  'logo-blur': LogoBlur,
   'logo-3d': Logo3D,
 };
 
@@ -164,7 +169,19 @@ function init() {
   const hosts = Array.from(document.querySelectorAll('[data-ok]:not([data-ok-ready])'));
   if (!hosts.length) return;
 
-  if (!('IntersectionObserver' in window)) {
+  /*
+   * ?ok=eager mounts everything immediately instead of waiting for it to be
+   * scrolled to.
+   *
+   * This exists because an island below the fold cannot be checked otherwise:
+   * IntersectionObserver reports nothing in a browser pane that is hidden or a
+   * tab that is occluded, so the host sits empty and looks exactly like a
+   * component that is broken. Several hours went into that mistake before the
+   * pane turned out to be the cause. It changes nothing for a visitor, who
+   * never has the parameter.
+   */
+  if (!('IntersectionObserver' in window)
+      || new URLSearchParams(location.search).get('ok') === 'eager') {
     hosts.forEach(mount);
 
     return;

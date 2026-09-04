@@ -1,0 +1,842 @@
+/* ==========================================================================
+   Micro-SaaS Product Development — the page's own styles
+   ==========================================================================
+
+   Sixth bespoke service page. The palette is the site's, unchanged; what makes
+   this page its own is the APERTURE — nested squares turning as they narrow
+   onto one lit point, which is the shape of a product aimed at exactly one job.
+
+   Nothing here paints an opaque background, so the honeycomb reads through the
+   whole page. The one page that masks it does so in a single section and says
+   why in a comment.
+   -------------------------------------------------------------------------- */
+
+.ms {
+  --cyan: #00F2FE;
+  --blue: #4EA8FF;
+  --purple: #9D4EDD;
+  --text: #EAF0FA;
+  --dim: #9AA7BD;
+  --faint: #6B7A93;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.18);
+  --grad: linear-gradient(120deg, #00F2FE 0%, #4EA8FF 45%, #9D4EDD 100%);
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --display: 'Space Grotesk', system-ui, sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  position: relative;
+  background:
+    radial-gradient(52% 44% at 84% 4%, rgba(78, 168, 255, 0.10) 0%, transparent 60%),
+    radial-gradient(48% 40% at 10% 52%, rgba(0, 242, 254, 0.08) 0%, transparent 62%);
+  color: var(--text);
+  font-family: var(--display);
+  overflow-x: clip;
+}
+
+.ms > * { position: relative; z-index: 1; }
+.ms-shell { width: min(1240px, 100% - 48px); margin-inline: auto; }
+.ms-sec { padding: clamp(72px, 9vw, 132px) 0; }
+
+/* --- Type ----------------------------------------------------------------- */
+
+.ms-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* The aperture mark — a square inside a square, turned. */
+.ms-ap {
+  position: relative;
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  border: 2px solid currentColor;
+}
+
+.ms-ap::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid currentColor;
+  opacity: 0.7;
+  transform: rotate(45deg);
+}
+
+.ms-title {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.ms-title em,
+.ms-h1 em,
+.ms-band-inner em,
+.ms-close h2 em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ms-sub {
+  max-width: 62ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.ms-head { margin-bottom: clamp(38px, 5vw, 62px); }
+.ms-head--mid { text-align: center; }
+.ms-head--mid .ms-sub { margin-inline: auto; }
+
+.ms-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+/* --- Buttons: a soft 8px, this page's own --------------------------------- */
+
+.ms-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 28px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+              background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.ms-btn .icon { width: 17px; height: 17px; }
+
+.ms-btn--primary {
+  background: var(--grad);
+  color: #06121A;
+  box-shadow: 0 14px 34px -16px rgba(0, 242, 254, 0.8);
+}
+
+.ms-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px -16px rgba(157, 78, 221, 0.85);
+}
+
+.ms-btn--ghost {
+  border-color: var(--line-2);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text);
+}
+
+.ms-btn--ghost:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.1); }
+
+.ms-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.ms-actions--mid { justify-content: center; }
+
+/* --- Hero: a CSS 3D stack ------------------------------------------------- */
+
+/* The site header is fixed at --header-h, so the hero has to start below it —
+   at 375px the old 7vw top padding resolved to 48px and the eyebrow ran under
+   the logo. */
+.ms-hero {
+  position: relative;
+  padding: calc(var(--header-h, 76px) + clamp(28px, 5vw, 64px)) 0 clamp(56px, 7vw, 100px);
+  overflow: hidden;
+}
+
+.ms-hero-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(46% 52% at 74% 40%, rgba(0, 242, 254, 0.10) 0%, transparent 66%);
+}
+
+/* The stage takes the wider column: six fanned shards need about 560px before
+   they stop being a deck of cards seen edge-on. */
+.ms-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(32px, 4vw, 56px);
+  align-items: center;
+}
+
+.ms-h1 {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.ms-lead {
+  max-width: 56ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: clamp(1rem, 1.25vw, 1.09rem);
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+.ms-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 18px;
+  margin: 40px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.ms-stats li { display: flex; flex-direction: column; gap: 5px; }
+
+.ms-stats strong {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ms-stats span {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/*
+ * The stack.
+ *
+ * Every shard's place is computed HERE, from its own --i, so the whole thing is
+ * laid out at first paint with no script involved. --r is the drag offset and
+ * only ever adds to that.
+ *
+ * This is deliberate. The Dedicated Team page's hero was a Framer component
+ * that computed the same rotateY/translateZ inside requestAnimationFrame, and
+ * in a tab that never got a frame all ten of its cards sat at one point. Six
+ * components across this site have failed the same way.
+ */
+.ms-hero-stage { position: relative; }
+
+.ms-stack {
+  position: relative;
+  height: clamp(360px, 46vw, 520px);
+  perspective: 1200px;
+  perspective-origin: 50% 45%;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.ms-stack:active { cursor: grabbing; }
+
+.ms-shard {
+  /*
+   * --k is this shard's place measured from the MIDDLE of the fan, so the
+   * whole run is centred on the stage. Measuring from zero instead fanned all
+   * six to one side and turned the last two past edge-on: at 16deg apart the
+   * sixth sat at 96deg and measured one pixel wide.
+   */
+  --k: calc(var(--i) - var(--r, 0) - (var(--n) - 1) / 2);
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(140px, 13vw, 184px);
+  margin: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  background: rgba(14, 20, 30, 0.94);
+  box-shadow: 0 30px 64px -34px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(var(--k) * 78px))
+    rotateY(calc(var(--k) * -15deg))
+    translateZ(60px);
+  transition: transform 0.5s var(--ease), border-color 0.3s var(--ease),
+              box-shadow 0.5s var(--ease);
+}
+
+/* A hovered shard comes square to the viewer, which is the only way to read
+   one in the middle of the fan. */
+.ms-stack:not(.is-dragging) .ms-shard:hover {
+  z-index: 2;
+  border-color: rgba(0, 242, 254, 0.6);
+  box-shadow: 0 40px 78px -30px rgba(0, 242, 254, 0.45);
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(var(--k) * 78px))
+    rotateY(0deg)
+    translateZ(150px);
+}
+
+.ms-stack.is-dragging .ms-shard { transition: none; }
+
+.ms-shard img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  /* Only the left ~78px of each shard clears the one in front of it, and the
+     left edge of this artwork is its darkest corner. Biasing the crop right
+     puts the lit aperture in the strip that is actually visible. */
+  object-position: 74% 44%;
+}
+
+.ms-shard figcaption {
+  display: grid;
+  gap: 3px;
+  padding: 11px 13px 14px;
+  font-family: var(--display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--text);
+}
+
+.ms-shard figcaption span {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+.ms-stage-hint {
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: center;
+}
+
+/* --- Framework: six cards, one open --------------------------------------- */
+
+/* Six cards want 3x2. auto-fit gave four across at 1240px and left a widowed
+   pair on the second row. */
+.ms-frame-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ms-frame-card {
+  position: relative;
+  padding: 0 0 46px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.48);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.ms-frame-card:hover { border-color: var(--line-2); transform: translateY(-3px); }
+.ms-frame-card:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.ms-frame-card.is-open { border-color: rgba(0, 242, 254, 0.5); }
+
+.ms-frame-art {
+  position: relative;
+  margin: 0 0 14px;
+  aspect-ratio: 8 / 5;
+  overflow: hidden;
+}
+
+.ms-frame-art img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+
+.ms-frame-num {
+  position: absolute;
+  left: 16px;
+  bottom: 12px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+.ms-frame-title {
+  margin: 0 20px;
+  font-family: var(--display);
+  font-size: 1.04rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+/* grid-template-rows 0fr → 1fr animates a height nobody had to measure. */
+.ms-frame-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin: 0 20px;
+  opacity: 0;
+  transition: grid-template-rows 0.42s var(--ease), opacity 0.3s var(--ease),
+              margin-top 0.42s var(--ease);
+}
+
+.ms-frame-panel > * { overflow: hidden; }
+.ms-frame-card.is-open .ms-frame-panel { grid-template-rows: 1fr; opacity: 1; margin-top: 12px; }
+
+.ms-frame-panel p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.9rem;
+  line-height: 1.66;
+  color: var(--dim);
+}
+
+.ms-frame-more { position: absolute; left: 20px; bottom: 18px; width: 14px; height: 14px; }
+
+.ms-frame-more::before,
+.ms-frame-more::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--cyan);
+  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+}
+
+.ms-frame-more::before { width: 14px; height: 2px; }
+.ms-frame-more::after { width: 2px; height: 14px; }
+.ms-frame-card.is-open .ms-frame-more::after { transform: rotate(90deg); opacity: 0; }
+
+/* --- Verticals ------------------------------------------------------------ */
+
+.ms-vert-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+
+.ms-vert-tab {
+  padding: 10px 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+  cursor: pointer;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease),
+              background-color 0.25s var(--ease);
+}
+
+.ms-vert-tab:hover { color: var(--text); border-color: var(--line-2); }
+.ms-vert-tab.is-on { color: #06121A; border-color: transparent; background: var(--grad); }
+
+.ms-vert-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: center;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(14, 20, 32, 0.48);
+}
+
+/*
+ * `hidden` has to beat the class rule above or every panel renders at once.
+ * A bare [hidden] sets `display: none` at the UA level, which any author
+ * `display` outranks — this cost the PoC page and the ReactJS sector grid a
+ * debugging pass each.
+ */
+.ms-vert-panel[hidden] { display: none; }
+
+.ms-vert-art { margin: 0; }
+
+.ms-vert-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 12px;
+  opacity: 0.9;
+}
+
+.ms-vert-kicker {
+  margin: 0 0 10px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.ms-vert-blurb {
+  margin: 0 0 16px;
+  font-family: var(--body);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.ms-vert-body ul { margin: 0; padding: 0; list-style: none; }
+
+.ms-vert-body li {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  border-top: 1px solid var(--line);
+  font-family: var(--body);
+  font-size: 0.93rem;
+  color: var(--text);
+}
+
+.ms-vert-body li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 17px;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--cyan);
+  transform: rotate(45deg);
+}
+
+/* --- Band ----------------------------------------------------------------- */
+
+.ms-band {
+  position: relative;
+  padding: clamp(56px, 7vw, 96px) 0;
+  border-block: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(0, 242, 254, 0.07), rgba(157, 78, 221, 0.07));
+  overflow: hidden;
+}
+
+.ms-band-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  mask-image: linear-gradient(90deg, #000 0%, transparent 62%);
+}
+
+.ms-band-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/*
+ * The aperture. Five squares, each turned and scaled a step further in by its
+ * own --i, closing on a lit point. The keyframes only nudge what the --i
+ * already set, so the shape is correct at first paint and the motion is the
+ * compositor's problem.
+ */
+.ms-aperture {
+  position: relative;
+  flex: 0 0 auto;
+  width: 108px;
+  height: 108px;
+}
+
+.ms-aperture span {
+  position: absolute;
+  inset: calc(var(--i) * 9px);
+  border: 1.5px solid rgba(0, 242, 254, calc(0.85 - var(--i) * 0.12));
+  border-radius: 3px;
+  transform: rotate(calc(var(--i) * 12deg));
+  animation: ms-iris 6s var(--ease) calc(var(--i) * -0.32s) infinite alternate;
+}
+
+.ms-aperture b {
+  position: absolute;
+  inset: 0;
+  width: 12px;
+  height: 12px;
+  margin: auto;
+  border-radius: 50%;
+  background: var(--grad);
+  box-shadow: 0 0 22px 5px rgba(0, 242, 254, 0.55);
+}
+
+@keyframes ms-iris {
+  from { transform: rotate(calc(var(--i) * 12deg)) scale(1); }
+  to { transform: rotate(calc(var(--i) * 12deg + 42deg)) scale(0.82); }
+}
+
+.ms-band-inner h2 {
+  flex: 1 1 260px;
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.6vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+/* --- Advantage ------------------------------------------------------------ */
+
+/* Four cards, 2x2 — three across left the fourth alone on its own row. */
+.ms-adv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.ms-adv-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(14, 20, 32, 0.48);
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.ms-adv-card:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-4px); }
+
+.ms-adv-art { margin: 0; border-radius: 12px; overflow: hidden; }
+
+.ms-adv-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+  opacity: 0.86;
+}
+
+.ms-adv-body h3 {
+  margin: 9px 0;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.ms-adv-body p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.89rem;
+  line-height: 1.64;
+  color: var(--dim);
+}
+
+/* --- Clients -------------------------------------------------------------- */
+
+/*
+ * The logo plates are dark artwork made for light backgrounds, so they are
+ * inverted here exactly as the site's own marquee does it. Reserved height
+ * matches logoHeight + the component's own padding, so nothing shifts when the
+ * island mounts.
+ */
+.ms-logo-row { min-height: 62px; }
+
+.ms-logo-row img {
+  filter: invert(1) brightness(1.6);
+  transition: filter 0.3s var(--ease);
+}
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.ms-faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: start;
+}
+
+.ms-faq-art { margin: 24px 0 0; }
+
+.ms-faq-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  opacity: 0.9;
+}
+
+.ms-faq-item { border-bottom: 1px solid var(--line); transition: border-color 0.3s var(--ease); }
+.ms-faq-item[open] { border-color: rgba(0, 242, 254, 0.42); }
+
+.ms-faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.018em;
+  list-style: none;
+  cursor: pointer;
+}
+
+.ms-faq-item summary::-webkit-details-marker { display: none; }
+.ms-faq-item summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+.ms-faq-mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  margin-top: 5px;
+}
+
+.ms-faq-mark::before,
+.ms-faq-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--cyan);
+  transition: transform 0.32s var(--ease), opacity 0.32s var(--ease);
+}
+
+.ms-faq-mark::before { width: 15px; height: 2px; }
+.ms-faq-mark::after { width: 2px; height: 15px; }
+.ms-faq-item[open] .ms-faq-mark::after { transform: rotate(90deg); opacity: 0; }
+
+.ms-faq-body { padding: 0 0 24px; }
+
+.ms-faq-body p {
+  max-width: 66ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+/* --- Close ---------------------------------------------------------------- */
+
+.ms-close {
+  position: relative;
+  padding: clamp(70px, 9vw, 124px) 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  overflow: hidden;
+}
+
+.ms-close-wash {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(34% 42% at 34% 42%, rgba(0, 242, 254, 0.16) 0%, transparent 64%),
+    radial-gradient(32% 40% at 70% 60%, rgba(157, 78, 221, 0.16) 0%, transparent 64%);
+  animation: ms-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes ms-drift {
+  from { transform: translate3d(-2%, -2%, 0) scale(1); }
+  to { transform: translate3d(2%, 2%, 0) scale(1.07); }
+}
+
+.ms-close .ms-shell { position: relative; z-index: 1; }
+.ms-close .ms-eyebrow { justify-content: center; }
+
+.ms-close h2 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.ms-close-lead {
+  max-width: 60ch;
+  margin: 0 auto;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+/* --- Narrow --------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .ms-frame-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 980px) {
+  .ms-hero-grid,
+  .ms-faq-grid,
+  .ms-vert-panel,
+  .ms-adv-grid,
+  .ms-adv-card { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .ms-frame-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .ms-shell { width: min(1240px, 100% - 32px); }
+  .ms-band-inner { flex-direction: column; align-items: flex-start; }
+
+  /* Six shards at the desktop spread need 530px and there are 375. Tighten the
+     fan and shrink the cards so the whole run stays on screen instead of being
+     clipped by the hero's overflow. */
+  .ms-stack { height: 320px; }
+
+  .ms-shard {
+    width: 104px;
+    transform:
+      translate(-50%, -50%)
+      translateX(calc(var(--k) * 46px))
+      rotateY(calc(var(--k) * -13deg))
+      translateZ(30px);
+  }
+
+  .ms-shard img { height: 140px; }
+  .ms-shard figcaption { padding: 8px 9px 10px; font-size: 0.68rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ms-shard { transition: none; }
+  .ms-close-wash,
+  .ms-aperture span { animation: none; }
+  .ms-adv-card:hover,
+  .ms-frame-card:hover { transform: none; }
+}

@@ -72,6 +72,9 @@ const MANIFEST = {
   'ripple':              'https://framer.com/m/Ripple-Qymb.js@YGTvnr2Zbs54i2DJOYbY',
   'brush-reveal':        'https://framer.com/m/PaintReveal-xC3J.js@1dIMaqwduqASd187WxFa',
   'pixelate-on-hover':   'https://framer.com/m/Pixelate-On-Hover-GXbn.js@6FGRLm3qg7i7sEnM4KpX',
+
+  /* The Micro-SaaS page's set. */
+  'logo-blur':           'https://framer.com/m/LogoBlur-mBu9hc.js@VcV54qPqdfMNxJPWzmch',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));

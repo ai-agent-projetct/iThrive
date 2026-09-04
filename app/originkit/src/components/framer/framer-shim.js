@@ -63,3 +63,54 @@ export function useIsStaticRenderer() {
 export const Frame = 'div';
 export const useLocaleInfo = () => ({ activeLocale: null, locales: [] });
 export const withCSS = (Component) => Component;
+
+/*
+ * Framer collects the webfonts a component declares so its canvas can preload
+ * them. Off the canvas there is nothing to preload — every page here loads its
+ * own faces from a stylesheet in the document head — so this returns nothing
+ * and the components that call it carry on.
+ *
+ * It is here because a component that merely IMPORTS a missing export fails
+ * the whole build, not just itself — a Framer canvas export asking for
+ * getFonts took the entire island down with it until this existed.
+ */
+export const getFonts = () => [];
+export const getFontsFromSharedStyle = () => [];
+
+/*
+ * The rest of what the vendored components import from `framer`.
+ *
+ * Collected in one pass rather than discovered one build failure at a time —
+ * grep every `import{…}from"framer"` across components/framer and this is the
+ * union. A component that merely imports a name the shim lacks fails the WHOLE
+ * bundle, not just itself, so a missing one takes every page down.
+ *
+ * These are all canvas-time concerns: variant plumbing, viewport measurement
+ * for the Framer editor, font preloading, SVG templating. Off the canvas they
+ * have nothing to do, so each is the smallest honest no-op — never a throw,
+ * which would move the failure from build time to run time.
+ */
+export const getPropertyControls = (Component) => (Component && Component.propertyControls) || {};
+export const addFonts = () => {};
+export const fontStore = { loadWebFontsFromSelectors: () => {}, addFonts: () => {} };
+export const cx = (...parts) => parts.filter(Boolean).join(' ');
+
+/* Variants: nothing on this site drives one, so the hooks report a resting
+   state and hand back callbacks that do nothing. */
+export const useVariantState = () => ({ variants: [], baseVariant: null, gestureVariant: null, setVariant: () => {}, setGestureState: () => {} });
+export const useActiveVariantCallback = () => ({ activeVariantCallback: (fn) => fn, delay: (fn) => fn });
+
+/* Viewport and navigation: the editor's, not ours. */
+export const useComponentViewport = () => undefined;
+export const ComponentViewportProvider = ({ children }) => children;
+export const useIsInCurrentNavigationTarget = () => true;
+export const SmartComponentScopedContainer = ({ children }) => children;
+
+export const useSVGTemplate = () => undefined;
+export const forwardLoader = (Component) => Component;
+
+/* Framer's Image/Link/RichText/Instance render as ordinary elements here. */
+export const Image = 'img';
+export const Link = 'a';
+export const RichText = 'div';
+export const Instance = 'div';

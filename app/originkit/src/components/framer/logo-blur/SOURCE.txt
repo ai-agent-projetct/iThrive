@@ -1,0 +1,4 @@
+https://framer.com/m/LogoBlur-mBu9hc.js@VcV54qPqdfMNxJPWzmch
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.
