@@ -7,12 +7,15 @@
      MVP    cyan-forward, around a magazine
      PoC    blue-violet, around a blueprint
      React  cyan-teal, around a component graph
-     Team   AMBER INTO CYAN, around a roster — seat marks, name plates, and a
-            signature rule that runs under every heading
+     Team   THE SITE'S OWN RAMP, around a roster — seat marks, name plates,
+            and a signature rule under every heading
 
-   Amber appears nowhere else on the site, and that is deliberate. Four dark
-   pages in one palette start to blur together; one colour that belongs to a
-   single page is the cheapest way to keep them apart.
+   This page shipped once in amber, on the theory that a colour of its own
+   would keep four dark pages apart. It did — it also stopped looking like the
+   same website, which is the more expensive problem and the same note the MVP
+   page got. The ramp here is now style.css's own, unchanged: #00F2FE into
+   #4EA8FF into #9D4EDD. What separates this page from the other three is its
+   layout, its components and its roster motif, not a colour nothing else uses.
 
    The rule that is not taste: nothing here paints an opaque background. The
    site draws a hexagon field on every page (assets/js/hexbg.js — a fixed
@@ -24,24 +27,25 @@
 
 .tm {
   --ink: #0B0F17;
-  --amber: #FFB042;
   --cyan: #00F2FE;
   --blue: #4EA8FF;
-  --text: #F3EDE4;
-  --dim: #CFC6B8;
-  --faint: #8C8375;
+  --purple: #9D4EDD;
+  /* style.css's own text ramp, so body copy matches every other page. */
+  --text: #EAF0FA;
+  --dim: #9AA7BD;
+  --faint: #6B7A93;
   --line: rgba(255, 255, 255, 0.09);
   --line-2: rgba(255, 255, 255, 0.18);
-  /* Amber first — the one ramp on this site that does not start at cyan. */
-  --grad: linear-gradient(120deg, #FFB042 0%, #00F2FE 62%, #4EA8FF 100%);
+  /* style.css's --grad, copied exactly rather than approximated. */
+  --grad: linear-gradient(120deg, #00F2FE 0%, #4EA8FF 45%, #9D4EDD 100%);
   --mono: 'JetBrains Mono', ui-monospace, monospace;
   --display: 'Space Grotesk', system-ui, sans-serif;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   position: relative;
   background:
-    radial-gradient(56% 44% at 8% 2%, rgba(255, 176, 66, 0.10) 0%, transparent 60%),
-    radial-gradient(50% 42% at 94% 44%, rgba(0, 242, 254, 0.09) 0%, transparent 62%);
+    radial-gradient(56% 44% at 8% 2%, rgba(0, 242, 254, 0.10) 0%, transparent 60%),
+    radial-gradient(50% 42% at 94% 44%, rgba(157, 78, 221, 0.09) 0%, transparent 62%);
   color: var(--text);
   font-family: 'Space Grotesk', system-ui, sans-serif;
   /* clip, never hidden — `hidden` would make this its own scroll container. */
@@ -65,7 +69,7 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--cyan);
 }
 
 /* The seat mark — this page's own, where React uses JSX brackets and PoC a
@@ -142,11 +146,11 @@
 
 .tm-btn--primary {
   background: var(--grad);
-  color: #1A1204;
-  box-shadow: 0 14px 34px -16px rgba(255, 176, 66, 0.8);
+  color: #06121A;
+  box-shadow: 0 14px 34px -16px rgba(0, 242, 254, 0.8);
 }
 
-.tm-btn--primary:hover { transform: translateY(-2px); box-shadow: 0 20px 42px -16px rgba(0, 242, 254, 0.85); }
+.tm-btn--primary:hover { transform: translateY(-2px); box-shadow: 0 20px 42px -16px rgba(157, 78, 221, 0.85); }
 
 .tm-btn--ghost {
   border-color: var(--line-2);
@@ -154,7 +158,7 @@
   color: var(--text);
 }
 
-.tm-btn--ghost:hover { border-color: var(--amber); background: rgba(255, 176, 66, 0.1); }
+.tm-btn--ghost:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.1); }
 
 .tm-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
 .tm-actions--mid { justify-content: center; }
@@ -305,7 +309,7 @@
   transition: background-color 0.25s var(--ease);
 }
 
-.tm-role-row:hover { background: rgba(255, 176, 66, 0.045); }
+.tm-role-row:hover { background: rgba(0, 242, 254, 0.045); }
 
 .tm-role-row dt {
   display: flex;
@@ -322,7 +326,7 @@
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.16em;
-  color: var(--amber);
+  color: var(--cyan);
 }
 
 .tm-role-row dd {
@@ -400,7 +404,9 @@
 
 /* --- Proof ----------------------------------------------------------------- */
 
-.tm-glass-host { min-height: 320px; }
+/* Vertical, five items, each with a heading and a paragraph — it needs room.
+   min-height alone was what squashed the first version into a clipped row. */
+.tm-glass-host { min-height: 640px; }
 
 .tm-proof-fallback { margin: 0; padding: 0; list-style: none; }
 
@@ -431,7 +437,7 @@
   padding: 0;
 }
 
-.tm-model:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 20px; }
+.tm-model:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 20px; }
 
 .tm-model-inner {
   position: relative;
@@ -481,7 +487,7 @@
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color: var(--amber);
+  color: var(--cyan);
 }
 
 .tm-model-face h3 {
@@ -524,7 +530,7 @@
   font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--cyan);
 }
 
 /* --- FAQ ------------------------------------------------------------------- */
@@ -550,7 +556,7 @@
 }
 
 .tm-faq-item { border-bottom: 1px solid var(--line); transition: border-color 0.3s var(--ease); }
-.tm-faq-item[open] { border-color: rgba(255, 176, 66, 0.45); }
+.tm-faq-item[open] { border-color: rgba(0, 242, 254, 0.45); }
 
 .tm-faq-item summary {
   display: flex;
@@ -568,7 +574,7 @@
 }
 
 .tm-faq-item summary::-webkit-details-marker { display: none; }
-.tm-faq-item summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.tm-faq-item summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 
 .tm-faq-mark { position: relative; flex: 0 0 auto; width: 15px; height: 15px; margin-top: 5px; }
 
@@ -577,7 +583,7 @@
   position: absolute;
   inset: 0;
   margin: auto;
-  background: var(--amber);
+  background: var(--cyan);
   transition: transform 0.32s var(--ease), opacity 0.32s var(--ease);
 }
 

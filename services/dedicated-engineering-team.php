@@ -27,11 +27,11 @@
  * steps aside for it. Until then the arc is the live 3D hero, so the page is
  * complete either way rather than waiting on a scene that may never come.
  *
- * Theme: the site's palette, weighted a FOURTH way. MVP is cyan on a magazine,
- * PoC blue-violet on a blueprint, React cyan-teal on a component graph; this
- * one is AMBER-INTO-CYAN on a roster — seat marks, name plates, and a rule
- * that runs under every heading like a signature line. Amber appears nowhere
- * else on the site, which is what keeps four dark pages distinguishable.
+ * Theme: the site's own ramp, unchanged — #00F2FE into #4EA8FF into #9D4EDD,
+ * exactly as style.css defines it. This page shipped once in amber on the
+ * theory that a colour of its own would keep four dark pages apart; it did,
+ * and it also stopped looking like the same website. What separates this page
+ * is its layout, its components and its roster motif, not its hue.
  *
  * Every picture is rendered by tools/team-art.mjs and every slot prefers a
  * photograph from assets/img/team/photo/ the moment one lands.
@@ -401,6 +401,12 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
         </p>
       </div>
 
+      <?php /* The glass stack, given the props it actually needs.
+               First pass passed only title and body and left it in a 320px
+               box, so it laid five long items out in a ROW and clipped them —
+               its own default is vertical and it has fonts, padding and colour
+               of its own that were all sitting at Framer's defaults against
+               this page's dark ground. */ ?>
       <div class="tm-glass-host"
            data-ok="glass-stack"
            data-props='<?= e(json_encode([
@@ -409,6 +415,18 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
                    'body'            => $p[1],
                    'backgroundImage' => ['src' => $imgAbs('proof/' . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) . '.jpg'), 'alt' => $p[0]],
                ], $proof, array_keys($proof)),
+               'direction'        => 'vertical',
+               'gap'              => 18,
+               'containerPadding' => 0,
+               'allowOverflow'    => false,
+               'backgroundColor'  => 'rgba(255, 255, 255, 0.06)',
+               'glassOpacity'     => 0.85,
+               'borderRadius'     => 20,
+               'padding'          => 34,
+               'titleFont'        => ['fontSize' => '24px', 'fontWeight' => 700, 'letterSpacing' => '-0.03em', 'lineHeight' => '1.2em'],
+               'bodyFont'         => ['fontSize' => '15px', 'fontWeight' => 400, 'letterSpacing' => '-0.005em', 'lineHeight' => '1.65em'],
+               'titleColor'       => '#EAF0FA',
+               'bodyColor'        => '#9AA7BD',
            ], JSON_THROW_ON_ERROR)) ?>'>
         <ul class="tm-proof-fallback">
           <?php foreach ($proof as [$t, $b]): ?>
@@ -494,9 +512,9 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
          data-ok="ambient-background"
          data-props='<?= e(json_encode([
              'baseColor'       => 'rgba(0, 0, 0, 0)',
-             'color1'          => 'rgba(255, 176, 66, 0.20)',
-             'color2'          => 'rgba(0, 242, 254, 0.18)',
-             'color3'          => 'rgba(78, 168, 255, 0.16)',
+             'color1'          => 'rgba(0, 242, 254, 0.18)',
+             'color2'          => 'rgba(78, 168, 255, 0.16)',
+             'color3'          => 'rgba(157, 78, 221, 0.18)',
              'blurAmount'      => 90,
              'speedMultiplier' => 0.45,
          ], JSON_THROW_ON_ERROR)) ?>'></div>

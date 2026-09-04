@@ -3,15 +3,15 @@
  *
  *     node tools/team-art.mjs
  *
- * Fourth set on the site, and the fourth weighting of the same palette. The MVP
- * page is cyan on a magazine, the PoC page blue-violet on a blueprint, the
- * React page cyan-teal on a component graph. This one is AMBER INTO CYAN on a
- * ROSTER — seat marks, name plates, a signature rule, and small stacked rows
- * that read as people rather than systems.
+ * Fourth set on the site. It shipped once in AMBER, on the theory that a colour
+ * of its own would keep four dark pages apart. It did — and it also stopped
+ * looking like the same website, which is the more expensive problem and the
+ * same note the MVP page got a fortnight earlier.
  *
- * Amber appears nowhere else on the site. That is the point: four dark pages in
- * one palette start to blur, and one colour that belongs to a single page is
- * the cheapest way to keep them apart.
+ * So the palette here is style.css's own, unchanged: #00F2FE into #4EA8FF into
+ * #9D4EDD on ink. What makes this set its own is the MOTIF rather than the hue
+ * — a ROSTER of seat marks, name plates and small stacked rows that read as
+ * people, where the React set is a component graph and the PoC set a blueprint.
  *
  *   role/   10 square tiles for the hero arc and the scroller
  *   why/     4 for the circle-expand cards
@@ -33,7 +33,7 @@ const FFMPEG = 'C:/Users/aakas/Downloads/Central Adventure/repo/node_modules/ffm
 const here = path.dirname(fileURLToPath(import.meta.url));
 const OUT  = path.join(here, '..', 'assets', 'img', 'team');
 
-const AMBER = '#FFB042';
+const PURPLE = '#9D4EDD';
 const CYAN  = '#00F2FE';
 const BLUE  = '#4EA8FF';
 const INK   = '#0B0F17';
@@ -144,7 +144,7 @@ const mono = (x, y, t, c, size = 15, anchor = 'start') => `
  * The sets
  * ----------------------------------------------------------------------- */
 
-const TINTS = [AMBER, CYAN, BLUE];
+const TINTS = [CYAN, BLUE, PURPLE];
 
 /** Ten role tiles — square, and lit, because they ride a 3D arc. */
 function role(i) {
@@ -164,7 +164,7 @@ function why(i) {
   const c = TINTS[i % 3];
 
   return svg(`0 0 ${W} ${H}`, `
-    ${ground(W, H, c, AMBER, 1.5)}
+    ${ground(W, H, c, PURPLE, 1.5)}
     ${bench(W, H, c, 5, i + 2)}
     ${plates(W, H, c, 3)}
     ${motes(W, H, c, 20)}
@@ -185,7 +185,7 @@ function proof(i) {
 /** Three hiring-model cards. */
 function model(i) {
   const W = 800; const H = 600;
-  const c = [AMBER, CYAN, BLUE][i];
+  const c = [PURPLE, CYAN, BLUE][i];
 
   return svg(`0 0 ${W} ${H}`, `
     ${ground(W, H, c, TINTS[(i + 2) % 3], 1.3)}
@@ -198,10 +198,10 @@ function faq1() {
   const W = 800; const H = 600;
 
   return svg(`0 0 ${W} ${H}`, `
-    ${ground(W, H, AMBER, CYAN)}
-    ${bench(W, H, AMBER, 5, 3)}
+    ${ground(W, H, PURPLE, CYAN)}
+    ${bench(W, H, PURPLE, 5, 3)}
     ${rule(W, H, CYAN)}
-    ${mono(40, H - 32, 'ASK US', AMBER, 17)}`);
+    ${mono(40, H - 32, 'ASK US', PURPLE, 17)}`);
 }
 
 /* --------------------------------------------------------------------------
