@@ -41,7 +41,7 @@
  * lifted toward the site's #0B0F17 navy — so the set holds together and sits on
  * the page instead of on top of it.
  */
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -70,7 +70,7 @@ const ROOT   = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
  * were prompted for the same grade in words.
  */
 const GRADE = [
-  'eq=contrast=1.05:saturation=0.62:brightness=-0.045:gamma=0.97',
+  'eq=contrast=1.05:saturation=0.62',
   'colorbalance=rs=-0.14:gs=-0.03:bs=0.17:rm=-0.08:gm=-0.01:bm=0.11:rh=-0.05:bh=0.09',
   "curves=all='0/0.035 0.25/0.22 0.5/0.46 0.75/0.71 1/0.95'",
   /* A vignette last. Stock libraries are full of high-key frames shot against
@@ -81,15 +81,76 @@ const GRADE = [
 ].join(',');
 
 /**
+ * Mean luminance the set is aiming at, 0-255.
+ *
+ * Measured off the eight frames already on the site and agreed to look right:
+ * they run 27 to 76 and average about 55. That is very dark by stock-library
+ * standards, which is the whole problem this constant exists to solve.
+ */
+const TARGET_YAVG = 55;
+
+/**
+ * How bright a picture is, as ffmpeg's signalstats sees it.
+ *
+ * A fixed filter chain cannot serve both ends of a stock library. The first
+ * run of this tool proved it twice over: a night-time frame came back crushed
+ * to an unreadable black rectangle, while a sunlit wall of sticky notes came
+ * through almost untouched and glaring. Both went through exactly the same
+ * grade. So the level is measured per image and corrected — after the look,
+ * not before it, for the reason set out where the two passes run.
+ */
+function meanLuma(file) {
+  try {
+    /* signalstats reports through the log, which ffmpeg writes to stderr, so
+       that is the stream to read — stdout carries the (discarded) null muxer. */
+    const r = spawnSync(FFMPEG,
+      ['-hide_banner', '-i', file,
+        '-vf', 'signalstats,metadata=print:key=lavfi.signalstats.YAVG',
+        '-f', 'null', '-'],
+      { encoding: 'utf8' });
+
+    const m = String(r.stderr || '').match(/YAVG=([0-9.]+)/);
+
+    return m ? parseFloat(m[1]) : null;
+  } catch {
+    /* Not worth losing a picture over: an unmeasured image just skips the
+       correction and takes the look as-is. */
+    return null;
+  }
+}
+
+/**
+ * The gamma that moves a picture's mean luminance to TARGET_YAVG.
+ *
+ * eq's gamma is a power curve on the normalised signal, so the exponent that
+ * maps one mean onto another falls straight out of the logs. Clamped, because
+ * an extreme correction on a nearly-black or nearly-white source turns into
+ * mud or noise rather than a photograph — anything needing more than this is
+ * the wrong picture, not a grading problem.
+ */
+function gammaFor(yavg) {
+  if (!yavg || yavg <= 1 || yavg >= 254) return 1;
+
+  /* The exponent e with (yavg/255)^e = TARGET/255. */
+  const e = Math.log(TARGET_YAVG / 255) / Math.log(yavg / 255);
+
+  /* ffmpeg's eq applies pow(in, 1/gamma), so the gamma it wants is 1/e — NOT
+     e. Getting that backwards inverts the whole correction: the bright frames
+     this exists to rescue would have been brightened further. */
+  return Math.min(2.5, Math.max(0.28, 1 / e));
+}
+
+/**
  * Appended to every search.
  *
- * The single biggest lever on whether a stock photograph fits this site is not
- * the grade, it is which photograph gets picked: a frame shot bright against
- * white cannot be graded into a dark moody interior, it can only be darkened
- * until it looks muddy. Asking the library for the right light in the first
- * place does more than the whole filter chain after it.
+ * NOT a mood. An earlier version asked for "dark moody office low light" and
+ * that was a mistake worth recording: the library took it literally and
+ * returned photographs of darkness — an empty park bench at night for "an
+ * engineer at a bench", an unlit corridor for a logistics control room. The
+ * light is the grade's job now that the grade adapts. The search's job is the
+ * subject, so this only supplies the setting the subjects assume.
  */
-const MOOD = 'dark moody office low light';
+const CONTEXT = 'office technology people working';
 
 /* ---------------------------------------------------------------------------
  * Providers
@@ -152,7 +213,7 @@ function terms(subject) {
 async function searchUnsplash(q, ratio) {
   const orientation = ratio === '2:3' ? 'portrait' : ratio === '1:1' ? 'squarish' : 'landscape';
   const url = 'https://api.unsplash.com/search/photos'
-    + `?query=${encodeURIComponent(q + ' ' + MOOD)}&per_page=8&orientation=${orientation}&content_filter=high`;
+    + `?query=${encodeURIComponent(q + ' ' + CONTEXT)}&per_page=24&orientation=${orientation}&content_filter=high`;
 
   const res = await fetch(url, { headers: { Authorization: `Client-ID ${UNSPLASH}` } });
   if (!res.ok) throw new Error(`unsplash ${res.status} ${(await res.text()).slice(0, 120)}`);
@@ -160,6 +221,7 @@ async function searchUnsplash(q, ratio) {
   const json = await res.json();
 
   return (json.results || []).map((r) => ({
+    id: r.id,
     /* raw + explicit params rather than `regular`, so the crop has pixels to
        work with at 21:9 without upscaling. */
     url: `${r.urls.raw}&w=2400&q=85&fm=jpg`,
@@ -174,7 +236,7 @@ async function searchUnsplash(q, ratio) {
 async function searchPexels(q, ratio) {
   const orientation = ratio === '2:3' ? 'portrait' : ratio === '1:1' ? 'square' : 'landscape';
   const url = 'https://api.pexels.com/v1/search'
-    + `?query=${encodeURIComponent(q + ' ' + MOOD)}&per_page=8&orientation=${orientation}`;
+    + `?query=${encodeURIComponent(q + ' ' + CONTEXT)}&per_page=24&orientation=${orientation}`;
 
   const res = await fetch(url, { headers: { Authorization: PEXELS } });
   if (!res.ok) throw new Error(`pexels ${res.status} ${(await res.text()).slice(0, 120)}`);
@@ -182,6 +244,7 @@ async function searchPexels(q, ratio) {
   const json = await res.json();
 
   return (json.photos || []).map((p) => ({
+    id: String(p.id),
     url: p.src?.original ? `${p.src.original}?auto=compress&w=2400` : p.src?.large2x,
     credit: `${p.photographer} (${p.photographer_url})`,
     downloadPing: null,
@@ -238,6 +301,18 @@ fs.mkdirSync(tmp, { recursive: true });
 const creditsFile = path.join(ROOT, 'assets', 'img', 'CREDITS.md');
 const credits = [];
 
+/*
+ * Nothing is used twice.
+ *
+ * The mood suffix that makes the results fit also makes them converge: a dry
+ * run over the 28 PoC slots picked the same photographer five times, because
+ * every query shares most of its words and the top hit barely moves. Taking
+ * hits[0] every time would have put one photograph on five different sections.
+ * So each slot takes the best hit nobody has taken yet, and a slot that can
+ * only offer duplicates is reported rather than quietly filled with a repeat.
+ */
+const usedIds = new Set();
+
 let made = 0;
 let failed = 0;
 
@@ -261,7 +336,13 @@ for (const t of todo) {
     continue;
   }
 
-  const pick = hits[0];
+  const pick = hits.find((h) => !usedIds.has(h.id));
+  if (!pick) {
+    failed++;
+    console.error(`ALL DUPES   ${t.set}/${t.name}  "${q}" — every hit is already used elsewhere`);
+    continue;
+  }
+  usedIds.add(pick.id);
 
   if (dry) {
     console.log(`${(t.set + '/' + t.name).padEnd(30)} "${q}"  ->  ${pick.credit}`);
@@ -270,6 +351,7 @@ for (const t of todo) {
 
   fs.mkdirSync(path.dirname(t.file), { recursive: true });
   const raw = path.join(tmp, `${t.set}-${t.name}.src`);
+  let lit = '';
 
   try {
     const img = await fetch(pick.url);
@@ -277,11 +359,31 @@ for (const t of todo) {
     fs.writeFileSync(raw, Buffer.from(await img.arrayBuffer()));
 
     const [w, h] = TARGET[t.ratio] || [1400, 933];
+    const mid = raw + '.graded.jpg';
+
+    /*
+     * Two passes, and the order is the point.
+     *
+     * Correcting the level BEFORE the look does not land: the grade shifts
+     * brightness itself, by an amount that depends on the picture, so a single
+     * pre-pass overshoots on some frames and undershoots on others. Grading
+     * first and measuring the RESULT makes the correction exact, because by
+     * then there is nothing left to move it. Both passes are local ffmpeg, so
+     * the second one costs nothing that matters.
+     */
     execFileSync(FFMPEG, ['-hide_banner', '-loglevel', 'error', '-y', '-i', raw,
       '-vf', `scale=${w}:${h}:force_original_aspect_ratio=increase,crop=${w}:${h},${GRADE}`,
-      '-q:v', '4', t.file]);
+      '-q:v', '3', mid]);
+
+    const graded = meanLuma(mid);
+    const gamma = gammaFor(graded);
+
+    execFileSync(FFMPEG, ['-hide_banner', '-loglevel', 'error', '-y', '-i', mid,
+      '-vf', `eq=gamma=${gamma.toFixed(3)}`, '-q:v', '4', t.file]);
 
     fs.unlinkSync(raw);
+    fs.unlinkSync(mid);
+    lit = graded ? ` y${Math.round(graded)}→${Math.round(meanLuma(t.file) || 0)}` : '';
   } catch (e) {
     failed++;
     console.error(`FAILED      ${t.set}/${t.name}: ${String(e.message).slice(0, 100)}`);
@@ -297,7 +399,7 @@ for (const t of todo) {
   credits.push(`- \`${t.dir}/${t.name}.jpg\` — ${pick.credit}, via ${provider}`);
   made++;
   console.log(`[${made}/${todo.length}] ${(t.set + '/' + t.name).padEnd(30)} `
-    + `${(fs.statSync(t.file).size / 1024).toFixed(0).padStart(4)}KB  ${pick.credit}`);
+    + `${(fs.statSync(t.file).size / 1024).toFixed(0).padStart(4)}KB${lit}  ${pick.credit}`);
 }
 
 if (credits.length) {
