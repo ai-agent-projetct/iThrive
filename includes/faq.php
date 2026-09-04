@@ -1266,4 +1266,16 @@ const FAQ = [
         'terms' => 'project duration length timeline how long take weeks months delivery schedule',
         // Published on services/software-development.php
     ],
+    [
+        'id' => 'q139', 'cat' => 'page-faq',
+        'q' => 'We need blockchain. Do you have developers for that?',
+        'a' => 'We build the surrounding product — wallets, custody integrations, on-chain reads, '
+            . 'settlement reconciliation — and we work with specialist contract auditors for the '
+            . 'on-chain part rather than pretending to be them. We will also ask what the chain is '
+            . 'buying you. It is the right answer for a genuinely trustless multi-party ledger and '
+            . 'the wrong one for most things a database already does well, and we would rather have '
+            . 'that conversation before the invoice.',
+        'terms' => 'blockchain web3 crypto smart contract solidity ledger wallet custody on chain nft token defi',
+        // Published on services/custom-product-development.php
+    ],
 ];

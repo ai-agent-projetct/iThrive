@@ -85,6 +85,9 @@ import PixelateOnHover from './components/framer/pixelate-on-hover/index.js';
    nor drives its layout from requestAnimationFrame, which is what disqualified
    five other candidates. */
 import LogoBlur from './components/framer/logo-blur/index.js';
+/* Origin Kit registry components live here rather than under framer/: they
+   ship as readable source with their defaults merged in, not as canvas exports. */
+import TextLift from './components/originkit/text-lift.jsx';
 /* Ours, not Framer's — it loads the client's own GLB. three.js again, so lazy. */
 const Logo3D = lazy(() => import('./components/logo-3d.jsx'));
 /* CurvedGalleryArc and GlassStack are already imported above with the MVP
@@ -133,6 +136,7 @@ const REGISTRY = {
   'brush-reveal': BrushReveal,
   'pixelate-on-hover': PixelateOnHover,
   'logo-blur': LogoBlur,
+  'text-lift': TextLift,
   'logo-3d': Logo3D,
 };
 

@@ -1,0 +1,955 @@
+/* ==========================================================================
+   Custom Product Development — the page's own styles
+   ==========================================================================
+
+   Seventh bespoke service page. The palette is the site's, unchanged; the type
+   is this page's own — Sora, Manrope and IBM Plex Mono, none of which the other
+   six use, because every one of them reached for Space Grotesk and Inter.
+
+   What makes the page its own is the STRATA motif: isometric plates stacked
+   with air between them and the seams lit. A custom product is layers built to
+   fit each other rather than one bought thing bent into shape.
+
+   Nothing here paints an opaque background, so the honeycomb reads through the
+   whole page.
+   -------------------------------------------------------------------------- */
+
+.cpd {
+  --cyan: #00F2FE;
+  --blue: #4EA8FF;
+  --purple: #9D4EDD;
+  --text: #EAF0FA;
+  --dim: #9AA7BD;
+  --faint: #6B7A93;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.18);
+  --grad: linear-gradient(120deg, #00F2FE 0%, #4EA8FF 45%, #9D4EDD 100%);
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --display: 'Sora', system-ui, sans-serif;
+  --body: 'Manrope', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  position: relative;
+  background:
+    radial-gradient(50% 42% at 88% 6%, rgba(0, 242, 254, 0.09) 0%, transparent 62%),
+    radial-gradient(46% 40% at 8% 58%, rgba(157, 78, 221, 0.08) 0%, transparent 64%);
+  color: var(--text);
+  font-family: var(--display);
+  overflow-x: clip;
+}
+
+.cpd > * { position: relative; z-index: 1; }
+.cpd-shell { width: min(1240px, 100% - 48px); margin-inline: auto; }
+.cpd-sec { padding: clamp(72px, 9vw, 132px) 0; }
+
+/* --- Type ----------------------------------------------------------------- */
+
+.cpd-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* The strata mark — three plates seen edge-on. */
+.cpd-mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 12px;
+}
+
+.cpd-mark::before,
+.cpd-mark::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 14px;
+  height: 0;
+  border-top: 2px solid currentColor;
+}
+
+.cpd-mark::before { top: 1px; opacity: 0.45; }
+.cpd-mark::after { bottom: 1px; }
+
+.cpd-title {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.cpd-title em,
+.cpd-band-inner em,
+.cpd-close h2 em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cpd-sub {
+  max-width: 66ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+.cpd-head { margin-bottom: clamp(38px, 5vw, 62px); }
+.cpd-head--mid { text-align: center; }
+.cpd-head--mid .cpd-sub { margin-inline: auto; }
+
+.cpd-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--cyan);
+}
+
+/* --- Buttons: this page's own shape — a clipped corner, like a plate ------- */
+
+.cpd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 28px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: var(--display);
+  font-size: 0.94rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+              background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.cpd-btn .icon { width: 17px; height: 17px; }
+
+.cpd-btn--primary {
+  background: var(--grad);
+  color: #06121A;
+  box-shadow: 0 14px 34px -16px rgba(0, 242, 254, 0.8);
+}
+
+.cpd-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 44px -16px rgba(157, 78, 221, 0.85);
+}
+
+.cpd-btn--ghost {
+  border-color: var(--line-2);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.cpd-btn--ghost:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.1); }
+
+.cpd-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.cpd-actions--mid { justify-content: center; margin-top: 44px; }
+
+/* --- Hero ----------------------------------------------------------------- */
+
+.cpd-hero {
+  position: relative;
+  padding: calc(var(--header-h, 76px) + clamp(30px, 5vw, 70px)) 0 clamp(56px, 7vw, 100px);
+  overflow: hidden;
+}
+
+.cpd-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  mask-image: radial-gradient(80% 70% at 70% 45%, #000 0%, transparent 78%);
+}
+
+.cpd-hero-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(11, 15, 23, 0.55) 0%, transparent 45%, rgba(11, 15, 23, 0.7) 100%);
+}
+
+.cpd-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.94fr);
+  gap: clamp(32px, 4vw, 60px);
+  align-items: center;
+}
+
+.cpd-h1 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.cpd-h1-lead {
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  font-weight: 600;
+  color: var(--dim);
+  letter-spacing: -0.03em;
+}
+
+/*
+ * The extruded line.
+ *
+ * Sized here rather than left to the component, because the island only
+ * replaces this element's CONTENT — the box, and therefore the space the
+ * heading occupies, is this stylesheet's job. Before the bundle runs the same
+ * words render as ordinary type at the same size, so nothing reflows when it
+ * mounts and a crawler reads the heading either way.
+ */
+.cpd-h1-lift {
+  display: block;
+  min-height: 1.05em;
+  font-size: clamp(2.1rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.cpd-lead {
+  max-width: 58ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: clamp(1rem, 1.2vw, 1.08rem);
+  line-height: 1.74;
+  color: var(--dim);
+}
+
+.cpd-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
+  gap: 18px;
+  margin: 40px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.cpd-stats li { display: flex; flex-direction: column; gap: 5px; }
+
+.cpd-stats strong {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cpd-stats span {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/*
+ * The strata stack.
+ *
+ * Each plate's place comes from its own --i, so the stack is laid out at first
+ * paint with no script involved. --s is how far the pointer has pulled the
+ * layers apart and only ever adds to that: with no frame, no script and no
+ * pointer, this is still a correct isometric stack rather than a hole.
+ *
+ * Seven components on this site have rendered nothing because they computed
+ * exactly this kind of geometry inside requestAnimationFrame.
+ */
+.cpd-hero-stage { position: relative; }
+
+.cpd-strata {
+  position: relative;
+  height: clamp(300px, 34vw, 400px);
+  perspective: 1100px;
+  perspective-origin: 50% 42%;
+}
+
+.cpd-plate {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(210px, 24vw, 330px);
+  margin: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: rgba(13, 19, 29, 0.9);
+  box-shadow: 0 26px 56px -30px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+
+  /* rotateX tips the plate toward the isometric; --i stacks it, --s spreads. */
+  transform:
+    translate(-50%, -50%)
+    rotateX(56deg)
+    rotateZ(-42deg)
+    translateZ(calc((var(--i) - (var(--n) - 1) / 2) * (46px + var(--s, 0px))));
+  transform-origin: 50% 50%;
+  transition: transform 0.55s var(--ease), border-color 0.3s var(--ease),
+              box-shadow 0.55s var(--ease);
+}
+
+.cpd-plate img {
+  display: block;
+  width: 100%;
+  height: 128px;
+  object-fit: cover;
+  opacity: 0.9;
+}
+
+.cpd-plate:hover,
+.cpd-plate.is-lit {
+  border-color: rgba(0, 242, 254, 0.75);
+  box-shadow: 0 34px 70px -26px rgba(0, 242, 254, 0.5);
+}
+
+.cpd-plate.is-lit img { opacity: 1; }
+
+/*
+ * The legend.
+ *
+ * The plates are tipped 56 degrees and turned 42; text riding that transform is
+ * a smear, which is what the first build shipped. Naming the layers square to
+ * the screen is both readable and the accessible version — the stack itself is
+ * aria-hidden, so this list is what a screen reader gets.
+ */
+.cpd-legend {
+  display: grid;
+  gap: 2px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cpd-legend li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 8px 12px;
+  border-left: 2px solid transparent;
+  border-radius: 0 6px 6px 0;
+  cursor: default;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.cpd-legend li:hover {
+  border-left-color: var(--cyan);
+  background: rgba(0, 242, 254, 0.07);
+}
+
+.cpd-legend .cpd-plate-n {
+  grid-row: span 2;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: var(--cyan);
+}
+
+.cpd-legend b {
+  font-family: var(--display);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.cpd-legend i {
+  grid-column: 2;
+  font-style: normal;
+  font-family: var(--body);
+  font-size: 0.72rem;
+  color: var(--faint);
+}
+
+/* --- Flaws ---------------------------------------------------------------- */
+
+.cpd-flaw-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.cpd-flaw {
+  position: relative;
+  padding: 0 0 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.cpd-flaw:hover { border-color: rgba(157, 78, 221, 0.5); transform: translateY(-4px); }
+
+.cpd-flaw-art { margin: 0 0 14px; aspect-ratio: 18 / 13; overflow: hidden; }
+.cpd-flaw-art img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+
+.cpd-flaw .cpd-num { display: block; padding: 0 18px; }
+
+.cpd-flaw h3 {
+  margin: 8px 18px 8px;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cpd-flaw p {
+  margin: 0 18px;
+  font-family: var(--body);
+  font-size: 0.87rem;
+  line-height: 1.62;
+  color: var(--dim);
+}
+
+/* --- Layers --------------------------------------------------------------- */
+
+.cpd-layer-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+/*
+ * The bento needs a reserved box, and specifically an explicit HEIGHT.
+ *
+ * Its root element is width:100%/height:100%, and a percentage height does not
+ * resolve against a parent whose computed height is auto — min-height alone
+ * does not give it one. With min-height only, the grid collapsed to its content
+ * and all six images measured 184x0: mounted, correct, and invisible.
+ */
+.cpd-layer-bento {
+  position: sticky;
+  top: calc(var(--header-h, 76px) + 24px);
+  height: clamp(360px, 33vw, 460px);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.cpd-layer {
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease);
+}
+
+.cpd-layer.is-open { border-color: rgba(0, 242, 254, 0.45); }
+.cpd-layer:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+.cpd-layer header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
+}
+
+.cpd-layer h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.5vw, 1.14rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.cpd-layer-mark { position: relative; width: 14px; height: 14px; }
+
+.cpd-layer-mark::before,
+.cpd-layer-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--cyan);
+  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+}
+
+.cpd-layer-mark::before { width: 14px; height: 2px; }
+.cpd-layer-mark::after { width: 2px; height: 14px; }
+.cpd-layer.is-open .cpd-layer-mark::after { transform: rotate(90deg); opacity: 0; }
+
+.cpd-layer-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.42s var(--ease), opacity 0.3s var(--ease),
+              padding-bottom 0.42s var(--ease);
+}
+
+.cpd-layer-panel > * { overflow: hidden; }
+.cpd-layer.is-open .cpd-layer-panel { grid-template-rows: 1fr; opacity: 1; padding-bottom: 22px; }
+
+.cpd-layer-panel p {
+  margin: 0 0 14px;
+  font-family: var(--body);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.cpd-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+
+.cpd-chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--faint);
+}
+
+.cpd-chips img { width: 16px; height: 16px; filter: grayscale(1) brightness(1.7); opacity: 0.85; }
+
+/* --- Band ----------------------------------------------------------------- */
+
+.cpd-band {
+  padding: clamp(56px, 7vw, 92px) 0;
+  border-block: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(0, 242, 254, 0.07), rgba(157, 78, 221, 0.07));
+}
+
+.cpd-band-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+}
+
+/* Three plates seen edge-on, drifting apart — the motif at band scale. */
+.cpd-band-rule {
+  display: grid;
+  gap: 9px;
+  flex: 0 0 auto;
+  width: 92px;
+}
+
+.cpd-band-rule span {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--grad);
+  transform-origin: left center;
+  animation: cpd-drift 5.5s var(--ease) infinite alternate;
+}
+
+.cpd-band-rule span:nth-child(2) { animation-delay: -1.8s; opacity: 0.7; }
+.cpd-band-rule span:nth-child(3) { animation-delay: -3.6s; opacity: 0.45; }
+
+@keyframes cpd-drift {
+  from { transform: scaleX(0.45); }
+  to { transform: scaleX(1); }
+}
+
+.cpd-band-inner h2 {
+  flex: 1 1 280px;
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.03em;
+}
+
+/* --- Process -------------------------------------------------------------- */
+
+.cpd-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.cpd-step {
+  padding: 0 0 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.cpd-step:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-4px); }
+
+.cpd-step-art { position: relative; margin: 0 0 16px; aspect-ratio: 43 / 27; overflow: hidden; }
+.cpd-step-art img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+
+.cpd-step-art figcaption {
+  position: absolute;
+  left: 18px;
+  bottom: 12px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.cpd-step h3 {
+  margin: 0 20px 9px;
+  font-family: var(--display);
+  font-size: 1.06rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cpd-step p {
+  margin: 0 20px;
+  font-family: var(--body);
+  font-size: 0.9rem;
+  line-height: 1.66;
+  color: var(--dim);
+}
+
+/* --- Stack ---------------------------------------------------------------- */
+
+.cpd-stack-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.cpd-stack-tab {
+  padding: 10px 20px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  cursor: pointer;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease),
+              background-color 0.25s var(--ease);
+}
+
+.cpd-stack-tab:hover { color: var(--text); border-color: var(--line-2); }
+.cpd-stack-tab.is-on { color: #06121A; border-color: transparent; background: var(--grad); }
+
+.cpd-stack-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(126px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* `hidden` must beat the rule above or every panel renders at once — a bare
+   [hidden] only sets display at the UA level, which any author `display`
+   outranks. That has cost three pages a debugging pass. */
+.cpd-stack-panel[hidden] { display: none; }
+
+.cpd-stack-panel li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(14, 20, 32, 0.5);
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.cpd-stack-panel li:hover { border-color: rgba(0, 242, 254, 0.5); transform: translateY(-3px); }
+
+.cpd-stack-panel img {
+  width: 32px;
+  height: 32px;
+  filter: grayscale(1) brightness(1.9);
+  opacity: 0.9;
+  transition: filter 0.25s var(--ease);
+}
+
+.cpd-stack-panel li:hover img { filter: none; }
+
+.cpd-stack-panel span {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  text-align: center;
+}
+
+/* --- Edges ---------------------------------------------------------------- */
+
+.cpd-edge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.cpd-edge {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.cpd-edge:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-4px); }
+
+.cpd-edge-art { margin: 0; aspect-ratio: 19 / 12; overflow: hidden; }
+.cpd-edge-art img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.84; }
+
+.cpd-edge-body { padding: 18px 20px 24px; }
+
+.cpd-edge-body h3 {
+  margin: 8px 0 9px;
+  font-family: var(--display);
+  font-size: 1.04rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cpd-edge-body p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.89rem;
+  line-height: 1.64;
+  color: var(--dim);
+}
+
+/* --- Models --------------------------------------------------------------- */
+
+.cpd-model-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 64px);
+  align-items: center;
+}
+
+/* Reserved so the row does not jump when the book mounts. */
+.cpd-book {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 440px;
+}
+
+.cpd-model {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+
+.cpd-model:first-child { border-top: 0; }
+
+.cpd-model h3 {
+  margin: 8px 0 9px;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cpd-model p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.92rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+.cpd-model-when {
+  margin-top: 8px !important;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--cyan);
+  opacity: 0.85;
+}
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.cpd-faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: start;
+}
+
+.cpd-faq-art { margin: 24px 0 0; }
+
+.cpd-faq-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 40 / 31;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  opacity: 0.9;
+}
+
+.cpd-faq-item { border-bottom: 1px solid var(--line); transition: border-color 0.3s var(--ease); }
+.cpd-faq-item[open] { border-color: rgba(0, 242, 254, 0.42); }
+
+.cpd-faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-weight: 600;
+  line-height: 1.42;
+  letter-spacing: -0.018em;
+  list-style: none;
+  cursor: pointer;
+}
+
+.cpd-faq-item summary::-webkit-details-marker { display: none; }
+.cpd-faq-item summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+.cpd-faq-mark { position: relative; flex: 0 0 auto; width: 15px; height: 15px; margin-top: 5px; }
+
+.cpd-faq-mark::before,
+.cpd-faq-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--cyan);
+  transition: transform 0.32s var(--ease), opacity 0.32s var(--ease);
+}
+
+.cpd-faq-mark::before { width: 15px; height: 2px; }
+.cpd-faq-mark::after { width: 2px; height: 15px; }
+.cpd-faq-item[open] .cpd-faq-mark::after { transform: rotate(90deg); opacity: 0; }
+
+.cpd-faq-body { padding: 0 0 24px; }
+
+.cpd-faq-body p {
+  max-width: 68ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  line-height: 1.76;
+  color: var(--dim);
+}
+
+/* --- Close ---------------------------------------------------------------- */
+
+.cpd-close {
+  position: relative;
+  padding: clamp(70px, 9vw, 124px) 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  overflow: hidden;
+}
+
+.cpd-close-wash {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(32% 40% at 32% 44%, rgba(0, 242, 254, 0.16) 0%, transparent 64%),
+    radial-gradient(32% 40% at 70% 58%, rgba(157, 78, 221, 0.16) 0%, transparent 64%);
+  animation: cpd-float 26s ease-in-out infinite alternate;
+}
+
+@keyframes cpd-float {
+  from { transform: translate3d(-2%, -2%, 0) scale(1); }
+  to { transform: translate3d(2%, 2%, 0) scale(1.07); }
+}
+
+.cpd-close .cpd-shell { position: relative; z-index: 1; }
+.cpd-close .cpd-eyebrow { justify-content: center; }
+
+.cpd-close h2 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.04em;
+}
+
+.cpd-close-lead {
+  max-width: 62ch;
+  margin: 0 auto;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.74;
+  color: var(--dim);
+}
+
+/* --- Narrow --------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .cpd-flaw-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cpd-edge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 980px) {
+  .cpd-hero-grid,
+  .cpd-layer-wrap,
+  .cpd-model-wrap,
+  .cpd-faq-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .cpd-steps { grid-template-columns: minmax(0, 1fr); }
+  .cpd-layer-bento { position: static; min-height: 300px; }
+}
+
+@media (max-width: 640px) {
+  .cpd-shell { width: min(1240px, 100% - 32px); }
+  .cpd-flaw-grid,
+  .cpd-edge-grid { grid-template-columns: minmax(0, 1fr); }
+  .cpd-band-inner { flex-direction: column; align-items: flex-start; }
+
+  /* The stack fans wider than a phone; tighten it and shrink the plates so the
+     whole run stays inside the viewport rather than being clipped. */
+  .cpd-strata { height: 270px; }
+  .cpd-plate { width: 200px; }
+  .cpd-plate img { height: 88px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cpd-plate { transition: none; }
+  .cpd-close-wash,
+  .cpd-band-rule span { animation: none; }
+  .cpd-flaw:hover,
+  .cpd-step:hover,
+  .cpd-edge:hover { transform: none; }
+}
