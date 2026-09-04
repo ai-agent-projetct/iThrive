@@ -206,24 +206,31 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
                   src="https://unpkg.com/@splinetool/viewer@1.9.48/build/spline-viewer.js"
                   crossorigin="anonymous"></script>
         <?php else: ?>
-          <?php /* Framer's Curved Gallery Arc — vendored long ago, never mounted
-                   until now. A real 3D arc you drag, carrying the ten roles. */ ?>
-          <div class="tm-arc-host"
-               data-ok="curved-gallery-arc"
-               data-props='<?= e(json_encode([
-                   'images' => array_map(
-                       static fn (array $r): array => ['src' => $imgAbs('role/' . $r[0] . '.jpg'), 'alt' => $r[1]],
-                       array_slice($roles, 0, 10)
-                   ),
-                   'backgroundColor' => 'rgba(0, 0, 0, 0)',
-                   'cardSize'        => 210,
-                   'gap'             => 16,
-               ], JSON_THROW_ON_ERROR)) ?>'>
-            <noscript>
-              <ul class="tm-arc-list">
-                <?php foreach ($roles as [$n, $t]): ?><li><?= e($t) ?></li><?php endforeach; ?>
-              </ul>
-            </noscript>
+          <?php /*
+             The arc, positioned in CSS rather than by a script.
+
+             This was Framer's Curved Gallery Arc, which drives its rotateY and
+             translateZ from a requestAnimationFrame loop. That means the cards
+             carry transform:none until the first frame runs — and measured on
+             the page every one of the ten sat at exactly the same point, so the
+             hero was an empty box. Its own component; not a props mistake.
+
+             Here each card's angle is written into the markup as --i, and the
+             transform is a plain CSS rule. It is laid out by the time the first
+             pixel is painted, with or without an animation frame. Dragging adds
+             rotation on top of that rather than being the only thing that
+             creates it.
+          */ ?>
+          <div class="tm-arc" data-arc style="--n: <?= count($roles) ?>;">
+            <div class="tm-arc-ring" data-arc-ring>
+              <?php foreach ($roles as $i => [$n, $title]): ?>
+                <figure class="tm-arc-card" style="--i: <?= $i ?>;">
+                  <img src="<?= e($img('role/' . $n . '.jpg')) ?>" width="420" height="420"
+                       alt="<?= e($title) ?>" loading="lazy" decoding="async">
+                  <figcaption><span><?= e($n) ?></span><?= e($title) ?></figcaption>
+                </figure>
+              <?php endforeach; ?>
+            </div>
           </div>
         <?php endif; ?>
         <p class="tm-stage-hint">Drag the arc · the ten disciplines on the bench</p>

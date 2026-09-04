@@ -248,6 +248,89 @@
 .tm-arc-list { margin: 0; padding: 26px 30px; list-style: none; color: var(--dim); }
 .tm-arc-list li { padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
 
+/* --- The arc -------------------------------------------------------------
+   Every card's place on the ring is computed here, from its own --i, so the
+   whole thing is laid out by first paint. The component this replaced did the
+   same job from a requestAnimationFrame loop and showed nothing until a frame
+   ran; --r is the drag offset and simply adds to the rotation.
+   ---------------------------------------------------------------------- */
+
+.tm-arc {
+  position: relative;
+  height: 100%;
+  perspective: 1100px;
+  perspective-origin: 50% 46%;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.tm-arc:active { cursor: grabbing; }
+
+.tm-arc-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  /* --step is 360/n, so ten cards close the ring exactly. */
+  transform: rotateX(-7deg) rotateY(calc(var(--r, 0) * 1deg));
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* While a pointer is down the ring must follow it exactly, not ease behind. */
+.tm-arc.is-dragging .tm-arc-ring { transition: none; }
+
+.tm-arc-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 168px;
+  margin: -112px 0 0 -84px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(14, 20, 30, 0.92);
+  box-shadow: 0 26px 60px -30px rgba(0, 0, 0, 0.95);
+  transform:
+    rotateY(calc(var(--i) * (360deg / var(--n, 10))))
+    translateZ(272px);
+  backface-visibility: hidden;
+}
+
+.tm-arc-card img {
+  display: block;
+  width: 100%;
+  height: 132px;
+  object-fit: cover;
+  opacity: 0.95;
+}
+
+.tm-arc-card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px 12px;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--text);
+}
+
+.tm-arc-card figcaption span {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-arc-ring { transition: none; }
+}
+
 /* --- The opening argument -------------------------------------------------- */
 
 .tm-open-grid {
