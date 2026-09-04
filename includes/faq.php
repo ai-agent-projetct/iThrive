@@ -1345,4 +1345,16 @@ const FAQ = [
         'terms' => 'cloud bill cost rising increasing spend usage flat aws azure gcp invoice waste savings finops over provisioned',
         // Published on services/cloud-devops.php
     ],
+    [
+        'id' => 'q146', 'cat' => 'page-faq',
+        'q' => 'Do you build games in Unity or Unreal?',
+        'a' => 'Both, and the choice follows the product rather than a preference. Unity is usually '
+            . 'right for mobile, 2D, AR and cross-platform learning and training work — smaller '
+            . 'builds, faster iteration, and a wider talent pool for handover. Unreal earns its '
+            . 'place when the bar is visual fidelity on desktop or console. We will tell you which '
+            . 'case you are in during discovery, and we will say so if a game engine is the wrong '
+            . 'tool entirely, which happens more often than you would expect for training work.',
+        'terms' => 'unity unreal engine godot game build which choose c# blueprints 2d 3d mobile console fidelity',
+        // Published on services/game-development.php
+    ],
 ];

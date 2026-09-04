@@ -568,6 +568,27 @@ const SERVICES = [
                 ],
                 'stack' => ['Python', 'FastAPI / Django', 'React', 'React Native', 'PostgreSQL', 'Stripe', 'AWS'],
             ],
+            [
+                'slug'  => 'game-development',
+                'title' => 'Game Development',
+                'icon'  => 'cpu',
+                'short' => 'Unity and Unreal builds for entertainment, training and learning — playable on the device your audience already has.',
+                'lead'  => 'A game is a product with a loop instead of a funnel. The engineering is the same discipline we bring to everything else; what changes is that the thing being measured is whether someone wants to play it again.',
+                'capabilities' => [
+                    ['title' => 'Core loop design',        'body' => 'The thirty seconds a player repeats. We prototype it before anything is art-directed, because a loop that is not fun small will not become fun large.'],
+                    ['title' => 'Unity and Unreal builds', 'body' => 'C# in Unity, C++ and Blueprints in Unreal, targeted at mobile, WebGL, desktop and console-class hardware from one project.'],
+                    ['title' => 'Simulation and training', 'body' => 'Procedure-accurate scenarios with scoring and assessment, for onboarding and certification where getting it wrong on the job is expensive.'],
+                    ['title' => 'AR and VR',               'body' => 'Headset and handheld AR built against the comfort constraints first — frame budget, locomotion and session length — rather than retrofitted to them.'],
+                    ['title' => 'Live operations',         'body' => 'Analytics, remote config, A/B tests and content updates without a store release, so the game keeps changing after launch.'],
+                    ['title' => 'Art and audio pipeline',  'body' => 'Asset budgets, atlasing, LODs and compression decided at the start, which is what keeps a build under the download limit and above the frame target.'],
+                ],
+                'outcomes' => [
+                    ['value' => '60 fps',  'label' => 'Frame target on mid-range devices'],
+                    ['value' => 'Playable','label' => 'Prototype before production art'],
+                    ['value' => 'Full',    'label' => 'Source, assets and IP ownership'],
+                ],
+                'stack' => ['Unity', 'C#', 'Unreal', 'Blender', 'WebGL', 'ARKit / ARCore', 'PlayFab'],
+            ],
         ],
     ],
 ];

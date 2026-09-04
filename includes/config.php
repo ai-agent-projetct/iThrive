@@ -42,6 +42,26 @@ define('SITE_YEAR', '2026');
  */
 define('SPLINE_SCENE', getenv('SPLINE_SCENE') ?: '');
 
+/*
+ * The Game Development page's hero scene, separately from the home page's.
+ *
+ * Spline only serves a scene publicly once it has been EXPORTED. An editor URL
+ * (app.spline.design/file/…) is account-gated and 403s to everyone else, and a
+ * file you only have view access to cannot be exported at all — the editor says
+ * "No edit access for this file" and offers Duplicate File instead.
+ *
+ * So to switch the real scene on:
+ *   1. Open it in Spline and press Duplicate File, so it is yours.
+ *   2. Recolour it to the iThrive ramp (#00F2FE / #4EA8FF / #9D4EDD).
+ *   3. Export -> Code -> Viewer, and copy the URL. It looks like
+ *      https://prod.spline.design/<id>/scene.splinecode
+ *   4. Put it here, or set GAME_SPLINE_SCENE in the environment.
+ *
+ * Until then the page renders its own flight hero, which is built to the same
+ * composition and needs no third party to be reachable.
+ */
+define('GAME_SPLINE_SCENE', getenv('GAME_SPLINE_SCENE') ?: '');
+
 /**
  * Optional server-side text-to-speech, for reliable Indic voice output.
  *
@@ -167,6 +187,7 @@ const NAV_ITEMS = [
                         ['label' => 'React JS Development',   'href' => 'services/reactjs-development.php'],
                         ['label' => 'POC Development',        'href' => 'services/poc-development.php'],
                         ['label' => 'MVP Development',        'href' => 'services/mvp-development.php'],
+                        ['label' => 'Game Development',       'href' => 'services/game-development.php'],
                     ],
                 ],
             ],

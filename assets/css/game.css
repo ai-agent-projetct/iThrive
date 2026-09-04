@@ -1,0 +1,880 @@
+/* ==========================================================================
+   Game Development — the page's own styles
+   ==========================================================================
+
+   Tenth bespoke service page, laid out after macrobiangames.com. The palette is
+   the site's, unchanged; the type is this page's own — Archivo, Public Sans and
+   DM Mono.
+
+   The motif is the SPRITE: a coarse pixel grid with a glyph lit in it, loose
+   pixels around it and a scanline across the plate. It is the oldest idea in
+   the medium and still the one that reads as a game at any size.
+
+   The hero is built to the composition of the Spline flight scene — two suns, a
+   dune horizon, spires receding, a ship low and centred — in our ramp rather
+   than its orange. When GAME_SPLINE_SCENE is set the real scene renders on top
+   and this becomes the fallback beneath it.
+
+   Nothing here paints an opaque background, so the honeycomb reads through
+   every section below the hero.
+   -------------------------------------------------------------------------- */
+
+.gm {
+  --cyan: #00F2FE;
+  --blue: #4EA8FF;
+  --purple: #9D4EDD;
+  --text: #EAF0FA;
+  --dim: #9AA7BD;
+  --faint: #6B7A93;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.18);
+  --grad: linear-gradient(120deg, #00F2FE 0%, #4EA8FF 45%, #9D4EDD 100%);
+  --mono: 'DM Mono', ui-monospace, monospace;
+  --display: 'Archivo', system-ui, sans-serif;
+  --body: 'Public Sans', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  position: relative;
+  background:
+    radial-gradient(48% 40% at 84% 8%, rgba(0, 242, 254, 0.08) 0%, transparent 62%),
+    radial-gradient(46% 42% at 10% 58%, rgba(157, 78, 221, 0.08) 0%, transparent 64%);
+  color: var(--text);
+  font-family: var(--display);
+  overflow-x: clip;
+}
+
+.gm > * { position: relative; z-index: 1; }
+.gm-shell { width: min(1240px, 100% - 48px); margin-inline: auto; }
+.gm-sec { padding: clamp(72px, 9vw, 132px) 0; }
+
+/* --- Type ----------------------------------------------------------------- */
+
+.gm-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* The mark: four pixels, three of them lit. */
+.gm-mark {
+  display: grid;
+  grid-template-columns: repeat(2, 5px);
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.gm-mark::before,
+.gm-mark::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+}
+
+.gm-mark::after { opacity: 0.35; }
+
+.gm-title {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 3.05rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.gm-title em,
+.gm-h1 em,
+.gm-close h2 em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gm-sub {
+  max-width: 66ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.74;
+  color: var(--dim);
+}
+
+.gm-head { margin-bottom: clamp(38px, 5vw, 62px); }
+.gm-head--mid { text-align: center; }
+.gm-head--mid .gm-sub { margin-inline: auto; }
+
+.gm-num {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--cyan);
+}
+
+/* --- Buttons: square corners, this page's own ----------------------------- */
+
+.gm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 28px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-family: var(--display);
+  font-size: 0.94rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease),
+              background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.gm-btn .icon { width: 17px; height: 17px; }
+
+.gm-btn--primary {
+  background: var(--grad);
+  color: #06121A;
+  box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.5), 0 14px 34px -16px rgba(0, 242, 254, 0.8);
+}
+
+/* A hard step rather than a glide — the button behaves like a sprite. */
+.gm-btn--primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 0 rgba(157, 78, 221, 0.85), 0 18px 40px -18px rgba(0, 242, 254, 0.8);
+}
+
+.gm-btn--ghost {
+  border-color: var(--line-2);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.gm-btn--ghost:hover {
+  border-color: var(--cyan);
+  background: rgba(0, 242, 254, 0.1);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 0 rgba(0, 242, 254, 0.35);
+}
+
+.gm-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.gm-actions--mid { justify-content: center; margin-top: 40px; }
+
+/* --- Hero: the flight scene ---------------------------------------------- */
+
+/* Standalone: the scene is the whole first screen, with nothing else in it. */
+/* Standalone: the scene is the whole first screen, and nothing else is in it. */
+.gm-hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.gm-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  /*
+   * Night, in our ramp. The reference scene is an orange daylight desert; the
+   * brief is our colours and after dark, so the sky runs from near-black at the
+   * zenith down through indigo to a thin violet glow where the moons sit.
+   */
+  background:
+    linear-gradient(180deg,
+      #04060C 0%,
+      #070B16 22%,
+      #0B1226 40%,
+      #131A3A 50%,
+      #1B1638 58%,
+      #120C1F 72%,
+      #07050D 100%);
+}
+
+/*
+ * The starfield.
+ *
+ * One element, and every star is a spread on its box-shadow list — 90 shadows
+ * on one node rather than 90 nodes. The list is written by the PHP from a fixed
+ * seed, so the sky is identical on every render.
+ */
+.gm-stars {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+  animation: gm-twinkle 6s ease-in-out infinite alternate;
+}
+
+@keyframes gm-twinkle {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+/*
+ * Two moons: one large and low, one small and high.
+ *
+ * A moon is not a sun with the colour swapped — it needs a hard disc edge, a
+ * terminator so it reads as lit from one side, and craters. The disc and its
+ * shading are the last radial-gradient with sharp stops; the craters are
+ * further gradients stacked in front of it, so the whole body is one node.
+ */
+.gm-moon {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.gm-moon--near {
+  /* The horizon is at 47%. The moon's CENTRE sits just above it so the dunes,
+     which come later in the DOM, cut its lower edge — that occlusion is what
+     puts it ON the landscape rather than floating over it. */
+  left: 63%;
+  top: 40%;
+  width: clamp(190px, 23vw, 310px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle at 38% 34%, rgba(9, 22, 34, 0.50) 0 5%, transparent 5.6%),
+    radial-gradient(circle at 58% 52%, rgba(9, 22, 34, 0.42) 0 8%, transparent 8.6%),
+    radial-gradient(circle at 44% 68%, rgba(9, 22, 34, 0.34) 0 4%, transparent 4.6%),
+    radial-gradient(circle at 68% 26%, rgba(9, 22, 34, 0.30) 0 3%, transparent 3.6%),
+    radial-gradient(circle at 34% 30%, #F2FEFF 0 18%, #9BF3FF 40%, #2FC9E4 62%, #0E5C74 84%, #08313F 100%);
+  box-shadow:
+    0 0 40px 6px rgba(0, 242, 254, 0.28),
+    0 0 140px 40px rgba(0, 242, 254, 0.14);
+}
+
+.gm-moon--far {
+  left: 81%;
+  top: 21%;
+  width: clamp(48px, 6.5vw, 88px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle at 42% 40%, rgba(20, 8, 30, 0.42) 0 9%, transparent 9.6%),
+    radial-gradient(circle at 60% 62%, rgba(20, 8, 30, 0.34) 0 6%, transparent 6.6%),
+    radial-gradient(circle at 36% 32%, #F3E8FF 0 20%, #D6AEF5 44%, #9D4EDD 70%, #4A2168 100%);
+  box-shadow:
+    0 0 24px 3px rgba(157, 78, 221, 0.30),
+    0 0 80px 22px rgba(157, 78, 221, 0.14);
+}
+
+/* Haze on the horizon, which is what sells the distance. */
+.gm-haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40%;
+  height: 22%;
+  background: linear-gradient(180deg, transparent, rgba(90, 200, 235, 0.2) 60%, transparent);
+  filter: blur(16px);
+  pointer-events: none;
+}
+
+/*
+ * The dunes.
+ *
+ * Three bands, each an over-wide ellipse so its top edge reads as a curved
+ * horizon. --band sets how far down it sits, how dark it is and how fast it
+ * drifts; the drift is a CSS animation the compositor owns.
+ */
+.gm-dune {
+  position: absolute;
+  left: -34%;
+  width: 168%;
+  top: calc(47% + var(--band) * 11%);
+  height: 80%;
+  /* A wide, shallow arc: the top edge is the horizon, and it has to curve
+     enough to read as a planet rather than a ruled line. */
+  border-radius: 50% 50% 0 0 / 22% 22% 0 0;
+  /* Night ground: far darker than daylight, and it is the RIM that carries the
+     light rather than the face. Not to black, though — the ground has to stay
+     ground all the way down, or the lower half reads as an empty panel. */
+  background: linear-gradient(180deg,
+    hsl(calc(216 - var(--band) * 6) calc(38% - var(--band) * 6%) calc(17% - var(--band) * 4%)) 0%,
+    hsl(calc(238 - var(--band) * 8) calc(34% - var(--band) * 6%) calc(9% - var(--band) * 2%)) 55%,
+    hsl(calc(250 - var(--band) * 8) 26% calc(6% - var(--band) * 1%)) 100%);
+  /* The lit rim along the ridge. This is the single line that sells the light
+     source, so the nearest band gets the most of it. */
+  box-shadow: 0 -2px 0 rgba(190, 250, 255, calc(0.62 - var(--band) * 0.16)),
+              0 -16px 38px -10px rgba(0, 242, 254, calc(0.34 - var(--band) * 0.1));
+  animation: gm-drift calc(26s - var(--band) * 6s) ease-in-out infinite alternate;
+}
+
+@keyframes gm-drift {
+  from { transform: translateX(-1.5%); }
+  to { transform: translateX(1.5%); }
+}
+
+/* Spires on the ridge, pulled toward the camera and looping. */
+.gm-spires { position: absolute; inset: 0; pointer-events: none; }
+
+.gm-spire {
+  position: absolute;
+  left: var(--x);
+  /* Standing ON the ridge of the band it belongs to, which is what puts them
+     in the scene rather than floating over it. */
+  bottom: calc(53% - var(--lane) * 11%);
+  width: calc(14px + var(--lane) * 10px);
+  height: calc((60px + var(--lane) * 40px) * var(--h));
+  border-radius: 50% 50% 12% 12% / 74% 74% 8% 8%;
+  background: linear-gradient(180deg, #0E1428 0%, #05070E 100%);
+  opacity: calc(0.82 + var(--lane) * 0.08);
+  transform-origin: 50% 100%;
+  animation: gm-approach 9s linear infinite;
+  animation-delay: calc(var(--i) * -1.3s);
+}
+
+@keyframes gm-approach {
+  from { transform: translateY(0) scale(0.7); opacity: 0; }
+  12% { opacity: 0.75; }
+  to { transform: translateY(26px) scale(1.5); opacity: 0; }
+}
+
+/* The ship. Leans toward the pointer; --lx and --ly come from the page script,
+   and default to centred so it is correct with no script at all. */
+.gm-ship {
+  position: absolute;
+  /* Right of centre, clear of the headline and the stat band. Centred over the
+     copy is where the first build put it, and the stats read straight through
+     the exhaust. */
+  left: 72%;
+  bottom: 30%;
+  width: clamp(52px, 7vw, 92px);
+  transform:
+    translateX(calc(-50% + var(--lx, 0px)))
+    translateY(var(--ly, 0px))
+    rotate(calc(var(--lx, 0px) * 0.06));
+  transition: transform 0.35s var(--ease);
+  filter: drop-shadow(0 10px 26px rgba(0, 242, 254, 0.45));
+}
+
+.gm-ship svg { display: block; width: 100%; height: auto; }
+
+/* Spline's own viewer, once a scene exists. Sits over the built hero, which
+   stays beneath as the thing shown while it streams — or instead of it. */
+.gm-spline { position: absolute; inset: 0; z-index: 1; }
+.gm--spline .gm-hero::before { z-index: 2; }
+.gm--spline .gm-hero-inner { z-index: 3; }
+.gm-spline spline-viewer { display: block; width: 100%; height: 100%; }
+
+/*
+ * The hero carries no copy, so the only wash it needs is at the very bottom —
+ * enough to land the scene into the section beneath instead of cutting it off
+ * with a hard edge. The earlier build had a heavy left-weighted scrim because
+ * the headline sat on the scene; nothing does now.
+ */
+.gm-hero::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 22%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(0deg, #05070E 0%, rgba(5, 7, 14, 0.6) 45%, transparent 100%);
+}
+
+/* The scroll cue: a mouse outline with a dot falling inside it. */
+.gm-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(24px, 5vh, 52px);
+  z-index: 2;
+  width: 26px;
+  height: 42px;
+  margin-left: -13px;
+  border: 2px solid rgba(234, 240, 250, 0.45);
+  border-radius: 14px;
+  transition: border-color 0.25s var(--ease);
+}
+
+.gm-scroll:hover { border-color: var(--cyan); }
+
+.gm-scroll span {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 4px;
+  height: 8px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: var(--cyan);
+  animation: gm-scroll-dot 2s var(--ease) infinite;
+}
+
+@keyframes gm-scroll-dot {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { transform: translateY(16px); opacity: 0; }
+  100% { transform: translateY(16px); opacity: 0; }
+}
+
+/* --- The introduction ----------------------------------------------------- */
+
+.gm-intro { padding-top: clamp(56px, 7vw, 96px); }
+.gm-intro .gm-h1 { max-width: 20ch; }
+.gm-intro .gm-lead { max-width: 62ch; }
+
+.gm-h1 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 5.4vw, 4.1rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.gm-lead {
+  max-width: 56ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: clamp(1rem, 1.2vw, 1.08rem);
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+.gm-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 18px;
+  max-width: 780px;
+  margin: 38px 0 0;
+  padding: 22px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.gm-stats li { display: flex; flex-direction: column; gap: 5px; }
+
+.gm-stats strong {
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gm-stats span {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* --- Industries ----------------------------------------------------------- */
+
+.gm-ind-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.gm-ind-card {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.gm-ind-card:hover { border-color: var(--line-2); transform: translateY(-4px); }
+.gm-ind-card:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.gm-ind-card.is-open { border-color: rgba(0, 242, 254, 0.5); }
+
+.gm-ind-card figure { margin: 0; aspect-ratio: 43 / 31; overflow: hidden; }
+.gm-ind-card figure img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.86; }
+
+.gm-ind-body { padding: 18px 20px 24px; }
+
+.gm-ind-body h3 {
+  margin: 8px 0 4px;
+  font-family: var(--display);
+  font-size: 1.14rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.gm-ind-kicker {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}
+
+.gm-ind-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.42s var(--ease), opacity 0.3s var(--ease),
+              margin-top 0.42s var(--ease);
+}
+
+.gm-ind-panel > * { overflow: hidden; }
+.gm-ind-card.is-open .gm-ind-panel { grid-template-rows: 1fr; opacity: 1; margin-top: 12px; }
+
+.gm-ind-panel p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.9rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+/* --- Capabilities --------------------------------------------------------- */
+
+.gm-cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.gm-cap-card,
+.gm-work-card {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.gm-cap-card:hover,
+.gm-work-card:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-4px); }
+
+.gm-cap-card figure,
+.gm-work-card figure { position: relative; margin: 0; aspect-ratio: 19 / 12; overflow: hidden; }
+
+.gm-cap-card figure img,
+.gm-work-card figure img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+
+.gm-cap-body,
+.gm-work-body { padding: 18px 20px 24px; }
+
+.gm-cap-body h3,
+.gm-work-body h3 {
+  margin: 8px 0 9px;
+  font-family: var(--display);
+  font-size: 1.04rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.gm-cap-body p,
+.gm-work-body p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.88rem;
+  line-height: 1.64;
+  color: var(--dim);
+}
+
+/* --- Work ----------------------------------------------------------------- */
+
+.gm-work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* Scanlines over the plate on hover — the CRT, and the page's one flourish. */
+.gm-crt {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 242, 254, 0.12) 0px,
+    rgba(0, 242, 254, 0.12) 1px,
+    transparent 1px,
+    transparent 4px);
+  transition: opacity 0.3s var(--ease);
+}
+
+.gm-work-card:hover .gm-crt { opacity: 1; }
+
+/* --- Clients -------------------------------------------------------------- */
+
+.gm-client-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gm-client-grid a {
+  display: grid;
+  gap: 12px;
+  place-items: center;
+  padding: 22px 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(14, 20, 32, 0.5);
+  text-decoration: none;
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.gm-client-grid a:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-3px); }
+
+/*
+ * The plates carry their own light ground (#F4F6FA in style.css), so the dark
+ * artwork on them is already correct. Do not invert it here: the first build
+ * did, which flipped logos that were right to begin with — and the matching
+ * colour override turned the two wordmark plates near-white on near-white, so
+ * Central Adventures and Mehala Carona rendered as blank bars.
+ *
+ * Only the size cap is this page's business.
+ */
+.gm-client-grid .logo-plate img { max-height: 34px; max-width: 100%; }
+
+.gm-client-grid span {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* --- Process -------------------------------------------------------------- */
+
+.gm-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gm-step {
+  padding-bottom: 24px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.gm-step:hover { border-color: rgba(157, 78, 221, 0.5); transform: translateY(-4px); }
+
+.gm-step figure { margin: 0 0 14px; aspect-ratio: 20 / 13; overflow: hidden; }
+.gm-step figure img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.84; }
+
+.gm-step .gm-num { display: block; padding: 0 18px; }
+
+.gm-step h3 {
+  margin: 8px 18px;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.gm-step p {
+  margin: 0 18px;
+  font-family: var(--body);
+  font-size: 0.86rem;
+  line-height: 1.62;
+  color: var(--dim);
+}
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.gm-faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: start;
+}
+
+.gm-faq-art { margin: 24px 0 0; }
+
+.gm-faq-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 40 / 31;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  opacity: 0.9;
+}
+
+.gm-faq-item { border-bottom: 1px solid var(--line); transition: border-color 0.3s var(--ease); }
+.gm-faq-item[open] { border-color: rgba(0, 242, 254, 0.42); }
+
+.gm-faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-weight: 700;
+  line-height: 1.42;
+  letter-spacing: -0.018em;
+  list-style: none;
+  cursor: pointer;
+}
+
+.gm-faq-item summary::-webkit-details-marker { display: none; }
+.gm-faq-item summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+/* The mark is a pixel that splits into four when the answer opens. */
+.gm-faq-mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  margin-top: 5px;
+  background: var(--cyan);
+  transition: clip-path 0.32s var(--ease);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.gm-faq-item[open] .gm-faq-mark {
+  clip-path: polygon(0 0, 40% 0, 40% 40%, 0 40%,
+                     60% 0, 100% 0, 100% 40%, 60% 40%,
+                     0 60%, 40% 60%, 40% 100%, 0 100%,
+                     60% 60%, 100% 60%, 100% 100%, 60% 100%);
+}
+
+.gm-faq-body { padding: 0 0 24px; }
+
+.gm-faq-body p {
+  max-width: 68ch;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  line-height: 1.76;
+  color: var(--dim);
+}
+
+/* --- Close ---------------------------------------------------------------- */
+
+.gm-close {
+  position: relative;
+  padding: clamp(70px, 9vw, 124px) 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  overflow: hidden;
+}
+
+.gm-close-wash {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(30% 38% at 34% 44%, rgba(0, 242, 254, 0.16) 0%, transparent 64%),
+    radial-gradient(30% 38% at 68% 58%, rgba(157, 78, 221, 0.16) 0%, transparent 64%);
+  animation: gm-float 26s ease-in-out infinite alternate;
+}
+
+@keyframes gm-float {
+  from { transform: translate3d(-2%, -2%, 0) scale(1); }
+  to { transform: translate3d(2%, 2%, 0) scale(1.07); }
+}
+
+.gm-close .gm-shell { position: relative; z-index: 1; }
+.gm-close .gm-eyebrow { justify-content: center; }
+
+.gm-close h2 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.04em;
+}
+
+.gm-close-lead {
+  max-width: 64ch;
+  margin: 0 auto;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.74;
+  color: var(--dim);
+}
+
+/* --- Narrow --------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .gm-cap-grid,
+  .gm-work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gm-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gm-client-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 980px) {
+  .gm-ind-grid { grid-template-columns: minmax(0, 1fr); }
+  .gm-faq-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .gm-shell { width: min(1240px, 100% - 32px); }
+  .gm-cap-grid,
+  .gm-work-grid,
+  .gm-steps { grid-template-columns: minmax(0, 1fr); }
+  .gm-client-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Nothing competes with the scene on a phone now, so the moons stay composed
+     — only scaled to the narrower frame. */
+  .gm-moon--near { left: 58%; top: 38%; width: 180px; }
+  .gm-moon--far { left: 26%; top: 16%; width: 50px; }
+  .gm-ship { left: 62%; bottom: 30%; width: 44px; }
+  .gm-intro .gm-h1 { max-width: 100%; }
+
+  /*
+   * Two buttons at desktop padding do not fit a phone, and the second was cut
+   * off at the edge. Sharing the row did not fix it either: a flex item cannot
+   * shrink below its min-content width, and "See what we build" on one line is
+   * wider than half of 375px. So they stack, full width.
+   */
+  .gm-actions { gap: 10px; }
+
+  .gm-actions .gm-btn {
+    flex: 1 1 100%;
+    min-width: 0;
+    justify-content: center;
+    padding: 15px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-dune,
+  .gm-spire,
+  .gm-stars,
+  .gm-scroll span,
+  .gm-close-wash { animation: none; }
+  .gm-spire { opacity: 0.6; }
+  .gm-ship { transition: none; }
+  .gm-ind-card:hover,
+  .gm-cap-card:hover,
+  .gm-work-card:hover,
+  .gm-step:hover { transform: none; }
+  .gm-btn--primary:hover,
+  .gm-btn--ghost:hover { transform: none; }
+}
