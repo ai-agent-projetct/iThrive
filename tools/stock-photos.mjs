@@ -259,10 +259,27 @@ const search = UNSPLASH ? searchUnsplash : searchPexels;
  * ------------------------------------------------------------------------ */
 
 const argv = process.argv.slice(2);
-const sets = argv.filter((a) => !a.startsWith('--'));
+const rawArgs = argv.filter((a) => !a.startsWith('--'));
+/* Drop the value that follows a bare `--limit N`, or it looks like a set. */
+const limitIdx = argv.indexOf('--limit');
+const sets = limitIdx >= 0 && argv[limitIdx + 1] && !argv[limitIdx + 1].startsWith('--')
+  ? rawArgs.filter((a) => a !== argv[limitIdx + 1])
+  : rawArgs;
 const listOnly = argv.includes('--list');
 const dry = argv.includes('--dry');
 const wanted = sets.length ? sets : Object.keys(PLAN);
+
+/*
+ * --limit N stops after N slots.
+ *
+ * A demo key gets 50 searches an hour, so the budget is the scarce thing, not
+ * the time. This makes it possible to spend a few on a sample, look at what
+ * came back, and only then commit the rest of the hour to it.
+ */
+const limitArg = argv.find((a) => a.startsWith('--limit'));
+const limit = limitArg
+  ? Number(limitArg.includes('=') ? limitArg.split('=')[1] : argv[argv.indexOf(limitArg) + 1])
+  : Infinity;
 
 const todo = [];
 for (const set of wanted) {
@@ -274,7 +291,9 @@ for (const set of wanted) {
   }
 }
 
-console.log(`${todo.length} slots still empty.`);
+if (Number.isFinite(limit) && limit > 0) todo.length = Math.min(todo.length, limit);
+
+console.log(`${todo.length} slots to do${Number.isFinite(limit) ? ` (limited to ${limit})` : ''}.`);
 
 if (listOnly) {
   todo.forEach((t) => console.log(`  ${t.dir}/${t.name}.jpg  [${t.ratio}]  "${terms(t.subject)}"`));
@@ -325,9 +344,43 @@ for (const t of todo) {
   } catch (e) {
     failed++;
     console.error(`SEARCH FAIL ${t.set}/${t.name}: ${e.message}`);
-    /* A bad key fails identically on every slot; stop rather than do it 117 times. */
+
+    /*
+     * Rate limit BEFORE the generic 401/403, because Unsplash answers a spent
+     * hourly quota with 403 too. Tested the other way round once and the run
+     * ended saying "the key was rejected", which is not merely unhelpful — it
+     * points at a perfectly good key and invites regenerating it for nothing.
+     */
+    if (/rate limit/i.test(e.message)) {
+      console.error(`\nUnsplash hourly limit reached — ${todo.length - made - failed + 1} left in this batch.`);
+      console.error('A demo key allows 50 requests an hour. Run the same command next hour:');
+      console.error('finished slots are skipped, so it resumes exactly here.');
+      break;
+    }
+
+    /* A genuinely bad key fails identically on every slot; stop rather than
+       do it another hundred times. */
     if (/401|403/.test(e.message)) { console.error('\nThe key was rejected — stopping.'); break; }
     continue;
+  }
+
+  /*
+   * Nothing found: try again with half the words.
+   *
+   * Five nouns plus the context is specific enough to return an empty set —
+   * "clinician hospital workstation monitors calm" found nothing at all, and
+   * that slot would simply have been skipped. Dropping to the first two nouns
+   * asks for the subject rather than the whole staged scene. Costs one extra
+   * request, which is cheaper than a missing picture.
+   */
+  if (!hits.length) {
+    const broader = q.split(' ').slice(0, 2).join(' ');
+    if (broader && broader !== q) {
+      try {
+        hits = await search(broader, t.ratio);
+        if (hits.length) console.log(`  (broadened "${q}" -> "${broader}")`);
+      } catch { /* fall through to the miss below */ }
+    }
   }
 
   if (!hits.length) {
