@@ -152,45 +152,104 @@
 .od-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
 .od-actions--mid { justify-content: center; }
 
-/* --- Hero ----------------------------------------------------------------- */
+/* --- Hero: full page, with a shape trail ---------------------------------- */
 
-.od-hero { padding: clamp(48px, 7vw, 92px) 0 clamp(56px, 7vw, 100px); }
-
-.od-hero-grid {
+.od-hero {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
+  place-items: center;
+  min-height: 100vh;
+  padding: clamp(96px, 12vh, 150px) 0 clamp(64px, 8vh, 110px);
+  overflow: hidden;
+  text-align: center;
 }
 
+/* The trail's shapes are appended here. It must not eat pointer events or the
+   buttons underneath stop working. */
+.od-trail-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/*
+ * One shape of the trail.
+ *
+ * A CSS animation, not a rAF loop: it runs on the compositor, survives a
+ * throttled tab, and cleans itself up on animationend. Everything the shape
+ * needs is a custom property the script sets when it spawns.
+ */
+.od-trail-shape {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--s, 44px);
+  height: var(--s, 44px);
+  margin: calc(var(--s, 44px) / -2) 0 0 calc(var(--s, 44px) / -2);
+  transform: translate(var(--x), var(--y)) rotate(var(--r, 0deg));
+  opacity: 0;
+  animation: od-trail-pop 1100ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.od-trail-shape svg { display: block; width: 100%; height: 100%; }
+
+@keyframes od-trail-pop {
+  0%   { opacity: 0;    scale: 0.35; }
+  18%  { opacity: 0.85; scale: 1;    }
+  100% { opacity: 0;    scale: 0.62; }
+}
+
+.od-hero-inner { position: relative; z-index: 1; }
+
+.od-hero .od-eyebrow { justify-content: center; }
+
 .od-h1 {
-  margin: 0 0 22px;
+  margin: 0 auto 22px;
+  max-width: 16ch;
   font-family: var(--display);
-  font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
   font-weight: 700;
-  line-height: 1.04;
+  line-height: 1.03;
   letter-spacing: -0.045em;
 }
 
 .od-lead {
-  max-width: 56ch;
-  margin: 0;
+  max-width: 58ch;
+  margin: 0 auto;
   font-family: 'Inter', system-ui, sans-serif;
   font-size: clamp(1rem, 1.25vw, 1.09rem);
   line-height: 1.72;
   color: var(--dim);
 }
 
+.od-hero-mark {
+  width: min(420px, 72vw);
+  margin: clamp(26px, 4vh, 44px) auto 0;
+  aspect-ratio: 14 / 9;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(14, 20, 32, 0.5);
+}
+
+.od-mark-plate,
+.od-mark-3d { display: block; width: 100%; height: 100%; }
+.od-mark-plate { object-fit: cover; }
+
 .od-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
   gap: 18px;
-  margin: 40px 0 0;
+  margin: 40px auto 0;
   padding: 24px 0 0;
   border-top: 1px solid var(--line);
   list-style: none;
 }
 
+.od-stats--mid { max-width: 760px; text-align: center; }
 .od-stats li { display: flex; flex-direction: column; gap: 5px; }
 
 .od-stats strong {
@@ -212,90 +271,8 @@
   color: var(--faint);
 }
 
-.od-book-wrap { position: relative; }
-
-.od-book-host {
-  height: clamp(340px, 44vw, 500px);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(14, 20, 32, 0.42);
-  overflow: hidden;
-}
-
-.od-stage-hint {
-  margin: 14px 0 0;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--faint);
-  text-align: center;
-}
-
-/* --- The poster ----------------------------------------------------------
-   Both the book and the closing ripple draw inside requestAnimationFrame and
-   paint nothing before the first frame. assets/js/webgl-poster.js removes this
-   only once a canvas has really painted; a tab that never gets a frame keeps
-   the flat version rather than a hole in the page.
-   ---------------------------------------------------------------------- */
-
-.od-poster {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  padding: 22px;
-  border-radius: 16px;
-  /* Fully opaque. At 96% the cover the brush component paints underneath bled
-     through as dark blotches across the logo. A poster that lets its stage
-     show through is not a poster. */
-  background: linear-gradient(160deg, #0E1420 0%, #090D15 100%);
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-[data-webgl-poster].is-live .od-poster { opacity: 0; visibility: hidden; }
-
-.od-poster-logo {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* Brush Reveal paints to a canvas it sizes from this host. */
-.od-brush-host canvas { display: block; width: 100%; height: 100%; }
-
-.od-poster ul {
-  display: grid;
-  gap: 8px;
-  width: 100%;
-  max-height: 100%;
-  overflow-y: auto;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  scrollbar-width: thin;
-}
-
-.od-poster li {
-  display: grid;
-  gap: 3px;
-  padding: 11px 14px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  font-family: var(--display);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-}
-
-.od-poster li span {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.18em;
-  color: var(--cyan);
+@media (prefers-reduced-motion: reduce) {
+  .od-trail-layer { display: none; }
 }
 
 /* --- Opening argument ------------------------------------------------------ */
@@ -335,8 +312,22 @@
 .od-role-card:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-4px); }
 
 /* The hover-reveal component sizes to its host, so the host carries the shape. */
-.od-role-art { aspect-ratio: 1 / 1; overflow: hidden; background: rgba(0, 0, 0, 0.25); }
-.od-role-art canvas, .od-role-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.od-role-art { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: rgba(0, 0, 0, 0.25); }
+
+.od-role-art img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.45s var(--ease);
+}
+
+/* The second image is the hover state; it simply fades over the first. */
+.od-role-b { opacity: 0; }
+.od-role-card:hover .od-role-b { opacity: 1; }
+.od-role-card:hover .od-role-a { opacity: 0; }
 
 .od-role-body { padding: 20px 22px 24px; }
 
@@ -389,7 +380,63 @@
 
 /* --- Benefits --------------------------------------------------------------- */
 
-.od-bento-host { min-height: 380px; margin-bottom: clamp(28px, 4vw, 48px); }
+/* Five cells, and the first one is given the space its own weight implies.
+   The component this replaced rendered four of the five. */
+.od-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 190px;
+  gap: 14px;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.od-bento-cell {
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(14, 20, 32, 0.5);
+}
+
+.od-bento-cell:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.od-bento-cell:nth-child(4) { grid-column: span 2; }
+
+.od-bento-cell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: transform 0.6s var(--ease), opacity 0.35s var(--ease);
+}
+
+.od-bento-cell:hover img { transform: scale(1.05); opacity: 1; }
+
+.od-bento-cell figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: grid;
+  gap: 3px;
+  padding: 16px 18px;
+  background: linear-gradient(180deg, transparent, rgba(11, 15, 23, 0.94));
+  font-family: var(--display);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.od-bento-cell figcaption span {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+@media (max-width: 760px) {
+  .od-bento { grid-template-columns: repeat(2, 1fr); }
+  .od-bento-cell:nth-child(1), .od-bento-cell:nth-child(4) { grid-column: span 2; grid-row: auto; }
+}
 
 .od-benefit-list { margin: 0; padding: 0; border-top: 1px solid var(--line); }
 

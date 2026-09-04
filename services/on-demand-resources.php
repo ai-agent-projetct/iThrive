@@ -166,97 +166,74 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
 <div class="od">
 
   <?php /* ---------------------------------------------------------------
-           Hero — a 3D book you open, with a poster until it draws
+           Hero — full page, with a shape trail under the pointer
+
+           After Framer's TrailShapes ($10, no module a third party can vendor),
+           built from its live demo at trailshapes.framer.website rather than
+           from the listing: the demo spawns SVG shapes that follow the cursor
+           and fade, and that is what this does.
+
+           Built on CSS animations rather than a rAF loop, deliberately. Every
+           WebGL and rAF component on this site has at some point rendered a
+           blank rectangle on a tab that never got a frame; a CSS animation
+           runs off the compositor and a shape that never animates is still a
+           shape. The hero also reads completely with no script at all.
            --------------------------------------------------------------- */ ?>
-  <section class="od-hero">
-    <div class="od-shell od-hero-grid">
-      <div class="od-hero-copy">
-        <p class="od-eyebrow"><span class="od-pulse" aria-hidden="true"></span>On-Demand Engineering · Chennai</p>
+  <section class="od-hero" data-trail>
+    <div class="od-trail-layer" data-trail-layer aria-hidden="true"></div>
 
-        <h1 class="od-h1">
-          Capacity when the roadmap<br>
-          <em>outruns the team</em>
-        </h1>
+    <div class="od-shell od-hero-inner">
+      <p class="od-eyebrow"><span class="od-pulse" aria-hidden="true"></span>On-Demand Engineering · Chennai</p>
 
-        <p class="od-lead">
-          One engineer or a squad of five, from a bench that already exists — named people in about
-          forty-eight hours, working inside your standup and your repository, billed by the month and
-          scalable in either direction on thirty days' notice.
-        </p>
+      <h1 class="od-h1">
+        Capacity when the roadmap<br>
+        <em>outruns the team</em>
+      </h1>
 
-        <div class="od-actions">
-          <button class="od-btn od-btn--primary" type="button"
-                  data-modal-open data-modal-service="On-Demand Resources">
-            Connect with our team<?= icon('arrow') ?>
-          </button>
-          <a class="od-btn od-btn--ghost" href="#od-roles">See the five disciplines</a>
-        </div>
-
-        <ul class="od-stats">
-          <?php foreach ($stats as [$v, $l]): ?>
-            <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
+      <p class="od-lead">
+        One engineer or a squad of five, from a bench that already exists — named people in about
+        forty-eight hours, working inside your standup and your repository, billed by the month and
+        scalable in either direction on thirty days' notice.
+      </p>
 
       <?php
       /*
-       * The logo, as the hero.
-       *
-       * Three states, in order of preference:
-       *
-       *   1. assets/models/logo.glb  — the client's own Meshy export, loaded as
-       *      a real 3D object that spins and drags. Drop the file in and this
-       *      takes over with no edit here.
-       *   2. Framer's Brush Reveal over a glass plate — the logo covered, and
-       *      rubbed clear under the cursor. tools/logo-plate.mjs bakes that
-       *      plate, glass and all, because Brush Reveal takes ONE image.
-       *   3. The poster, if neither draws a frame.
-       *
-       * The glass is built rather than bought: Framer's Dynamic Glass Logo is
-       * £-gated at $12 and publishes no module a third party can vendor, so the
-       * plate reproduces the look it describes from our own mark. It is not
-       * that component and does not claim to be.
+       * The mark, centred. When assets/models/logo.glb exists it becomes the
+       * client's own 3D model, spinning and draggable; until then it is the
+       * glass plate tools/logo-plate.mjs bakes. Either way something is here.
        */
       $logoGlb = is_file(ROOT_PATH . '/assets/models/logo.glb')
           ? asset('assets/models/logo.glb')
           : null;
       ?>
-      <div class="od-hero-stage">
-        <div class="od-book-wrap"<?= $logoGlb !== null ? ' data-webgl-poster' : '' ?>>
-          <?php if ($logoGlb !== null): ?>
-            <div class="od-book-host" data-webgl-stage
-                 data-ok="logo-3d"
-                 data-props='<?= e(json_encode([
-                     'src'  => $logoGlb,
-                     'spin' => 14,
-                     'tilt' => -0.18,
-                 ], JSON_THROW_ON_ERROR)) ?>'></div>
-          <?php endif; ?>
-
-          <?php /*
-             The plate IS the hero until the 3D model lands — not a poster.
-
-             This ran Framer's Brush Reveal first: the logo under a cover you
-             rub off with the cursor. The premise is wrong for a hero. Its
-             canvas starts as a solid near-black rectangle and only clears as
-             the reveal animates, so the first thing anyone saw was a black
-             box, and on any tab that does not animate it stayed one. The
-             poster could not save it either — once a canvas exists and has
-             painted, handing over is exactly the wrong move when what the
-             canvas is painting is the cover.
-
-             So the logo is simply shown. When assets/models/logo.glb exists
-             the 3D model takes the stage above this and this becomes its
-             fallback, which is the arrangement that was wanted all along.
-          */ ?>
-          <div class="od-poster" aria-hidden="true">
-            <img class="od-poster-logo" src="<?= e($img('logo/plate.jpg')) ?>"
-                 width="1400" height="900" alt="<?= e(SITE_NAME) ?>" decoding="async">
-          </div>
-        </div>
-        <p class="od-stage-hint">Drop assets/models/logo.glb in and this becomes the 3D mark</p>
+      <div class="od-hero-mark">
+        <?php if ($logoGlb !== null): ?>
+          <div class="od-mark-3d"
+               data-ok="logo-3d"
+               data-props='<?= e(json_encode([
+                   'src'  => $logoGlb,
+                   'spin' => 14,
+                   'tilt' => -0.18,
+               ], JSON_THROW_ON_ERROR)) ?>'></div>
+        <?php else: ?>
+          <img class="od-mark-plate" src="<?= e($img('logo/plate.jpg')) ?>"
+               width="1400" height="900" alt="<?= e(SITE_NAME) ?>" decoding="async">
+        <?php endif; ?>
       </div>
+
+      <div class="od-actions od-actions--mid">
+        <button class="od-btn od-btn--primary" type="button"
+                data-modal-open data-modal-service="On-Demand Resources">
+          Connect with our team<?= icon('arrow') ?>
+        </button>
+        <a class="od-btn od-btn--ghost" href="#od-roles">See the five disciplines</a>
+      </div>
+
+      <ul class="od-stats od-stats--mid">
+        <?php foreach ($stats as [$v, $l]): ?>
+          <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
+        <?php endforeach; ?>
+      </ul>
     </div>
   </section>
 
@@ -301,13 +278,17 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
       <div class="od-role-grid">
         <?php foreach ($roles as $i => [$n, $title, $body]): ?>
           <article class="od-role-card" data-reveal style="--d:<?= $i % 3 ?>">
-            <div class="od-role-art"
-                 data-ok="image-hover-reveal"
-                 data-props='<?= e(json_encode([
-                     'baseImageUrl'   => $imgAbs('role/' . $n . 'a.jpg'),
-                     'revealImageUrl' => $imgAbs('role/' . $n . 'b.jpg'),
-                 ], JSON_THROW_ON_ERROR)) ?>'>
-              <noscript><img src="<?= e($img('role/' . $n . 'a.jpg')) ?>" width="600" height="600" alt=""></noscript>
+            <?php /* Two real images with a CSS cross-fade on hover.
+                     This was Framer's Image Hover Reveal, which paints to a
+                     canvas — measured on the page it produced a 366x366 canvas
+                     containing zero images, so all five cards were blank
+                     squares. Two <img> and one opacity transition do the same
+                     job and cannot fail to render. */ ?>
+            <div class="od-role-art">
+              <img class="od-role-a" src="<?= e($img('role/' . $n . 'a.jpg')) ?>"
+                   width="700" height="700" alt="" loading="lazy" decoding="async">
+              <img class="od-role-b" src="<?= e($img('role/' . $n . 'b.jpg')) ?>"
+                   width="700" height="700" alt="" loading="lazy" decoding="async">
             </div>
             <div class="od-role-body">
               <span class="od-num"><?= e($n) ?></span>
@@ -350,14 +331,19 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
         <h2 class="od-title">Five things a dedicated<br>team <em>actually changes</em></h2>
       </div>
 
-      <div class="od-bento-host"
-           data-ok="bento-gallery"
-           data-props='<?= e(json_encode([
-               'images' => array_map(
-                   static fn (array $b): array => ['src' => $imgAbs('benefit/' . $b[0] . '.jpg'), 'alt' => $b[1]],
-                   $benefits
-               ),
-           ], JSON_THROW_ON_ERROR)) ?>'></div>
+      <?php /* A bento grid of real images. This was Framer's Bento Gallery,
+               which took five and rendered four — one benefit silently lost —
+               in a 380px box. Five <figure> in a CSS grid keep all five and
+               give the first one the space its own size implies. */ ?>
+      <div class="od-bento">
+        <?php foreach ($benefits as $i => [$n, $title, $body]): ?>
+          <figure class="od-bento-cell" style="--i:<?= $i ?>">
+            <img src="<?= e($img('benefit/' . $n . '.jpg')) ?>" width="800" height="800"
+                 alt="" loading="lazy" decoding="async">
+            <figcaption><span><?= e($n) ?></span><?= e($title) ?></figcaption>
+          </figure>
+        <?php endforeach; ?>
+      </div>
 
       <dl class="od-benefit-list">
         <?php foreach ($benefits as [$n, $title, $body]): ?>
