@@ -45,6 +45,15 @@ for (let pass = 1; pass <= 12; pass++) {
   if (before === 0) { console.log('\nbrief complete.'); break; }
 
   console.log(`\n=== pass ${pass}: ${before} slots left ===`);
+  /*
+   * When the window opened, not when the pass finished.
+   *
+   * Unsplash's hour runs from the first request of the pass, so sleeping a
+   * full hour after the pass ENDS overshoots by however long the pass took —
+   * and a pass that downloads and grades forty images takes a while. Caught
+   * with 49 of 50 requests already available while this was still sleeping.
+   */
+  const startedAt = Date.now();
   const r = spawnSync(process.execPath, [JOB, ...sets], { stdio: 'inherit' });
 
   const after = remaining();
@@ -63,7 +72,14 @@ for (let pass = 1; pass <= 12; pass++) {
     break;
   }
 
-  const mins = Math.round(WINDOW_MS / 60000);
-  console.log(`waiting ${mins} min for the next Unsplash window…`);
-  sleep(WINDOW_MS);
+  /* Whatever is left of the hour that began with this pass's first request,
+     never negative — a long pass can outlast its own window entirely. */
+  const left = Math.max(0, WINDOW_MS - (Date.now() - startedAt));
+  if (left === 0) {
+    console.log('window already reopened — going straight on.');
+    continue;
+  }
+
+  console.log(`waiting ${Math.round(left / 60000)} min for the next Unsplash window…`);
+  sleep(left);
 }
