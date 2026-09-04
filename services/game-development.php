@@ -183,9 +183,15 @@ $hasSpline = defined('GAME_SPLINE_SCENE') && GAME_SPLINE_SCENE !== '';
            toward the pointer. Built to the composition in the recording but at
            night and in our ramp, rather than its orange daylight.
 
-           It stands alone in the strict sense: the section carries no copy at
-           all, only the scene and a scroll cue. The headline and everything
-           else moved into gm-intro below it.
+           It stands alone in the strict sense: the section carries no page
+           copy at all. The headline and everything else moved into gm-intro
+           below it.
+
+           It is also PLAYABLE. The recording is a flight game, not a still, so
+           the hero is one: steer the ship, thread the spires, the score counts
+           what you pass. The game draws on top of the CSS scene rather than
+           replacing it, which is what keeps the failure mode safe — with no
+           animation frame you get the correct landscape, standing still.
 
            When GAME_SPLINE_SCENE is set, Spline's own viewer streams the real
            scene on top of this and the built version becomes the thing a
@@ -239,7 +245,10 @@ $hasSpline = defined('GAME_SPLINE_SCENE') && GAME_SPLINE_SCENE !== '';
         <?php endforeach; ?>
       </div>
 
-      <?php /* The ship. Leans and banks toward the pointer. */ ?>
+      <?php /* Obstacles the run spawns. Empty until the game starts. */ ?>
+      <div class="gm-obstacles" data-obstacles></div>
+
+      <?php /* The ship. Steers with the pointer, arrow keys or a touch drag. */ ?>
       <div class="gm-ship" data-ship>
         <svg viewBox="0 0 60 90" aria-hidden="true">
           <path d="M30 2 L44 58 L30 50 L16 58 Z" fill="#EAF0FA"/>
@@ -250,6 +259,28 @@ $hasSpline = defined('GAME_SPLINE_SCENE') && GAME_SPLINE_SCENE !== '';
           <ellipse cx="39" cy="70" rx="3" ry="16" fill="#9D4EDD" opacity="0.45"/>
         </svg>
       </div>
+    </div>
+
+    <?php /* ---------------------------------------------------------------
+             The game.
+
+             The recording is a playable endless flight, so this is one too:
+             steer the ship, thread the spires, the score counts what you pass.
+             It runs on the CSS scene above rather than replacing it, so if no
+             animation frame ever arrives the hero is still the correct still
+             landscape rather than a hole.
+             --------------------------------------------------------------- */ ?>
+    <div class="gm-hud" data-hud aria-hidden="true">
+      <span class="gm-score" data-score>0</span>
+      <span class="gm-best" data-best></span>
+    </div>
+
+    <div class="gm-overlay" data-overlay>
+      <p class="gm-overlay-title" data-overlay-title>Fly it</p>
+      <p class="gm-overlay-sub" data-overlay-sub>Move to steer · thread the spires</p>
+      <button class="gm-btn gm-btn--primary gm-play" type="button" data-start>
+        Play<?= icon('arrow') ?>
+      </button>
     </div>
 
     <?php if ($hasSpline): ?>

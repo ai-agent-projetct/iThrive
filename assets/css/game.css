@@ -346,21 +346,140 @@
 
 /* The ship. Leans toward the pointer; --lx and --ly come from the page script,
    and default to centred so it is correct with no script at all. */
+/*
+ * The ship.
+ *
+ * Centred, because the hero is a game now and the player flies it — --lx is
+ * how far it has steered and --bank is the roll it leans into. Both default to
+ * zero, so with no script the ship is simply parked in the middle of a still
+ * landscape rather than missing.
+ */
 .gm-ship {
   position: absolute;
-  /* Right of centre, clear of the headline and the stat band. Centred over the
-     copy is where the first build put it, and the stats read straight through
-     the exhaust. */
-  left: 72%;
-  bottom: 30%;
-  width: clamp(52px, 7vw, 92px);
+  left: 50%;
+  bottom: 16%;
+  z-index: 3;
+  width: clamp(46px, 5.4vw, 74px);
   transform:
-    translateX(calc(-50% + var(--lx, 0px)))
-    translateY(var(--ly, 0px))
-    rotate(calc(var(--lx, 0px) * 0.06));
-  transition: transform 0.35s var(--ease);
-  filter: drop-shadow(0 10px 26px rgba(0, 242, 254, 0.45));
+    translateX(-50%)
+    translateX(var(--lx, 0vw))
+    rotate(var(--bank, 0deg));
+  filter: drop-shadow(0 10px 26px rgba(0, 242, 254, 0.5));
+  will-change: transform;
 }
+
+/* No transition while a run is on: the loop sets a position every frame, and a
+   transition on top of that lags the ship behind its own collision box. */
+.gm-hero:not(.is-playing) .gm-ship { transition: transform 0.35s var(--ease); }
+
+/* --- The game ------------------------------------------------------------- */
+
+.gm-obstacles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Placed entirely by transform from the loop, so the browser never reflows. */
+.gm-obstacle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 70px;
+  height: 150px;
+  will-change: transform;
+}
+
+.gm-obstacle--spire {
+  border-radius: 50% 50% 10% 10% / 72% 72% 6% 6%;
+  background: linear-gradient(180deg, #223056 0%, #0A0F1C 100%);
+  box-shadow: inset 2px 0 0 rgba(159, 247, 255, 0.35);
+}
+
+.gm-obstacle--tree { color: #2B3A63; }
+.gm-obstacle--tree svg { display: block; width: 100%; height: 100%; }
+
+/* The decorative ridge spires step aside during a run, so the only things in
+   the player's way are the ones that can actually be hit. */
+.gm-hero.is-playing .gm-spires { opacity: 0.25; }
+.gm-spires { transition: opacity 0.4s var(--ease); }
+
+/* --- HUD ------------------------------------------------------------------ */
+
+.gm-hud {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--header-h, 76px) + 28px);
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.gm-hero.is-playing .gm-hud,
+.gm-hero.is-over .gm-hud { opacity: 1; }
+
+.gm-score {
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #EAF0FA;
+  text-shadow: 0 2px 24px rgba(0, 242, 254, 0.6);
+}
+
+.gm-best {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* --- The overlay ---------------------------------------------------------- */
+
+.gm-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 6px;
+  padding: 24px;
+  text-align: center;
+  background: radial-gradient(60% 50% at 50% 50%, rgba(4, 6, 12, 0.72) 0%, rgba(4, 6, 12, 0.25) 70%, transparent 100%);
+}
+
+/* `hidden` must beat the grid above, or the overlay never goes away — a bare
+   [hidden] only sets display at the UA level and any author display outranks
+   it. Five pages have now hit this. */
+.gm-overlay[hidden] { display: none; }
+
+.gm-overlay-title {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--text);
+}
+
+.gm-overlay-sub {
+  margin: 0 0 16px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: #9FB0C8;
+}
+
+.gm-play { pointer-events: auto; }
 
 .gm-ship svg { display: block; width: 100%; height: auto; }
 
@@ -392,7 +511,7 @@
   position: absolute;
   left: 50%;
   bottom: clamp(24px, 5vh, 52px);
-  z-index: 2;
+  z-index: 6;
   width: 26px;
   height: 42px;
   margin-left: -13px;
@@ -402,6 +521,8 @@
 }
 
 .gm-scroll:hover { border-color: var(--cyan); }
+.gm-hero.is-playing .gm-scroll { opacity: 0; pointer-events: none; }
+.gm-scroll { transition: border-color 0.25s var(--ease), opacity 0.3s var(--ease); }
 
 .gm-scroll span {
   position: absolute;
@@ -844,7 +965,7 @@
      — only scaled to the narrower frame. */
   .gm-moon--near { left: 58%; top: 38%; width: 180px; }
   .gm-moon--far { left: 26%; top: 16%; width: 50px; }
-  .gm-ship { left: 62%; bottom: 30%; width: 44px; }
+  .gm-ship { bottom: 18%; width: 42px; }
   .gm-intro .gm-h1 { max-width: 100%; }
 
   /*
