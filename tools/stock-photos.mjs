@@ -95,6 +95,32 @@ const MOOD = 'dark moody office low light';
  * Providers
  * ------------------------------------------------------------------------ */
 
+/**
+ * Read .env, if there is one, without adding a dependency for it.
+ *
+ * The point is that a key never has to be typed on a command line, pasted into
+ * a chat, or exported by hand: it goes in .env, which .gitignore already covers
+ * and which every other secret on this site already uses. Real environment
+ * variables still win, so CI can set one without touching the file.
+ */
+function loadEnv() {
+  const file = path.join(ROOT, '.env');
+  if (!fs.existsSync(file)) return;
+
+  for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
+    const m = line.match(/^\s*(?:export\s+)?([A-Z0-9_]+)\s*=\s*(.*)$/i);
+    if (!m) continue;
+
+    /* Strip one layer of matching quotes, and anything after an unquoted #. */
+    let v = m[2].trim();
+    if (/^(".*"|'.*')$/s.test(v)) v = v.slice(1, -1);
+    else v = v.split('#')[0].trim();
+
+    if (!(m[1] in process.env)) process.env[m[1]] = v;
+  }
+}
+loadEnv();
+
 const UNSPLASH = process.env.UNSPLASH_ACCESS_KEY || '';
 const PEXELS   = process.env.PEXELS_API_KEY || '';
 
