@@ -49,6 +49,12 @@ import GlassStack from './components/framer/glass-stack/index.js';
 import DitheringHover from './components/framer/dithering-hover/index.js';
 import AnimatedPath from './components/framer/animated-path/index.js';
 import ImageTrail from './components/framer/image-trail/index.js';
+/* The PoC page's set. The 3D slider carries three.js, which is the same
+   order of weight as the magazine's engine, so it is lazy for the same
+   reason — only the one page that mounts it should pay for it. */
+const Scroll3dSlider = lazy(() => import('./components/framer/scroll-3d-slider/index.js'));
+import StepsFlow from './components/framer/steps-flow/index.js';
+import DepthBlurCarousel from './components/framer/depth-blur-carousel/index.js';
 
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
@@ -68,6 +74,10 @@ const REGISTRY = {
   'dithering-hover': DitheringHover,
   'animated-path': AnimatedPath,
   'image-trail': ImageTrail,
+  /* The PoC Development page's set. */
+  'scroll-3d-slider': Scroll3dSlider,
+  'steps-flow': StepsFlow,
+  'depth-blur-carousel': DepthBlurCarousel,
 };
 
 function mount(host) {

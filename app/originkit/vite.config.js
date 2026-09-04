@@ -68,6 +68,10 @@ export default defineConfig({
           /* Ids arrive with Windows separators here, so normalise before matching. */
           const p = id.split('\\').join('/');
           if (/\/node_modules\/(react|react-dom|scheduler)\//.test(p)) return 'react';
+          /* three is only wanted by the PoC page's 3D slider and is far bigger
+             than everything else here put together. Its own chunk keeps it out
+             of the entry that every other page loads. */
+          if (/\/node_modules\/three\//.test(p)) return 'three';
 
           return undefined;
         },

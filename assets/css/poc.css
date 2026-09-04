@@ -1,0 +1,883 @@
+/* ==========================================================================
+   PoC Development — the page's own styles
+   ==========================================================================
+
+   Same palette as the rest of the site (style.css's ink under the cyan / blue
+   / violet ramp), deliberately weighted differently from the MVP page so the
+   two do not read as one template. The MVP page is cyan-forward and built
+   around a magazine; this one sits at the BLUE-VIOLET end and is built around
+   a blueprint — hairline grids, corner ticks, mono evidence labels, and a
+   number stamped on every card.
+
+   The one rule that is not taste: nothing here paints an opaque background.
+   The site draws a hexagon field on every page (assets/js/hexbg.js — a fixed
+   canvas at z-index 0 behind the flow), and the MVP page shipped once with an
+   opaque ink wash that covered it, which is why that page looked like it had
+   no pointer effect while every other page had one. Washes are translucent
+   here for that reason, not for the look.
+   -------------------------------------------------------------------------- */
+
+.poc {
+  --ink: #0B0F17;
+  --ink-2: #0E1420;
+  --ink-3: #131B2A;
+  --cyan: #00F2FE;
+  --blue: #4EA8FF;
+  --purple: #9D4EDD;
+  --text: #EAF1FB;
+  --dim: #C5D3E8;
+  --faint: #7C8CA6;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.17);
+  /* Blue-first, unlike the MVP page's cyan-first ramp. */
+  --grad: linear-gradient(120deg, #4EA8FF 0%, #7C5CFF 52%, #9D4EDD 100%);
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --display: 'Space Grotesk', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  position: relative;
+  /* Translucent only — see the note at the top of this file. */
+  background:
+    radial-gradient(64% 52% at 92% 4%, rgba(78, 168, 255, 0.12) 0%, transparent 60%),
+    radial-gradient(58% 48% at 4% 40%, rgba(124, 92, 255, 0.11) 0%, transparent 62%);
+  color: var(--text);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  /* clip, never hidden: `hidden` forces overflow-y to auto and would make this
+     wrapper its own scroll container. */
+  overflow-x: clip;
+}
+
+.poc > * { position: relative; z-index: 1; }
+
+/* The blueprint grid. Very low contrast on purpose — it should register as
+   texture, not as a table. Translucent, so the hexagon still reads through. */
+.poc::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 74px 74px;
+  mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.poc-shell {
+  width: min(1240px, 100% - 48px);
+  margin-inline: auto;
+}
+
+.poc-sec { padding: clamp(72px, 9vw, 132px) 0; }
+
+/* --- Shared type ---------------------------------------------------------- */
+
+.poc-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+/* The corner tick — this page's mark, in place of the MVP page's rule. */
+.poc-tick {
+  width: 9px;
+  height: 9px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  opacity: 0.85;
+}
+
+.poc-title {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.poc-title em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.poc-sub {
+  max-width: 62ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.poc-head { margin-bottom: clamp(38px, 5vw, 62px); }
+.poc-head--mid { text-align: center; }
+.poc-head--mid .poc-sub { margin-inline: auto; }
+
+.poc-num {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--blue);
+}
+
+/* --- Buttons -------------------------------------------------------------- */
+
+.poc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 26px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+              background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.poc-btn .icon { width: 17px; height: 17px; }
+
+.poc-btn--primary {
+  background: var(--grad);
+  color: #06090F;
+  box-shadow: 0 14px 34px -16px rgba(78, 168, 255, 0.85);
+}
+
+.poc-btn--primary:hover { transform: translateY(-2px); box-shadow: 0 20px 42px -16px rgba(124, 92, 255, 0.9); }
+
+.poc-btn--ghost {
+  border-color: var(--line-2);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text);
+}
+
+.poc-btn--ghost:hover { border-color: var(--blue); background: rgba(78, 168, 255, 0.1); }
+
+.poc-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.poc-actions--mid { justify-content: center; }
+
+/* --- Hero ----------------------------------------------------------------- */
+
+.poc-hero { padding: clamp(48px, 7vw, 92px) 0 clamp(56px, 7vw, 100px); }
+
+.poc-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.poc-h1 {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5.6vw, 4.4rem);
+  font-weight: 700;
+  line-height: 1.03;
+  letter-spacing: -0.045em;
+}
+
+.poc-h1 em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.poc-lead {
+  max-width: 56ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1rem, 1.25vw, 1.09rem);
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+.poc-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(122px, 1fr));
+  gap: 18px;
+  margin: 40px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.poc-stats li { display: flex; flex-direction: column; gap: 5px; }
+
+.poc-stats strong {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.poc-stats span {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* The cube's stage. A fixed height because the three.js canvas sizes itself
+   to its host, and a host that starts at zero renders an empty scene. */
+.poc-hero-stage { position: relative; }
+
+.poc-cube-host {
+  height: clamp(340px, 46vw, 520px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  /* Translucent: the hexagon field reads through the hero too. */
+  background: rgba(14, 20, 32, 0.42);
+  overflow: hidden;
+}
+
+.poc-stage-hint {
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: center;
+}
+
+.poc-face-list { margin: 0; padding: 26px 30px; list-style: none; color: var(--dim); }
+.poc-face-list li { padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+
+/* --- Why open ------------------------------------------------------------- */
+
+.poc-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.8fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: center;
+}
+
+.poc-split-copy p {
+  max-width: 62ch;
+  margin: 0 0 16px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+.poc-checks { margin: 26px 0 0; padding: 0; list-style: none; }
+
+.poc-checks li {
+  position: relative;
+  padding: 11px 0 11px 32px;
+  border-top: 1px solid var(--line);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* A tick drawn in CSS, so it inherits the ramp rather than shipping an icon. */
+.poc-checks li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 17px;
+  width: 11px;
+  height: 6px;
+  border-left: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue);
+  transform: rotate(-45deg);
+}
+
+.poc-split-art { margin: 0; }
+
+.poc-split-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9 / 11;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+.poc-split-art figcaption {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* --- Gain ----------------------------------------------------------------- */
+
+.poc-gain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.poc-gain-card {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+
+.poc-gain-card:hover { transform: translateY(-6px); border-color: rgba(78, 168, 255, 0.45); }
+
+.poc-gain-art { position: relative; margin: 0; aspect-ratio: 4 / 3; overflow: hidden; }
+
+.poc-gain-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.86;
+  transition: transform 0.6s var(--ease), opacity 0.35s var(--ease);
+}
+
+.poc-gain-card:hover .poc-gain-art img { transform: scale(1.05); opacity: 1; }
+
+.poc-gain-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(11, 15, 23, 0.92) 100%);
+}
+
+.poc-gain-tag {
+  position: absolute;
+  z-index: 1;
+  left: 18px;
+  bottom: 14px;
+  padding: 5px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: rgba(11, 15, 23, 0.72);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.poc-gain-body { padding: 22px 24px 26px; }
+.poc-gain-body h3 {
+  margin: 10px 0 10px;
+  font-family: var(--display);
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.poc-gain-body p {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.93rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+/* --- Inside the proof: eight cards, one open at a time -------------------- */
+
+.poc-inside-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+  gap: 18px;
+}
+
+.poc-inside-card {
+  position: relative;
+  padding: 24px 24px 52px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(14, 20, 32, 0.46);
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease),
+              transform 0.3s var(--ease);
+}
+
+.poc-inside-card:hover { border-color: var(--line-2); transform: translateY(-3px); }
+.poc-inside-card:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.poc-inside-card.is-open { border-color: rgba(78, 168, 255, 0.5); background: rgba(20, 29, 46, 0.62); }
+
+.poc-inside-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--blue);
+}
+
+.poc-inside-title {
+  margin: 12px 0 0;
+  font-family: var(--display);
+  font-size: 1.06rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+/* Collapsed to nothing and revealed by grid-template-rows, which animates
+   where height:auto cannot. */
+.poc-inside-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.42s var(--ease), opacity 0.3s var(--ease),
+              margin-top 0.42s var(--ease);
+  margin-top: 0;
+}
+
+.poc-inside-panel > * { overflow: hidden; }
+.poc-inside-card.is-open .poc-inside-panel { grid-template-rows: 1fr; opacity: 1; margin-top: 16px; }
+
+.poc-inside-art { margin: 0 0 14px; }
+
+.poc-inside-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+  border-radius: 12px;
+  opacity: 0.9;
+}
+
+.poc-inside-panel p {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.91rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+/* The plus that becomes a minus. */
+.poc-inside-more {
+  position: absolute;
+  left: 24px;
+  bottom: 20px;
+  width: 15px;
+  height: 15px;
+}
+
+.poc-inside-more::before,
+.poc-inside-more::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--blue);
+  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+}
+
+.poc-inside-more::before { width: 15px; height: 2px; }
+.poc-inside-more::after  { width: 2px; height: 15px; }
+.poc-inside-card.is-open .poc-inside-more::after { transform: rotate(90deg); opacity: 0; }
+
+/* --- Band ----------------------------------------------------------------- */
+
+.poc-band {
+  padding: clamp(46px, 6vw, 78px) 0;
+  border-block: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(78, 168, 255, 0.09), rgba(157, 78, 221, 0.09));
+}
+
+.poc-band-rail { min-height: 46px; }
+
+.poc-band-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 34px;
+}
+
+.poc-band-cta p {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 2.2vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* --- Process -------------------------------------------------------------- */
+
+.poc-steps-host { min-height: 200px; }
+
+/* Framer's Steps Flow replaces this once it mounts; until then the five steps
+   are readable as a plain list. */
+.poc-steps-fallback { margin: 0; padding: 0; list-style: none; counter-reset: none; }
+
+.poc-steps-fallback li {
+  display: grid;
+  gap: 6px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+
+.poc-steps-fallback strong {
+  font-family: var(--display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.poc-steps-fallback span {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+.poc-process-cta { margin-top: 44px; text-align: center; }
+
+/* --- Sectors -------------------------------------------------------------- */
+
+.poc-sectors-rail {
+  min-height: 300px;
+  margin-bottom: clamp(34px, 4vw, 56px);
+}
+
+.poc-sector-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.poc-sector-tab {
+  padding: 10px 20px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+  cursor: pointer;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease),
+              background-color 0.25s var(--ease);
+}
+
+.poc-sector-tab:hover { color: var(--text); border-color: var(--line-2); }
+
+.poc-sector-tab.is-on {
+  color: #06090F;
+  border-color: transparent;
+  background: var(--grad);
+}
+
+.poc-sector-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: center;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(14, 20, 32, 0.46);
+}
+
+.poc-sector-art { margin: 0; }
+
+.poc-sector-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 14px;
+  opacity: 0.9;
+}
+
+.poc-sector-body h3 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+}
+
+.poc-sector-body > p {
+  margin: 0 0 18px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.97rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.poc-sector-body ul { margin: 0; padding: 0; list-style: none; }
+
+.poc-sector-body li {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  border-top: 1px solid var(--line);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.93rem;
+  color: var(--text);
+}
+
+.poc-sector-body li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 18px;
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid var(--purple);
+  border-bottom: 2px solid var(--purple);
+}
+
+/* --- Mid CTA -------------------------------------------------------------- */
+
+.poc-midcta {
+  padding: clamp(60px, 8vw, 104px) 0;
+  border-block: 1px solid var(--line);
+  text-align: center;
+}
+
+.poc-midcta h2 {
+  margin: 0 0 28px;
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 3.6vw, 2.7rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.poc-midcta em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- Why choose us -------------------------------------------------------- */
+
+.poc-choose-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px;
+}
+
+.poc-choose-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(14, 20, 32, 0.46);
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.poc-choose-card:hover { border-color: rgba(124, 92, 255, 0.45); transform: translateY(-4px); }
+
+.poc-choose-art { margin: 0; }
+
+.poc-choose-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 20 / 13;
+  object-fit: cover;
+  border-radius: 14px;
+  opacity: 0.88;
+}
+
+.poc-choose-body h3 {
+  margin: 9px 0 9px;
+  font-family: var(--display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.poc-choose-body p {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--dim);
+}
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.poc-faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: start;
+}
+
+.poc-faq-art { margin: 24px 0 20px; }
+
+.poc-faq-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  opacity: 0.9;
+}
+
+.poc-faq-note {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+.poc-faq-item {
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.3s var(--ease);
+}
+
+.poc-faq-item[open] { border-color: rgba(78, 168, 255, 0.4); }
+
+.poc-faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.018em;
+  cursor: pointer;
+  list-style: none;
+}
+
+.poc-faq-item summary::-webkit-details-marker { display: none; }
+.poc-faq-item summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+.poc-faq-mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  margin-top: 5px;
+}
+
+.poc-faq-mark::before,
+.poc-faq-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--blue);
+  transition: transform 0.32s var(--ease), opacity 0.32s var(--ease);
+}
+
+.poc-faq-mark::before { width: 15px; height: 2px; }
+.poc-faq-mark::after  { width: 2px; height: 15px; }
+.poc-faq-item[open] .poc-faq-mark::after { transform: rotate(90deg); opacity: 0; }
+
+.poc-faq-body { padding: 0 0 24px; }
+
+.poc-faq-body p {
+  max-width: 66ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+/* --- Close ---------------------------------------------------------------- */
+
+.poc-close {
+  padding: clamp(70px, 9vw, 124px) 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.poc-close .poc-eyebrow { justify-content: center; }
+
+.poc-close h2 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.poc-close em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.poc-close-lead {
+  max-width: 60ch;
+  margin: 0 auto;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+/* Reveal-on-scroll is NOT defined here. style.css already ships [data-reveal]
+   and main.js already adds .is-in on intersection, site-wide, with the same
+   --d stagger this page uses. A second copy would only be a second thing to
+   keep in step. */
+
+/* --- Narrow --------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .poc-hero-grid,
+  .poc-split,
+  .poc-faq-grid,
+  .poc-sector-panel { grid-template-columns: minmax(0, 1fr); }
+
+  .poc-choose-card { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .poc-shell { width: min(1240px, 100% - 32px); }
+  .poc-band-cta { flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .poc-gain-card:hover,
+  .poc-choose-card:hover,
+  .poc-inside-card:hover { transform: none; }
+  .poc-gain-card:hover .poc-gain-art img { transform: none; }
+}

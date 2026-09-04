@@ -1,0 +1,4 @@
+https://framer.com/m/Scroll3dSlider-feA8su.js@2fWxUpTxmOoSNHrRJKeH
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

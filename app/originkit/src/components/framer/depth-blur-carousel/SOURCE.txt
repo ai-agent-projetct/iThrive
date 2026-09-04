@@ -1,0 +1,4 @@
+https://framer.com/m/Depth-Blur-Carousel-fvJ2lB.js@GXN6LrtdSMkVOzHCU8CD
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

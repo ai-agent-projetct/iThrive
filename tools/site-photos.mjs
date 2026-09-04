@@ -205,6 +205,53 @@ const PLAN = {
     ],
   },
 
+  /*
+   * The PoC Development page. Its own PHP prefers assets/img/poc/photo the way
+   * the MVP page prefers assets/img/mvp/photo, so each of these replaces the
+   * drawn composition tools/poc-art.mjs made the moment it lands.
+   *
+   * The hero's six cube faces are NOT here: they are faces of an abstract 3D
+   * object, and geometry is the right thing on them.
+   */
+  poc: {
+    dir: 'assets/img/poc/photo', ratio: '3:2', items: [
+      ['open-01', 'a single engineer alone at a bench early in a project, one laptop and one question on a whiteboard'],
+
+      ['gain-01', 'an engineer catching a problem on screen and turning to tell a colleague'],
+      ['gain-02', 'a founder and a finance lead closing a laptop, a budget document between them'],
+      ['gain-03', 'a small group watching a working demo on a laptop, one of them nodding'],
+
+      ['inside-01', 'two people assessing an idea against a document, neither convinced yet'],
+      ['inside-02', 'an architect drawing a system on glass while a colleague photographs it'],
+      ['inside-03', 'an engineer listing risks on sticky notes and ordering them on a wall'],
+      ['inside-04', 'a developer building fast at a cluttered desk, one screen of code, late light'],
+      ['inside-05', 'an engineer watching data move through a pipeline on a terminal'],
+      ['inside-06', 'a developer testing a third-party integration, two laptops open side by side'],
+      ['inside-07', 'a laptop turned around on a table to show a working demo to two people'],
+      ['inside-08', 'a planning session with a scoped list and a number written beside it'],
+
+      ['step-01', 'a thirty-minute video call on a laptop in a quiet room, notes being taken'],
+      ['step-02', 'a written scope document on a desk being read carefully, pen in hand'],
+      ['step-03', 'two engineers building at a shared desk, focused, mid-sprint'],
+      ['step-04', 'a demo being reviewed on a large screen, a result being discussed honestly'],
+      ['step-05', 'a laptop showing a repository handover, two people shaking hands behind it'],
+
+      ['sector-01', 'a retail team reviewing catalogue and stock data on a wall of screens'],
+      ['sector-02', 'a clinician at a hospital workstation with monitors behind, calm and focused'],
+      ['sector-03', 'an enterprise team at a bank of desks with a shared dashboard above'],
+      ['sector-04', 'a logistics control room, route screens on the wall, a dispatcher at a desk'],
+      ['sector-05', 'a fintech engineer at a desk with a payments dashboard and a card reader'],
+      ['sector-06', 'an e-commerce operations desk with a checkout flow open on two screens'],
+
+      ['why-01', 'a senior engineer at a whiteboard drawing the real architecture, small'],
+      ['why-02', 'one number written large on a whiteboard with two people looking at it'],
+      ['why-03', 'a difficult but respectful conversation across a desk, laptop closed'],
+      ['why-04', 'hands away from a keyboard as a repository transfer confirms on screen'],
+
+      ['faq-01', 'a founder and an engineer talking across a desk early in a project'],
+    ],
+  },
+
   /* Blog thumbnails. The six post cards had icons and nothing else. */
   blog: {
     dir: 'assets/img/blog/photo', ratio: '3:2', items: [

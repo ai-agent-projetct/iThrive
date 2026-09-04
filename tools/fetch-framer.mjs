@@ -44,6 +44,12 @@ const MANIFEST = {
   'dithering-hover':    'https://framer.com/m/DitheringHover-M1Hdlx.js@qxYaCKUi7dg86wla4Z0g',
   'animated-path':      'https://framer.com/m/AnimatedPath-zpq9rv.js@POpugJ0TBxWL4GA458rY',
   'image-trail':        'https://framer.com/m/ImageTrailEffect-IfXEqc.js@9lwVyb8puGYVdiViqG1C',
+
+  /* The PoC Development page's set, kept deliberately disjoint from the MVP
+     page's so the two read as different pages rather than one template. */
+  'scroll-3d-slider':   'https://framer.com/m/Scroll3dSlider-feA8su.js@2fWxUpTxmOoSNHrRJKeH',
+  'steps-flow':         'https://framer.com/m/StepsFlow-sYFgLb.js@6lahIk3YSyL4zf6fOKn9',
+  'depth-blur-carousel':'https://framer.com/m/Depth-Blur-Carousel-fvJ2lB.js@GXN6LrtdSMkVOzHCU8CD',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));
