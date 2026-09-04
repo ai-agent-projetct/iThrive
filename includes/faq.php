@@ -1311,4 +1311,38 @@ const FAQ = [
         'terms' => 'customised customized tailored shaped around our business bespoke sequence priorities constraints roadmap order',
         // Published on services/product-modernization.php
     ],
+    [
+        'id' => 'q143', 'cat' => 'page-faq',
+        'q' => 'Why hire a cloud partner rather than build the capability in-house?',
+        'a' => 'Eventually you should have it in-house, and we will help you get there — a good '
+            . 'engagement ends with your team owning the pipeline and the runbooks. The case for '
+            . 'bringing someone in is speed and scar tissue: you get patterns already proven across '
+            . 'other products instead of learning them from your own outages. What you should not do '
+            . 'is hire one DevOps engineer and make them solely responsible; that is a single point '
+            . 'of failure with a pager.',
+        'terms' => 'hire partner in house internal team build capability outsource devops engineer why not ourselves',
+        // Published on services/cloud-devops.php
+    ],
+    [
+        'id' => 'q144', 'cat' => 'page-faq',
+        'q' => 'Is cloud and DevOps work continuous, or a one-off project?',
+        'a' => 'Both models exist and we will tell you which you need. A bounded piece — a migration, '
+            . 'a pipeline build, a cost review — is a project with an end. But cloud left alone '
+            . 'decays: dependencies fall out of support, instances stay sized for last year, and '
+            . 'permissions accumulate. Most clients start with a bounded project and continue on a '
+            . 'monthly basis once they can see what it prevents.',
+        'terms' => 'continuous ongoing one off project retainer monthly initial deployment improvement engagement shape',
+        // Published on services/cloud-devops.php
+    ],
+    [
+        'id' => 'q145', 'cat' => 'page-faq',
+        'q' => 'Why is our cloud bill rising when usage is flat?',
+        'a' => 'Almost always one of five things: instances sized for a peak that never recurred, '
+            . 'storage and snapshots nothing prunes, data transfer between zones that a placement '
+            . 'change would remove, orphaned resources from experiments nobody deleted, and '
+            . 'on-demand pricing on workloads that have run continuously for two years. A cost '
+            . 'review finds these in about a week, and the first pass usually pays for itself.',
+        'terms' => 'cloud bill cost rising increasing spend usage flat aws azure gcp invoice waste savings finops over provisioned',
+        // Published on services/cloud-devops.php
+    ],
 ];
