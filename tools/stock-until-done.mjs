@@ -46,15 +46,20 @@ for (let pass = 1; pass <= 12; pass++) {
 
   console.log(`\n=== pass ${pass}: ${before} slots left ===`);
   const r = spawnSync(process.execPath, [JOB, ...sets], { stdio: 'inherit' });
-  void r;
 
   const after = remaining();
   console.log(`pass ${pass}: ${before - after} made, ${after} left`);
 
   if (after === 0) { console.log('\nbrief complete.'); break; }
 
-  if (after === before) {
-    console.log('pass made nothing — stopping rather than waiting on a fault that will not clear.');
+  /*
+   * Exit 3 means the hourly window is shut, and that is the one case where a
+   * pass that made nothing should still wait. Judging by the slot count alone
+   * got this wrong: the first pass hit the limit on its very first request,
+   * made nothing, and the runner called it a permanent fault and quit.
+   */
+  if (r.status !== 3 && after === before) {
+    console.log('pass made nothing and was not rate-limited — stopping; this needs a person.');
     break;
   }
 
