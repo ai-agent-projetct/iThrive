@@ -1,0 +1,4 @@
+https://framer.com/m/LorenzoInteractivePortrait-oP29.js@tqnpAXVxZTj4euFM4cqv
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

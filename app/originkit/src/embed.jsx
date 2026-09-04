@@ -70,6 +70,15 @@ import ImageScroller from './components/framer/image-scroller/index.js';
 import StickyScrollStory from './components/framer/sticky-scroll-story/index.js';
 import GradientBars from './components/framer/g-bars/index.js';
 import AmbientBackground from './components/framer/ambient-background/index.js';
+
+/* The On-Demand Resources page's set — again, none shared with any other page.
+   The book carries its own 3D and the ripple its own WebGL, so both are lazy. */
+const FlipBook3D = lazy(() => import('./components/framer/flip-book-3d/index.js'));
+import ImageHoverReveal from './components/framer/image-hover-reveal/index.js';
+import DotGridBg from './components/framer/dot-grid-bg/index.js';
+import BentoGallery from './components/framer/bento-gallery/index.js';
+import MotionGallery from './components/framer/motion-gallery/index.js';
+const WaterRipple = lazy(() => import('./components/framer/ripple/index.js'));
 /* CurvedGalleryArc and GlassStack are already imported above with the MVP
    set — registered long ago but never actually mounted on a page. The
    Dedicated Team page is the first to use them. */
@@ -106,6 +115,13 @@ const REGISTRY = {
   'sticky-scroll-story': StickyScrollStory,
   'g-bars': GradientBars,
   'ambient-background': AmbientBackground,
+  /* The On-Demand Resources page's set. */
+  'flip-book-3d': FlipBook3D,
+  'image-hover-reveal': ImageHoverReveal,
+  'dot-grid-bg': DotGridBg,
+  'bento-gallery': BentoGallery,
+  'motion-gallery': MotionGallery,
+  'ripple': WaterRipple,
 };
 
 function mount(host) {

@@ -62,6 +62,14 @@ const MANIFEST = {
   'sticky-scroll-story': 'https://framer.com/m/StickyScrollStory-2-x6oztN.js@3u60lLOoADWXFvcvY5Ek',
   'g-bars':              'https://framer.com/m/Gradient-bars-background-PBP7eD.js@1az5mj0YIKKWNeAX6WXF',
   'ambient-background':  'https://framer.com/m/Ambient-Background-VzUF.js@PZ8HSlw6f90FHl45XCV4',
+
+  /* The On-Demand Resources page's set. */
+  'flip-book-3d':        'https://framer.com/m/InteractiveBook-xGXc.js@uLOYl8huI2w4XDdONaRK',
+  'image-hover-reveal':  'https://framer.com/m/LorenzoInteractivePortrait-oP29.js@tqnpAXVxZTj4euFM4cqv',
+  'dot-grid-bg':         'https://framer.com/m/Dot-Grid-BG-GVxaLr.js@mfNBQfaPK0E7CX1epbhh',
+  'bento-gallery':       'https://framer.com/m/BentoGallery-T6VH.js@MaI7yHbDqGVoRWLiezpW',
+  'motion-gallery':      'https://framer.com/m/MotionGallery-JuOB8v.js@44OBltoR5dBarH6Qb9Hj',
+  'ripple':              'https://framer.com/m/Ripple-Qymb.js@YGTvnr2Zbs54i2DJOYbY',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));

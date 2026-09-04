@@ -1,0 +1,700 @@
+/* ==========================================================================
+   On-Demand Resources — the page's own styles
+   ==========================================================================
+
+   Fifth bespoke service page. The palette is the SITE's, unchanged — the
+   Dedicated Team page tried a colour of its own and stopped looking like the
+   same website, so what separates these five pages is layout, components and
+   motif rather than hue.
+
+   This one's motif is AVAILABILITY: signal bars, a pulse mark, and a capacity
+   rule. Its layout personality is a board — wide rows, hard left alignment,
+   and numbers in the margin.
+
+   Nothing here paints an opaque background: the site draws a hexagon field on
+   every page (assets/js/hexbg.js, a fixed canvas at z-index 0) and an opaque
+   wash covers it. Both Framer backgrounds on this page are given transparent
+   colours in their props for the same reason.
+   -------------------------------------------------------------------------- */
+
+.od {
+  --ink: #0B0F17;
+  --cyan: #00F2FE;
+  --blue: #4EA8FF;
+  --purple: #9D4EDD;
+  --text: #EAF0FA;
+  --dim: #9AA7BD;
+  --faint: #6B7A93;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.18);
+  /* style.css's --grad, copied rather than approximated. */
+  --grad: linear-gradient(120deg, #00F2FE 0%, #4EA8FF 45%, #9D4EDD 100%);
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --display: 'Space Grotesk', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  position: relative;
+  background:
+    radial-gradient(54% 42% at 92% 3%, rgba(0, 242, 254, 0.10) 0%, transparent 60%),
+    radial-gradient(48% 40% at 6% 48%, rgba(157, 78, 221, 0.09) 0%, transparent 62%);
+  color: var(--text);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+.od > * { position: relative; z-index: 1; }
+
+.od-shell { width: min(1240px, 100% - 48px); margin-inline: auto; }
+.od-sec { padding: clamp(72px, 9vw, 132px) 0; }
+
+/* --- Type ----------------------------------------------------------------- */
+
+.od-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* The pulse mark — this page's own, where Team uses a seat and React brackets. */
+.od-pulse {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.od-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.45;
+}
+
+.od-title {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.od-title em, .od-h1 em, .od-band-inner em, .od-midcta em, .od-close-copy em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.od-sub {
+  max-width: 62ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.od-head { margin-bottom: clamp(38px, 5vw, 62px); }
+.od-head--mid { text-align: center; }
+.od-head--mid .od-sub { margin-inline: auto; }
+
+.od-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+/* --- Buttons: a hard 2px corner, this page's own ------------------------- */
+
+.od-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 28px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+              background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.od-btn .icon { width: 17px; height: 17px; }
+
+.od-btn--primary {
+  background: var(--grad);
+  color: #06121A;
+  box-shadow: 0 14px 34px -16px rgba(0, 242, 254, 0.8);
+}
+
+.od-btn--primary:hover { transform: translateY(-2px); box-shadow: 0 20px 42px -16px rgba(157, 78, 221, 0.85); }
+
+.od-btn--ghost { border-color: var(--line-2); background: rgba(255, 255, 255, 0.035); color: var(--text); }
+.od-btn--ghost:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.1); }
+
+.od-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.od-actions--mid { justify-content: center; }
+
+/* --- Hero ----------------------------------------------------------------- */
+
+.od-hero { padding: clamp(48px, 7vw, 92px) 0 clamp(56px, 7vw, 100px); }
+
+.od-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.od-h1 {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.od-lead {
+  max-width: 56ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1rem, 1.25vw, 1.09rem);
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+.od-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 18px;
+  margin: 40px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.od-stats li { display: flex; flex-direction: column; gap: 5px; }
+
+.od-stats strong {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.od-stats span {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.od-book-wrap { position: relative; }
+
+.od-book-host {
+  height: clamp(340px, 44vw, 500px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.42);
+  overflow: hidden;
+}
+
+.od-stage-hint {
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: center;
+}
+
+/* --- The poster ----------------------------------------------------------
+   Both the book and the closing ripple draw inside requestAnimationFrame and
+   paint nothing before the first frame. assets/js/webgl-poster.js removes this
+   only once a canvas has really painted; a tab that never gets a frame keeps
+   the flat version rather than a hole in the page.
+   ---------------------------------------------------------------------- */
+
+.od-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(14, 20, 32, 0.96), rgba(9, 13, 21, 0.98));
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+[data-webgl-poster].is-live .od-poster { opacity: 0; visibility: hidden; }
+
+.od-poster ul {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.od-poster li {
+  display: grid;
+  gap: 3px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--display);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.od-poster li span {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+/* --- Opening argument ------------------------------------------------------ */
+
+.od-open-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
+.od-open-copy p {
+  max-width: 62ch;
+  margin: 0 0 16px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+/* --- The five disciplines -------------------------------------------------- */
+
+.od-role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.od-role-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.48);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.od-role-card:hover { border-color: rgba(0, 242, 254, 0.45); transform: translateY(-4px); }
+
+/* The hover-reveal component sizes to its host, so the host carries the shape. */
+.od-role-art { aspect-ratio: 1 / 1; overflow: hidden; background: rgba(0, 0, 0, 0.25); }
+.od-role-art canvas, .od-role-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.od-role-body { padding: 20px 22px 24px; }
+
+.od-role-body h3 {
+  margin: 9px 0 9px;
+  font-family: var(--display);
+  font-size: 1.06rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.od-role-body p {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.66;
+  color: var(--dim);
+}
+
+/* --- Band ------------------------------------------------------------------ */
+
+.od-band {
+  position: relative;
+  padding: clamp(56px, 7vw, 96px) 0;
+  border-block: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.od-band-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.45; }
+
+.od-band-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.od-band-inner h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.6vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+/* --- Benefits --------------------------------------------------------------- */
+
+.od-bento-host { min-height: 380px; margin-bottom: clamp(28px, 4vw, 48px); }
+
+.od-benefit-list { margin: 0; padding: 0; border-top: 1px solid var(--line); }
+
+.od-benefit-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.44fr) minmax(0, 1fr);
+  gap: clamp(16px, 3vw, 40px);
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.25s var(--ease);
+}
+
+.od-benefit-row:hover { background: rgba(0, 242, 254, 0.04); }
+
+.od-benefit-row dt {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.018em;
+}
+
+.od-benefit-row dd {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+/* --- Steps ------------------------------------------------------------------ */
+
+.od-motion-host { min-height: 300px; margin-bottom: clamp(28px, 4vw, 48px); }
+
+.od-step-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.od-step-list li {
+  display: grid;
+  gap: 7px;
+  padding: 22px 18px 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.od-step-num {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+.od-step-list strong {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.od-step-body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.66;
+  color: var(--dim);
+}
+
+/* --- Hiring models: tilt toward the pointer -------------------------------- */
+
+.od-model-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  perspective: 1200px;
+}
+
+.od-model {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(14, 20, 32, 0.5);
+  overflow: hidden;
+  /* --rx / --ry are written by ondemand-page.js from pointermove; the transform
+     itself stays here so there is one place that decides how a card looks. */
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.14s linear, border-color 0.3s var(--ease);
+}
+
+.od-model:hover { border-color: rgba(157, 78, 221, 0.5); }
+
+.od-model-art { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; }
+.od-model-art img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+
+.od-model-body { padding: 20px 24px 24px; }
+
+.od-model-body h3 {
+  margin: 9px 0 10px;
+  font-family: var(--display);
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.od-model-body p {
+  margin: 0 0 14px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.66;
+  color: var(--dim);
+}
+
+.od-tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+
+.od-tags li {
+  padding: 5px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* --- Mid CTA ---------------------------------------------------------------- */
+
+.od-midcta {
+  padding: clamp(60px, 8vw, 104px) 0;
+  border-block: 1px solid var(--line);
+  text-align: center;
+}
+
+.od-midcta h2 {
+  margin: 0 0 28px;
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 3.6vw, 2.7rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+/* --- Six reasons ------------------------------------------------------------ */
+
+.od-adv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.od-adv-card {
+  padding: 0 0 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.46);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.od-adv-card:hover { border-color: rgba(78, 168, 255, 0.45); transform: translateY(-4px); }
+
+.od-adv-art { margin: 0 0 18px; aspect-ratio: 8 / 5; overflow: hidden; }
+.od-adv-art img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.86; }
+
+.od-adv-card .od-num,
+.od-adv-card h3,
+.od-adv-card p { margin-left: 24px; margin-right: 24px; }
+
+.od-adv-card h3 {
+  margin-top: 9px;
+  margin-bottom: 9px;
+  font-family: var(--display);
+  font-size: 1.06rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.od-adv-card p {
+  margin-bottom: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.66;
+  color: var(--dim);
+}
+
+/* --- FAQ -------------------------------------------------------------------- */
+
+.od-faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: start;
+}
+
+.od-faq-art { margin: 24px 0 0; }
+
+.od-faq-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  opacity: 0.9;
+}
+
+.od-faq-item { border-bottom: 1px solid var(--line); transition: border-color 0.3s var(--ease); }
+.od-faq-item[open] { border-color: rgba(0, 242, 254, 0.42); }
+
+.od-faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.018em;
+  cursor: pointer;
+  list-style: none;
+}
+
+.od-faq-item summary::-webkit-details-marker { display: none; }
+.od-faq-item summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+.od-faq-mark { position: relative; flex: 0 0 auto; width: 15px; height: 15px; margin-top: 5px; }
+
+.od-faq-mark::before, .od-faq-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--cyan);
+  transition: transform 0.32s var(--ease), opacity 0.32s var(--ease);
+}
+
+.od-faq-mark::before { width: 15px; height: 2px; }
+.od-faq-mark::after  { width: 2px; height: 15px; }
+.od-faq-item[open] .od-faq-mark::after { transform: rotate(90deg); opacity: 0; }
+
+.od-faq-body { padding: 0 0 24px; }
+
+.od-faq-body p {
+  max-width: 66ch;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+/* --- Close ------------------------------------------------------------------ */
+
+.od-close {
+  position: relative;
+  padding: clamp(70px, 9vw, 124px) 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  overflow: hidden;
+}
+
+.od-close-wrap { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.od-close-bg { position: absolute; inset: 0; }
+.od-close-bg canvas { display: block; width: 100%; height: 100%; }
+
+/* The closing poster has no list — it is only the ground the words sit on, so
+   a plain wash is the whole fallback. */
+.od-close-poster {
+  border-radius: 0;
+  background: linear-gradient(160deg, rgba(11, 15, 23, 0.86), rgba(9, 13, 21, 0.94));
+}
+
+.od-close-copy { position: relative; z-index: 1; }
+.od-close-copy .od-eyebrow { justify-content: center; }
+
+.od-close-copy h2 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.od-close-lead {
+  max-width: 60ch;
+  margin: 0 auto;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--dim);
+}
+
+/* --- Narrow ------------------------------------------------------------------ */
+
+@media (max-width: 980px) {
+  .od-hero-grid,
+  .od-open-grid,
+  .od-faq-grid,
+  .od-benefit-row { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .od-shell { width: min(1240px, 100% - 32px); }
+  .od-band-inner { flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .od-model { transition: none; }
+  .od-role-card:hover, .od-adv-card:hover { transform: none; }
+}
