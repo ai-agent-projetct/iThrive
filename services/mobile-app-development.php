@@ -45,6 +45,30 @@ $schema = [
     ],
 ];
 
+/**
+ * The eleven answers, as schema.
+ *
+ * The Flutter page has published its ten this way since it launched. This page
+ * — the larger of the two, and the one the FAQ was actually written for — had
+ * neither the schema nor a server-rendered copy, because its answers live
+ * inside the React bundle and nothing reads them until the bundle executes.
+ */
+$schemaExtra = [
+    [
+        '@type'      => 'FAQPage',
+        'name'       => 'Mobile app development — frequently asked questions',
+        'speakable'  => [
+            '@type'       => 'SpeakableSpecification',
+            'cssSelector' => ['.mobile-faq dt', '.mobile-faq dd'],
+        ],
+        'mainEntity' => array_map(static fn (array $f): array => [
+            '@type'          => 'Question',
+            'name'           => $f['q'],
+            'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['a']],
+        ], MOBILE_FAQ),
+    ],
+];
+
 // The page ships its own type ramp; these are the families the design was
 // drawn in and are not in the site's global stylesheet.
 $extraHead = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
@@ -87,6 +111,20 @@ require dirname(__DIR__) . '/includes/header.php';
     </div>
   </section>
 </noscript>
+
+<?php /* The FAQ again, in the server response.
+         The React section renders these same eleven questions, but only after
+         its JavaScript runs. An answer engine reading the raw HTML would
+         otherwise find nothing, which would waste the one part of this page
+         written specifically to be quoted. Visually hidden, not display:none —
+         hidden text is still indexed, and this is the same content the page
+         renders. Matches what the Flutter page has always done. */ ?>
+<dl class="mobile-faq sr-only">
+  <?php foreach (MOBILE_FAQ as $f): ?>
+    <dt><?= e($f['q']) ?></dt>
+    <dd><?= e($f['a']) ?></dd>
+  <?php endforeach; ?>
+</dl>
 
 <?php /* The hero's 3D scene loads its Three.js scripts at runtime, so it needs to
          know where the site root is — BASE_URL is empty at the domain root and

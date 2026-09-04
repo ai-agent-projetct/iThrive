@@ -248,7 +248,9 @@ function ai_knowledge(): string
     $lines[] = '';
     $lines[] = '## Contact';
     $lines[] = '- Email: ' . SITE_EMAIL;
-    $lines[] = '- Phone: ' . SITE_PHONE;
+    if (site_phone() !== null) {
+        $lines[] = '- Phone: ' . site_phone();
+    }
     $lines[] = '- Head office: ' . SITE_HQ;
     $lines[] = '- Response time: within 2 working days';
 
@@ -534,8 +536,9 @@ function ai_execute_tool(string $name, array $input, array &$side): string
             ai_append_storage('escalations.ndjson', $escalation);
             $side['escalation'] = $escalation;
 
-            return 'Flagged for a human. Tell the visitor someone will follow up, and give them ' . SITE_EMAIL
-                . ' and ' . SITE_PHONE . ' so they can reach us directly in the meantime.';
+            return 'Flagged for a human. Tell the visitor someone will follow up, and give them '
+                . SITE_EMAIL . (site_phone() !== null ? ' and ' . site_phone() : '')
+                . ' so they can reach us directly in the meantime.';
 
         default:
             return "Unknown tool: {$name}";

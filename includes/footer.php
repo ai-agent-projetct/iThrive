@@ -39,7 +39,11 @@ if (($page ?? '') !== 'home' && empty($noAssistant)) {
 
         <div class="footer-contact">
           <a href="mailto:<?= e(SITE_EMAIL) ?>"><?= icon('mail') ?><?= e(SITE_EMAIL) ?></a>
-          <a href="tel:<?= e(str_replace(' ', '', SITE_PHONE)) ?>"><?= icon('phone') ?><?= e(SITE_PHONE) ?></a>
+          <?php /* Only when it is a real number — a tel: link that cannot connect
+                   is worse than no link at all. See site_phone(). */ ?>
+          <?php if (site_phone() !== null): ?>
+            <a href="tel:<?= e(str_replace(' ', '', site_phone())) ?>"><?= icon('phone') ?><?= e(site_phone()) ?></a>
+          <?php endif; ?>
           <span><?= icon('pin') ?><?= e(SITE_HQ) ?></span>
         </div>
       </div>

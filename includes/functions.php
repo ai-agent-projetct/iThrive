@@ -26,6 +26,19 @@ function asset(string $path): string
     return url($path) . '?v=' . $version;
 }
 
+/**
+ * The company phone, or null while it is still the scaffolded placeholder.
+ *
+ * Every surface that shows a number calls this and skips the field when it
+ * comes back null, so the site never publishes a number that does not ring —
+ * in schema, in a tel: link, or out of the assistant's mouth. See SITE_PHONE
+ * in config.php for why that matters.
+ */
+function site_phone(): ?string
+{
+    return SITE_PHONE === SITE_PHONE_PLACEHOLDER ? null : SITE_PHONE;
+}
+
 /** Render a partial with an isolated scope. */
 function component(string $name, array $data = []): void
 {

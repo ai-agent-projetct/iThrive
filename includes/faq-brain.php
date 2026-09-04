@@ -126,6 +126,22 @@ const FAQ_LEXICON = [
     'सुरक्षा' => 'security protect', 'डेटा' => 'data', 'अधिकार' => 'ip ownership rights',
     'गोपनीय' => 'confidential privacy',
 
+    // Source code and ownership, as people actually write it.
+    //
+    // The formal words above are the ones a dictionary gives; they are not what
+    // gets typed. Indic speakers write English technical nouns in their own
+    // script, so "who owns the source code" arrives as சோர்ஸ் கோட் or सोर्स कोड
+    // and matched nothing at all — while the same question in English is one of
+    // the most asked on the site. Ownership was the gap: "app" and "cost" were
+    // already transliterated here, which is why pricing questions worked in all
+    // five languages and this one worked in none.
+    'கோட்' => 'code source', 'சோர்ஸ்' => 'source code', 'சொந்த' => 'ownership own belong',
+    'കോഡ്' => 'code source', 'സോഴ്സ്' => 'source code', 'സ്വന്ത' => 'ownership own belong',
+    'ಕೋಡ್' => 'code source', 'ಸೋರ್ಸ್' => 'source code', 'ಸ್ವಂತ' => 'ownership own belong',
+    'కోడ్' => 'code source', 'సోర్స్' => 'source code', 'సొంత' => 'ownership own belong',
+    'कोड' => 'code source', 'सोर्स' => 'source code', 'मालिक' => 'ownership own belong',
+    'स्वामित्व' => 'ownership own belong',
+
     // cloud / devops / server
     'கிளவுட்' => 'cloud', 'மேகக்கணினி' => 'cloud', 'சேவையக' => 'server cloud',
     'ക്ലൗഡ്' => 'cloud', 'സെർവർ' => 'server cloud',
@@ -362,7 +378,21 @@ function faq_match(string $question): array
     // two real terms, or one term echoed straight out of the question — but a
     // three-word question cannot reach four however clearly it is on topic, so
     // the bar drops with the amount of evidence available.
-    if ($best['score'] < min(4, max(3, count($terms)))) {
+    //
+    // It has to drop all the way to 2 when only one term survives, or such a
+    // question can never match anything: a single term scores at most 2, so a
+    // floor of 3 rejected it however exact the hit was. "How long does a
+    // project take?" is printed verbatim on two service pages, and asking the
+    // assistant that exact sentence returned the demo boundary reply — every
+    // word but "project" is a stopword.
+    //
+    // Two is still strong evidence rather than an incidental brush: the only
+    // ways to score 2 on one term are that it appears in the entry's own
+    // question, or that it matches an aux term exactly. A fuzzy prefix match —
+    // the weak signal this floor exists to reject — scores 1 and is still out.
+    $floor = count($terms) === 1 ? 2 : min(4, max(3, count($terms)));
+
+    if ($best['score'] < $floor) {
         return ['matched' => false, 'id' => '', 'question' => '', 'text' => '', 'score' => $best['score']];
     }
 

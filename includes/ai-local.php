@@ -118,7 +118,10 @@ function ai_local_answer(string $question, string $lang = 'en'): array
 
     if (preg_match('/\b(contact|email|phone|call|reach|talk|speak|touch|address|located|where)\b/', $q)
         || preg_match('/(' . $ML['contact'] . ')/u', $question)) {
-        return ['matched' => true, 'text' => sprintf($t['contact'], SITE_EMAIL, SITE_PHONE, SITE_HQ)];
+        // No phone published means no phone recited — see site_phone().
+        return ['matched' => true, 'text' => site_phone() === null
+            ? sprintf($t['contact_nophone'], SITE_EMAIL, SITE_HQ)
+            : sprintf($t['contact'], SITE_EMAIL, site_phone(), SITE_HQ)];
     }
 
     if (preg_match('/\b(process|engage|engagement|work with|how do you work|steps|timeline|start)\b/', $q)

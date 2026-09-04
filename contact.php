@@ -18,7 +18,7 @@ $schema = [
         '@type'        => 'Organization',
         'name'         => SITE_NAME,
         'email'        => SITE_EMAIL,
-        'telephone'    => SITE_PHONE,
+        ...(site_phone() !== null ? ['telephone' => site_phone()] : []),
         'contactPoint' => [
             '@type'             => 'ContactPoint',
             'contactType'       => 'sales',
@@ -86,7 +86,7 @@ component('page-hero', [
       </span>
       <h2>Direct lines</h2>
       <dl class="detail-meta">
-        <?php foreach (CONTACT_CHANNELS as $channel): ?>
+        <?php foreach (contact_channels() as $channel): ?>
           <div>
             <dt><?= e($channel['label']) ?></dt>
             <dd>

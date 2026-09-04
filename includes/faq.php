@@ -1127,4 +1127,143 @@ const FAQ = [
             . 'fixed at our expense.',
         'terms' => 'after mvp launch next steps iterate scale stop pivot cohort metric warranty support post launch',
     ],
+
+    // ---- 12. Published on a service page but previously unanswerable -------
+    //
+    // A coverage pass compared every question rendered on the site against this
+    // book. 147 of 160 matched; these thirteen did not, so a visitor who asked
+    // the assistant a question printed on the page in front of them got the
+    // demo boundary reply instead of the answer sitting a few pixels above.
+    //
+    // The answers are lifted verbatim from the pages that publish them, so the
+    // two cannot drift. What is written here is the `terms` — and the missing
+    // vocabulary is exactly why each one missed: "How long does a project
+    // take?" and "What do I actually get at the end?" carry almost no
+    // distinguishing words of their own.
+
+    [
+        'id' => 'q126', 'cat' => 'apps',
+        'q' => 'Once the final payment is made, how is the code delivered to us?',
+        'a' => 'On milestone sign-off we transfer the GitHub or GitLab organisation itself, not a zip file — '
+             . 'full commit history, branches and CI pipelines intact. Cloud accounts, the Apple Developer '
+             . 'and Google Play listings, signing keys, environment secrets and the Figma files move into '
+             . 'your name at the same time. You also get architecture notes and a working local setup, so a '
+             . 'different team could take over without ever speaking to us. Nothing is held back as '
+             . 'leverage.',
+        'terms' => 'code delivery deliver handover final payment repository github gitlab transfer zip keys secrets',
+        // Published on services/mobile-app-development.php
+    ],
+    [
+        'id' => 'q127', 'cat' => 'apps',
+        'q' => 'How does the iThrive support team actually work day to day?',
+        'a' => 'You get a named engineer who worked on your build, not a ticket queue and a stranger. '
+             . 'Support runs on a shared Slack or Teams channel plus email, with a tracked board you can '
+             . 'see. Response targets are one business hour for anything production-down, same business day '
+             . 'for a broken feature, and two working days for everything else. Every month you get an '
+             . 'uptime, crash-free-rate and cost summary — sent whether the reading is flattering or not.',
+        'terms' => 'support team day to day named engineer slack teams response targets sla monthly report',
+        // Published on services/mobile-app-development.php
+    ],
+    [
+        'id' => 'q128', 'cat' => 'engagement',
+        'q' => 'What can your dedicated engineers actually do?',
+        'a' => 'The ten disciplines above, and they are staffed as a team rather than as individuals — a '
+             . 'front-end engineer here comes with the back-end, QA and DevOps people who make their work '
+             . 'shippable. Where we do not have the skill in-house we say so rather than putting a near-miss '
+             . 'on the invoice.',
+        'terms' => 'dedicated engineers skills disciplines capability what can they do team roles staffed',
+        // Published on services/dedicated-engineering-team.php
+    ],
+    [
+        'id' => 'q129', 'cat' => 'engagement',
+        'q' => 'How does hiring actually work?',
+        'a' => 'A call, then a written proposal naming roles, rates and start dates. You interview the '
+             . 'individuals if you want to; most clients interview the first two and stop. Nobody is billed '
+             . 'before they are in your standup.',
+        'terms' => 'hiring hire process work proposal interview rates start dates onboard how',
+        // Published on services/dedicated-engineering-team.php
+    ],
+    [
+        'id' => 'q130', 'cat' => 'engagement',
+        'q' => 'Who manages them day to day?',
+        'a' => 'You do, on the work. We handle employment, performance, cover for leave and replacement if '
+             . 'somebody is not right — and replacement is our cost, not yours. You should be directing '
+             . 'engineers, not administering them.',
+        'terms' => 'manages management day to day who manage direct supervise performance leave replacement',
+        // Published on services/dedicated-engineering-team.php
+    ],
+    [
+        'id' => 'q131', 'cat' => 'engagement',
+        'q' => 'What do we actually get by taking developers on demand?',
+        'a' => 'Capacity in about forty-eight hours instead of a hiring cycle, seniority you are not paying '
+             . 'to develop, and the ability to change your mind — up or down on thirty days\' notice. What '
+             . 'you give up is the permanence, which matters if the work is genuinely open-ended.',
+        'terms' => 'on demand developers benefit get capacity forty eight hours seniority scale notice',
+        // Published on services/on-demand-resources.php
+    ],
+    [
+        'id' => 'q132', 'cat' => 'engagement',
+        'q' => 'How do we judge whether an engineer is any good?',
+        'a' => 'Interview them; we will not put a wall between you and the person doing the work. Beyond '
+             . 'that, ask for a code review rather than a CV walk-through — an hour looking at how somebody '
+             . 'reasons about a real change tells you more than any amount of talking about frameworks.',
+        'terms' => 'judge assess evaluate engineer good quality skill test trial vet screening',
+        // Published on services/on-demand-resources.php
+    ],
+    [
+        'id' => 'q133', 'cat' => 'engagement',
+        'q' => 'What should we look for in the person?',
+        'a' => 'Less than you would think about the specific stack, and more about how they handle not '
+             . 'knowing something. The frameworks change every three years; the habits of writing things '
+             . 'down, asking early and being honest about status do not.',
+        'terms' => 'look for person candidate qualities choose pick selecting engineer traits',
+        // Published on services/on-demand-resources.php
+    ],
+    [
+        'id' => 'q134', 'cat' => 'saas',
+        'q' => 'What should a PoC actually include?',
+        'a' => 'The risky part and nothing else. One question, the smallest thing that can answer it, real '
+             . 'data wherever it exists, and the measurement written down. Authentication, admin screens and '
+             . 'polish are deliberately absent — putting them in is how a proof quietly turns into a slow '
+             . 'first build.',
+        'terms' => 'poc proof of concept include scope contain deliverable what is in',
+        // Published on services/poc-development.php
+    ],
+    [
+        'id' => 'q135', 'cat' => 'saas',
+        'q' => 'What do I actually get at the end?',
+        'a' => 'A running proof you can demonstrate, the source and infrastructure in your own accounts, the '
+             . 'measurement against the agreed threshold, a written account of what we found — including '
+             . 'anything that surprised us — and a scoped MVP plan with a cost against it.',
+        'terms' => 'get at the end deliverable output receive final handover what do i get',
+        // Published on services/poc-development.php
+    ],
+    [
+        'id' => 'q136', 'cat' => 'apps',
+        'q' => 'Our frontend feels slow and fragmented. Can that be fixed without starting over?',
+        'a' => 'Usually, yes. Slowness in a React app is normally a small number of specific causes — '
+             . 'unnecessary re-renders, state held too high, an unsplit bundle, images and fonts nobody '
+             . 'budgeted. We measure first and report what we find, including when the honest answer is that '
+             . 'the architecture is the problem and a rebuild is cheaper.',
+        'terms' => 'frontend slow fragmented fix without rewrite starting over performance react refactor incremental',
+        // Published on services/reactjs-development.php
+    ],
+    [
+        'id' => 'q137', 'cat' => 'engagement',
+        'q' => 'How do we see progress, and how do we know what is really done?',
+        'a' => 'A demo on real data every fortnight, the repository in your own account from the first '
+             . 'commit, and the same board we use. "Done" means merged, deployed and instrumented, not '
+             . 'written and awaiting integration.',
+        'terms' => 'progress visibility see track know done demo sprint report status transparency',
+        // Published on services/reactjs-development.php
+    ],
+    [
+        'id' => 'q138', 'cat' => 'engagement',
+        'q' => 'How long does a project take?',
+        'a' => 'Discovery is about two weeks. A first production release is typically six to fourteen weeks '
+             . 'after that, depending on scope. You see working software every fortnight throughout, so the '
+             . 'timeline is visible rather than promised.',
+        'terms' => 'project duration length timeline how long take weeks months delivery schedule',
+        // Published on services/software-development.php
+    ],
 ];

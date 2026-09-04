@@ -24,7 +24,8 @@ $graph[] = [
     'url'         => $origin . url('index.php'),
     'description' => SITE_TAGLINE,
     'email'       => SITE_EMAIL,
-    'telephone'   => SITE_PHONE,
+    // Omitted entirely while SITE_PHONE is the placeholder — see site_phone().
+    ...(site_phone() !== null ? ['telephone' => site_phone()] : []),
     'logo'        => [
         '@type'  => 'ImageObject',
         // The mark the site actually renders. This pointed at the old SVG
@@ -59,7 +60,7 @@ $graph[] = [
         '@type'             => 'ContactPoint',
         'contactType'       => 'sales',
         'email'             => SITE_EMAIL,
-        'telephone'         => SITE_PHONE,
+        ...(site_phone() !== null ? ['telephone' => site_phone()] : []),
         'areaServed'        => 'Worldwide',
         'availableLanguage' => ['en', 'ta', 'ml', 'kn', 'te', 'hi'],
     ],

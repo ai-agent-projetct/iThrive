@@ -1134,6 +1134,8 @@ const ASSISTANT_PROMPTS = [
 const ASSISTANT_ANSWERS = [
     'en' => [
         'contact' => 'Email %1$s or call %2$s. We are based in %3$s. Send a paragraph about the workflow you want to fix and you will get a written build plan — scope, stack and a realistic timeline — within two working days.',
+        // Used when site_phone() is null: the same sentence without the call clause.
+        'contact_nophone' => 'Email %1$s. We are based in %2$s. Send a paragraph about the workflow you want to fix and you will get a written build plan — scope, stack and a realistic timeline — within two working days.',
         'process' => 'Every engagement runs through three gates.',
         'price'   => 'Pricing depends on scope, so we do not publish a rate card — and I will not guess at a number. You describe the workflow, we run a discovery pass, and you get a fixed scope and price in writing before any production code is written. Email %1$s to start.',
         'hiring'  => 'We are hiring: %1$s. Everyone here writes code, talks to clients and owns something in production. Send your work to %2$s.',
@@ -1142,6 +1144,8 @@ const ASSISTANT_ANSWERS = [
     ],
     'ta' => [
         'contact' => '%1$s க்கு மின்னஞ்சல் அனுப்புங்கள் அல்லது %2$s ஐ அழையுங்கள். நாங்கள் %3$s இல் உள்ளோம். நீங்கள் சரிசெய்ய விரும்பும் பணிப்பாய்வு பற்றி ஒரு பத்தி எழுதுங்கள் — இரண்டு வேலை நாட்களுக்குள் திட்டம், தொழில்நுட்பம் மற்றும் கால அட்டவணையுடன் எழுத்துப்பூர்வ திட்டம் கிடைக்கும்.',
+        // Used when site_phone() is null: the same sentence without the call clause.
+        'contact_nophone' => '%1$s க்கு மின்னஞ்சல் அனுப்புங்கள். நாங்கள் %2$s இல் உள்ளோம். நீங்கள் சரிசெய்ய விரும்பும் பணிப்பாய்வு பற்றி ஒரு பத்தி எழுதுங்கள் — இரண்டு வேலை நாட்களுக்குள் திட்டம், தொழில்நுட்பம் மற்றும் கால அட்டவணையுடன் எழுத்துப்பூர்வ திட்டம் கிடைக்கும்.',
         'process' => 'ஒவ்வொரு ஒப்பந்தமும் மூன்று நிலைகளில் நடக்கிறது.',
         'price'   => 'விலை பணியின் அளவைப் பொறுத்தது, எனவே நாங்கள் நிலையான விலைப்பட்டியல் வெளியிடுவதில்லை — நான் ஒரு எண்ணை ஊகிக்க மாட்டேன். நீங்கள் பணிப்பாய்வை விவரிக்கிறீர்கள், நாங்கள் ஆய்வு செய்கிறோம், பின்னர் எழுத்துப்பூர்வமாக நிலையான விலை தருகிறோம். தொடங்க %1$s க்கு எழுதுங்கள்.',
         'hiring'  => 'நாங்கள் பணியமர்த்துகிறோம்: %1$s. உங்கள் பணியை %2$s க்கு அனுப்புங்கள்.',
@@ -1150,6 +1154,8 @@ const ASSISTANT_ANSWERS = [
     ],
     'ml' => [
         'contact' => '%1$s എന്ന വിലാസത്തിൽ ഇമെയിൽ അയക്കുക അല്ലെങ്കിൽ %2$s എന്ന നമ്പറിൽ വിളിക്കുക. ഞങ്ങൾ %3$s ആണ്. നിങ്ങൾ പരിഹരിക്കാൻ ആഗ്രഹിക്കുന്ന വർക്ക്ഫ്ലോയെക്കുറിച്ച് ഒരു ഖണ്ഡിക അയക്കുക — രണ്ട് പ്രവൃത്തി ദിവസത്തിനുള്ളിൽ എഴുതിയ പദ്ധതി ലഭിക്കും.',
+        // Used when site_phone() is null: the same sentence without the call clause.
+        'contact_nophone' => '%1$s എന്ന വിലാസത്തിൽ ഇമെയിൽ അയക്കുക. ഞങ്ങൾ %2$s ആണ്. നിങ്ങൾ പരിഹരിക്കാൻ ആഗ്രഹിക്കുന്ന വർക്ക്ഫ്ലോയെക്കുറിച്ച് ഒരു ഖണ്ഡിക അയക്കുക — രണ്ട് പ്രവൃത്തി ദിവസത്തിനുള്ളിൽ എഴുതിയ പദ്ധതി ലഭിക്കും.',
         'process' => 'ഓരോ ഇടപാടും മൂന്ന് ഘട്ടങ്ങളിലൂടെ കടന്നുപോകുന്നു.',
         'price'   => 'വില പ്രവൃത്തിയുടെ വ്യാപ്തിയെ ആശ്രയിച്ചിരിക്കുന്നു, അതിനാൽ ഞങ്ങൾ നിരക്ക് പട്ടിക പ്രസിദ്ധീകരിക്കുന്നില്ല — ഞാൻ ഒരു സംഖ്യ ഊഹിക്കില്ല. നിങ്ങൾ വർക്ക്ഫ്ലോ വിവരിക്കുക, ഞങ്ങൾ പഠിക്കും, തുടർന്ന് എഴുതി വില നൽകും. തുടങ്ങാൻ %1$s എന്ന വിലാസത്തിൽ എഴുതുക.',
         'hiring'  => 'ഞങ്ങൾ നിയമിക്കുന്നു: %1$s. നിങ്ങളുടെ ജോലി %2$s ലേക്ക് അയക്കുക.',
@@ -1158,6 +1164,8 @@ const ASSISTANT_ANSWERS = [
     ],
     'kn' => [
         'contact' => '%1$s ಗೆ ಇಮೇಲ್ ಮಾಡಿ ಅಥವಾ %2$s ಗೆ ಕರೆ ಮಾಡಿ. ನಾವು %3$s ನಲ್ಲಿದ್ದೇವೆ. ನೀವು ಸರಿಪಡಿಸಲು ಬಯಸುವ ಕೆಲಸದ ಹರಿವಿನ ಬಗ್ಗೆ ಒಂದು ಪ್ಯಾರಾ ಕಳುಹಿಸಿ — ಎರಡು ಕೆಲಸದ ದಿನಗಳಲ್ಲಿ ಲಿಖಿತ ಯೋಜನೆ ಸಿಗುತ್ತದೆ.',
+        // Used when site_phone() is null: the same sentence without the call clause.
+        'contact_nophone' => '%1$s ಗೆ ಇಮೇಲ್ ಮಾಡಿ. ನಾವು %2$s ನಲ್ಲಿದ್ದೇವೆ. ನೀವು ಸರಿಪಡಿಸಲು ಬಯಸುವ ಕೆಲಸದ ಹರಿವಿನ ಬಗ್ಗೆ ಒಂದು ಪ್ಯಾರಾ ಕಳುಹಿಸಿ — ಎರಡು ಕೆಲಸದ ದಿನಗಳಲ್ಲಿ ಲಿಖಿತ ಯೋಜನೆ ಸಿಗುತ್ತದೆ.',
         'process' => 'ಪ್ರತಿ ಒಪ್ಪಂದವೂ ಮೂರು ಹಂತಗಳ ಮೂಲಕ ಸಾಗುತ್ತದೆ.',
         'price'   => 'ಬೆಲೆ ಕೆಲಸದ ವ್ಯಾಪ್ತಿಯನ್ನು ಅವಲಂಬಿಸಿದೆ, ಆದ್ದರಿಂದ ನಾವು ದರ ಪಟ್ಟಿ ಪ್ರಕಟಿಸುವುದಿಲ್ಲ — ನಾನು ಸಂಖ್ಯೆಯನ್ನು ಊಹಿಸುವುದಿಲ್ಲ. ನೀವು ಕೆಲಸವನ್ನು ವಿವರಿಸಿ, ನಾವು ಪರಿಶೀಲಿಸುತ್ತೇವೆ, ನಂತರ ಲಿಖಿತವಾಗಿ ನಿಗದಿತ ಬೆಲೆ ನೀಡುತ್ತೇವೆ. %1$s ಗೆ ಬರೆಯಿರಿ.',
         'hiring'  => 'ನಾವು ನೇಮಕ ಮಾಡುತ್ತಿದ್ದೇವೆ: %1$s. ನಿಮ್ಮ ಕೆಲಸವನ್ನು %2$s ಗೆ ಕಳುಹಿಸಿ.',
@@ -1166,6 +1174,8 @@ const ASSISTANT_ANSWERS = [
     ],
     'te' => [
         'contact' => '%1$s కు ఇమెయిల్ చేయండి లేదా %2$s కు కాల్ చేయండి. మేము %3$s లో ఉన్నాము. మీరు సరిచేయాలనుకుంటున్న పని విధానం గురించి ఒక పేరా పంపండి — రెండు పని దినాల్లో రాతపూర్వక ప్రణాళిక అందుతుంది.',
+        // Used when site_phone() is null: the same sentence without the call clause.
+        'contact_nophone' => '%1$s కు ఇమెయిల్ చేయండి. మేము %2$s లో ఉన్నాము. మీరు సరిచేయాలనుకుంటున్న పని విధానం గురించి ఒక పేరా పంపండి — రెండు పని దినాల్లో రాతపూర్వక ప్రణాళిక అందుతుంది.',
         'process' => 'ప్రతి ఒప్పందం మూడు దశల ద్వారా సాగుతుంది.',
         'price'   => 'ధర పని పరిధిపై ఆధారపడి ఉంటుంది, కాబట్టి మేము రేటు జాబితా ప్రచురించము — నేను ఒక సంఖ్యను ఊహించను. మీరు పనిని వివరించండి, మేము పరిశీలిస్తాము, ఆపై రాతపూర్వకంగా నిర్ణీత ధర ఇస్తాము. %1$s కు రాయండి.',
         'hiring'  => 'మేము నియామకాలు చేస్తున్నాము: %1$s. మీ పనిని %2$s కు పంపండి.',
@@ -1174,6 +1184,8 @@ const ASSISTANT_ANSWERS = [
     ],
     'hi' => [
         'contact' => '%1$s पर ईमेल करें या %2$s पर कॉल करें। हम %3$s में हैं। जिस प्रक्रिया को आप ठीक करना चाहते हैं उसके बारे में एक पैराग्राफ भेजें — दो कार्य दिवसों में लिखित योजना मिलेगी।',
+        // Used when site_phone() is null: the same sentence without the call clause.
+        'contact_nophone' => '%1$s पर ईमेल करें। हम %2$s में हैं। जिस प्रक्रिया को आप ठीक करना चाहते हैं उसके बारे में एक पैराग्राफ भेजें — दो कार्य दिवसों में लिखित योजना मिलेगी।',
         'process' => 'हर एंगेजमेंट तीन चरणों से गुजरता है।',
         'price'   => 'कीमत काम के दायरे पर निर्भर करती है, इसलिए हम रेट कार्ड प्रकाशित नहीं करते — और मैं कोई संख्या अनुमान से नहीं बताऊँगा। आप प्रक्रिया बताइए, हम जाँच करेंगे, फिर लिखित में निश्चित कीमत देंगे। शुरू करने के लिए %1$s पर लिखें।',
         'hiring'  => 'हम भर्ती कर रहे हैं: %1$s. अपना काम %2$s पर भेजें।',
@@ -1471,9 +1483,26 @@ const CONTACT_BUDGETS = [
     'Not decided yet',
 ];
 
-const CONTACT_CHANNELS = [
-    ['icon' => 'mail',  'label' => 'Email',      'value' => SITE_EMAIL,  'href' => 'mailto:' . SITE_EMAIL],
-    ['icon' => 'phone', 'label' => 'Phone',      'value' => SITE_PHONE,  'href' => 'tel:' . SITE_PHONE],
-    ['icon' => 'pin',   'label' => 'Head Office','value' => SITE_HQ,     'href' => null],
-    ['icon' => 'clock', 'label' => 'Response',   'value' => 'Within 2 working days', 'href' => null],
-];
+/**
+ * The channels the contact page lists.
+ *
+ * A function rather than a const because the phone row has to disappear while
+ * SITE_PHONE is the placeholder, and a const expression cannot call site_phone().
+ */
+function contact_channels(): array
+{
+    $channels = [
+        ['icon' => 'mail', 'label' => 'Email', 'value' => SITE_EMAIL, 'href' => 'mailto:' . SITE_EMAIL],
+    ];
+
+    if (site_phone() !== null) {
+        $channels[] = ['icon' => 'phone', 'label' => 'Phone',
+                       'value' => site_phone(), 'href' => 'tel:' . site_phone()];
+    }
+
+    $channels[] = ['icon' => 'pin',   'label' => 'Head Office', 'value' => SITE_HQ, 'href' => null];
+    $channels[] = ['icon' => 'clock', 'label' => 'Response',
+                   'value' => 'Within 2 working days', 'href' => null];
+
+    return $channels;
+}
