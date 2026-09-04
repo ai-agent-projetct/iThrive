@@ -334,6 +334,7 @@ const usedIds = new Set();
 
 let made = 0;
 let failed = 0;
+let rateLimited = false;   /* exits 3, so a runner can tell "wait" from "broken" */
 
 for (const t of todo) {
   const q = terms(t.subject);
@@ -355,6 +356,7 @@ for (const t of todo) {
       console.error(`\nUnsplash hourly limit reached — ${todo.length - made - failed + 1} left in this batch.`);
       console.error('A demo key allows 50 requests an hour. Run the same command next hour:');
       console.error('finished slots are skipped, so it resumes exactly here.');
+      rateLimited = true;
       break;
     }
 
@@ -465,3 +467,9 @@ if (credits.length) {
 }
 
 console.log(`\ndone: ${made} made, ${failed} failed, of ${todo.length}`);
+
+/* Exit 3 for a spent hourly window specifically. A pass that makes nothing
+   because the quota is shut needs waiting out; a pass that makes nothing for
+   any other reason needs a person. A runner cannot tell those apart from the
+   slot count alone, which is exactly the mistake this code distinguishes. */
+if (rateLimited) process.exit(3);
