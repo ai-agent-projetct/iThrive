@@ -304,12 +304,10 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
            Band — a dot field behind it
            --------------------------------------------------------------- */ ?>
   <section class="od-band">
-    <div class="od-band-bg" aria-hidden="true"
-         data-ok="dot-grid-bg"
-         data-props='<?= e(json_encode([
-             'dotColor' => 'rgba(0, 242, 254, 0.34)',
-             'dotSize'  => 2,
-         ], JSON_THROW_ON_ERROR)) ?>'></div>
+    <?php /* A CSS dot field. This was Framer's Dot Grid BG, whose 2D canvas
+             measured 0 lit pixels out of 1600 sampled — it painted nothing at
+             all. A repeating gradient cannot fail to render. */ ?>
+    <div class="od-band-bg" aria-hidden="true"></div>
 
     <div class="od-shell od-band-inner">
       <h2>Build the team that takes<br><em>your product further</em></h2>
@@ -366,28 +364,23 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
       </div>
     </div>
 
-    <div class="od-motion-host"
-         data-ok="motion-gallery"
-         data-props='<?= e(json_encode(array_merge(
-             ['numImages' => count($steps)],
-             array_reduce(
-                 array_keys($steps),
-                 static function (array $carry, int $i) use ($steps, $imgAbs): array {
-                     $carry['image' . ($i + 1)] = ['src' => $imgAbs('step/' . $steps[$i][0] . '.jpg'), 'alt' => $steps[$i][1]];
+    <?php /* The five steps as a rail of real cards.
 
-                     return $carry;
-                 },
-                 []
-             )
-         ), JSON_THROW_ON_ERROR)) ?>'></div>
-
+             This was Framer's Motion Gallery. Measured on the page it laid its
+             five images out at 45x25 pixels inside a 1425x300 host — five
+             thumbnails adrift in an empty band, because it grows them from a
+             rAF loop that never ran. The pictures are simply shown at size
+             here, and the step's number and name sit on each one. */ ?>
     <div class="od-shell">
-      <ol class="od-step-list">
-        <?php foreach ($steps as [$n, $title, $body]): ?>
-          <li>
-            <span class="od-step-num"><?= e($n) ?></span>
-            <strong><?= e($title) ?></strong>
-            <span class="od-step-body"><?= e($body) ?></span>
+      <ol class="od-step-rail">
+        <?php foreach ($steps as $i => [$n, $title, $body]): ?>
+          <li class="od-step-card" data-reveal style="--d:<?= $i % 3 ?>">
+            <figure>
+              <img src="<?= e($img('step/' . $n . '.jpg')) ?>" width="900" height="600"
+                   alt="" loading="lazy" decoding="async">
+              <figcaption><span><?= e($n) ?></span><?= e($title) ?></figcaption>
+            </figure>
+            <p><?= e($body) ?></p>
           </li>
         <?php endforeach; ?>
       </ol>
@@ -496,15 +489,14 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
            Close — under moving water, with a poster until it draws
            --------------------------------------------------------------- */ ?>
   <section class="od-close">
-    <div class="od-close-wrap" data-webgl-poster>
-      <div class="od-close-bg" data-webgl-stage aria-hidden="true"
-           data-ok="ripple"
-           data-props='<?= e(json_encode([
-               'image'     => $imgAbs('close/01.jpg'),
-               'intensity' => 0.35,
-           ], JSON_THROW_ON_ERROR)) ?>'></div>
-      <?php /* Flat, until the ripple has actually drawn a frame. */ ?>
-      <div class="od-close-poster od-poster" aria-hidden="true"></div>
+    <?php /* A CSS wash. This was Framer's WebGL Water Ripples; with zero
+             animation frames its context never drew, so the section closed on
+             a flat rectangle. The picture underneath is real and the drift is
+             a CSS animation, so both survive a tab that never animates. */ ?>
+    <div class="od-close-wrap" aria-hidden="true">
+      <img class="od-close-img" src="<?= e($img('close/01.jpg')) ?>"
+           width="1600" height="700" alt="" loading="lazy" decoding="async">
+      <div class="od-close-wash"></div>
     </div>
 
     <div class="od-shell od-close-copy">
