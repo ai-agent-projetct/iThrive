@@ -164,12 +164,38 @@
   text-align: center;
 }
 
+/*
+ * The honeycomb is hidden behind THIS section only.
+ *
+ * Every other page on the site — and every other section of this one — keeps
+ * its washes translucent so assets/js/hexbg.js reads through; that rule is
+ * written at the top of this file and still holds everywhere else. Here the
+ * shape trail is the effect, and two pointer-reactive fields on top of each
+ * other read as noise rather than as either one.
+ *
+ * An opaque layer rather than an opaque .od-hero, so it sits ABOVE the fixed
+ * canvas (z-index 0) and BELOW the hero's own content and trail (z-index 0 and
+ * 1 inside this stacking context), and so no other section is touched.
+ */
+.od-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(62% 52% at 78% 6%, rgba(0, 242, 254, 0.10) 0%, transparent 62%),
+    radial-gradient(56% 48% at 12% 88%, rgba(157, 78, 221, 0.10) 0%, transparent 64%),
+    #0B0F17;
+}
+
 /* The trail's shapes are appended here. It must not eat pointer events or the
    buttons underneath stop working. */
 .od-trail-layer {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  /* Above the honeycomb mask, below the copy. */
+  z-index: 1;
   pointer-events: none;
   overflow: hidden;
 }
@@ -202,7 +228,7 @@
   100% { opacity: 0;    scale: 0.62; }
 }
 
-.od-hero-inner { position: relative; z-index: 1; }
+.od-hero-inner { position: relative; z-index: 2; }
 
 .od-hero .od-eyebrow { justify-content: center; }
 
@@ -225,19 +251,20 @@
   color: var(--dim);
 }
 
-.od-hero-mark {
-  width: min(420px, 72vw);
+/* The pixelate panel. No frame and no logo — the box and the mark were taken
+   out of this hero deliberately, so the panel is simply a band of the page's
+   own colour that answers the cursor. */
+.od-pixel-host {
+  width: min(880px, 92vw);
   margin: clamp(26px, 4vh, 44px) auto 0;
-  aspect-ratio: 14 / 9;
-  border: 1px solid var(--line);
-  border-radius: 18px;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
   overflow: hidden;
-  background: rgba(14, 20, 32, 0.5);
 }
 
-.od-mark-plate,
-.od-mark-3d { display: block; width: 100%; height: 100%; }
-.od-mark-plate { object-fit: cover; }
+.od-pixel-host canvas,
+.od-pixel-host img,
+.od-pixel-host > div { display: block; width: 100%; height: 100%; }
 
 .od-stats {
   display: grid;

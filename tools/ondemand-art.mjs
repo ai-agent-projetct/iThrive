@@ -19,6 +19,7 @@
  *   step/     5 for the motion gallery
  *   model/    3 for the hiring models
  *   adv/      6 for the six reasons
+ *   hero/     1 wide ground for the pixelate-on-hover hero
  *   close/    1 under the water ripple
  *   faq/      1 beside the questions
  */
@@ -184,6 +185,10 @@ for (let i = 0; i < 5; i++) add('step', String(i + 1).padStart(2, '0'), 900, 600
 for (let i = 0; i < 3; i++) add('model', String(i + 1).padStart(2, '0'), 800, 600, tile(i, 800, 600, 'mixed'));
 for (let i = 0; i < 6; i++) add('adv', String(i + 1).padStart(2, '0'), 800, 500, tile(i, 800, 500, 'bars'));
 add('close', '01', 1600, 700, tile(1, 1600, 700, 'pulse', 1.6));
+/* The hero's ground, for the pixelate-on-hover effect to reveal. Wide, lit
+   more than the rest of the set, and carrying no logo — the mark was taken out
+   of this hero deliberately. */
+add('hero', '01', 1800, 1000, tile(0, 1800, 1000, 'pulse', 2.0));
 add('faq', '01', 800, 600, tile(2, 800, 600, 'mixed'));
 
 const boxes = JOBS.map((j) => `

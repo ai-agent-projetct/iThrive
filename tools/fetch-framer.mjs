@@ -71,6 +71,7 @@ const MANIFEST = {
   'motion-gallery':      'https://framer.com/m/MotionGallery-JuOB8v.js@44OBltoR5dBarH6Qb9Hj',
   'ripple':              'https://framer.com/m/Ripple-Qymb.js@YGTvnr2Zbs54i2DJOYbY',
   'brush-reveal':        'https://framer.com/m/PaintReveal-xC3J.js@1dIMaqwduqASd187WxFa',
+  'pixelate-on-hover':   'https://framer.com/m/Pixelate-On-Hover-GXbn.js@6FGRLm3qg7i7sEnM4KpX',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));

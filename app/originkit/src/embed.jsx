@@ -80,6 +80,7 @@ import BentoGallery from './components/framer/bento-gallery/index.js';
 import MotionGallery from './components/framer/motion-gallery/index.js';
 const WaterRipple = lazy(() => import('./components/framer/ripple/index.js'));
 import BrushReveal from './components/framer/brush-reveal/index.js';
+import PixelateOnHover from './components/framer/pixelate-on-hover/index.js';
 /* Ours, not Framer's — it loads the client's own GLB. three.js again, so lazy. */
 const Logo3D = lazy(() => import('./components/logo-3d.jsx'));
 /* CurvedGalleryArc and GlassStack are already imported above with the MVP
@@ -126,6 +127,7 @@ const REGISTRY = {
   'motion-gallery': MotionGallery,
   'ripple': WaterRipple,
   'brush-reveal': BrushReveal,
+  'pixelate-on-hover': PixelateOnHover,
   'logo-3d': Logo3D,
 };
 

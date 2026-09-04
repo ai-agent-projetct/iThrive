@@ -196,30 +196,29 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
         scalable in either direction on thirty days' notice.
       </p>
 
-      <?php
-      /*
-       * The mark, centred. When assets/models/logo.glb exists it becomes the
-       * client's own 3D model, spinning and draggable; until then it is the
-       * glass plate tools/logo-plate.mjs bakes. Either way something is here.
-       */
-      $logoGlb = is_file(ROOT_PATH . '/assets/models/logo.glb')
-          ? asset('assets/models/logo.glb')
-          : null;
-      ?>
-      <div class="od-hero-mark">
-        <?php if ($logoGlb !== null): ?>
-          <div class="od-mark-3d"
-               data-ok="logo-3d"
-               data-props='<?= e(json_encode([
-                   'src'  => $logoGlb,
-                   'spin' => 14,
-                   'tilt' => -0.18,
-               ], JSON_THROW_ON_ERROR)) ?>'></div>
-        <?php else: ?>
-          <img class="od-mark-plate" src="<?= e($img('logo/plate.jpg')) ?>"
-               width="1400" height="900" alt="<?= e(SITE_NAME) ?>" decoding="async">
-        <?php endif; ?>
-      </div>
+      <?php /*
+         Framer's Pixelate On Hover, in place of the logo box.
+
+         The mark and its container are gone from this hero on purpose — the
+         trail is the hero now, and a framed logo in the middle of it was
+         competing with the thing it was meant to sit inside. What is left is a
+         wide panel of the page's own palette that pixelates under the cursor.
+
+         Its `media` is a plate from tools/ondemand-art.mjs rather than a stock
+         picture, which is the whole of the colour change asked for: the effect
+         is Framer's, everything it reveals is this site's cyan / blue / violet
+         on ink.
+      */ ?>
+      <div class="od-pixel-host"
+           data-ok="pixelate-on-hover"
+           data-props='<?= e(json_encode([
+               'media'        => $imgAbs('hero/01.jpg'),
+               'pixelSize'    => 14,
+               'effectRadius' => 120,
+               'trailLength'  => 1.5,
+               'easingType'   => 'easeOutQuart',
+               'trailSpacing' => 10,
+           ], JSON_THROW_ON_ERROR)) ?>'></div>
 
       <div class="od-actions od-actions--mid">
         <button class="od-btn od-btn--primary" type="button"
