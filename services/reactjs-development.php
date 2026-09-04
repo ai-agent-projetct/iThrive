@@ -114,11 +114,39 @@ $stages = [
     ['05', 'Scaling',       'Code splitting, caching and monitoring in place before traffic arrives, so growth is a graph rather than an incident.'],
 ];
 
-/** Who we build for — twelve. */
+/**
+ * Who we build for — twelve, each with the reason it is actually different.
+ *
+ * The heading promises a reason and the first version of this section did not
+ * give one: twelve names in a list and nothing to click. A sector list without
+ * the reason is decoration, so each one now says what specifically changes
+ * about a React front end when it is built for that industry.
+ */
 $industries = [
-    ['01', 'On-demand'], ['02', 'Healthcare'], ['03', 'Media'], ['04', 'Travel'],
-    ['05', 'Restaurant'], ['06', 'E-commerce'], ['07', 'EduTech'], ['08', 'Logistics'],
-    ['09', 'Real estate'], ['10', 'Grocery'], ['11', 'Food delivery'], ['12', 'Entertainment'],
+    ['01', 'On-demand',
+     'Everything on screen is live at once — the map, the ETA, the driver. The work is keeping all three honest without re-rendering the world every second.'],
+    ['02', 'Healthcare',
+     'Clinicians work fast and cannot afford ambiguity. Contrast, focus order and error states are the product here, and much of it is a legal requirement rather than a preference.'],
+    ['03', 'Media',
+     'Content volume breaks naive rendering first. Virtualised lists, an image budget, and a bundle that does not grow every time the catalogue does.'],
+    ['04', 'Travel',
+     'Search has to stay responsive while price, availability and currency all move underneath it — usually on the worst connection of the user\'s week.'],
+    ['05', 'Restaurant',
+     'Used one-handed, in a hurry, often on an old phone. Tap targets, offline tolerance, and a menu that renders before somebody gives up on it.'],
+    ['06', 'E-commerce',
+     'Every hundred milliseconds is measurable in revenue. The critical path to the first product and to checkout is essentially the whole brief.'],
+    ['07', 'EduTech',
+     'Long sessions and heavy state — progress, attempts, media. Losing a learner\'s place costs more than being slightly slow ever would.'],
+    ['08', 'Logistics',
+     'Dense operational screens used all day by people who know them well. Keyboard flow and information density beat whitespace every time.'],
+    ['09', 'Real estate',
+     'Image-heavy by nature. Galleries, maps and floorplans that load in the order people actually browse them, not the order they appear in the DOM.'],
+    ['10', 'Grocery',
+     'Large baskets, constant edits, substitutions. State that stays correct while somebody changes their mind fifteen times.'],
+    ['11', 'Food delivery',
+     'Three parties watching one order. The customer, the kitchen and the rider have to see the same truth at the same moment.'],
+    ['12', 'Entertainment',
+     'Playback is the product and everything else defers to it — no layout shift, no blocking script, no dropped frame.'],
 ];
 
 /** Why choose us — five. */
@@ -426,9 +454,10 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
         <p class="rjs-eyebrow"><span class="rjs-brk" aria-hidden="true">&lt;</span>Who we build for<span class="rjs-brk" aria-hidden="true">/&gt;</span></p>
         <h2 class="rjs-title">Twelve sectors, and the<br>reason that <em>matters</em></h2>
         <p class="rjs-sub">
-          Every sector arrives with different expectations of what an interface should do. A build
-          that ignores those ships something technically correct and practically wrong. Throw the
-          tiles around — the list underneath is the same twelve, in words.
+          Every sector arrives with a different idea of what an interface owes its user, and a build
+          that ignores that ships something technically correct and practically wrong. Throw the
+          stickers around if you like — then pick a sector below and it will tell you exactly what
+          changes about the front end when we build for it.
         </p>
       </div>
     </div>
@@ -452,11 +481,46 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
          ], JSON_THROW_ON_ERROR)) ?>'></div>
 
     <div class="rjs-shell">
-      <ul class="rjs-industry-list">
-        <?php foreach ($industries as [$n, $name]): ?>
-          <li><span><?= e($n) ?></span><?= e($name) ?></li>
+      <?php /* Twelve tiles that tilt toward the pointer in real 3D — a
+               perspective on the grid and a rotate on each card, driven from
+               pointermove — and open the sector's reason when clicked. The
+               first version of this was a flat, inert list. */ ?>
+      <div class="rjs-sector-grid" data-sectors role="tablist" aria-label="Sectors we build for">
+        <?php foreach ($industries as $i => [$n, $name, $reason]): ?>
+          <button class="rjs-sector-tile<?= $i === 0 ? ' is-on' : '' ?>" type="button"
+                  role="tab" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"
+                  aria-controls="rjs-sector-<?= e($n) ?>" data-sector-tile="<?= $i ?>">
+            <span class="rjs-tile-inner">
+              <span class="rjs-tile-num"><?= e($n) ?></span>
+              <span class="rjs-tile-name"><?= e($name) ?></span>
+            </span>
+          </button>
         <?php endforeach; ?>
-      </ul>
+      </div>
+
+      <?php foreach ($industries as $i => [$n, $name, $reason]): ?>
+        <div class="rjs-sector-panel" id="rjs-sector-<?= e($n) ?>" role="tabpanel"
+             data-sector-panel="<?= $i ?>"<?= $i === 0 ? '' : ' hidden' ?>>
+          <?php /* Framer's Dithering Hover on the panel's picture: a dithered
+                   zone that follows the cursor across it. Only the open panel
+                   mounts one, so twelve canvases are never built at once. */ ?>
+          <div class="rjs-sector-art"
+               data-ok="dithering-hover"
+               data-props='<?= e(json_encode([
+                   'image'    => ['src' => $imgAbs('sector/' . $n . '.jpg'), 'alt' => $name],
+                   'ovalSize' => 220,
+                   'dotSize'  => 5,
+               ], JSON_THROW_ON_ERROR)) ?>'>
+            <noscript><img src="<?= e($img('sector/' . $n . '.jpg')) ?>" width="600" height="600" alt=""></noscript>
+          </div>
+
+          <div class="rjs-sector-body">
+            <p class="rjs-sector-kicker"><?= e($n) ?> · <?= e($name) ?></p>
+            <h3>What changes when we build for <em><?= e(strtolower($name)) ?></em></h3>
+            <p><?= e($reason) ?></p>
+          </div>
+        </div>
+      <?php endforeach; ?>
     </div>
   </section>
 

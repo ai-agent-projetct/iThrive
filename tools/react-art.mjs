@@ -17,7 +17,7 @@
  *   compare/  2 for the draggable before/after
  *   doing/    6 for the "what we do" cards
  *   stack/    7 for the technology combinations
- *   sector/  10 tiles for the physics wall
+ *   sector/  12 tiles — ten go to the physics wall, all twelve to the grid
  *   why/      5 for why choose us
  *   faq/      1 beside the questions
  *
@@ -293,7 +293,7 @@ for (let i = 0; i < 6; i++) add('deck', String(i + 1).padStart(2, '0'), 1200, 86
 for (let i = 0; i < 2; i++) add('compare', String(i + 1).padStart(2, '0'), 900, 700, compare(i));
 for (let i = 0; i < 6; i++) add('doing', String(i + 1).padStart(2, '0'), 800, 500, doing(i));
 for (let i = 0; i < 7; i++) add('stack', String(i + 1).padStart(2, '0'), 800, 500, stack(i));
-for (let i = 0; i < 10; i++) add('sector', String(i + 1).padStart(2, '0'), 600, 600, sector(i));
+for (let i = 0; i < 12; i++) add('sector', String(i + 1).padStart(2, '0'), 600, 600, sector(i));
 for (let i = 0; i < 5; i++) add('why', String(i + 1).padStart(2, '0'), 800, 520, why(i));
 add('faq', '01', 800, 600, faq1());
 

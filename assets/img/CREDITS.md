@@ -53,3 +53,28 @@ can be traced and swapped, not because a credit is owed.
 - `assets/img/mvp/photo/advantage-03.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
 - `assets/img/mvp/photo/advantage-04.jpg` — Parabol | The Agile Meeting Tool (unsplash.com/@parabol), via unsplash
 - `assets/img/mvp/photo/advantage-05.jpg` — Jakub Żerdzicki (unsplash.com/@jakubzerdzicki), via unsplash
+- `assets/img/mvp/photo/why-01.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/mvp/photo/why-02.jpg` — Israel Andrade (unsplash.com/@israelandrxde), via unsplash
+- `assets/img/mvp/photo/why-03.jpg` — Austin Distel (unsplash.com/@austindistel), via unsplash
+- `assets/img/mvp/photo/why-04.jpg` — Álvaro Bernal (unsplash.com/@abn), via unsplash
+- `assets/img/mvp/photo/why-05.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/mvp/photo/step-01.jpg` — Annie Spratt (unsplash.com/@anniespratt), via unsplash
+- `assets/img/mvp/photo/step-02.jpg` — Brands&People (unsplash.com/@brandsandpeople), via unsplash
+- `assets/img/mvp/photo/step-03.jpg` — Christina @ wocintechchat.com M (unsplash.com/@wocintechchat), via unsplash
+- `assets/img/mvp/photo/step-04.jpg` — Tim van der Kuip (unsplash.com/@timmykp), via unsplash
+- `assets/img/mvp/photo/step-05.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/mvp/photo/step-06.jpg` — Lyubomyr Reverchuk (unsplash.com/@lreverchuk), via unsplash
+- `assets/img/mvp/photo/reason-01.jpg` — Arlington Research (unsplash.com/@arlington_research), via unsplash
+- `assets/img/mvp/photo/reason-02.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/mvp/photo/reason-03.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/mvp/photo/reason-04.jpg` — Luis Villafranca (unsplash.com/@lvillafranca), via unsplash
+- `assets/img/mvp/photo/reason-05.jpg` — Christina @ wocintechchat.com M (unsplash.com/@wocintechchat), via unsplash
+- `assets/img/mvp/photo/reason-06.jpg` — BaljkanN 4 (unsplash.com/@baljkann4), via unsplash
+- `assets/img/mvp/photo/industry-01.jpg` — Austin Distel (unsplash.com/@austindistel), via unsplash
+- `assets/img/mvp/photo/industry-02.jpg` — National Cancer Institute (unsplash.com/@nci), via unsplash
+- `assets/img/mvp/photo/industry-03.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/mvp/photo/industry-04.jpg` — lian xiao (unsplash.com/@lyriccory), via unsplash
+- `assets/img/mvp/photo/industry-05.jpg` — Mapbox (unsplash.com/@mapbox), via unsplash
+- `assets/img/mvp/photo/industry-06.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/mvp/photo/industry-07.jpg` — EqualStock (unsplash.com/@equalstock), via unsplash
+- `assets/img/mvp/photo/industry-08.jpg` — Arlington Research (unsplash.com/@arlington_research), via unsplash
