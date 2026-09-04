@@ -187,11 +187,14 @@ $hasSpline = defined('GAME_SPLINE_SCENE') && GAME_SPLINE_SCENE !== '';
            copy at all. The headline and everything else moved into gm-intro
            below it.
 
-           It is also PLAYABLE. The recording is a flight game, not a still, so
-           the hero is one: steer the ship, thread the spires, the score counts
-           what you pass. The game draws on top of the CSS scene rather than
-           replacing it, which is what keeps the failure mode safe — with no
-           animation frame you get the correct landscape, standing still.
+           It is also PLAYABLE, in real 3D. assets/js/game-hero.js runs a
+           three.js endless runner into the canvas below: a chase camera behind
+           a rocket, a moon low on the horizon, low-poly monoliths coming at
+           you, and a score that climbs with distance.
+
+           The CSS scene stays underneath as the fallback. If WebGL is missing
+           or the context is lost, that is what a visitor sees — a correct night
+           landscape rather than an empty rectangle.
 
            When GAME_SPLINE_SCENE is set, Spline's own viewer streams the real
            scene on top of this and the built version becomes the thing a
@@ -245,21 +248,13 @@ $hasSpline = defined('GAME_SPLINE_SCENE') && GAME_SPLINE_SCENE !== '';
         <?php endforeach; ?>
       </div>
 
-      <?php /* Obstacles the run spawns. Empty until the game starts. */ ?>
-      <div class="gm-obstacles" data-obstacles></div>
-
-      <?php /* The ship. Steers with the pointer, arrow keys or a touch drag. */ ?>
-      <div class="gm-ship" data-ship>
-        <svg viewBox="0 0 60 90" aria-hidden="true">
-          <path d="M30 2 L44 58 L30 50 L16 58 Z" fill="#EAF0FA"/>
-          <path d="M30 2 L30 50 L16 58 Z" fill="#B9C7DC"/>
-          <ellipse cx="21" cy="62" rx="5.5" ry="11" fill="#00F2FE" opacity="0.9"/>
-          <ellipse cx="39" cy="62" rx="5.5" ry="11" fill="#9D4EDD" opacity="0.9"/>
-          <ellipse cx="21" cy="70" rx="3" ry="16" fill="#00F2FE" opacity="0.45"/>
-          <ellipse cx="39" cy="70" rx="3" ry="16" fill="#9D4EDD" opacity="0.45"/>
-        </svg>
-      </div>
     </div>
+
+    <?php /* The game itself. three.js draws into this; the CSS scene above is
+             what stays visible if WebGL is unavailable or the context is lost,
+             so the hero is never an empty rectangle. */ ?>
+    <canvas class="gm-canvas" data-game-canvas
+            aria-label="An interactive night flight over an alien landscape. Move to steer."></canvas>
 
     <?php /* ---------------------------------------------------------------
              The game.
@@ -270,16 +265,18 @@ $hasSpline = defined('GAME_SPLINE_SCENE') && GAME_SPLINE_SCENE !== '';
              animation frame ever arrives the hero is still the correct still
              landscape rather than a hole.
              --------------------------------------------------------------- */ ?>
+    <?php /* The whole interface: one number, above the rocket. No HUD, no bars,
+             no panels — the brief is a visual experience that happens to be
+             playable. */ ?>
     <div class="gm-hud" data-hud aria-hidden="true">
       <span class="gm-score" data-score>0</span>
-      <span class="gm-best" data-best></span>
     </div>
 
-    <div class="gm-overlay" data-overlay>
-      <p class="gm-overlay-title" data-overlay-title>Fly it</p>
-      <p class="gm-overlay-sub" data-overlay-sub>Move to steer · thread the spires</p>
+    <div class="gm-overlay" data-overlay hidden>
+      <p class="gm-overlay-title" data-overlay-title>Crashed</p>
+      <p class="gm-overlay-sub" data-overlay-sub></p>
       <button class="gm-btn gm-btn--primary gm-play" type="button" data-start>
-        Play<?= icon('arrow') ?>
+        Fly again<?= icon('arrow') ?>
       </button>
     </div>
 
@@ -558,6 +555,10 @@ $hasSpline = defined('GAME_SPLINE_SCENE') && GAME_SPLINE_SCENE !== '';
 </div>
 
 <script src="<?= e(asset('assets/js/game-page.js')) ?>" defer></script>
+<?php /* The hero game. A module, so it can import the vendored three.js
+         directly — and so a browser without module support simply keeps the CSS
+         scene rather than erroring. */ ?>
+<script type="module" src="<?= e(asset('assets/js/game-hero.js')) ?>"></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
