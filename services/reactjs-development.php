@@ -13,21 +13,18 @@
  *
  * Its Framer components are disjoint from the other two pages' again:
  *
- *   hero bg     Interactive Pattern   a dot field that reacts to the pointer
- *   hero        Scroll 3D Slider      the same three.js component the PoC page
- *                                     uses, on its `cards` preset rather than
- *                                     `cube` — a different scene, and the only
- *                                     free 3D on the marketplace not already
- *                                     spent (see the note below)
- *   compare     Split Reveal          drag between a legacy frontend and React
- *   process     Scroll Timeline       the five build stages
- *   industries  Physics Sticker Wall  twelve tiles you can throw around
+ *   hero bg     Interactive Pattern    a dot field that reacts to the pointer
+ *   hero        Liquid Glass Carousel  three.js and gsap: panels that refract
+ *                                      and stretch as they are dragged
+ *   compare     Split Reveal           drag between a legacy frontend and React
+ *   process     Scroll Timeline        the five build stages
+ *   industries  Physics Sticker Wall   twelve tiles you can throw around
  *
- * On the 3D hero: every other free, drivable 3D component on the marketplace is
- * already used by the MVP or PoC page, and the remaining ones — Globe Sphere,
- * Parallax Starfield3D, 3D Voxel Logo — are paid. Rather than pass off a
- * hand-built scene as Framer's, this reuses Framer's own slider on a preset the
- * site has not shown before.
+ * On the 3D hero: the first version reused the PoC page's Scroll 3D Slider on
+ * its `cards` preset, on the belief that the free 3D components were spent. A
+ * fuller sweep of the marketplace — all two hundred-odd listings rather than
+ * the front page — turned up this one, which is its own WebGL scene and owes
+ * nothing to the other two pages.
  *
  * Two more were fetched and rejected as canvas exports, whose props are
  * per-instance ids with the content baked into variants: Expand-OnHover List
@@ -56,14 +53,14 @@ $ogImage   = 'service-' . $svc['group_slug'];
  * Content
  * ------------------------------------------------------------------------ */
 
-/** The hero's card deck. */
+/** The hero's panels: [n, title, the line under it]. */
 $deck = [
-    ['01', 'Components that compose'],
-    ['02', 'State that stays predictable'],
-    ['03', 'Renders you can budget'],
-    ['04', 'Types that catch it early'],
-    ['05', 'Bundles that stay small'],
-    ['06', 'A frontend that survives year two'],
+    ['01', 'Components that compose',   'Boundaries drawn once, so the next feature is an addition'],
+    ['02', 'State that stays predictable', 'Ownership decided up front, not discovered in a bug'],
+    ['03', 'Renders you can budget',    'A count you agreed to, enforced by the build'],
+    ['04', 'Types that catch it early', 'The failure happens in CI rather than in front of a user'],
+    ['05', 'Bundles that stay small',   'Split on the routes people actually take'],
+    ['06', 'A frontend that lasts',     'Still quick, and still pleasant to work in, at year two'],
 ];
 
 $stats = [
@@ -223,39 +220,32 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
         </ul>
       </div>
 
-      <?php /* Framer's Scroll 3D Slider on its `cards` preset — the same
-               three.js component the PoC page runs as a cube, in a scene the
-               site has not shown before. */ ?>
+      <?php /* Framer's Liquid Glass Carousel — three.js and gsap, panels that
+               refract and stretch as they move. Its own component rather than
+               a second preset of the PoC page's slider, which is what this
+               hero used first and which was too close to that page. */ ?>
       <div class="rjs-hero-stage">
         <div class="rjs-deck-host"
-             data-ok="scroll-3d-slider"
+             data-ok="liquid-carousel"
              data-props='<?= e(json_encode([
-                 'slides' => array_map(static fn (array $d): array => [
-                     'image' => $img('deck/' . $d[0] . '.jpg'),
-                     'title' => $d[1],
+                 'projects' => array_map(static fn (array $d): array => [
+                     /* `image` is an object here — the component reads
+                        project.image?.src — not the bare string the PoC page's
+                        slider takes. Absolute, so the texture loader is not
+                        left resolving a relative path. */
+                     'image'       => ['src' => $imgAbs('deck/' . $d[0] . '.jpg'), 'alt' => $d[1]],
+                     'brand'       => $d[1],
+                     'description' => $d[2],
                  ], $deck),
-                 'backgroundColor' => 'rgba(0, 0, 0, 0)',
-                 'direction'       => 'horizontal',
-                 'borderRadius'    => 0.03,
-                 'slideSize' => [
-                     'aspectRatio'   => 1.4,
-                     'minHeight'     => 1.0,
-                     'maxHeight'     => 1.3,
-                     'gap'           => 0.05,
-                     'randomHeights' => false,
-                     'activeScale'   => 1.05,
-                 ],
-                 'effect' => ['preset' => 'cards', 'perspective' => 46, 'rotation' => 30, 'depth' => 1.5],
-                 'interactive'  => true,
-                 'snap'         => ['enabled' => true, 'strength' => 24],
-                 /* Slow, for the same reason the other two pages are: the first
-                    pass on the MVP page span faster than the cards could be read. */
-                 'scrollTuning' => ['smoothing' => 9, 'momentum' => 60, 'wheelSpeed' => 9, 'dragSpeed' => 15],
-                 'autoplay'     => ['enabled' => true, 'speed' => 8],
-                 'showOverlay'  => true,
-                 'overlayColor' => '#DFF6FA',
-                 'overlaySize'  => 15,
-                 'counterSize'  => 11,
+                 'panelHeight'      => 300,
+                 'gap'              => 34,
+                 /* Slow. Every one of these pages has had to have its motion
+                    brought down at least once. */
+                 'glide'            => 0.05,
+                 'wheelSensitivity' => 0.55,
+                 'snap'             => true,
+                 'snapDistance'     => 70,
+                 'snapDelay'        => 130,
              ], JSON_THROW_ON_ERROR)) ?>'>
           <noscript>
             <ul class="rjs-deck-list">
@@ -263,7 +253,7 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
             </ul>
           </noscript>
         </div>
-        <p class="rjs-stage-hint">Drag the deck · what we actually optimise for</p>
+        <p class="rjs-stage-hint">Drag the panels · what we actually optimise for</p>
       </div>
     </div>
   </section>

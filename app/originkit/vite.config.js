@@ -74,6 +74,8 @@ export default defineConfig({
           if (/\/node_modules\/three\//.test(p)) return 'three';
           /* matter-js, likewise: wanted only by the ReactJS page's sticker wall. */
           if (/\/node_modules\/matter-js\//.test(p)) return 'matter';
+          /* gsap, wanted only by the ReactJS hero's liquid carousel. */
+          if (/\/node_modules\/gsap\//.test(p)) return 'gsap';
 
           return undefined;
         },

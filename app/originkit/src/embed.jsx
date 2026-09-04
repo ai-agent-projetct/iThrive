@@ -60,6 +60,9 @@ import DepthBlurCarousel from './components/framer/depth-blur-carousel/index.js'
    are: only the one page that mounts it should pay for the download. */
 import InteractivePattern from './components/framer/interactive-pattern/index.js';
 const PhysicsStickerWall = lazy(() => import('./components/framer/physics-sticker-wall/index.js'));
+/* The liquid-glass carousel is the ReactJS hero. It carries three.js AND gsap,
+   so it is lazy for the same reason as the rest of the heavy set. */
+const LiquidCarousel = lazy(() => import('./components/framer/liquid-carousel/index.js'));
 
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
@@ -86,6 +89,7 @@ const REGISTRY = {
   /* The ReactJS Development page's set. */
   'interactive-pattern': InteractivePattern,
   'physics-sticker-wall': PhysicsStickerWall,
+  'liquid-carousel': LiquidCarousel,
 };
 
 function mount(host) {

@@ -54,6 +54,7 @@ const MANIFEST = {
   /* The ReactJS Development page's set. */
   'interactive-pattern': 'https://framer.com/m/Dots-1-9hMKym.js@Io2EJNUHmQKXYcZgVePZ',
   'physics-sticker-wall':'https://framer.com/m/PhysicsStickerWall-zHPbfb.js@e1ECKBDS8JUJUEvoBub9',
+  'liquid-carousel':    'https://framer.com/m/liquid-glass-carousel-SkrkTr.js@kpCFFax8ciLkuLf0kMrs',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));
