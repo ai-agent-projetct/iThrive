@@ -199,49 +199,63 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
         </ul>
       </div>
 
-      <?php /* Framer's Interactive Book. It draws inside rAF like the PoC cube
-               and the ReactJS carousel, so it carries the same poster — see
-               assets/js/webgl-poster.js for why that exists. */ ?>
+      <?php
+      /*
+       * The logo, as the hero.
+       *
+       * Three states, in order of preference:
+       *
+       *   1. assets/models/logo.glb  — the client's own Meshy export, loaded as
+       *      a real 3D object that spins and drags. Drop the file in and this
+       *      takes over with no edit here.
+       *   2. Framer's Brush Reveal over a glass plate — the logo covered, and
+       *      rubbed clear under the cursor. tools/logo-plate.mjs bakes that
+       *      plate, glass and all, because Brush Reveal takes ONE image.
+       *   3. The poster, if neither draws a frame.
+       *
+       * The glass is built rather than bought: Framer's Dynamic Glass Logo is
+       * £-gated at $12 and publishes no module a third party can vendor, so the
+       * plate reproduces the look it describes from our own mark. It is not
+       * that component and does not claim to be.
+       */
+      $logoGlb = is_file(ROOT_PATH . '/assets/models/logo.glb')
+          ? asset('assets/models/logo.glb')
+          : null;
+      ?>
       <div class="od-hero-stage">
-        <div class="od-book-wrap" data-webgl-poster>
-          <div class="od-book-host" data-webgl-stage
-               data-ok="flip-book-3d"
-               <?php /* Every prop it reads, not just the content ones.
-                        addPropertyControls' defaultValue applies inside the
-                        Framer canvas only — out here an unpassed prop is
-                        genuinely undefined, and this component reads
-                        shadow.color unguarded, so omitting `shadow` threw and
-                        left the host empty. The poster covered it, which is
-                        what the poster is for, but the fix is to pass it. */ ?>
-               data-props='<?= e(json_encode([
-                   'frontCover' => $imgAbs('book/cover.jpg'),
-                   'innerPages' => array_map(
-                       static fn (array $b): string => $imgAbs('book/' . $b[0] . '.jpg'),
-                       $book
-                   ),
-                   'backCover'    => $imgAbs('book/06.jpg'),
-                   'width'        => 300,
-                   'height'       => 420,
-                   'borderRadius' => 10,
-                   'shadow' => [
-                       'color'   => '#000000',
-                       'opacity' => 0.55,
-                       'blur'    => 28,
-                       'offsetX' => 6,
-                       'offsetY' => 14,
-                       'spread'  => 0,
-                   ],
-               ], JSON_THROW_ON_ERROR)) ?>'></div>
+        <div class="od-book-wrap"<?= $logoGlb !== null ? ' data-webgl-poster' : '' ?>>
+          <?php if ($logoGlb !== null): ?>
+            <div class="od-book-host" data-webgl-stage
+                 data-ok="logo-3d"
+                 data-props='<?= e(json_encode([
+                     'src'  => $logoGlb,
+                     'spin' => 14,
+                     'tilt' => -0.18,
+                 ], JSON_THROW_ON_ERROR)) ?>'></div>
+          <?php endif; ?>
 
+          <?php /*
+             The plate IS the hero until the 3D model lands — not a poster.
+
+             This ran Framer's Brush Reveal first: the logo under a cover you
+             rub off with the cursor. The premise is wrong for a hero. Its
+             canvas starts as a solid near-black rectangle and only clears as
+             the reveal animates, so the first thing anyone saw was a black
+             box, and on any tab that does not animate it stayed one. The
+             poster could not save it either — once a canvas exists and has
+             painted, handing over is exactly the wrong move when what the
+             canvas is painting is the cover.
+
+             So the logo is simply shown. When assets/models/logo.glb exists
+             the 3D model takes the stage above this and this becomes its
+             fallback, which is the arrangement that was wanted all along.
+          */ ?>
           <div class="od-poster" aria-hidden="true">
-            <ul>
-              <?php foreach ($book as [$n, $t]): ?>
-                <li><span><?= e($n) ?></span><?= e($t) ?></li>
-              <?php endforeach; ?>
-            </ul>
+            <img class="od-poster-logo" src="<?= e($img('logo/plate.jpg')) ?>"
+                 width="1400" height="900" alt="<?= e(SITE_NAME) ?>" decoding="async">
           </div>
         </div>
-        <p class="od-stage-hint">Open the book · what taking people on demand actually gives you</p>
+        <p class="od-stage-hint">Drop assets/models/logo.glb in and this becomes the 3D mark</p>
       </div>
     </div>
   </section>

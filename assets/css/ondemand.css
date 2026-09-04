@@ -247,11 +247,24 @@
   place-items: center;
   padding: 22px;
   border-radius: 16px;
-  background: linear-gradient(160deg, rgba(14, 20, 32, 0.96), rgba(9, 13, 21, 0.98));
+  /* Fully opaque. At 96% the cover the brush component paints underneath bled
+     through as dark blotches across the logo. A poster that lets its stage
+     show through is not a poster. */
+  background: linear-gradient(160deg, #0E1420 0%, #090D15 100%);
   transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 [data-webgl-poster].is-live .od-poster { opacity: 0; visibility: hidden; }
+
+.od-poster-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Brush Reveal paints to a canvas it sizes from this host. */
+.od-brush-host canvas { display: block; width: 100%; height: 100%; }
 
 .od-poster ul {
   display: grid;

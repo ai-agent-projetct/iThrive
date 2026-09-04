@@ -70,6 +70,7 @@ const MANIFEST = {
   'bento-gallery':       'https://framer.com/m/BentoGallery-T6VH.js@MaI7yHbDqGVoRWLiezpW',
   'motion-gallery':      'https://framer.com/m/MotionGallery-JuOB8v.js@44OBltoR5dBarH6Qb9Hj',
   'ripple':              'https://framer.com/m/Ripple-Qymb.js@YGTvnr2Zbs54i2DJOYbY',
+  'brush-reveal':        'https://framer.com/m/PaintReveal-xC3J.js@1dIMaqwduqASd187WxFa',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));

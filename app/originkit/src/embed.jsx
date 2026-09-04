@@ -79,6 +79,9 @@ import DotGridBg from './components/framer/dot-grid-bg/index.js';
 import BentoGallery from './components/framer/bento-gallery/index.js';
 import MotionGallery from './components/framer/motion-gallery/index.js';
 const WaterRipple = lazy(() => import('./components/framer/ripple/index.js'));
+import BrushReveal from './components/framer/brush-reveal/index.js';
+/* Ours, not Framer's — it loads the client's own GLB. three.js again, so lazy. */
+const Logo3D = lazy(() => import('./components/logo-3d.jsx'));
 /* CurvedGalleryArc and GlassStack are already imported above with the MVP
    set — registered long ago but never actually mounted on a page. The
    Dedicated Team page is the first to use them. */
@@ -122,6 +125,8 @@ const REGISTRY = {
   'bento-gallery': BentoGallery,
   'motion-gallery': MotionGallery,
   'ripple': WaterRipple,
+  'brush-reveal': BrushReveal,
+  'logo-3d': Logo3D,
 };
 
 function mount(host) {

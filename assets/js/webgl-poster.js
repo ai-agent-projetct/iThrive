@@ -33,11 +33,23 @@
      machine, short enough that nobody is left staring at a still. */
   const GIVE_UP_AFTER = 12000;
 
+  /*
+   * A canvas can exist, be the right size, and still be showing nothing.
+   *
+   * The clearest case is the brush-reveal logo: its canvas is filled with the
+   * cover colour and only clears as the reveal animates, so handing over the
+   * moment two frames had elapsed swapped a readable poster for a flat
+   * near-black rectangle. A stage may therefore declare how long its content
+   * needs before it is worth looking at, and the handover waits that out.
+   */
+  const dwellOf = (stage) => Number(stage.dataset.posterDwell || 0);
+
   for (const host of hosts) {
     const stage = host.querySelector('[data-webgl-stage]');
     if (!stage) continue;
 
     const started = Date.now();
+    const dwell = dwellOf(stage);
     let frames = 0;
 
     const settle = () => {
@@ -45,7 +57,8 @@
       const painted = canvas
         && canvas.width > 1
         && canvas.height > 1
-        && frames >= 2;
+        && frames >= 2
+        && Date.now() - started >= dwell;
 
       if (painted) {
         host.classList.add('is-live');

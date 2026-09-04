@@ -126,3 +126,18 @@ can be traced and swapped, not because a credit is owed.
 - `assets/img/react/photo/stack-04.jpg` — UK Black Tech (unsplash.com/@ukblacktech), via unsplash
 - `assets/img/react/photo/stack-05.jpg` — LinkedIn Sales Solutions (unsplash.com/@linkedinsalesnavigator), via unsplash
 - `assets/img/react/photo/stack-06.jpg` — Annie Spratt (unsplash.com/@anniespratt), via unsplash
+- `assets/img/react/photo/stack-07.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
+- `assets/img/react/photo/why-01.jpg` — Mina Rad (unsplash.com/@miinrad), via unsplash
+- `assets/img/react/photo/why-02.jpg` — Kaleidico (unsplash.com/@kaleidico), via unsplash
+- `assets/img/react/photo/why-03.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/react/photo/why-04.jpg` — laura adai (unsplash.com/@lauraadaiphoto), via unsplash
+- `assets/img/react/photo/why-05.jpg` — Tim van der Kuip (unsplash.com/@timmykp), via unsplash
+- `assets/img/react/photo/compare-01.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/react/photo/compare-02.jpg` — Proxyclick Visitor Management System (unsplash.com/@proxyclick), via unsplash
+- `assets/img/react/photo/faq-01.jpg` — TheStandingDesk (unsplash.com/@thestandingdesk), via unsplash
+- `assets/img/blog/photo/post-01.jpg` — Austin Distel (unsplash.com/@austindistel), via unsplash
+- `assets/img/blog/photo/post-02.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/blog/photo/post-03.jpg` — charlesdeluvio (unsplash.com/@charlesdeluvio), via unsplash
+- `assets/img/blog/photo/post-04.jpg` — James Moore (unsplash.com/@jdlg), via unsplash
+- `assets/img/blog/photo/post-05.jpg` — CDC (unsplash.com/@cdc), via unsplash
+- `assets/img/blog/photo/post-06.jpg` — Annie Spratt (unsplash.com/@anniespratt), via unsplash
