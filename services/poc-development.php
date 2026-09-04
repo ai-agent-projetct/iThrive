@@ -222,7 +222,13 @@ $img = static function (string $rel): string {
                scene, dragged and scrolled. The six questions are also listed
                in the <noscript> below so the hero says something without it. */ ?>
       <div class="poc-hero-stage">
-        <div class="poc-cube-host"
+        <?php /* Wrapped in a poster. The cube draws nothing until its first
+                 animation frame, so a tab that never gets one — restored in the
+                 background, throttled, no GPU — showed an empty rectangle.
+                 assets/js/webgl-poster.js removes the poster only once a canvas
+                 has really painted. */ ?>
+        <div class="poc-cube-wrap" data-webgl-poster>
+        <div class="poc-cube-host" data-webgl-stage
              data-ok="scroll-3d-slider"
              data-props='<?= e(json_encode([
                  'slides' => array_map(static fn (array $f): array => [
@@ -263,6 +269,15 @@ $img = static function (string $rel): string {
             </ul>
           </noscript>
         </div>
+          <div class="poc-poster" aria-hidden="true">
+            <ul>
+              <?php foreach ($faces as [$n, $q]): ?>
+                <li><span><?= e($n) ?></span><?= e($q) ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        </div>
+
         <p class="poc-stage-hint">Drag the cube · six questions a proof is built to answer</p>
       </div>
     </div>
@@ -634,6 +649,7 @@ $img = static function (string $rel): string {
 
 <?php /* This page's own two behaviours: the scope cards and the sector tabs. */ ?>
 <script src="<?= e(asset('assets/js/poc-page.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/webgl-poster.js')) ?>" defer></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';

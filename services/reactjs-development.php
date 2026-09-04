@@ -253,7 +253,10 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
                a second preset of the PoC page's slider, which is what this
                hero used first and which was too close to that page. */ ?>
       <div class="rjs-hero-stage">
-        <div class="rjs-deck-host"
+        <?php /* Same poster treatment as the PoC hero: the liquid carousel
+                 paints nothing before its first animation frame. */ ?>
+        <div class="rjs-deck-wrap" data-webgl-poster>
+        <div class="rjs-deck-host" data-webgl-stage
              data-ok="liquid-carousel"
              data-props='<?= e(json_encode([
                  'projects' => array_map(static fn (array $d): array => [
@@ -281,6 +284,15 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
             </ul>
           </noscript>
         </div>
+          <div class="rjs-poster" aria-hidden="true">
+            <ul>
+              <?php foreach ($deck as [$n, $t, $sub]): ?>
+                <li><span><?= e($n) ?></span><strong><?= e($t) ?></strong><em><?= e($sub) ?></em></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        </div>
+
         <p class="rjs-stage-hint">Drag the panels · what we actually optimise for</p>
       </div>
     </div>
@@ -617,6 +629,7 @@ $imgAbs = static fn (string $rel): string => site_origin() . $img($rel);
 
 <?php /* This page's own behaviour: the six "what we do" cards. */ ?>
 <script src="<?= e(asset('assets/js/react-page.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/webgl-poster.js')) ?>" defer></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';

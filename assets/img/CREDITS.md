@@ -101,3 +101,28 @@ can be traced and swapped, not because a credit is owed.
 - `assets/img/cards/photo/insights-06.jpg` — Arlington Research (unsplash.com/@arlington_research), via unsplash
 - `assets/img/cards/photo/aichat-01.jpg` — The Connected Narrative (unsplash.com/@theconnectednarrative), via unsplash
 - `assets/img/cards/photo/aichat-02.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/cards/photo/aichat-03.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/cards/photo/aichat-04.jpg` — Invest Europe (unsplash.com/@invest_europe), via unsplash
+- `assets/img/cards/photo/aichat-05.jpg` — Steve A Johnson (unsplash.com/@steve_j), via unsplash
+- `assets/img/cards/photo/aichat-06.jpg` — Arlington Research (unsplash.com/@arlington_research), via unsplash
+- `assets/img/cards/photo/process-01.jpg` — Kvalifik (unsplash.com/@kvalifik), via unsplash
+- `assets/img/cards/photo/process-02.jpg` — Tim van der Kuip (unsplash.com/@timmykp), via unsplash
+- `assets/img/cards/photo/process-03.jpg` — Evgeniy Surzhan (unsplash.com/@followtherabbit), via unsplash
+- `assets/img/cards/photo/process-04.jpg` — charlesdeluvio (unsplash.com/@charlesdeluvio), via unsplash
+- `assets/img/cards/photo/process-05.jpg` — Jeremy (unsplash.com/@jcqm), via unsplash
+- `assets/img/cards/photo/process-06.jpg` — Bench Accounting (unsplash.com/@benchaccounting), via unsplash
+- `assets/img/poc/photo/sector-02.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/poc/photo/why-04.jpg` — Luis Villafranca (unsplash.com/@lvillafranca), via unsplash
+- `assets/img/poc/photo/faq-01.jpg` — Austin Distel (unsplash.com/@austindistel), via unsplash
+- `assets/img/react/photo/doing-01.jpg` — Sable Flow (unsplash.com/@sableflow), via unsplash
+- `assets/img/react/photo/doing-02.jpg` — Annie Spratt (unsplash.com/@anniespratt), via unsplash
+- `assets/img/react/photo/doing-03.jpg` — UX Indonesia (unsplash.com/@uxindo), via unsplash
+- `assets/img/react/photo/doing-04.jpg` — Arlington Research (unsplash.com/@arlington_research), via unsplash
+- `assets/img/react/photo/doing-05.jpg` — charlesdeluvio (unsplash.com/@charlesdeluvio), via unsplash
+- `assets/img/react/photo/doing-06.jpg` — Jason Goodman (unsplash.com/@jasongoodman_youxventures), via unsplash
+- `assets/img/react/photo/stack-01.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
+- `assets/img/react/photo/stack-02.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
+- `assets/img/react/photo/stack-03.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/react/photo/stack-04.jpg` — UK Black Tech (unsplash.com/@ukblacktech), via unsplash
+- `assets/img/react/photo/stack-05.jpg` — LinkedIn Sales Solutions (unsplash.com/@linkedinsalesnavigator), via unsplash
+- `assets/img/react/photo/stack-06.jpg` — Annie Spratt (unsplash.com/@anniespratt), via unsplash

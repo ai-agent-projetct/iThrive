@@ -892,3 +892,69 @@
   .poc-inside-card:hover { transform: none; }
   .poc-gain-card:hover .poc-gain-art img { transform: none; }
 }
+
+/* --- The WebGL poster ------------------------------------------------------
+   The scene inside this stage draws nothing until its first animation frame,
+   so what shows until then is flat markup carrying the same content. It is
+   removed only once assets/js/webgl-poster.js has seen a canvas actually
+   paint; a tab that never gets a frame keeps the poster rather than a hole.
+   -------------------------------------------------------------------------- */
+
+.poc-cube-wrap { position: relative; }
+
+.poc-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(14, 20, 32, 0.96), rgba(9, 13, 21, 0.98));
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.poc-cube-wrap.is-live .poc-poster { opacity: 0; visibility: hidden; }
+
+.poc-poster ul {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  /* Six items can outrun the stage on a short viewport. Scrolling beats
+     clipping the last one, which is what the first version did. */
+  max-height: 100%;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.poc-poster li {
+  display: grid;
+  gap: 3px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--display);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.poc-poster li span {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--blue);
+}
+
+.poc-poster li em {
+  font-style: normal;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 400;
+  color: var(--dim);
+}
