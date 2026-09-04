@@ -28,3 +28,28 @@ can be traced and swapped, not because a credit is owed.
 - `assets/img/poc/photo/why-01.jpg` — Álvaro Bernal (unsplash.com/@abn), via unsplash
 - `assets/img/poc/photo/why-02.jpg` — Kvalifik (unsplash.com/@kvalifik), via unsplash
 - `assets/img/poc/photo/why-03.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/pages/services/photo/ai-for-ecommerce.jpg` — Israel Andrade (unsplash.com/@israelandrxde), via unsplash
+- `assets/img/pages/services/photo/cloud-devops.jpg` — TheStandingDesk (unsplash.com/@thestandingdesk), via unsplash
+- `assets/img/pages/services/photo/dedicated-engineering-team.jpg` — Tim van der Kuip (unsplash.com/@timmykp), via unsplash
+- `assets/img/pages/services/photo/ecommerce-development.jpg` — Berkeley Communications (unsplash.com/@berkeleycommunications), via unsplash
+- `assets/img/pages/services/photo/on-demand-resources.jpg` — Lyubomyr Reverchuk (unsplash.com/@lreverchuk), via unsplash
+- `assets/img/pages/services/photo/poc-development.jpg` — Tool., Inc (unsplash.com/@tool_inc), via unsplash
+- `assets/img/pages/services/photo/product-modernization.jpg` — Austin Distel (unsplash.com/@austindistel), via unsplash
+- `assets/img/pages/services/photo/reactjs-development.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
+- `assets/img/pages/services/photo/ai-native-product-development.jpg` — Campaign Creators (unsplash.com/@campaign_creators), via unsplash
+- `assets/img/capabilities/photo/cap-01.jpg` — Jakub Żerdzicki (unsplash.com/@jakubzerdzicki), via unsplash
+- `assets/img/capabilities/photo/cap-02.jpg` — Anastassia Anufrieva (unsplash.com/@antoie), via unsplash
+- `assets/img/capabilities/photo/cap-03.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
+- `assets/img/capabilities/photo/cap-04.jpg` — phyo min (unsplash.com/@phyoemin), via unsplash
+- `assets/img/capabilities/photo/cap-05.jpg` — CardMapr.nl (unsplash.com/@cardmapr), via unsplash
+- `assets/img/capabilities/photo/cap-06.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/aidev/stack/photo/layer-01.jpg` — Arlington Research (unsplash.com/@arlington_research), via unsplash
+- `assets/img/aidev/stack/photo/layer-02.jpg` — Christina @ wocintechchat.com M (unsplash.com/@wocintechchat), via unsplash
+- `assets/img/aidev/stack/photo/layer-03.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/aidev/stack/photo/layer-04.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/aidev/stack/photo/layer-05.jpg` — Scott Graham (unsplash.com/@amstram), via unsplash
+- `assets/img/aidev/stack/photo/layer-06.jpg` — BaljkanN 4 (unsplash.com/@baljkann4), via unsplash
+- `assets/img/mvp/photo/advantage-02.jpg` — Mapbox (unsplash.com/@mapbox), via unsplash
+- `assets/img/mvp/photo/advantage-03.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
+- `assets/img/mvp/photo/advantage-04.jpg` — Parabol | The Agile Meeting Tool (unsplash.com/@parabol), via unsplash
+- `assets/img/mvp/photo/advantage-05.jpg` — Jakub Żerdzicki (unsplash.com/@jakubzerdzicki), via unsplash

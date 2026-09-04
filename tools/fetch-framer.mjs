@@ -50,6 +50,10 @@ const MANIFEST = {
   'scroll-3d-slider':   'https://framer.com/m/Scroll3dSlider-feA8su.js@2fWxUpTxmOoSNHrRJKeH',
   'steps-flow':         'https://framer.com/m/StepsFlow-sYFgLb.js@6lahIk3YSyL4zf6fOKn9',
   'depth-blur-carousel':'https://framer.com/m/Depth-Blur-Carousel-fvJ2lB.js@GXN6LrtdSMkVOzHCU8CD',
+
+  /* The ReactJS Development page's set. */
+  'interactive-pattern': 'https://framer.com/m/Dots-1-9hMKym.js@Io2EJNUHmQKXYcZgVePZ',
+  'physics-sticker-wall':'https://framer.com/m/PhysicsStickerWall-zHPbfb.js@e1ECKBDS8JUJUEvoBub9',
 };
 
 const here = path.dirname(fileURLToPath(import.meta.url));

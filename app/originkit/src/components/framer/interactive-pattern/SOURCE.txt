@@ -1,0 +1,4 @@
+https://framer.com/m/Dots-1-9hMKym.js@Io2EJNUHmQKXYcZgVePZ
+
+Fetched by tools/fetch-framer.mjs. Do not hand-edit: only the
+remote import URLs are rewritten, everything else is what Framer serves.

@@ -205,6 +205,46 @@ export const PLAN = {
     ],
   },
 
+  /*
+   * The ReactJS Development page, in two sets because a set carries one ratio.
+   *
+   * Its hero deck and its physics-wall tiles are NOT here: those are lit panels
+   * in a WebGL scene and small tumbling stickers, and the drawn orbit reads
+   * better at both jobs than a photograph cropped square would.
+   */
+  react: {
+    dir: 'assets/img/react/photo', ratio: '3:2', items: [
+      ['doing-01', 'a product team at a wall of screens planning an application build'],
+      ['doing-02', 'a developer testing a fast single-page app on a laptop and a phone'],
+      ['doing-03', 'a designer and a developer comparing a design file with a running interface'],
+      ['doing-04', 'an engineer beside an old system and a new one, migrating between them'],
+      ['doing-05', 'a backend engineer at a terminal watching an API respond'],
+      ['doing-06', 'an engineer studying a performance profile on a large monitor'],
+
+      ['stack-01', 'a full-stack developer with server and client code open side by side'],
+      ['stack-02', 'a developer working in a typed codebase, editor filling the screen'],
+      ['stack-03', 'two engineers discussing a data-heavy dashboard on a wall screen'],
+      ['stack-04', 'a security-minded engineer reviewing access rules at a desk'],
+      ['stack-05', 'a designer and an engineer reviewing a polished interface together'],
+      ['stack-06', 'a team watching a live collaborative tool update on two screens'],
+      ['stack-07', 'a developer pair-working with an AI coding assistant on screen'],
+
+      ['why-01', 'an engineer reading a performance trace, focused and unhurried'],
+      ['why-02', 'a product discussion at a whiteboard where someone is pushing back'],
+      ['why-03', 'a senior engineer drawing component boundaries on glass'],
+      ['why-04', 'an architect at a laptop planning data flow, notes beside them'],
+      ['why-05', 'a fortnightly demo, laptop mirrored to a screen, a small team watching'],
+    ],
+  },
+
+  'react-wide': {
+    dir: 'assets/img/react/photo', ratio: '4:3', items: [
+      ['compare-01', 'a frustrated user waiting on a slow interface at a desk'],
+      ['compare-02', 'the same kind of desk with a fast, modern interface and a relaxed user'],
+      ['faq-01', 'an engineer and a client talking across a laptop early in a project'],
+    ],
+  },
+
   /* Blog thumbnails. The six post cards had icons and nothing else. */
   blog: {
     dir: 'assets/img/blog/photo', ratio: '3:2', items: [

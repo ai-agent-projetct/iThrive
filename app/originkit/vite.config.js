@@ -72,6 +72,8 @@ export default defineConfig({
              than everything else here put together. Its own chunk keeps it out
              of the entry that every other page loads. */
           if (/\/node_modules\/three\//.test(p)) return 'three';
+          /* matter-js, likewise: wanted only by the ReactJS page's sticker wall. */
+          if (/\/node_modules\/matter-js\//.test(p)) return 'matter';
 
           return undefined;
         },

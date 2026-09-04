@@ -55,6 +55,11 @@ import ImageTrail from './components/framer/image-trail/index.js';
 const Scroll3dSlider = lazy(() => import('./components/framer/scroll-3d-slider/index.js'));
 import StepsFlow from './components/framer/steps-flow/index.js';
 import DepthBlurCarousel from './components/framer/depth-blur-carousel/index.js';
+/* The ReactJS page's set. The sticker wall carries matter-js, a real physics
+   engine, so it is lazy for the same reason the magazine and the 3D slider
+   are: only the one page that mounts it should pay for the download. */
+import InteractivePattern from './components/framer/interactive-pattern/index.js';
+const PhysicsStickerWall = lazy(() => import('./components/framer/physics-sticker-wall/index.js'));
 
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
@@ -78,6 +83,9 @@ const REGISTRY = {
   'scroll-3d-slider': Scroll3dSlider,
   'steps-flow': StepsFlow,
   'depth-blur-carousel': DepthBlurCarousel,
+  /* The ReactJS Development page's set. */
+  'interactive-pattern': InteractivePattern,
+  'physics-sticker-wall': PhysicsStickerWall,
 };
 
 function mount(host) {
