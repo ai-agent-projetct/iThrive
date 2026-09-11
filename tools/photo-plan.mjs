@@ -22,7 +22,12 @@
 export const PLAN = {
   services: {
     dir: 'assets/img/pages/services/photo', ratio: '21:9', items: [
-      ['ai-for-ecommerce', 'a retail merchandising team at a wall of screens showing product grids, one person pointing at a row'],
+      /* ai-for-ecommerce is deliberately NOT here. Its drawn band — the six
+         capabilities on one delivery spine, over the real stack — is what the
+         page wants: it says what the caption under it says. The photograph that
+         replaced it was a generic dim office that matched neither the caption
+         nor this plan's own brief, and it was removed at the client's request.
+         Listing the slot again would let the next run put a photo back over it. */
       ['cloud-devops', 'two platform engineers at a standing desk with terminal windows and a deploy pipeline on a wall screen'],
       ['custom-product-development', 'a product team around a table of printed screens and a laptop, mid-argument about a flow'],
       ['dedicated-engineering-team', 'a ring-fenced squad of five at adjoining desks, one shared board behind them'],
