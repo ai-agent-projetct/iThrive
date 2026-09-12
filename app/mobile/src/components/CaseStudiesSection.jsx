@@ -8,6 +8,10 @@ import { playClickSound, playHoverSound } from './AudioEngine';
 
 export default function CaseStudiesSection({ onOpenConsultation }) {
   const [activeFilter, setActiveFilter] = useState('all');
+  const base = typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/';
+  const capFolder = typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') 
+    ? 'flutter-dev' 
+    : 'mobile-dev';
 
   const caseStudies = [
     {
@@ -16,7 +20,7 @@ export default function CaseStudiesSection({ onOpenConsultation }) {
       category: 'taxi',
       categoryLabel: 'AI Ride Dispatch',
       client: 'Tada Mobility Chennai',
-      image: '/images/ithrive_app_taxi.jpg',
+      image: `${base}assets/img/${capFolder}/new-case-mobility-taxi.jpg`,
       impact: '40% Reduction in Rider Wait Times',
       desc: 'Built custom AI driver dispatch engine with real-time GPS spatial indexing using Python, FastAPI, PostgreSQL PostGIS, and Redis.',
       stack: ['Python', 'FastAPI', 'PostGIS', 'Redis', 'Flutter'],
@@ -32,7 +36,7 @@ export default function CaseStudiesSection({ onOpenConsultation }) {
       category: 'food',
       categoryLabel: 'Food & Logistics',
       client: 'Toing Technologies',
-      image: '/images/ithrive_app_food.jpg',
+      image: `${base}assets/img/${capFolder}/new-case-hyperlocal-food.jpg`,
       impact: '+35% Increase in Repeat Orders',
       desc: 'High-concurrency food delivery mobile app with real-time restaurant order sync, live driver tracking, and instant UPI payments.',
       stack: ['Django', 'Celery', 'PostgreSQL', 'Kotlin', 'SwiftUI'],
@@ -48,7 +52,7 @@ export default function CaseStudiesSection({ onOpenConsultation }) {
       category: 'health',
       categoryLabel: 'HealthTech & AI',
       client: 'Lotus Eye Hospital',
-      image: '/images/ithrive_app_health.jpg',
+      image: `${base}assets/img/${capFolder}/new-case-health-pulse.jpg`,
       impact: '99.8% Patient Appointment SLA',
       desc: 'Agentic healthcare app with embedded CoreML vitals scanner, video tele-consultation over WebSockets, and HIPAA-compliant records.',
       stack: ['Swift 6', 'Kotlin', 'CoreML', 'WebRTC', 'AWS'],
@@ -64,7 +68,7 @@ export default function CaseStudiesSection({ onOpenConsultation }) {
       category: 'fintech',
       categoryLabel: 'FinTech Banking',
       client: 'iPay Financial Chennai',
-      image: '/images/ithrive_app_fintech.jpg',
+      image: `${base}assets/img/${capFolder}/new-case-fintech-wallet.jpg`,
       impact: 'Sub-Second Payment Latency',
       desc: 'Bank-grade mobile wallet app with FaceID biometric authentication, instant UPI transfer, and encrypted transaction audit logs.',
       stack: ['Flutter', 'Node.js', 'PostgreSQL', 'Stripe API'],

@@ -201,18 +201,47 @@ $img = static function (string $rel): string {
       </div>
 
       <div class="ms-hero-stage">
-        <div class="ms-stack" data-stack-inner style="--n: <?= count($shards) ?>;">
-          <?php foreach ($shards as $i => [$n, $title]): ?>
-            <figure class="ms-shard" style="--i: <?= $i ?>;">
-              <img src="<?= e($img('shard/' . $n . '.jpg')) ?>" width="760" height="1000"
-                   alt="" loading="<?= $i < 2 ? 'eager' : 'lazy' ?>" decoding="async">
-              <figcaption><span><?= e($n) ?></span><?= e($title) ?></figcaption>
-            </figure>
-          <?php endforeach; ?>
+        <!-- 3D Fan Deck View Mode Switcher -->
+        <div class="ms-stage-ctrls">
+          <div class="ms-view-toggle" role="tablist" aria-label="Hero 3D Architecture Visual Mode">
+            <button class="ms-toggle-btn is-active" type="button" data-hero-3d-mode="fan">
+              <span class="ms-toggle-dot"></span>
+              3D Fan Cascade
+            </button>
+            <button class="ms-toggle-btn" type="button" data-hero-3d-mode="blueprint">
+              3D Exploded Blueprint
+            </button>
+            <button class="ms-toggle-btn" type="button" data-hero-3d-mode="matrix">
+              3D Isometric Matrix
+            </button>
+          </div>
+          <span class="ms-hud-chip">WEBGL 3D // 60 FPS</span>
         </div>
-        <?php /* Both verbs, because touch has no hover and tapping is what
-                 brings an outer shard to the middle there. */ ?>
-        <p class="ms-stage-hint">Tap or hover a card · drag to sweep the fan</p>
+
+        <!-- 3D Three.js Architectural Slabs Viewport -->
+        <div class="ms-3d-viewport" id="msHero3DViewport">
+          <canvas id="msHero3DCanvas"></canvas>
+          <div class="ms-hero-3d-hud" id="msHero3DHud"></div>
+          
+          <!-- Navigation Arrows -->
+          <button class="ms-hero-nav-arrow ms-arrow-prev" type="button" aria-label="Previous 3D Slab">&#10094;</button>
+          <button class="ms-hero-nav-arrow ms-arrow-next" type="button" aria-label="Next 3D Slab">&#10095;</button>
+
+          <!-- 3D Pagination Dots -->
+          <div class="ms-hero-pagination">
+            <button class="ms-page-dot is-active" type="button" data-hero-dot="0" aria-label="Slab 01"></button>
+            <button class="ms-page-dot" type="button" data-hero-dot="1" aria-label="Slab 02"></button>
+            <button class="ms-page-dot" type="button" data-hero-dot="2" aria-label="Slab 03"></button>
+            <button class="ms-page-dot" type="button" data-hero-dot="3" aria-label="Slab 04"></button>
+            <button class="ms-page-dot" type="button" data-hero-dot="4" aria-label="Slab 05"></button>
+            <button class="ms-page-dot" type="button" data-hero-dot="5" aria-label="Slab 06"></button>
+          </div>
+
+          <div class="ms-hero-3d-hint">
+            <span>Drag or scroll wheel to sweep 3D fan · Click slabs or arrows to navigate</span>
+          </div>
+        </div>
+        <p class="ms-stage-hint">Bespoke 3D Glass Architecture Slabs · Real-time WebGL Engine</p>
       </div>
     </div>
   </section>
@@ -246,6 +275,294 @@ $img = static function (string $rel): string {
             <span class="ms-frame-more" aria-hidden="true"></span>
           </article>
         <?php endforeach; ?>
+      </div>
+    </div>
+  </section>
+
+  <?php /* ---------------------------------------------------------------
+           CLIENT SEARCH INTENT & REAL-TIME PRODUCTION ARCHITECTURES
+           --------------------------------------------------------------- */ ?>
+  <section class="ms-sec ms-scenarios" id="ms-scenarios">
+    <div class="ms-shell">
+      <div class="ms-head">
+        <p class="ms-eyebrow"><span class="ms-ap" aria-hidden="true"></span>Real-Time Client Scenarios & Search Queries</p>
+        <h2 class="ms-title">What founders & teams search for<br><em>and the exact micro-SaaS that solves it</em></h2>
+        <p class="ms-sub">
+          Real-world operational bottlenecks extracted from live client search queries, deeply analyzed with production architectural blueprints and measured business impact.
+        </p>
+      </div>
+
+      <div class="ms-scenarios-grid">
+        <!-- Left: Client Scenarios Selector & Deep Analysis -->
+        <div class="ms-scenarios-left">
+          <!-- Scenario Tabs -->
+          <div class="ms-scenario-nav" role="tablist">
+            <button type="button" class="ms-scen-btn is-active" data-scenario-btn="spreadsheet" role="tab" aria-selected="true">
+              <span class="ms-scen-num">01</span>
+              <div class="ms-scen-meta">
+                <strong class="ms-scen-title">Spreadsheet to Multi-Tenant SaaS</strong>
+                <span class="ms-scen-cat">Automation & Commercialization</span>
+              </div>
+            </button>
+            <button type="button" class="ms-scen-btn" data-scenario-btn="copilot" role="tab" aria-selected="false">
+              <span class="ms-scen-num">02</span>
+              <div class="ms-scen-meta">
+                <strong class="ms-scen-title">Private AI Copilot & Doc Intelligence</strong>
+                <span class="ms-scen-cat">Regulated Niche GenAI (HIPAA/SOC2)</span>
+              </div>
+            </button>
+            <button type="button" class="ms-scen-btn" data-scenario-btn="whitelabel" role="tab" aria-selected="false">
+              <span class="ms-scen-num">03</span>
+              <div class="ms-scen-meta">
+                <strong class="ms-scen-title">White-Label B2B Portal & Metering</strong>
+                <span class="ms-scen-cat">Enterprise Multi-Tenancy & Edge SSL</span>
+              </div>
+            </button>
+            <button type="button" class="ms-scen-btn" data-scenario-btn="pivot" role="tab" aria-selected="false">
+              <span class="ms-scen-num">04</span>
+              <div class="ms-scen-meta">
+                <strong class="ms-scen-title">Internal Agency Tool to Product Pivot</strong>
+                <span class="ms-scen-cat">Self-Service SaaS Commercialization</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Scenario 1 Deep Analysis Panel -->
+          <div class="ms-scen-panel is-active" data-scenario-panel="spreadsheet">
+            <div class="ms-query-box">
+              <span class="ms-query-label">EXACT CLIENT SEARCH QUERY</span>
+              <p class="ms-query-text">“How to convert a 45-tab internal financial spreadsheet model into a secure multi-tenant B2B web app with customer logins and Stripe subscriptions without breaking calculations”</p>
+            </div>
+            
+            <div class="ms-dilemma-grid">
+              <div class="ms-dilemma-card">
+                <h4>The Real-World Dilemma</h4>
+                <p>Ops teams waste 18+ hours/weekly manually updating Excel tabs, emailing conflicting revisions to clients, and fixing broken cell formulas. Formula drift causes $40k+ quoting discrepancies and master sheets risk accidental data leakage.</p>
+              </div>
+              <div class="ms-dilemma-card">
+                <h4>Architectural Solution Blueprint</h4>
+                <ul>
+                  <li><strong>Ingestion Engine:</strong> Serverless stream parser validating rows in &lt;300ms against strict schemas.</li>
+                  <li><strong>Isolation:</strong> PostgreSQL Row-Level Security (RLS) guaranteeing 100% tenant separation.</li>
+                  <li><strong>Modern UI:</strong> Reactive Next.js data grid with sub-second feedback and one-click PDF generation.</li>
+                  <li><strong>Billing:</strong> Stripe Billing with tiered per-seat subscriptions and automated dunning.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="ms-impact-banner">
+              <div class="ms-impact-item">
+                <strong>96%</strong>
+                <span>Manual ops time eliminated</span>
+              </div>
+              <div class="ms-impact-item">
+                <strong>19 Days</strong>
+                <span>Spreadsheet to paying cohort</span>
+              </div>
+              <div class="ms-impact-item">
+                <strong>100%</strong>
+                <span>Calculation accuracy & audit trail</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scenario 2 Deep Analysis Panel -->
+          <div class="ms-scen-panel" data-scenario-panel="copilot" hidden>
+            <div class="ms-query-box">
+              <span class="ms-query-label">EXACT CLIENT SEARCH QUERY</span>
+              <p class="ms-query-text">“Build private AI document analysis tool for legal and medical records that complies with HIPAA/SOC2 without leaking proprietary files to public LLMs”</p>
+            </div>
+            
+            <div class="ms-dilemma-grid">
+              <div class="ms-dilemma-card">
+                <h4>The Real-World Dilemma</h4>
+                <p>Specialized associates spend 4.5 hours per case manually verifying clauses across 60-page PDF records. Public LLMs (ChatGPT/Claude web) are banned by compliance due to training data leakage risks and hallucinated terms.</p>
+              </div>
+              <div class="ms-dilemma-card">
+                <h4>Architectural Solution Blueprint</h4>
+                <ul>
+                  <li><strong>Zero-Retention Gateway:</strong> Private VPC inference proxy with ephemeral in-memory processing.</li>
+                  <li><strong>Hybrid Retrieval:</strong> pgvector semantic embeddings coupled with BM25 lexical keyword matching.</li>
+                  <li><strong>Structured Extraction:</strong> Deterministic JSON schema verification with human-in-the-loop review queues.</li>
+                  <li><strong>Audit Cryptography:</strong> Append-only immutable audit trail logging every retrieval timestamp and hash.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="ms-impact-banner">
+              <div class="ms-impact-item">
+                <strong>7 Min</strong>
+                <span>Down from 4.5 hrs per contract</span>
+              </div>
+              <div class="ms-impact-item">
+                <strong>100%</strong>
+                <span>HIPAA & SOC2 audit pass rate</span>
+              </div>
+              <div class="ms-impact-item">
+                <strong>0 Hallucinations</strong>
+                <span>Verified with source backlinks</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scenario 3 Deep Analysis Panel -->
+          <div class="ms-scen-panel" data-scenario-panel="whitelabel" hidden>
+            <div class="ms-query-box">
+              <span class="ms-query-label">EXACT CLIENT SEARCH QUERY</span>
+              <p class="ms-query-text">“How to build a white-label SaaS platform where each enterprise customer gets their own custom subdomain, branding, and usage-based billing”</p>
+            </div>
+            
+            <div class="ms-dilemma-grid">
+              <div class="ms-dilemma-card">
+                <h4>The Real-World Dilemma</h4>
+                <p>Enterprise clients ($30k–$80k ACV) refuse generic logins and demand custom branding (portal.clientbrand.com), Okta/Azure SAML SSO, and billing tied to API call volume. Building this in-house stalls core roadmap for 8 months.</p>
+              </div>
+              <div class="ms-dilemma-card">
+                <h4>Architectural Solution Blueprint</h4>
+                <ul>
+                  <li><strong>Edge Wildcard Routing:</strong> Cloudflare for SaaS edge SSL certificate provisioning and subdomain routing in &lt;50ms.</li>
+                  <li><strong>Enterprise Identity:</strong> WorkOS SAML/SSO integration supporting Okta, Azure AD, and Google Workspace with SCIM provisioning.</li>
+                  <li><strong>Usage Metering:</strong> High-throughput event ingestion queue (Kafka / Upstash) feeding Stripe Metered Usage API.</li>
+                  <li><strong>White-Label Theming:</strong> CSS custom property token injection allowing instantaneous tenant CSS/logo branding.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="ms-impact-banner">
+              <div class="ms-impact-item">
+                <strong>3.2x</strong>
+                <span>Higher Average Contract Value</span>
+              </div>
+              <div class="ms-impact-item">
+                <strong>&lt;60 Sec</strong>
+                <span>Edge SSL domain provisioning</span>
+              </div>
+              <div class="ms-impact-item">
+                <strong>Zero DevOps</strong>
+                <span>Per-tenant automated isolation</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scenario 4 Deep Analysis Panel -->
+          <div class="ms-scen-panel" data-scenario-panel="pivot" hidden>
+            <div class="ms-query-box">
+              <span class="ms-query-label">EXACT CLIENT SEARCH QUERY</span>
+              <p class="ms-query-text">“We built an internal automation script for our digital marketing agency that other agencies want to pay for — how do we commercialize it into a self-serve SaaS?”</p>
+            </div>
+            
+            <div class="ms-dilemma-grid">
+              <div class="ms-dilemma-card">
+                <h4>The Real-World Dilemma</h4>
+                <p>The internal script runs on an internal server with hardcoded API keys. External agencies want to buy it, but they cannot run command-line scripts, error recovery requires dev intervention, and there is no billing or password reset.</p>
+              </div>
+              <div class="ms-dilemma-card">
+                <h4>Architectural Solution Blueprint</h4>
+                <ul>
+                  <li><strong>Worker Queues:</strong> Python core wrapped in async Celery/Temporal distributed worker queues with auto-retries.</li>
+                  <li><strong>Self-Service Onboarding:</strong> 3-step OAuth authorization flow (Google Ads, Meta API, TikTok) with automated webhook initialization.</li>
+                  <li><strong>Customer Self-Healing:</strong> Real-time health monitoring dashboard allowing customers to inspect and re-run failed synchronization events.</li>
+                  <li><strong>Commercial Licensing:</strong> Stripe Checkout + Customer Portal enabling immediate card payments and self-serve upgrades.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="ms-impact-banner">
+              <div class="ms-impact-item">
+                <strong>100%</strong>
+                <span>Self-serve automated onboarding</span>
+              </div>
+              <div class="ms-impact-item">
+                <strong>$14.5k/mo</strong>
+                <span>Net new MRR in first 60 days</span>
+              </div>
+              <div class="ms-impact-item">
+                <strong>99.98%</strong>
+                <span>Uptime across 450+ agency accounts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive 3D WebGL Architecture Blueprint -->
+        <div class="ms-scenarios-right">
+          <div class="ms-scen-3d-card">
+            <div class="ms-scen-3d-header">
+              <span class="ms-scen-3d-badge">LIVE 3D WEBGL ARCHITECTURE</span>
+              <span class="ms-scen-3d-hint">Rotate & inspect active microservices</span>
+            </div>
+            <div class="ms-scen-3d-viewport" id="msScenario3DViewport">
+              <canvas id="msScenario3DCanvas"></canvas>
+            </div>
+            <div class="ms-scen-legend">
+              <span class="ms-legend-dot dot-cyan"></span> Active Pipeline Node
+              <span class="ms-legend-dot dot-purple"></span> Core Processing
+              <span class="ms-legend-dot dot-packet"></span> Live Telemetry Pulse
+            </div>
+            <button type="button" class="ms-btn ms-btn--primary ms-btn--block" id="msScenarioCta">
+              Architect This Solution For Your Product<?= icon('arrow') ?>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <?php /* ---------------------------------------------------------------
+           NEW FEATURE 2: 3D Holographic Micro-SaaS Runway
+           --------------------------------------------------------------- */ ?>
+  <section class="ms-sec ms-runway" id="ms-runway">
+    <div class="ms-shell">
+      <div class="ms-head ms-head--mid">
+        <p class="ms-eyebrow"><span class="ms-ap" aria-hidden="true"></span>Fast Runway</p>
+        <h2 class="ms-title">From zero to paying customers<br>in <em>eight tight weeks</em></h2>
+        <p class="ms-sub">A disciplined four-sprint delivery framework designed to validate before scaling.</p>
+      </div>
+
+      <div class="ms-runway-grid">
+        <div class="ms-runway-card" data-reveal>
+          <div class="ms-runway-badge">Sprint 01 // W1–2</div>
+          <h3>Niche Scope Triage</h3>
+          <p>Isolate the one problem users are already hacking together in spreadsheets. Strip out 60% of launch bloat.</p>
+          <ul class="ms-runway-list">
+            <li>Laser feature scope document</li>
+            <li>Interactive clickable 3D prototype</li>
+            <li>Customer validation signal</li>
+          </ul>
+        </div>
+
+        <div class="ms-runway-card" data-reveal style="--d:1">
+          <div class="ms-runway-badge">Sprint 02 // W3–4</div>
+          <h3>Core Engine & Tenancy</h3>
+          <p>Lay down serverless primitives, secure multi-tenant authentication, and isolated database boundaries.</p>
+          <ul class="ms-runway-list">
+            <li>AWS/GCP serverless scaffolding</li>
+            <li>Row-level security / tenant isolation</li>
+            <li>Fast GraphQL & REST endpoints</li>
+          </ul>
+        </div>
+
+        <div class="ms-runway-card" data-reveal style="--d:2">
+          <div class="ms-runway-badge">Sprint 03 // W5–6</div>
+          <h3>Stripe Billing & AI Hookup</h3>
+          <p>Wire the self-service checkout, automated webhook sync, and AI features that actually improve the workflow.</p>
+          <ul class="ms-runway-list">
+            <li>Tiered subscription & checkout portal</li>
+            <li>Automated invoice & dunning webhooks</li>
+            <li>Embedded AI anticipation module</li>
+          </ul>
+        </div>
+
+        <div class="ms-runway-card" data-reveal style="--d:3">
+          <div class="ms-runway-badge">Sprint 04 // W7–8</div>
+          <h3>Beta Launch & Handover</h3>
+          <p>Deploy to production, onboard first paying cohort, and hand over 100% of the repository and cloud credentials.</p>
+          <ul class="ms-runway-list">
+            <li>Production telemetry & error tracking</li>
+            <li>Zero-downtime CI/CD deployment</li>
+            <li>100% Source code & IP transfer</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -460,8 +777,8 @@ $img = static function (string $rel): string {
 
 </div>
 
-<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
-<script src="<?= e(asset('assets/js/saas-page.js')) ?>" defer></script>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
+<script type="module" src="<?= e(asset('assets/js/saas-page.js')) ?>"></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';

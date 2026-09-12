@@ -75,6 +75,21 @@ function InteractiveTechCard3D({ tech, isSelected, onSelect }) {
       )}
 
       <div className="relative z-10 space-y-4">
+        {/* Card Tech Visual Snapshot */}
+        {tech.image && (
+          <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden border border-slate-800/80 bg-slate-900 group-hover:border-cyan-500/40 transition-colors">
+            <img 
+              src={tech.image} 
+              alt={tech.name} 
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+              loading="lazy" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+            <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-slate-950/80 border border-slate-700 text-[10px] text-cyan-300 font-mono">
+              {tech.usage}
+            </div>
+          </div>
+        )}
         
         {/* Header Icon & Usage Badge */}
         <div className="flex justify-between items-center">
@@ -149,12 +164,18 @@ export default function TechStackSection() {
     { id: 'cloud', label: 'Cloud & DevOps' },
   ];
 
+  const base = typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/';
+  const capFolder = typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') 
+    ? 'flutter-dev' 
+    : 'mobile-dev';
+
   const technologies = [
     {
       id: 'flutter',
       name: 'Flutter 3.24',
       category: 'mobile',
       icon: '💙',
+      image: `${base}assets/img/${capFolder}/new-tech-flutter-dart.jpg`,
       usage: 'Cross-Platform Apps',
       experience: '60 FPS Impeller Engine',
       proficiency: 98,
@@ -180,6 +201,7 @@ class iThriveCard extends StatelessWidget {
       name: 'SwiftUI & Swift 6',
       category: 'mobile',
       icon: '🍎',
+      image: `${base}assets/img/${capFolder}/new-tech-swiftui-native.jpg`,
       usage: 'Native iOS 18 Apps',
       experience: 'Metal 3D & CoreML',
       proficiency: 96,
@@ -201,6 +223,7 @@ struct iThriveAppView: View {
       name: 'Kotlin & Jetpack',
       category: 'mobile',
       icon: '🤖',
+      image: `${base}assets/img/${capFolder}/new-tech-kotlin-jetpack.jpg`,
       usage: 'Native Android 15',
       experience: 'Coroutines & Compose',
       proficiency: 95,
@@ -219,6 +242,7 @@ fun iThriveAndroidScreen() {
       name: 'React Native 0.76',
       category: 'mobile',
       icon: '⚛️',
+      image: `${base}assets/img/${capFolder}/new-tech-react-native.jpg`,
       usage: 'Hybrid Mobile',
       experience: 'Fabric Architecture',
       proficiency: 94,
@@ -238,6 +262,7 @@ export default function App() {
       name: 'Python & FastAPI',
       category: 'backend',
       icon: '🐍',
+      image: `${base}assets/img/${capFolder}/new-tech-python-fastapi.jpg`,
       usage: 'Async REST/GraphQL',
       experience: 'Sub-Second AI Backend',
       proficiency: 97,
@@ -257,6 +282,7 @@ async def get_driver_location():
       name: 'PostgreSQL & PostGIS',
       category: 'ai',
       icon: '🐘',
+      image: `${base}assets/img/${capFolder}/new-tech-postgres-cloud.jpg`,
       usage: 'Geospatial DB',
       experience: 'Live GPS Spatial Query',
       proficiency: 95,

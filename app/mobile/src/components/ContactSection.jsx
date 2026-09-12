@@ -50,7 +50,7 @@ export default function ContactSection({ isOpenModal, onCloseModal }) {
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Direct Phone (Chennai)</p>
-                  <p className="font-mono font-bold text-cyan-300">+91 98765 43210</p>
+                  <p className="font-mono font-bold text-cyan-300">+91 93845 64915</p>
                 </div>
               </div>
 
@@ -60,7 +60,7 @@ export default function ContactSection({ isOpenModal, onCloseModal }) {
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Official Email Inquiry</p>
-                  <p className="font-mono font-bold text-slate-200">contact@ithrivesoftware.com</p>
+                  <p className="font-mono font-bold text-slate-200">info@ithrivesoftware.com</p>
                 </div>
               </div>
 
@@ -72,6 +72,21 @@ export default function ContactSection({ isOpenModal, onCloseModal }) {
                   <p className="text-xs text-slate-400">Response SLA</p>
                   <p className="font-bold text-emerald-400">Guaranteed Response within 2 Hours</p>
                 </div>
+              </div>
+            </div>
+
+            {/* Visual Architect Consultation Card */}
+            <div className="relative w-full h-28 rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-lg">
+              <img 
+                src={(typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/') + 'assets/img/' + (typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') ? 'flutter-dev' : 'mobile-dev') + '/new-contact-strategy-sprint.jpg'}
+                alt="Mobile Architecture Consultation Meeting"
+                className="w-full h-full object-cover opacity-70"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+              <div className="absolute bottom-2.5 left-3 right-3 flex justify-between items-center text-xs">
+                <span className="text-cyan-300 font-bold">1-on-1 Strategy Sprint</span>
+                <span className="text-slate-400 font-mono">Free Technical Scoping</span>
               </div>
             </div>
 
@@ -137,7 +152,7 @@ export default function ContactSection({ isOpenModal, onCloseModal }) {
                       <input
                         type="tel"
                         required
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 93845 64915"
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-sm focus:border-cyan-500 focus:outline-none transition-colors"

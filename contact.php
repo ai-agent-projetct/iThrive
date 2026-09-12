@@ -80,9 +80,9 @@ component('page-hero', [
     </div>
 
     <aside class="detail-aside">
-      <span class="aside-art" aria-hidden="true">
-        <img src="<?= e(asset('assets/img/art/sec-lines.svg')) ?>"
-             width="560" height="420" loading="lazy" decoding="async" draggable="false" alt="">
+      <span class="aside-art" aria-hidden="true" style="overflow:hidden;border-radius:12px;margin-bottom:20px;display:block;border:1px solid var(--line);background:var(--glass-hi);">
+        <img src="<?= e(asset('assets/img/pages/contact-chennai.jpg')) ?>"
+             width="560" height="280" loading="lazy" decoding="async" draggable="false" alt="iThrive Chennai Studio" style="width:100%;height:180px;object-fit:cover;display:block;">
       </span>
       <h2>Direct lines</h2>
       <dl class="detail-meta">

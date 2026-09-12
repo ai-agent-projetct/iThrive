@@ -59,14 +59,14 @@ $ogImage   = 'service-' . $svc['group_slug'];
 
 /** The hero wall. Eight tiles, each with a legacy face and the modern one. */
 $wall = [
-    ['01', '04', 'Auth'],
-    ['02', '05', 'Billing'],
-    ['03', '06', 'Search'],
-    ['01', '05', 'Reports'],
-    ['02', '06', 'Orders'],
-    ['03', '04', 'Admin'],
-    ['01', '06', 'Notify'],
-    ['02', '04', 'Files'],
+    ['01', '09', 'Auth'],
+    ['02', '10', 'Billing'],
+    ['03', '11', 'Search'],
+    ['04', '12', 'Reports'],
+    ['05', '13', 'Orders'],
+    ['06', '14', 'Admin'],
+    ['07', '15', 'Notify'],
+    ['08', '16', 'Files'],
 ];
 
 $stats = [
@@ -531,7 +531,7 @@ $img = static function (string $rel): string {
 
 </div>
 
-<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 <script src="<?= e(asset('assets/js/modern-page.js')) ?>" defer></script>
 
 <?php

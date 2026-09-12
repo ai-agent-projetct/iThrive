@@ -70,6 +70,7 @@ import ImageScroller from './components/framer/image-scroller/index.js';
 import StickyScrollStory from './components/framer/sticky-scroll-story/index.js';
 import GradientBars from './components/framer/g-bars/index.js';
 import AmbientBackground from './components/framer/ambient-background/index.js';
+import StackRevealScroll from './components/framer/stack-reveal-scroll/index.js';
 
 /* The On-Demand Resources page's set — again, none shared with any other page.
    The book carries its own 3D and the ripple its own WebGL, so both are lazy. */
@@ -90,9 +91,28 @@ import LogoBlur from './components/framer/logo-blur/index.js';
 import TextLift from './components/originkit/text-lift.jsx';
 /* Ours, not Framer's — it loads the client's own GLB. three.js again, so lazy. */
 const Logo3D = lazy(() => import('./components/logo-3d.jsx'));
-/* CurvedGalleryArc and GlassStack are already imported above with the MVP
-   set — registered long ago but never actually mounted on a page. The
-   Dedicated Team page is the first to use them. */
+
+import NextjsFlare from './components/webgpu/NextjsFlare.jsx';
+import CinematicCardDeck from './components/framer/cinematic-card-deck/index.js';
+import MotionLayerScroller from './components/framer/motion-layer-scroller/index.js';
+import ProcessRoadmap from './components/originkit/ProcessRoadmap.jsx';
+const TechDropzone = lazy(() => import('./components/framer/dropzone/index.js'));
+const EnergyBeamDisciplines = lazy(() => import('./components/framer/energy-beam/index.js'));
+import BookmarkModels from './components/framer/bookmark-cards/index.js';
+const InfiniteImageTunnel = lazy(() => import('./components/framer/infinite-tunnel/index.js'));
+const InfinitePerspectiveGallery = lazy(() => import('./components/framer/infinite-perspective-gallery/index.js'));
+const ChromaticLogo = lazy(() => import('./components/framer/chromatic-logo/index.js'));
+import LightOnOff from './components/framer/light-on-off/index.js';
+const PolaroidScroll = lazy(() => import('./components/framer/polaroid-scroll/index.js'));
+const RoadPipeline3D = lazy(() => import('./components/framer/road-pipeline-3d/index.js'));
+const CityCarRoadmap3D = lazy(() => import('./components/framer/city-car-roadmap-3d/index.js'));
+const AnimosCard3D = lazy(() => import('./components/framer/animos-card-3d/index.js'));
+const Arc3DWall = lazy(() => import('./components/framer/arc-3d-wall/index.js'));
+const HoldUs3D = lazy(() => import('./components/framer/hold-us-3d/index.js'));
+const EstimateDrivers3D = lazy(() => import('./components/framer/estimate-drivers-3d/index.js'));
+const ScrollZoomReveal = lazy(() => import('./components/framer/scroll-zoom-reveal/index.js'));
+const PolaroidTimeline = lazy(() => import('./components/framer/polaroid-timeline/index.js'));
+import FibreArc from './components/framer/fibre-arc/index.js';
 
 const REGISTRY = {
   'interactive-grid': InteractiveGrid,
@@ -126,6 +146,7 @@ const REGISTRY = {
   'sticky-scroll-story': StickyScrollStory,
   'g-bars': GradientBars,
   'ambient-background': AmbientBackground,
+  'stack-reveal-scroll': StackRevealScroll,
   /* The On-Demand Resources page's set. */
   'flip-book-3d': FlipBook3D,
   'image-hover-reveal': ImageHoverReveal,
@@ -138,9 +159,34 @@ const REGISTRY = {
   'logo-blur': LogoBlur,
   'text-lift': TextLift,
   'logo-3d': Logo3D,
+  'nextjs-flare': NextjsFlare,
+  'cinematic-card-deck': CinematicCardDeck,
+  'motion-layer-scroller': MotionLayerScroller,
+  'process-roadmap': ProcessRoadmap,
+  'tech-dropzone': TechDropzone,
+  'energy-beam-disciplines': EnergyBeamDisciplines,
+  'bookmark-models': BookmarkModels,
+  'infinite-image-tunnel': InfiniteImageTunnel,
+  'infinite-perspective-gallery': InfinitePerspectiveGallery,
+  'chromatic-logo': ChromaticLogo,
+  'light-on-off': LightOnOff,
+  'polaroid-scroll': PolaroidScroll,
+  'road-pipeline-3d': RoadPipeline3D,
+  'city-car-roadmap-3d': CityCarRoadmap3D,
+  'animos-card-3d': AnimosCard3D,
+  'arc-3d-wall': Arc3DWall,
+  'hold-us-3d': HoldUs3D,
+  'estimate-drivers-3d': EstimateDrivers3D,
+  'scroll-zoom-reveal': ScrollZoomReveal,
+  'polaroid-timeline': PolaroidTimeline,
+  'fibre-arc': FibreArc,
 };
 
 function mount(host) {
+  if (host.dataset.okReady === '1' || host.__ok_mounted) return;
+  host.dataset.okReady = '1';
+  host.__ok_mounted = true;
+
   const name = host.dataset.ok;
   const Component = REGISTRY[name];
   if (!Component) {
@@ -166,24 +212,15 @@ function mount(host) {
       </Suspense>
     </StrictMode>
   );
-  host.dataset.okReady = '1';
 }
 
 function init() {
-  const hosts = Array.from(document.querySelectorAll('[data-ok]:not([data-ok-ready])'));
+  if (window.__originkit_initialized) return;
+  window.__originkit_initialized = true;
+
+  const hosts = Array.from(document.querySelectorAll('[data-ok]:not([data-ok-ready]):not([data-ok-observing])'));
   if (!hosts.length) return;
 
-  /*
-   * ?ok=eager mounts everything immediately instead of waiting for it to be
-   * scrolled to.
-   *
-   * This exists because an island below the fold cannot be checked otherwise:
-   * IntersectionObserver reports nothing in a browser pane that is hidden or a
-   * tab that is occluded, so the host sits empty and looks exactly like a
-   * component that is broken. Several hours went into that mistake before the
-   * pane turned out to be the cause. It changes nothing for a visitor, who
-   * never has the parameter.
-   */
   if (!('IntersectionObserver' in window)
       || new URLSearchParams(location.search).get('ok') === 'eager') {
     hosts.forEach(mount);
@@ -199,7 +236,10 @@ function init() {
     }
   }, { rootMargin: '300px' });
 
-  hosts.forEach((h) => io.observe(h));
+  hosts.forEach((h) => {
+    h.dataset.okObserving = '1';
+    io.observe(h);
+  });
 }
 
 if (document.readyState === 'loading') {
@@ -207,3 +247,4 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+

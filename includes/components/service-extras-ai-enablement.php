@@ -160,10 +160,26 @@ $compliance = [
     ]); ?>
 
     <div class="grid grid-3">
+      <?php
+      $addPhotos = [
+          'assets/img/ai-enablement/add-01.jpg',
+          'assets/img/ai-enablement/add-02.jpg',
+          'assets/img/ai-enablement/add-03.jpg',
+          'assets/img/ai-enablement/add-04.jpg',
+          'assets/img/ai-enablement/add-05.jpg',
+          'assets/img/ai-enablement/add-06.jpg',
+      ];
+      ?>
       <?php foreach ($adds as $i => $a): ?>
-        <article class="card card--numbered" data-reveal style="--d:<?= $i % 3 ?>">
-          <span class="card-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
-          <span class="card-icon"><?= icon($a['icon']) ?></span>
+        <?php
+        $aNum = str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
+        $aPhoto = $addPhotos[$i] ?? $addPhotos[0];
+        ?>
+        <article class="card card--numbered card--photo" data-reveal style="--d:<?= $i % 3 ?>">
+          <figure class="card-figure">
+            <img src="<?= e(asset($aPhoto)) ?>" width="600" height="400" alt="<?= e($a['title']) ?>" loading="lazy" decoding="async">
+            <span class="card-figure-icon" style="color:var(--cyan);font-weight:700;font-family:var(--font-mono);font-size:.9rem;"><?= $aNum ?></span>
+          </figure>
           <h3 class="card-title"><?= e($a['title']) ?></h3>
           <p class="card-body"><?= e($a['body']) ?></p>
         </article>
@@ -217,9 +233,20 @@ $compliance = [
     ]); ?>
 
     <div class="grid grid-3">
+      <?php
+      $achievePhotos = [
+          'assets/img/ai-enablement/achieve-01.jpg',
+          'assets/img/ai-enablement/achieve-02.jpg',
+          'assets/img/ai-enablement/achieve-03.jpg',
+      ];
+      ?>
       <?php foreach ($achieve as $i => $a): ?>
-        <article class="card" data-reveal style="--d:<?= $i ?>">
-          <p class="ae-value"><?= e($a['value']) ?></p>
+        <?php $achPhoto = $achievePhotos[$i] ?? $achievePhotos[0]; ?>
+        <article class="card card--photo" data-reveal style="--d:<?= $i ?>">
+          <figure class="card-figure">
+            <img src="<?= e(asset($achPhoto)) ?>" width="600" height="400" alt="<?= e($a['label']) ?>" loading="lazy" decoding="async">
+            <span class="card-figure-icon" style="color:var(--cyan);font-weight:800;font-family:var(--font-mono);font-size:.85rem;width:auto;padding:0 12px;border-radius:16px;"><?= e($a['value']) ?></span>
+          </figure>
           <h3 class="card-title"><?= e($a['label']) ?></h3>
           <p class="card-body"><?= e($a['body']) ?></p>
         </article>

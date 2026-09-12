@@ -31,3 +31,10 @@ graphify-out/
 # Photography run scratch
 .photo-run.log
 .photo-tmp/
+
+# Temporary run screenshots and scratch files in root
+/*.png
+/*.jpg
+scratch/
+scratch_*.js
+test-puter.html

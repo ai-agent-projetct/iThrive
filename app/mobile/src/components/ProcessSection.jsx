@@ -19,11 +19,17 @@ export default function ProcessSection() {
   const isDragging = useRef(false);
   const startX = useRef(0);
 
+  const base = typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/';
+  const capFolder = typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') 
+    ? 'flutter-dev' 
+    : 'mobile-dev';
+
   const steps = [
     {
       num: '01',
       title: 'Discovery & Architecture Blueprint',
       tagline: 'Technical Scope & Stack Selection',
+      image: `${base}assets/img/${capFolder}/new-proc-01-scoping.jpg`,
       desc: 'We analyze your mobile app vision, target audience, feature scope, security requirements, and select the optimal stack (SwiftUI, Kotlin, Flutter, or React Native).',
       icon: Compass,
       inputs: 'Client Vision, API Schemas, Target OS',
@@ -35,6 +41,7 @@ export default function ProcessSection() {
       num: '02',
       title: 'UI/UX Design & 3D Prototyping',
       tagline: 'Figma 3D Interactive Flows',
+      image: `${base}assets/img/${capFolder}/new-proc-02-prototyping.jpg`,
       desc: 'Our design team crafts pixel-perfect mobile screen mockups, interactive micro-animations, design tokens, and clickable 3D prototypes in Figma.',
       icon: Palette,
       inputs: 'Brand Guidelines & User Flow Maps',
@@ -46,6 +53,7 @@ export default function ProcessSection() {
       num: '03',
       title: 'Agile Mobile Development Sprints',
       tagline: 'Bi-Weekly Native & Flutter Code Builds',
+      image: `${base}assets/img/${capFolder}/new-proc-03-architecture.jpg`,
       desc: 'We code in bi-weekly sprints with continuous integration. You get testable TestFlight (iOS) & Firebase App Distribution (Android) builds after every sprint.',
       icon: Code2,
       inputs: 'Sprint Backlog & API Endpoints',
@@ -57,6 +65,7 @@ export default function ProcessSection() {
       num: '04',
       title: 'Rigorous Security & QA Audit',
       tagline: '50+ Real Device Matrix Testing',
+      image: `${base}assets/img/${capFolder}/new-proc-04-development.jpg`,
       desc: 'Automated UI unit testing, battery/RAM optimization, penetration testing, and compliance verification across 50+ real physical mobile devices.',
       icon: ShieldCheck,
       inputs: 'Compiled Mobile Binaries',
@@ -68,6 +77,7 @@ export default function ProcessSection() {
       num: '05',
       title: 'App Store Deployment & Growth',
       tagline: 'Guaranteed Store Release & 24/7 SLA',
+      image: `${base}assets/img/${capFolder}/new-proc-05-qa-testing.jpg`,
       desc: 'Guaranteed approval on Apple App Store & Google Play Store, analytics setup, serverless cloud deployment, and 24/7 post-launch maintenance SLA.',
       icon: Rocket,
       inputs: 'App Store Metadata & Signed IPA/AAB',
@@ -79,6 +89,7 @@ export default function ProcessSection() {
       num: '06',
       title: 'Source Code & IP Handover',
       tagline: 'Repositories, Accounts & Documentation',
+      image: `${base}assets/img/${capFolder}/new-proc-06-appstore-deploy.jpg`,
       desc: 'Repositories, cloud accounts, store listings and signing keys transfer into your name, with architecture notes and a working local environment so another team could pick this up without calling us.',
       icon: Layers,
       inputs: 'Signed Milestone Completion',
@@ -90,6 +101,7 @@ export default function ProcessSection() {
       num: '07',
       title: 'Analytics, Monitoring & Iteration',
       tagline: 'Crash Vitals, Funnels & Release Trains',
+      image: `${base}assets/img/${capFolder}/new-proc-07-observability.jpg`,
       desc: 'Sentry, Crashlytics and store vitals wired to a triage process, funnel analytics on the journeys that matter, and a fortnightly release train that ships against what the data actually shows.',
       icon: RefreshCw,
       inputs: 'Live Production Traffic',
@@ -101,6 +113,7 @@ export default function ProcessSection() {
       num: '08',
       title: 'Scale, AI Enablement & Roadmap',
       tagline: 'Growth Features & On-Device Intelligence',
+      image: `${base}assets/img/${capFolder}/new-proc-08-ai-scaling.jpg`,
       desc: 'Once the core is stable we layer in what compounds: recommendation and assistant features, cost-optimised inference, and infrastructure that scales with the user base rather than ahead of it.',
       icon: Sparkles,
       inputs: 'Product Metrics & Business Goals',
@@ -306,18 +319,32 @@ export default function ProcessSection() {
                 >
                   <div className="space-y-4">
                     
+                    {/* Step Thumbnail Banner */}
+                    <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 group-hover:border-cyan-500/40 transition-colors">
+                      <img 
+                        src={step.image} 
+                        alt={step.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                        loading="lazy" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                      <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-slate-950/80 border border-slate-700 text-[10px] text-cyan-300 font-mono font-bold">
+                        {step.num}
+                      </div>
+                    </div>
+
                     {/* Step Number & Node Icon */}
                     <div className="flex justify-between items-center">
-                      <span className={`w-10 h-10 rounded-full flex items-center justify-center font-mono font-black text-sm transition-all ${
+                      <span className={`w-8 h-8 rounded-full flex items-center justify-center font-mono font-black text-xs transition-all ${
                         isActive ? 'btn-ithrive-pill text-slate-950 scale-110 shadow-lg' : 'bg-slate-900 text-slate-400 border border-slate-800'
                       }`}>
                         {step.num}
                       </span>
 
-                      <div className={`p-3 rounded-2xl transition-transform ${
+                      <div className={`p-2.5 rounded-xl transition-transform ${
                         isActive ? 'bg-cyan-500/20 text-cyan-300 scale-110' : 'bg-slate-900 text-slate-400'
                       }`}>
-                        <Icon className="w-5 h-5" />
+                        <Icon className="w-4 h-4" />
                       </div>
                     </div>
 
@@ -331,7 +358,7 @@ export default function ProcessSection() {
                       </p>
                     </div>
 
-                    <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">
                       {step.desc}
                     </p>
                   </div>
@@ -411,8 +438,22 @@ export default function ProcessSection() {
           </div>
 
           <div className="lg:col-span-4 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 text-center">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-400 via-blue-600 to-purple-600 flex items-center justify-center mx-auto text-white shadow-lg shadow-cyan-500/30">
-              <CheckCircle2 className="w-6 h-6" />
+            {/* Active Stage Visual Preview */}
+            <div className="relative w-full h-24 rounded-xl overflow-hidden border border-slate-800 bg-slate-900 mb-2">
+              <img 
+                src={currentStep.image} 
+                alt={currentStep.title} 
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+              <div className="absolute bottom-1.5 left-2 right-2 text-center text-[10px] text-cyan-300 font-mono">
+                Sprint Phase {currentStep.num}
+              </div>
+            </div>
+
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-400 via-blue-600 to-purple-600 flex items-center justify-center mx-auto text-white shadow-lg shadow-cyan-500/30">
+              <CheckCircle2 className="w-5 h-5" />
             </div>
             <h4 className="text-sm font-bold text-slate-100">Deliverable Guarantee</h4>
             <p className="text-xs text-slate-400 leading-relaxed">

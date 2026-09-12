@@ -222,14 +222,40 @@ const server = createServer(async (req, res) => {
   }
 
   try {
-    const response = await handler.request({
-      url: req.url,
+    let reqUrl = req.url;
+    if (reqUrl.startsWith('/sitemap.xml')) {
+      reqUrl = reqUrl.replace('/sitemap.xml', '/sitemap.php');
+    }
+
+    let response = await handler.request({
+      url: reqUrl,
       method: req.method,
       headers,
       body: chunks.length ? new Uint8Array(Buffer.concat(chunks)) : undefined,
     });
 
     let final = response;
+
+    // Support extensionless URLs like /services or /company/about
+    if (final.httpStatusCode === 404) {
+      const [pathOnly, search] = reqUrl.split('?');
+      if (!pathOnly.endsWith('.php') && !pathOnly.includes('.')) {
+        try {
+          const phpUrl = pathOnly.replace(/\/$/, '') + '.php' + (search ? '?' + search : '');
+          const phpResponse = await handler.request({
+            url: phpUrl,
+            method: req.method,
+            headers,
+            body: chunks.length ? new Uint8Array(Buffer.concat(chunks)) : undefined,
+          });
+          if (phpResponse.httpStatusCode !== 404) {
+            final = phpResponse;
+          }
+        } catch {
+          // ignore and proceed
+        }
+      }
+    }
 
     /**
      * Mirror Apache's `ErrorDocument 404 /404.php`.
@@ -240,7 +266,7 @@ const server = createServer(async (req, res) => {
      * kept pointing at what was originally asked for, which is what Apache does
      * on an internal redirect and what the page reads to make its guesses.
      */
-    if (response.httpStatusCode === 404 && !req.url.startsWith('/404.php')) {
+    if (final.httpStatusCode === 404 && !req.url.startsWith('/404.php')) {
       try {
         final = await handler.request({
           url: '/404.php',

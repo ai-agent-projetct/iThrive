@@ -606,7 +606,7 @@ $img = static function (string $rel): string {
 
 </div>
 
-<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 <script src="<?= e(asset('assets/js/custom-page.js')) ?>" defer></script>
 
 <?php

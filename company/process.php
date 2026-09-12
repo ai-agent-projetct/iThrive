@@ -99,6 +99,9 @@ component('page-hero', [
     </div>
 
     <div class="split-visual" data-reveal style="--d:2">
+      <figure style="border-radius: 16px; overflow: hidden; margin: 0 0 24px; border: 1px solid var(--line); aspect-ratio: 16/9; background: var(--glass-hi);">
+        <img src="<?= e(asset('assets/img/pages/process-sprint-board.jpg')) ?>" alt="Sprint delivery board" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy" decoding="async">
+      </figure>
       <?php component('stats-band', ['stats' => [
           ['value' => '2 wks',  'label' => 'To a productive squad'],
           ['value' => '<10min', 'label' => 'Commit to production'],

@@ -88,7 +88,7 @@ $ogAbs   = site_origin() . asset($ogImg);
 <header class="site-header" id="siteHeader">
   <div class="shell header-inner">
     <a class="brand" href="<?= e(url('index.php')) ?>" aria-label="<?= e(SITE_NAME) ?> home">
-      <img class="brand-mark" src="<?= e(asset('assets/img/logo-mark.png')) ?>" width="120" height="120" alt="" decoding="async">
+      <img class="brand-mark" src="<?= e(asset('assets/img/logo-mark.png')) ?>" width="120" height="120" alt="<?= e(SITE_NAME) ?>" decoding="async">
       <span class="brand-text">
         <span class="brand-name">iThrive</span>
         <span class="brand-sub">Software</span>

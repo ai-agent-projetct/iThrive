@@ -105,18 +105,24 @@ export default function ChennaiPresence({ onOpenConsultation }) {
 
                 <div className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-cyan-400" />
-                  <span className="font-mono text-cyan-300 font-semibold">+91 98765 43210</span>
+                  <span className="font-mono text-cyan-300 font-semibold">+91 93845 64915</span>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-emerald-400" />
-                  <span className="font-mono text-slate-300">contact@ithrivesoftware.com</span>
+                  <span className="font-mono text-slate-300">info@ithrivesoftware.com</span>
                 </div>
               </div>
 
               {/* Simulated Map Visual */}
               <div className="w-full h-44 rounded-2xl bg-slate-900 border border-slate-800 relative overflow-hidden flex items-center justify-center">
-                <div className="absolute inset-0 bg-grid-pattern opacity-40"></div>
+                <img 
+                  src={(window.__ithriveBase || '/') + 'assets/img/' + (window.location.pathname.includes('flutter') ? 'flutter-dev' : 'mobile-dev') + '/new-chennai-tech-hub.jpg'} 
+                  alt="Chennai Studio" 
+                  className="absolute inset-0 w-full h-full object-cover opacity-35" 
+                  loading="lazy" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/40" />
                 <div className="relative z-10 text-center space-y-2 p-4">
                   <div className="w-10 h-10 rounded-full bg-cyan-500/20 border border-cyan-500 flex items-center justify-center mx-auto text-cyan-400 animate-pulse">
                     <MapPin className="w-5 h-5" />

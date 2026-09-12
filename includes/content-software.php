@@ -329,29 +329,36 @@ const SOFT_WHY = [
 ];
 
 /**
- * Indicative investment bands. These are conversation-starters, deliberately
- * shown as ranges with the assumptions attached.
+ * Indicative investment bands — calibrated for the AI era.
+ * AI automation and modern scaffolding remove ~40% of manual boilerplate hours,
+ * passing significant cost and velocity savings to our clients.
  */
 const SOFT_INVESTMENT = [
-    'note' => 'Indicative bands for planning, not a quote. A real number needs a scope conversation — '
-            . 'the same build costs very differently with two integrations than with nine.',
+    'eyebrow' => 'Cost & Planning',
+    'title'   => 'Custom Software Development Cost in Chennai',
+    'lead'    => 'How much does custom software cost in the AI era? With modern AI-accelerated engineering, '
+               . 'boilerplate development time has dropped by ~40% — fundamentally reducing build costs '
+               . 'while shipping battle-tested production code.',
+    'cta_button' => 'View Detailed Pricing & Timelines',
+    'cta_sub'    => 'AI-Accelerated Rates — Click to Reveal',
+    'note' => 'Indicative AI-accelerated bands for planning, not an invoice. Real numbers depend on integration complexity, compliance, and scale requirements.',
     'tiers' => [
-        ['tier' => 'Essential',  'range' => '₹4L – ₹9L',    'time' => '6–10 weeks',  'best' => 'A first release, an internal tool, or one workflow automated end to end.',    'items' => ['Up to 3 core modules', '1–2 integrations', 'Single tenant', 'Cloud deploy + CI/CD', '1 month post-launch support']],
-        ['tier' => 'Growth',     'range' => '₹10L – ₹25L',  'time' => '3–5 months',  'best' => 'A production platform several teams depend on, or a SaaS product with paying tenants.', 'items' => ['6–12 modules', 'Role-based access & audit', 'Multi-tenant or multi-branch', 'Data migration', 'Observability + SLA', '3 months support'], 'featured' => true],
-        ['tier' => 'Enterprise', 'range' => '₹25L+',        'time' => '6 months+',   'best' => 'Core systems, regulated environments, or a dedicated squad on a long roadmap.',   'items' => ['Bespoke architecture', 'Complex integration estate', 'AI/ML components', 'Compliance evidence', 'HA and DR', 'Managed run & on-call']],
+        ['tier' => 'Essential',  'range' => '₹2.5L – ₹5.5L',  'time' => '3–6 weeks',   'best' => 'A focused first release, rapid MVP, or one workflow automated end to end with AI scaffolding.', 'items' => ['Up to 3 core modules', '1–2 integrations', 'Single tenant architecture', 'Automated CI/CD deploy', '1 month dedicated support']],
+        ['tier' => 'Growth',     'range' => '₹6.5L – ₹14.5L', 'time' => '8–14 weeks',  'best' => 'A production platform several teams depend on, or a multi-tenant SaaS product with paying users.', 'items' => ['6–12 modules', 'Role-based access & audit', 'Multi-tenant architecture', 'Automated data migration', 'Observability + 99.9% SLA', '3 months support'], 'featured' => true],
+        ['tier' => 'Enterprise', 'range' => '₹15L – ₹30L+',   'time' => '14–24 weeks', 'best' => 'Core enterprise systems, regulated environments, or dedicated full squads with custom AI agents.', 'items' => ['Bespoke high-scale architecture', 'Complex integration estate', 'Custom embedded AI/ML models', 'DPDP / SOC 2 compliance', 'High availability and DR', 'Managed 24/7 on-call run']],
     ],
 ];
 
-/** Rough industry timings, for the table under the investment bands. */
+/** Rough industry timings and AI-accelerated cost ranges. */
 const SOFT_TIMELINE = [
-    ['sector' => 'Retail & eCommerce',   'basic' => '₹4L – ₹8L',   'advanced' => '₹18L – ₹40L', 'time' => '8–20 weeks'],
-    ['sector' => 'Healthcare',           'basic' => '₹6L – ₹12L',  'advanced' => '₹25L – ₹60L', 'time' => '12–28 weeks'],
-    ['sector' => 'Finance & fintech',    'basic' => '₹8L – ₹15L',  'advanced' => '₹30L – ₹75L', 'time' => '14–30 weeks'],
-    ['sector' => 'Logistics & mobility', 'basic' => '₹5L – ₹10L',  'advanced' => '₹20L – ₹45L', 'time' => '10–24 weeks'],
-    ['sector' => 'Manufacturing',        'basic' => '₹6L – ₹11L',  'advanced' => '₹22L – ₹50L', 'time' => '12–26 weeks'],
-    ['sector' => 'Real estate',          'basic' => '₹4L – ₹8L',   'advanced' => '₹15L – ₹35L', 'time' => '8–18 weeks'],
-    ['sector' => 'Education',            'basic' => '₹4L – ₹9L',   'advanced' => '₹16L – ₹38L', 'time' => '8–20 weeks'],
-    ['sector' => 'Enterprise internal',  'basic' => '₹5L – ₹10L',  'advanced' => '₹20L – ₹55L', 'time' => '10–26 weeks'],
+    ['sector' => 'Retail & eCommerce',   'basic' => '₹2.5L – ₹5L',   'advanced' => '₹10L – ₹22L', 'time' => '4–10 weeks'],
+    ['sector' => 'Healthcare',           'basic' => '₹4L – ₹7.5L',   'advanced' => '₹14L – ₹32L', 'time' => '6–14 weeks'],
+    ['sector' => 'Finance & fintech',    'basic' => '₹5L – ₹9.5L',   'advanced' => '₹16L – ₹38L', 'time' => '8–16 weeks'],
+    ['sector' => 'Logistics & mobility', 'basic' => '₹3.5L – ₹6.5L', 'advanced' => '₹12L – ₹26L', 'time' => '6–12 weeks'],
+    ['sector' => 'Manufacturing',        'basic' => '₹4L – ₹7L',     'advanced' => '₹13L – ₹28L', 'time' => '6–14 weeks'],
+    ['sector' => 'Real estate',          'basic' => '₹2.5L – ₹5L',   'advanced' => '₹9L – ₹20L',  'time' => '4–10 weeks'],
+    ['sector' => 'Education',            'basic' => '₹2.5L – ₹5.5L', 'advanced' => '₹10L – ₹22L', 'time' => '4–10 weeks'],
+    ['sector' => 'Enterprise internal',  'basic' => '₹3.5L – ₹6.5L', 'advanced' => '₹12L – ₹30L', 'time' => '6–14 weeks'],
 ];
 
 /** What actually moves the number. */
@@ -370,7 +377,7 @@ const SOFT_FAQ = [
      'a' => 'Start with the workflow, not the software. If the process that costs you the most time is one a packaged tool models well, buy the tool — we will tell you so. Custom is worth it when the workflow is specific to how you compete, when you are paying for integration workarounds every month, or when per-seat licensing has quietly become larger than a build would have been.'],
 
     ['q' => 'What does custom software development cost in Chennai?',
-     'a' => 'A focused first release generally lands between ₹4L and ₹9L; a production platform several teams depend on between ₹10L and ₹25L; core enterprise systems above ₹25L. The variables that move the number most are the count of integrations, whether the data has to be migrated, and whether the environment is regulated. We give a written estimate with the assumptions listed, so you can see what would change it.'],
+     'a' => 'With AI-accelerated development reducing boilerplate engineering by ~40%, a focused first release or MVP generally lands between ₹2.5L and ₹5.5L; a production platform several teams depend on between ₹6.5L and ₹14.5L; and core enterprise systems or custom AI agent platforms from ₹15L to ₹30L+. The variables that move the number most are the count of integrations, whether legacy data has to be migrated, and compliance requirements. We provide a fully itemized written estimate with all assumptions listed.'],
 
     ['q' => 'How long does a project take?',
      'a' => 'Discovery is about two weeks. A first production release is typically six to fourteen weeks after that, depending on scope. You see working software every fortnight throughout, so the timeline is visible rather than promised.'],

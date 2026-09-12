@@ -17,10 +17,15 @@ export default function CostEstimator({ onOpenConsultation }) {
     { id: 'both', label: 'Cross-Platform (iOS + Android)', base: 280000, baseUSD: 3600 },
   ];
 
+  const base = typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/';
+  const capFolder = typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') 
+    ? 'flutter-dev' 
+    : 'mobile-dev';
+
   const designLevels = [
-    { id: 'minimal', label: 'Standard UI', mult: 1.0, desc: 'Clean native components' },
-    { id: 'premium', label: 'Custom Luxury UI', mult: 1.25, desc: 'Custom micro-animations & dark mode' },
-    { id: '3d', label: 'Interactive 3D UI & AR', mult: 1.5, desc: 'WebGL, 3D models & glassmorphism' },
+    { id: 'minimal', label: 'Standard UI', mult: 1.0, desc: 'Clean native components', image: `${base}assets/img/${capFolder}/new-tier-minimal-clean.jpg` },
+    { id: 'premium', label: 'Custom Luxury UI', mult: 1.25, desc: 'Custom micro-animations & dark mode', image: `${base}assets/img/${capFolder}/new-tier-glass-luxury.jpg` },
+    { id: '3d', label: 'Interactive 3D UI & AR', mult: 1.5, desc: 'WebGL, 3D models & glassmorphism', image: `${base}assets/img/${capFolder}/new-tier-spatial-3d.jpg` },
   ];
 
   const features = [
@@ -146,13 +151,24 @@ export default function CostEstimator({ onOpenConsultation }) {
                   <button
                     key={d.id}
                     onClick={() => setDesignLevel(d.id)}
-                    className={`p-3 text-left transition-all ${
+                    className={`p-3 rounded-2xl border text-left transition-all overflow-hidden flex flex-col justify-between ${
                       designLevel === d.id
-                        ? 'btn-ithrive-pill'
-                        : 'btn-ithrive-outline opacity-70 hover:opacity-100'
+                        ? 'bg-slate-900 border-cyan-400 shadow-lg shadow-cyan-500/20'
+                        : 'bg-slate-950/60 border-slate-800 opacity-80 hover:opacity-100 hover:border-slate-700'
                     }`}
                   >
-                    <div className="text-xs font-bold">{d.label}</div>
+                    <div className="w-full h-16 rounded-xl overflow-hidden mb-2 bg-slate-900 border border-slate-800">
+                      <img 
+                        src={d.image} 
+                        alt={d.label} 
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div>
+                      <div className={`text-xs font-bold ${designLevel === d.id ? 'text-cyan-300' : 'text-slate-200'}`}>{d.label}</div>
+                      <div className="text-[10px] text-slate-400 mt-0.5">{d.desc}</div>
+                    </div>
                   </button>
                 ))}
               </div>
@@ -164,6 +180,21 @@ export default function CostEstimator({ onOpenConsultation }) {
           <div className="lg:col-span-5">
             <div className="glass-panel p-6 rounded-3xl border border-cyan-500/30 shadow-2xl space-y-6 sticky top-28">
               
+              {/* Selected Tier Banner Preview */}
+              <div className="relative w-full h-24 rounded-2xl overflow-hidden border border-slate-800 bg-slate-900">
+                <img 
+                  src={selectedDesignObj.image} 
+                  alt={selectedDesignObj.label} 
+                  className="w-full h-full object-cover opacity-60"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                <div className="absolute bottom-2 left-3 right-3 flex justify-between items-center text-xs">
+                  <span className="text-cyan-300 font-bold">{selectedDesignObj.label} Active</span>
+                  <span className="text-slate-400 font-mono">x{selectedDesignObj.mult} Multiplier</span>
+                </div>
+              </div>
+
               <div className="flex justify-between items-center pb-4 border-b border-slate-800">
                 <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider">Estimated Investment</h4>
                 <div className="flex items-center bg-slate-900 rounded-full p-1 border border-slate-800 text-xs">

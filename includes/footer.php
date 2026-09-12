@@ -98,13 +98,15 @@ component('chat-widget');
 <?php endif; ?>
 <?php /* The staged, scroll-driven layer and its two 3D pieces. Scoped to the
          pages that opt in, so no other route pays for them. */ ?>
+<?php if (($bodyClass ?? '') === 'lusion' || !empty($hasOriginKit)): ?>
 <?php if (($bodyClass ?? '') === 'lusion'): ?>
 <script src="<?= e(asset('assets/js/lusion-stage.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/word-globe.js')) ?>" defer></script>
 <script type="module" src="<?= e(asset('assets/js/object-field.js')) ?>"></script>
+<?php endif; ?>
 <?php /* Origin Kit's components are React, as the registry ships them, so they
          come in as an island bundle — see app/originkit. */ ?>
-<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 <?php endif; ?>
 
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>

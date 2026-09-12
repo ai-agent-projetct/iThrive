@@ -118,48 +118,86 @@
   color: var(--cyan);
 }
 
-/* --- Buttons: a hard 2px corner, this page's own ------------------------- */
+/* --- Buttons: modern pill, high-contrast & cyber glow --------------------- */
 
 .od-btn {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 15px 28px;
-  border: 1px solid transparent;
-  border-radius: 2px;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border-radius: 999px;
   font-family: var(--display);
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
-              background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+              background-color 0.25s var(--ease), border-color 0.25s var(--ease),
+              color 0.25s var(--ease);
 }
 
-.od-btn .icon { width: 17px; height: 17px; }
+.od-btn .icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.22s var(--ease);
+}
+
+.od-btn:hover .icon {
+  transform: translateX(4px);
+}
 
 .od-btn--primary {
-  background: var(--grad);
-  color: #06121A;
-  box-shadow: 0 14px 34px -16px rgba(0, 242, 254, 0.8);
+  background: linear-gradient(135deg, #00F2FE 0%, #38BDF8 50%, #9D4EDD 100%);
+  color: #030816;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 28px rgba(0, 242, 254, 0.45), 0 8px 24px -4px rgba(0, 0, 0, 0.6);
 }
 
-.od-btn--primary:hover { transform: translateY(-2px); box-shadow: 0 20px 42px -16px rgba(157, 78, 221, 0.85); }
+.od-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 38px rgba(0, 242, 254, 0.75), 0 12px 30px -4px rgba(157, 78, 221, 0.8);
+}
 
-.od-btn--ghost { border-color: var(--line-2); background: rgba(255, 255, 255, 0.035); color: var(--text); }
-.od-btn--ghost:hover { border-color: var(--cyan); background: rgba(0, 242, 254, 0.1); }
+.od-btn--ghost {
+  border: 1.5px solid rgba(0, 242, 254, 0.45);
+  background: rgba(11, 19, 43, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #FFFFFF;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.12), 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+}
 
-.od-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.od-btn--ghost:hover {
+  transform: translateY(-2px);
+  border-color: #00F2FE;
+  background: rgba(0, 242, 254, 0.16);
+  color: #00F2FE;
+  box-shadow: 0 0 30px rgba(0, 242, 254, 0.45);
+}
+
+.od-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 28px;
+  position: relative;
+  z-index: 5;
+}
 .od-actions--mid { justify-content: center; }
 
 /* --- Hero: full page, with a shape trail ---------------------------------- */
 
 .od-hero {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   min-height: 100vh;
-  padding: clamp(96px, 12vh, 150px) 0 clamp(64px, 8vh, 110px);
+  padding: clamp(56px, 6vh, 76px) 0 clamp(32px, 4vh, 48px);
   overflow: hidden;
   text-align: center;
 }
@@ -874,3 +912,394 @@
   .od-model { transition: none; }
   .od-role-card:hover, .od-adv-card:hover { transform: none; }
 }
+
+/* ==========================================================================
+   Next-Gen Interactive Components for On-Demand Resources
+   ========================================================================== */
+
+/* 1. Hero 3D Chromatic Logo — 16:9 Full Screen Stage */
+.od-chromatic-stage {
+  width: min(1200px, 100%);
+  aspect-ratio: 16 / 9;
+  max-height: 58vh;
+  min-height: 380px;
+  margin: 20px auto 26px;
+  position: relative;
+  z-index: 2;
+  border-radius: 26px;
+  border: 1px solid rgba(0, 242, 254, 0.28);
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.95),
+    0 0 45px rgba(0, 242, 254, 0.16),
+    inset 0 1px 0 rgba(0, 242, 254, 0.25);
+  background: radial-gradient(ellipse at 50% 45%, #050B18 0%, #030712 70%, #01040A 100%);
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .od-chromatic-stage {
+    aspect-ratio: auto;
+    min-height: 420px;
+    margin: 24px auto 28px;
+    border-radius: 20px;
+  }
+}
+
+/* 1b. Legacy WebGPU Volumetric Flare (kept for fallback) */
+.od-flare-host {
+  width: min(940px, 100%);
+  height: clamp(360px, 46vh, 500px);
+  margin: 20px auto 28px;
+  position: relative;
+  z-index: 2;
+}
+
+/* 2. Cinematic Card Deck */
+.od-cinematic-host {
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .cinematic-card-body {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* 3. Motion Layer Scroller */
+.od-scroller-host {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* 4. Process Roadmap */
+.roadmap {
+  position: relative;
+  height: 460vh;
+  background: transparent;
+  border-block: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.roadmap-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.roadmap-head {
+  position: absolute;
+  top: calc(var(--header-h, 72px) + 24px);
+  left: 0;
+  right: 0;
+  z-index: 5;
+  text-align: center;
+  pointer-events: none;
+}
+
+.roadmap-progress {
+  width: min(320px, 46vw);
+  height: 3px;
+  margin: 16px auto 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.roadmap-progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #00F2FE, #38BDF8, #6366F1, #9D4EDD);
+  transition: width 0.1s linear;
+}
+
+.roadmap-scene {
+  position: relative;
+  width: 3400px;
+  height: 620px;
+  margin-top: 36px;
+  will-change: transform;
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.roadmap-svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: visible;
+}
+
+.road-base {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 46;
+  stroke-linecap: round;
+}
+
+.road-live {
+  fill: none;
+  stroke-width: 46;
+  stroke-linecap: round;
+  opacity: 0.95;
+  transition: stroke-dashoffset 0.2s linear;
+}
+
+.road-dashes {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.road-stem {
+  stroke: rgba(0, 242, 254, 0.45);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+  transition: y2 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.road-stem.is-live {
+  stroke: #00F2FE;
+}
+
+.roadmap-traveller {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #7fe7ff 40%, rgba(0, 242, 254, 0) 72%);
+  will-change: transform;
+  pointer-events: none;
+  z-index: 4;
+  transition: transform 0.2s linear;
+}
+
+.roadmap-traveller-core {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  bottom: 11px;
+  left: 11px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 24px 8px rgba(0, 242, 254, 0.9);
+}
+
+.roadmap-stop {
+  position: absolute;
+  width: 310px;
+  margin-left: -155px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  background: rgba(8, 14, 30, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 3;
+  opacity: 0;
+  transform: perspective(1100px) translateY(34px) translateZ(-140px) rotateX(26deg) scale(0.92);
+  transition: opacity 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.4s ease;
+}
+
+.roadmap-stop--top { transform-origin: 50% 100%; }
+.roadmap-stop--bottom { transform-origin: 50% 0%; }
+
+.roadmap-stop.is-live {
+  opacity: 1;
+  transform: perspective(1100px) translateY(0) translateZ(0) rotateX(0) scale(1);
+  border-color: rgba(0, 242, 254, 0.55);
+  box-shadow: 0 28px 64px -24px rgba(0, 242, 254, 0.5);
+}
+
+.roadmap-stop.is-passed {
+  opacity: 0.45;
+  transform: perspective(1100px) translateY(0) translateZ(-60px) rotateX(0) scale(0.94);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+
+.roadmap-stop header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.roadmap-num {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(120deg, #00F2FE, #38BDF8, #9D4EDD);
+  color: #040e15;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.roadmap-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(0, 242, 254, 0.12);
+  color: #00F2FE;
+}
+
+.roadmap-stop h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.roadmap-tagline {
+  margin-top: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #00F2FE;
+}
+
+.roadmap-desc {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #94A3B8;
+}
+
+.roadmap-stop footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.72rem;
+}
+
+.roadmap-duration {
+  font-family: var(--mono);
+  color: #00F2FE;
+  font-weight: 700;
+}
+
+.roadmap-out {
+  color: #94A3B8;
+  text-align: right;
+}
+
+.roadmap-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.78rem;
+  font-family: var(--mono);
+  color: #64748B;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .roadmap { height: 380vh; }
+  .roadmap-stop { width: 270px; margin-left: -135px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roadmap { height: auto; }
+  .roadmap-sticky { position: static; height: auto; padding: 60px 0; overflow: visible; }
+  .roadmap-scene, .roadmap-hint { display: none; }
+  .roadmap .sr-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    clip: auto !important;
+    white-space: normal !important;
+    display: grid;
+    gap: 14px;
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+    color: #94A3B8;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+}
+
+/* 5. Tech Dropzone */
+.od-dropzone-sec {
+  padding: clamp(60px, 8vw, 100px) 0;
+}
+
+.od-dropzone-host {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* 6. 3D Coverflow Gallery */
+.od-coverflow-host {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  margin: 32px auto 0;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 90px -20px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+/* 7. Energy Beam Flare Disciplines */
+.od-beam-host {
+  position: relative;
+  width: 100%;
+  margin-top: 28px;
+}
+
+/* 8. Bookmark Models */
+.od-bookmark-models-host {
+  position: relative;
+  width: 100%;
+  margin-top: 36px;
+}
+
+/* 9. 3D Infinite Perspective Card Gallery */
+.od-tunnel-host,
+.od-perspective-gallery-host {
+  position: relative;
+  width: 100%;
+  min-height: 620px;
+  margin: 36px auto 0;
+  border-radius: 24px;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.03) 0%, rgba(3, 7, 18, 0) 70%), #030712;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+@media (max-width: 960px) {
+  .od-perspective-gallery-host {
+    min-height: 520px;
+  }
+}
+
+@media (max-width: 640px) {
+  .od-perspective-gallery-host {
+    min-height: 440px;
+    margin-top: 24px;
+    border-radius: 16px;
+  }
+}
+
+
+

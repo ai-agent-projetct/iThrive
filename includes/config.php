@@ -12,23 +12,11 @@ if (session_status() === PHP_SESSION_NONE) {
 define('SITE_NAME', 'iThrive Software');
 define('SITE_SHORT', 'iThrive');
 define('SITE_TAGLINE', 'AI-Powered Platforms, Web & Mobile Applications');
-define('SITE_EMAIL', 'hello@ithrivesoftware.com');
-/*
- * Still the placeholder it was scaffolded with.
- *
- * It was being published as `telephone` in the Organization, LocalBusiness and
- * ContactPoint schema, rendered as a live tel: link in the footer and on the
- * contact page, and read out by the assistant when a visitor asked how to reach
- * us. A number that does not ring is worse than no number: the tap fails, and
- * search engines treat an inconsistent NAP as a signal against the listing.
- *
- * So site_phone() below returns null while this is unset, and every surface
- * omits the phone rather than printing a fake one. Replace this with the real
- * number and all of them light up again with no other change.
- */
-define('SITE_PHONE', '+91 90000 00000');
+define('SITE_EMAIL', 'info@ithrivesoftware.com');
+define('SITE_PHONE', '+91 93845 64915');
+define('SITE_PHONE_RAW', '9384564915');
 define('SITE_PHONE_PLACEHOLDER', '+91 90000 00000');
-define('SITE_HQ', 'Coimbatore, Tamil Nadu, India');
+define('SITE_HQ', 'Chennai, Coimbatore, Bangalore, Hyderabad, Ahmedabad, India');
 define('SITE_YEAR', '2026');
 
 /**
@@ -172,6 +160,7 @@ const NAV_ITEMS = [
                 [
                     'heading' => 'Engagement Models',
                     'links'   => [
+                        ['label' => 'Dedicated AI Agents',           'href' => 'services/dedicated-ai-agents.php'],
                         ['label' => 'Dedicated Engineering Team',   'href' => 'services/dedicated-engineering-team.php'],
                         ['label' => 'Dedicated On-demand Resources', 'href' => 'services/on-demand-resources.php'],
                     ],

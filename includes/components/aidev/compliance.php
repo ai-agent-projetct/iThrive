@@ -25,6 +25,9 @@
             
             <!-- Box 1: Data & Infrastructure Compliance -->
             <div class="compliance-box corner-bracket-wrap">
+                <div style="position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.1);">
+                    <img src="<?= e(asset('assets/img/aidev/scenes/vault.jpg')) ?>" alt="Security & Data Vault" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                </div>
                 <h3>
                     <i class="fa-solid fa-lock" style="color: var(--accent-cyan);"></i>
                     <span>Data &amp; Infrastructure Security Standards</span>
@@ -59,6 +62,9 @@
 
             <!-- Box 2: AI Governance & Safety Practices -->
             <div class="compliance-box corner-bracket-wrap">
+                <div style="position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.1);">
+                    <img src="<?= e(asset('assets/img/aidev/process-step-security-audit.jpg')) ?>" alt="Responsible AI Governance & Red Teaming" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                </div>
                 <h3>
                     <i class="fa-solid fa-shield-halved" style="color: var(--accent-magenta);"></i>
                     <span>Responsible AI &amp; Governance Practices</span>

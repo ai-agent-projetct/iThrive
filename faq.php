@@ -74,12 +74,33 @@ foreach (FAQ as $entry) {
   </div>
 </section>
 
+<?php
+$catPhotos = [
+    'engagement' => 'assets/img/faq/cat-engagement.jpg',
+    'ai-first'   => 'assets/img/faq/cat-ai-first.jpg',
+    'assistants' => 'assets/img/faq/cat-assistants.jpg',
+    'mobile-web' => 'assets/img/faq/cat-mobile-web.jpg',
+    'ecommerce'  => 'assets/img/faq/cat-ecommerce.jpg',
+    'saas-mvp'   => 'assets/img/faq/cat-saas-mvp.jpg',
+    'modernize'  => 'assets/img/faq/cat-modernize.jpg',
+    'devops'     => 'assets/img/faq/cat-devops.jpg',
+    'strategy'   => 'assets/img/faq/cat-strategy.jpg',
+];
+?>
 <?php foreach (FAQ_CATEGORIES as $slug => $label): ?>
   <?php if (empty($byCategory[$slug])) continue; ?>
+  <?php $cImg = $catPhotos[$slug] ?? null; ?>
 
   <section class="section section--tight<?= array_search($slug, array_keys(FAQ_CATEGORIES), true) % 2 ? ' section--panel' : '' ?>" id="<?= e($slug) ?>">
     <div class="shell">
-      <h2 class="section-title section-title--left" data-reveal><?= e($label) ?></h2>
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:24px;flex-wrap:wrap;">
+        <?php if ($cImg && is_file(ROOT_PATH . '/' . $cImg)): ?>
+          <figure style="width:68px;height:68px;border-radius:14px;overflow:hidden;margin:0;flex-shrink:0;border:1px solid var(--line);background:var(--glass-hi);">
+            <img src="<?= e(asset($cImg)) ?>" alt="<?= e($label) ?>" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+          </figure>
+        <?php endif; ?>
+        <h2 class="section-title section-title--left" style="margin:0;" data-reveal><?= e($label) ?></h2>
+      </div>
 
       <?php /* <details> rather than a JavaScript accordion: it is open to
                find-in-page, it prints, and its content is in the DOM for a

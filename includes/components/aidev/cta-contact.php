@@ -62,7 +62,7 @@
                     <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.5rem;">
                         <div style="font-size: 0.9rem; color: var(--text-secondary);">
                             <i class="fa-solid fa-envelope" style="color: var(--accent-cyan); margin-right: 0.5rem;"></i>
-                            <a href="mailto:info@ithrive.ai" style="color: #FFF; font-weight: 600;">info@ithrive.ai</a>
+                            <a href="mailto:info@ithrivesoftware.com" style="color: #FFF; font-weight: 600;">info@ithrivesoftware.com</a>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
                             <div class="form-group">
                                 <label class="form-label" for="rfp-phone">Phone / WhatsApp *</label>
-                                <input type="tel" id="rfp-phone" name="phone" class="form-control" placeholder="+91 98765 43210" required>
+                                <input type="tel" id="rfp-phone" name="phone" class="form-control" placeholder="+91 93845 64915" required>
                             </div>
 
                             <div class="form-group">

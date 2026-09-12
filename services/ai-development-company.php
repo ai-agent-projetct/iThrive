@@ -201,7 +201,7 @@ require dirname(__DIR__) . '/includes/header.php';
          loads this bundle only for $bodyClass 'lusion', which this page is not,
          so it asks for it here. Mounts are lazy: the bundle attaches nothing
          until a [data-ok] host is near the viewport. */ ?>
-<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 
 <?php /* The five-functions deck is the home page's own stacking panels, so it
          needs the script that drives them: it lights each statement word by

@@ -17,6 +17,11 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
   const smoothTimeRef = useRef(0);
   const animationFrameRef = useRef(null);
 
+  const base = typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/';
+  const capFolder = typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') 
+    ? 'flutter-dev' 
+    : 'mobile-dev';
+
   const apps = [
     {
       id: 'taxi_ai',
@@ -24,6 +29,7 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
       category: 'Logistics & AI Ride Dispatch',
       badge: 'Python + PostGIS + WebSockets',
       icon: Car,
+      image: `${base}assets/img/${capFolder}/new-sim-ride-booking.jpg`,
       video: '/videos/taxi_ai.mp4',
       tagline: 'Real-Time Driver Dispatch & Spatial GPS Tracking',
       desc: 'Sub-second driver matching algorithm, real-time route optimization, and spatial PostGIS map tracking scrubbing smoothly.',
@@ -35,6 +41,7 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
       category: 'Social & Matchmaking',
       badge: 'React Native + Node.js + WebRTC',
       icon: Heart,
+      image: `${base}assets/img/${capFolder}/new-sim-social-chat.jpg`,
       video: '/videos/meetoo_dating.mp4',
       tagline: 'AI Compatibility & Live Video Matchmaking',
       desc: 'Location-based matchmaking platform with real-time video chat, AI personality compatibility score, and anti-spoofing selfie verification.',
@@ -46,6 +53,7 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
       category: 'Food & Grocery Delivery',
       badge: 'Flutter + Django + Stripe',
       icon: Utensils,
+      image: `${base}assets/img/${capFolder}/new-sim-food-delivery.jpg`,
       video: '/videos/foodtime.mp4',
       tagline: 'Hyperlocal Kitchen Kiosk & Delivery Track',
       desc: 'Personalized food ordering platform with real-time kitchen status sync, sub-25 min delivery algorithm, and 1-click UPI checkout.',
@@ -57,6 +65,7 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
       category: 'Digital Health & Telemedicine',
       badge: 'Swift 6 + CoreML + WebRTC',
       icon: HeartPulse,
+      image: `${base}assets/img/${capFolder}/new-sim-telehealth.jpg`,
       video: '/videos/ai_healthcare.mp4',
       tagline: 'AI Symptom Diagnostic & Telehealth',
       desc: 'Embedded AI symptom checker, doctor appointment booking, real-time Bluetooth heart monitor sync, and HIPAA-compliant digital prescriptions.',
@@ -214,6 +223,7 @@ export default function AppSimulatorSection({ onOpenConsultation }) {
             ref={videoRef}
             key={currentApp.video}
             src={currentApp.video}
+            poster={currentApp.image}
             muted={isMuted}
             playsInline
             preload="auto"

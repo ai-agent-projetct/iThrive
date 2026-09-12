@@ -7,14 +7,18 @@ import MouseOverText from './MouseOverText';
 
 export default function InteractiveAppBuilder({ onOpenConsultation }) {
   const [selectedModules, setSelectedModules] = useState(['auth', 'payment', 'push']);
+  const base = typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/';
+  const capFolder = typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') 
+    ? 'flutter-dev' 
+    : 'mobile-dev';
 
   const availableModules = [
-    { id: 'auth', name: 'Biometric Auth & FaceID', category: 'Security', icon: ShieldCheck, size: '2.4 MB', desc: 'Secure OAuth 2.0 & Apple/Google Single Sign-On' },
-    { id: 'payment', name: 'UPI & Credit Card Gateway', category: 'FinTech', icon: CreditCard, size: '4.1 MB', desc: 'Sub-second Razorpay/Stripe checkout API' },
-    { id: 'push', name: 'Smart Push Notifications', category: 'Engagement', icon: Zap, size: '1.2 MB', desc: 'Firebase Cloud Messaging & OneSignal integration' },
-    { id: 'gps', name: 'Live GPS & Route Mapping', category: 'Logistics', icon: MapPin, size: '5.8 MB', desc: 'Google Maps 3D vector tile rendering' },
-    { id: 'chat', name: 'Audio/Video & Instant Chat', category: 'Communication', icon: MessageSquare, size: '6.5 MB', desc: 'WebRTC end-to-end encrypted voice/video' },
-    { id: 'ai', name: 'On-Device AI Neural Engine', category: 'Intelligence', icon: Cpu, size: '12.0 MB', desc: 'TensorFlow Lite / CoreML offline LLM model' },
+    { id: 'auth', name: 'Biometric Auth & FaceID', category: 'Security', icon: ShieldCheck, size: '2.4 MB', desc: 'Secure OAuth 2.0 & Apple/Google Single Sign-On', image: `${base}assets/img/${capFolder}/new-mod-biometric-faceid.jpg` },
+    { id: 'payment', name: 'UPI & Credit Card Gateway', category: 'FinTech', icon: CreditCard, size: '4.1 MB', desc: 'Sub-second Razorpay/Stripe checkout API', image: `${base}assets/img/${capFolder}/new-mod-upi-gateway.jpg` },
+    { id: 'push', name: 'Smart Push Notifications', category: 'Engagement', icon: Zap, size: '1.2 MB', desc: 'Firebase Cloud Messaging & OneSignal integration', image: `${base}assets/img/${capFolder}/new-mod-cloud-notifications.jpg` },
+    { id: 'gps', name: 'Live GPS & Route Mapping', category: 'Logistics', icon: MapPin, size: '5.8 MB', desc: 'Google Maps 3D vector tile rendering', image: `${base}assets/img/${capFolder}/new-mod-spatial-gps.jpg` },
+    { id: 'chat', name: 'Audio/Video & Instant Chat', category: 'Communication', icon: MessageSquare, size: '6.5 MB', desc: 'WebRTC end-to-end encrypted voice/video', image: `${base}assets/img/${capFolder}/new-mod-video-webrtc.jpg` },
+    { id: 'ai', name: 'On-Device AI Neural Engine', category: 'Intelligence', icon: Cpu, size: '12.0 MB', desc: 'TensorFlow Lite / CoreML offline LLM model', image: `${base}assets/img/${capFolder}/new-mod-edge-neural.jpg` },
   ];
 
   const toggleModule = (id) => {
@@ -59,26 +63,38 @@ export default function InteractiveAppBuilder({ onOpenConsultation }) {
                 <div
                   key={mod.id}
                   onClick={() => toggleModule(mod.id)}
-                  className={`p-4 rounded-3xl border cursor-pointer transition-all duration-300 ${
+                  className={`p-4 rounded-3xl border cursor-pointer transition-all duration-300 flex flex-col justify-between ${
                     isSelected
                       ? 'bg-slate-900 border-cyan-400 shadow-xl shadow-cyan-500/20 scale-[1.02]'
                       : 'bg-slate-900/40 border-slate-800 hover:border-slate-700 opacity-75'
                   }`}
                 >
-                  <div className="flex justify-between items-start">
-                    <div className={`p-2.5 rounded-2xl ${isSelected ? 'btn-ithrive-pill' : 'bg-slate-800 text-slate-400'}`}>
-                      <Icon className="w-5 h-5" />
+                  <div>
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-2.5">
+                        <div className={`p-2 rounded-xl ${isSelected ? 'btn-ithrive-pill' : 'bg-slate-800 text-slate-400'}`}>
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <div className="w-10 h-10 rounded-xl overflow-hidden border border-slate-800 shrink-0 bg-slate-950">
+                          <img 
+                            src={mod.image} 
+                            alt={mod.name} 
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+
+                      <div className={`w-6 h-6 rounded-full border flex items-center justify-center ${isSelected ? 'btn-ithrive-pill' : 'border-slate-700'}`}>
+                        {isSelected ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : <Plus className="w-3.5 h-3.5 text-slate-500" />}
+                      </div>
                     </div>
 
-                    <div className={`w-6 h-6 rounded-full border flex items-center justify-center ${isSelected ? 'btn-ithrive-pill' : 'border-slate-700'}`}>
-                      {isSelected ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : <Plus className="w-3.5 h-3.5 text-slate-500" />}
-                    </div>
+                    <h4 className="text-sm font-bold text-slate-100 mt-3">
+                      <MouseOverText text={mod.name} />
+                    </h4>
+                    <p className="text-xs text-slate-400 mt-1 leading-normal">{mod.desc}</p>
                   </div>
-
-                  <h4 className="text-sm font-bold text-slate-100 mt-3">
-                    <MouseOverText text={mod.name} />
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-1 leading-normal">{mod.desc}</p>
                   
                   <div className="flex justify-between items-center mt-3 pt-2 border-t border-slate-800/80 text-[10px]">
                     <span className="text-cyan-400 font-semibold">{mod.category}</span>
@@ -101,6 +117,21 @@ export default function InteractiveAppBuilder({ onOpenConsultation }) {
                 <span className="text-[10px] px-2.5 py-1 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/40">
                   Ready to Build
                 </span>
+              </div>
+
+              {/* Blueprint Visual Preview Image */}
+              <div className="relative w-full h-28 rounded-2xl overflow-hidden border border-slate-800 bg-slate-900">
+                <img 
+                  src={`${base}assets/img/${capFolder}/new-mod-blueprint-arch.jpg`} 
+                  alt="Custom Mobile App Blueprint"
+                  className="w-full h-full object-cover opacity-60"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                <div className="absolute bottom-2.5 left-3 right-3 flex justify-between items-center text-[11px]">
+                  <span className="text-cyan-300 font-bold">Custom Build Pipeline</span>
+                  <span className="text-slate-400 font-mono">v4.2-prod</span>
+                </div>
               </div>
 
               <div className="space-y-3">
