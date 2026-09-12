@@ -35,9 +35,21 @@ component('page-hero', [
     ]); ?>
 
     <div class="grid" style="gap:16px">
+      <?php
+      $rolePhotos = [
+          'assets/img/careers/role-python.jpg',
+          'assets/img/careers/role-ml.jpg',
+          'assets/img/careers/role-frontend.jpg',
+          'assets/img/careers/role-devops.jpg',
+      ];
+      ?>
       <?php foreach (CAREERS['roles'] as $i => $role): ?>
-        <article class="card role-card" data-reveal style="--d:<?= $i ?>">
-          <div>
+        <?php $rPhoto = $rolePhotos[$i % count($rolePhotos)]; ?>
+        <article class="card role-card" data-reveal style="--d:<?= $i ?>; display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+          <figure style="width: 140px; height: 100px; border-radius: 12px; overflow: hidden; margin: 0; flex-shrink: 0; border: 1px solid var(--line); background: var(--glass-hi);">
+            <img src="<?= e(asset($rPhoto)) ?>" alt="<?= e($role['title']) ?>" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy" decoding="async">
+          </figure>
+          <div style="flex: 1; min-width: 260px;">
             <h3 class="role-title"><?= e($role['title']) ?></h3>
             <ul class="role-meta">
               <li class="tag tag--cyan"><?= e($role['type']) ?></li>

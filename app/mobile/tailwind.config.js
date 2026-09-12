@@ -8,7 +8,7 @@
  * design was built against.
  */
 export default {
-  content: ['./src/**/*.{js,jsx}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
   corePlugins: { preflight: false },
   theme: {

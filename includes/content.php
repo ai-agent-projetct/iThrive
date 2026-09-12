@@ -413,6 +413,27 @@ const SERVICES = [
                 ],
                 'stack' => ['Python', 'PyTorch', 'React', 'React Native', 'Terraform', 'Playwright'],
             ],
+            [
+                'slug'  => 'dedicated-ai-agents',
+                'title' => 'Dedicated AI Agents',
+                'icon'  => 'bot',
+                'short' => 'Autonomous Agentic AI workforces for Development, Marketing, Sales, Operations, ERP, and CRM — customizable and scaled to N agents.',
+                'lead'  => 'Directly hire pre-built autonomous AI agents or let us engineer a dedicated Agentic AI swarm custom-tailored to your proprietary business workflows.',
+                'capabilities' => [
+                    ['title' => 'Full-stack software agents', 'body' => 'Autonomous coding, PR reviews, bug remediation, test generation, and architectural design running 24/7.'],
+                    ['title' => 'Sales & autonomous voice',   'body' => 'Inbound/outbound voice call handling, real-time CRM pipeline sync, and intelligent lead qualification.'],
+                    ['title' => 'Marketing & growth swarms',  'body' => 'Automated campaign optimization, continuous content generation, SEO intelligence, and ad spend scaling.'],
+                    ['title' => 'ERP & ledger automation',    'body' => 'Invoice reconciliation, cross-platform database synchronization, and repetitive data workflows.'],
+                    ['title' => 'HRMS & enterprise operations','body' => 'Candidate screening, automated onboarding, SOP compliance verification, and cross-team knowledge synthesis.'],
+                    ['title' => 'N-agent scalability',        'body' => 'Instantly scale agent clusters horizontally up or down based on operational demand with zero headcount lock-in.'],
+                ],
+                'outcomes' => [
+                    ['value' => '24/7',   'label' => 'Autonomous operation'],
+                    ['value' => '10x',    'label' => 'Velocity multiplier'],
+                    ['value' => '48 hrs', 'label' => 'To live agent deployment'],
+                ],
+                'stack' => ['LangChain', 'CrewAI', 'AutoGen', 'Claude 3.5', 'GPT-4o', 'Llama 3', 'FastAPI', 'Pinecone', 'vLLM', 'Whisper'],
+            ],
         ],
     ],
     [

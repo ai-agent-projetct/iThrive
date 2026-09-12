@@ -813,7 +813,7 @@ $img = static function (string $rel): string {
 <?php /* The island that carries the Framer components. Mounts are lazy: nothing
          is built until its host is near the viewport, and the magazine's WebGL
          engine is a separate chunk fetched only here. */ ?>
-<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 
 <?php /* The honeycomb and the stepper — this page's own two behaviours. */ ?>
 <script src="<?= e(asset('assets/js/mvp-page.js')) ?>" defer></script>

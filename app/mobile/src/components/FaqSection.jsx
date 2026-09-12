@@ -74,6 +74,24 @@ export default function FaqSection() {
           </p>
         </div>
 
+        {/* Engineering Support Banner Image */}
+        <div className="mb-10 rounded-3xl overflow-hidden border border-slate-800 relative bg-slate-900 shadow-2xl">
+          <div className="relative aspect-[21/9] sm:aspect-[24/8] w-full">
+            <img 
+              src={(typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/') + 'assets/img/' + (typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') ? 'flutter-dev' : 'mobile-dev') + '/new-faq-architect-team.jpg'}
+              alt="iThrive Engineering Architecture Support Team"
+              className="w-full h-full object-cover opacity-60"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
+            <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-center max-w-xl">
+              <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1">Direct Engineering Support</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Have a question not listed here?</h3>
+              <p className="text-xs sm:text-sm text-slate-300">Speak directly with our principal mobile systems architect in Chennai. 100% transparent technical guidance.</p>
+            </div>
+          </div>
+        </div>
+
         {/* Accordion List */}
         <div className="space-y-4">
           {faqs.map((faq, idx) => {

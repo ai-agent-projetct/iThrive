@@ -1,155 +1,98 @@
 /**
- * The Micro-SaaS page's own behaviour.
- *
- * Three things: the hero stack turning under a drag, the framework cards
- * opening, and the vertical tabs.
- *
- * Every one of them writes a custom property or toggles a class and leaves the
- * look to CSS, so there is one place that decides how anything appears — and
- * the page is fully laid out before this file runs at all. That ordering is the
- * point: six Framer components on this site have rendered nothing because they
- * computed their layout in a frame that never came.
- *
- * Not here: the honeycomb (assets/js/hexbg.js draws it site-wide), the
- * reveal-on-scroll (main.js observes every [data-reveal]) and the lead modal
- * (main.js owns [data-modal-open]). Copies of those fought the originals on an
- * earlier page.
+ * iThrive Micro-SaaS - Core Page & 3D Orchestration Module
+ * Connects 3D Hero Fan Deck, 3D Real-World Scenarios Blueprint,
+ * 3D Card Tilt, Framework Accordions, and Verticals Tabs.
  */
-(function () {
-  'use strict';
 
-  /* ======================================================================
-     Hero — drag the stack
-     ======================================================================
+import { initHero3D } from './saas-hero-3d.js';
+import { initScenarios3D } from './saas-scenarios-3d.js';
+import { init3DTilt } from './saas-3d-tilt.js';
 
-     --r is an offset in shards. CSS already places each one from its own --i;
-     this only slides the whole run along, so a drag that never happens leaves
-     a stack that is already correct.
-     ====================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Initialize 3D Engines
+  try { initHero3D(); } catch (e) { console.warn('Hero 3D init error:', e); }
+  try { initScenarios3D(); } catch (e) { console.warn('Scenarios 3D init error:', e); }
+  try { init3DTilt(); } catch (e) { console.warn('3D Tilt init error:', e); }
 
-  const stack = document.querySelector('[data-stack-inner]');
+  // 2. Real-World Client Scenario Switcher
+  const scenarioBtns = document.querySelectorAll('[data-scenario-btn]');
+  const scenarioPanels = document.querySelectorAll('[data-scenario-panel]');
 
-  if (stack) {
-    /* --r slides the fan; CSS centres it on --n, so 0 is the resting state.
-       Past about two shards either way the far end turns edge-on. */
-    const LIMIT = 2;
+  if (scenarioBtns.length && scenarioPanels.length) {
+    scenarioBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const scenarioId = btn.dataset.scenarioBtn;
 
-    /* Pixels of travel per shard. Matches the 62px translateX in the CSS so
-       the fan tracks what is under the pointer. */
-    const PER_SHARD = 62;
+        // Update button states
+        scenarioBtns.forEach(b => {
+          const isActive = (b === btn);
+          b.classList.toggle('is-active', isActive);
+          b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
 
-    let offset = 0;
-    let startX = 0;
-    let startOffset = 0;
-    let dragging = false;
+        // Show matching analysis panel
+        scenarioPanels.forEach(panel => {
+          const isMatch = (panel.dataset.scenarioPanel === scenarioId);
+          panel.classList.toggle('is-active', isMatch);
+          panel.style.display = isMatch ? 'flex' : 'none';
+        });
 
-    const apply = () => stack.style.setProperty('--r', offset.toFixed(3));
-
-    stack.addEventListener('pointerdown', (e) => {
-      dragging = true;
-      startX = e.clientX;
-      startOffset = offset;
-      stack.classList.add('is-dragging');
-      stack.setPointerCapture(e.pointerId);
-    });
-
-    stack.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      offset = Math.min(LIMIT, Math.max(-LIMIT,startOffset - (e.clientX - startX) / PER_SHARD));
-      apply();
-    });
-
-    const release = (e) => {
-      if (!dragging) return;
-      dragging = false;
-      stack.classList.remove('is-dragging');
-      if (e.pointerId !== undefined && stack.hasPointerCapture(e.pointerId)) {
-        stack.releasePointerCapture(e.pointerId);
-      }
-
-      /* Settle on a whole shard so the stack always rests square. The class
-         comes off first, so the CSS transition does the easing. */
-      offset = Math.min(LIMIT, Math.max(-LIMIT,Math.round(offset)));
-      apply();
-    };
-
-    stack.addEventListener('pointerup', release);
-    stack.addEventListener('pointercancel', release);
-
-    /* Tapping a shard swings it to the middle of the fan. On touch there is no
-       hover, so without this the outer shards can only be reached by dragging.
-       Guarded against firing at the end of a drag, where click also fires. */
-    const shards = stack.querySelectorAll('.ms-shard');
-    const middle = (shards.length - 1) / 2;
-
-    shards.forEach((shard, i) => {
-      shard.addEventListener('click', () => {
-        if (Math.abs(offset - startOffset) > 0.08) return;  /* it was a drag */
-        offset = Math.min(LIMIT, Math.max(-LIMIT, i - middle));
-        apply();
+        // Trigger 3D WebGL architecture reconfiguration
+        if (typeof window.setScenario3D === 'function') {
+          window.setScenario3D(scenarioId);
+        }
       });
     });
   }
 
-  /* ======================================================================
-     Framework — one card open at a time
-     ====================================================================== */
-
-  const frameCards = Array.from(document.querySelectorAll('[data-frame-card]'));
-
+  // 3. Framework Accordion
+  const frameCards = document.querySelectorAll('[data-frame-card]');
   if (frameCards.length) {
-    const open = (card) => {
-      for (const other of frameCards) {
-        const on = other === card;
-        other.classList.toggle('is-open', on);
-        other.setAttribute('aria-expanded', on ? 'true' : 'false');
-      }
-    };
-
-    for (const card of frameCards) {
-      card.addEventListener('click', () => open(card));
-
-      /* role="button" carries no keyboard behaviour of its own. */
-      card.addEventListener('keydown', (e) => {
-        if (e.key !== 'Enter' && e.key !== ' ') return;
-        e.preventDefault();
-        open(card);
+    frameCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        // Toggle card open state
+        const wasOpen = card.classList.contains('is-open');
+        frameCards.forEach(c => {
+          c.classList.remove('is-open');
+          c.setAttribute('aria-expanded', 'false');
+        });
+        if (!wasOpen) {
+          card.classList.add('is-open');
+          card.setAttribute('aria-expanded', 'true');
+        }
       });
-    }
+    });
   }
 
-  /* ======================================================================
-     Verticals — tabs
-     ====================================================================== */
+  // 4. Industry Verticals Tabs
+  const tabBtns = document.querySelectorAll('[data-ms-tab]');
+  const tabPanels = document.querySelectorAll('[data-ms-panel]');
 
-  const verts = document.querySelector('[data-verts]');
-  if (!verts) return;
-
-  const tabs = Array.from(verts.querySelectorAll('[data-vert-tab]'));
-  const panels = Array.from(verts.querySelectorAll('[data-vert-panel]'));
-  if (!tabs.length || !panels.length) return;
-
-  const show = (index) => {
-    tabs.forEach((tab, i) => {
-      const on = i === index;
-      tab.classList.toggle('is-on', on);
-      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+  if (tabBtns.length && tabPanels.length) {
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.msTab;
+        tabBtns.forEach(b => b.classList.toggle('is-active', b === btn));
+        tabPanels.forEach(p => {
+          const isTarget = (p.dataset.msPanel === target);
+          p.classList.toggle('is-active', isTarget);
+          p.hidden = !isTarget;
+        });
+      });
     });
+  }
 
-    panels.forEach((panel, i) => { panel.hidden = i !== index; });
-  };
-
-  tabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => show(i));
-
-    /* Arrow keys across a tablist, which is what a screen reader expects. */
-    tab.addEventListener('keydown', (e) => {
-      const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!step) return;
-      e.preventDefault();
-      const next = (i + step + tabs.length) % tabs.length;
-      show(next);
-      tabs[next].focus();
+  // 5. Connect Scenario CTA to Modal
+  const scenarioCta = document.getElementById('msScenarioCta');
+  if (scenarioCta) {
+    scenarioCta.addEventListener('click', () => {
+      const activeBtn = document.querySelector('[data-scenario-btn].is-active');
+      const scenarioTitle = activeBtn ? activeBtn.querySelector('.ms-scen-title')?.textContent : 'Micro-SaaS';
+      const modalBtn = document.querySelector('[data-modal-open]');
+      if (modalBtn) {
+        modalBtn.setAttribute('data-modal-service', 'Micro-SaaS: ' + (scenarioTitle || 'Custom Scope'));
+        modalBtn.click();
+      }
     });
-  });
-}());
+  }
+});

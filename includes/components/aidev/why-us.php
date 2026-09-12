@@ -26,6 +26,9 @@
             <!-- 01: India's AI Hubs -->
             <div class="solution-card">
                 <div>
+                    <div style="position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="<?= e(asset('assets/img/aidev/scenes/campus.jpg')) ?>" alt="India's Elite AI Talent Hubs" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                    </div>
                     <div class="sol-card-header">
                         <div class="sol-icon"><i class="fa-solid fa-map-location-dot"></i></div>
                     </div>
@@ -42,6 +45,9 @@
             <!-- 02: Global Quality, Indian Cost Advantage -->
             <div class="solution-card">
                 <div>
+                    <div style="position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="<?= e(asset('assets/img/aidev/cardart/hubs.jpg')) ?>" alt="Global Standards, Indian Cost" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                    </div>
                     <div class="sol-card-header">
                         <div class="sol-icon"><i class="fa-solid fa-coins"></i></div>
                     </div>
@@ -58,6 +64,9 @@
             <!-- 03: 100% IP & Data Ownership -->
             <div class="solution-card">
                 <div>
+                    <div style="position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="<?= e(asset('assets/img/aidev/scenes/vault.jpg')) ?>" alt="100% IP & Model Ownership" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                    </div>
                     <div class="sol-card-header">
                         <div class="sol-icon"><i class="fa-solid fa-file-shield"></i></div>
                     </div>
@@ -74,6 +83,9 @@
             <!-- 04: Rapid Sprint Velocity -->
             <div class="solution-card">
                 <div>
+                    <div style="position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="<?= e(asset('assets/img/aidev/resource-developer-workbench.jpg')) ?>" alt="Rapid 2-Week Sprint Velocity" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                    </div>
                     <div class="sol-card-header">
                         <div class="sol-icon"><i class="fa-solid fa-gauge-high"></i></div>
                     </div>
@@ -90,6 +102,9 @@
             <!-- 05: Full-Lifecycle Engineering -->
             <div class="solution-card">
                 <div>
+                    <div style="position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="<?= e(asset('assets/img/aidev/stack/photo/layer-01.jpg')) ?>" alt="Full-Lifecycle Engineering" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                    </div>
                     <div class="sol-card-header">
                         <div class="sol-icon"><i class="fa-solid fa-layer-group"></i></div>
                     </div>
@@ -106,6 +121,9 @@
             <!-- 06: 24/7 Monitoring & MLOps -->
             <div class="solution-card">
                 <div>
+                    <div style="position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="<?= e(asset('assets/img/aidev/scenes/gpu-cluster.jpg')) ?>" alt="24/7 Monitoring & MLOps" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                    </div>
                     <div class="sol-card-header">
                         <div class="sol-icon"><i class="fa-solid fa-clock"></i></div>
                     </div>

@@ -1,56 +1,18 @@
 import React from 'react';
 import { 
-  CheckCircle2, Layers, WifiOff, Radio, Bell, Rocket, Activity, ShieldCheck, ArrowRight
+  CheckCircle2, ShieldCheck, ArrowRight, Sparkles
 } from 'lucide-react';
 import MouseOverText from './MouseOverText';
+import IntroAnimation from './ui/scroll-morph-hero';
 
 export default function FunctionsChecklistSection({ onOpenConsultation }) {
-  const functions = [
-    {
-      icon: Layers,
-      title: 'Flutter & React Native Dual Store',
-      tagline: 'Single Codebase, Dual Platform',
-      desc: 'Chosen per project on real criteria — existing team skills, native module needs, and animation load — shipping to both Apple App Store & Google Play Store.'
-    },
-    {
-      icon: WifiOff,
-      title: 'Offline-First Data Sync Engine',
-      tagline: 'Local Persistence & Conflict Resolution',
-      desc: 'Local SQLite/Hive persistence with conflict-aware sync, so your mobile app stays 100% usable in elevators, basements, or rural low coverage areas.'
-    },
-    {
-      icon: Radio,
-      title: 'Real-Time WebSockets & GPS',
-      tagline: 'Sub-Second Driver Tracking & Chat',
-      desc: 'Live location tracking, instant chat, and user presence over WebSockets with battery-conscious location handling and background workers.'
-    },
-    {
-      icon: Bell,
-      title: 'Push Notifications & Deep Linking',
-      tagline: 'Smart Segmentation & Cold-Start Landing',
-      desc: 'Segmented push notifications and deep links that survive cold app starts and land the user directly on the right in-app screen.'
-    },
-    {
-      icon: Rocket,
-      title: 'Store Release Management',
-      tagline: 'App Store & Play Console Guaranteed Review',
-      desc: 'Complete submission management, staged rollouts, screenshot asset generation, and handling Apple/Google review cycles by experienced engineers.'
-    },
-    {
-      icon: Activity,
-      title: 'Crash & Performance Monitoring',
-      tagline: 'Sentry & App Vitals from Day 1',
-      desc: 'Sentry, Firebase Crashlytics, and store vitals wired from the first build, backed by a triage process rather than an unmonitored dashboard.'
-    }
-  ];
-
   return (
-    <section className="py-20 md:py-28 relative bg-slate-950/80 border-t border-b border-slate-800/80">
+    <section id="functions" className="py-16 md:py-24 relative bg-slate-950/80 border-t border-b border-slate-800/80">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-14">
+        <div className="text-center max-w-3xl mx-auto space-y-4 mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
             <CheckCircle2 className="w-3.5 h-3.5" /> What Our Mobile Apps Include
           </div>
@@ -60,54 +22,40 @@ export default function FunctionsChecklistSection({ onOpenConsultation }) {
           </h2>
 
           <p className="text-slate-300 text-base sm:text-lg">
-            No line item here is aspirational — each one is something we have shipped on a platform that is live in production today.
+            No line item here is aspirational — interact with all 20 production architecture modules we engineer and ship into live dual-store apps.
           </p>
         </div>
 
-        {/* Functions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {functions.map((fn, idx) => {
-            const Icon = fn.icon;
-            return (
-              <div
-                key={idx}
-                className="glass-panel p-6 rounded-3xl border border-slate-800 hover:border-cyan-500/50 transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1.5"
-              >
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-400 via-blue-600 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-cyan-500/25 group-hover:scale-110 transition-transform">
-                    <Icon className="w-6 h-6" />
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">
-                      <MouseOverText text={fn.title} />
-                    </h3>
-                    <p className="text-xs text-cyan-400 font-medium mt-0.5">
-                      {fn.tagline}
-                    </p>
-                  </div>
-
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {fn.desc}
-                  </p>
-                </div>
-
-                <div className="pt-4 mt-3 border-t border-slate-800/80 flex items-center gap-1.5 text-[11px] text-emerald-400 font-semibold">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Guaranteed Functionality
-                </div>
-              </div>
-            );
-          })}
+        {/* Scroll-Morph-Hero 3D Interactive Stage */}
+        <div className="rounded-3xl border border-slate-800/80 bg-slate-950/90 shadow-2xl backdrop-blur-xl overflow-hidden">
+          <IntroAnimation 
+            darkMode={true}
+            title="Engineered For High-Velocity Scale"
+            subtitle="SCROLL OR CLICK CONTROLS TO MORPH 20 MODULES"
+            heading="Core Mobile Functions Built Into Every App"
+            description="Hover any card to flip its 3D specifications. Scroll or click controls above to morph between 3D orbit and bottom arc layouts."
+            onOpenConsultation={onOpenConsultation}
+          />
         </div>
 
-        {/* CTA Bar */}
-        <div className="mt-12 text-center">
+        {/* Bottom Guarantee Banner */}
+        <div className="mt-10 p-6 rounded-3xl bg-slate-900/60 border border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 flex-shrink-0">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-slate-100">Enterprise Ready Production Architecture</p>
+              <p className="text-xs text-slate-400">All 20 core mobile capabilities configured with clean architecture, strict unit tests, and zero vendor lock-in.</p>
+            </div>
+          </div>
+
           <button
             onClick={onOpenConsultation}
-            className="btn-ithrive-pill px-8 py-4 text-sm sm:text-base inline-flex items-center gap-2"
+            className="btn-ithrive-pill px-6 py-3 text-xs font-bold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap"
           >
-            <span>Talk to a Mobile Solutions Architect</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>Request Full Architecture Spec</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 

@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', function () {
           formFeedback.innerHTML = `
             <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #EF4444; padding: 1.25rem; border-radius: 10px; margin-top: 1.25rem;">
               <strong><i class="fa-solid fa-circle-exclamation"></i> Error</strong><br>
-              ${err.message || 'Unable to submit right now. Please email us directly at info@ithrive.ai'}
+              ${err.message || 'Unable to submit right now. Please email us directly at info@ithrivesoftware.com'}
             </div>`;
         }
         submitBtn.disabled = false;

@@ -161,7 +161,7 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
 <div class="tm">
 
   <?php /* ---------------------------------------------------------------
-           Hero — Spline if a scene exists, otherwise a draggable 3D arc
+           Hero — Dedicated Engineering Team Copy with 3D Metallic Cube Grid
            --------------------------------------------------------------- */ ?>
   <section class="tm-hero">
     <div class="tm-shell tm-hero-grid">
@@ -170,7 +170,7 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
 
         <h1 class="tm-h1">
           Senior engineers, in your<br>
-          standup <em>in two weeks</em>
+          standup <span class="tm-grad">in two weeks</span>
         </h1>
 
         <p class="tm-lead">
@@ -194,46 +194,36 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
         </ul>
       </div>
 
-      <div class="tm-hero-stage">
-        <?php if ($splineScene !== ''): ?>
-          <?php /* A published Spline scene takes the stage when one exists. */ ?>
-          <div class="tm-spline-host">
-            <spline-viewer url="<?= e($splineScene) ?>" loading-anim-type="none"
-                           events-target="global" role="img"
-                           aria-label="An interactive 3D scene of a distributed engineering team."></spline-viewer>
-          </div>
-          <script type="module"
-                  src="https://unpkg.com/@splinetool/viewer@1.9.48/build/spline-viewer.js"
-                  crossorigin="anonymous"></script>
-        <?php else: ?>
-          <?php /*
-             The arc, positioned in CSS rather than by a script.
+      <div class="tm-hero-stage tm-metallic-hero" id="stage">
+        <!-- 3D WebGL Metallic Cube Grid Canvas -->
+        <canvas id="metallic-cube-grid-canvas"></canvas>
+        <div class="tm-metallic-vignette" aria-hidden="true"></div>
 
-             This was Framer's Curved Gallery Arc, which drives its rotateY and
-             translateZ from a requestAnimationFrame loop. That means the cards
-             carry transform:none until the first frame runs — and measured on
-             the page every one of the ten sat at exactly the same point, so the
-             hero was an empty box. Its own component; not a props mistake.
-
-             Here each card's angle is written into the markup as --i, and the
-             transform is a plain CSS rule. It is laid out by the time the first
-             pixel is painted, with or without an animation frame. Dragging adds
-             rotation on top of that rather than being the only thing that
-             creates it.
-          */ ?>
-          <div class="tm-arc" data-arc style="--n: <?= count($roles) ?>;">
-            <div class="tm-arc-ring" data-arc-ring>
-              <?php foreach ($roles as $i => [$n, $title]): ?>
-                <figure class="tm-arc-card" style="--i: <?= $i ?>;">
-                  <img src="<?= e($img('role/' . $n . '.jpg')) ?>" width="420" height="420"
-                       alt="<?= e($title) ?>" loading="lazy" decoding="async">
-                  <figcaption><span><?= e($n) ?></span><?= e($title) ?></figcaption>
-                </figure>
-              <?php endforeach; ?>
-            </div>
+        <!-- Floating Interactive Control Dock with Drag Hint -->
+        <div class="tm-metallic-controls">
+          <div class="tm-ctrl-hint" title="Click and drag to rotate the 3D cube grid in real time">
+            <span class="tm-hint-icon">✦</span>
+            <span>Drag to Orbit</span>
           </div>
-        <?php endif; ?>
-        <p class="tm-stage-hint">Drag the arc · the ten disciplines on the bench</p>
+          <div class="tm-ctrl-divider" aria-hidden="true"></div>
+          <div class="tm-ctrl-group">
+            <span class="tm-ctrl-label">Mode:</span>
+            <button type="button" class="tm-ctrl-pill is-active" data-cube-preset="Wave">Wave</button>
+            <button type="button" class="tm-ctrl-pill" data-cube-preset="Rubik">Rubik</button>
+            <button type="button" class="tm-ctrl-pill" data-cube-preset="Float">Float</button>
+            <button type="button" class="tm-ctrl-pill" data-cube-preset="Helix">Helix</button>
+            <button type="button" class="tm-ctrl-pill" data-cube-preset="Pulse">Pulse</button>
+            <button type="button" class="tm-ctrl-pill" data-cube-preset="Scatter">Scatter</button>
+          </div>
+          <div class="tm-ctrl-divider" aria-hidden="true"></div>
+          <div class="tm-ctrl-group">
+            <span class="tm-ctrl-label">Finish:</span>
+            <button type="button" class="tm-ctrl-pill is-active" data-cube-matcap="PolishedMetal">Chrome</button>
+            <button type="button" class="tm-ctrl-pill" data-cube-matcap="TechBlue">Tech Blue</button>
+            <button type="button" class="tm-ctrl-pill" data-cube-matcap="GoldMetal">Gold</button>
+            <button type="button" class="tm-ctrl-pill" data-cube-matcap="DarkMetal">Dark</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -265,7 +255,13 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
 
   <?php /* ---------------------------------------------------------------
            Why build alone — Framer's Circle Expand Card, four of them
+           The 4 highlight colors extracted from user's uploaded theme swatches:
+           1: #1bd7fe (Electric Cyan), 2: #3fb6ff (Sky Blue),
+           3: #6094f8 (Periwinkle Blue), 4: #7976ec (Cyber Violet)
            --------------------------------------------------------------- */ ?>
+  <?php
+  $whyColors = ['#1bd7fe', '#3fb6ff', '#6094f8', '#7976ec'];
+  ?>
   <section class="tm-sec tm-why">
     <div class="tm-shell">
       <div class="tm-head">
@@ -279,19 +275,31 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
 
       <div class="tm-why-grid">
         <?php foreach ($why as $i => [$n, $title, $body]): ?>
-          <figure class="tm-why-card" data-reveal style="--d:<?= $i % 4 ?>">
+          <?php $cardAccent = $whyColors[$i % 4]; ?>
+          <figure class="tm-why-card" data-reveal style="--d:<?= $i % 4 ?>; --why-accent: <?= e($cardAccent) ?>;">
             <div class="tm-why-host"
                  data-ok="circle-expand-card"
                  data-props='<?= e(json_encode([
-                     'image'         => ['src' => $imgAbs('why/' . $n . '.jpg'), 'alt' => $title],
-                     'category'      => $n,
-                     'title'         => $title,
-                     'layout'        => 'titleBottomLeft',
-                     'overlay'       => 'rgba(8, 10, 16, 0.42)',
-                     'cardRadius'    => '18px',
-                     'padding'       => '22px',
-                     'showTextMask'  => true,
-                     'textMaskColor' => 'rgba(8, 10, 16, 0.5)',
+                     'image'              => ['src' => $imgAbs('why/' . $n . '.jpg'), 'alt' => $title],
+                     'category'           => $n,
+                     'title'              => $title,
+                     'subtitle'           => '',
+                     'link'               => '',
+                     'newTab'             => false,
+                     'layout'             => 'titleBottomLeft',
+                     'overlay'            => 'rgba(8, 10, 16, 0.42)',
+                     'cardRadius'         => '18px',
+                     'padding'            => '22px',
+                     'showTextMask'       => true,
+                     'textMaskColor'      => 'rgba(8, 10, 16, 0.55)',
+                     'categoryColor'      => $cardAccent,
+                     'categoryHoverColor' => '#080a10',
+                     'iconGroup'          => [
+                         'backgroundColor'     => $cardAccent,
+                         'backgroundHoverColor' => $cardAccent,
+                         'size'                => 24,
+                         'padding'             => '15px',
+                     ],
                  ], JSON_THROW_ON_ERROR)) ?>'></div>
             <figcaption><?= e($body) ?></figcaption>
           </figure>
@@ -315,14 +323,49 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
       </div>
     </div>
 
-    <div class="tm-scroller-host"
-         data-ok="image-scroller"
-         data-props='<?= e(json_encode([
-             'items' => array_map(static fn (array $r): array => [
-                 'image' => ['src' => $imgAbs('role/' . $r[0] . '.jpg'), 'alt' => $r[1]],
-                 'text'  => $r[1],
-             ], $roles),
-         ], JSON_THROW_ON_ERROR)) ?>'></div>
+    <div class="tm-shell tm-liquid-shell">
+      <div class="tm-liquid-stage-wrap corner-bracket-wrap">
+        <div class="corner-bracket-bottom-left"></div>
+        <div class="corner-bracket-bottom-right"></div>
+        <div class="tm-liquid-edge tm-liquid-edge--left" aria-hidden="true"></div>
+        <div class="tm-liquid-edge tm-liquid-edge--right" aria-hidden="true"></div>
+
+        <div class="tm-liquid-host"
+             data-ok="liquid-carousel"
+             data-props='<?= e(json_encode([
+                 'projects' => array_map(static fn (array $r): array => [
+                     'brand'       => $r[0] . ' · ' . $r[1],
+                     'description' => $r[2],
+                     'image'       => ['src' => $imgAbs('role/' . $r[0] . '.jpg'), 'alt' => $r[1]],
+                 ], $roles),
+                 'panelHeight'      => 440,
+                 'gap'              => 20,
+                 'glide'            => 0.08,
+                 'wheelSensitivity' => 1,
+                 'snap'             => true,
+                 'lensShape'        => 'circle',
+                 'lensRotation'     => 0,
+                 'lensWidth'        => 0.22,
+                 'lensHeight'       => 0.82,
+                 'lensX'            => 0.0,
+                 'lensY'            => 0.5,
+                 'dispersion'       => 16,
+                 'zoom'             => 0.12,
+                 'blur'             => 0,
+                 'glow'             => 5.5,
+                 'blueRing'         => 6.5,
+                 'blueColor'        => '#1bd7fe',
+                 'shimmer'          => true,
+                 'rimWave'          => 0.65,
+                 'entryAnimation'   => false,
+                 'focusScale'       => 1.15,
+                 'background'       => 'rgba(0, 0, 0, 0)',
+                 'foreground'       => '#EAF0FA',
+                 'showLabels'       => true,
+                 'showCursor'       => true,
+             ], JSON_THROW_ON_ERROR)) ?>'></div>
+      </div>
+    </div>
 
     <div class="tm-shell">
       <dl class="tm-role-list">
@@ -358,32 +401,82 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
   </section>
 
   <?php /* ---------------------------------------------------------------
-           The four steps — Framer's Sticky Scroll Story
+           The four steps — Scroll Split Cards
            --------------------------------------------------------------- */ ?>
   <section class="tm-sec tm-process">
     <div class="tm-shell">
       <div class="tm-head">
         <p class="tm-eyebrow"><span class="tm-seat" aria-hidden="true"></span>The engagement</p>
         <h2 class="tm-title">Where collaboration meets<br><em>a bench that is already there</em></h2>
+        <p class="tm-sub">
+          Scroll down to explore how each phase stacks seamlessly into your workflow.
+        </p>
       </div>
     </div>
 
-    <div class="tm-story-host"
-         data-ok="sticky-scroll-story"
-         data-props='<?= e(json_encode([
-             'texts' => array_map(
-                 static fn (array $s): string => $s[0] . ' — ' . $s[1] . '. ' . $s[2],
-                 $steps
-             ),
-             'font'  => ['fontSize' => '1.5rem', 'fontWeight' => 600, 'lineHeight' => '1.5em'],
-         ], JSON_THROW_ON_ERROR)) ?>'>
-      <?php /* The same four steps in plain markup, so the section is complete
-               before the island mounts and for anything that never runs it. */ ?>
-      <ol class="tm-step-fallback">
-        <?php foreach ($steps as [$n, $t, $b]): ?>
-          <li><strong><?= e($n) ?> · <?= e($t) ?></strong><span><?= e($b) ?></span></li>
-        <?php endforeach; ?>
-      </ol>
+    <div class="tm-stack-reveal-wrap">
+      <div data-ok="stack-reveal-scroll"
+           data-props='<?= e(json_encode([
+               'panels' => [
+                   [
+                       'bigText' => '1',
+                       'badge' => 'Phase 01 · Discovery',
+                       'title' => 'Tell us the shape',
+                       'description' => 'A call about the work, not a CV parade. What you are building, what your team already covers, and the gap you actually need filled.',
+                       'tag' => 'Discovery Call',
+                       'bgColor' => 'linear-gradient(145deg, #081d2e 0%, #04111c 100%)',
+                       'numberColor' => '#22d3ee',
+                       'titleColor' => '#ffffff',
+                       'descriptionColor' => '#94a3b8',
+                       'borderColor' => 'rgba(34, 211, 238, 0.45)'
+                   ],
+                   [
+                       'bigText' => '2',
+                       'badge' => 'Phase 02 · Assembly',
+                       'title' => 'We assemble it',
+                       'description' => 'Within about two weeks you meet named people with the skills the work needs — not a pool, not a promise, the individuals who will do it.',
+                       'tag' => 'Two-Week Match',
+                       'bgColor' => 'linear-gradient(145deg, #0a1c42 0%, #050f24 100%)',
+                       'numberColor' => '#38bdf8',
+                       'titleColor' => '#ffffff',
+                       'descriptionColor' => '#94a3b8',
+                       'borderColor' => 'rgba(56, 189, 248, 0.45)'
+                   ],
+                   [
+                       'bigText' => '3',
+                       'badge' => 'Phase 03 · Integration',
+                       'title' => 'They join your cadence',
+                       'description' => 'Your standup, your board, your repository, your definition of done. They report the way your own engineers report.',
+                       'tag' => 'Day One Standup',
+                       'bgColor' => 'linear-gradient(145deg, #161245 0%, #0a0824 100%)',
+                       'numberColor' => '#818cf8',
+                       'titleColor' => '#ffffff',
+                       'descriptionColor' => '#94a3b8',
+                       'borderColor' => 'rgba(129, 140, 248, 0.45)'
+                   ],
+                   [
+                       'bigText' => '4',
+                       'badge' => 'Phase 04 · Scale',
+                       'title' => 'Scale as it changes',
+                       'description' => 'Grow the team for a push, shrink it after. Thirty days\' notice either way and no penalty for being honest about what you need.',
+                       'tag' => 'Quarterly Elasticity',
+                       'bgColor' => 'linear-gradient(145deg, #240d42 0%, #110522 100%)',
+                       'numberColor' => '#c084fc',
+                       'titleColor' => '#ffffff',
+                       'descriptionColor' => '#94a3b8',
+                       'borderColor' => 'rgba(192, 132, 252, 0.45)'
+                   ]
+               ],
+               'panelHeight' => 100,
+               'revealRatio' => 0.55,
+               'sliverDesktop' => 9.7,
+               'sliverTablet' => 6.0,
+               'sliverMobile' => 4.0,
+               'containerBg' => '#06080e',
+               'borderWidth' => 1,
+               'panelPadding' => '40px 24px'
+           ], JSON_THROW_ON_ERROR)) ?>'>
+      </div>
     </div>
 
     <div class="tm-shell tm-process-cta">
@@ -395,7 +488,7 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
   </section>
 
   <?php /* ---------------------------------------------------------------
-           Five commitments — Framer's Apple Glass Stack
+           Five commitments — Framer's Stack Reveal Scroll
            --------------------------------------------------------------- */ ?>
   <section class="tm-sec tm-proof">
     <div class="tm-shell">
@@ -408,38 +501,30 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
         </p>
       </div>
 
-      <?php /* The glass stack, given the props it actually needs.
-               First pass passed only title and body and left it in a 320px
-               box, so it laid five long items out in a ROW and clipped them —
-               its own default is vertical and it has fonts, padding and colour
-               of its own that were all sitting at Framer's defaults against
-               this page's dark ground. */ ?>
-      <div class="tm-glass-host"
-           data-ok="glass-stack"
-           data-props='<?= e(json_encode([
-               'items' => array_map(static fn (array $p, int $i): array => [
-                   'title'           => $p[0],
-                   'body'            => $p[1],
-                   'backgroundImage' => ['src' => $imgAbs('proof/' . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) . '.jpg'), 'alt' => $p[0]],
-               ], $proof, array_keys($proof)),
-               'direction'        => 'vertical',
-               'gap'              => 18,
-               'containerPadding' => 0,
-               'allowOverflow'    => false,
-               'backgroundColor'  => 'rgba(255, 255, 255, 0.06)',
-               'glassOpacity'     => 0.85,
-               'borderRadius'     => 20,
-               'padding'          => 34,
-               'titleFont'        => ['fontSize' => '24px', 'fontWeight' => 700, 'letterSpacing' => '-0.03em', 'lineHeight' => '1.2em'],
-               'bodyFont'         => ['fontSize' => '15px', 'fontWeight' => 400, 'letterSpacing' => '-0.005em', 'lineHeight' => '1.65em'],
-               'titleColor'       => '#EAF0FA',
-               'bodyColor'        => '#9AA7BD',
-           ], JSON_THROW_ON_ERROR)) ?>'>
-        <ul class="tm-proof-fallback">
-          <?php foreach ($proof as [$t, $b]): ?>
-            <li><strong><?= e($t) ?></strong><span><?= e($b) ?></span></li>
+      <div class="tm-stack-container" data-stack-container>
+        <div class="tm-stack-deck">
+          <?php foreach ($proof as $i => [$t, $b]): ?>
+            <article class="tm-stack-card" data-stack-card style="--i: <?= $i ?>; --n: <?= count($proof) ?>;">
+              <figure class="tm-stack-art">
+                <img src="<?= e($imgAbs('proof/' . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) . '.jpg')) ?>"
+                     alt="<?= e($t) ?>" loading="lazy" decoding="async">
+                <div class="tm-stack-scrim"></div>
+              </figure>
+              <div class="tm-stack-content">
+                <header class="tm-stack-header">
+                  <span class="tm-stack-num">Commitment 0<?= $i + 1 ?></span>
+                  <span class="tm-stack-status">Guaranteed in Contract</span>
+                </header>
+                <h3 class="tm-stack-title"><?= e($t) ?></h3>
+                <p class="tm-stack-body"><?= e($b) ?></p>
+                <div class="tm-stack-footer">
+                  <span class="tm-stack-check"><?= icon('check') ?> SLA Backed</span>
+                  <span class="tm-stack-dot"></span>
+                </div>
+              </div>
+            </article>
           <?php endforeach; ?>
-        </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -547,7 +632,12 @@ $splineScene = (defined('SPLINE_SCENE_TEAM') && SPLINE_SCENE_TEAM !== '')
 
 <?php /* The island that carries the Framer components — all seven on this page
          are mounted here for the first time on the site. */ ?>
-<script type="module" src="<?= e(asset('assets/dist/originkit/originkit.js')) ?>"></script>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
+
+<?php /* Metallic Cube Grid 3D Three.js & Controls */ ?>
+<script src="<?= e(asset('assets/vendor/three128/three.min.js')) ?>"></script>
+<script src="<?= e(asset('assets/vendor/three128/OrbitControls.js')) ?>"></script>
+<script src="<?= e(asset('assets/js/metallic-cube-grid.js')) ?>" defer></script>
 
 <?php /* This page's own behaviour: the three flipping model cards. */ ?>
 <script src="<?= e(asset('assets/js/team-page.js')) ?>" defer></script>

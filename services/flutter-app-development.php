@@ -126,8 +126,20 @@ require dirname(__DIR__) . '/includes/header.php';
 
       <div class="grid grid-3">
         <?php foreach ($svc['capabilities'] as $i => $cap): ?>
-          <article class="card card--numbered">
-            <span class="card-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
+          <?php
+          $capNum = str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
+          $capPhoto = 'assets/img/flutter-dev/cap-' . $capNum . '.jpg';
+          $hasCapPhoto = is_file(ROOT_PATH . '/' . $capPhoto);
+          ?>
+          <article class="card card--numbered<?= $hasCapPhoto ? ' card--photo' : '' ?>">
+            <?php if ($hasCapPhoto): ?>
+              <figure class="card-figure">
+                <img src="<?= e(asset($capPhoto)) ?>" width="600" height="400" alt="<?= e($cap['title']) ?>" loading="lazy" decoding="async">
+                <span class="card-figure-icon" style="color:var(--cyan);font-weight:700;font-family:var(--font-mono);font-size:.9rem;"><?= $capNum ?></span>
+              </figure>
+            <?php else: ?>
+              <span class="card-num"><?= $capNum ?></span>
+            <?php endif; ?>
             <h3 class="card-title"><?= e($cap['title']) ?></h3>
             <p class="card-body"><?= e($cap['body']) ?></p>
           </article>

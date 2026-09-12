@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- t stem with hook -->
+  <path d="M66 20 h20 v54 c0 11 9.5 17.5 19.5 14 C101 101 84 106 74.5 96.5 68.5 90.5 66 82.5 66 74 Z" fill="#6A3FE0"/>
+  
+  <!-- i dot (circle as path) -->
+  <path d="M 36, 10 a 12,12 0 1,0 0.00001,0 Z" fill="#3EE1FF"/>
+  
+  <!-- i stem (pill as path) -->
+  <path d="M 36,40 h 0 a 11,11 0 0,1 11,11 v 32 a 11,11 0 0,1 -11,11 h 0 a 11,11 0 0,1 -11,-11 v -32 a 11,11 0 0,1 11,-11 Z" fill="#3EE1FF"/>
+  
+  <!-- ribbon sweeping across -->
+  <path d="M13 90 c0-25 26-41 60-44 18-1.6 30 1.4 38 6.4 -12-2 -26 .6 -40 5.6 -24 8.6 -40 20.6 -44 36.6 -3 8 -12 6 -14-4.6 Z" fill="#1E90FF"/>
+</svg>

@@ -123,16 +123,36 @@ export default function ServicesSection({ onOpenConsultation }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredServices.map((service) => {
             const Icon = service.icon;
+            const capFolder = window.location.pathname.includes('flutter') ? 'flutter-dev' : 'mobile-dev';
+            const serviceImages = {
+              'ios': `assets/img/${capFolder}/new-service-ios-swift.jpg`,
+              'android': `assets/img/${capFolder}/new-service-android-kotlin.jpg`,
+              'flutter': `assets/img/${capFolder}/new-service-cross-platform.jpg`,
+              'ai-mobile': `assets/img/${capFolder}/new-service-ai-neural.jpg`,
+              'ui-ux': `assets/img/${capFolder}/new-service-ui-ergonomics.jpg`,
+              'enterprise': `assets/img/${capFolder}/new-service-enterprise-cloud.jpg`
+            };
+            const base = window.__ithriveBase || '/';
+            const imgPath = base + (serviceImages[service.id] || `assets/img/${capFolder}/new-service-ios-swift.jpg`);
+
             return (
               <div
                 key={service.id}
                 className="glass-panel p-6 rounded-3xl flex flex-col justify-between group transition-all duration-300 hover:-translate-y-2 border border-slate-800 hover:border-cyan-500/50"
               >
                 <div className="space-y-4">
-                  
-                  {/* Service Icon Box */}
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-all duration-300">
-                    <Icon className="w-6 h-6" />
+                  {/* Card Visual Banner */}
+                  <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-slate-800/80 bg-slate-900 group-hover:border-cyan-500/40 transition-colors">
+                    <img 
+                      src={imgPath} 
+                      alt={service.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      loading="lazy" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                    <div className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/30">
+                      <Icon className="w-5 h-5" />
+                    </div>
                   </div>
 
                   {/* Title with MouseOver Text Color Change */}

@@ -50,8 +50,16 @@ component('client-logo-grid');
 
     <div class="grid grid-2">
       <?php foreach (AI_SOLUTIONS as $i => $sol): ?>
-        <a class="card" href="<?= e(url('solutions/' . $sol['slug'] . '.php')) ?>" data-reveal style="--d:<?= $i ?>">
-          <span class="card-icon"><?= icon($sol['icon']) ?></span>
+        <?php
+        $solPhoto = $sol['slug'] === 'ithrive-insights'
+            ? 'assets/img/home/insights-preview.jpg'
+            : 'assets/img/home/aichat-preview.jpg';
+        ?>
+        <a class="card card--photo" href="<?= e(url('solutions/' . $sol['slug'] . '.php')) ?>" data-reveal style="--d:<?= $i ?>">
+          <figure class="card-figure">
+            <img src="<?= e(asset($solPhoto)) ?>" width="600" height="400" alt="<?= e($sol['name']) ?>" loading="lazy" decoding="async">
+            <span class="card-figure-icon"><?= icon($sol['icon']) ?></span>
+          </figure>
           <h3 class="card-title"><?= e($sol['name']) ?></h3>
           <p class="card-body" style="color:var(--text);font-size:1rem;margin-bottom:10px"><?= e($sol['tagline']) ?></p>
           <p class="card-body"><?= e($sol['short']) ?></p>

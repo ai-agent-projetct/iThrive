@@ -1,87 +1,103 @@
 /**
- * The Dedicated Engineering Team page's own behaviour.
- *
- * Two things: the hero arc spins under a drag, and the three hiring-model
- * cards turn over when clicked. Everything else is a Framer island or CSS.
- *
- * The arc's LAYOUT is not here — every card's place on the ring is computed in
- * CSS from its own --i, so it is correct before this file runs and stays
- * correct if it never does. This only adds the drag offset.
- *
- * Not here: the honeycomb (assets/js/hexbg.js draws it on every page) and
- * reveal-on-scroll (main.js observes every [data-reveal] site-wide). Both were
- * duplicated on an earlier page and the copies fought the originals.
+ * Dedicated Engineering Team Page Scripts
+ * - Scroll Split Cards interaction
+ * - Stack Reveal Scroll depth scaling
+ * - 3D Hiring Model card flip interaction
  */
 (function () {
   'use strict';
 
   /* ======================================================================
-     1. The hero arc — drag to spin it
+     1. Scroll Split Cards (Process section)
      ====================================================================== */
+  const splitTrack = document.querySelector('[data-split-track]');
+  if (splitTrack) {
+    const splitCards = Array.from(splitTrack.querySelectorAll('[data-split-card]'));
 
-  const arc = document.querySelector('[data-arc]');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-split-visible');
+          }
+        });
+      }, { threshold: 0.15 });
 
-  if (arc) {
-    const ring = arc.querySelector('[data-arc-ring]');
-    const cards = arc.querySelectorAll('.tm-arc-card').length || 10;
-    /* One card's worth of ring per this many pixels dragged. */
-    const PX_PER_CARD = 90;
+      splitCards.forEach((card) => observer.observe(card));
+    } else {
+      splitCards.forEach((card) => card.classList.add('is-split-visible'));
+    }
 
-    let angle = 0;
-    let from = null;
-    let base = 0;
+    // Interactive pointer response across cards
+    splitCards.forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.setProperty('--rx', (y * -6).toFixed(2) + 'deg');
+        card.style.setProperty('--ry', (x * 8).toFixed(2) + 'deg');
+      });
 
-    const set = (a) => { angle = a; ring.style.setProperty('--r', a.toFixed(2)); };
-
-    arc.addEventListener('pointerdown', (e) => {
-      from = e.clientX;
-      base = angle;
-      arc.classList.add('is-dragging');
-      arc.setPointerCapture(e.pointerId);
+      card.addEventListener('pointerleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+      });
     });
-
-    arc.addEventListener('pointermove', (e) => {
-      if (from === null) return;
-      set(base + (e.clientX - from) * (360 / cards) / PX_PER_CARD);
-    });
-
-    const release = () => {
-      if (from === null) return;
-      from = null;
-      arc.classList.remove('is-dragging');
-      /* Settle on the nearest card, so a card is always facing front. */
-      const step = 360 / cards;
-      set(Math.round(angle / step) * step);
-    };
-
-    arc.addEventListener('pointerup', release);
-    arc.addEventListener('pointercancel', release);
   }
 
   /* ======================================================================
-     2. The hiring-model cards
+     2. Stack Reveal Scroll (Proof commitments)
      ====================================================================== */
+  const stackContainer = document.querySelector('[data-stack-container]');
+  if (stackContainer) {
+    const stackCards = Array.from(stackContainer.querySelectorAll('[data-stack-card]'));
 
+    const updateStack = () => {
+      stackCards.forEach((card, i) => {
+        const rect = card.getBoundingClientRect();
+        const nextCard = stackCards[i + 1];
+
+        if (nextCard) {
+          const nextRect = nextCard.getBoundingClientRect();
+          // How much the next card has overlapped this card
+          const overlap = Math.max(0, Math.min(1, (rect.bottom - nextRect.top) / rect.height));
+          const scale = 1 - overlap * 0.04;
+          const brightness = 1 - overlap * 0.25;
+          card.style.transform = `scale(${scale.toFixed(4)})`;
+          card.style.filter = `brightness(${brightness.toFixed(4)})`;
+        } else {
+          card.style.transform = 'scale(1)';
+          card.style.filter = 'brightness(1)';
+        }
+      });
+    };
+
+    window.addEventListener('scroll', updateStack, { passive: true });
+    updateStack();
+  }
+
+  /* ======================================================================
+     3. Hiring Models: 3D Flipping Cards
+     ====================================================================== */
   const section = document.querySelector('[data-models]');
-  if (!section) return;
+  if (section) {
+    const cards = Array.from(section.querySelectorAll('[data-model]'));
 
-  const cards = Array.from(section.querySelectorAll('[data-model]'));
+    const turn = (card) => {
+      const now = !card.classList.contains('is-turned');
+      card.classList.toggle('is-turned', now);
+      card.setAttribute('aria-pressed', now ? 'true' : 'false');
+    };
 
-  const turn = (card) => {
-    const now = !card.classList.contains('is-turned');
-    card.classList.toggle('is-turned', now);
-    card.setAttribute('aria-pressed', now ? 'true' : 'false');
-  };
+    cards.forEach((card) => {
+      card.addEventListener('click', () => turn(card));
 
-  for (const card of cards) {
-    card.addEventListener('click', () => turn(card));
-
-    /* role="button" gets keyboard activation from us. Space is prevented so
-       the page does not scroll out from under the press. */
-    card.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      e.preventDefault();
-      turn(card);
+      card.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        turn(card);
+      });
     });
   }
+
 }());

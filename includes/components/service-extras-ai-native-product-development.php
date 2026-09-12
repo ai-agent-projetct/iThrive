@@ -164,7 +164,10 @@ $techName = [
  */
 $deckShots = [];
 foreach (range(1, 6) as $n) {
-    $file = 'assets/img/capabilities/cap-' . str_pad((string) $n, 2, '0', STR_PAD_LEFT) . '.jpg';
+    $file = 'assets/img/ai-native/cap-' . str_pad((string) $n, 2, '0', STR_PAD_LEFT) . '.jpg';
+    if (!is_file(ROOT_PATH . '/' . $file)) {
+        $file = 'assets/img/capabilities/cap-' . str_pad((string) $n, 2, '0', STR_PAD_LEFT) . '.jpg';
+    }
     if (is_file(ROOT_PATH . '/' . $file)) {
         $deckShots[] = asset($file);
     }
@@ -218,10 +221,26 @@ $deckShots = array_reverse($deckShots);
     ]); ?>
 
     <div class="grid grid-3">
+      <?php
+      $stagePhotos = [
+          'assets/img/ai-native/stage-01.jpg',
+          'assets/img/ai-native/stage-02.jpg',
+          'assets/img/ai-native/stage-03.jpg',
+          'assets/img/ai-native/stage-04.jpg',
+          'assets/img/ai-native/stage-05.jpg',
+          'assets/img/ai-native/stage-06.jpg',
+      ];
+      ?>
       <?php foreach ($stages as $i => $s): ?>
-        <article class="card card--numbered" data-reveal style="--d:<?= $i % 3 ?>">
-          <span class="card-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
-          <span class="card-icon"><?= icon($s['icon']) ?></span>
+        <?php
+        $sNum = str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
+        $sPhoto = $stagePhotos[$i % count($stagePhotos)];
+        ?>
+        <article class="card card--numbered card--photo" data-reveal style="--d:<?= $i % 3 ?>">
+          <figure class="card-figure">
+            <img src="<?= e(asset($sPhoto)) ?>" width="600" height="400" alt="<?= e($s['title']) ?>" loading="lazy" decoding="async">
+            <span class="card-figure-icon" style="color:var(--cyan);font-weight:700;font-family:var(--font-mono);font-size:.9rem;"><?= $sNum ?></span>
+          </figure>
           <h3 class="card-title"><?= e($s['title']) ?></h3>
           <p class="card-body"><?= e($s['body']) ?></p>
         </article>
@@ -415,10 +434,11 @@ $deckShots = array_reverse($deckShots);
         in dispute — and the gap compounds every quarter you wait.
       </p>
       <?php
-      // Origin Kit's Swipe Stack, dealt from the sites we have shipped.
+      // Origin Kit's Swipe Stack, dealt from AI-native products we have shipped.
+      $aiNativeWork = ['01', '02', '03', '04', '05', '06'];
       $deck = array_values(array_map(
-          static fn (array $w): array => ['src' => asset('assets/img/work/' . $w['slug'] . '.jpg')],
-          array_filter(WEB_WORK, static fn (array $w): bool => is_file(ROOT_PATH . '/assets/img/work/' . $w['slug'] . '.jpg'))
+          static fn (string $n): array => ['src' => asset('assets/img/ai-native/work-' . $n . '.jpg')],
+          array_filter($aiNativeWork, static fn (string $n): bool => is_file(ROOT_PATH . '/assets/img/ai-native/work-' . $n . '.jpg'))
       ));
       ?>
       <div class="ok-stack" data-ok="swipe-stack" aria-hidden="true"

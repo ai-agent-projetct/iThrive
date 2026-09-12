@@ -117,9 +117,9 @@ require __DIR__ . '/includes/header.php';
     <div class="grid grid-3">
       <?php
       $routes = [
-          ['icon' => 'layers',  'title' => 'Services',     'body' => 'Fifteen engineering services across AI, product, cloud and engagement models.', 'href' => 'services.php'],
-          ['icon' => 'sparkles','title' => 'Solutions',    'body' => 'iThrive Insights and iThrive AIChat — two proprietary AI products ready to deploy.', 'href' => 'solutions.php'],
-          ['icon' => 'target',  'title' => 'Case Studies', 'body' => 'Ten platforms in production across healthcare, mobility, manufacturing and retail.', 'href' => 'case-studies.php'],
+          ['icon' => 'layers',   'photo' => '404/nav-services.jpg',    'title' => 'Services',     'body' => 'Fifteen engineering services across AI, product, cloud and engagement models.', 'href' => 'services.php'],
+          ['icon' => 'sparkles', 'photo' => '404/nav-solutions.jpg',   'title' => 'Solutions',    'body' => 'iThrive Insights and iThrive AIChat — two proprietary AI products ready to deploy.', 'href' => 'solutions.php'],
+          ['icon' => 'target',   'photo' => '404/nav-casestudies.jpg', 'title' => 'Case Studies', 'body' => 'Ten platforms in production across healthcare, mobility, manufacturing and retail.', 'href' => 'case-studies.php'],
       ];
       foreach ($routes as $i => $route) {
           component('feature-card', ['item' => $route, 'index' => $i]);

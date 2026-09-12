@@ -87,8 +87,26 @@ if (!empty($heroComponent)) {
 
     <div class="grid grid-3">
       <?php foreach ($svc['capabilities'] as $i => $cap): ?>
-        <article class="card card--numbered" data-reveal style="--d:<?= $i % 3 ?>">
-          <span class="card-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
+        <?php
+        $capNum = str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
+        $slugFolder = match ($svc['slug']) {
+            'ai-enablement' => 'ai-enablement',
+            'ai-native-product-development' => 'ai-native',
+            'ecommerce-development' => 'ecommerce-dev',
+            default => null,
+        };
+        $capPhoto = $slugFolder !== null ? 'assets/img/' . $slugFolder . '/cap-' . $capNum . '.jpg' : null;
+        $hasCapPhoto = $capPhoto !== null && is_file(ROOT_PATH . '/' . $capPhoto);
+        ?>
+        <article class="card card--numbered<?= $hasCapPhoto ? ' card--photo' : '' ?>" data-reveal style="--d:<?= $i % 3 ?>">
+          <?php if ($hasCapPhoto): ?>
+            <figure class="card-figure">
+              <img src="<?= e(asset($capPhoto)) ?>" width="600" height="400" alt="<?= e($cap['title']) ?>" loading="lazy" decoding="async">
+              <span class="card-figure-icon" style="color:var(--cyan);font-weight:700;font-family:var(--font-mono);font-size:.9rem;"><?= $capNum ?></span>
+            </figure>
+          <?php else: ?>
+            <span class="card-num"><?= $capNum ?></span>
+          <?php endif; ?>
           <h3 class="card-title"><?= e($cap['title']) ?></h3>
           <p class="card-body"><?= e($cap['body']) ?></p>
         </article>
@@ -194,7 +212,7 @@ if (is_file(__DIR__ . '/../components/service-extras-' . $svc['slug'] . '.php'))
           static fn (array $s): bool => $s['group_slug'] === $svc['group_slug'] && $s['slug'] !== $svc['slug']
       ));
       foreach ($siblings as $i => $sibling) {
-          component('service-card', ['item' => $sibling, 'index' => $i % 3]);
+          component('service-card', ['item' => $sibling, 'index' => $i % 3, 'parentSlug' => $svc['slug']]);
       }
       ?>
     </div>

@@ -121,6 +121,9 @@ foreach (WEB_LOCATIONS as $loc) {
     ];
 }
 
+$extraHead = '<link rel="stylesheet" href="' . e(asset('assets/css/animos-web-3d.css')) . '">'
+           . '<link rel="stylesheet" href="' . e(asset('assets/css/web-originkit.css')) . '">';
+
 require dirname(__DIR__) . '/includes/header.php';
 ?>
 
@@ -135,7 +138,31 @@ require dirname(__DIR__) . '/includes/header.php';
            data-room="brief" data-room-hue="188" data-room-label="The Brief">
     <div class="shell">
       <p class="eyebrow"><?= e(WEB_HERO['eyebrow']) ?></p>
-      <h1 class="web-h1"><?= e(WEB_HERO['title']) ?></h1>
+      <h1 class="web-h1">
+        Websites that load in milliseconds and<br>
+        <span class="web-h1-lift" data-ok="text-lift"
+              data-props='<?= e(json_encode([
+                  'text'        => 'RANK ON PAGE ONE',
+                  'direction'   => 'bottomRight',
+                  'depth'       => 8,
+                  'spread'      => 1,
+                  'expand'      => 14,
+                  'fade'        => true,
+                  'filled'      => true,
+                  'stroke'      => 0,
+                  'frontColor'  => '#EAF0FA',
+                  'depthColor'  => '#00f2fe',
+                  'font'        => [
+                      'fontFamily'    => 'inherit',
+                      'fontWeight'    => 800,
+                      'fontSize'      => 'clamp(2rem, 1rem + 3.2vw, 3.8rem)',
+                      'letterSpacing' => '-0.02em',
+                      'lineHeight'    => '1.08',
+                  ],
+              ], JSON_THROW_ON_ERROR)) ?>'>
+          RANK ON PAGE ONE
+        </span>
+      </h1>
       <p class="web-lead"><?= e(WEB_HERO['lead']) ?></p>
 
       <div class="web-cta-row">
@@ -166,6 +193,27 @@ require dirname(__DIR__) . '/includes/header.php';
   <section class="section section--tight web-intro">
     <div class="shell">
       <?php component('section-head', ['eyebrow' => WEB_INTRO['eyebrow'], 'title' => WEB_INTRO['title']]); ?>
+      <div class="web-scroll-zoom-mount">
+        <div data-ok="scroll-zoom-reveal"
+             data-props='<?= e(json_encode([
+                 'leftText'           => 'YOUR WEBSITE IS',
+                 'rightText'          => 'NEVER SLEEPING',
+                 'buttonText'         => '3D Architecture Blueprint',
+                 'buttonLink'         => '#build',
+                 'image'              => asset('assets/img/web-dev/web-hero-architecture.jpg'),
+                 'textColor'          => '#FFFFFF',
+                 'buttonTextColor'    => '#00F2FE',
+                 'buttonBgColor'      => 'rgba(2, 4, 10, 0.85)',
+                 'animationStiffness' => 95,
+                 'animationDamping'   => 24,
+                 'animationMass'      => 0.6,
+                 'iconType'           => 'arrow',
+             ], JSON_THROW_ON_ERROR)) ?>'>
+          <noscript>
+            <img src="<?= e(asset('assets/img/web-dev/web-hero-architecture.jpg')) ?>" alt="3D Web Development Architecture" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </noscript>
+        </div>
+      </div>
       <div class="web-intro-copy">
         <?php foreach (WEB_INTRO['body'] as $para): ?>
           <p><?= e($para) ?></p>
@@ -174,16 +222,32 @@ require dirname(__DIR__) . '/includes/header.php';
     </div>
   </section>
 
-  <?php /* The reference the client sent (bestbeanbestcup.com.au) gets its 3D
-           feel from oversized kinetic type with imagery moving behind it, not
-           from WebGL — the site has no Three.js and no WebGL context at all.
-           This is that technique: the fill inside the letterforms is a strip of
-           the eight sites we have shipped, and it travels as the page scrolls.
-           background-clip on text is the whole trick. */ ?>
-  <section class="kinetic" aria-label="Websites built in Chennai, Coimbatore and Bangalore">
-    <div class="kinetic-track" data-kinetic>
-      <p class="kinetic-word" aria-hidden="true">WEBSITES</p>
-      <p class="kinetic-word kinetic-word--alt" aria-hidden="true">THAT&nbsp;RANK</p>
+  <?php /* Kinetic marquee powered by Origin Kit's Infinity Text */ ?>
+  <section class="kinetic" aria-label="Websites built in Chennai, Coimbatore and Bangalore" style="padding: 24px 0; overflow: hidden; background: rgba(2, 4, 10, 0.94); border-top: 1px solid rgba(0, 242, 254, 0.18); border-bottom: 1px solid rgba(0, 242, 254, 0.18);">
+    <div data-ok="infinity-text"
+         data-props='<?= e(json_encode([
+             'items' => [
+                 'SUB-SECOND LCP ACROSS INDIA & GLOBAL EDGES',
+                 'WCAG 2.2 AA ACCESSIBILITY IN EVERY SPRINT',
+                 'CUSTOM NEXT.JS 15 & REACT 19 ARCHITECTURES',
+                 'ZERO VENDOR LOCK-IN · 100% CODE OWNERSHIP',
+                 'ENGINEERED IN CHENNAI, COIMBATORE & BANGALORE',
+                 'STRUCTURED SCHEMA KNOWLEDGE GRAPHS FOR AEO',
+             ],
+             'font'  => [
+                 'fontSize'      => 'clamp(1.3rem, 2.4vw, 2.1rem)',
+                 'fontWeight'    => 800,
+                 'letterSpacing' => '0.04em',
+                 'lineHeight'    => '1.3',
+                 'fontFamily'    => 'monospace',
+             ],
+             'color' => '#00f2fe',
+             'speed' => 24,
+         ], JSON_THROW_ON_ERROR)) ?>'>
+      <div class="kinetic-track" data-kinetic>
+        <p class="kinetic-word" aria-hidden="true">WEBSITES</p>
+        <p class="kinetic-word kinetic-word--alt" aria-hidden="true">THAT&nbsp;RANK</p>
+      </div>
     </div>
     <p class="kinetic-sr sr-only">
       iThrive Software has built websites for Coonoor Club, Lotus Eye Hospital, Cute Crew,
@@ -202,14 +266,345 @@ require dirname(__DIR__) . '/includes/header.php';
                      . 'senior team, on the same performance and accessibility budget.',
       ]); ?>
 
-      <div class="grid grid-3 web-cards">
-        <?php foreach (WEB_SERVICES as $i => $s): ?>
-          <article class="card web-card" style="--i: <?= $i ?>">
-            <span class="web-card-icon"><?= icon($s['icon']) ?></span>
-            <h3 class="card-title"><?= e($s['title']) ?></h3>
-            <p class="card-body"><?= e($s['body']) ?></p>
-          </article>
-        <?php endforeach; ?>
+      <?php
+      $animosServices = [
+          [
+              'id'             => 'custom',
+              'num'            => '01',
+              'name'           => 'Custom Web Development',
+              'category'       => 'Enterprise Architecture & Micro-Frontends',
+              'tagline'        => 'Engineered from scratch for exact business workflows',
+              'badge'          => 'Production Proven',
+              'image'          => asset('assets/img/web-dev/web-arch-01.jpg'),
+              'legitimateUse'  => 'Custom business portals, multi-tenant SaaS interfaces, and bespoke checkout flows that commoditized templates cannot handle without breaking.',
+              'fashionableUse' => 'Installing 48 commercial WordPress plugins for features that require 30 lines of clean, tested TypeScript.',
+              'metrics'        => [
+                  ['label' => 'Global LCP', 'value' => '< 0.8s', 'sub' => 'Sub-second paint across edges'],
+                  ['label' => 'Type Safety', 'value' => '100%', 'sub' => 'Zero runtime type exceptions'],
+                  ['label' => 'Uptime SLA', 'value' => '99.99%', 'sub' => 'Resilient cloud architecture'],
+              ],
+              'stack'          => ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS', 'Node.js / FastAPI'],
+              'accentColor'    => '#00f2fe',
+              'glowColor'      => 'rgba(0, 242, 254, 0.4)',
+          ],
+          [
+              'id'             => 'responsive',
+              'num'            => '02',
+              'name'           => 'Responsive Web Design',
+              'category'       => 'Mobile-First & Adaptive Layouts',
+              'tagline'        => 'Interfaces that perform flawlessly from 320px phones to 4K displays',
+              'badge'          => 'Fluid Viewports',
+              'image'          => asset('assets/img/web-dev/web-arch-02.jpg'),
+              'legitimateUse'  => 'Complex touch gestures, dynamic viewports on modern folding devices, and low-latency mobile checkout where every millisecond counts.',
+              'fashionableUse' => 'Collapsing a desktop table into an unscrollable horizontal overflow on mobile screens.',
+              'metrics'        => [
+                  ['label' => 'Mobile Score', 'value' => '99/100', 'sub' => 'Google Mobile Usability'],
+                  ['label' => 'Frame Rate', 'value' => '60 FPS', 'sub' => 'Hardware-accelerated layout'],
+                  ['label' => 'Bounce Drop', 'value' => '−38%', 'sub' => 'Faster mobile interaction'],
+              ],
+              'stack'          => ['Modern CSS', 'Container Queries', 'Tailwind', 'Framer Motion'],
+              'accentColor'    => '#38bdf8',
+              'glowColor'      => 'rgba(56, 189, 248, 0.4)',
+          ],
+          [
+              'id'             => 'webapp',
+              'num'            => '03',
+              'name'           => 'Web Application Development',
+              'category'       => 'Real-Time Data & Interactive SPAs',
+              'tagline'        => 'Complex state management and real-time streaming interfaces',
+              'badge'          => 'High Concurrency',
+              'image'          => asset('assets/img/web-dev/web-arch-03.jpg'),
+              'legitimateUse'  => 'Real-time analytics dashboards, collaborative team boards, and offline-first PWA applications.',
+              'fashionableUse' => 'Re-rendering the entire DOM tree on every keystroke inside a form.',
+              'metrics'        => [
+                  ['label' => 'Sync Latency', 'value' => '< 45ms', 'sub' => 'WebSocket streaming data'],
+                  ['label' => 'Offline Ready', 'value' => '100%', 'sub' => 'Service worker local cache'],
+                  ['label' => 'State Recovery', 'value' => 'Instant', 'sub' => 'Optimistic UI update bus'],
+              ],
+              'stack'          => ['React', 'Zustand / TanStack', 'WebSockets', 'PostgreSQL', 'Redis'],
+              'accentColor'    => '#a855f7',
+              'glowColor'      => 'rgba(168, 85, 247, 0.4)',
+          ],
+          [
+              'id'             => 'ecommerce',
+              'num'            => '04',
+              'name'           => 'E-Commerce Websites',
+              'category'       => 'High-Throughput Commerce & Checkout',
+              'tagline'        => 'High-conversion checkouts engineered for zero cart friction',
+              'badge'          => 'Conversion Engine',
+              'image'          => asset('assets/img/web-dev/web-arch-04.jpg'),
+              'legitimateUse'  => 'Flash sales with 10k concurrent shoppers, instant UPI/card completion, and ERP inventory synchronization.',
+              'fashionableUse' => 'A 6-step checkout with 4 redirect hops that loses 60% of buyers at the payment step.',
+              'metrics'        => [
+                  ['label' => 'Conversion Lift', 'value' => '+28%', 'sub' => 'Streamlined 1-click checkout'],
+                  ['label' => 'Peak Concurrency', 'value' => '15k Req/s', 'sub' => 'Zero-downtime flash sales'],
+                  ['label' => 'Payment Rate', 'value' => '99.2%', 'sub' => 'Direct gateway auto-retry'],
+              ],
+              'stack'          => ['Next.js Commerce', 'Stripe / Razorpay', 'Shopify API', 'PostgreSQL Mirror'],
+              'accentColor'    => '#34d399',
+              'glowColor'      => 'rgba(52, 211, 153, 0.4)',
+          ],
+          [
+              'id'             => 'cms',
+              'num'            => '05',
+              'name'           => 'CMS & WordPress Development',
+              'category'       => 'Headless CMS & Content Systems',
+              'tagline'        => 'Empowering editors without compromising speed or security',
+              'badge'          => 'Editorial Freedom',
+              'image'          => asset('assets/img/web-dev/web-arch-05.jpg'),
+              'legitimateUse'  => 'Custom Gutenberg blocks, scheduled publishing, and headless GraphQL front ends that keep WordPress safe behind firewalls.',
+              'fashionableUse' => 'Buying bloated commercial themes that bundle 120MB of unused JavaScript.',
+              'metrics'        => [
+                  ['label' => 'Publish Speed', 'value' => '5x Faster', 'sub' => 'Zero dev reliance for copy'],
+                  ['label' => 'Attack Surface', 'value' => 'Zero', 'sub' => 'Headless static edge builds'],
+                  ['label' => 'CDN Hit Ratio', 'value' => '98.6%', 'sub' => 'Cached at the closest POP'],
+              ],
+              'stack'          => ['Headless WordPress', 'Sanity CMS', 'GraphQL', 'Next.js', 'Vercel / Cloudflare'],
+              'accentColor'    => '#f59e0b',
+              'glowColor'      => 'rgba(245, 158, 11, 0.4)',
+          ],
+          [
+              'id'             => 'redesign',
+              'num'            => '06',
+              'name'           => 'Website Redesign & Migration',
+              'category'       => 'Technical Migration & Replatforming',
+              'tagline'        => 'Modernize architecture without dropping hard-won organic traffic',
+              'badge'          => 'Zero Ranking Loss',
+              'image'          => asset('assets/img/web-dev/web-arch-06.jpg'),
+              'legitimateUse'  => '1-to-1 301 redirect parity, preserved structured data, and zero 404 dead links during corporate domain cutover.',
+              'fashionableUse' => 'Flipping DNS on a Friday night without redirect mappings and losing 80% of Google rankings.',
+              'metrics'        => [
+                  ['label' => 'Rankings Kept', 'value' => '100%', 'sub' => 'Zero organic search loss'],
+                  ['label' => 'URL Parity', 'value' => '10k+ Paths', 'sub' => 'Automated redirect audits'],
+                  ['label' => 'Speed Jump', 'value' => '+300%', 'sub' => 'Core Web Vitals greenline'],
+              ],
+              'stack'          => ['Cloudflare Workers', 'Automated Crawler Audits', 'Python Scrapy', 'Next.js'],
+              'accentColor'    => '#ec4899',
+              'glowColor'      => 'rgba(236, 72, 153, 0.4)',
+          ],
+          [
+              'id'             => 'seo',
+              'num'            => '07',
+              'name'           => 'Technical SEO Implementation',
+              'category'       => 'Engineered Crawlability & Schema',
+              'tagline'        => 'Structured data and server rendering that engines love to index',
+              'badge'          => 'Search Authority',
+              'image'          => asset('assets/img/web-dev/web-arch-07.jpg'),
+              'legitimateUse'  => 'JSON-LD semantic knowledge graphs, canonical structures, clean XML sitemaps, and server-side rendering for AI answer engines.',
+              'fashionableUse' => 'Keyword stuffing in meta tags and expecting rankings without semantic schema.',
+              'metrics'        => [
+                  ['label' => 'Index Velocity', 'value' => '< 24 Hours', 'sub' => 'For fresh content publish'],
+                  ['label' => 'Rich Snippets', 'value' => '100% Eligible', 'sub' => 'Valid schema across pages'],
+                  ['label' => 'Organic Lift', 'value' => '+140%', 'sub' => 'Over 6-month average'],
+              ],
+              'stack'          => ['Schema.org JSON-LD', 'Next.js SSR', 'Search Console API', 'Lighthouse CI'],
+              'accentColor'    => '#06b6d4',
+              'glowColor'      => 'rgba(6, 182, 212, 0.4)',
+          ],
+          [
+              'id'             => 'vitals',
+              'num'            => '08',
+              'name'           => 'Core Web Vitals & Speed Optimisation',
+              'category'       => 'Performance Budgets & CI Enforcement',
+              'tagline'        => 'Hard CI performance thresholds that block slow pull requests',
+              'badge'          => 'Sub-Second Speed',
+              'image'          => asset('assets/img/web-dev/web-arch-08.jpg'),
+              'legitimateUse'  => 'Sub-100ms TTFB via edge compute, modern image formats (AVIF/WebP), zero layout shifts (CLS < 0.02), and instantaneous INP.',
+              'fashionableUse' => 'Slapping a caching plugin over bloated 15MB assets and calling it optimized.',
+              'metrics'        => [
+                  ['label' => 'Lighthouse', 'value' => '100/100', 'sub' => 'Performance & SEO score'],
+                  ['label' => 'LCP Paint', 'value' => '0.65s', 'sub' => 'Well below 2.5s threshold'],
+                  ['label' => 'Layout Shift', 'value' => '0.001', 'sub' => 'Zero visual content jumps'],
+              ],
+              'stack'          => ['Edge CDNs', 'Vite / Webpack Optim', 'AVIF / WebP', 'Critical CSS'],
+              'accentColor'    => '#10b981',
+              'glowColor'      => 'rgba(16, 185, 129, 0.4)',
+          ],
+          [
+              'id'             => 'accessibility',
+              'num'            => '09',
+              'name'           => 'Web Accessibility (WCAG 2.2 AA)',
+              'category'       => 'Universal Access & Legal Immunity',
+              'tagline'        => 'Universal access tested with actual assistive hardware',
+              'badge'          => 'Inclusive By Design',
+              'image'          => asset('assets/img/web-dev/web-arch-09.jpg'),
+              'legitimateUse'  => 'Full keyboard navigation, screen reader ARIA landmarks, sufficient contrast ratios, and legal immunity against ADA/WCAG lawsuits.',
+              'fashionableUse' => 'Adding a cheap third-party accessibility overlay widget that violates privacy and fails basic screen readers.',
+              'metrics'        => [
+                  ['label' => 'WCAG Standard', 'value' => '2.2 AA', 'sub' => 'Certified compliant standard'],
+                  ['label' => 'Keyboard Path', 'value' => '100% Accessible', 'sub' => 'Zero focus trap issues'],
+                  ['label' => 'Contrast Ratio', 'value' => '> 7:1', 'sub' => 'Exceeds AAA typography standard'],
+              ],
+              'stack'          => ['Axe Core CI', 'NVDA / VoiceOver', 'Radix Primitives', 'Semantic HTML5'],
+              'accentColor'    => '#8b5cf6',
+              'glowColor'      => 'rgba(139, 92, 246, 0.4)',
+          ],
+          [
+              'id'             => 'maintenance',
+              'num'            => '10',
+              'name'           => 'Website Maintenance & Support',
+              'category'       => '24/7 Monitoring & Engineering Retainer',
+              'tagline'        => 'A senior engineer who knows your codebase and answers in minutes',
+              'badge'          => 'Enterprise SLA',
+              'image'          => asset('assets/img/web-dev/web-arch-10.jpg'),
+              'legitimateUse'  => 'Proactive weekly security patches, automated hourly database backups, 15-minute emergency SLA, and zero junior handoff.',
+              'fashionableUse' => 'A support ticket queue where tickets sit untouched for 5 days before an automated robot replies.',
+              'metrics'        => [
+                  ['label' => 'SLA Response', 'value' => '< 15 Min', 'sub' => 'Critical incident resolution'],
+                  ['label' => 'Uptime Guard', 'value' => '24/7/365', 'sub' => 'Global heartbeat polling'],
+                  ['label' => 'Backup Cycle', 'value' => '6 Hours', 'sub' => 'Automated off-site replication'],
+              ],
+              'stack'          => ['Datadog / Sentry', 'GitHub Actions', 'Docker Containers', 'AWS / DigitalOcean'],
+              'accentColor'    => '#f43f5e',
+              'glowColor'      => 'rgba(244, 63, 94, 0.4)',
+          ],
+      ];
+      $first = $animosServices[0];
+      ?>
+
+      <!-- ── Animos 3D Interactive Showcase ── -->
+      <div class="animos-showcase-wrap" data-animos-showcase>
+        <!-- JSON Data for instant client engine -->
+        <script type="application/json" id="animos-services-data"><?= json_encode($animosServices, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+
+        <div class="animos-controls-bar">
+          <!-- Category / Service Navigation Pills -->
+          <div class="animos-tabs-nav" role="tablist" aria-label="Web Development Services">
+            <?php foreach ($animosServices as $idx => $svc): ?>
+              <button type="button" class="animos-tab-btn<?= $idx === 0 ? ' is-active' : '' ?>"
+                      data-animos-tab="<?= $idx ?>"
+                      role="tab"
+                      aria-selected="<?= $idx === 0 ? 'true' : 'false' ?>"
+                      style="--active-accent: <?= e($svc['accentColor']) ?>">
+                <span class="animos-tab-num"><?= e($svc['num']) ?></span>
+                <span><?= e($svc['name']) ?></span>
+              </button>
+            <?php endforeach; ?>
+          </div>
+
+          <!-- View Mode Toggle -->
+          <div class="animos-view-toggle">
+            <button type="button" class="animos-toggle-btn is-active" data-view-toggle="studio" title="3D Animos Studio View">
+              ✦ 3D Studio
+            </button>
+            <button type="button" class="animos-toggle-btn" data-view-toggle="matrix" title="All Services Grid Matrix">
+              ▦ Matrix
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Perspective Stage -->
+        <div class="animos-stage" data-view-studio>
+          <div class="animos-card-container" data-animos-card style="--card-accent: <?= e($first['accentColor']) ?>; --card-accent-alpha: <?= e($first['glowColor']) ?>; --card-glow: <?= e($first['glowColor']) ?>;">
+            <!-- External 3D Gyro Rings -->
+            <div class="animos-gyro-ring-1" aria-hidden="true"></div>
+            <div class="animos-gyro-ring-2" aria-hidden="true"></div>
+
+            <!-- Card Body -->
+            <div class="animos-card-body">
+              <div class="animos-sheen" aria-hidden="true"></div>
+              <div class="animos-aura" aria-hidden="true"></div>
+
+              <!-- Top Bar -->
+              <div class="animos-layer animos-topbar">
+                <div class="animos-num-badge">
+                  <span class="animos-num-tag" data-animos-num><?= e($first['num']) ?></span>
+                  <span class="animos-cat-label" data-animos-cat><?= e($first['category']) ?></span>
+                </div>
+                <span class="animos-badge-pill" data-animos-badge>✦ <?= e($first['badge']) ?></span>
+              </div>
+
+              <!-- Title & Tagline -->
+              <div class="animos-layer animos-title-block">
+                <h3 class="animos-title" data-animos-title><?= e($first['name']) ?></h3>
+                <p class="animos-tagline" data-animos-tagline><?= e($first['tagline']) ?></p>
+              </div>
+
+              <!-- 3D Architecture Visual Frame -->
+              <div class="animos-layer animos-visual-frame">
+                <img class="animos-visual-img" data-animos-img src="<?= e($first['image']) ?>" alt="<?= e($first['name']) ?>" loading="lazy" decoding="async">
+                <div class="animos-visual-overlay" aria-hidden="true"></div>
+                <span class="animos-visual-crosshair" data-animos-crosshair>SYS::CUSTOM_v3D</span>
+              </div>
+
+              <!-- Reality Check: Legitimate vs Commodity -->
+              <div class="animos-layer animos-reality-check">
+                <div class="animos-check-box animos-check-box--pos">
+                  <div class="animos-check-head">
+                    <span>✓</span>
+                    <span class="animos-check-title">Where It Actually Pays</span>
+                  </div>
+                  <p class="animos-check-body" data-animos-legit><?= e($first['legitimateUse']) ?></p>
+                </div>
+                <div class="animos-check-box animos-check-box--neg">
+                  <div class="animos-check-head">
+                    <span>✕</span>
+                    <span class="animos-check-title">The Commodity Waste</span>
+                  </div>
+                  <p class="animos-check-body" data-animos-waste><?= e($first['fashionableUse']) ?></p>
+                </div>
+              </div>
+
+              <!-- Metrics Triad -->
+              <div class="animos-layer animos-metrics-row" data-animos-metrics>
+                <?php foreach ($first['metrics'] as $m): ?>
+                  <div class="animos-metric-tile">
+                    <span class="animos-metric-val"><?= e($m['value']) ?></span>
+                    <span class="animos-metric-label"><?= e($m['label']) ?></span>
+                    <span class="animos-metric-sub"><?= e($m['sub']) ?></span>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+
+              <!-- Production Tech Stack Tags -->
+              <div class="animos-layer animos-stack-row" data-animos-stack>
+                <span class="animos-stack-lead">Engineered In:</span>
+                <?php foreach ($first['stack'] as $item): ?>
+                  <span class="animos-stack-tag"><?= e($item) ?></span>
+                <?php endforeach; ?>
+              </div>
+
+              <!-- Footer Navigation -->
+              <div class="animos-layer animos-card-foot">
+                <div class="animos-nav-arrows">
+                  <button type="button" class="animos-arrow-btn" data-animos-prev aria-label="Previous Service">&larr;</button>
+                  <div class="animos-step-dots">
+                    <?php foreach ($animosServices as $idx => $svc): ?>
+                      <button type="button" class="animos-dot<?= $idx === 0 ? ' is-active' : '' ?>" data-animos-dot="<?= $idx ?>" aria-label="Jump to service <?= $idx + 1 ?>"></button>
+                    <?php endforeach; ?>
+                  </div>
+                  <button type="button" class="animos-arrow-btn" data-animos-next aria-label="Next Service">&rarr;</button>
+                </div>
+
+                <a class="animos-action-link" data-animos-action href="<?= e(url('contact.php?service=' . urlencode($first['name']))) ?>">
+                  <span>Start with this service</span>
+                  <?= icon('arrow') ?>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Crawlable Semantic Matrix View -->
+        <div class="animos-matrix-grid" data-view-matrix hidden>
+          <?php foreach ($animosServices as $idx => $svc): ?>
+            <article class="animos-matrix-card">
+              <figure class="animos-matrix-figure">
+                <img src="<?= e($svc['image']) ?>" alt="<?= e($svc['name']) ?>" loading="lazy" decoding="async">
+                <span class="animos-matrix-num"><?= e($svc['num']) ?></span>
+              </figure>
+              <div class="animos-matrix-body">
+                <h3 class="animos-matrix-title"><?= e($svc['name']) ?></h3>
+                <p class="animos-matrix-desc"><?= e($svc['legitimateUse']) ?></p>
+                <div class="animos-matrix-tags">
+                  <?php foreach ($svc['stack'] as $st): ?>
+                    <span><?= e($st) ?></span>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        </div>
       </div>
     </div>
   </section>
@@ -225,34 +620,106 @@ require dirname(__DIR__) . '/includes/header.php';
                      . 'URL from the first development sprint onward.',
       ]); ?>
 
-      <ol class="web-steps">
-        <?php foreach (WEB_PROCESS as $i => $step): ?>
-          <li class="web-step" style="--i: <?= $i ?>">
-            <span class="web-step-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
-            <div class="web-step-body">
-              <h3><?= e($step['title']) ?></h3>
-              <p><?= e($step['body']) ?></p>
-              <span class="web-step-days"><?= icon('clock') ?><?= e($step['days']) ?></span>
-            </div>
-          </li>
-        <?php endforeach; ?>
-      </ol>
+      <?php
+      $procImages = [
+          'assets/img/web-dev/web-proc-01.jpg',
+          'assets/img/web-dev/web-proc-02.jpg',
+          'assets/img/web-dev/web-proc-03.jpg',
+          'assets/img/web-dev/web-proc-04.jpg',
+          'assets/img/web-dev/web-proc-05.jpg',
+          'assets/img/web-dev/web-proc-06.jpg',
+      ];
+      $procDates = [
+          'WEEK 1 · DAYS 1–5',
+          'WEEK 2 · DAYS 6–12',
+          'WEEKS 3–4 · DAYS 13–26',
+          'WEEKS 5–8 · DAYS 27–55',
+          'WEEK 9 · DAYS 56–63',
+          'WEEK 10+ · DAY 64 ONWARD',
+      ];
+      $procMilestones = array_values(array_map(static fn (int $i, array $s): array => [
+          'title'    => $s['title'],
+          'date'     => $procDates[$i] ?? ('STAGE ' . ($i + 1) . ' · ' . $s['days']),
+          'caption'  => $s['days'] . ' · ' . substr($s['body'], 0, 48) . '...',
+          'flipText' => $s['body'],
+          'image'    => asset($procImages[$i % count($procImages)]),
+      ], array_keys(WEB_PROCESS), WEB_PROCESS));
+      ?>
+
+      <!-- Framer 3D Polaroid Timeline: Six Stages with Explicit Dates -->
+      <div class="web-polaroid-timeline-mount"
+           data-ok="polaroid-timeline"
+           data-props='<?= e(json_encode([
+               'milestones'      => $procMilestones,
+               'stringColor'     => '#00f2fe',
+               'pinColor'        => '#00f2fe',
+               'pinGlowColor'    => '#00f2fe',
+               'curveStyle'      => 'wavy',
+               'stringThickness' => 3,
+               'pinSize'         => 36,
+           ], JSON_THROW_ON_ERROR)) ?>'>
+      </div>
     </div>
   </section>
 
   <!-- ── Room 4 · The Gallery ───────────────────────────────────────── -->
-  <?php /* Full-bleed panels that slide sideways, the way 2025.unseen.co moves:
-           one site per screen, the capture playing behind the copy, and the
-           whole thing driven by the scroll you spend crossing the section.
-
-           The clips are scroll-throughs of the live sites, captured and encoded
-           rather than screenshotted — a still of a website tells you nothing
-           about how it behaves. MP4 rather than GIF: same autoplay-loop, a
-           fraction of the weight, and it can be told not to download until the
-           panel is close. */ ?>
   <section class="section hscroll hwork-full" id="work"
            data-room="work" data-room-hue="258" data-room-label="The Gallery"
            data-hscroll>
+    <div class="shell" style="margin-bottom: 24px;">
+      <?php
+      $workImages = array_map(
+          static fn (array $wk): string => asset('assets/img/work/' . $wk['slug'] . '.jpg'),
+          WEB_WORK
+      );
+      ?>
+      <div class="web-work-coverflow-island">
+        <div data-ok="coverflow-gallery"
+             data-props='<?= e(json_encode([
+                 'images' => $workImages,
+                 'layout' => [
+                     'cardWidth'  => 360,
+                     'cardHeight' => 460,
+                     'gap'        => 75,
+                     'radius'     => 18,
+                 ],
+                 'depth' => [
+                     'perspective'       => 1200,
+                     'rotation'          => 45,
+                     'scaleFalloff'      => 4,
+                     'minScale'          => 0.58,
+                     'opacityFalloff'    => 6,
+                     'minOpacity'        => 1,
+                     'brightnessFalloff' => 0.08,
+                 ],
+                 'motionSettings' => [
+                     'interaction'     => 'drag',
+                     'activeIndex'     => 2,
+                     'springPreset'    => 'Bouncy',
+                     'dragSensitivity' => 1,
+                 ],
+                 'styleSettings' => [
+                     'backgroundColor' => 'transparent',
+                     'borderWidth'     => 1,
+                     'borderColor'     => 'rgba(0, 242, 254, 0.35)',
+                     'shadow'          => true,
+                     'shadowColor'     => 'rgba(0, 0, 0, 0.75)',
+                     'shadowBlur'      => 40,
+                     'shadowY'         => 18,
+                     'activeGlow'      => true,
+                     'glowColor'       => 'rgba(0, 242, 254, 0.5)',
+                 ],
+                 'indicators' => [
+                     'showDots' => true,
+                 ],
+             ], JSON_THROW_ON_ERROR)) ?>'>
+        </div>
+        <p class="web-gallery-hint">
+          <?= icon('compass') ?> Drag horizontally to rotate through 3D client platforms
+        </p>
+      </div>
+    </div>
+
     <div class="hscroll-stage">
       <ol class="hscroll-track" data-hscroll-track>
 
@@ -329,33 +796,14 @@ require dirname(__DIR__) . '/includes/header.php';
                      . 'booking platform does, and pretending otherwise is how budgets disappear.',
       ]); ?>
 
-      <div class="web-stack-grid">
-        <?php
-        $stackGroups = [
-            'Front end'  => ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Vite', 'Alpine.js'],
-            'Back end'   => ['Python', 'Django', 'FastAPI', 'PHP 8', 'Laravel', 'Node.js'],
-            'Data'       => ['PostgreSQL', 'MySQL', 'Redis', 'Elasticsearch'],
-            'Content'    => ['WordPress', 'Headless CMS', 'Sanity', 'Custom admin'],
-            'Commerce'   => ['WooCommerce', 'Razorpay', 'Stripe', 'UPI'],
-            'Infra'      => ['Nginx', 'Cloudflare', 'AWS', 'Docker', 'GitHub Actions'],
-        ];
-        foreach ($stackGroups as $groupName => $tools): ?>
-          <div class="web-stack-group">
-            <h3><?= e($groupName) ?></h3>
-            <ul>
-              <?php foreach ($tools as $t): ?><li><?= e($t) ?></li><?php endforeach; ?>
-            </ul>
-          </div>
-        <?php endforeach; ?>
+      <!-- Origin Kit 3D Arc Wall -->
+      <div class="web-arc-wall-wrap">
+        <div data-ok="arc-3d-wall"></div>
       </div>
     </div>
   </section>
 
   <!-- ── Room 6 · The Floor ─────────────────────────────────────────── -->
-  <?php /* An icon wall. The detail is not printed under every tile — it arrives
-           when you point at one, so the grid reads as a set of marks rather
-           than twelve paragraphs. The copy is in the markup either way, so it
-           is there for a crawler and for anyone using a keyboard. */ ?>
   <section class="section web-industries" id="industries"
            data-room="industries" data-room-hue="292" data-room-label="The Floor">
     <div class="shell">
@@ -365,36 +813,84 @@ require dirname(__DIR__) . '/includes/header.php';
           'lead'    => 'Each one has its own conversion problem. Hover a sector to see what it is.',
       ]); ?>
 
-      <ul class="sector-wall">
-        <?php foreach (WEB_INDUSTRIES as $i => $ind): ?>
-          <li class="sector" tabindex="0" style="--i: <?= $i ?>">
-            <span class="sector-icon"><?= icon($ind['icon']) ?></span>
-            <span class="sector-name"><?= e($ind['title']) ?></span>
-            <span class="sector-body"><?= e($ind['body']) ?></span>
-          </li>
-        <?php endforeach; ?>
-      </ul>
+      <?php
+      $sectorFileMap = [
+          1  => 'sector-01-healthcare.jpg',
+          2  => 'sector-02-hospitality.jpg',
+          3  => 'sector-03-retail.jpg',
+          4  => 'sector-04-education.jpg',
+          5  => 'sector-05-manufacturing.jpg',
+          6  => 'sector-06-logistics.jpg',
+          7  => 'sector-07-travel.jpg',
+          8  => 'sector-08-professional.jpg',
+          9  => 'sector-09-food.jpg',
+          10 => 'sector-10-wellness.jpg',
+          11 => 'sector-11-fashion.jpg',
+          12 => 'sector-12-aerospace.jpg',
+      ];
+      $industryImages = array_map(static fn (int $n): array => [
+          'src'   => asset('assets/img/web-dev/sectors/' . $sectorFileMap[$n]),
+          'alt'   => WEB_INDUSTRIES[$n - 1]['title'] ?? 'Industry vertical',
+          'badge' => 'SECTOR ' . str_pad((string) $n, 2, '0', STR_PAD_LEFT),
+          'title' => WEB_INDUSTRIES[$n - 1]['title'] ?? 'Industry vertical',
+      ], range(1, 12));
+      ?>
+
+      <!-- Origin Kit 3D Bento Gallery -->
+      <div class="web-bento-wrap">
+        <div data-ok="bento-gallery" style="width: 100%; height: 100%;"
+             data-props='<?= e(json_encode([
+                 'images'            => $industryImages,
+                 'gridColumns'       => 4,
+                 'gridRows'          => 3,
+                 'gap'               => 12,
+                 'borderRadius'      => 16,
+                 'backgroundColor'   => 'transparent',
+                 'opacity'           => 0.94,
+                 'showOverlay'       => true,
+                 'overlayColor'      => '#02040a',
+                 'overlayOpacity'    => 0.22,
+                 'enableLightbox'    => true,
+                 'animationDuration' => 0.35,
+                 'grayscaleOnHover'  => false,
+             ], JSON_THROW_ON_ERROR)) ?>'>
+        </div>
+      </div>
     </div>
   </section>
 
-  <?php /* The rate card is gone. A price grid answers a question people ask
-           later than this; what belongs here is the same single call the mobile
-           page makes at this point in the scroll. */ ?>
-  <section class="section web-quote-cta">
-    <div class="shell">
-      <h2 class="web-quote-title">
-        Looking for a reliable <span class="web-quote-accent">website development partner?</span>
-      </h2>
-      <p class="web-quote-lead">
-        iThrive Software builds custom websites, e-commerce platforms and web applications for
-        businesses in Chennai, Coimbatore, Bangalore and across India — scoped, priced and dated
-        in writing before a line is written.
-      </p>
-      <div class="web-quote-actions">
-        <a class="btn btn-primary" href="<?= e(url('contact.php')) ?>">
-          Request Free Proposal &amp; Quote<?= icon('arrow') ?>
-        </a>
-        <a class="btn btn-ghost" href="#work">See the work</a>
+  <!-- ── Mid-Page CTA with Origin Kit Light On/Off ── -->
+  <section class="section web-quote-cta" style="position: relative; overflow: hidden;">
+    <div class="shell" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 44px; align-items: center;">
+      <div class="web-quote-content">
+        <h2 class="web-quote-title">
+          Looking for a reliable <span class="web-quote-accent">website development partner?</span>
+        </h2>
+        <p class="web-quote-lead">
+          iThrive Software builds custom websites, e-commerce platforms and web applications for
+          businesses in Chennai, Coimbatore, Bangalore and across India — scoped, priced and dated
+          in writing before a line is written.
+        </p>
+        <div class="web-quote-actions">
+          <a class="btn btn-primary" href="<?= e(url('contact.php')) ?>">
+            Request Free Proposal &amp; Quote<?= icon('arrow') ?>
+          </a>
+          <a class="btn btn-ghost" href="#work">See the work</a>
+        </div>
+      </div>
+
+      <div class="web-quote-interactive">
+        <div data-ok="light-on-off"
+             data-props='<?= e(json_encode([
+                 'baseSrc'        => asset('assets/img/light-on-off/base.jpg'),
+                 'topLightSrc'    => asset('assets/img/light-on-off/top-light.png'),
+                 'bottomLightSrc' => asset('assets/img/light-on-off/bottom-light.png'),
+                 'title'          => 'Power Up Your Project',
+                 'subtitle'       => 'Switch On Development',
+                 'initialTop'     => true,
+                 'initialBottom'  => true,
+             ], JSON_THROW_ON_ERROR)) ?>'>
+        </div>
       </div>
     </div>
   </section>
@@ -414,31 +910,55 @@ require dirname(__DIR__) . '/includes/header.php';
       ]); ?>
 
       <div class="swipe-wrap">
-        <div class="swipe-stack" data-swipe-stack
-             data-threshold="50" data-tilt-start="0" data-tilt="-45" data-x-offset="10"
-             role="group" aria-roledescription="card deck"
-             aria-label="What is different about working with iThrive Software">
-          <?php foreach (WEB_WHY as $i => $why): ?>
-            <article class="swipe-card" data-swipe-card
-                     style="--tint: <?= e(['#00F2FE', '#4EA8FF', '#9D4EDD', '#2FA36B', '#F2649B', '#C8A24A'][$i % 6]) ?>">
-              <span class="swipe-art" aria-hidden="true">
-                <?php /* draggable="false" is load-bearing: an <img> starts a
-                         native drag on pointerdown, which cancels the pointer
-                         stream the deck needs and stops the card cycling. */ ?>
-                <img src="<?= e(asset('assets/img/art/' . $why['art'] . '.svg')) ?>"
-                     width="560" height="420" loading="lazy" decoding="async"
-                     draggable="false" alt="">
-              </span>
-              <span class="swipe-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?> / <?= count(WEB_WHY) ?></span>
-              <h3 class="swipe-title"><?= e($why['title']) ?></h3>
-              <p class="swipe-body"><?= e($why['body']) ?></p>
-            </article>
-          <?php endforeach; ?>
-        </div>
+        <?php
+        $whyArtImages = [
+            'assets/img/web-dev/why/realtime-01-fixed-contract.jpg',
+            'assets/img/web-dev/why/realtime-02-senior-engineers.jpg',
+            'assets/img/web-dev/why/realtime-03-ip-ownership.jpg',
+            'assets/img/web-dev/why/realtime-04-lighthouse-speed.jpg',
+            'assets/img/web-dev/why/realtime-05-cms-architecture.jpg',
+            'assets/img/web-dev/why/realtime-06-dedicated-engineer.jpg',
+        ];
+        $whyDeck = array_map(static fn (string $img): array => [
+            'src' => asset($img),
+        ], $whyArtImages);
+        ?>
+        <div class="web-ok-swipe-container">
+          <div data-ok="swipe-stack"
+               data-props='<?= e(json_encode([
+                   'images'         => $whyDeck,
+                   'cardWidth'      => 440,
+                   'cardHeight'     => 560,
+                   'cardRadius'     => 18,
+                   'swipeThreshold' => 50,
+                   'tiltAngleStart' => 0,
+                   'tiltAngle'      => -14,
+                   'xOffset'        => 20,
+               ], JSON_THROW_ON_ERROR)) ?>'>
+            <div class="swipe-stack" data-swipe-stack
+                 data-threshold="50" data-tilt-start="0" data-tilt="-14" data-x-offset="12"
+                 role="group" aria-roledescription="card deck"
+                 aria-label="What is different about working with iThrive Software">
+              <?php foreach (WEB_WHY as $i => $why): ?>
+                <article class="swipe-card" data-swipe-card
+                         style="--tint: <?= e(['#00F2FE', '#4EA8FF', '#9D4EDD', '#2FA36B', '#F2649B', '#C8A24A'][$i % 6]) ?>">
+                  <span class="swipe-art" aria-hidden="true">
+                    <img src="<?= e(asset($whyArtImages[$i % count($whyArtImages)])) ?>"
+                         width="600" height="400" loading="lazy" decoding="async"
+                         draggable="false" alt="<?= e($why['title']) ?>">
+                  </span>
+                  <span class="swipe-num"><?= str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) ?> / <?= count(WEB_WHY) ?></span>
+                  <h3 class="swipe-title"><?= e($why['title']) ?></h3>
+                  <p class="swipe-body"><?= e($why['body']) ?></p>
+                </article>
+              <?php endforeach; ?>
+            </div>
+          </div>
 
-        <button class="swipe-next" type="button" data-swipe-next>
-          Next<?= icon('arrow') ?>
-        </button>
+          <button class="swipe-next" type="button" data-swipe-next>
+            Next<?= icon('arrow') ?>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -447,22 +967,45 @@ require dirname(__DIR__) . '/includes/header.php';
   <section class="section section--panel web-locations" id="locations"
            data-room="locations" data-room-hue="310" data-room-label="The Map Room">
     <div class="shell">
-      <?php component('section-head', [
-          'eyebrow' => 'Where We Work',
-          'title'   => 'Website development across Tamil Nadu, Bangalore and India',
-          'lead'    => 'Three studios, one delivery team. Discovery and design sign-off happen on-site '
-                     . 'in any of the three cities; everything after that runs against a staging URL.',
-      ]); ?>
+      <?php
+      $polaroidPhotos = [
+          [
+              'id'        => 'chennai',
+              'src'       => asset('assets/img/web-dev/city-chennai.jpg'),
+              'alt'       => 'Chennai Engineering Studio — Guindy Tech Corridor',
+              'col'       => 'left',
+              'angle'     => -7,
+              'speed'     => 1.15,
+              'topOffset' => 90,
+          ],
+          [
+              'id'        => 'coimbatore',
+              'src'       => asset('assets/img/web-dev/city-coimbatore.jpg'),
+              'alt'       => 'Coimbatore Development Hub — TIDEL Park Belt',
+              'col'       => 'center',
+              'angle'     => 5,
+              'speed'     => 0.95,
+              'topOffset' => 120,
+          ],
+          [
+              'id'        => 'bangalore',
+              'src'       => asset('assets/img/web-dev/city-bangalore.jpg'),
+              'alt'       => 'Bangalore Innovation Lab — Outer Ring Road Tech Hub',
+              'col'       => 'right',
+              'angle'     => 8,
+              'speed'     => 1.1,
+              'topOffset' => 105,
+          ],
+      ];
+      ?>
 
-      <div class="web-city-grid">
-        <?php foreach (WEB_LOCATIONS as $i => $loc): ?>
-          <article class="web-city" id="<?= e(strtolower($loc['city'])) ?>" style="--i: <?= $i ?>">
-            <span class="web-city-pin"><?= icon('pin') ?></span>
-            <h3><?= e($loc['heading']) ?></h3>
-            <p class="web-city-region"><?= e($loc['city']) ?>, <?= e($loc['region']) ?></p>
-            <p><?= e($loc['body']) ?></p>
-          </article>
-        <?php endforeach; ?>
+      <!-- Origin Kit 3D Polaroid Scroll Showcase: Three Physical Studios -->
+      <div class="web-polaroid-mount" data-ok="polaroid-scroll"
+           data-props='<?= e(json_encode([
+               'eyebrow' => 'Three Physical Studios',
+               'title'   => 'Chennai · Coimbatore · Bangalore',
+               'photos'  => $polaroidPhotos,
+           ], JSON_THROW_ON_ERROR)) ?>'>
       </div>
 
       <p class="web-reach">
@@ -509,5 +1052,7 @@ require dirname(__DIR__) . '/includes/header.php';
 <script src="<?= e(asset('assets/js/work-canvas.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/hscroll.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/swipe-stack.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/animos-web-3d.js')) ?>" defer></script>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 
 <?php require dirname(__DIR__) . '/includes/footer.php'; ?>

@@ -1,0 +1,196 @@
+/* ==========================================================================
+   Noah Miles Hero Theme for solutions.php
+   Inspired by https://noahmiles.framer.website/
+   ========================================================================== */
+
+.nm-hero-section {
+  position: relative;
+  padding: 110px 0 70px;
+  background-color: #000000;
+  border-bottom: 1px solid #1A202C;
+  overflow: hidden;
+}
+
+.nm-hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none;
+}
+
+.nm-hero-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 400px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0, 242, 254, 0.12) 0%, rgba(175, 83, 255, 0.06) 50%, transparent 80%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+.nm-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 28px;
+}
+
+.nm-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #00F2FE;
+  box-shadow: 0 0 8px #00F2FE;
+}
+
+.nm-pill-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E2E8F0;
+}
+
+.nm-wordmark {
+  font-size: clamp(3.5rem, 11vw, 8.5rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin: 0 0 24px;
+  background: linear-gradient(180deg, #FFFFFF 30%, #64748B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nm-lead {
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  line-height: 1.55;
+  color: #94A3B8;
+  max-width: 860px;
+  margin: 0 auto 36px;
+}
+
+.nm-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.nm-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #030712;
+  background: linear-gradient(135deg, #00F2FE 0%, #3B82F6 100%);
+  text-decoration: none;
+  box-shadow: 0 10px 25px -5px rgba(0, 242, 254, 0.4);
+  transition: all 0.25s ease;
+}
+
+.nm-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px -5px rgba(0, 242, 254, 0.6);
+  color: #030712;
+}
+
+.nm-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.nm-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(0, 242, 254, 0.5);
+  color: #00F2FE;
+  transform: translateY(-2px);
+}
+
+.nm-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 24px 30px;
+  background: rgba(10, 15, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+}
+
+.nm-metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nm-metric-item:last-child {
+  border-right: none;
+}
+
+.nm-metric-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #00F2FE;
+  margin-bottom: 4px;
+}
+
+.nm-metric-label {
+  font-size: 12px;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .nm-hero-section {
+    padding: 70px 0 50px;
+  }
+  .nm-metrics-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .nm-metric-item:nth-child(2) {
+    border-right: none;
+  }
+}
+
+.nm-hero-section [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+}

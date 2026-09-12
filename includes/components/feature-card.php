@@ -20,9 +20,16 @@ $Tag   = $href !== null ? 'a' : 'article';
  */
 $photo = null;
 if (!empty($item['photo'])) {
-    $rel = 'assets/img/cards/photo/' . $item['photo'] . '.jpg';
-    if (is_file(ROOT_PATH . '/' . $rel)) {
-        $photo = $rel;
+    if (is_file(ROOT_PATH . '/' . $item['photo'])) {
+        $photo = $item['photo'];
+    } elseif (is_file(ROOT_PATH . '/' . $item['photo'] . '.jpg')) {
+        $photo = $item['photo'] . '.jpg';
+    } elseif (is_file(ROOT_PATH . '/assets/img/' . $item['photo'])) {
+        $photo = 'assets/img/' . $item['photo'];
+    } elseif (is_file(ROOT_PATH . '/assets/img/' . $item['photo'] . '.jpg')) {
+        $photo = 'assets/img/' . $item['photo'] . '.jpg';
+    } elseif (is_file(ROOT_PATH . '/assets/img/cards/photo/' . $item['photo'] . '.jpg')) {
+        $photo = 'assets/img/cards/photo/' . $item['photo'] . '.jpg';
     }
 }
 ?>

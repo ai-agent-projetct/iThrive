@@ -207,4 +207,31 @@
       faqs.forEach((other) => { if (other !== item) other.open = false; });
     });
   });
+
+  /* ---- Trionova-style cost calculator / pricing reveal drawer ----------- */
+
+  const costToggle = root.querySelector('[data-cost-toggle]');
+  const costDrawer = root.querySelector('[data-cost-drawer]');
+
+  if (costToggle && costDrawer) {
+    costToggle.addEventListener('click', () => {
+      const isExpanded = costToggle.getAttribute('aria-expanded') === 'true';
+      const newState = !isExpanded;
+      costToggle.setAttribute('aria-expanded', String(newState));
+      costDrawer.classList.toggle('is-open', newState);
+      costDrawer.setAttribute('aria-hidden', String(!newState));
+
+      const toggleText = costToggle.querySelector('.sd-cost-toggle-text');
+      if (toggleText) {
+        toggleText.textContent = newState ? 'Hide Detailed Pricing & Timelines' : 'View Detailed Pricing & Timelines';
+      }
+
+      if (newState) {
+        setTimeout(() => {
+          costDrawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 120);
+      }
+    });
+  }
 })();
+

@@ -112,6 +112,23 @@ export default function HeroSection({
               </a>
             </div>
 
+            {/* Hero Visual Image Showcase Badge */}
+            <div className="pt-3 flex items-center justify-center md:justify-start gap-3">
+              <div className="relative w-16 h-12 rounded-xl overflow-hidden border border-cyan-500/40 shrink-0 shadow-lg shadow-cyan-500/20 bg-slate-900">
+                <img 
+                  src={(typeof window !== 'undefined' ? (window.__ithriveBase || '/') : '/') + 'assets/img/' + (typeof window !== 'undefined' && window.location && window.location.pathname.includes('flutter') ? 'flutter-dev' : 'mobile-dev') + '/new-hero-mobile-architecture.jpg'}
+                  alt="Flagship Flutter Mobile Architecture"
+                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-bold text-slate-100 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> 50+ Production Mobile Apps Shipped
+                </p>
+                <p className="text-[11px] text-slate-400">Native Swift, Kotlin & Flutter Dart Codebases</p>
+              </div>
+            </div>
+
             {/* The three screen-selector buttons that stood here drove
                 Phone3DCanvasV2, which the App Universe replaced. They were left
                 pointing at nothing, so they are gone rather than decorative. */}

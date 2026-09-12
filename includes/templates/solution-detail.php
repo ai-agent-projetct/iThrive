@@ -96,6 +96,7 @@ $panels = $sol['slug'] === 'ithrive-aichat'
         ['cap-03', 'Evaluation harness — a golden dataset and an automated eval suite on every prompt or model change, so regressions are caught in CI.'],
         ['cap-06', 'Observability — full trace capture on every run: tokens, latency, tool calls and cost, broken down by customer and by feature.'],
       ];
+$figDir = $sol['slug'] === 'ithrive-aichat' ? 'aichat/' : 'insights/';
 ?>
 <section class="section">
   <div class="shell">
@@ -107,7 +108,7 @@ $panels = $sol['slug'] === 'ithrive-aichat'
 
     <div class="grid grid-3 figure-row">
       <?php foreach ($panels as [$img, $caption]): ?>
-        <?php component('page-figure', ['src' => 'capabilities/' . $img, 'ratio' => '3 / 2', 'caption' => $caption]); ?>
+        <?php component('page-figure', ['src' => $figDir . $img, 'ratio' => '3 / 2', 'caption' => $caption]); ?>
       <?php endforeach; ?>
     </div>
   </div>
@@ -153,8 +154,16 @@ $panels = $sol['slug'] === 'ithrive-aichat'
 
     <div class="grid grid-2">
       <?php foreach (AI_SOLUTIONS as $i => $other): ?>
-        <a class="card" href="<?= e(url('solutions/' . $other['slug'] . '.php')) ?>" data-reveal style="--d:<?= $i ?>">
-          <span class="card-icon"><?= icon($other['icon']) ?></span>
+        <?php
+        $otherPhoto = $sol['slug'] === 'ithrive-insights'
+            ? ($other['slug'] === 'ithrive-insights' ? 'assets/img/insights/cap-01.jpg' : 'assets/img/insights/aichat-teaser.jpg')
+            : ($other['slug'] === 'ithrive-aichat' ? 'assets/img/aichat/cap-01.jpg' : 'assets/img/aichat/insights-teaser.jpg');
+        ?>
+        <a class="card card--photo" href="<?= e(url('solutions/' . $other['slug'] . '.php')) ?>" data-reveal style="--d:<?= $i ?>">
+          <figure class="card-figure">
+            <img src="<?= e(asset($otherPhoto)) ?>" width="600" height="400" alt="<?= e($other['name']) ?>" loading="lazy" decoding="async">
+            <span class="card-figure-icon"><?= icon($other['icon']) ?></span>
+          </figure>
           <h3 class="card-title"><?= e($other['name']) ?><?= $other['slug'] === $sol['slug'] ? ' — you are here' : '' ?></h3>
           <p class="card-body"><?= e($other['tagline']) ?></p>
           <span class="card-link"><?= $other['slug'] === $sol['slug'] ? 'Back to top' : 'Explore ' . e($other['name']) ?><?= icon('arrow') ?></span>

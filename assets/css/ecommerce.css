@@ -1,0 +1,680 @@
+/* =========================================================================
+   E-Commerce Development — Stylesheet
+   Tailored for OriginKit Fibre Arc WebGL integration, Framer 3D components,
+   30-image showcases, and immersive 3D spatial commerce infrastructure layouts.
+   ========================================================================= */
+
+/* ---------- Section 2: Enterprise Mobile E-Commerce App Engineering ---------- */
+.ecom-app-section {
+  position: relative;
+  overflow: hidden;
+  background: #060913;
+  width: 100%;
+  min-height: clamp(700px, 56.25vw, auto);
+  padding: clamp(80px, 8vw, 130px) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 1px solid rgba(0, 242, 254, 0.12);
+  border-bottom: 1px solid rgba(178, 75, 243, 0.12);
+}
+
+.ecom-app-section [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+.ecom-app-bg-glow {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1400px;
+  height: 650px;
+  background: radial-gradient(ellipse at center, rgba(0, 242, 254, 0.16) 0%, rgba(124, 58, 237, 0.10) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ecom-app-content {
+  position: relative;
+  z-index: 2;
+}
+
+.ecom-app-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px solid rgba(0, 242, 254, 0.35);
+  border-radius: 9999px;
+  color: #3EE1FF;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  box-shadow: 0 0 24px rgba(0, 242, 254, 0.18);
+}
+
+.ecom-app-title {
+  font-size: clamp(2.3rem, 4.6vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  max-width: 1040px;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+}
+
+.ecom-app-title .text-gradient {
+  background: linear-gradient(135deg, #3EE1FF 0%, #1E90FF 35%, #7C3AED 70%, #B24BF3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ecom-app-lead {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.65;
+  color: #C0CDE0;
+  max-width: 900px;
+  margin-bottom: 36px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.ecom-app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  margin-top: 48px;
+  max-width: 100%;
+}
+
+.ecom-app-card {
+  background: rgba(14, 20, 31, 0.72);
+  border: 1px solid rgba(62, 225, 255, 0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 18px;
+  padding: 30px 28px;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ecom-app-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3EE1FF, #7C3AED, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ecom-app-card:hover {
+  transform: translateY(-6px) translateZ(0);
+  border-color: rgba(62, 225, 255, 0.55);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 35px rgba(0, 242, 254, 0.22);
+}
+
+.ecom-app-card:hover::before {
+  opacity: 1;
+}
+
+.ecom-app-card-num {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #3EE1FF;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.ecom-app-card-title {
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.ecom-app-card-desc {
+  font-size: 0.94rem;
+  line-height: 1.58;
+  color: #9AA7BD;
+  margin: 0;
+}
+
+.ecom-app-showcase {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  align-items: center;
+  background: rgba(10, 15, 26, 0.65);
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 960px) {
+  .ecom-app-showcase {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ecom-app-specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ecom-app-spec-box {
+  background: rgba(18, 26, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+
+.ecom-app-spec-box .val {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #00F2FE;
+  margin-bottom: 4px;
+}
+
+.ecom-app-spec-box .lbl {
+  font-size: 0.82rem;
+  color: #94A3B8;
+  line-height: 1.4;
+}
+
+/* ---------- Fullscreen Widescreen Layout (Not in a Box) ---------- */
+.ecom-widescreen-shell {
+  width: 100%;
+  max-width: 1720px;
+  padding-inline: clamp(24px, 4vw, 80px);
+  margin-inline: auto;
+}
+
+.ecom-section-16-9 {
+  width: 100%;
+  padding: clamp(60px, 6vw, 100px) 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ---------- Fullscreen Widescreen Layout (Not in a Box) ---------- */
+.ecom-widescreen-shell {
+  width: 100%;
+  max-width: 1720px;
+  padding-inline: clamp(24px, 4vw, 80px);
+  margin-inline: auto;
+}
+
+.ecom-section-16-9 {
+  width: 100%;
+  padding: clamp(60px, 6vw, 100px) 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ---------- Interactive 3D Spatial Stages (Full Screen 16:9, Not in Box) ---------- */
+.ecom-3d-stage {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  aspect-ratio: 16 / 9;
+  min-height: clamp(560px, 56.25vw, 100vh);
+  height: clamp(560px, 56.25vw, 100vh);
+  border-radius: 0; /* NOT IN BOX */
+  border: none;     /* NOT IN BOX */
+  border-top: 1px solid rgba(62, 225, 255, 0.15);
+  border-bottom: 1px solid rgba(62, 225, 255, 0.15);
+  background: radial-gradient(130% 100% at 50% 10%, rgba(30, 144, 255, 0.08) 0%, rgba(11, 15, 23, 0.98) 60%, #05080E 100%);
+  box-shadow: none; /* NOT IN BOX */
+  overflow: hidden;
+  margin-top: 36px;
+  margin-bottom: 56px;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+.ecom-3d-stage-header {
+  position: absolute;
+  top: 24px;
+  left: clamp(24px, 4vw, 80px);
+  right: clamp(24px, 4vw, 80px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.ecom-3d-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(11, 15, 23, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(62, 225, 255, 0.35);
+  border-radius: 9999px;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #3EE1FF;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+.ecom-3d-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.05em;
+  background: rgba(11, 15, 23, 0.75);
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ecom-3d-stage-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.ecom-3d-stage [data-ok] {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.ecom-3d-stage--swipestack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- 3D Perspective Image Card Grid ---------- */
+.ecom-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  width: 100%;
+}
+
+.ecom-cards-grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.ecom-cards-grid--5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.ecom-img-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(165deg, rgba(20, 28, 44, 0.85) 0%, rgba(10, 14, 22, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) translateZ(0);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+.ecom-img-card:hover {
+  transform: perspective(1000px) translateY(-8px) translateZ(20px) rotateX(3.5deg);
+  border-color: rgba(62, 225, 255, 0.45);
+  box-shadow: 0 28px 56px -12px rgba(0, 0, 0, 0.85), 0 0 28px rgba(62, 225, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.ecom-img-figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #06090F;
+  margin: 0;
+  transform-style: preserve-3d;
+}
+
+.ecom-img-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
+  filter: saturate(1.08) contrast(1.03);
+}
+
+.ecom-img-card:hover .ecom-img-figure img {
+  transform: scale(1.06) translateZ(12px);
+}
+
+.ecom-img-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 13px;
+  border-radius: 9999px;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  background: rgba(11, 15, 23, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(62, 225, 255, 0.35);
+  color: #3EE1FF;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  transform: translateZ(18px);
+}
+
+.ecom-img-stat {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  padding: 5px 13px;
+  border-radius: 8px;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  background: rgba(11, 15, 23, 0.92);
+  backdrop-filter: blur(14px);
+  border: 1px solid #00F2FE;
+  color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.35);
+  transform: translateZ(22px);
+}
+
+.ecom-img-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: transparent;
+  transform: translateZ(10px);
+}
+
+.ecom-img-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.ecom-img-desc {
+  font-size: 0.92rem;
+  line-height: 1.54;
+  color: #9AA7BD;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .ecom-cards-grid--5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1080px) {
+  .ecom-cards-grid,
+  .ecom-cards-grid--4,
+  .ecom-cards-grid--5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ecom-3d-stage {
+    aspect-ratio: auto;
+    height: 520px;
+    min-height: 480px;
+  }
+  .ecom-chennai-section {
+    padding: 80px 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .ecom-cards-grid,
+  .ecom-cards-grid--4,
+  .ecom-cards-grid--5 {
+    grid-template-columns: 1fr;
+  }
+  .ecom-3d-stage {
+    aspect-ratio: auto;
+    height: 420px;
+    min-height: 380px;
+  }
+  .ecom-chennai-section {
+    padding: 60px 0 80px;
+  }
+  .ecom-3d-hint {
+    display: none;
+  }
+}
+
+/* ---------- Cinematic CTA Panel ---------- */
+.ecom-cta-panel {
+  max-width: 100%;
+  padding: clamp(60px, 7vw, 110px) clamp(24px, 5vw, 90px);
+  border-radius: 28px;
+  background: radial-gradient(1200px 500px at 50% 0%, rgba(0, 242, 254, 0.16) 0%, rgba(124, 58, 237, 0.16) 45%, rgba(11, 15, 23, 0.95) 100%);
+  border: 1px solid rgba(62, 225, 255, 0.28);
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7), 0 0 50px rgba(0, 242, 254, 0.12);
+}
+
+.ecom-cta-panel h2 {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.ecom-cta-panel p {
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  max-width: 70ch;
+  line-height: 1.6;
+}
+
+
+
+/* =========================================================================
+   Interactive Technology Matrix (Matching AI Development Company Aesthetic)
+   ========================================================================= */
+.ecom-tech-section {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 10%, rgba(62, 225, 255, 0.06) 0%, #0B0F17 65%);
+}
+
+.tech-tabs-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3.5rem;
+}
+
+.ecom-tech-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  background: rgba(11, 14, 28, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0.65rem;
+  border-radius: 9999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(62, 225, 255, 0.06);
+}
+
+.ecom-tech-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #9AA7BD;
+  padding: 0.65rem 1.35rem;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  position: relative;
+  outline: none;
+}
+
+.ecom-tech-tab-btn i {
+  font-size: 0.95rem;
+  color: #3EE1FF;
+  transition: transform 0.28s ease, color 0.28s ease;
+}
+
+.ecom-tech-tab-btn:hover {
+  color: #FFF;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(62, 225, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.ecom-tech-tab-btn:hover i {
+  transform: scale(1.15);
+}
+
+.ecom-tech-tab-btn.active {
+  background: linear-gradient(135deg, rgba(62, 225, 255, 0.22) 0%, rgba(59, 94, 253, 0.28) 50%, rgba(178, 75, 243, 0.22) 100%);
+  border: 1px solid rgba(62, 225, 255, 0.6);
+  color: #FFF;
+  font-weight: 700;
+  box-shadow: 0 0 25px rgba(62, 225, 255, 0.35), inset 0 0 12px rgba(62, 225, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.ecom-tech-tab-btn.active i {
+  color: #3EE1FF;
+  text-shadow: 0 0 10px rgba(62, 225, 255, 0.8);
+}
+
+.interactive-grid-container {
+  position: relative;
+  width: 100%;
+}
+
+.grid-spotlight-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle 420px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(62, 225, 255, 0.12), transparent 75%);
+  z-index: 1;
+  transition: opacity 0.2s ease;
+}
+
+.ecom-tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.interactive-cell {
+  background: rgba(14, 20, 31, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.85rem 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.interactive-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(62, 225, 255, 0.45), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.interactive-cell:hover {
+  border-color: rgba(62, 225, 255, 0.55);
+  transform: perspective(800px) translateY(-6px) scale3d(1.04, 1.04, 1.04);
+  box-shadow: 0 20px 45px -10px rgba(62, 225, 255, 0.3), 0 0 20px rgba(62, 225, 255, 0.15);
+  background: linear-gradient(180deg, rgba(18, 23, 48, 0.95) 0%, rgba(11, 14, 28, 0.95) 100%);
+}
+
+.interactive-cell:hover::before {
+  opacity: 1;
+}
+
+.tech-icon {
+  font-size: 2.4rem;
+  color: #3EE1FF;
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+}
+
+.interactive-cell:hover .tech-icon {
+  transform: scale(1.18) rotate(4deg);
+}
+
+.tech-name {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #FFF;
+  letter-spacing: -0.01em;
+  transition: color 0.25s ease;
+}
+
+.interactive-cell:hover .tech-name {
+  color: #3EE1FF;
+}
+
+.tech-cat {
+  font-size: 0.78rem;
+  color: #8E9DB5;
+  line-height: 1.35;
+  font-family: var(--mono, monospace);
+  letter-spacing: 0.02em;
+}
