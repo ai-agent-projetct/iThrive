@@ -155,34 +155,135 @@
 .ms-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
 .ms-actions--mid { justify-content: center; }
 
-/* --- Hero: a CSS 3D stack ------------------------------------------------- */
+/* --- Hero: the tear reveal ------------------------------------------------ */
 
-/* The site header is fixed at --header-h, so the hero has to start below it —
-   at 375px the old 7vw top padding resolved to 48px and the eyebrow ran under
-   the logo. */
-.ms-hero {
+/* Two renders of one hall, stacked and registered: the scene in the <img>, the
+   empty room painted over it on the canvas. assets/js/neon-reveal.js reads the
+   three --fit-* properties below so its canvas crops exactly like the <img>.
+
+   The site header is fixed at --header-h, so the copy has to clear it — at
+   375px the old 7vw top padding resolved to 48px and the eyebrow ran under the
+   logo. */
+.ms-neon {
+  --fit-cover: 1;      /* 1 = fill the frame (crop), 0 = fit the whole frame in */
+  --fit-ar: .5628;     /* the art's height / width — 1672 x 941 */
+  --fit-y: .5;         /* where fitted art sits vertically */
+
   position: relative;
-  padding: calc(var(--header-h, 76px) + clamp(28px, 5vw, 64px)) 0 clamp(56px, 7vw, 100px);
+  display: flex;
+  align-items: flex-end;
+  min-height: 100dvh;
+  padding: calc(var(--header-h, 76px) + clamp(20px, 3vw, 40px)) 0 clamp(32px, 5vh, 72px);
   overflow: hidden;
+  cursor: crosshair;
 }
 
-.ms-hero-wash {
+.ms-neon-bleed,
+.ms-neon-back,
+.ms-neon-veil,
+.ms-neon-scrim {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  background: radial-gradient(46% 52% at 74% 40%, rgba(0, 242, 254, 0.10) 0%, transparent 66%);
 }
 
-/* The stage takes the wider column: six fanned shards need about 560px before
-   they stop being a deck of cards seen edge-on. */
-.ms-hero-grid {
+/* Stretched rather than cropped, so the fill takes its colour from the art's
+   own edges and the seam against the contained frame disappears. */
+.ms-neon-bleed {
+  background: url(../img/neon/neon-scene-wide.webp) 0 0 / 100% 100% no-repeat;
+  filter: blur(48px) saturate(1.15);
+  transform: scale(1.12);
+}
+
+.ms-neon-back { object-fit: cover; object-position: 50% 50%; }
+.ms-neon-veil { display: block; }
+
+/* Both layers are dark, so the scrim only holds the top and bottom down for
+   type — nothing across the middle, where the sign and the robot are. */
+.ms-neon-scrim {
+  background: linear-gradient(180deg,
+    rgba(5, 4, 12, .78) 0%,
+    rgba(5, 4, 12, .12) 18%,
+    rgba(5, 4, 12, 0) 38%,
+    rgba(5, 4, 12, .64) 72%,
+    rgba(5, 4, 12, .94) 100%);
+}
+
+.ms-neon-band {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-  gap: clamp(32px, 4vw, 56px);
-  align-items: center;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: end;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .55);
+}
+
+/* Over the art, the lead's usual --dim is too quiet to read. */
+.ms-neon-band .ms-lead { color: #D9E2F2; }
+.ms-neon-band .ms-stats { border-top-color: var(--line-2); }
+
+/* Fades out for good once the visitor has moved the pointer. */
+.ms-neon-hint {
+  position: absolute;
+  left: 50%;
+  top: 46%;                    /* between the sign and the copy, clear of both */
+  transform: translateX(-50%);
+  z-index: 1;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .74);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .6);
+  pointer-events: none;
+  animation: ms-neon-pulse 2.6s ease-in-out infinite;
+  transition: opacity .5s;
+}
+
+.ms-neon.is-touched .ms-neon-hint { animation: none; opacity: 0; }
+
+@keyframes ms-neon-pulse { 0%, 100% { opacity: .5 } 50% { opacity: 1 } }
+
+@media (max-width: 860px) {
+  /* Portrait cannot crop the wide frame and keep the sign, the robot and the
+     board in shot, so it fits the whole frame instead — pinned just below the
+     fixed header, which would otherwise cover the sign, with the copy padded
+     clear of it rather than sitting over it. --fit-top gives the module that
+     same pinned offset in pixels. */
+  .ms-neon {
+    --fit-cover: 0;
+    --fit-top: var(--header-h, 76px);
+    padding-top: calc(var(--header-h, 76px) + 100vw * var(--fit-ar) + clamp(20px, 5vw, 36px));
+  }
+
+  .ms-neon-back {
+    inset: auto;
+    left: 0;
+    top: var(--header-h, 76px);
+    width: 100%;
+    height: calc(100vw * var(--fit-ar));
+  }
+
+  /* The heavy end of the scrim has to move up with the art. */
+  .ms-neon-scrim {
+    background: linear-gradient(180deg,
+      rgba(5, 4, 12, .62) 0%,
+      rgba(5, 4, 12, .10) calc(var(--header-h, 76px) + 30px),
+      rgba(5, 4, 12, .55) calc(var(--header-h, 76px) + 100vw * var(--fit-ar) - 40px),
+      rgba(5, 4, 12, .93) calc(var(--header-h, 76px) + 100vw * var(--fit-ar) + 40px),
+      rgba(5, 4, 12, .96) 100%);
+  }
+
+  .ms-neon-band { grid-template-columns: minmax(0, 1fr); }
+  .ms-neon-hint { top: calc(var(--header-h, 76px) + 100vw * var(--fit-ar) * .62); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ms-neon-hint { animation: none; }
 }
 
 .ms-h1 {

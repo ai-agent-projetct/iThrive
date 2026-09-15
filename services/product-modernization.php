@@ -197,12 +197,23 @@ $img = static function (string $rel): string {
            This is the page's argument rather than decoration: a routing layer
            in front, endpoints taken over one at a time, both sides running.
            --------------------------------------------------------------- */ ?>
-  <section class="pm-hero" data-wall>
-    <img class="pm-hero-bg" src="<?= e($img('hero/01.jpg')) ?>" width="1800" height="1000"
-         alt="" fetchpriority="high" decoding="async">
-    <div class="pm-hero-wash" aria-hidden="true"></div>
+  <?php /* The pair is one scene shot twice: daylight in front, the same frame
+           at neon night behind. Tearing the first away to find the second
+           already running underneath is the page's argument — both systems
+           live, the new one taken over a piece at a time. */ ?>
+  <section class="pm-hero pm-hero--reveal" data-neon-reveal
+           data-front="<?= e(asset('assets/img/buddy/buddy-couch-noblanket.webp')) ?>">
+    <div class="pm-reveal-bleed" aria-hidden="true"></div>
+    <img class="pm-reveal-back" src="<?= e(asset('assets/img/buddy/buddy-couch-night.webp')) ?>"
+         width="1376" height="768"
+         alt="The same two robots on the same couch at night, wrapped in a knitted blanket, the room lit by neon"
+         fetchpriority="high" decoding="async">
+    <canvas class="pm-reveal-veil"></canvas>
+    <div class="pm-reveal-scrim" aria-hidden="true"></div>
 
-    <div class="pm-shell pm-hero-grid">
+    <p class="pm-reveal-hint">Move to reveal</p>
+
+    <div class="pm-shell pm-reveal-band">
       <div class="pm-hero-copy">
         <p class="pm-eyebrow"><span class="pm-mark" aria-hidden="true"></span>Product Modernization · Chennai</p>
 
@@ -211,6 +222,9 @@ $img = static function (string $rel): string {
           <em>not the whole business</em>
         </h1>
 
+      </div>
+
+      <div class="pm-reveal-support">
         <p class="pm-lead">
           Rewrites fail because they ask a company to stand still for a year. We put a routing layer
           in front of what you already run and move it across one capability at a time — both
@@ -224,41 +238,14 @@ $img = static function (string $rel): string {
           </button>
           <a class="pm-btn pm-btn--ghost" href="#pm-journey">See the journey</a>
         </div>
-
-        <ul class="pm-stats">
-          <?php foreach ($stats as [$v, $l]): ?>
-            <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
-
-      <div class="pm-hero-stage">
-        <div class="pm-wall" data-wall-inner aria-hidden="true">
-          <?php foreach ($wall as $i => [$old, $new, $label]): ?>
-            <?php /* --t is this tile's place along the diagonal, which is what
-                     the front is measured against. */ ?>
-            <div class="pm-tile" style="--t: <?= number_format(((int) ($i % 4) / 3 + (int) floor($i / 4) / 1) / 2, 3) ?>;">
-              <div class="pm-tile-inner">
-                <figure class="pm-face pm-face--old">
-                  <img src="<?= e($img('face/' . $old . '.jpg')) ?>" width="560" height="560"
-                       alt="" loading="<?= $i < 4 ? 'eager' : 'lazy' ?>" decoding="async">
-                  <figcaption><?= e($label) ?></figcaption>
-                </figure>
-                <figure class="pm-face pm-face--new">
-                  <img src="<?= e($img('face/' . $new . '.jpg')) ?>" width="560" height="560"
-                       alt="" loading="<?= $i < 4 ? 'eager' : 'lazy' ?>" decoding="async">
-                  <figcaption><?= e($label) ?></figcaption>
-                </figure>
-              </div>
-            </div>
-          <?php endforeach; ?>
-        </div>
-
-        <p class="pm-stage-hint">
-          <span data-wall-pct>52%</span> migrated · move across the wall to advance the front
-        </p>
       </div>
     </div>
+
+    <ul class="pm-stats pm-shell pm-reveal-stats">
+      <?php foreach ($stats as [$v, $l]): ?>
+        <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
+      <?php endforeach; ?>
+    </ul>
   </section>
 
   <?php /* ---------------------------------------------------------------
@@ -533,6 +520,7 @@ $img = static function (string $rel): string {
 
 <script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 <script src="<?= e(asset('assets/js/modern-page.js')) ?>" defer></script>
+<script type="module" src="<?= e(asset('assets/js/neon-reveal.js')) ?>"></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';

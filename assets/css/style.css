@@ -547,6 +547,12 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   backdrop-filter: var(--blur);
   -webkit-backdrop-filter: var(--blur);
   box-shadow: 0 34px 80px -30px rgba(0, 0, 0, .9);
+  /* The menu grew past the viewport as services were added: 35 links made it
+     864px tall on a 768px screen. Capped and scrollable, so every link stays
+     reachable however many more are added. */
+  max-height: calc(100dvh - var(--header-h) - 28px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 26px;
@@ -558,8 +564,16 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .nav-item.is-open .nav-panel { opacity: 1; visibility: visible; transform: translateY(0); }
 .nav-panel--narrow { max-width: 640px; }
 
-.nav-panel-cols { display: flex; gap: 30px; }
-.nav-col { min-width: 190px; }
+/* A wrapping grid, not a flex row. The feature panel takes 258px of the
+   1000px cap, leaving ~626px for the columns — four 190px columns already
+   overflowed that and ran off the left edge of the screen. auto-fit puts as
+   many as fit on a row and wraps the rest. */
+.nav-panel-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 22px 24px;
+}
+.nav-col { min-width: 0; }
 .nav-col-head {
   margin-bottom: 12px;
   font-size: .68rem;

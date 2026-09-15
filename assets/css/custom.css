@@ -161,94 +161,151 @@
 .cpd-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
 .cpd-actions--mid { justify-content: center; margin-top: 44px; }
 
-/* --- Hero ----------------------------------------------------------------- */
+/* --- Hero: the tear reveal ------------------------------------------------ */
 
+/*
+ * Two registered renders of one scene in the same box: the back one an <img>,
+ * the front one painted to the canvas above it and torn open under the pointer
+ * by assets/js/neon-reveal.js, healing back over about three seconds.
+ *
+ * The three --fit-* properties are the contract with that module. It reads them
+ * off the section and mirrors whatever this stylesheet does to the <img>, so
+ * the two layers crop identically and the tear lands on the same pixels. Change
+ * the crop here and the canvas follows; change it only there and the layers
+ * drift apart.
+ *
+ * With no script and no pointer the front layer never paints and the section is
+ * still the back image, full bleed, with the copy over it — a correct hero
+ * rather than a hole.
+ */
 .cpd-hero {
+  --fit-cover: 1;      /* 1 = fill the frame (crop), 0 = fit the whole frame in */
+  --fit-ar: .5625;     /* the art's height / width — 1920 x 1080 */
+  --fit-y: .3;         /* where the fitted art sits vertically, portrait only */
+
   position: relative;
-  padding: calc(var(--header-h, 76px) + clamp(30px, 5vw, 70px)) 0 clamp(56px, 7vw, 100px);
+  height: 100dvh;
   overflow: hidden;
+  cursor: crosshair;
 }
 
-.cpd-hero-bg {
+.cpd-hero-layer {
   position: absolute;
   inset: 0;
   z-index: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  opacity: 0.3;
-  mask-image: radial-gradient(80% 70% at 70% 45%, #000 0%, transparent 78%);
+  pointer-events: none;
 }
 
+/* Stretched rather than cropped, so the fill takes its colour from the art's
+   own edges and the portrait case has no letterbox bars. */
+.cpd-hero-bleed {
+  background: url(../img/buddy/buddy-neon-wide.webp) 0 0 / 100% 100% no-repeat;
+  filter: blur(48px) saturate(1.15);
+  transform: scale(1.12);
+}
+
+.cpd-hero-art { object-fit: cover; object-position: 50% 50%; }
+
+.cpd-hero-veil { display: block; }
+
+/* Both renders are mid-dark, so the wash only has to hold the top and bottom
+   down for type and leave the middle — where the pair sits — alone. */
 .cpd-hero-wash {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(11, 15, 23, 0.55) 0%, transparent 45%, rgba(11, 15, 23, 0.7) 100%);
+  background: linear-gradient(180deg,
+    rgba(11, 15, 23, .72) 0%,
+    rgba(11, 15, 23, .14) 22%,
+    rgba(11, 15, 23, .14) 44%,
+    rgba(11, 15, 23, .62) 76%,
+    rgba(11, 15, 23, .94) 100%);
 }
 
-.cpd-hero-grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.94fr);
-  gap: clamp(32px, 4vw, 60px);
-  align-items: center;
+.cpd-hero-band {
+  position: absolute;
+  z-index: 2;
+  /* Clear of the floating chat launcher in the bottom-right corner. */
+  inset: auto 0 clamp(58px, 8vh, 94px) 0;
+}
+
+.cpd-hero-band-inner {
+  display: flex;
+  gap: clamp(26px, 4vw, 64px);
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
 .cpd-h1 {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin: 0 0 22px;
+  gap: 6px;
+  margin: 0;
   font-family: var(--display);
   font-weight: 800;
-  line-height: 1.02;
+  line-height: .88;
   letter-spacing: -0.045em;
-}
-
-.cpd-h1-lead {
-  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
-  font-weight: 600;
-  color: var(--dim);
-  letter-spacing: -0.03em;
-}
-
-/*
- * The extruded line.
- *
- * Sized here rather than left to the component, because the island only
- * replaces this element's CONTENT — the box, and therefore the space the
- * heading occupies, is this stylesheet's job. Before the bundle runs the same
- * words render as ordinary type at the same size, so nothing reflows when it
- * mounts and a crawler reads the heading either way.
- */
-.cpd-h1-lift {
-  display: block;
-  min-height: 1.05em;
-  font-size: clamp(2.1rem, 5vw, 4rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 5.4vw, 4.9rem);
   color: var(--text);
 }
 
-.cpd-lead {
-  max-width: 58ch;
-  margin: 0;
-  font-family: var(--body);
-  font-size: clamp(1rem, 1.2vw, 1.08rem);
-  line-height: 1.74;
+.cpd-h1-lead {
+  font-size: clamp(1.1rem, 1.9vw, 1.55rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  text-transform: none;
   color: var(--dim);
 }
+
+.cpd-hero-support { max-width: 46ch; margin-left: auto; text-align: right; }
+
+.cpd-lead {
+  margin: 0;
+  font-family: var(--body);
+  font-size: clamp(.98rem, 1.15vw, 1.06rem);
+  line-height: 1.7;
+  color: var(--dim);
+}
+
+.cpd-hero-support .cpd-actions { justify-content: flex-end; margin-top: 24px; }
+
+/* Fades out for good the first time the pointer moves. */
+.cpd-hero-hint {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: calc(50% + 70px);
+  transform: translateX(-50%);
+  margin: 0;
+  font-family: var(--mono);
+  font-size: .64rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(234, 240, 250, .7);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .6);
+  pointer-events: none;
+  animation: cpd-hint 2.6s ease-in-out infinite;
+  transition: opacity .5s var(--ease);
+}
+
+.cpd-hero.is-touched .cpd-hero-hint { animation: none; opacity: 0; }
+
+@keyframes cpd-hint { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+
+/* The numbers, on their own strip under the hero rather than inside it — the
+   band is already carrying a headline, a paragraph and two buttons. */
+.cpd-hero-stats { padding: clamp(26px, 3.4vw, 44px) 0; border-bottom: 1px solid var(--line); }
 
 .cpd-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
   gap: 18px;
-  margin: 40px 0 0;
-  padding: 24px 0 0;
-  border-top: 1px solid var(--line);
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -267,125 +324,9 @@
 
 .cpd-stats span {
   font-family: var(--mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.12em;
+  font-size: .64rem;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--faint);
-}
-
-/*
- * The strata stack.
- *
- * Each plate's place comes from its own --i, so the stack is laid out at first
- * paint with no script involved. --s is how far the pointer has pulled the
- * layers apart and only ever adds to that: with no frame, no script and no
- * pointer, this is still a correct isometric stack rather than a hole.
- *
- * Seven components on this site have rendered nothing because they computed
- * exactly this kind of geometry inside requestAnimationFrame.
- */
-.cpd-hero-stage { position: relative; }
-
-.cpd-strata {
-  position: relative;
-  height: clamp(300px, 34vw, 400px);
-  perspective: 1100px;
-  perspective-origin: 50% 42%;
-}
-
-.cpd-plate {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: clamp(210px, 24vw, 330px);
-  margin: 0;
-  border: 1px solid var(--line-2);
-  border-radius: 10px;
-  background: rgba(13, 19, 29, 0.9);
-  box-shadow: 0 26px 56px -30px rgba(0, 0, 0, 0.95);
-  overflow: hidden;
-
-  /* rotateX tips the plate toward the isometric; --i stacks it, --s spreads. */
-  transform:
-    translate(-50%, -50%)
-    rotateX(56deg)
-    rotateZ(-42deg)
-    translateZ(calc((var(--i) - (var(--n) - 1) / 2) * (46px + var(--s, 0px))));
-  transform-origin: 50% 50%;
-  transition: transform 0.55s var(--ease), border-color 0.3s var(--ease),
-              box-shadow 0.55s var(--ease);
-}
-
-.cpd-plate img {
-  display: block;
-  width: 100%;
-  height: 128px;
-  object-fit: cover;
-  opacity: 0.9;
-}
-
-.cpd-plate:hover,
-.cpd-plate.is-lit {
-  border-color: rgba(0, 242, 254, 0.75);
-  box-shadow: 0 34px 70px -26px rgba(0, 242, 254, 0.5);
-}
-
-.cpd-plate.is-lit img { opacity: 1; }
-
-/*
- * The legend.
- *
- * The plates are tipped 56 degrees and turned 42; text riding that transform is
- * a smear, which is what the first build shipped. Naming the layers square to
- * the screen is both readable and the accessible version — the stack itself is
- * aria-hidden, so this list is what a screen reader gets.
- */
-.cpd-legend {
-  display: grid;
-  gap: 2px;
-  margin: 14px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.cpd-legend li {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: baseline;
-  gap: 4px 12px;
-  padding: 8px 12px;
-  border-left: 2px solid transparent;
-  border-radius: 0 6px 6px 0;
-  cursor: default;
-  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease);
-}
-
-.cpd-legend li:hover {
-  border-left-color: var(--cyan);
-  background: rgba(0, 242, 254, 0.07);
-}
-
-.cpd-legend .cpd-plate-n {
-  grid-row: span 2;
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.16em;
-  color: var(--cyan);
-}
-
-.cpd-legend b {
-  font-family: var(--display);
-  font-size: 0.86rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  color: var(--text);
-}
-
-.cpd-legend i {
-  grid-column: 2;
-  font-style: normal;
-  font-family: var(--body);
-  font-size: 0.72rem;
   color: var(--faint);
 }
 
@@ -923,7 +864,12 @@
 }
 
 @media (max-width: 980px) {
-  .cpd-hero-grid,
+  /* The band stacks: headline first, then the paragraph and buttons under it,
+     both ranged left. */
+  .cpd-hero-band-inner { flex-direction: column; align-items: flex-start; gap: 22px; }
+  .cpd-hero-support { margin-left: 0; text-align: left; }
+  .cpd-hero-support .cpd-actions { justify-content: flex-start; }
+
   .cpd-layer-wrap,
   .cpd-model-wrap,
   .cpd-faq-grid { grid-template-columns: minmax(0, 1fr); }
@@ -937,16 +883,39 @@
   .cpd-flaw-grid,
   .cpd-edge-grid { grid-template-columns: minmax(0, 1fr); }
   .cpd-band-inner { flex-direction: column; align-items: flex-start; }
+}
 
-  /* The stack fans wider than a phone; tighten it and shrink the plates so the
-     whole run stays inside the viewport rather than being clipped. */
-  .cpd-strata { height: 270px; }
-  .cpd-plate { width: 200px; }
-  .cpd-plate img { height: 88px; }
+@media (max-width: 860px) {
+  /* Portrait can't crop a 16:9 frame and keep both of them in shot, so it fits
+     the whole frame instead, held high with the copy in the clear space below.
+     neon-reveal.js reads these same properties and clips the canvas to match. */
+  /* Held high enough to clear the fixed header and leave the copy a clear
+     run underneath. */
+  .cpd-hero { --fit-cover: 0; --fit-y: .14; }
+
+  .cpd-hero-band { bottom: clamp(86px, 12vh, 118px); }
+
+  .cpd-h1 { font-size: clamp(1.9rem, 8.6vw, 2.6rem); }
+  .cpd-h1-lead { font-size: 1rem; }
+
+  .cpd-hero-art {
+    inset: auto;
+    left: 0;
+    width: 100%;
+    height: calc(100vw * var(--fit-ar));
+    top: calc((100dvh - 100vw * var(--fit-ar)) * var(--fit-y));
+  }
+
+  /* Inside the art, just above its lower edge — mid-screen it landed on the
+     first line of the paragraph. */
+  .cpd-hero-hint {
+    top: calc((100dvh - 100vw * var(--fit-ar)) * var(--fit-y) + 100vw * var(--fit-ar) - 34px);
+    bottom: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cpd-plate { transition: none; }
+  .cpd-hero-hint { animation: none; }
   .cpd-close-wash,
   .cpd-band-rule span { animation: none; }
   .cpd-flaw:hover,

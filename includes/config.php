@@ -139,13 +139,37 @@ const NAV_ITEMS = [
         'href'  => 'services.php',
         'menu'  => [
             'columns' => [
+                /* Split in two. As one column this was seventeen links deep and
+                   pushed the panel 400px below the fold on a 768px screen, so
+                   the last services could not be reached at all. */
                 [
                     'heading' => 'AI-First Product Development',
                     'links'   => [
-                        ['label' => 'AI Development Company',           'href' => 'services/ai-development-company.php'],
-                        ['label' => 'AI-Native Product Development',    'href' => 'services/ai-native-product-development.php'],
+                        ['label' => 'AI Development Company',              'href' => 'services/ai-development-company.php'],
+                        ['label' => 'AI Consulting',                       'href' => 'services/ai-consulting.php'],
+                        ['label' => 'AI-Native Product Development',       'href' => 'services/ai-native-product-development.php'],
                         ['label' => 'AI Enablement for Existing Products', 'href' => 'services/ai-enablement.php'],
-                        ['label' => 'AI Solutions for eCommerce',       'href' => 'services/ai-for-ecommerce.php'],
+                        ['label' => 'AI Solutions for eCommerce',          'href' => 'services/ai-for-ecommerce.php'],
+                        ['label' => 'Generative AI Development',           'href' => 'services/gen-ai-development.php'],
+                        ['label' => 'AI Chatbot Development',              'href' => 'services/ai-chatbot-development.php'],
+                        ['label' => 'AI Copilot Development',              'href' => 'services/ai-copilot-development.php'],
+                        ['label' => 'RAG Development',                     'href' => 'services/rag-development.php'],
+                        ['label' => 'Computer Vision Development',         'href' => 'services/computer-vision-development.php'],
+                    ],
+                ],
+                [
+                    'heading' => 'Agentic AI & Automation',
+                    'links'   => [
+                        ['label' => 'Agentic AI Strategy & Consulting', 'href' => 'services/agentic-ai-strategy.php'],
+                        ['label' => 'Custom AI Agent Development',      'href' => 'services/custom-agent-development.php'],
+                        ['label' => 'AI Agent Solutions',               'href' => 'services/ai-agent-solutions.php'],
+                        ['label' => 'Multi-Agent Orchestration',        'href' => 'services/multi-agent-orchestration.php'],
+                        ['label' => 'Agentic AI Integration',           'href' => 'services/agentic-ai-integration.php'],
+                        ['label' => 'AI Integration Services',          'href' => 'services/ai-integration.php'],
+                        ['label' => 'Autonomous Workflow Automation',   'href' => 'services/autonomous-workflow-automation.php'],
+                        ['label' => 'Agent Operations & Support',       'href' => 'services/agent-operations-support.php'],
+                        ['label' => 'RPA Development',                  'href' => 'services/rpa-development.php'],
+                        ['label' => 'Hire Agentic AI Developers',       'href' => 'services/hire-agentic-ai-developers.php'],
                     ],
                 ],
                 [

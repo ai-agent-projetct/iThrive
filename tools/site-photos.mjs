@@ -40,7 +40,9 @@ import fs from 'node:fs';
 
 import { PLAN, TARGET } from './photo-plan.mjs';
 
-const FFMPEG = 'C:/Users/aakas/Downloads/Central Adventure/repo/node_modules/ffmpeg-static/ffmpeg.exe';
+// Was an absolute path into a sibling project that has since been deleted, which
+// broke every photo run with ENOENT. Set FFMPEG to a binary, or put one on PATH.
+const FFMPEG = process.env.FFMPEG || 'ffmpeg';
 const ROOT   = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 /**

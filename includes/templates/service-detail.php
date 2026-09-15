@@ -129,12 +129,25 @@ if (!empty($heroComponent)) {
  * returns silently and would leave this wrapper behind as an empty band of
  * padding on any service that has no picture of its own.
  */ ?>
-<?php if (is_file(ROOT_PATH . '/assets/img/pages/services/' . $svc['slug'] . '.jpg')): ?>
+<?php
+/* Either picture counts. This tested only for the drawing, so a service whose
+   photograph had landed before its band was drawn rendered no picture at all —
+   the wrapper is still gated, so the empty-band case the note above describes
+   cannot come back. */
+$svcHasPhoto = is_file(ROOT_PATH . '/assets/img/pages/services/photo/' . $svc['slug'] . '.jpg');
+$svcHasDrawn = is_file(ROOT_PATH . '/assets/img/pages/services/' . $svc['slug'] . '.jpg');
+?>
+<?php if ($svcHasPhoto || $svcHasDrawn): ?>
 <section class="section section--tight">
   <div class="shell">
     <?php component('page-figure', [
         'src'     => 'pages/services/' . $svc['slug'],
-        'caption' => 'Six capabilities on one delivery spine, over the stack ' . $svc['title'] . ' actually runs on.',
+        /* This caption describes the DRAWN band specifically. page-figure prefers
+           a photograph whenever one exists, and the caption would then describe
+           a diagram that is not on screen — the exact mismatch the AI for
+           eCommerce band was reverted for. So it is set only when the drawing
+           is what will render; a photograph stands on its own, decorative. */
+        'caption' => $svcHasPhoto ? null : 'Six capabilities on one delivery spine, over the stack ' . $svc['title'] . ' actually runs on.',
     ]); ?>
   </div>
 </section>
