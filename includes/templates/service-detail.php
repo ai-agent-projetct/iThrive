@@ -36,6 +36,28 @@ $schema = [
     ],
 ];
 
+/* Ten answers per service, in includes/content-service-faqs.php. They are the
+   page's longest run of plain prose, which is what an answer engine quotes, so
+   they are emitted as FAQPage as well as rendered. A slug with no entry simply
+   renders no FAQ section. */
+$svcFaqs = defined('SERVICE_FAQS') ? (SERVICE_FAQS[$svc['slug']] ?? []) : [];
+
+if ($svcFaqs !== []) {
+    $schemaExtra = [[
+        '@type'      => 'FAQPage',
+        'name'       => $svc['title'] . ' — frequently asked questions',
+        'speakable'  => [
+            '@type'       => 'SpeakableSpecification',
+            'cssSelector' => ['.faq-item summary', '.faq-item p'],
+        ],
+        'mainEntity' => array_map(static fn (array $f): array => [
+            '@type'          => 'Question',
+            'name'           => $f['q'],
+            'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['a']],
+        ], $svcFaqs),
+    ]];
+}
+
 require dirname(__DIR__) . '/header.php';
 
 /* A route can lead with a scroll-scrubbed film and keep its ordinary hero as
@@ -232,6 +254,35 @@ if (is_file(__DIR__ . '/../components/service-extras-' . $svc['slug'] . '.php'))
     </div>
   </div>
 </section>
+
+<?php /* ---------------------------------------------------------------
+         The ten questions. <details> rather than a scripted accordion, for
+         the same reasons faq.php uses it: open to find-in-page, it prints,
+         and every answer sits in the DOM whether or not the panel is open.
+         --------------------------------------------------------------- */ ?>
+<?php if ($svcFaqs !== []): ?>
+<section class="section" id="faq">
+  <div class="shell">
+    <?php component('section-head', [
+        'eyebrow' => 'Questions',
+        'title'   => 'What clients ask before starting',
+        'lead'    => 'The ten that come up in almost every ' . lcfirst($svc['title']) . ' conversation.',
+    ]); ?>
+
+    <div class="faq-list">
+      <?php foreach ($svcFaqs as $i => $f): ?>
+        <details class="faq-item"<?= $i === 0 ? ' open' : '' ?>>
+          <summary>
+            <span><?= e($f['q']) ?></span>
+            <?= icon('chevron', 'icon faq-caret') ?>
+          </summary>
+          <p><?= e($f['a']) ?></p>
+        </details>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 
 <?php
 component('cta', ['cta' => [

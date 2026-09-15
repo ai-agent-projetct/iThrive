@@ -323,4 +323,6 @@ require_once __DIR__ . '/content-flutter.php';
 require_once __DIR__ . '/content-mobile.php';
 // Same reasoning for the custom software development landing page.
 require_once __DIR__ . '/content-software.php';
+// Ten answers per service page, keyed by slug.
+require_once __DIR__ . '/content-service-faqs.php';
 require_once __DIR__ . '/faq-brain.php';
