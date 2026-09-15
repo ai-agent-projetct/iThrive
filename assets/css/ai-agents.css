@@ -16,17 +16,6 @@
   filter: drop-shadow(0 0 24px rgba(0, 242, 254, 0.35));
 }
 
-.od--ai-agents .od-flare-host {
-  position: relative;
-  width: 100%;
-  max-width: 1100px;
-  margin: 15px auto 40px;
-  min-height: 480px;
-  border-radius: 20px;
-  background: transparent;
-  overflow: visible;
-}
-
 .od--ai-agents .od-beam-host {
   position: relative;
   width: 100%;

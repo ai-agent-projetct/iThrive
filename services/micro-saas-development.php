@@ -159,31 +159,37 @@ $img = static function (string $rel): string {
 <div class="ms">
 
   <?php /* ---------------------------------------------------------------
-           Hero — a CSS 3D stack of shards that turns under the pointer
+           Hero — the tear reveal
 
-           Geometry written at render time from each card's --i, so the stack
-           is laid out by first paint. The Dedicated Team page's hero was a
-           Framer component that computed the same thing inside rAF, and it
-           put all ten of its cards at one point until a frame ran.
+           Two registered renders of one neon hall: the empty room in front,
+           the branded scene behind. The pointer tears the empty room open in
+           ragged patches that heal back over about three seconds, which is a
+           narrow product doing one thing rather than a deck of features.
+
+           The front layer is painted to the canvas synchronously as the module
+           initialises, not inside rAF, so a tab that never gets a frame still
+           shows the room — the failure mode that emptied six Framer components
+           on the five service pages before this one.
            --------------------------------------------------------------- */ ?>
-  <section class="ms-hero" data-stack>
-    <div class="ms-hero-wash" aria-hidden="true"></div>
+  <section class="ms-neon" data-neon-reveal
+           data-front="<?= e(asset('assets/img/neon/neon-room-wide.webp')) ?>">
+    <div class="ms-neon-bleed" aria-hidden="true"></div>
+    <img class="ms-neon-back" src="<?= e(asset('assets/img/neon/neon-scene-wide.webp')) ?>"
+         width="1672" height="941" fetchpriority="high"
+         alt="An iThrive neon sign over a robot on a skateboard, headphones and a graffiti deck">
+    <canvas class="ms-neon-veil" aria-hidden="true"></canvas>
+    <div class="ms-neon-scrim" aria-hidden="true"></div>
 
-    <div class="ms-shell ms-hero-grid">
-      <div class="ms-hero-copy">
+    <p class="ms-neon-hint" aria-hidden="true">Move to reveal</p>
+
+    <div class="ms-shell ms-neon-band">
+      <div>
         <p class="ms-eyebrow"><span class="ms-ap" aria-hidden="true"></span>Micro-SaaS Product Development · Chennai</p>
 
         <h1 class="ms-h1">
           One job, done so well<br>
           <em>people pay for it</em>
         </h1>
-
-        <p class="ms-lead">
-          A micro-SaaS is not a small version of a big product. It is a narrow one — a single job for
-          a single audience, priced before it is built, in front of paying users while the idea is
-          still cheap to change. Most SaaS takes eighteen months to find its market. This is the
-          method that halves that.
-        </p>
 
         <div class="ms-actions">
           <button class="ms-btn ms-btn--primary" type="button"
@@ -192,56 +198,21 @@ $img = static function (string $rel): string {
           </button>
           <a class="ms-btn ms-btn--ghost" href="#ms-framework">See the framework</a>
         </div>
+      </div>
+
+      <div class="ms-neon-support">
+        <p class="ms-lead">
+          A micro-SaaS is not a small version of a big product. It is a narrow one — a single job for
+          a single audience, priced before it is built, in front of paying users while the idea is
+          still cheap to change. Most SaaS takes eighteen months to find its market. This is the
+          method that halves that.
+        </p>
 
         <ul class="ms-stats">
           <?php foreach ($stats as [$v, $l]): ?>
             <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
           <?php endforeach; ?>
         </ul>
-      </div>
-
-      <div class="ms-hero-stage">
-        <!-- 3D Fan Deck View Mode Switcher -->
-        <div class="ms-stage-ctrls">
-          <div class="ms-view-toggle" role="tablist" aria-label="Hero 3D Architecture Visual Mode">
-            <button class="ms-toggle-btn is-active" type="button" data-hero-3d-mode="fan">
-              <span class="ms-toggle-dot"></span>
-              3D Fan Cascade
-            </button>
-            <button class="ms-toggle-btn" type="button" data-hero-3d-mode="blueprint">
-              3D Exploded Blueprint
-            </button>
-            <button class="ms-toggle-btn" type="button" data-hero-3d-mode="matrix">
-              3D Isometric Matrix
-            </button>
-          </div>
-          <span class="ms-hud-chip">WEBGL 3D // 60 FPS</span>
-        </div>
-
-        <!-- 3D Three.js Architectural Slabs Viewport -->
-        <div class="ms-3d-viewport" id="msHero3DViewport">
-          <canvas id="msHero3DCanvas"></canvas>
-          <div class="ms-hero-3d-hud" id="msHero3DHud"></div>
-          
-          <!-- Navigation Arrows -->
-          <button class="ms-hero-nav-arrow ms-arrow-prev" type="button" aria-label="Previous 3D Slab">&#10094;</button>
-          <button class="ms-hero-nav-arrow ms-arrow-next" type="button" aria-label="Next 3D Slab">&#10095;</button>
-
-          <!-- 3D Pagination Dots -->
-          <div class="ms-hero-pagination">
-            <button class="ms-page-dot is-active" type="button" data-hero-dot="0" aria-label="Slab 01"></button>
-            <button class="ms-page-dot" type="button" data-hero-dot="1" aria-label="Slab 02"></button>
-            <button class="ms-page-dot" type="button" data-hero-dot="2" aria-label="Slab 03"></button>
-            <button class="ms-page-dot" type="button" data-hero-dot="3" aria-label="Slab 04"></button>
-            <button class="ms-page-dot" type="button" data-hero-dot="4" aria-label="Slab 05"></button>
-            <button class="ms-page-dot" type="button" data-hero-dot="5" aria-label="Slab 06"></button>
-          </div>
-
-          <div class="ms-hero-3d-hint">
-            <span>Drag or scroll wheel to sweep 3D fan · Click slabs or arrows to navigate</span>
-          </div>
-        </div>
-        <p class="ms-stage-hint">Bespoke 3D Glass Architecture Slabs · Real-time WebGL Engine</p>
       </div>
     </div>
   </section>
@@ -779,6 +750,7 @@ $img = static function (string $rel): string {
 
 <script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 <script type="module" src="<?= e(asset('assets/js/saas-page.js')) ?>"></script>
+<script type="module" src="<?= e(asset('assets/js/neon-reveal.js')) ?>"></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';

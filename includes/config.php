@@ -139,6 +139,9 @@ const NAV_ITEMS = [
         'href'  => 'services.php',
         'menu'  => [
             'columns' => [
+                /* Split in two. As one column this was seventeen links deep and
+                   pushed the panel 400px below the fold on a 768px screen, so
+                   the last services could not be reached at all. */
                 [
                     'heading' => 'AI Strategy & Advisory',
                     'links'   => [

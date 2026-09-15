@@ -1,14 +1,14 @@
 <?php
 /**
- * Neon — full-screen hero, the same treatment as buddy.php.
+ * Robot — full-screen hero, the same tear-reveal treatment as neon.php.
  *
- * Two renders of the same hall: the empty room in front, the iThrive scene
- * behind. Moving the pointer erases the front layer in organic, torn patches
- * that heal back over a few seconds, so the sign, the robot and the board keep
- * flickering into an otherwise empty room. The erase runs on a low-resolution
- * scalar field: pointer strokes add energy, every frame decays it, and the
- * field is thresholded against a static noise texture — that threshold is what
- * gives the tear its ragged edge instead of a soft airbrush circle.
+ * Two registered renders of one shot: the daylight plaza in front, the same
+ * frame at neon night behind. Moving the pointer erases the daylight layer in
+ * organic, torn patches that heal back over a few seconds, so the city drops
+ * into night around the robot and the car and then comes back.
+ *
+ * The erase itself lives in assets/js/neon-reveal.js — this page only supplies
+ * the two layers and the geometry custom properties it reads.
  */
 declare(strict_types=1);
 ?>
@@ -17,7 +17,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iThrive — Built to thrive</title>
+<title>iThrive — Build better together</title>
 <meta name="description" content="Intelligent apps and AI platforms, designed, built and shipped by a team that treats your product like its own.">
 <meta name="theme-color" content="#07060f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,25 +48,26 @@ body{
 /* The whole frame is always on screen; the leftover area is filled with a
    blurred, over-scaled copy of the same shot so there are no letterbox bars. */
 .layer--bleed{
-  /* Stretched, not cropped: the fill then takes its colour from the image's
-     own edges, so the seam against the contained art disappears. */
-  background:url(assets/img/neon/neon-scene-wide.webp) 0 0/100% 100% no-repeat;
+  background:url(assets/img/robot/robot-night-wide.webp) 0 0/100% 100% no-repeat;
   filter:blur(48px) saturate(1.15);transform:scale(1.12);
 }
 .layer--back{object-fit:cover;object-position:50% 50%}
 .layer--veil{display:block}
+/* Unlike the neon page, the front layer here is a bright daylight shot, so the
+   scrim has to carry white type over a blue sky and a pale plaza floor — the
+   top and bottom bands are heavier, and the middle still stays clear so the
+   robot, the car and the wall text read. */
 .stage__scrim{
   position:absolute;inset:0;pointer-events:none;
-  /* Both layers are dark, so the scrim only has to hold the corners down:
-     enough at the top and bottom for type, nothing across the middle where the
-     sign and the robot are. */
   background:
     linear-gradient(180deg,
-      rgba(5,4,12,.70) 0%,
-      rgba(5,4,12,.10) 20%,
-      rgba(5,4,12,0)   42%,
-      rgba(5,4,12,.58) 76%,
-      rgba(5,4,12,.92) 100%);
+      rgba(5,4,12,.82) 0%,
+      rgba(5,4,12,.42) 14%,
+      rgba(5,4,12,.06) 34%,
+      rgba(5,4,12,0)   48%,
+      rgba(5,4,12,.42) 68%,
+      rgba(5,4,12,.80) 86%,
+      rgba(5,4,12,.94) 100%);
 }
 
 /* ---- nav -------------------------------------------------------------- */
@@ -111,6 +112,7 @@ h1{
   margin:0;text-transform:uppercase;
   font-size:clamp(2.5rem, 5.6vw, 5.4rem);
   font-weight:800;line-height:.86;letter-spacing:-.045em;
+  text-shadow:0 2px 30px rgba(5,4,12,.55);
 }
 .support{max-width:34ch;text-align:right;margin-left:auto}
 .support p{margin:0 0 26px;font-size:clamp(1rem,1.35vw,1.25rem);line-height:1.2;letter-spacing:-.01em}
@@ -122,17 +124,17 @@ h1{
 .hint{
   position:absolute;left:50%;top:calc(50% + 150px);transform:translateX(-50%);
   z-index:2;margin:0;font-size:.78rem;font-weight:500;letter-spacing:.16em;
-  text-transform:uppercase;color:rgba(255,255,255,.72);pointer-events:none;
-  text-shadow:0 2px 14px rgba(0,0,0,.55);
+  text-transform:uppercase;color:rgba(255,255,255,.92);pointer-events:none;
+  text-shadow:0 2px 14px rgba(5,4,12,.9);
   animation:pulse 2.6s ease-in-out infinite;transition:opacity .5s;
 }
 .is-touched .hint{animation:none;opacity:0}
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
 
 @media (max-width:860px){
-  /* Portrait can't crop the wide frame and keep the sign, the robot and the
-     board in shot, so it fits the whole frame instead, held high with the copy
-     in the clear space below. */
+  /* Portrait can't crop the wide frame and keep the wall text, the robot and
+     the plate in shot, so it fits the whole frame instead, held high with the
+     copy in the clear space below. */
   :root{--fit-y:.26;--fit-cover:0}
   .layer--back{
     inset:auto;left:0;width:100%;height:calc(100vw * var(--fit-ar));
@@ -150,9 +152,9 @@ h1{
 <body>
 
 <main class="stage" id="stage" data-neon-reveal
-      data-front="assets/img/neon/neon-room-wide.webp">
+      data-front="assets/img/robot/robot-day-wide.webp">
   <div class="layer layer--bleed"></div>
-  <img class="layer layer--back" id="back" src="assets/img/neon/neon-scene-wide.webp" alt="An iThrive neon sign over a robot on a skateboard, headphones and a graffiti deck" fetchpriority="high">
+  <img class="layer layer--back" id="back" src="assets/img/robot/robot-night-wide.webp" alt="The iThrive robot leaning on a black car in front of a neon city skyline at night" fetchpriority="high">
   <canvas class="layer layer--veil" id="veil"></canvas>
   <div class="stage__scrim"></div>
 
@@ -178,7 +180,7 @@ h1{
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0l2.4 7.2L21.6 9.6 14.4 12 12 19.2 9.6 12 2.4 9.6 9.6 7.2z"/></svg>
         AI-native product studio
       </p>
-      <h1>Built to<br>thrive.</h1>
+      <h1>Drive it<br>forward.</h1>
     </div>
 
     <div class="support">

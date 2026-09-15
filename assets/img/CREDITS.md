@@ -141,3 +141,20 @@ can be traced and swapped, not because a credit is owed.
 - `assets/img/blog/photo/post-04.jpg` — James Moore (unsplash.com/@jdlg), via unsplash
 - `assets/img/blog/photo/post-05.jpg` — CDC (unsplash.com/@cdc), via unsplash
 - `assets/img/blog/photo/post-06.jpg` — Annie Spratt (unsplash.com/@anniespratt), via unsplash
+- `assets/img/pages/services/photo/agentic-ai-strategy.jpg` — Jeswin Thomas (unsplash.com/@jeswinthomas), via unsplash
+- `assets/img/pages/services/photo/custom-agent-development.jpg` — Vitaly Gariev (unsplash.com/@silverkblack), via unsplash
+- `assets/img/pages/services/photo/multi-agent-orchestration.jpg` — Mario Gogh (unsplash.com/@mariogogh), via unsplash
+- `assets/img/pages/services/photo/agentic-ai-integration.jpg` — Tim van der Kuip (unsplash.com/@timmykp), via unsplash
+- `assets/img/pages/services/photo/autonomous-workflow-automation.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
+- `assets/img/pages/services/photo/agent-operations-support.jpg` — Ofspace LLC (unsplash.com/@ofspace), via unsplash
+- `assets/img/pages/services/photo/gen-ai-development.jpg` — ThisisEngineering (unsplash.com/@thisisengineering), via unsplash
+- `assets/img/pages/services/photo/ai-chatbot-development.jpg` — Tim van der Kuip (unsplash.com/@timmykp), via unsplash
+- `assets/img/pages/services/photo/rpa-development.jpg` — Israel Andrade (unsplash.com/@israelandrxde), via unsplash
+- `assets/img/pages/services/photo/rag-development.jpg` — Kate Bezzubets (unsplash.com/@k8_bzz), via unsplash
+- `assets/img/pages/services/photo/computer-vision-development.jpg` — TruckRun (unsplash.com/@truckrun_ebike_systems), via unsplash
+- `assets/img/pages/services/photo/ai-copilot-development.jpg` — Annie Spratt (unsplash.com/@anniespratt), via unsplash
+- `assets/img/pages/services/photo/hire-agentic-ai-developers.jpg` — Jakub Żerdzicki (unsplash.com/@jakubzerdzicki), via unsplash
+- `assets/img/pages/services/photo/ai-consulting.jpg` — Campaign Creators (unsplash.com/@campaign_creators), via unsplash
+- `assets/img/pages/services/photo/ai-integration.jpg` — Compagnons (unsplash.com/@sigmund), via unsplash
+- `assets/img/pages/services/photo/ai-enablement.jpg` — Tim van der Kuip (unsplash.com/@timmykp), via unsplash
+- `assets/img/pages/services/photo/ai-agent-solutions.jpg` — Lyubomyr Reverchuk (unsplash.com/@lreverchuk), via unsplash

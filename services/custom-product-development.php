@@ -3,8 +3,8 @@
  * Custom Product Development — the seventh bespoke service page.
  *
  * Built after absoluteapplabs.com/custom-product-development, section for
- * section, in iThrive's own words: hero, the four ways an unaligned build
- * hurts, six layers of expertise, the band, three process steps, the stack,
+ * section, in iThrive's own words: hero, the numbers, the four ways an unaligned
+ * build hurts, six layers of expertise, the band, three process steps, the stack,
  * six advantages, three engagement models, five questions, close.
  *
  * ON COMPONENTS. The no-repeat rule holds — nothing here appears on any other
@@ -17,24 +17,22 @@
  * to a canvas, and a tab that never gets a frame gets an empty rectangle. That
  * disqualifies most of what is left in the registry, which is largely WebGL.
  *
- * Three survived triage and are used here, none of them on any other page:
+ * Two survived triage and are used here, neither on any other page:
  *
- *   hero      Text Lift        every letter extruded as a stack of itself,
- *                              lifting on hover — spans and transforms, so the
- *                              headline is readable at first paint
  *   layers    Bento Gallery    the six-layer expertise grid
  *   models    Interactive Book a real 3D book you turn, for the three
  *                              engagement models
  *
- * Everything else — the hero's strata stack included — is CSS with its geometry
- * written at render time. That is the only 3D approach that has rendered
- * reliably here, and it is why the Dedicated Team hero had to be rebuilt.
+ * The hero is now the tear reveal from assets/js/neon-reveal.js: two registered
+ * renders of one scene, the front one erased under the pointer in ragged
+ * patches that heal back. It replaced the extruded headline and the isometric
+ * strata stack. It paints to a canvas, which is exactly the pattern that failed
+ * everywhere else on this site, so it paints the front layer synchronously in
+ * init and falls back to the back image at full bleed — the section is a hero
+ * with no script, no frame and no pointer.
  *
  * Theme: the site's own ramp, and its own type — Sora, Manrope and IBM Plex
- * Mono, none of which the other six pages use. What makes the page its own is
- * the STRATA motif: isometric plates stacked with the seams lit. A custom
- * product is layers built to fit each other rather than one bought thing bent
- * into shape, and that is the shape of it.
+ * Mono, none of which the other six pages use.
  *
  * Pictures come from tools/custom-art.mjs; every slot prefers a photograph from
  * assets/img/custom/photo/ the moment one lands.
@@ -55,15 +53,6 @@ $ogImage   = 'service-' . $svc['group_slug'];
 /* ---------------------------------------------------------------------------
  * Content
  * ------------------------------------------------------------------------ */
-
-/** The hero's strata plates, bottom of the stack first. */
-$plates = [
-    ['05', 'Integrations', 'The systems you already run'],
-    ['04', 'Cloud',        'Where it runs, and what it costs'],
-    ['03', 'Data',         'The model underneath everything'],
-    ['02', 'Services',     'The rules, in one place'],
-    ['01', 'Interface',    'What your people actually touch'],
-];
 
 $stats = [
     ['12-20', 'Weeks to first production release'],
@@ -201,95 +190,67 @@ $img = static function (string $rel): string {
 <div class="cpd">
 
   <?php /* ---------------------------------------------------------------
-           Hero — a CSS 3D strata stack, and an extruded headline
+           Hero — the tear reveal
 
-           The plates are placed from each one's own --i, so the stack is laid
-           out at first paint. Pointer movement only adds to that: the fallback
-           if no frame ever runs is a correct, still stack rather than a hole.
+           Two registered renders of one scene: the pair wrapped up in front,
+           the same pair in the neon street behind. Moving the pointer erases
+           the front one in ragged patches that heal back, so the scene keeps
+           returning to the covered version. assets/js/neon-reveal.js does the
+           tearing and mirrors this section's --fit-* properties so the two
+           layers crop identically.
+
+           With no script the canvas never paints and the section is the back
+           image full bleed with the copy over it, which is a hero either way.
            --------------------------------------------------------------- */ ?>
-  <section class="cpd-hero" data-strata>
-    <img class="cpd-hero-bg" src="<?= e($img('hero/01.jpg')) ?>" width="1800" height="1000"
-         alt="" fetchpriority="high" decoding="async">
+  <section class="cpd-hero" data-neon-reveal
+           data-front="<?= e(asset('assets/img/buddy/buddy-couch-wide.webp')) ?>">
+    <div class="cpd-hero-layer cpd-hero-bleed" aria-hidden="true"></div>
+    <img class="cpd-hero-layer cpd-hero-art"
+         src="<?= e(asset('assets/img/buddy/buddy-neon-wide.webp')) ?>"
+         width="1920" height="1080" fetchpriority="high" decoding="async"
+         alt="Two robots sitting on a couch in a neon-lit street">
+    <canvas class="cpd-hero-layer cpd-hero-veil" aria-hidden="true"></canvas>
     <div class="cpd-hero-wash" aria-hidden="true"></div>
 
-    <div class="cpd-shell cpd-hero-grid">
-      <div class="cpd-hero-copy">
-        <p class="cpd-eyebrow"><span class="cpd-mark" aria-hidden="true"></span>Custom Product Development · Chennai</p>
+    <p class="cpd-hero-hint">Move to reveal</p>
 
-        <h1 class="cpd-h1">
-          <span class="cpd-h1-lead">Where ideas become</span>
-          <?php /* The island replaces this text with the same word, extruded.
-                   A crawler, or a browser where the bundle never runs, reads
-                   the heading exactly as written. */ ?>
-          <span class="cpd-h1-lift" data-ok="text-lift"
-                data-props='<?= e(json_encode([
-                    'text'        => 'REAL PLATFORMS',
-                    'direction'   => 'bottomRight',
-                    'depth'       => 9,
-                    'spread'      => 1,
-                    'expand'      => 15,
-                    'fade'        => true,
-                    'filled'      => true,
-                    'stroke'      => 0,
-                    'frontColor'  => '#EAF0FA',
-                    'depthColor'  => '#4EA8FF',
-                    'strokeColor' => '#00F2FE',
-                    'font'        => [
-                        'fontFamily'    => 'Sora, system-ui, sans-serif',
-                        'fontWeight'    => 800,
-                        'fontSize'      => 'clamp(2.1rem, 5vw, 4rem)',
-                        'letterSpacing' => '-0.04em',
-                        'lineHeight'    => '1em',
-                    ],
-                ], JSON_THROW_ON_ERROR)) ?>'>REAL PLATFORMS</span>
-        </h1>
+    <div class="cpd-hero-band">
+      <div class="cpd-shell cpd-hero-band-inner">
+        <div>
+          <p class="cpd-eyebrow"><span class="cpd-mark" aria-hidden="true"></span>Custom Product Development · Chennai</p>
 
-        <p class="cpd-lead">
-          Every business eventually hits the workflow no packaged tool models correctly. We build the
-          product that does — frontend, backend, mobile, data, cloud and the integrations between
-          them, decided together under one architecture instead of stitched together afterwards.
-        </p>
-
-        <div class="cpd-actions">
-          <button class="cpd-btn cpd-btn--primary" type="button"
-                  data-modal-open data-modal-service="Custom Product Development">
-            Get a free consultation<?= icon('arrow') ?>
-          </button>
-          <a class="cpd-btn cpd-btn--ghost" href="#cpd-layers">See every layer</a>
+          <h1 class="cpd-h1">
+            <span class="cpd-h1-lead">Where ideas become</span>
+            Real platforms.
+          </h1>
         </div>
 
-        <ul class="cpd-stats">
-          <?php foreach ($stats as [$v, $l]): ?>
-            <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
+        <div class="cpd-hero-support">
+          <p class="cpd-lead">
+            Every business eventually hits the workflow no packaged tool models correctly. We build
+            the product that does — frontend, backend, mobile, data, cloud and the integrations
+            between them, under one architecture instead of stitched together afterwards.
+          </p>
 
-      <div class="cpd-hero-stage">
-        <?php /* The plates carry no text. They are tipped 56 degrees and turned
-                 42, and a caption riding that transform is unreadable — the
-                 first build put one on each and they came out as smears. The
-                 legend below names them square to the screen instead, and
-                 hovering an entry lights its plate. */ ?>
-        <div class="cpd-strata" data-strata-inner style="--n: <?= count($plates) ?>;" aria-hidden="true">
-          <?php foreach ($plates as $i => [$n]): ?>
-            <figure class="cpd-plate" data-plate="<?= $i ?>" style="--i: <?= $i ?>;">
-              <img src="<?= e($img('plate/' . $n . '.jpg')) ?>" width="760" height="460"
-                   alt="" loading="<?= $i < 2 ? 'eager' : 'lazy' ?>" decoding="async">
-            </figure>
-          <?php endforeach; ?>
+          <div class="cpd-actions">
+            <button class="cpd-btn cpd-btn--primary" type="button"
+                    data-modal-open data-modal-service="Custom Product Development">
+              Get a free consultation<?= icon('arrow') ?>
+            </button>
+            <a class="cpd-btn cpd-btn--ghost" href="#cpd-layers">See every layer</a>
+          </div>
         </div>
-
-        <ol class="cpd-legend" data-legend>
-          <?php foreach (array_reverse($plates, true) as $i => [$n, $title, $sub]): ?>
-            <li data-legend-item="<?= $i ?>">
-              <span class="cpd-plate-n"><?= e($n) ?></span>
-              <b><?= e($title) ?></b>
-              <i><?= e($sub) ?></i>
-            </li>
-          <?php endforeach; ?>
-        </ol>
       </div>
+    </div>
+  </section>
+
+  <section class="cpd-hero-stats">
+    <div class="cpd-shell">
+      <ul class="cpd-stats">
+        <?php foreach ($stats as [$v, $l]): ?>
+          <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
+        <?php endforeach; ?>
+      </ul>
     </div>
   </section>
 
@@ -607,6 +568,7 @@ $img = static function (string $rel): string {
 </div>
 
 <script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
+<script type="module" src="<?= e(asset('assets/js/neon-reveal.js')) ?>"></script>
 <script src="<?= e(asset('assets/js/custom-page.js')) ?>" defer></script>
 
 <?php

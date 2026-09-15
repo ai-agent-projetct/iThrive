@@ -129,12 +129,26 @@ if (!empty($heroComponent)) {
  * returns silently and would leave this wrapper behind as an empty band of
  * padding on any service that has no picture of its own.
  */ ?>
-<?php if (is_file(ROOT_PATH . '/assets/img/pages/services/' . $svc['slug'] . '.jpg')): ?>
+<?php
+/* Either picture counts. This tested only for the drawing, so a service whose
+   photograph had landed before its band was drawn rendered no picture at all —
+   the wrapper is still gated, so the empty-band case the note above describes
+   cannot come back. */
+$svcHasPhoto = is_file(ROOT_PATH . '/assets/img/pages/services/photo/' . $svc['slug'] . '.jpg');
+$svcHasDrawn = is_file(ROOT_PATH . '/assets/img/pages/services/' . $svc['slug'] . '.jpg');
+?>
+<?php if ($svcHasPhoto || $svcHasDrawn): ?>
 <section class="section section--tight">
   <div class="shell">
     <?php component('page-figure', [
         'src'     => 'pages/services/' . $svc['slug'],
-        'caption' => 'Six capabilities on one delivery spine, over the stack ' . $svc['title'] . ' actually runs on.',
+        /* Gated on the DRAWING, not on the photograph. Every service that has a
+           drawn band has carried this caption over its picture for as long as
+           the band has existed, photograph or not, and gating it on the photo
+           instead silently stripped it from eleven live pages. The only pages
+           it is withheld from are the ones with no drawn band at all, where it
+           would describe a diagram that was never made. */
+        'caption' => $svcHasDrawn ? 'Six capabilities on one delivery spine, over the stack ' . $svc['title'] . ' actually runs on.' : null,
     ]); ?>
   </div>
 </section>

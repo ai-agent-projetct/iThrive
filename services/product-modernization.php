@@ -210,7 +210,9 @@ $img = static function (string $rel): string {
     <canvas class="pm-hero-layer pm-hero-layer--veil" id="heroVeil"></canvas>
     <div class="pm-hero-scrim" aria-hidden="true"></div>
 
-    <div class="pm-shell pm-hero-grid">
+    <p class="pm-reveal-hint">Move to reveal</p>
+
+    <div class="pm-shell pm-reveal-band">
       <div class="pm-hero-copy">
         <p class="pm-eyebrow"><span class="pm-mark" aria-hidden="true"></span>Product Modernization ? Chennai</p>
 
@@ -219,6 +221,9 @@ $img = static function (string $rel): string {
           <em>not the whole business</em>
         </h1>
 
+      </div>
+
+      <div class="pm-reveal-support">
         <p class="pm-lead">
           Rewrites fail because they ask a company to stand still for a year. We put a routing layer
           in front of what you already run and move it across one capability at a time ? both
@@ -249,6 +254,12 @@ $img = static function (string $rel): string {
         </div>
       </div>
     </div>
+
+    <ul class="pm-stats pm-shell pm-reveal-stats">
+      <?php foreach ($stats as [$v, $l]): ?>
+        <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
+      <?php endforeach; ?>
+    </ul>
   </section>
 
   <style>
@@ -791,6 +802,7 @@ $img = static function (string $rel): string {
 
 <script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 <script src="<?= e(asset('assets/js/modern-page.js')) ?>" defer></script>
+<script type="module" src="<?= e(asset('assets/js/neon-reveal.js')) ?>"></script>
 
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
