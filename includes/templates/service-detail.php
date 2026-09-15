@@ -142,12 +142,13 @@ $svcHasDrawn = is_file(ROOT_PATH . '/assets/img/pages/services/' . $svc['slug'] 
   <div class="shell">
     <?php component('page-figure', [
         'src'     => 'pages/services/' . $svc['slug'],
-        /* This caption describes the DRAWN band specifically. page-figure prefers
-           a photograph whenever one exists, and the caption would then describe
-           a diagram that is not on screen — the exact mismatch the AI for
-           eCommerce band was reverted for. So it is set only when the drawing
-           is what will render; a photograph stands on its own, decorative. */
-        'caption' => $svcHasPhoto ? null : 'Six capabilities on one delivery spine, over the stack ' . $svc['title'] . ' actually runs on.',
+        /* Gated on the DRAWING, not on the photograph. Every service that has a
+           drawn band has carried this caption over its picture for as long as
+           the band has existed, photograph or not, and gating it on the photo
+           instead silently stripped it from eleven live pages. The only pages
+           it is withheld from are the ones with no drawn band at all, where it
+           would describe a diagram that was never made. */
+        'caption' => $svcHasDrawn ? 'Six capabilities on one delivery spine, over the stack ' . $svc['title'] . ' actually runs on.' : null,
     ]); ?>
   </div>
 </section>
