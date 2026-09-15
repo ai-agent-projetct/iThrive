@@ -55,6 +55,23 @@ function site_phone(): ?string
     return SITE_PHONE === SITE_PHONE_PLACEHOLDER ? null : SITE_PHONE;
 }
 
+/**
+ * One numbered section image for an AI service page, or null if it does not
+ * exist yet.
+ *
+ * The sixteen AI service pages carry fourteen images each across sections 3, 5
+ * and 6 — see docs/image-prompts.md for the briefs and the naming. They are
+ * generated in batches, so at any moment most slots are empty and EVERY caller
+ * has to render correctly without one. Returning null rather than a broken URL
+ * is what makes a half-filled set look deliberate instead of broken.
+ */
+function svc_img(string $page, int $section, int $n): ?string
+{
+    $rel = sprintf('assets/img/services/svc-%s-s%d-%d.jpg', $page, $section, $n);
+
+    return is_file(ROOT_PATH . '/' . $rel) ? asset($rel) : null;
+}
+
 /** Render a partial with an isolated scope. */
 function component(string $name, array $data = []): void
 {

@@ -32,6 +32,44 @@ $models = [['01', 'Executive AI Strategy Sprint', 'A focused 2-week engagement d
 
 $techStack = ['LangGraph', 'PyTorch', 'vLLM', 'AWS Bedrock', 'Azure OpenAI', 'NVIDIA NeMo', 'Qdrant', 'OpenTelemetry', 'Kubernetes'];
 
+/**
+ * The same stack, grouped and mapped to the logos vendored in assets/img/tech.
+ * Passed to the shared tech-stack component, which renders these tiles and then
+ * promotes them to an interactive orbit. Only names with a real logo file are
+ * listed: a tile whose svg is missing renders without an image and reads as a
+ * mistake rather than a design.
+ */
+$pageStack = [
+    ['slug' => 'models', 'title' => 'Models & Frameworks', 'icon' => 'brain',
+     'blurb' => 'What the reasoning actually runs on, and the harness around it.',
+     'items' => [
+         ['name' => 'PyTorch', 'logo' => 'pytorch'],
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'TensorFlow', 'logo' => 'tensorflow'],
+         ['name' => 'scikit-learn', 'logo' => 'scikitlearn'],
+     ]],
+    ['slug' => 'data', 'title' => 'Data & Retrieval', 'icon' => 'database',
+     'blurb' => 'Where your own corpus lives and how a passage is found in it.',
+     'items' => [
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'OpenSearch', 'logo' => 'opensearch'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'pandas', 'logo' => 'pandas'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Platform & Operations', 'icon' => 'cloud',
+     'blurb' => 'What it is deployed on, and what tells you it is still healthy.',
+     'items' => [
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'AWS', 'logo' => 'amazonwebservices'],
+         ['name' => 'Azure', 'logo' => 'azure'],
+         ['name' => 'Terraform', 'logo' => 'terraform'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['What is the primary goal of an Enterprise AI Consulting engagement?', 'Our AI consulting engagements evaluate your operational workflows, identify high-leverage automation opportunities, determine technical and financial feasibility, and deliver an actionable production architecture that guarantees measurable ROI.'], ['How do you determine whether an enterprise should use an open-source model or a commercial API?', 'We evaluate your specific use case against data sovereignty requirements, latency constraints, token volume, and budget. For regulated industries with strict privacy needs or massive token volumes, fine-tuned open-source models (like Llama or Mistral on private VPCs) often deliver 80% lower cost and total privacy. For generalized reasoning with variable load, commercial APIs with enterprise zero-retention agreements may be recommended.'], ['How do you calculate the projected ROI of an AI initiative before building?', 'We quantify the exact baseline hours spent on manual workflows, error rates, customer wait times, and direct labor costs, then model the efficiency uplift, labor deflection, and compute hosting expenses to provide an unambiguous net ROI and payback timeline.'], ['How do you ensure our sensitive business data remains private during the audit?', 'All discovery and prototyping are conducted under strict mutual NDAs using air-gapped sandboxes or private VPC enclaves. Your proprietary data is never logged, stored on unauthorized machines, or sent to public foundation model training queues.'], ['What deliverables do we receive at the conclusion of the consulting engagement?', 'You receive a complete Executive AI Roadmap, Technical Architecture Blueprints, Data Readiness & Governance Audit, Model Sizing & Cost Projection Report, and a step-by-step Implementation Plan ready for engineering execution.'], ['Can you help modernize our existing legacy software systems with AI?', 'Yes. We specialize in non-invasive modernization patterns, such as sidecar microservices and universal API gateways, allowing you to add cutting-edge AI capabilities without rewriting or destabilizing your revenue-generating legacy applications.'], ['How long does a typical AI consulting and discovery engagement take?', 'Our standard AI Strategy Sprint runs for 2 weeks, while deep-dive multi-department enterprise architecture audits typically span 3 to 4 weeks depending on organizational complexity.'], ['How do you address AI safety, hallucinations, and prompt injection risks?', 'We design multi-tier defense architectures incorporating deterministic guardrails (such as NeMo Guardrails and Llama Guard), schema-constrained JSON outputs, semantic chunk validation, and automated red-teaming harnesses.'], ['Do you provide the engineering team to build the solution after consulting?', 'Yes. iThrive provides end-to-end capabilities: from strategic advisory and architectural blueprinting to dedicated full-stack AI engineering squads that build, test, and maintain the production platform.'], ['How do you handle change management and user adoption across our workforce?', 'We structure intuitive human-in-the-loop interfaces, comprehensive role-based training modules, and gradual cohort rollouts with confidence scoring, ensuring your employees view AI as an empowering copilot rather than an unpredictable disruption.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +196,18 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php /* One image per discipline. svc_img() returns null until the
+                   file is generated, so the card keeps its current shape in the
+                   meantime rather than showing a broken frame. */ ?>
+          <?php $fig = svc_img('01', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +251,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('01', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +282,38 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php /* The roadmap, drawn in 3D. Purely a visual of the five phases
+               below it — every word stays in the cards, because text inside a
+               WebGL context is text no crawler and no screen reader reads.
+               svc-roadmap.js skips it entirely without WebGL or under reduced
+               motion, and the cards are then the whole section. */ ?>
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php /* Three stills for this section. Absent until generated — see
+               docs/image-prompts.md for the briefs. */ ?>
+      <?php
+      $s6 = array_filter([svc_img('01', 6, 1), svc_img('01', 6, 2), svc_img('01', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +377,10 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php /* The shared component: tiles server-side, promoted to an orbit
+               by tech-stack.js. Fed this page's own stack rather than the
+               site-wide one. */ ?>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

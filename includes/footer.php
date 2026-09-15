@@ -134,5 +134,14 @@ component('chat-widget');
 <script src="<?= e(asset('assets/js/tech-magnet.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/film.js')) ?>" defer></script>
 <?php endif; ?>
+<?php /* Any page carrying the tech-stack component, not just home. */ ?>
+<?php /* The 3D phase roadmap on the AI service pages. Additive: the phase
+         cards are the real content and stand alone without it. */ ?>
+<?php if (!empty($GLOBALS['ithrive_needs_roadmap'])): ?>
+<script type="module" src="<?= e(asset('assets/js/svc-roadmap.js')) ?>"></script>
+<?php endif; ?>
+<?php if ($page !== 'home' && !empty($GLOBALS['ithrive_needs_techstack'])): ?>
+<script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
+<?php endif; ?>
 </body>
 </html>

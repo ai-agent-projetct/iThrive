@@ -766,3 +766,67 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Section images & the 3D roadmap -------------------------------
+   Every image slot here is optional: svc_img() returns null until the file is
+   generated, so these rules only ever apply to a card that actually has one.
+   See docs/image-prompts.md for the briefs and the filenames. */
+
+.svc-card-fig {
+  margin: 0 0 18px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, .02);
+  aspect-ratio: 16 / 9;
+}
+
+.svc-card-fig img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s cubic-bezier(.22, .61, .36, 1);
+}
+
+.svc-card--figured:hover .svc-card-fig img,
+.svc-benefit-card--figured:hover .svc-card-fig img { transform: scale(1.04); }
+
+/* Section 6's three stills, above the phase cards. */
+.svc-s6-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 0 0 38px;
+}
+
+.svc-s6-strip figure {
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .08);
+  aspect-ratio: 16 / 9;
+}
+
+.svc-s6-strip img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* The roadmap host. Collapsed until the script reports a first frame, so a
+   browser without WebGL shows no empty band where a canvas should have been. */
+.svc-roadmap {
+  position: relative;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+  transition: height .4s cubic-bezier(.22, .61, .36, 1);
+}
+
+.svc-roadmap.is-live { height: clamp(200px, 26vw, 300px); margin: 0 0 34px; }
+.svc-roadmap canvas { display: block; width: 100%; height: 100%; }
+.svc-roadmap > span { display: none; }   /* phase data, read by the script only */
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-roadmap { display: none; }
+  .svc-card-fig img { transition: none; }
+  .svc-card--figured:hover .svc-card-fig img,
+  .svc-benefit-card--figured:hover .svc-card-fig img { transform: none; }
+}

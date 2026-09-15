@@ -10,7 +10,15 @@
 
 declare(strict_types=1);
 
-$groups = TECH_STACK;
+/* Defaults to the site-wide stack, but a page can pass its own so the section
+   names what that service actually ships with rather than everything we own. */
+$groups = $groups ?? TECH_STACK;
+
+/* The orbit script was loaded only on the home page, so every other page that
+   used this component got the static tiles and nothing else. Same flag pattern
+   as ithrive_needs_eyes: the component says it is here, footer.php loads the
+   script. */
+$GLOBALS['ithrive_needs_techstack'] = true;
 ?>
 <div class="techstack" data-techstack data-tech-base="<?= e(url('assets/img/tech/')) ?>">
   <div class="tech-tabs" role="tablist" aria-label="Technology categories">
@@ -53,8 +61,11 @@ $groups = TECH_STACK;
                 data-tech-logo="<?= e($item['logo']) ?>"
                 data-tech-cat="<?= e($g['slug']) ?>"
                 data-tech-group-title="<?= e($g['title']) ?>">
-              <img src="<?= e(asset('assets/img/tech/' . $item['logo'] . '.svg')) ?>"
-                   alt="" width="28" height="28" loading="lazy" decoding="async">
+              <?php $logo = 'assets/img/tech/' . $item['logo'] . '.svg'; ?>
+              <?php if (is_file(ROOT_PATH . '/' . $logo)): ?>
+                <img src="<?= e(asset($logo)) ?>"
+                     alt="" width="28" height="28" loading="lazy" decoding="async">
+              <?php endif; ?>
               <span><?= e($item['name']) ?></span>
             </li>
           <?php endforeach; ?>
