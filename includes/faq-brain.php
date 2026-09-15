@@ -418,6 +418,181 @@ const FAQ_LEXICON = [
     // payment / money. Only Tamil had these, so "can my app take
     // payments" scored nothing in four of the six languages.
     'പണം' => 'payment money', 'പേയ്‌മെന്റ' => 'payment money', 'ಹಣ' => 'payment money', 'డబ్బు' => 'payment money', 'पैसा' => 'payment money',
+    /* ------------------------------------------------------------------
+       Reachability for the rest of the book.
+
+       Measured rather than guessed: replicating faq_match() over every
+       entry showed 96 of them had no Indic route in at least one language --
+       mostly the agent, orchestration, strategy and copilot vocabulary.
+
+       Native words where the language has one, transliterations where it
+       does not, on the same reasoning as the source-code block above: people
+       type English technical nouns in their own script.
+
+       One English word per mapping. The floor scales with the number of
+       injected terms, so a second synonym raises the bar without raising the
+       score unless the book indexes it too.
+       ------------------------------------------------------------------ */
+
+    // agent
+    'ஏஜென்ட்' => 'agent', 'ഏജന്റ്' => 'agent', 'ഏജന്റ' => 'agent', 'ಏಜೆಂಟ್' => 'agent',
+    'ఏజెంట్' => 'agent', 'एजेन्ट' => 'agent',
+
+    // orchestration
+    'ஒருங்கிணைத்' => 'orchestration', 'ഏകോപന' => 'orchestration', 'ಸಮನ್ವಯ' => 'orchestration',
+    'సమన్వయ' => 'orchestration', 'समन्वय' => 'orchestration',
+
+    // swarm
+    'கூட்டம்' => 'swarm', 'കൂട്ടം' => 'swarm', 'ಗುಂಪು' => 'swarm', 'గుంపు' => 'swarm',
+    'झुंड' => 'swarm',
+
+    // strategy
+    'உத்தி' => 'strategy', 'மூலோபாய' => 'strategy', 'തന്ത്ര' => 'strategy',
+    'ಕಾರ್ಯತಂತ್ರ' => 'strategy', 'వ్యూహ' => 'strategy', 'रणनीति' => 'strategy',
+
+    // roadmap
+    'ரோட்மேப்' => 'roadmap', 'റോഡ്മാപ്പ' => 'roadmap', 'ರೋಡ್ಮ್ಯಾಪ್' => 'roadmap',
+    'రోడ్‌మ్యాప్' => 'roadmap', 'रोडमैप' => 'roadmap',
+
+    // custom
+    'தனிப்பயன்' => 'custom', 'கஸ்டம்' => 'custom', 'ഇഷ്ടാനുസൃത' => 'custom', 'കസ്റ്റ' => 'custom',
+    'ಕಸ್ಟಮ್' => 'custom', 'అనుకూల' => 'custom', 'కస్టమ్' => 'custom', 'कस्टम' => 'custom',
+
+    // expert
+    'நிபுணர்' => 'expert', 'വിദഗ്ധ' => 'expert', 'ಪರಿಣಿತ' => 'expert', 'నిపుణ' => 'expert',
+    'विशेषज्ञ' => 'expert',
+
+    // solution
+    'தீர்வு' => 'solution', 'പരിഹാര' => 'solution', 'ಪರಿಹಾರ' => 'solution',
+    'పరిష్కార' => 'solution', 'समाधान' => 'solution',
+
+    // audit
+    'ഓഡിറ്റ' => 'audit', 'ಲೆಕ್ಕಪರಿಶೋಧನೆ' => 'audit', 'ఆడిట్' => 'audit', 'ऑडिट' => 'audit',
+
+    // copilot
+    'கோபைலட்' => 'copilot', 'കോപൈലറ്റ' => 'copilot', 'ಕೋಪೈಲಟ್' => 'copilot',
+    'కోపైలట్' => 'copilot', 'कोपायलट' => 'copilot',
+
+    // domain
+    'துறை' => 'domain', 'മേഖല' => 'domain', 'ಕ್ಷೇತ್ರ' => 'domain', 'రంగం' => 'domain',
+    'क्षेत्र' => 'domain',
+
+    // ready
+    'தயார்' => 'ready', 'തയ്യാറ' => 'ready', 'ಸಿದ್ಧ' => 'ready', 'సిద్ధ' => 'ready',
+    'तैयार' => 'ready',
+
+    // prebuilt
+    'முன்கூட்டியே' => 'prebuilt', 'മുൻകൂട്ടി' => 'prebuilt', 'ಮೊದಲೇ' => 'prebuilt',
+    'ముందుగా' => 'prebuilt', 'पहले से' => 'prebuilt',
+
+    // embedded
+    'உள்ளமைந்த' => 'embedded', 'ഉൾച്ചേർത്ത' => 'embedded', 'ಎಂಬೆಡೆಡ್' => 'embedded',
+    'ఎంబెడెడ్' => 'embedded', 'एम्बेडेड' => 'embedded',
+
+    // productivity
+    'உற்பத்தித்திறன்' => 'productivity', 'ഉൽപ്പാദനക്ഷമത' => 'productivity',
+    'ಉತ್ಪಾದಕತೆ' => 'productivity', 'ఉత్పాదకత' => 'productivity', 'उत्पादकता' => 'productivity',
+
+    // consensus
+    'ஒருமித்த' => 'consensus', 'സമവായ' => 'consensus', 'ಒಮ್ಮತ' => 'consensus',
+    'ఏకాభిప్రాయ' => 'consensus', 'सहमति' => 'consensus',
+
+    // supervisor
+    'மேற்பார்வை' => 'supervisor', 'മേൽനോട്ട' => 'supervisor', 'ಮೇಲ್ವಿಚಾರಕ' => 'supervisor',
+    'పర్యవేక్షక' => 'supervisor', 'पर्यवेक्षक' => 'supervisor',
+
+    // governance
+    'ஆளுகை' => 'governance', 'ഭരണ' => 'governance', 'ಆಡಳಿತ' => 'governance',
+    'పాలన' => 'governance', 'शासन' => 'governance',
+
+    // pipeline
+    'பைப்லைன்' => 'pipeline', 'പൈപ്പ്‌ലൈൻ' => 'pipeline', 'ಪೈಪ್‌ಲೈನ್' => 'pipeline',
+    'పైప్‌లైన్' => 'pipeline', 'पाइपलाइन' => 'pipeline',
+
+    /* ------------------------------------------------------------------
+       The tail: downtime, deliverables, handover, scope, contracts,
+       choosing between options. After this the remaining unreachable
+       entries share no concept at all -- they are indexed almost entirely
+       on generic English, where no Indic word would route a question
+       correctly anyway, so adding more here would only add noise.
+       ------------------------------------------------------------------ */
+
+    // downtime
+    'செயலிழப்பு' => 'downtime', 'പ്രവർത്തനരഹിത' => 'downtime', 'ಸ್ಥಗಿತ' => 'downtime',
+    'అంతరాయ' => 'downtime', 'डाउनटाइम' => 'downtime',
+
+    // deliverable
+    'வழங்கல்' => 'deliverable', 'ഡെലിവറബിൾ' => 'deliverable', 'ವಿತರಣೆ' => 'deliverable',
+    'డెలివరీ' => 'deliverable', 'डिलिवरेबल' => 'deliverable',
+
+    // handover
+    'ஒப்படைப்பு' => 'handover', 'കൈമാറ്റ' => 'handover', 'ಹಸ್ತಾಂತರ' => 'handover',
+    'అప్పగింత' => 'handover', 'हस्तांतरण' => 'handover',
+
+    // scope
+    'வரம்பு' => 'scope', 'വ്യാപ്തി' => 'scope', 'ವ್ಯಾಪ್ತಿ' => 'scope', 'పరిధి' => 'scope',
+    'दायरा' => 'scope',
+
+    // contract
+    'ஒப்பந்த' => 'contract', 'കരാർ' => 'contract', 'ಒಪ್ಪಂದ' => 'contract', 'ఒప్పంద' => 'contract',
+    'अनुबंध' => 'contract',
+
+    // choose
+    'தேர்வு' => 'choose', 'തിരഞ്ഞെടു' => 'choose', 'ಆಯ್ಕೆ' => 'choose', 'ఎంపిక' => 'choose',
+    'चुनाव' => 'choose',
+
+    // frontend
+    'ஃப்ரண்ட்எண்ட்' => 'frontend', 'ഫ്രണ്ട്എൻഡ്' => 'frontend', 'ಫ್ರಂಟ್‌ಎಂಡ್' => 'frontend',
+    'ఫ్రంట్‌ఎండ్' => 'frontend', 'फ्रंटएंड' => 'frontend',
+
+    // mvp
+    'எம்விபி' => 'mvp', 'എംവിപി' => 'mvp', 'ಎಂವಿಪಿ' => 'mvp', 'ఎంవీపీ' => 'mvp', 'एमवीपी' => 'mvp',
+
+    // scale
+    'அளவீடு' => 'scale', 'സ്കെയിൽ' => 'scale', 'ಸ್ಕೇಲ್' => 'scale', 'స్కేల్' => 'scale',
+    'स्केल' => 'scale',
+
+    // rewrite
+    'மீண்டும் எழுத' => 'rewrite', 'വീണ്ടും എഴുത' => 'rewrite', 'ಮರುಬರೆ' => 'rewrite',
+    'మళ్లీ రాయ' => 'rewrite', 'फिर से लिख' => 'rewrite',
+
+    /* ------------------------------------------------------------------
+       Last additions: communication, progress, passwords, working abroad,
+       time saved, being attacked.
+
+       What remains unmapped is deliberate. Prompt injection, idempotent
+       retries, attended versus unattended automation -- these are asked by
+       someone already fluent in the vocabulary, typing the English terms,
+       which match anyway because Latin characters survive faq_terms() in a
+       mixed-script question. Native coinages for them would fire on the
+       wrong questions.
+       ------------------------------------------------------------------ */
+
+    // communication
+    'தொடர்பு' => 'communication', 'ആശയവിനിമയ' => 'communication', 'ಸಂವಹನ' => 'communication',
+    'కమ్యూనికేష' => 'communication', 'संचार' => 'communication',
+
+    // progress
+    'முன்னேற்ற' => 'progress', 'പുരോഗതി' => 'progress', 'ಪ್ರಗತಿ' => 'progress',
+    'పురోగతి' => 'progress', 'प्रगति' => 'progress',
+
+    // password
+    'கடவுச்சொல்' => 'password', 'പാസ്‌വേഡ' => 'password', 'ಪಾಸ್‌ವರ್ಡ್' => 'password',
+    'పాస్‌వర్డ్' => 'password', 'पासवर्ड' => 'password',
+
+    // international
+    'சர்வதேச' => 'international', 'അന്താരാഷ്ട്ര' => 'international',
+    'ಅಂತಾರಾಷ್ಟ್ರೀಯ' => 'international', 'అంతర్జాతీయ' => 'international',
+    'अंतरराष्ट्रीय' => 'international',
+
+    // savings
+    'சேமிப்பு' => 'savings', 'ലാഭിക്ക' => 'savings', 'ಉಳಿತಾಯ' => 'savings', 'ఆదా' => 'savings',
+    'बचत' => 'savings',
+
+    // attack
+    'தாக்குதல்' => 'attack', 'ആക്രമണ' => 'attack', 'ದಾಳಿ' => 'attack', 'దాడి' => 'attack',
+    'हमला' => 'attack',
+
 ];
 
 /** Tokens too common to carry meaning. */

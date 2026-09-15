@@ -2304,7 +2304,7 @@ const FAQ = [
         'a' => 'Yes — we deliver across India, the Gulf and the United States, and work in your timezone '
              . 'for the overlap that matters. Being physically present helps most during discovery, when '
              . 'sitting in a room with the people whose workflow you are modelling is worth a great deal.',
-        'terms' => 'outside india international overseas usa uk gulf dubai global remote timezone abroad',
+        'terms' => 'outside india international overseas usa uk gulf dubai global remote timezone abroad build work',
     ],
     [
         'id' => 'q255', 'cat' => 'engagement',
