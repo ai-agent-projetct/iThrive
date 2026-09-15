@@ -288,7 +288,7 @@ require dirname(__DIR__) . '/includes/header.php';
                svc-roadmap.js skips it entirely without WebGL or under reduced
                motion, and the cards are then the whole section. */ ?>
       <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
-      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+      <div class="svc-roadmap" data-roadmap="path" aria-hidden="true">
         <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
           <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
         <?php endforeach; ?>

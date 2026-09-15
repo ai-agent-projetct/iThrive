@@ -269,7 +269,7 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
-      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+      <div class="svc-roadmap" data-roadmap="grid" aria-hidden="true">
         <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
           <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
         <?php endforeach; ?>
