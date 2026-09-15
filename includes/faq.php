@@ -1625,4 +1625,791 @@ const FAQ = [
              . 'decision that stopped making sense.',
         'terms' => 'stop using remove revert cancel discontinue abandon undo go back manual exit reverse',
     ],
+    // ---- 13. Generative AI, RAG, chatbots, copilots and vision ------------
+
+    [
+        'id' => 'q177', 'cat' => 'ai-native',
+        'q' => 'What is RAG and why do we keep hearing about it?',
+        'a' => 'Retrieval-augmented generation. Instead of hoping a model already knows your business, you '
+             . 'fetch the relevant passages from your own documents and hand them to it with the question. '
+             . 'You hear about it constantly because it is the cheapest honest way to make a model answer '
+             . 'from your material rather than from the internet.',
+        'terms' => 'rag retrieval augmented generation what is meaning explain define vector search grounding',
+    ],
+    [
+        'id' => 'q178', 'cat' => 'ai-native',
+        'q' => 'Our AI gives vague or generic answers. What is wrong?',
+        'a' => 'Retrieval, nine times out of ten. The model was never shown the right passage, so it '
+             . 'answered from general knowledge and sounded plausible doing it. Before touching prompts we '
+             . 'measure whether the correct passage is being fetched at all; if it is not, no amount of '
+             . 'prompt rewriting fixes it.',
+        'terms' => 'vague generic wrong answer bad quality poor irrelevant not accurate useless improve fix',
+    ],
+    [
+        'id' => 'q179', 'cat' => 'ai-native',
+        'q' => 'Why not just paste everything into the prompt now that context windows are huge?',
+        'a' => 'Cost and precision. A large context is paid for on every single call and spreads attention '
+             . 'across irrelevant material, which measurably lowers answer quality on specific questions. '
+             . 'Long context is genuinely good for reasoning over one big document; it is a poor substitute '
+             . 'for retrieval across ten thousand of them.',
+        'terms' => 'context window long large paste everything instead of rag why not big token limit',
+    ],
+    [
+        'id' => 'q180', 'cat' => 'ai-native',
+        'q' => 'How do you stop AI from making things up?',
+        'a' => 'Three mechanisms, none of which is telling it not to. Answers are grounded in your sources '
+             . 'and cite them, outputs are validated against a schema before anything downstream accepts '
+             . 'them, and the system is scored on a fixed set of your real cases before release. Where a '
+             . 'claim cannot be grounded, it is designed to say so rather than fill the gap.',
+        'terms' => 'hallucination making up invent false wrong fabricate lie made up untrue accuracy prevent',
+    ],
+    [
+        'id' => 'q181', 'cat' => 'ai-native',
+        'q' => 'What happens if we withdraw a policy the AI has been quoting?',
+        'a' => 'Re-indexing runs on change, and deletions propagate. This matters more than it sounds: an '
+             . 'assistant confidently quoting a policy you retired last quarter is worse than one that says '
+             . 'it does not know, because nobody double-checks an answer that sounds right.',
+        'terms' => 'outdated old policy withdraw remove delete stale update refresh change document obsolete',
+    ],
+    [
+        'id' => 'q182', 'cat' => 'ai-native',
+        'q' => 'Can the AI be stopped from showing documents people should not see?',
+        'a' => 'Yes, and permissions are enforced at retrieval rather than filtered out of the answer '
+             . 'afterwards. The distinction matters: a system that fetches a restricted document and then '
+             . 'tries not to mention it has already put it into the model context.',
+        'terms' => 'permission access control restricted confidential who can see security role private leak',
+    ],
+    [
+        'id' => 'q183', 'cat' => 'ai-native',
+        'q' => 'Do we need a special vector database?',
+        'a' => 'Usually not at first. pgvector inside the PostgreSQL you already run handles corpora well '
+             . 'into the millions of chunks and saves you a whole extra piece of infrastructure to operate. '
+             . 'We move to a dedicated store when scale or latency genuinely demand it, which is later than '
+             . 'most vendors suggest.',
+        'terms' => 'vector database pinecone weaviate pgvector need special store embedding infrastructure',
+    ],
+    [
+        'id' => 'q184', 'cat' => 'ai-native',
+        'q' => 'What kinds of documents can be used?',
+        'a' => 'PDFs including scanned ones, Word and Excel files, wiki and Confluence pages, ticket '
+             . 'history, email archives and database records. Scanned and inconsistently formatted '
+             . 'paperwork is where the real work goes — far more than in the embedding step.',
+        'terms' => 'documents pdf word excel scan file type support ingest upload confluence wiki email data',
+    ],
+    [
+        'id' => 'q185', 'cat' => 'ai-native',
+        'q' => 'What if two of our documents contradict each other?',
+        'a' => 'The system dates and ranks sources rather than pretending the conflict is absent. It '
+             . 'prefers the most recent authoritative version, shows which document each claim came from, '
+             . 'and where two current sources genuinely disagree it says so. Surfacing the contradiction is '
+             . 'usually worth more than resolving it silently.',
+        'terms' => 'contradict conflict disagree two documents different answers inconsistent which correct',
+    ],
+    [
+        'id' => 'q186', 'cat' => 'ai-assistant',
+        'q' => 'How is an AI chatbot different from the one our helpdesk already includes?',
+        'a' => 'Most bundled bots match keywords against a list of canned replies. A modern one answers '
+             . 'from your actual documentation and product data, cites where the answer came from, and can '
+             . 'take real actions like checking an order. The difference shows on the questions nobody '
+             . 'wrote a canned reply for, which is most of them.',
+        'terms' => 'chatbot different helpdesk zendesk freshdesk builtin included bot compare better why',
+    ],
+    [
+        'id' => 'q187', 'cat' => 'ai-assistant',
+        'q' => 'What deflection rate is realistic for a support bot?',
+        'a' => 'Sixty percent or better of first-line volume once the content behind it is in reasonable '
+             . 'shape — and the content is almost always the limiting factor rather than the model. We '
+             . 'report the unanswered questions weekly, because that list is the roadmap for both the bot '
+             . 'and your documentation.',
+        'terms' => 'deflection rate percent how many tickets reduce support volume savings realistic expect',
+    ],
+    [
+        'id' => 'q188', 'cat' => 'ai-assistant',
+        'q' => 'What happens when the bot does not know something?',
+        'a' => 'It says so and hands over, with the conversation attached so the customer does not have to '
+             . 'repeat themselves. That path is designed first rather than bolted on. A bot that guesses '
+             . 'confidently when unsure does more damage to trust than one that escalates twice as often.',
+        'terms' => 'bot does not know unknown escalate handover human agent transfer fallback unsure fail',
+    ],
+    [
+        'id' => 'q189', 'cat' => 'ai-assistant',
+        'q' => 'Can a chatbot work on WhatsApp?',
+        'a' => 'Yes — WhatsApp Business, web widget, in-app, and inside your helpdesk as an agent assist, '
+             . 'all running off one backend. That single backend is the point: it stops answers drifting '
+             . 'between channels, which is the usual failure when each channel gets its own bot.',
+        'terms' => 'whatsapp channel web widget app mobile sms instagram facebook messenger where deploy',
+    ],
+    [
+        'id' => 'q190', 'cat' => 'ai-assistant',
+        'q' => 'Can it answer in Tamil, Hindi or other Indian languages?',
+        'a' => 'Yes, and it answers in whichever language the question was asked in. The source content '
+             . 'stays in one place rather than being maintained per language, which is what stops '
+             . 'translations going stale at different rates. We test the specific languages you need '
+             . 'before committing to them.',
+        'terms' => 'tamil hindi malayalam kannada telugu language indian regional multilingual translate local',
+    ],
+    [
+        'id' => 'q191', 'cat' => 'ai-assistant',
+        'q' => 'Can the assistant speak, not just type?',
+        'a' => 'Yes. The site already ships server-side speech for Indian languages, because browsers only '
+             . 'speak a language when a voice for it is installed and Tamil, Malayalam, Kannada and Telugu '
+             . 'voices are absent from most Windows desktops. With a speech provider configured, every '
+             . 'supported language gets a real voice.',
+        'terms' => 'voice speak audio tts text to speech listen speech sound talk read aloud accessibility',
+    ],
+    [
+        'id' => 'q192', 'cat' => 'ai-assistant',
+        'q' => 'Who maintains the chatbot answers after launch?',
+        'a' => 'Your team owns the content and the bot reads it. That is deliberate — the moment answers '
+             . 'live somewhere only we can edit, you have a dependency nobody asked for. We provide the '
+             . 'review queue and the weekly gap report, and can run maintenance on a retainer if you would '
+             . 'rather not.',
+        'terms' => 'maintain update answers content who manages after launch ongoing edit change ourselves',
+    ],
+    [
+        'id' => 'q193', 'cat' => 'ai-assistant',
+        'q' => 'What is an AI copilot and how is it different from a chatbot?',
+        'a' => 'Where it lives and who it serves. A chatbot is a destination your customer visits with a '
+             . 'question. A copilot sits inside a screen your own team already works in, sees what they are '
+             . 'looking at, and offers help without being asked a question at all. The hard part is '
+             . 'context, not conversation.',
+        'terms' => 'copilot assistant difference chatbot what is inline sidebar internal staff tool helper',
+    ],
+    [
+        'id' => 'q194', 'cat' => 'ai-assistant',
+        'q' => 'Does a copilot act on its own?',
+        'a' => 'No — it proposes and a person accepts. Anything that writes to a system needs an explicit '
+             . 'confirmation rather than an inference. If you want something that acts autonomously, that '
+             . 'is agent work and a different engagement.',
+        'terms' => 'copilot act automatic autonomous permission confirm approve write change safe control',
+    ],
+    [
+        'id' => 'q195', 'cat' => 'ai-assistant',
+        'q' => 'How do we know whether a copilot is actually helping?',
+        'a' => 'Accept, edit and reject are recorded per suggestion, so you can see acceptance rate by '
+             . 'feature and by user group. That is both the quality signal and the training data for the '
+             . 'next iteration. A copilot with a low acceptance rate is not a copilot, it is a distraction, '
+             . 'and the numbers say which one you have.',
+        'terms' => 'copilot measure roi working useful adoption acceptance metrics value prove worth track',
+    ],
+    [
+        'id' => 'q196', 'cat' => 'ai-assistant',
+        'q' => 'Can a copilot be added to software we did not build?',
+        'a' => 'Sometimes. If the product has an API or an extension point, yes. If it is a closed desktop '
+             . 'application with neither, the honest answer is usually no — and the alternative is '
+             . 'automation around it rather than a copilot inside it.',
+        'terms' => 'copilot third party software existing application add integrate closed vendor product',
+    ],
+    [
+        'id' => 'q197', 'cat' => 'ai-native',
+        'q' => 'How many images do you need to train computer vision?',
+        'a' => 'Fewer than people expect for a narrow task — a few hundred well-chosen examples per class '
+             . 'often produces a useful first model. Coverage matters far more than volume: images from '
+             . 'your actual cameras, your actual lighting, and crucially your actual failure cases.',
+        'terms' => 'computer vision images how many training data dataset photos samples need collect label',
+    ],
+    [
+        'id' => 'q198', 'cat' => 'ai-native',
+        'q' => 'Why do computer vision projects fail more often than other AI work?',
+        'a' => 'Because they are usually validated on tidy sample images and then deployed against a '
+             . 'smeared lens in poor light at an angle nobody anticipated. The model is rarely the problem. '
+             . 'We insist on collecting from the real environment first, which occasionally means the '
+             . 'honest first deliverable is a camera and lighting recommendation.',
+        'terms' => 'vision fail problem difficult why hard camera lighting real world accuracy deployment',
+    ],
+    [
+        'id' => 'q199', 'cat' => 'ai-native',
+        'q' => 'Does video have to leave our premises for AI inspection?',
+        'a' => 'No. Inference can run on the edge next to the camera, which keeps footage on site and means '
+             . 'a network outage does not stop the line. That is the usual choice for factory and field '
+             . 'deployments, and often the only acceptable one where people appear in frame.',
+        'terms' => 'video privacy edge on site cloud upload footage leave premises local camera offline',
+    ],
+    [
+        'id' => 'q200', 'cat' => 'ai-native',
+        'q' => 'Can AI read our handwritten forms and invoices?',
+        'a' => 'Yes — printed and handwritten forms, invoices, IDs and delivery notes. It is a different '
+             . 'pipeline from scene inspection but the same engagement, and it is particularly worth doing '
+             . 'where a template-based OCR tool has already been tried and defeated by inconsistent '
+             . 'layouts.',
+        'terms' => 'ocr handwriting read invoice form document scan extract paper bill receipt id capture',
+    ],
+    [
+        'id' => 'q201', 'cat' => 'ai-native',
+        'q' => 'What happens to a vision model when our product or packaging changes?',
+        'a' => 'It needs new examples, and the system is built expecting that. Low-confidence frames route '
+             . 'to a person for review and their corrections feed the next training round, so a change '
+             . 'degrades performance temporarily rather than breaking it. Without that loop, a vision model '
+             . 'quietly decays until someone notices yield dropping.',
+        'terms' => 'product change packaging new model retrain update degrade maintain vision adapt drift',
+    ],
+    [
+        'id' => 'q202', 'cat' => 'ai-delivery',
+        'q' => 'Which AI model do you use, and can we choose?',
+        'a' => 'Whichever wins on your tasks — we benchmark rather than assume, and you see the results. In '
+             . 'practice a large model handles the difficult minority of cases and a small cheap one '
+             . 'handles the bulk, with routing between them. A proposal that names one fixed model is a '
+             . 'warning sign: the leaderboard moves every few months and the architecture should not have '
+             . 'to.',
+        'terms' => 'which model gpt claude gemini llama choose select best compare openai anthropic choice',
+    ],
+    [
+        'id' => 'q203', 'cat' => 'ai-delivery',
+        'q' => 'How do you keep AI running costs under control?',
+        'a' => 'Routing cheap work to small models, caching what repeats, compressing prompts, and setting '
+             . 'token and cost ceilings per run. Together those routinely cut inference cost by more than '
+             . 'half. We model cost per thousand operations before building rather than discovering it on '
+             . 'an invoice.',
+        'terms' => 'cost control expensive reduce cheap token spend bill budget optimise savings inference',
+    ],
+    [
+        'id' => 'q204', 'cat' => 'ai-delivery',
+        'q' => 'Is our data used to train the AI provider models?',
+        'a' => 'No. We run against enterprise endpoints with training disabled, or against open-weight '
+             . 'models inside your own infrastructure where residency or contract terms require it. That '
+             . 'decision is made before the first line of code, because retrofitting it is a migration '
+             . 'rather than a setting.',
+        'terms' => 'training data privacy used confidential leak share provider openai secure gdpr dpdp',
+    ],
+    [
+        'id' => 'q205', 'cat' => 'ai-delivery',
+        'q' => 'What does an AI evaluation set actually do for us?',
+        'a' => 'It converts "the AI seems worse today" into a number. A fixed collection of your real cases '
+             . 'is scored on every prompt change, model change and provider update, so a regression is '
+             . 'caught in CI rather than by a customer. It is the single artefact that separates a '
+             . 'maintainable AI system from a demo.',
+        'terms' => 'evaluation eval golden set test quality measure benchmark regression accuracy score why',
+    ],
+    [
+        'id' => 'q206', 'cat' => 'ai-delivery',
+        'q' => 'Can you work with an AI feature another vendor built for us?',
+        'a' => 'Yes, starting with a paid audit: architecture, prompts, tool permissions, whether an '
+             . 'evaluation set exists, and what happens on failure. Taking one over without that audit is '
+             . 'how a support engagement quietly becomes a rebuild, which helps nobody.',
+        'terms' => 'another vendor existing take over inherit audit fix rescue previous developer maintain',
+    ],
+    // ---- 14. Automation, integration and running it afterwards ------------
+
+    [
+        'id' => 'q207', 'cat' => 'agentic',
+        'q' => 'Is RPA obsolete now that most systems have APIs?',
+        'a' => 'Not in India, and not soon. Plenty of the systems running real businesses here — older '
+             . 'ERPs, government portals, bank interfaces, industry-specific desktop software — expose '
+             . 'nothing usable and the vendor has no plan to change that. RPA is the bridge for exactly '
+             . 'those, and far cheaper than the migration that would otherwise be required.',
+        'terms' => 'rpa obsolete dead outdated still useful api replace robotic automation worth it relevant',
+    ],
+    [
+        'id' => 'q208', 'cat' => 'agentic',
+        'q' => 'Our robots break whenever a screen changes. Can that be avoided?',
+        'a' => 'Largely, yes, by engineering them rather than recording them. Recorders capture screen '
+             . 'coordinates and shatter on the first layout change. Driving stable element identifiers, '
+             . 'handling waits explicitly and defining behaviour on every failure turns a vendor redesign '
+             . 'into a fix rather than a rebuild.',
+        'terms' => 'robot break fragile screen change layout maintenance brittle fail update selector fix',
+    ],
+    [
+        'id' => 'q209', 'cat' => 'agentic',
+        'q' => 'What is the difference between attended and unattended automation?',
+        'a' => 'An attended robot runs on someone\'s desktop and helps them with a step while they work. An '
+             . 'unattended one runs on a server against a queue with nobody watching. Unattended work needs '
+             . 'stronger exception handling for the obvious reason: there is no human present to notice '
+             . 'something has gone strange.',
+        'terms' => 'attended unattended difference desktop server scheduled background automation types',
+    ],
+    [
+        'id' => 'q210', 'cat' => 'agentic',
+        'q' => 'How quickly does automation pay for itself?',
+        'a' => 'For a genuinely repetitive task with real volume, usually within a few months. We size that '
+             . 'before building by timing the current process, and if the honest sum does not clear the '
+             . 'build cost inside a year we say so rather than proceeding.',
+        'terms' => 'roi payback worth cost benefit justify business case savings return months investment',
+    ],
+    [
+        'id' => 'q211', 'cat' => 'agentic',
+        'q' => 'Is it safe to give automation our system passwords?',
+        'a' => 'It is, provided the robot gets its own identity rather than borrowing a person\'s. Each one '
+             . 'has credentials scoped to exactly what it needs, kept in a managed secret store, with every '
+             . 'action logged against the record it touched. Sharing an employee login with a robot is the '
+             . 'practice to avoid, and it is unfortunately common.',
+        'terms' => 'password credentials security robot login share account safe secret key access risky',
+    ],
+    [
+        'id' => 'q212', 'cat' => 'agentic',
+        'q' => 'What is the difference between automating a task and automating a workflow?',
+        'a' => 'A task saves minutes; a workflow removes a queue. The test is whether a case can travel '
+             . 'from arrival to resolution without a person re-entering it somewhere in the middle. Most '
+             . 'automation programmes stop at tasks and then wonder why nothing changed downstream.',
+        'terms' => 'task workflow difference end to end process automate partial full queue scope meaning',
+    ],
+    [
+        'id' => 'q213', 'cat' => 'agentic',
+        'q' => 'Where should the decision rules for an automated workflow live?',
+        'a' => 'In version control alongside the workflow, so changing how cases are decided is a '
+             . 'reviewable commit rather than a prompt somebody edited on a Friday. For anything touching '
+             . 'money or entitlement, being able to say exactly what the rule was on a given date matters '
+             . 'more than convenience.',
+        'terms' => 'rules policy where stored change decision logic version control edit update governance',
+    ],
+    [
+        'id' => 'q214', 'cat' => 'agentic',
+        'q' => 'How much manual work does workflow automation actually remove?',
+        'a' => 'Forty percent or more of handling time is typical on a well-chosen workflow, and we measure '
+             . 'the before honestly so the after means something. Treat anyone quoting ninety percent with '
+             . 'suspicion: that number usually counts the happy path and ignores the exception queue '
+             . 'entirely.',
+        'terms' => 'how much save time reduce manual percent effort savings efficiency realistic expect',
+    ],
+    [
+        'id' => 'q215', 'cat' => 'modernise',
+        'q' => 'Can AI work with our old ERP that has no API?',
+        'a' => 'Usually yes. We use whatever it does expose — scheduled file drops, a database view, or '
+             . 'interface automation — and put a proper contract layer in front of it. When the vendor '
+             . 'eventually ships an API you swap the adapter and nothing above it has to change.',
+        'terms' => 'old erp legacy no api integrate connect ancient system tally sap outdated software bridge',
+    ],
+    [
+        'id' => 'q216', 'cat' => 'modernise',
+        'q' => 'Will connecting AI slow our existing systems down?',
+        'a' => 'It should not, and it is designed against: rate limits per connector, caching for reads '
+             . 'that repeat, and queueing for writes so a burst does not arrive at your ERP all at once. '
+             . 'Worth taking seriously, because agents generate load in patterns no human user ever would.',
+        'terms' => 'slow performance load impact existing system speed degrade server capacity overload',
+    ],
+    [
+        'id' => 'q217', 'cat' => 'modernise',
+        'q' => 'Do we have to replace our current systems to use AI?',
+        'a' => 'Almost never, and anyone who says otherwise is selling a rewrite. The usual shape is a '
+             . 'layer beside what you run, reading and writing through a contract, with the existing system '
+             . 'untouched. Replacement becomes the answer only when the system itself is the constraint.',
+        'terms' => 'replace existing system rewrite migrate keep current must change upgrade whole new',
+    ],
+    [
+        'id' => 'q218', 'cat' => 'ai-delivery',
+        'q' => 'Who is accountable if an AI system makes a costly mistake?',
+        'a' => 'You are, which is exactly why the decision boundary is agreed in writing before anything '
+             . 'ships: what the system decides, what it only drafts, and what it must escalate. Anything '
+             . 'touching money, entitlement or clinical care is drafted by the system and signed by a '
+             . 'person.',
+        'terms' => 'accountable liable responsible mistake costly error legal blame insurance risk who fault',
+    ],
+    [
+        'id' => 'q219', 'cat' => 'ai-delivery',
+        'q' => 'What evidence can you produce if a regulator asks how a decision was made?',
+        'a' => 'The full action trail: every tool call recorded against the record it touched, with inputs, '
+             . 'outputs and the run it belonged to. An auditor can reconstruct a decision without reading a '
+             . 'model log, which is the form the question actually arrives in.',
+        'terms' => 'regulator audit evidence compliance proof explain decision rbi irdai sebi hipaa report',
+    ],
+    [
+        'id' => 'q220', 'cat' => 'ai-delivery',
+        'q' => 'Does India\'s DPDP Act affect what we can build?',
+        'a' => 'It affects where personal data goes, how long you keep it, and what you can evidence about '
+             . 'both — so it shapes architecture rather than blocking it. We design for residency and '
+             . 'retention up front and produce the records your auditor asks for. We are not your lawyers, '
+             . 'and for regulated work we expect to sit alongside your counsel.',
+        'terms' => 'dpdp act india data protection law compliance legal privacy regulation personal gdpr',
+    ],
+    [
+        'id' => 'q221', 'cat' => 'ai-delivery',
+        'q' => 'Can everything run inside our own infrastructure?',
+        'a' => 'Yes, with open-weight models served in your environment and local embedding, so no content '
+             . 'leaves. It costs more in engineering and hardware than a hosted API, and below a certain '
+             . 'volume hosted is genuinely cheaper. For regulated data or restrictive customer contracts it '
+             . 'is frequently the only acceptable answer.',
+        'terms' => 'on premise self host private cloud own server local air gapped offline data residency',
+    ],
+    [
+        'id' => 'q222', 'cat' => 'ai-delivery',
+        'q' => 'What happens to our AI system if we stop working with you?',
+        'a' => 'It keeps running, because it was never dependent on us. Repository, prompts, evaluation '
+             . 'set, infrastructure accounts and runbooks are yours from the first week rather than handed '
+             . 'over at the end. Several clients run their own operations after six months and keep us only '
+             . 'for model migrations.',
+        'terms' => 'stop working leave exit end contract dependency lock in handover continue own transfer',
+    ],
+    [
+        'id' => 'q223', 'cat' => 'engagement',
+        'q' => 'Do we need an AI strategy before we build anything?',
+        'a' => 'You need one before you build the third thing. For a first, well-understood use case, a '
+             . 'strategy engagement can be overhead. Once several departments want their own AI features, '
+             . 'the absence of a strategy shows up as duplicated effort and an unreadable bill.',
+        'terms' => 'strategy first consulting before build need roadmap planning necessary start approach',
+    ],
+    [
+        'id' => 'q224', 'cat' => 'engagement',
+        'q' => 'Will you tell us not to build something?',
+        'a' => 'Regularly, and it is a normal outcome rather than a failed engagement. If a packaged '
+             . 'product models your workflow well, a licence is cheaper than a build and we say so in '
+             . 'writing. We make our money on the builds worth building.',
+        'terms' => 'not build recommend against honest buy instead licence advice dont waste money truth',
+    ],
+    [
+        'id' => 'q225', 'cat' => 'engagement',
+        'q' => 'Can we hire your AI engineers into our own team?',
+        'a' => 'Yes, as an embedded arrangement: named people working in your repository, your tracker and '
+             . 'your stand-up, monthly and resizable monthly. Not a rotating pool — context is most of the '
+             . 'value after the first month, and a pool destroys it.',
+        'terms' => 'hire engineers developers staff augmentation embed team resource dedicated rent people',
+    ],
+    [
+        'id' => 'q226', 'cat' => 'engagement',
+        'q' => 'Can we trial your engineers before committing?',
+        'a' => 'Yes — a paid two-week trial on a real piece of your backlog, which we recommend and most '
+             . 'clients take. It tells you more than any interview, and it is what we would want in your '
+             . 'position.',
+        'terms' => 'trial test try before commit pilot evaluate engineers sample two week prove quality',
+    ],
+    [
+        'id' => 'q227', 'cat' => 'engagement',
+        'q' => 'What is the minimum commitment for a dedicated engineer?',
+        'a' => 'Monthly, and resizable monthly. A team you cannot resize is a hire with extra steps and '
+             . 'none of the benefits. Most engagements run three to nine months and step down as your own '
+             . 'team picks the work up.',
+        'terms' => 'minimum commitment contract length monthly notice period cancel scale down flexible',
+    ],
+    [
+        'id' => 'q228', 'cat' => 'growth',
+        'q' => 'Which of our departments should try AI first?',
+        'a' => 'The one with a queue, written rules and reversible actions — usually support, finance '
+             . 'operations or document handling. Sales and marketing feel like the obvious first choice and '
+             . 'are frequently the worst, because the work is judgement-heavy and success is hard to '
+             . 'measure honestly.',
+        'terms' => 'which department first start pilot sales marketing finance hr support operations best',
+    ],
+    [
+        'id' => 'q229', 'cat' => 'growth',
+        'q' => 'How do we measure whether an AI project actually worked?',
+        'a' => 'Decide the number before building, not after. Cases handled, handling time, deflection '
+             . 'rate, error rate and cost per case are the usual ones, measured in the same way before and '
+             . 'after. A project with no baseline cannot be evaluated, only defended.',
+        'terms' => 'measure success roi metrics kpi prove worked value baseline evaluate results track',
+    ],
+    [
+        'id' => 'q230', 'cat' => 'growth',
+        'q' => 'Our last AI pilot stalled. What usually causes that?',
+        'a' => 'In the ones we are asked to rescue, almost always the workflow chosen. Either its rules '
+             . 'were never actually written down, or two departments disagreed about what they are, and no '
+             . 'model resolves a policy dispute. The second most common cause is a pilot with no evaluation '
+             . 'set, so nobody could say whether it was good enough to continue.',
+        'terms' => 'pilot stalled failed poc stuck abandoned why fail unsuccessful restart rescue lessons',
+    ],
+    [
+        'id' => 'q231', 'cat' => 'growth',
+        'q' => 'How long before we see something real, not a demo?',
+        'a' => 'Three to eight weeks for most first features, depending on integration count. A demo can '
+             . 'exist in days; the gap between the two is the evaluation set, the validation, the failure '
+             . 'paths and the cost controls — which is also the gap between something that impresses in a '
+             . 'meeting and something you can leave switched on.',
+        'terms' => 'how long real production not demo timeline weeks deliver first value quick see results',
+    ],
+    [
+        'id' => 'q232', 'cat' => 'cloud',
+        'q' => 'Do we need a GPU server to run AI?',
+        'a' => 'Usually not. Hosted model APIs need no hardware at all, and most workloads never justify '
+             . 'buying GPUs. You need your own when data residency forbids a hosted API, when volume makes '
+             . 'per-token pricing worse than hardware, or for vision models running at the edge.',
+        'terms' => 'gpu server hardware buy nvidia infrastructure need expensive machine compute requirement',
+    ],
+    [
+        'id' => 'q233', 'cat' => 'cloud',
+        'q' => 'How do you stop AI spend getting out of control across teams?',
+        'a' => 'One gateway every call routes through, with per-team keys, quotas and cost attribution. The '
+             . 'common failure is not one expensive feature — it is twenty teams each making calls nobody '
+             . 'is tracking until the invoice lands.',
+        'terms' => 'ai spend control cost runaway bill budget teams quota track attribute finance expensive',
+    ],
+    [
+        'id' => 'q234', 'cat' => 'cloud',
+        'q' => 'What happens when our AI provider has an outage?',
+        'a' => 'With a gateway in front, traffic fails over to a secondary provider or a smaller local '
+             . 'model, so an outage degrades a feature rather than taking down an application. Without that '
+             . 'layer, every integration inherits the provider\'s availability directly.',
+        'terms' => 'outage down provider fails availability uptime backup fallback redundancy disaster',
+    ],
+    [
+        'id' => 'q235', 'cat' => 'ai-delivery',
+        'q' => 'Do AI systems need maintenance, or are they finished at launch?',
+        'a' => 'They need it more than ordinary software, not less. Model versions change under you, your '
+             . 'policies change around them, and the mix of incoming cases drifts. Left alone, an AI system '
+             . 'gets quietly less accurate while sounding exactly as confident as it did on day one.',
+        'terms' => 'maintenance ongoing support after launch finished done upkeep retainer monitor degrade',
+    ],
+    [
+        'id' => 'q236', 'cat' => 'ai-delivery',
+        'q' => 'How would we even notice if the AI got worse?',
+        'a' => 'Without monitoring, usually from a customer complaint. With it, from the scheduled re-run '
+             . 'of your evaluation set, plus live tracking of refusal rates, tool failures and schema '
+             . 'violations. The whole point of an operations retainer is that we see it before your users '
+             . 'do.',
+        'terms' => 'notice worse degrade detect monitor alert quality drop accuracy decline spot problem',
+    ],
+    // ---- 15. Voice, Indian languages, industries and commercials ----------
+
+    [
+        'id' => 'q237', 'cat' => 'ai-assistant',
+        'q' => 'Can an AI assistant hold a conversation in Tamil or Hindi?',
+        'a' => 'Yes, in all six languages this site supports: English, Tamil, Malayalam, Kannada, Telugu '
+             . 'and Hindi. It answers in the language it was asked in, and the underlying content is '
+             . 'maintained once in one place rather than separately per language, which is what stops '
+             . 'translations going stale at different rates.',
+        'terms' => 'tamil hindi malayalam kannada telugu conversation language indian regional speak native',
+    ],
+    [
+        'id' => 'q238', 'cat' => 'ai-assistant',
+        'q' => 'Do you store a separate copy of every answer in every language?',
+        'a' => 'No, deliberately. That approach needs hundreds of fixed strings and still misses, because '
+             . 'people rarely phrase a question the way you guessed they would. Instead a question in any '
+             . 'supported language is normalised into the concepts the answer book indexes, then scored the '
+             . 'same way an English one is. Paraphrases match, and so do the mixed-script questions people '
+             . 'actually type on Indian keyboards.',
+        'terms' => 'translate stored copy each language separate translation how works multilingual matching',
+    ],
+    [
+        'id' => 'q239', 'cat' => 'ai-assistant',
+        'q' => 'Why does the assistant speak some languages but not others in my browser?',
+        'a' => 'Because a browser only speaks a language when a voice for it is installed, and Tamil, '
+             . 'Malayalam, Kannada and Telugu voices are missing from most Windows desktops. That is why '
+             . 'the site supports a server-side speech provider: with one configured, every supported '
+             . 'language gets a real voice regardless of what the device has.',
+        'terms' => 'voice not working silent no sound speech missing browser windows language tts problem',
+    ],
+    [
+        'id' => 'q240', 'cat' => 'ai-assistant',
+        'q' => 'Can customers talk to the system instead of typing?',
+        'a' => 'Yes — speech in and speech out, including the Indian languages. It matters most for field '
+             . 'staff with gloves or a phone in a pocket, and for customers who are comfortable speaking a '
+             . 'language they are less comfortable typing. That second group is larger than most product '
+             . 'teams assume.',
+        'terms' => 'voice input speak talk microphone speech to text dictate call audio hands free customer',
+    ],
+    [
+        'id' => 'q241', 'cat' => 'ai-assistant',
+        'q' => 'Can an AI agent answer phone calls?',
+        'a' => 'Yes, for defined jobs: qualifying an inbound enquiry, confirming an appointment, chasing a '
+             . 'document. Under about four hundred milliseconds of round-trip latency it feels like a '
+             . 'conversation; above it, people talk over it. We scope voice tightly, because a voice agent '
+             . 'that mishandles an edge case annoys a customer far faster than a chat one.',
+        'terms' => 'phone call voice agent ivr inbound outbound telephony answer calls automated speaking',
+    ],
+    [
+        'id' => 'q242', 'cat' => 'ecommerce',
+        'q' => 'What does AI actually do for an online store?',
+        'a' => 'Three things reliably: better search and recommendations, automated catalogue enrichment, '
+             . 'and support deflection on order and returns questions. Everything else is worth piloting '
+             . 'before believing. Recommendation quality depends on your own behavioural data, so a new '
+             . 'store sees less lift than an established one.',
+        'terms' => 'ecommerce store online retail shop ai what does help sales recommendation search catalog',
+    ],
+    [
+        'id' => 'q243', 'cat' => 'ecommerce',
+        'q' => 'Can AI write our product descriptions?',
+        'a' => 'Yes, and catalogue enrichment is one of the clearest wins — thousands of descriptions, '
+             . 'attributes and alt texts generated from what you already hold, in your own tone. Expect to '
+             . 'review a sample rather than every line, and to keep a human on anything where a wrong '
+             . 'claim would be a compliance problem.',
+        'terms' => 'product description write catalog content generate copy seo attributes bulk listing',
+    ],
+    [
+        'id' => 'q244', 'cat' => 'ecommerce',
+        'q' => 'Will AI reduce our returns?',
+        'a' => 'It can, mostly by fixing the things that cause returns — vague descriptions, missing '
+             . 'dimensions, poor size guidance and mismatched images. The measurable reductions we have '
+             . 'seen came from better pre-purchase information, not from a model predicting who will '
+             . 'return something.',
+        'terms' => 'returns reduce refund rate exchange size fit prediction ecommerce decrease problem',
+    ],
+    [
+        'id' => 'q245', 'cat' => 'apps',
+        'q' => 'Can AI features work in a mobile app offline?',
+        'a' => 'Partly. Small on-device models handle classification, extraction and voice capture without '
+             . 'a connection; anything needing a large model queues until the device reconnects. For field '
+             . 'apps we design the offline path first, because a feature that fails without signal is a '
+             . 'feature that fails in exactly the place it was needed.',
+        'terms' => 'offline mobile app no internet connection field device on device sync queue signal',
+    ],
+    [
+        'id' => 'q246', 'cat' => 'apps',
+        'q' => 'Does adding AI make our app slower or bigger?',
+        'a' => 'Bigger only if a model ships inside the binary, which we avoid unless offline demands it. '
+             . 'Slower only if a call sits in the critical path of a screen, which is a design choice '
+             . 'rather than a necessity — AI work belongs off the render path, with the interface showing '
+             . 'progress rather than blocking.',
+        'terms' => 'app size slow performance bigger heavy bundle speed lag battery impact mobile add',
+    ],
+    [
+        'id' => 'q247', 'cat' => 'saas',
+        'q' => 'We are a small SaaS. Is agentic AI out of our reach?',
+        'a' => 'No, and the archetype route exists precisely for this: a proven agent configured against '
+             . 'your systems in days rather than a custom build over months. What is genuinely out of reach '
+             . 'for a small team is operating a bespoke multi-agent system without anyone to watch it.',
+        'terms' => 'small business startup afford cheap budget limited resources smb feasible expensive',
+    ],
+    [
+        'id' => 'q248', 'cat' => 'saas',
+        'q' => 'Should we build AI features into our SaaS or integrate an existing one?',
+        'a' => 'Integrate unless the AI is the product. If a customer would switch to you because of that '
+             . 'feature, build it and own the quality. If it is table stakes that everyone will have next '
+             . 'year, integrate and spend your engineering where you actually differ.',
+        'terms' => 'build integrate saas feature own third party differentiate product decision buy make',
+    ],
+    [
+        'id' => 'q249', 'cat' => 'saas',
+        'q' => 'How do we price an AI feature when inference costs money every time?',
+        'a' => 'Meter it, cap it, and know your cost per action before launch. The failure we see most is a '
+             . 'flat-price tier with an uncapped AI feature inside it, where the heaviest ten percent of '
+             . 'users quietly consume the margin of the other ninety.',
+        'terms' => 'price pricing saas ai feature charge cost per user margin meter usage tier monetise',
+    ],
+    [
+        'id' => 'q250', 'cat' => 'ai-delivery',
+        'q' => 'How do you handle security testing for an AI system?',
+        'a' => 'The usual application review — dependencies, secrets, permissions, OWASP pass — plus the '
+             . 'AI-specific ones: prompt injection through any content the system reads, tool permission '
+             . 'scope, and whether a crafted input can make it reach data the user is not entitled to. The '
+             . 'second set is what a conventional pen test misses.',
+        'terms' => 'security test pentest vulnerability owasp review hack safe audit assessment penetration',
+    ],
+    [
+        'id' => 'q251', 'cat' => 'ai-delivery',
+        'q' => 'Can an AI system be tricked by a malicious document?',
+        'a' => 'It can be attempted, and the defence is architectural rather than hopeful. Untrusted '
+             . 'content is treated as data and never as instruction, and tool access is scoped so a '
+             . 'successful injection cannot reach anything the system was not already permitted to touch. '
+             . 'You bound the blast radius rather than trusting the model to resist.',
+        'terms' => 'malicious document attack inject trick manipulate poison hostile content hack exploit',
+    ],
+    [
+        'id' => 'q252', 'cat' => 'ai-delivery',
+        'q' => 'What does an AI project actually cost?',
+        'a' => 'A focused first feature usually lands in the low lakhs; a production platform several teams '
+             . 'depend on runs considerably higher. The number moves most on integration count, whether '
+             . 'data has to be migrated, and whether the environment is regulated. We give a written '
+             . 'estimate with the assumptions attached so you can see what would change it.',
+        'terms' => 'cost price budget how much expensive quote estimate lakhs rupees project fee charges',
+    ],
+    [
+        'id' => 'q253', 'cat' => 'ai-delivery',
+        'q' => 'Why do AI quotes vary so wildly between vendors?',
+        'a' => 'Usually because they are quoting different things. A demo costs a fraction of a system with '
+             . 'an evaluation set, failure paths, permissions and monitoring. When comparing, ask each '
+             . 'vendor what happens when the model is wrong — the answer separates the two prices '
+             . 'immediately.',
+        'terms' => 'quote vary different price compare vendors cheap expensive why difference proposal',
+    ],
+    [
+        'id' => 'q254', 'cat' => 'engagement',
+        'q' => 'Do you work with companies outside India?',
+        'a' => 'Yes — we deliver across India, the Gulf and the United States, and work in your timezone '
+             . 'for the overlap that matters. Being physically present helps most during discovery, when '
+             . 'sitting in a room with the people whose workflow you are modelling is worth a great deal.',
+        'terms' => 'outside india international overseas usa uk gulf dubai global remote timezone abroad',
+    ],
+    [
+        'id' => 'q255', 'cat' => 'engagement',
+        'q' => 'Where are your teams based?',
+        'a' => 'Chennai and Coimbatore, with delivery across India and abroad. For clients in Tamil Nadu '
+             . 'that means we can be in the room for discovery, which consistently produces a better audit '
+             . 'than a remote one — the exceptions people never mention on a call tend to surface when you '
+             . 'are watching the work happen.',
+        'terms' => 'location office where based chennai coimbatore bangalore india city address local team',
+    ],
+    [
+        'id' => 'q256', 'cat' => 'growth',
+        'q' => 'Everyone is talking about agents. Are we behind?',
+        'a' => 'Probably not. Most organisations talking about agents are running pilots, not production '
+             . 'systems, and a good number of those pilots will be quietly shelved. Being second with a '
+             . 'workflow that actually works beats being first with a demo, and the groundwork that makes '
+             . 'agents viable — written rules, clean data, measurable outcomes — is worth doing regardless.',
+        'terms' => 'behind competitors everyone else late catch up fomo market trend industry pressure',
+    ],
+    [
+        'id' => 'q257', 'cat' => 'growth',
+        'q' => 'What is the smallest sensible first step?',
+        'a' => 'Pick one queue, measure how long it takes today, and automate the majority case with a '
+             . 'person on the exceptions. It is unglamorous, it is finishable in weeks, and it produces the '
+             . 'one thing every later phase depends on: a real number for how well this works in your '
+             . 'organisation.',
+        'terms' => 'smallest first step start begin minimum pilot try small simple cheap test where begin',
+    ],
+    [
+        'id' => 'q258', 'cat' => 'modernise',
+        'q' => 'Our data is messy. Do we have to clean it first?',
+        'a' => 'Some of it, and less than you fear. Retrieval tolerates messy prose surprisingly well; what '
+             . 'it does not tolerate is the same concept recorded three different ways across three '
+             . 'systems. We sample your real records early and tell you which subset actually needs work '
+             . 'before anything can be built on it.',
+        'terms' => 'messy data dirty clean quality unstructured prepare ready garbage poor incomplete fix',
+    ],
+    [
+        'id' => 'q259', 'cat' => 'modernise',
+        'q' => 'How much historical data do we need?',
+        'a' => 'For retrieval and document work, none — it answers from what exists today. For forecasting '
+             . 'or anomaly detection you want at least a year, ideally two, and it has to be consistently '
+             . 'recorded across that span. A decade of history with a system change in the middle is often '
+             . 'worth less than two clean years.',
+        'terms' => 'historical data how much years need training amount volume enough history records',
+    ],
+    [
+        'id' => 'q260', 'cat' => 'ai-native',
+        'q' => 'What is the difference between fine-tuning and retrieval?',
+        'a' => 'Retrieval gives the model your facts at question time; fine-tuning teaches it your style or '
+             . 'a narrow task. Most business problems are facts problems, so retrieval is the usual answer '
+             . 'and it updates the moment a document changes. Fine-tuning earns its place for consistent '
+             . 'formatting or a specialised classification, not for keeping knowledge current.',
+        'terms' => 'fine tuning training retrieval rag difference which better custom model teach adapt',
+    ],
+    [
+        'id' => 'q261', 'cat' => 'ai-native',
+        'q' => 'Do we need to train our own model?',
+        'a' => 'Almost certainly not. Training a model from scratch is a research budget, and for the vast '
+             . 'majority of business problems a good retrieval setup over an existing model beats it on '
+             . 'both cost and accuracy. Fine-tuning an open-weight model is occasionally worthwhile; '
+             . 'starting from nothing essentially never is.',
+        'terms' => 'train own model custom build from scratch proprietary llm need our own develop',
+    ],
+    [
+        'id' => 'q262', 'cat' => 'agentic',
+        'q' => 'Can agents and humans work the same queue together?',
+        'a' => 'Yes, and it is the shape most deployments settle into. The agent takes the majority case, '
+             . 'routes anything low-confidence or out-of-policy to a person with its reasoning attached, '
+             . 'and the person\'s correction is recorded. Fully autonomous queues are rarer than the '
+             . 'marketing suggests, and usually less valuable.',
+        'terms' => 'human agent together hybrid queue collaborate mixed team work alongside share handoff',
+    ],
+    [
+        'id' => 'q263', 'cat' => 'agentic',
+        'q' => 'How many agents would a mid-sized company realistically run?',
+        'a' => 'Two to five in the first year, not twenty. Each one needs an owner, an evaluation set and '
+             . 'somewhere its exceptions land. Organisations that deploy a dozen quickly discover that '
+             . 'operating them is the real cost, and that half were solving problems nobody had measured.',
+        'terms' => 'how many agents realistic number typical company run deploy scale first year count',
+    ],
+    [
+        'id' => 'q264', 'cat' => 'engagement',
+        'q' => 'What do you need from us to start?',
+        'a' => 'Someone who owns the outcome, someone who knows where the data actually lives, and an hour '
+             . 'or two with the people who do the work being considered. That last group is the one usually '
+             . 'left out and the one that matters most — they know the exceptions, and the exceptions '
+             . 'decide whether any of this is feasible.',
+        'terms' => 'what need from us start requirements prepare kickoff involve people time commitment',
+    ],
+    [
+        'id' => 'q265', 'cat' => 'engagement',
+        'q' => 'Can you work alongside our existing development team?',
+        'a' => 'Yes, and that is the common arrangement rather than the exception. We work in your '
+             . 'repository, your tracker and your review process, and your engineers pair with ours through '
+             . 'the build. If an engagement is not reducing your dependence on us over time, it is not '
+             . 'working properly.',
+        'terms' => 'work with our team existing developers alongside collaborate internal pair augment',
+    ],
+    [
+        'id' => 'q266', 'cat' => 'engagement',
+        'q' => 'What happens in the first two weeks?',
+        'a' => 'We measure rather than build. The processes under consideration get timed — volume, '
+             . 'handling time, error rate, rework — and scored on how reversible their actions are and how '
+             . 'much context lives only in someone\'s head. You get a written recommendation at the end, '
+             . 'including anything we think you should not build yet.',
+        'terms' => 'first two weeks start begin what happens initial phase discovery kickoff onboarding',
+    ],
 ];
