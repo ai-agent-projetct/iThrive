@@ -103,106 +103,106 @@ $schema = [
     ]
 ];
 /* ---------------------------------------------------------------------------
- * The galaxy treatment
+ * Atmospheric treatment
  *
- * This page is built like services.php: the same stylesheets in the same order
- * (galaxy first, then the service design system, whose tokens the roadmap,
- * step cards, tech stack and FAQ below still rely on) and the same WebGL
- * engine.
+ * Built in the idiom of a cinematic studio site: one persistent WebGL field
+ * fixed behind the whole document, film grain over everything, sparse
+ * wide-tracked capitals and a lot of empty space, paced like a title sequence.
  *
- * galaxy-nodes.js is the addition. On services.php the galaxy is decorative
- * and the links sit in a flat grid beneath it; here each section of this page
- * is a marker on the disc that turns with it and is clickable. Those markers
- * are real anchors, so without the script they stay a plain row of in-page
- * links and every section remains reachable.
+ * service-custom.css still supplies every colour — the cyan and violet are
+ * unchanged. hire-atmos.css changes density, rhythm and scale, not hue.
+ *
+ * No entry gate: sites in this idiom often open with one, but putting the
+ * content of a page written to rank behind a click would cost more than the
+ * flourish is worth.
  * ------------------------------------------------------------------------ */
 $extraHead = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
     . '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
     . 'family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700'
     . '&family=Space+Grotesk:wght@500;600;700;800&display=swap">'
-    . '<link rel="stylesheet" href="' . e(asset('assets/css/services-galaxy.css')) . '">'
     . '<link rel="stylesheet" href="' . e(asset('assets/css/service-custom.css')) . '">'
-    . '<script type="module" src="' . e(asset('assets/js/framer-galaxy.js')) . '"></script>'
-    . '<script type="module" src="' . e(asset('assets/js/galaxy-nodes.js')) . '"></script>';
+    . '<link rel="stylesheet" href="' . e(asset('assets/css/hire-atmos.css')) . '">'
+    . '<script type="module" src="' . e(asset('assets/js/hire-atmos.js')) . '"></script>';
 
-/** The sections a visitor can fly to from inside the galaxy. */
-$galaxyNodes = [
-    ['advantage',   'Why Hire Here'],
-    ['disciplines', 'Six Roles'],
-    ['benefits',    'Advantages'],
-    ['process',     'Hiring Roadmap'],
-    ['models',      'Engagement'],
-    ['stack',       'Tech Stack'],
-    ['faq',         'FAQs'],
+/** The sections a visitor can reach from the markers floating in the field. */
+$navNodes = [
+    ['roles',      'Six Roles'],
+    ['advantages', 'Advantages'],
+    ['process',    'Roadmap'],
+    ['models',     'Engagement'],
+    ['stack',      'Stack'],
+    ['faq',        'FAQs'],
 ];
 
 require dirname(__DIR__) . '/includes/header.php';
 ?>
 
-<?php /* Both classes: the galaxy look, plus .svc-page so the design tokens the
-         roadmap and card blocks below are written against still resolve. */ ?>
-<div class="svc-galaxy-page svc-page">
+<?php /* .svc-page too, so the design tokens the roadmap, tech stack and FAQ
+         blocks are written against still resolve. */ ?>
+<div class="hire-atmos svc-page">
+
+  <?php /* The persistent field and the grain, behind everything. Both are
+           decoration: with no WebGL the field is just a gradient. */ ?>
+  <div class="hire-field" aria-hidden="true"></div>
+  <div class="hire-grain" aria-hidden="true"></div>
 
   <!-- =========================================================================
-       HERO: galaxy stage with one clickable marker per section
+       OPENING
        ========================================================================= -->
-  <section class="svc-galaxy-hero">
-    <div class="shell" style="text-align:center;">
-      <div class="svc-pill-badge" data-reveal>
-        <span class="svc-pill-dot"></span>
-        <span class="svc-pill-text">TOP 1% AGENTIC ENGINEERS · 48-HOUR ONBOARDING</span>
-      </div>
+  <section class="hire-sec hire-hero">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>Top 1% Agentic Engineers — 48-Hour Onboarding</p>
 
-      <h1 class="svc-hero-title" data-reveal style="--d:1">
-        Hire Dedicated Agentic AI Developers
+      <h1 class="hire-h1" data-rise>
+        Hire dedicated
+        <em>agentic AI engineers</em>
       </h1>
 
-      <p class="svc-hero-lead" data-reveal style="--d:2">
-        Pre-vetted top 1% Agentic AI engineers, LangGraph specialists, PyTorch researchers
-        and AI systems architects, ready to deploy into your sprint within 48 hours.
+      <p class="hire-hero-lead" data-rise>
+        Pre-vetted LangGraph specialists, PyTorch researchers and AI systems architects —
+        interviewed by you, writing production code inside your sprint within 48 hours.
       </p>
 
-      <div class="svc-hero-ctas" data-reveal style="--d:3">
-        <a class="svc-btn-primary" href="<?= e(url('contact.php')) ?>">
-          Hire an AI Engineer <?= icon('arrow') ?>
-        </a>
-        <a class="svc-btn-secondary" href="#disciplines">Explore 6 Specialist Roles</a>
-        <a class="svc-btn-secondary" href="tel:+919384564915">Call: +91 93845 64915</a>
+      <div class="hire-ctas" data-rise>
+        <a class="hire-btn hire-btn--solid" href="<?= e(url('contact.php')) ?>">Hire an engineer</a>
+        <a class="hire-btn" href="#roles">Six specialist roles</a>
+        <a class="hire-btn" href="tel:+919384564915">+91 93845 64915</a>
       </div>
 
-      <!-- 3D galaxy: drag to rotate, click a marker to jump to that section -->
-      <div class="svc-galaxy-container" data-reveal style="--d:4">
-        <div class="svc-galaxy-stage" id="galaxy-stage">
-          <div class="svc-galaxy-hud">
-            <span class="svc-galaxy-badge">85k Particle Neural Mesh Engine</span>
-            <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:#64748B;">
-              Interactive 3D Section Navigator
-            </span>
-          </div>
+      <?php /* Real in-page links. hire-atmos.js floats them in the field; with
+               no script they stay a plain wrapped row. */ ?>
+      <nav class="hire-nodes" data-nodes aria-label="Jump to a section of this page">
+        <?php foreach ($navNodes as $i => [$anchor, $label]): ?>
+          <a class="hire-node" data-node href="#<?= e($anchor) ?>">
+            <span class="hire-node-i"><?= e(str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT)) ?></span>
+            <span><?= e($label) ?></span>
+          </a>
+        <?php endforeach; ?>
+      </nav>
 
-          <?php /* Real in-page links. galaxy-nodes.js positions them on the
-                   disc; with no script they are simply a centred row. */ ?>
-          <nav class="svc-galaxy-nodes" data-galaxy-nodes aria-label="Jump to a section of this page">
-            <?php foreach ($galaxyNodes as $i => [$anchor, $label]): ?>
-              <a class="svc-galaxy-node" data-galaxy-node href="#<?= e($anchor) ?>">
-                <span class="svc-galaxy-node-idx"><?= e(str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT)) ?></span>
-                <span><?= e($label) ?></span>
-              </a>
-            <?php endforeach; ?>
-          </nav>
+      <p class="hire-cue" data-rise>Scroll</p>
+    </div>
+  </section>
 
-          <div class="svc-galaxy-hint">Drag to rotate · Click a marker to jump to that section</div>
-        </div>
-      </div>
+  <!-- =========================================================================
+       THE NUMBERS
+       ========================================================================= -->
+  <section class="hire-sec">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>The engagement</p>
+      <h2 class="hire-h2" data-rise>Recruiting agentic engineers takes months.<br><em>This takes 48 hours.</em></h2>
+      <p class="hire-lead" data-rise>
+        The scarce skill is not Python. It is having shipped a stateful, tool-using agent into
+        production and lived with what it does on week six. Our engineers have — they arrive
+        having already made the mistakes you would otherwise pay to discover.
+      </p>
 
-      <!-- Engagement headline numbers -->
-      <div class="svc-matrix-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:34px;">
+      <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
         <?php foreach ($stats as $i => [$figure, $caption]): ?>
-          <div class="svc-matrix-card" data-reveal style="--d:<?= $i + 1 ?>;text-align:center;">
-            <div class="svc-card-body">
-              <h3 class="svc-card-title" style="font-size:2rem;"><?= e($figure) ?></h3>
-              <p class="svc-card-desc"><?= e($caption) ?></p>
-            </div>
+          <div class="hire-row" data-rise>
+            <span class="hire-row-n"><?= e(str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT)) ?></span>
+            <h3 class="hire-row-t"><?= e($figure) ?></h3>
+            <p class="hire-row-d"><?= e($caption) ?></p>
           </div>
         <?php endforeach; ?>
       </div>
@@ -210,48 +210,26 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       1. WHY HIRE HERE
+       SIX ROLES — section 3 image slots
        ========================================================================= -->
-  <section class="svc-section" id="advantage">
-    <div class="shell">
-      <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">THE HIRING ADVANTAGE</span>
-        <h2 class="svc-title">Recruiting agentic engineers takes months;<br>this takes 48 hours</h2>
-        <p class="svc-lead">
-          The scarce skill is not Python — it is having shipped a stateful, tool-using agent into
-          production and lived with what it does on week six. Our engineers have. They arrive
-          having already made the mistakes you would otherwise pay to discover.
-        </p>
-      </div>
-    </div>
-  </section>
+  <section class="hire-sec" id="roles">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>Specialist roles</p>
+      <h2 class="hire-h2" data-rise>Six roles you can hire<br><em>into your sprint</em></h2>
+      <p class="hire-lead" data-rise>Each one is a working engineer, not a generalist with an AI course behind them.</p>
 
-  <!-- =========================================================================
-       2. SIX SPECIALIST ROLES
-       ========================================================================= -->
-  <section class="svc-section svc-section--panel" id="disciplines">
-    <div class="shell">
-      <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">SPECIALIST ROLES</span>
-        <h2 class="svc-title">Six roles you can hire into your sprint</h2>
-        <p class="svc-lead">Each one is a working engineer, not a generalist with an AI course behind them.</p>
-      </div>
-
-      <div class="svc-matrix-grid">
+      <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
         <?php foreach ($disciplines as $i => [$num, $title, $copy]): ?>
           <?php $fig = svc_img('16', 3, $i + 1); ?>
-          <div class="svc-matrix-card" data-reveal style="--d:<?= ($i % 4) + 1 ?>">
+          <div class="hire-row" data-rise>
+            <span class="hire-row-n"><?= e($num) ?></span>
+            <h3 class="hire-row-t"><?= e($title) ?></h3>
+            <p class="hire-row-d"><?= e($copy) ?></p>
             <?php if ($fig): ?>
-              <div class="svc-card-img-wrap">
+              <figure class="hire-row-fig">
                 <img src="<?= e($fig) ?>" alt="<?= e($title) ?>" loading="lazy">
-                <span class="svc-card-badge"><?= e($num) ?></span>
-              </div>
+              </figure>
             <?php endif; ?>
-            <div class="svc-card-body">
-              <?php if (!$fig): ?><span class="svc-card-group"><?= e($num) ?></span><?php endif; ?>
-              <h3 class="svc-card-title"><?= e($title) ?></h3>
-              <p class="svc-card-desc"><?= e($copy) ?></p>
-            </div>
           </div>
         <?php endforeach; ?>
       </div>
@@ -259,31 +237,26 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       3. STRATEGIC ADVANTAGES
+       ADVANTAGES — section 5 image slots
        ========================================================================= -->
-  <section class="svc-section" id="benefits">
-    <div class="shell">
-      <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">WHY TEAMS STAY</span>
-        <h2 class="svc-title">Five advantages of hiring dedicated AI engineers</h2>
-        <p class="svc-lead">Flexible monthly engagements, full IP ownership, and no recruitment overhead.</p>
-      </div>
+  <section class="hire-sec" id="advantages">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>Why teams stay</p>
+      <h2 class="hire-h2" data-rise>Five advantages of hiring<br><em>dedicated AI engineers</em></h2>
+      <p class="hire-lead" data-rise>Flexible monthly engagements, full IP ownership, and no recruitment overhead.</p>
 
-      <div class="svc-matrix-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+      <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
         <?php foreach ($benefits as $i => [$num, $title, $copy]): ?>
           <?php $fig = svc_img('16', 5, $i + 1); ?>
-          <div class="svc-matrix-card" data-reveal style="--d:<?= ($i % 4) + 1 ?>">
+          <div class="hire-row" data-rise>
+            <span class="hire-row-n"><?= e($num) ?></span>
+            <h3 class="hire-row-t"><?= e($title) ?></h3>
+            <p class="hire-row-d"><?= e($copy) ?></p>
             <?php if ($fig): ?>
-              <div class="svc-card-img-wrap">
+              <figure class="hire-row-fig">
                 <img src="<?= e($fig) ?>" alt="<?= e($title) ?>" loading="lazy">
-                <span class="svc-card-badge"><?= e($num) ?></span>
-              </div>
+              </figure>
             <?php endif; ?>
-            <div class="svc-card-body">
-              <?php if (!$fig): ?><span class="svc-card-group"><?= e($num) ?></span><?php endif; ?>
-              <h3 class="svc-card-title"><?= e($title) ?></h3>
-              <p class="svc-card-desc"><?= e($copy) ?></p>
-            </div>
           </div>
         <?php endforeach; ?>
       </div>
@@ -291,15 +264,13 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       4. HIRING ROADMAP — the 3D lattice roadmap plus the phase cards
+       ROADMAP — the lattice 3D diagram, section 6 image slots
        ========================================================================= -->
-  <section class="svc-section svc-section--panel" id="process">
-    <div class="shell">
-      <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">HIRING ROADMAP</span>
-        <h2 class="svc-title">From requirement to first commit in five steps</h2>
-        <p class="svc-lead">Most engagements reach a merged pull request inside the first week.</p>
-      </div>
+  <section class="hire-sec" id="process">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>Hiring roadmap</p>
+      <h2 class="hire-h2" data-rise>From requirement to<br><em>first commit in five steps</em></h2>
+      <p class="hire-lead" data-rise>Most engagements reach a merged pull request inside the first week.</p>
 
       <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
       <div class="svc-roadmap" data-roadmap="lattice" aria-hidden="true">
@@ -317,14 +288,12 @@ require dirname(__DIR__) . '/includes/header.php';
         </div>
       <?php endif; ?>
 
-      <div class="svc-matrix-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+      <div class="hire-rows" style="margin-top:clamp(30px,4vh,56px);">
         <?php foreach ($steps as $idx => [$sNum, $sTitle, $sCopy]): ?>
-          <div class="svc-matrix-card" data-roadmap-step="<?= $idx ?>" data-reveal style="--d:<?= $idx + 1 ?>">
-            <div class="svc-card-body">
-              <span class="svc-card-group">Phase <?= e($sNum) ?></span>
-              <h3 class="svc-card-title"><?= e($sTitle) ?></h3>
-              <p class="svc-card-desc"><?= e($sCopy) ?></p>
-            </div>
+          <div class="hire-row" data-roadmap-step="<?= $idx ?>" data-rise>
+            <span class="hire-row-n"><?= e($sNum) ?></span>
+            <h3 class="hire-row-t"><?= e($sTitle) ?></h3>
+            <p class="hire-row-d"><?= e($sCopy) ?></p>
           </div>
         <?php endforeach; ?>
       </div>
@@ -332,32 +301,28 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       5. ENGAGEMENT MODELS
+       ENGAGEMENT MODELS
        ========================================================================= -->
-  <section class="svc-section" id="models">
-    <div class="shell">
-      <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">ENGAGEMENT MODELS</span>
-        <h2 class="svc-title">Three ways to bring our engineers on</h2>
-        <p class="svc-lead">Monthly billing, 30-day notice, and a 14-day replacement window on every model.</p>
-      </div>
+  <section class="hire-sec" id="models">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>Engagement models</p>
+      <h2 class="hire-h2" data-rise>Three ways to bring<br><em>our engineers on</em></h2>
+      <p class="hire-lead" data-rise style="margin-bottom:clamp(36px,5vh,60px);">
+        Monthly billing, 30-day notice, and a 14-day replacement window on every model.
+      </p>
 
-      <div class="svc-matrix-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));">
-        <?php foreach ($models as $i => [$num, $title, $copy, $features]): ?>
-          <div class="svc-matrix-card" data-reveal style="--d:<?= $i + 1 ?>">
-            <div class="svc-card-body">
-              <span class="svc-card-group"><?= e($num) ?></span>
-              <h3 class="svc-card-title"><?= e($title) ?></h3>
-              <p class="svc-card-desc"><?= e($copy) ?></p>
-              <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 16px;">
-                <?php foreach ($features as $feature): ?>
-                  <span style="font-family:'Space Grotesk',monospace;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;background:rgba(0,242,254,0.08);color:#00F2FE;border:1px solid rgba(0,242,254,0.2);">
-                    <?= e($feature) ?>
-                  </span>
-                <?php endforeach; ?>
-              </div>
-              <a class="svc-card-link" href="<?= e(url('contact.php')) ?>">Discuss this model <?= icon('arrow') ?></a>
-            </div>
+      <div class="hire-models" data-rise>
+        <?php foreach ($models as [$num, $title, $copy, $features]): ?>
+          <div class="hire-model">
+            <span class="hire-model-n"><?= e($num) ?></span>
+            <h3 class="hire-model-t"><?= e($title) ?></h3>
+            <p class="hire-model-d"><?= e($copy) ?></p>
+            <ul class="hire-model-f">
+              <?php foreach ($features as $feature): ?>
+                <li><?= e($feature) ?></li>
+              <?php endforeach; ?>
+            </ul>
+            <a class="hire-btn" href="<?= e(url('contact.php')) ?>">Discuss</a>
           </div>
         <?php endforeach; ?>
       </div>
@@ -365,32 +330,34 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       6. TECH STACK
+       TECH STACK
        ========================================================================= -->
-  <section class="svc-section svc-section--panel" id="stack">
-    <div class="shell">
-      <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">TECHNOLOGY STACK</span>
-        <h2 class="svc-title">What our engineers work in</h2>
-        <p class="svc-lead">Your pipeline, your review process, your accounts — we work inside them.</p>
-      </div>
+  <section class="hire-sec" id="stack">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>Technology stack</p>
+      <h2 class="hire-h2" data-rise>What our engineers<br><em>work in</em></h2>
+      <p class="hire-lead" data-rise style="margin-bottom:clamp(36px,5vh,60px);">
+        Your pipeline, your review process, your accounts — we work inside them.
+      </p>
 
-      <?php component('tech-stack', ['groups' => $pageStack]); ?>
+      <div data-rise>
+        <?php component('tech-stack', ['groups' => $pageStack]); ?>
+      </div>
     </div>
   </section>
 
   <!-- =========================================================================
-       7. FAQ
+       FAQ
        ========================================================================= -->
-  <section class="svc-section" id="faq">
-    <div class="shell">
-      <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">HIRING FAQ</span>
-        <h2 class="svc-title">Frequently asked questions</h2>
-        <p class="svc-lead">Vetting, timezones, IP ownership and what happens if a developer is not the right fit.</p>
-      </div>
+  <section class="hire-sec" id="faq">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>Hiring FAQ</p>
+      <h2 class="hire-h2" data-rise>Frequently asked<br><em>questions</em></h2>
+      <p class="hire-lead" data-rise style="margin-bottom:clamp(36px,5vh,60px);">
+        Vetting, timezones, IP ownership, and what happens if a developer is not the right fit.
+      </p>
 
-      <div class="svc-faq-list">
+      <div class="svc-faq-list" data-rise>
         <?php foreach ($faqs as $i => [$q, $a]): ?>
           <details class="svc-faq-item"<?= $i === 0 ? ' open' : '' ?>>
             <summary class="svc-faq-q">
@@ -405,20 +372,19 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       8. CLOSING CTA
+       CLOSING
        ========================================================================= -->
-  <section class="svc-section svc-section--panel">
-    <div class="shell" style="text-align:center;">
-      <div class="svc-sec-head" data-reveal style="margin-bottom:24px;">
-        <h2 class="svc-title">Tell us the role, and interview someone this week</h2>
-        <p class="svc-lead" style="margin-inline:auto;">
-          Send the stack and the seniority you need. We come back with two or three profiles
-          inside 24 hours, and you interview them directly.
-        </p>
-      </div>
-      <div class="svc-hero-ctas" data-reveal>
-        <a class="svc-btn-primary" href="<?= e(url('contact.php')) ?>">Hire an AI Engineer <?= icon('arrow') ?></a>
-        <a class="svc-btn-secondary" href="tel:+919384564915">Call: +91 93845 64915</a>
+  <section class="hire-sec">
+    <div class="hire-shell">
+      <p class="hire-eyebrow" data-rise>Next step</p>
+      <h2 class="hire-h2" data-rise>Tell us the role, and<br><em>interview someone this week</em></h2>
+      <p class="hire-lead" data-rise style="margin-bottom:34px;">
+        Send the stack and the seniority you need. We come back with two or three profiles
+        inside 24 hours, and you interview them directly.
+      </p>
+      <div class="hire-ctas" data-rise>
+        <a class="hire-btn hire-btn--solid" href="<?= e(url('contact.php')) ?>">Hire an engineer</a>
+        <a class="hire-btn" href="tel:+919384564915">+91 93845 64915</a>
       </div>
     </div>
   </section>

@@ -1,0 +1,413 @@
+/* ==========================================================================
+   Hire page — atmospheric treatment
+   Loaded after service-custom.css, whose colour tokens it keeps.
+
+   The idiom here is the cinematic studio site: one persistent full-bleed field
+   behind the whole page rather than a boxed canvas in one section, a fine grain
+   over everything, sparse wide-tracked capitals, very large headlines and a lot
+   of empty space — the page paced like a title sequence instead of a brochure.
+
+   Colour is NOT changed. The accents are still service-custom.css's cyan and
+   violet; what changes is density, rhythm and scale. Sites in this idiom are
+   usually near-monochrome, but recolouring was ruled out, so the atmosphere is
+   carried by the backdrop, the grain and the typography instead.
+
+   Everything is additive over the existing design system. The roadmap, the
+   tech stack and the FAQ blocks below keep their own styles.
+   ========================================================================== */
+
+.hire-atmos {
+  --stage: #070A12;          /* a touch deeper than --ink, for the field to sit in */
+  --rule: rgba(255, 255, 255, 0.08);
+  --dim: #8A97AD;
+  --faint: #5C6880;
+  --wide: 0.22em;
+
+  position: relative;
+  background: var(--stage);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   1. The persistent field
+
+   One fixed canvas behind the entire document, not one per section. It is what
+   makes the page feel like a single continuous space rather than a stack of
+   panels. hire-atmos.js mounts into this; with no WebGL the layer is simply an
+   empty gradient and the page is unharmed.
+   -------------------------------------------------------------------------- */
+
+.hire-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(0, 242, 254, 0.07), transparent 60%),
+    radial-gradient(90% 70% at 80% 110%, rgba(157, 78, 221, 0.06), transparent 60%);
+}
+
+.hire-field canvas { display: block; width: 100%; height: 100%; }
+
+/* Film grain. A single repeating SVG turbulence, animated in steps so it
+   flickers like emulsion rather than sliding. Very low opacity: it should be
+   felt, not seen. */
+.hire-grain {
+  position: fixed;
+  inset: -120px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  animation: hire-grain-shift 900ms steps(3) infinite;
+}
+
+@keyframes hire-grain-shift {
+  0%   { transform: translate3d(0, 0, 0); }
+  33%  { transform: translate3d(-18px, 12px, 0); }
+  66%  { transform: translate3d(14px, -16px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* Everything readable sits above both layers. */
+.hire-atmos > *:not(.hire-field):not(.hire-grain) { position: relative; z-index: 2; }
+
+/* --------------------------------------------------------------------------
+   2. Rhythm
+
+   Wide gutters, tall sections, a single hairline between them. The restraint
+   is the point: this idiom reads as expensive because of what is left out.
+   -------------------------------------------------------------------------- */
+
+.hire-shell {
+  width: min(1240px, 100% - 48px);
+  margin-inline: auto;
+}
+
+.hire-sec {
+  padding: clamp(96px, 15vh, 190px) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.hire-eyebrow {
+  margin: 0 0 22px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: var(--wide);
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.hire-h2 {
+  margin: 0 0 20px;
+  font-family: var(--display);
+  font-size: clamp(2rem, 4.6vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+
+.hire-h2 em {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hire-lead {
+  margin: 0;
+  max-width: 62ch;
+  font-size: clamp(1rem, 1.35vw, 1.13rem);
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+/* --------------------------------------------------------------------------
+   3. The opening
+
+   A full-height frame. The headline is the only loud thing on it; the field
+   behind carries the rest.
+   -------------------------------------------------------------------------- */
+
+.hire-hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(110px, 16vh, 170px) 0 60px;
+  border-top: 0;
+}
+
+.hire-h1 {
+  margin: 0 0 28px;
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 7.4vw, 6.1rem);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  max-width: 17ch;
+}
+
+.hire-h1 em {
+  display: block;
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hire-hero-lead {
+  max-width: 54ch;
+  margin: 0 0 40px;
+  font-size: clamp(1.02rem, 1.5vw, 1.2rem);
+  line-height: 1.68;
+  color: var(--dim);
+}
+
+.hire-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.hire-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border-radius: 2px;              /* square-ish: this idiom avoids pills */
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--line-cyan);
+  color: var(--text);
+  background: transparent;
+  transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
+}
+
+.hire-btn--solid { background: var(--grad); border-color: transparent; color: #06080F; }
+.hire-btn:hover { background: rgba(0, 242, 254, 0.1); border-color: var(--cyan); }
+.hire-btn--solid:hover { filter: brightness(1.12); background: var(--grad); color: #06080F; }
+
+/* The scroll cue — a hairline that drains downward, on a loop. */
+.hire-cue {
+  margin-top: clamp(40px, 8vh, 90px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: var(--wide);
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.hire-cue::after {
+  content: '';
+  width: 64px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+  animation: hire-drain 2.4s var(--ease) infinite;
+  transform-origin: left;
+}
+
+@keyframes hire-drain {
+  0%, 100% { transform: scaleX(0.25); opacity: .45; }
+  50%      { transform: scaleX(1);    opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   4. Section markers, floating in the field
+
+   The clickable 3D navigation, carried over. hire-atmos.js projects these into
+   the same space as the backdrop. Before it does — and permanently, if it
+   cannot — they are a plain wrapped row of in-page links, so every section is
+   reachable with no JavaScript at all.
+   -------------------------------------------------------------------------- */
+
+.hire-nodes {
+  position: relative;
+  height: clamp(260px, 42vh, 420px);
+  margin-top: clamp(30px, 6vh, 64px);
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hire-node {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid var(--rule);
+  background: rgba(7, 10, 18, 0.72);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color .3s var(--ease), background .3s var(--ease), color .3s var(--ease);
+}
+
+.hire-node-i { color: var(--cyan); font-size: 0.6rem; opacity: .9; }
+
+.hire-node:hover,
+.hire-node:focus-visible {
+  border-color: var(--cyan);
+  background: rgba(10, 18, 32, 0.92);
+}
+
+.hire-node:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  z-index: 3000 !important;
+}
+
+/* Once the script drives them, the row becomes a field. */
+.hire-nodes.is-live { display: block; }
+.hire-nodes.is-live .hire-node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform, opacity;
+}
+
+/* --------------------------------------------------------------------------
+   5. Content rows
+
+   Numbered rows rather than a card grid: fewer boxes, more air, and the eye
+   travels down one column. The big faded numeral does the structural work a
+   card border would otherwise do.
+   -------------------------------------------------------------------------- */
+
+.hire-rows { border-top: 1px solid var(--rule); }
+
+.hire-row {
+  display: grid;
+  grid-template-columns: minmax(0, 92px) minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: clamp(18px, 3.5vw, 54px);
+  align-items: start;
+  padding: clamp(30px, 4.5vw, 52px) 0;
+  border-bottom: 1px solid var(--rule);
+  transition: background .45s var(--ease);
+}
+
+.hire-row:hover { background: rgba(255, 255, 255, 0.018); }
+
+.hire-row-n {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 3.4vw, 2.9rem);
+  font-weight: 600;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.24);
+}
+
+.hire-row:hover .hire-row-n {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1px transparent;
+}
+
+.hire-row-t {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+
+.hire-row-d { margin: 0; font-size: 0.97rem; line-height: 1.72; color: var(--dim); }
+
+.hire-row-fig {
+  grid-column: 2 / -1;
+  margin: 16px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+
+.hire-row-fig img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  filter: saturate(.92) contrast(1.04);
+  transition: transform .8s var(--ease), filter .8s var(--ease);
+}
+
+.hire-row:hover .hire-row-fig img { transform: scale(1.03); filter: saturate(1) contrast(1.08); }
+
+@media (max-width: 860px) {
+  .hire-row { grid-template-columns: 56px minmax(0, 1fr); }
+  .hire-row-d { grid-column: 2; }
+  .hire-row-fig { grid-column: 2; }
+}
+
+/* --------------------------------------------------------------------------
+   6. Engagement models — three plain columns, hairlines only
+   -------------------------------------------------------------------------- */
+
+.hire-models {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.hire-model {
+  background: var(--stage);
+  padding: clamp(26px, 3vw, 40px);
+  transition: background .4s var(--ease);
+}
+
+.hire-model:hover { background: rgba(255, 255, 255, 0.022); }
+.hire-model-n { font-family: var(--mono); font-size: .66rem; letter-spacing: var(--wide); color: var(--cyan); }
+.hire-model-t { margin: 14px 0 12px; font-family: var(--display); font-size: 1.22rem; font-weight: 600; line-height: 1.24; }
+.hire-model-d { margin: 0 0 18px; font-size: .94rem; line-height: 1.68; color: var(--dim); }
+.hire-model-f { margin: 0 0 22px; padding: 0; list-style: none; display: grid; gap: 8px; }
+.hire-model-f li {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .06em;
+  color: var(--faint); padding-left: 16px; position: relative;
+}
+.hire-model-f li::before { content: '—'; position: absolute; left: 0; color: var(--cyan); }
+
+/* --------------------------------------------------------------------------
+   7. Motion in, and the opt-out
+   -------------------------------------------------------------------------- */
+
+/* The resting state is VISIBLE. Only .is-armed hides, and hire-atmos.js adds
+   that class solely when it is in a position to remove it again — never in a
+   document that is not visibly rendering, which gets no IntersectionObserver
+   callbacks and would leave the whole page at opacity 0. This page is written
+   to rank; content that can be stranded invisible is not an acceptable
+   failure mode, so the hidden state is script-owned, not CSS-owned. */
+.hire-atmos [data-rise].is-armed {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity .9s var(--ease), transform .9s var(--ease);
+}
+
+.hire-atmos [data-rise].is-armed.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hire-atmos [data-rise] { opacity: 1; transform: none; transition: none; }
+  .hire-grain { animation: none; }
+  .hire-cue::after { animation: none; transform: scaleX(1); }
+  .hire-field { display: none; }
+  .hire-nodes.is-live { display: flex; }
+  .hire-nodes.is-live .hire-node { position: static; transform: none !important; opacity: 1 !important; }
+}
