@@ -273,47 +273,47 @@ const FAQ_LEXICON = [
        ------------------------------------------------------------------ */
 
     // automation automate process
-    'தானியங்கி' => 'automation automate process', 'தன்னியக்க' => 'automation automate process',
-    'ഓട്ടോമേഷൻ' => 'automation automate process',
-    'സ്വയംപ്രവർത്തന' => 'automation automate process',
-    'ಸ್ವಯಂಚಾಲಿತ' => 'automation automate process', 'ಯಾಂತ್ರೀಕರಣ' => 'automation automate process',
-    'ఆటోమేషన్' => 'automation automate process', 'స్వయంచాలక' => 'automation automate process',
-    'स्वचालन' => 'automation automate process', 'ऑटोमेशन' => 'automation automate process',
+    'தானியங்கி' => 'automation automate', 'தன்னியக்க' => 'automation automate',
+    'ഓട്ടോമേഷൻ' => 'automation automate',
+    'സ്വയംപ്രവർത്തന' => 'automation automate',
+    'ಸ್ವಯಂಚಾಲಿತ' => 'automation automate', 'ಯಾಂತ್ರೀಕರಣ' => 'automation automate',
+    'ఆటోమేషన్' => 'automation automate', 'స్వయంచాలక' => 'automation automate',
+    'स्वचालन' => 'automation automate', 'ऑटोमेशन' => 'automation automate',
 
     // integration integrate connect
-    'ஒருங்கிணைப்பு' => 'integration integrate connect',
-    'இணைப்பு' => 'integration integrate connect', 'സംയോജനം' => 'integration integrate connect',
-    'ബന്ധിപ്പിക്ക' => 'integration integrate connect', 'ಏಕೀಕರಣ' => 'integration integrate connect',
-    'ಸಂಯೋಜನೆ' => 'integration integrate connect', 'ఏకీకరణ' => 'integration integrate connect',
-    'అనుసంధానం' => 'integration integrate connect', 'एकीकरण' => 'integration integrate connect',
-    'जोड़ना' => 'integration integrate connect',
+    'ஒருங்கிணைப்பு' => 'integration integrate',
+    'இணைப்பு' => 'integration integrate', 'സംയോജനം' => 'integration integrate',
+    'ബന്ധിപ്പിക്ക' => 'integration integrate', 'ಏಕೀಕರಣ' => 'integration integrate',
+    'ಸಂಯೋಜನೆ' => 'integration integrate', 'ఏకీకరణ' => 'integration integrate',
+    'అనుసంధానం' => 'integration integrate', 'एकीकरण' => 'integration integrate',
+    'जोड़ना' => 'integration integrate',
 
     // training finetune model
-    'பயிற்சி' => 'training finetune model', 'പരിശീലനം' => 'training finetune model',
-    'ತರಬೇತಿ' => 'training finetune model', 'శిక్షణ' => 'training finetune model',
-    'प्रशिक्षण' => 'training finetune model',
+    'பயிற்சி' => 'training finetune', 'പരിശീലനം' => 'training finetune',
+    'ತರಬೇತಿ' => 'training finetune', 'శిక్షణ' => 'training finetune',
+    'प्रशिक्षण' => 'training finetune',
 
     // accuracy accurate correct
-    'துல்லிய' => 'accuracy accurate correct', 'കൃത്യത' => 'accuracy accurate correct',
-    'ನಿಖರತೆ' => 'accuracy accurate correct', 'ఖచ్చితత్వం' => 'accuracy accurate correct',
-    'सटीकता' => 'accuracy accurate correct',
+    'துல்லிய' => 'accuracy accurate', 'കൃത്യത' => 'accuracy accurate',
+    'ನಿಖರತೆ' => 'accuracy accurate', 'ఖచ్చితత్వం' => 'accuracy accurate',
+    'सटीकता' => 'accuracy accurate',
 
     // monitoring observability support
-    'கண்காணிப்பு' => 'monitoring observability support',
-    'നിരീക്ഷണം' => 'monitoring observability support',
-    'ಮೇಲ್ವಿಚಾರಣೆ' => 'monitoring observability support',
-    'పర్యవేక్షణ' => 'monitoring observability support',
-    'निगरानी' => 'monitoring observability support',
+    'கண்காணிப்பு' => 'monitoring observability',
+    'നിരീക്ഷണം' => 'monitoring observability',
+    'ಮೇಲ್ವಿಚಾರಣೆ' => 'monitoring observability',
+    'పర్యవేక్షణ' => 'monitoring observability',
+    'निगरानी' => 'monitoring observability',
 
     // speed fast latency
-    'வேகம்' => 'speed fast latency', 'വേഗത' => 'speed fast latency', 'ವೇಗ' => 'speed fast latency',
-    'వేగం' => 'speed fast latency', 'गति' => 'speed fast latency',
+    'வேகம்' => 'speed latency', 'വേഗത' => 'speed latency', 'ವೇಗ' => 'speed latency',
+    'వేగం' => 'speed latency', 'गति' => 'speed latency',
 
     // error mistake wrong hallucination
-    'பிழை' => 'error mistake wrong hallucination', 'தவறு' => 'error mistake wrong hallucination',
-    'പിശക' => 'error mistake wrong hallucination', 'ದೋಷ' => 'error mistake wrong hallucination',
-    'లోపం' => 'error mistake wrong hallucination', 'తప్పు' => 'error mistake wrong hallucination',
-    'त्रुटि' => 'error mistake wrong hallucination', 'गलती' => 'error mistake wrong hallucination',
+    'பிழை' => 'error mistake', 'தவறு' => 'error mistake',
+    'പിശക' => 'error mistake', 'ದೋಷ' => 'error mistake',
+    'లోపం' => 'error mistake', 'తప్పు' => 'error mistake',
+    'त्रुटि' => 'error mistake', 'गलती' => 'error mistake',
 
     // language multilingual
     'மொழி' => 'language multilingual', 'ഭാഷ' => 'language multilingual',
@@ -321,41 +321,103 @@ const FAQ_LEXICON = [
     'भाषा' => 'language multilingual',
 
     // test testing quality
-    'சோதனை' => 'test testing quality', 'പരിശോധന' => 'test testing quality',
-    'ಪರೀಕ್ಷೆ' => 'test testing quality', 'పరీక్ష' => 'test testing quality',
-    'परीक्षण' => 'test testing quality', 'जांच' => 'test testing quality',
+    'சோதனை' => 'test testing', 'പരിശോധന' => 'test testing',
+    'ಪರೀಕ್ಷೆ' => 'test testing', 'పరీక్ష' => 'test testing',
+    'परीक्षण' => 'test testing', 'जांच' => 'test testing',
 
     // document retrieval search rag knowledge
-    'ஆவண' => 'document retrieval search rag knowledge',
-    'அறிவு' => 'document retrieval search rag knowledge',
-    'രേഖ' => 'document retrieval search rag knowledge',
-    'അറിവ' => 'document retrieval search rag knowledge',
-    'ಜ್ಞಾನ' => 'document retrieval search rag knowledge',
-    'పత్రం' => 'document retrieval search rag knowledge',
-    'జ్ఞానం' => 'document retrieval search rag knowledge',
-    'ज्ञान' => 'document retrieval search rag knowledge',
+    'ஆவண' => 'document retrieval rag',
+    'அறிவு' => 'document retrieval rag',
+    'രേഖ' => 'document retrieval rag',
+    'അറിവ' => 'document retrieval rag',
+    'ಜ್ಞಾನ' => 'document retrieval rag',
+    'పత్రం' => 'document retrieval rag',
+    'జ్ఞానం' => 'document retrieval rag',
+    'ज्ञान' => 'document retrieval rag',
 
     // deploy deployment launch
-    'வெளியீடு' => 'deploy deployment launch', 'വിന്യാസം' => 'deploy deployment launch',
-    'ನಿಯೋಜನೆ' => 'deploy deployment launch', 'విస్తరణ' => 'deploy deployment launch',
-    'तैनाती' => 'deploy deployment launch',
+    'வெளியீடு' => 'deploy launch', 'വിന്യാസം' => 'deploy launch',
+    'ನಿಯೋಜನೆ' => 'deploy launch', 'విస్తరణ' => 'deploy launch',
+    'तैनाती' => 'deploy launch',
 
     // workflow process steps
-    'பணிப்பாய்வு' => 'workflow process steps', 'പ്രവർത്തനക്രമം' => 'workflow process steps',
-    'ಕಾರ್ಯಹರಿವು' => 'workflow process steps', 'కార్యప్రవాహం' => 'workflow process steps',
-    'कार्यप्रवाह' => 'workflow process steps',
+    'பணிப்பாய்வு' => 'workflow process', 'പ്രവർത്തനക്രമം' => 'workflow process',
+    'ಕಾರ್ಯಹರಿವು' => 'workflow process', 'కార్యప్రవాహం' => 'workflow process',
+    'कार्यप्रवाह' => 'workflow process',
 
     // robotic rpa bot automation
-    'ரோபோ' => 'robotic rpa bot automation', 'റോബോട്ട' => 'robotic rpa bot automation',
-    'ರೋಬೋ' => 'robotic rpa bot automation', 'రోబో' => 'robotic rpa bot automation',
-    'रोबोट' => 'robotic rpa bot automation',
+    'ரோபோ' => 'rpa robotic', 'റോബോട്ട' => 'rpa robotic',
+    'ರೋಬೋ' => 'rpa robotic', 'రోబో' => 'rpa robotic',
+    'रोबोट' => 'rpa robotic',
 
     // safety guardrail control risk
-    'பாதுகாப்பான' => 'safety guardrail control risk',
-    'கட்டுப்பாடு' => 'safety guardrail control risk',
-    'നിയന്ത്രണം' => 'safety guardrail control risk', 'ನಿಯಂತ್ರಣ' => 'safety guardrail control risk',
-    'నియంత్రణ' => 'safety guardrail control risk', 'नियंत्रण' => 'safety guardrail control risk',
+    'பாதுகாப்பான' => 'safety control',
+    'கட்டுப்பாடு' => 'safety control',
+    'നിയന്ത്രണം' => 'safety control', 'ನಿಯಂತ್ರಣ' => 'safety control',
+    'నియంత్రణ' => 'safety control', 'नियंत्रण' => 'safety control',
 
+    /* ------------------------------------------------------------------
+       Vocabulary for the plain-English entries.
+
+       Inventory, staff, reports, company size, publishing to an app store.
+       A first-time buyer asking in an Indian language is the visitor least
+       likely to fall back to English, so these have to be reachable without
+       knowing a single technical term.
+       ------------------------------------------------------------------ */
+
+    // inventory stock store
+    'சரக்கு' => 'inventory', 'இருப்பு' => 'inventory',
+    'സ്റ്റോക്ക' => 'inventory', 'ದಾಸ್ತಾನು' => 'inventory',
+    'నిల్వ' => 'inventory', 'भंडार' => 'inventory',
+    'स्टॉक' => 'inventory',
+
+    // report dashboard data
+    'அறிக்கை' => 'report dashboard', 'റിപ്പോർട്ട' => 'report dashboard',
+    'ವರದಿ' => 'report dashboard', 'నివేదిక' => 'report dashboard',
+    'रिपोर्ट' => 'report dashboard',
+
+    // employee staff job replace team
+    'பணியாளர்' => 'employee staff job',
+    'ജീവനക്കാര' => 'employee staff job',
+    'ಉದ್ಯೋಗಿ' => 'employee staff job', 'ఉద్యోగి' => 'employee staff job',
+    'कर्मचारी' => 'employee staff job',
+
+    // size small large business
+    'சிறிய' => 'size small large', 'பெரிய' => 'size small large',
+    'ചെറിയ' => 'size small large', 'വലിയ' => 'size small large',
+    'ಸಣ್ಣ' => 'size small large', 'ದೊಡ್ಡ' => 'size small large',
+    'చిన్న' => 'size small large', 'పెద్ద' => 'size small large',
+    'छोटा' => 'size small large', 'बड़ा' => 'size small large',
+
+    // erp system single dashboard operations
+    'மென்பொருள் அமைப்பு' => 'erp system',
+    'സംവിധാനം' => 'erp system',
+    'ವ್ಯವಸ್ಥೆ' => 'erp system',
+    'వ్యవస్థ' => 'erp system',
+    'प्रणाली' => 'erp system',
+
+    // start begin first step
+    'തുടങ്ങാൻ' => 'start begin', 'ಪ್ರಾರಂಭಿಸಲು' => 'start begin',
+    'ప్రారంభించ' => 'start begin',
+
+    // submit publish appstore playstore release
+    'வெளியிட' => 'publish appstore',
+    'പ്രസിദ്ധീകരിക്ക' => 'publish appstore',
+    'ಪ್ರಕಟಿಸ' => 'publish appstore',
+    'ప్రచురించ' => 'publish appstore',
+    'प्रकाशित' => 'publish appstore',
+
+    // update upgrade maintenance support
+    'புதுப்பிப்பு' => 'update upgrade',
+    'അപ്ഡേറ്റ' => 'update upgrade',
+    'ನವೀಕರಣ' => 'update upgrade',
+    'నవీకరణ' => 'update upgrade',
+    'अपडेट' => 'update upgrade',
+
+
+    // payment / money. Only Tamil had these, so "can my app take
+    // payments" scored nothing in four of the six languages.
+    'പണം' => 'payment money', 'പേയ്‌മെന്റ' => 'payment money', 'ಹಣ' => 'payment money', 'డబ్బు' => 'payment money', 'पैसा' => 'payment money',
 ];
 
 /** Tokens too common to carry meaning. */

@@ -38,6 +38,7 @@ const FAQ_CATEGORIES = [
     'ai-delivery'  => 'AI Development: Delivery, Cost, Compliance & Ownership',
     'agentic'      => 'Agentic AI, Agents & Autonomy',
     'page-faq'     => 'Answers Published on the Service Pages Themselves',
+    'custom-software' => 'Custom Software: Ownership, Integration & Support',
 ];
 
 const FAQ = [
@@ -4124,5 +4125,252 @@ const FAQ = [
         'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
              . 'contract augmentation dedicated adhere compliance connecting corporate '
              . 'engineers github gitlab hardware organizations protocols security strict',
+    ],
+
+    /* ======================================================================
+       Plain-English answers for a first-time buyer.
+
+       Deliberately a different register from everything above: no stack
+       names, no acronyms left unexplained, aimed at someone who has a
+       business problem rather than a technical specification. They cover the
+       same ground as entries elsewhere in this file, at a much lower
+       altitude, which is the point -- the visitor who asks "what on earth is
+       an ERP" is not the visitor who asks about phased module rollout.
+
+       Added once each, like everything else here. FAQ_LEXICON is what makes
+       them answerable in Tamil, Malayalam, Kannada, Telugu and Hindi.
+       ====================================================================== */
+
+    // ---- General & about us ----
+
+    [
+        'id' => 'q427', 'cat' => 'engagement',
+        'q' => 'What does your company actually do?',
+        'a' => 'We build custom digital solutions for businesses. Whether you need a custom '
+             . 'computer program, a mobile app, smart AI features, or a central system to manage '
+             . 'your entire company, we design and code it from scratch.',
+        'terms' => 'company what do build custom digital solutions program scratch design code '
+             . 'overview',
+    ],
+    [
+        'id' => 'q428', 'cat' => 'engagement',
+        'q' => 'Do I need to be a tech expert to work with you?',
+        'a' => 'Not at all. You bring the business idea or the problem you want to solve, and we '
+             . 'handle all the technical heavy lifting. We speak in plain English, not confusing '
+             . 'code.',
+        'terms' => 'expert technical nontechnical beginner plain english jargon idea problem '
+             . 'handle lifting simple',
+    ],
+    [
+        'id' => 'q429', 'cat' => 'engagement',
+        'q' => 'What sizes of businesses do you work with?',
+        'a' => 'We partner with everyone from ambitious startups trying to launch their first app '
+             . 'to established companies looking to automate and upgrade their existing systems.',
+        'terms' => 'size small large startup established partner everyone company scale who '
+             . 'suitable',
+    ],
+    [
+        'id' => 'q430', 'cat' => 'engagement',
+        'q' => 'Can you fix or upgrade software that someone else built for me?',
+        'a' => 'Yes. We can look at your existing system, clean up the code, add new features, or '
+             . 'move it to a more modern platform to make it faster and safer.',
+        'terms' => 'fix upgrade inherit existing someone else takeover rescue clean refactor '
+             . 'modern platform faster safer',
+    ],
+    [
+        'id' => 'q431', 'cat' => 'engagement',
+        'q' => 'How do we get started?',
+        'a' => 'Just reach out through our contact form or book a free discovery call. We will '
+             . 'chat about your goals, map out a plan, and provide a clear quote.',
+        'terms' => 'started begin first step contact form discovery call free quote plan goals '
+             . 'reach',
+    ],
+
+    // ---- Mobile app development ----
+
+    [
+        'id' => 'q432', 'cat' => 'apps',
+        'q' => 'What is the difference between a custom website, software, and a mobile app?',
+        'a' => 'Software and websites run on web browsers or desktop computers. Mobile apps are '
+             . 'specifically designed to be downloaded from the App Store or Google Play Store '
+             . 'onto smartphones and tablets. We build all of them!',
+        'terms' => 'difference website software mobile app browser desktop download smartphone '
+             . 'tablet compare which',
+    ],
+    [
+        'id' => 'q433', 'cat' => 'apps',
+        'q' => 'Will my mobile app work on both iPhones and Android devices?',
+        'a' => 'Yes, we create apps that work beautifully on both iOS (Apple) and Android '
+             . 'platforms so you don\'t miss out on any customers.',
+        'terms' => 'iphone android ios apple both platform crossplatform device customers native '
+             . 'iphone android ios apple both platform crossplatform device customers native',
+    ],
+    [
+        'id' => 'q434', 'cat' => 'apps',
+        'q' => 'How long does it take to build a mobile app?',
+        'a' => 'A basic app typically takes a few weeks to design and develop, while complex apps '
+             . 'with multiple user roles and payment systems can take a few months. We give you a '
+             . 'realistic timeline before day one.',
+        'terms' => 'app timeline duration weeks months basic complex roles realistic before start '
+             . 'app timeline duration weeks months basic complex roles realistic before start',
+    ],
+    [
+        'id' => 'q435', 'cat' => 'apps',
+        'q' => 'Can my app accept online payments?',
+        'a' => 'Absolutely. We seamlessly integrate highly secure payment gateways so your users '
+             . 'can pay via credit cards, debit cards, UPI, or mobile wallets safely.',
+        'terms' => 'payment gateway online credit debit upi wallet checkout secure accept money '
+             . 'transaction',
+    ],
+    [
+        'id' => 'q436', 'cat' => 'apps',
+        'q' => 'Do you handle submitting the app to the App Stores?',
+        'a' => 'Yes, we take care of the entire submission and approval process for both the '
+             . 'Apple App Store and Google Play Store so you don\'t have to worry about the '
+             . 'guidelines.',
+        'terms' => 'submit submission publish release appstore playstore approval review '
+             . 'guidelines store listing',
+    ],
+
+    // ---- Custom software development ----
+
+    [
+        'id' => 'q437', 'cat' => 'custom-software',
+        'q' => 'Why should I get custom software instead of buying a ready-made package?',
+        'a' => 'Ready-made software often charges monthly fees for features you don\'t need, or '
+             . 'lacks features you desperately want. Custom software is tailor-made for your '
+             . 'unique business logic, scales as you grow, and belongs entirely to you.',
+        'terms' => 'custom versus readymade offtheshelf package saas subscription licence fee '
+             . 'tailor unique logic scales belongs',
+    ],
+    [
+        'id' => 'q438', 'cat' => 'custom-software',
+        'q' => 'Who owns the final software code once it is built?',
+        'a' => 'You do. Once the project is fully completed and paid for, 100% of the ownership '
+             . 'and source code is handed over to your company.',
+        'terms' => 'own ownership source code handover intellectual property rights belongs '
+             . 'transfer paid completed',
+    ],
+    [
+        'id' => 'q439', 'cat' => 'custom-software',
+        'q' => 'Can your software connect with the tools I already use?',
+        'a' => 'Yes. We build connections (APIs) so your new software can easily talk to your '
+             . 'existing email platforms, accounting software, or databases without losing any '
+             . 'historical data.',
+        'terms' => 'connect integration api existing tools email accounting database historical '
+             . 'migrate talk interoperate',
+    ],
+    [
+        'id' => 'q440', 'cat' => 'custom-software',
+        'q' => 'Is my data secure with your software?',
+        'a' => 'Security is built into everything we do. We use advanced encryption, secure login '
+             . 'credentials, and strict testing protocols to make sure your company and customer '
+             . 'data stays safe from breaches.',
+        'terms' => 'security secure data encryption login credentials breach safe protect testing '
+             . 'protocols privacy',
+    ],
+    [
+        'id' => 'q441', 'cat' => 'custom-software',
+        'q' => 'What happens if something breaks or needs an update later?',
+        'a' => 'We offer ongoing support and maintenance packages to monitor your software, fix '
+             . 'bugs, and install updates as technology changes.',
+        'terms' => 'break bug support maintenance ongoing update monitor after launch warranty '
+             . 'package fix',
+    ],
+
+    // ---- AI development, in plain terms ----
+
+    [
+        'id' => 'q442', 'cat' => 'ai-native',
+        'q' => 'How can AI actually help a normal business save money?',
+        'a' => 'AI is great at automating repetitive tasks, looking through huge amounts of data '
+             . 'to predict sales trends, or powering smart customer service bots that solve user '
+             . 'problems 24/7 without taking a break.',
+        'terms' => 'save money cost benefit roi automate repetitive predict trends customer '
+             . 'service bots value normal business',
+    ],
+    [
+        'id' => 'q443', 'cat' => 'ai-native',
+        'q' => 'Is AI development only for massive tech giants?',
+        'a' => 'No, businesses of all sizes can use it. We build simple, budget-friendly AI tools '
+             . 'that plug right into your current website or mobile app to make your day-to-day '
+             . 'work faster.',
+        'terms' => 'only big giants enterprise small budget affordable simple plug current '
+             . 'website accessible',
+    ],
+    [
+        'id' => 'q444', 'cat' => 'ai-native',
+        'q' => 'What is a chatbot, and do I need one?',
+        'a' => 'A chatbot is an AI-powered assistant on your website or app that instantly '
+             . 'answers common customer questions, routes leads to the right team, and books '
+             . 'appointments automatically. It\'s a huge time saver.',
+        'terms' => 'chatbot what assistant answers questions routes leads appointments booking '
+             . 'automatic time saver need',
+    ],
+    [
+        'id' => 'q445', 'cat' => 'ai-native',
+        'q' => 'How long does it take to train an AI model for my company?',
+        'a' => 'It depends on what you want it to do and how much data you have. Simple '
+             . 'automations can be set up quickly, while highly specialized AI tools take a bit '
+             . 'longer to test and refine.',
+        'terms' => 'train model timeline duration depends data simple specialized refine test '
+             . 'quickly longer',
+    ],
+    [
+        'id' => 'q446', 'cat' => 'ai-native',
+        'q' => 'Will AI replace my human employees?',
+        'a' => 'Think of AI as an assistant, not a replacement. It takes over the boring, '
+             . 'repetitive tasks so your human team can focus on creative work, strategy, and '
+             . 'talking to customers.',
+        'terms' => 'replace human employees jobs staff redundant assistant augment boring '
+             . 'repetitive focus creative strategy',
+    ],
+
+    // ---- ERP systems ----
+
+    [
+        'id' => 'q447', 'cat' => 'modernise',
+        'q' => 'What on earth is an ERP system?',
+        'a' => 'Think of an ERP as the central brain for your business operations. Instead of '
+             . 'using separate tools for your accounting, inventory, HR, sales, and shipping, an '
+             . 'ERP connects everything into one single dashboard.',
+        'terms' => 'erp what central brain operations accounting inventory stock hr sales shipping '
+             . 'dashboard single connects separate',
+    ],
+    [
+        'id' => 'q448', 'cat' => 'modernise',
+        'q' => 'How do I know if my business is ready for an ERP?',
+        'a' => 'If your team is constantly wasting time copy-pasting data between different '
+             . 'spreadsheets, losing track of inventory, or struggling to get a clear picture of '
+             . 'monthly sales, you need an ERP.',
+        'terms' => 'ready need erp spreadsheet copy paste inventory stock track picture monthly sales '
+             . 'signs when',
+    ],
+    [
+        'id' => 'q449', 'cat' => 'modernise',
+        'q' => 'Can we build an ERP in phases, or do we have to do it all at once?',
+        'a' => 'We highly recommend building it in phases. We can start by fixing your biggest '
+             . 'headache (like inventory tracking) and add modules (like HR or accounting) later '
+             . 'as your team gets comfortable.',
+        'terms' => 'phases phased modules incremental stages start small biggest headache '
+             . 'inventory later comfortable bigbang',
+    ],
+    [
+        'id' => 'q450', 'cat' => 'modernise',
+        'q' => 'Is training included for my staff?',
+        'a' => 'Yes. A system is only good if your team knows how to use it. We provide '
+             . 'step-by-step training sessions and clear documentation to ensure a smooth '
+             . 'transition for everyone.',
+        'terms' => 'training staff team sessions documentation handover adoption transition learn '
+             . 'onboard included',
+    ],
+    [
+        'id' => 'q451', 'cat' => 'modernise',
+        'q' => 'Can I access my business ERP from outside the office?',
+        'a' => 'Yes, we build secure cloud-based ERP systems. This means you or your managers can '
+             . 'securely log in and see real-time data from any laptop or smartphone, whether you '
+             . 'are at home or traveling.',
+        'terms' => 'access remote outside office cloud login realtime laptop smartphone home '
+             . 'travelling anywhere manager',
     ],
 ];
