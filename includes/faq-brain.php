@@ -258,6 +258,104 @@ const FAQ_LEXICON = [
     'ಫ್ಲಟರ್' => 'flutter cross platform dart',
     'ఫ్లట్టర్' => 'flutter cross platform dart',
     'फ्लटर' => 'flutter cross platform dart', 'फ़्लटर' => 'flutter cross platform dart',
+    /* ------------------------------------------------------------------
+       Vocabulary for the sixteen AI service pages.
+
+       The entries above cover general business language -- cost, timeline,
+       hiring, cities. The answers published on the service pages are about
+       retrieval, orchestration, automation, fine-tuning, accuracy and
+       observability, and none of those had any Indic word pointing at them,
+       so an Indian-language question on those subjects scored nothing and
+       fell through to the demo boundary.
+
+       Stems rather than whole words, for the same reason as above: these
+       languages agglutinate, and the match is a substring test.
+       ------------------------------------------------------------------ */
+
+    // automation automate process
+    'தானியங்கி' => 'automation automate process', 'தன்னியக்க' => 'automation automate process',
+    'ഓട്ടോമേഷൻ' => 'automation automate process',
+    'സ്വയംപ്രവർത്തന' => 'automation automate process',
+    'ಸ್ವಯಂಚಾಲಿತ' => 'automation automate process', 'ಯಾಂತ್ರೀಕರಣ' => 'automation automate process',
+    'ఆటోమేషన్' => 'automation automate process', 'స్వయంచాలక' => 'automation automate process',
+    'स्वचालन' => 'automation automate process', 'ऑटोमेशन' => 'automation automate process',
+
+    // integration integrate connect
+    'ஒருங்கிணைப்பு' => 'integration integrate connect',
+    'இணைப்பு' => 'integration integrate connect', 'സംയോജനം' => 'integration integrate connect',
+    'ബന്ധിപ്പിക്ക' => 'integration integrate connect', 'ಏಕೀಕರಣ' => 'integration integrate connect',
+    'ಸಂಯೋಜನೆ' => 'integration integrate connect', 'ఏకీకరణ' => 'integration integrate connect',
+    'అనుసంధానం' => 'integration integrate connect', 'एकीकरण' => 'integration integrate connect',
+    'जोड़ना' => 'integration integrate connect',
+
+    // training finetune model
+    'பயிற்சி' => 'training finetune model', 'പരിശീലനം' => 'training finetune model',
+    'ತರಬೇತಿ' => 'training finetune model', 'శిక్షణ' => 'training finetune model',
+    'प्रशिक्षण' => 'training finetune model',
+
+    // accuracy accurate correct
+    'துல்லிய' => 'accuracy accurate correct', 'കൃത്യത' => 'accuracy accurate correct',
+    'ನಿಖರತೆ' => 'accuracy accurate correct', 'ఖచ్చితత్వం' => 'accuracy accurate correct',
+    'सटीकता' => 'accuracy accurate correct',
+
+    // monitoring observability support
+    'கண்காணிப்பு' => 'monitoring observability support',
+    'നിരീക്ഷണം' => 'monitoring observability support',
+    'ಮೇಲ್ವಿಚಾರಣೆ' => 'monitoring observability support',
+    'పర్యవేక్షణ' => 'monitoring observability support',
+    'निगरानी' => 'monitoring observability support',
+
+    // speed fast latency
+    'வேகம்' => 'speed fast latency', 'വേഗത' => 'speed fast latency', 'ವೇಗ' => 'speed fast latency',
+    'వేగం' => 'speed fast latency', 'गति' => 'speed fast latency',
+
+    // error mistake wrong hallucination
+    'பிழை' => 'error mistake wrong hallucination', 'தவறு' => 'error mistake wrong hallucination',
+    'പിശക' => 'error mistake wrong hallucination', 'ದೋಷ' => 'error mistake wrong hallucination',
+    'లోపం' => 'error mistake wrong hallucination', 'తప్పు' => 'error mistake wrong hallucination',
+    'त्रुटि' => 'error mistake wrong hallucination', 'गलती' => 'error mistake wrong hallucination',
+
+    // language multilingual
+    'மொழி' => 'language multilingual', 'ഭാഷ' => 'language multilingual',
+    'ಭಾಷೆ' => 'language multilingual', 'భాష' => 'language multilingual',
+    'भाषा' => 'language multilingual',
+
+    // test testing quality
+    'சோதனை' => 'test testing quality', 'പരിശോധന' => 'test testing quality',
+    'ಪರೀಕ್ಷೆ' => 'test testing quality', 'పరీక్ష' => 'test testing quality',
+    'परीक्षण' => 'test testing quality', 'जांच' => 'test testing quality',
+
+    // document retrieval search rag knowledge
+    'ஆவண' => 'document retrieval search rag knowledge',
+    'அறிவு' => 'document retrieval search rag knowledge',
+    'രേഖ' => 'document retrieval search rag knowledge',
+    'അറിവ' => 'document retrieval search rag knowledge',
+    'ಜ್ಞಾನ' => 'document retrieval search rag knowledge',
+    'పత్రం' => 'document retrieval search rag knowledge',
+    'జ్ఞానం' => 'document retrieval search rag knowledge',
+    'ज्ञान' => 'document retrieval search rag knowledge',
+
+    // deploy deployment launch
+    'வெளியீடு' => 'deploy deployment launch', 'വിന്യാസം' => 'deploy deployment launch',
+    'ನಿಯೋಜನೆ' => 'deploy deployment launch', 'విస్తరణ' => 'deploy deployment launch',
+    'तैनाती' => 'deploy deployment launch',
+
+    // workflow process steps
+    'பணிப்பாய்வு' => 'workflow process steps', 'പ്രവർത്തനക്രമം' => 'workflow process steps',
+    'ಕಾರ್ಯಹರಿವು' => 'workflow process steps', 'కార్యప్రవాహం' => 'workflow process steps',
+    'कार्यप्रवाह' => 'workflow process steps',
+
+    // robotic rpa bot automation
+    'ரோபோ' => 'robotic rpa bot automation', 'റോബോട്ട' => 'robotic rpa bot automation',
+    'ರೋಬೋ' => 'robotic rpa bot automation', 'రోబో' => 'robotic rpa bot automation',
+    'रोबोट' => 'robotic rpa bot automation',
+
+    // safety guardrail control risk
+    'பாதுகாப்பான' => 'safety guardrail control risk',
+    'கட்டுப்பாடு' => 'safety guardrail control risk',
+    'നിയന്ത്രണം' => 'safety guardrail control risk', 'ನಿಯಂತ್ರಣ' => 'safety guardrail control risk',
+    'నియంత్రణ' => 'safety guardrail control risk', 'नियंत्रण' => 'safety guardrail control risk',
+
 ];
 
 /** Tokens too common to carry meaning. */
@@ -304,7 +402,12 @@ function faq_terms(string $normalised): array
         $terms[$word] = true;
     }
 
-    return array_keys($terms);
+    // strval because PHP silently casts a numeric-string array key to int: the
+    // word "400" becomes the key 400, and array_keys() hands back an int that
+    // str_contains() rejects outright in PHP 8. Any question with a bare number
+    // in it -- "how much for 3 developers", "what is the 400ms latency" --
+    // would otherwise take down the whole reply with a TypeError.
+    return array_map('strval', array_keys($terms));
 }
 
 /**

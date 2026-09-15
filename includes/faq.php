@@ -2412,4 +2412,1717 @@ const FAQ = [
              . 'including anything we think you should not build yet.',
         'terms' => 'first two weeks start begin what happens initial phase discovery kickoff onboarding',
     ],
+
+    /* ======================================================================
+       The ten answers published on each of the sixteen AI service pages.
+
+       Added once each, not once per language. faq-brain.php normalises a
+       Tamil, Malayalam, Kannada, Telugu or Hindi question into the English
+       concepts below and scores it against every entry, so one entry answers
+       in all six languages -- and catches paraphrases, which a stored
+       translation never does. The Indic vocabulary for this new subject
+       matter lives in FAQ_LEXICON.
+
+       'terms' deliberately avoids repeating the question's own words:
+       faq_match() already scores a question-text hit at two points, so the
+       index is spent on synonyms and domain vocabulary instead.
+       ====================================================================== */
+
+    // ---- AI Consulting ---- (services/ai-consulting.php)
+
+    [
+        'id' => 'q267', 'cat' => 'page-faq',
+        'q' => 'What is the primary goal of an Enterprise AI Consulting engagement?',
+        'a' => 'Our AI consulting engagements evaluate your operational workflows, identify '
+             . 'high-leverage automation opportunities, determine technical and financial '
+             . 'feasibility, and deliver an actionable production architecture that guarantees '
+             . 'measurable ROI.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case actionable architecture automation '
+             . 'deliver determine engagements evaluate financial guarantees high identify',
+    ],
+    [
+        'id' => 'q268', 'cat' => 'page-faq',
+        'q' => 'How do you determine whether an enterprise should use an open-source model or a '
+             . 'commercial API?',
+        'a' => 'We evaluate your specific use case against data sovereignty requirements, latency '
+             . 'constraints, token volume, and budget. For regulated industries with strict '
+             . 'privacy needs or massive token volumes, fine-tuned open-source models (like Llama '
+             . 'or Mistral on private VPCs) often deliver 80% lower cost and total privacy. For '
+             . 'generalized reasoning with variable load, commercial APIs with enterprise '
+             . 'zero-retention agreements may be recommended.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case privacy token against agreements apis '
+             . 'budget constraints cost deliver evaluate fine',
+    ],
+    [
+        'id' => 'q269', 'cat' => 'page-faq',
+        'q' => 'How do you calculate the projected ROI of an AI initiative before building?',
+        'a' => 'We quantify the exact baseline hours spent on manual workflows, error rates, '
+             . 'customer wait times, and direct labor costs, then model the efficiency uplift, '
+             . 'labor deflection, and compute hosting expenses to provide an unambiguous net ROI '
+             . 'and payback timeline.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case labor baseline compute costs '
+             . 'deflection direct efficiency error exact expenses hosting hours',
+    ],
+    [
+        'id' => 'q270', 'cat' => 'page-faq',
+        'q' => 'How do you ensure our sensitive business data remains private during the audit?',
+        'a' => 'All discovery and prototyping are conducted under strict mutual NDAs using '
+             . 'air-gapped sandboxes or private VPC enclaves. Your proprietary data is never '
+             . 'logged, stored on unauthorized machines, or sent to public foundation model '
+             . 'training queues.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case conducted discovery enclaves '
+             . 'foundation gapped logged machines mutual ndas never proprietary prototyping',
+    ],
+    [
+        'id' => 'q271', 'cat' => 'page-faq',
+        'q' => 'What deliverables do we receive at the conclusion of the consulting engagement?',
+        'a' => 'You receive a complete Executive AI Roadmap, Technical Architecture Blueprints, '
+             . 'Data Readiness & Governance Audit, Model Sizing & Cost Projection Report, and a '
+             . 'step-by-step Implementation Plan ready for engineering execution.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case step architecture blueprints complete '
+             . 'cost engineering execution executive implementation plan',
+    ],
+    [
+        'id' => 'q272', 'cat' => 'page-faq',
+        'q' => 'Can you help modernize our existing legacy software systems with AI?',
+        'a' => 'Yes. We specialize in non-invasive modernization patterns, such as sidecar '
+             . 'microservices and universal API gateways, allowing you to add cutting-edge AI '
+             . 'capabilities without rewriting or destabilizing your revenue-generating legacy '
+             . 'applications.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case allowing applications capabilities '
+             . 'cutting destabilizing edge gateways generating invasive microservices '
+             . 'modernization patterns',
+    ],
+    [
+        'id' => 'q273', 'cat' => 'page-faq',
+        'q' => 'How long does a typical AI consulting and discovery engagement take?',
+        'a' => 'Our standard AI Strategy Sprint runs for 2 weeks, while deep-dive '
+             . 'multi-department enterprise architecture audits typically span 3 to 4 weeks '
+             . 'depending on organizational complexity.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case weeks architecture audits complexity '
+             . 'deep department depending dive multi organizational runs span',
+    ],
+    [
+        'id' => 'q274', 'cat' => 'page-faq',
+        'q' => 'How do you address AI safety, hallucinations, and prompt injection risks?',
+        'a' => 'We design multi-tier defense architectures incorporating deterministic guardrails '
+             . '(such as NeMo Guardrails and Llama Guard), schema-constrained JSON outputs, '
+             . 'semantic chunk validation, and automated red-teaming harnesses.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case guardrails architectures automated '
+             . 'chunk constrained defense design deterministic guard harnesses incorporating '
+             . 'json',
+    ],
+    [
+        'id' => 'q275', 'cat' => 'page-faq',
+        'q' => 'Do you provide the engineering team to build the solution after consulting?',
+        'a' => 'Yes. iThrive provides end-to-end capabilities: from strategic advisory and '
+             . 'architectural blueprinting to dedicated full-stack AI engineering squads that '
+             . 'build, test, and maintain the production platform.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case architectural blueprinting '
+             . 'capabilities dedicated full maintain platform squads stack strategic test',
+    ],
+    [
+        'id' => 'q276', 'cat' => 'page-faq',
+        'q' => 'How do you handle change management and user adoption across our workforce?',
+        'a' => 'We structure intuitive human-in-the-loop interfaces, comprehensive role-based '
+             . 'training modules, and gradual cohort rollouts with confidence scoring, ensuring '
+             . 'your employees view AI as an empowering copilot rather than an unpredictable '
+             . 'disruption.',
+        'terms' => 'consulting consultant advisory strategy roadmap audit feasibility assessment '
+             . 'readiness governance roi business case based cohort comprehensive confidence '
+             . 'copilot disruption employees empowering ensuring gradual human interfaces',
+    ],
+
+    // ---- Generative AI Development ---- (services/gen-ai-development.php)
+
+    [
+        'id' => 'q277', 'cat' => 'page-faq',
+        'q' => 'What is the difference between Generative AI fine-tuning and RAG?',
+        'a' => 'RAG (Retrieval-Augmented Generation) injects dynamic contextual documents into a '
+             . 'generic model prompt at runtime, while Fine-Tuning fundamentally modifies the '
+             . 'model weights so it learns domain vocabulary, tone, and complex reasoning '
+             . 'patterns directly. We frequently combine both: a fine-tuned domain model querying '
+             . 'an enterprise vector database.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom domain augmented combine complex '
+             . 'contextual database directly documents dynamic frequently fundamentally '
+             . 'generation',
+    ],
+    [
+        'id' => 'q278', 'cat' => 'page-faq',
+        'q' => 'How do you prevent hallucinations in Generative AI applications?',
+        'a' => 'We implement multi-layered safeguards: temperature minimization, '
+             . 'schema-constrained decoding (e.g., Guidance, Outlines), citation-enforced '
+             . 'retrieval, and secondary validator models that verify all factual assertions '
+             . 'before delivering output.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom assertions citation constrained '
+             . 'decoding delivering enforced factual guidance implement layered minimization '
+             . 'multi',
+    ],
+    [
+        'id' => 'q279', 'cat' => 'page-faq',
+        'q' => 'Can you deploy Generative AI models inside our private cloud or on-premise '
+             . 'servers?',
+        'a' => 'Yes. 100% of our enterprise Generative AI deployments can be hosted inside your '
+             . 'private AWS, Azure, GCP VPCs or on-premise air-gapped GPU servers (using '
+             . 'Kubernetes and vLLM/TensorRT) with zero outbound internet connectivity.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom azure connectivity deployments '
+             . 'gapped hosted internet kubernetes outbound tensorrt vllm vpcs zero',
+    ],
+    [
+        'id' => 'q280', 'cat' => 'page-faq',
+        'q' => 'How much training data is required to fine-tune a domain model?',
+        'a' => 'With parameter-efficient fine-tuning (LoRA/QLoRA), high-quality domain adaptation '
+             . 'can be achieved with as few as 1,000 to 10,000 meticulously formatted instruction '
+             . 'pairs. We also synthesize high-quality training data from your raw historical '
+             . 'documents.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom high quality achieved adaptation '
+             . 'documents efficient formatted historical instruction meticulously pairs',
+    ],
+    [
+        'id' => 'q281', 'cat' => 'page-faq',
+        'q' => 'What hardware and GPU infrastructure is required to run self-hosted models?',
+        'a' => 'Quantized 7B to 14B parameter models run with ultra-low latency on single '
+             . 'commercial GPUs (e.g., NVIDIA L4, A10G, or RTX 4090), while 70B parameter models '
+             . 'require multi-GPU nodes (such as 2x to 4x NVIDIA A100/H100). We right-size the '
+             . 'architecture to minimize cloud bills.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom nvidia parameter 4090 a100 a10g '
+             . 'architecture bills cloud commercial gpus h100 latency',
+    ],
+    [
+        'id' => 'q282', 'cat' => 'page-faq',
+        'q' => 'How do fine-tuned models compare to GPT-4 in performance?',
+        'a' => 'On generalized open-ended knowledge, frontier models excel; however, on specific '
+             . 'enterprise tasks (such as medical diagnosis coding, financial ledger '
+             . 'classification, or proprietary code syntax), a tailored 8B or 70B model routinely '
+             . 'matches or exceeds GPT-4 while running at 85% lower cost.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom classification code coding cost '
+             . 'diagnosis ended exceeds excel financial frontier generalized however',
+    ],
+    [
+        'id' => 'q283', 'cat' => 'page-faq',
+        'q' => 'What multimodal capabilities can you build into Generative AI systems?',
+        'a' => 'We build systems capable of processing and generating text, high-resolution '
+             . 'imagery, audio voice streams, tabular financial data, and complex PDF blueprints '
+             . 'in unified cognitive workflows.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom audio blueprints capable cognitive '
+             . 'complex financial generating high imagery processing resolution streams',
+    ],
+    [
+        'id' => 'q284', 'cat' => 'page-faq',
+        'q' => 'How do you handle data privacy and copyright considerations?',
+        'a' => 'All models are trained exclusively on your licensed enterprise data and '
+             . 'permissible open-source foundation weights. Your corporate IP remains strictly '
+             . 'yours, with full legal and copyright indemnification frameworks.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom corporate exclusively frameworks '
+             . 'full indemnification legal licensed open permissible remains source',
+    ],
+    [
+        'id' => 'q285', 'cat' => 'page-faq',
+        'q' => 'What is the average timeline to build and deploy a custom Generative AI solution? '
+             . 'What is the average timeline to build and deploy a custom Generative AI solution?',
+        'a' => 'A focused Proof of Concept is delivered in 2 to 3 weeks, while a full-scale '
+             . 'enterprise production platform typically ships in 6 to 10 weeks.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom weeks concept delivered focused '
+             . 'full platform proof scale ships typically while',
+    ],
+    [
+        'id' => 'q286', 'cat' => 'page-faq',
+        'q' => 'Do you provide continuous monitoring and model retraining?',
+        'a' => 'Yes. Our AgentOps and MLOps telemetry infrastructure monitors prompt drift, '
+             . 'latency anomalies, token costs, and user feedback in real-time, triggering '
+             . 'automated retraining pipelines as new data is ingested.',
+        'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
+             . 'diffusion synthetic prompt training custom agentops anomalies automated costs '
+             . 'drift feedback infrastructure ingested latency mlops monitors pipelines',
+    ],
+
+    // ---- AI Chatbot & Voicebot Development ---- (services/ai-chatbot-development.php)
+
+    [
+        'id' => 'q287', 'cat' => 'page-faq',
+        'q' => 'How realistic do your AI voicebots sound over phone calls?',
+        'a' => 'Our voicebots achieve human-grade naturalness with sub-400ms end-to-end audio '
+             . 'latency, expressive prosody, dynamic pauses, and full-duplex interruption '
+             . 'handling that stops speaking immediately when the user speaks.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk 400ms achieve audio duplex dynamic expressive full '
+             . 'grade handling human immediately interruption',
+    ],
+    [
+        'id' => 'q288', 'cat' => 'page-faq',
+        'q' => 'Which messaging platforms and channels do you support?',
+        'a' => 'We deploy conversational agents across WhatsApp Business API, Web widgets, iOS & '
+             . 'Android mobile SDKs, Facebook Messenger, Telegram, Instagram DMs, and standard '
+             . 'telephone lines (PSTN/SIP).',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk across agents android deploy facebook instagram '
+             . 'lines messenger mobile pstn sdks',
+    ],
+    [
+        'id' => 'q289', 'cat' => 'page-faq',
+        'q' => 'Can the bot access our private customer database to check order status?',
+        'a' => 'Yes. Our bots utilize secure tool-calling contracts to query your internal '
+             . 'databases, ERPs, and OMS in real time, securely retrieving order tracking, '
+             . 'invoice details, and account balances.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk account balances bots calling contracts databases '
+             . 'details erps internal invoice query real',
+    ],
+    [
+        'id' => 'q290', 'cat' => 'page-faq',
+        'q' => 'How does the bot handle regional Indian languages and accents?',
+        'a' => 'We integrate advanced phonetic speech models (including Sarvam AI and Whisper '
+             . 'Indic) fine-tuned on regional dialects, supporting English, Hindi, Tamil, Telugu, '
+             . 'Kannada, Malayalam, Marathi, Bengali, and Gujarati.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk advanced bengali dialects english fine gujarati '
+             . 'hindi including indic integrate kannada malayalam',
+    ],
+    [
+        'id' => 'q291', 'cat' => 'page-faq',
+        'q' => 'What happens when a customer asks a question the bot cannot answer?',
+        'a' => 'The bot gracefully summarizes the conversation history, flags the intent '
+             . 'confidence score, and routes the caller to a live human agent with the transcript '
+             . 'pre-loaded on their screen.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk agent caller confidence conversation flags '
+             . 'gracefully history human intent live loaded routes',
+    ],
+    [
+        'id' => 'q292', 'cat' => 'page-faq',
+        'q' => 'Is customer voice and chat data encrypted and compliant?',
+        'a' => 'Yes. All data streams are encrypted with TLS 1.3 in transit and AES-256 at rest. '
+             . 'Sensitive PII, credit card numbers, and passwords are automatically masked before '
+             . 'logging, adhering to PCI-DSS, SOC 2, and GDPR.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk adhering automatically card credit gdpr logging '
+             . 'masked numbers passwords rest sensitive streams',
+    ],
+    [
+        'id' => 'q293', 'cat' => 'page-faq',
+        'q' => 'Can the chatbot take customer payments directly in chat?',
+        'a' => 'Yes. We integrate secure payment gateway webhooks (Stripe, Razorpay, UPI '
+             . 'deep-links) enabling customers to complete purchases and pay invoices directly '
+             . 'within WhatsApp or web chat.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk complete deep enabling gateway integrate invoices '
+             . 'links payment purchases razorpay secure stripe',
+    ],
+    [
+        'id' => 'q294', 'cat' => 'page-faq',
+        'q' => 'How long does it take to train the chatbot on our company knowledge?',
+        'a' => 'Using our high-speed vector ingestion pipeline, we can index hundreds of company '
+             . 'PDF manuals, FAQs, and help center articles in less than 48 hours.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk articles center faqs help high hours hundreds index '
+             . 'ingestion less manuals pipeline',
+    ],
+    [
+        'id' => 'q295', 'cat' => 'page-faq',
+        'q' => 'Can the bot handle cold outreach and inbound sales qualification calls?',
+        'a' => 'Yes. Our voice agents are widely deployed for outbound lead follow-up, webinar '
+             . 'reminders, abandoned cart re-engagement, and inbound qualification with direct '
+             . 'calendar scheduling.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk abandoned agents calendar cart deployed direct '
+             . 'engagement follow lead outbound reminders scheduling',
+    ],
+    [
+        'id' => 'q296', 'cat' => 'page-faq',
+        'q' => 'How are pricing and operational token costs structured for conversational bots?',
+        'a' => 'We offer transparent models: fixed engineering setup and deployment tiers with '
+             . 'predictable infrastructure costs, minimizing token overhead through semantic '
+             . 'caching.',
+        'terms' => 'chatbot chat bot voicebot conversational assistant whatsapp telephony ivr '
+             . 'multilingual support desk caching deployment engineering fixed infrastructure '
+             . 'minimizing offer overhead predictable semantic setup through',
+    ],
+
+    // ---- AI Copilot Development ---- (services/ai-copilot-development.php)
+
+    [
+        'id' => 'q297', 'cat' => 'page-faq',
+        'q' => 'How does an AI Copilot differ from a standard AI Chatbot?',
+        'a' => 'While chatbots generally operate in a standalone chat window answering generic '
+             . 'queries, a Copilot is deeply embedded into the active software workspace, '
+             . 'continuously aware of the user?s cursor position, open document, selected data, '
+             . 'and permissions, providing proactive inline assistance.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper active answering assistance aware chat chatbots continuously cursor '
+             . 'deeply document generally',
+    ],
+    [
+        'id' => 'q298', 'cat' => 'page-faq',
+        'q' => 'Can a custom copilot be embedded into our existing React or Vue web app?',
+        'a' => 'Yes. We provide lightweight, customizable npm packages and web components that '
+             . 'integrate into your frontend in hours, connecting securely to your backend via '
+             . 'WebSockets or streaming HTTP.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper backend components connecting customizable frontend hours http '
+             . 'integrate lightweight packages securely streaming',
+    ],
+    [
+        'id' => 'q299', 'cat' => 'page-faq',
+        'q' => 'How do you keep latency low enough for inline autocomplete (<100ms)?',
+        'a' => 'We deploy quantized small language models (SLMs) on edge GPU clusters combined '
+             . 'with speculative decoding, local client caching, and preemptive background '
+             . 'context pre-fetching.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper background caching clusters combined context decoding deploy edge '
+             . 'fetching language local preemptive',
+    ],
+    [
+        'id' => 'q300', 'cat' => 'page-faq',
+        'q' => 'Is our codebase or customer data sent to third-party AI companies?',
+        'a' => 'No. We configure private cloud deployments (AWS Bedrock, Azure OpenAI with '
+             . 'zero-data retention, or self-hosted vLLM on your VPC) so your proprietary data '
+             . 'never leaves your infrastructure.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper azure bedrock cloud configure deployments hosted infrastructure leaves '
+             . 'never openai private proprietary',
+    ],
+    [
+        'id' => 'q301', 'cat' => 'page-faq',
+        'q' => 'Can the copilot execute actions on behalf of the user, such as creating records? '
+             . 'Can the copilot execute actions on behalf of the user, such as creating records?',
+        'a' => 'Yes. Using secure tool-calling and API contracts, the copilot can draft '
+             . 'transactions, create Jira tickets, trigger database updates, and send emails, '
+             . 'with optional human-confirmation modals.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper calling confirmation contracts create database draft emails human jira '
+             . 'modals optional secure',
+    ],
+    [
+        'id' => 'q302', 'cat' => 'page-faq',
+        'q' => 'How do you handle complex permissions and multi-tenant security?',
+        'a' => 'The copilot inherits the active user session token and role-based access control '
+             . '(RBAC) rules. It physically cannot retrieve or generate information that the '
+             . 'requesting user is not authorized to view.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper user access active authorized based cannot control generate '
+             . 'information inherits physically',
+    ],
+    [
+        'id' => 'q303', 'cat' => 'page-faq',
+        'q' => 'Can the copilot convert plain English into database SQL queries safely?',
+        'a' => 'Yes. Our NL-to-SQL copilot engines parse your database schema, generate read-only '
+             . 'parameterized queries, validate syntax against SQL injection vectors, and execute '
+             . 'with strict query timeouts.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper against engines execute generate injection parameterized parse query '
+             . 'read schema strict syntax',
+    ],
+    [
+        'id' => 'q304', 'cat' => 'page-faq',
+        'q' => 'What telemetry and analytics are provided to measure copilot usage?',
+        'a' => 'We provide comprehensive dashboards tracking suggestion acceptance rates, daily '
+             . 'active users, average latency, token costs per user, and estimated time saved per '
+             . 'operator.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper acceptance active average comprehensive costs daily dashboards '
+             . 'estimated latency operator rates saved',
+    ],
+    [
+        'id' => 'q305', 'cat' => 'page-faq',
+        'q' => 'Can we build a copilot for our desktop application (Electron, Windows, macOS)?',
+        'a' => 'Yes. We engineer native desktop extensions, system tray copilots, and Electron '
+             . 'integrations that interact with local file systems and desktop applications.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper applications copilots engineer extensions file integrations interact '
+             . 'local native tray',
+    ],
+    [
+        'id' => 'q306', 'cat' => 'page-faq',
+        'q' => 'What is the typical timeline to launch an in-app copilot for our SaaS?',
+        'a' => 'A working production copilot MVP is typically delivered in 4 to 6 weeks, with '
+             . 'iterative refinement based on user feedback.',
+        'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
+             . 'helper based delivered feedback iterative refinement typically user weeks '
+             . 'working',
+    ],
+
+    // ---- RAG Development ---- (services/rag-development.php)
+
+    [
+        'id' => 'q307', 'cat' => 'page-faq',
+        'q' => 'What is the difference between standard naive RAG and GraphRAG?',
+        'a' => 'Standard naive RAG splits text into arbitrary chunks and uses cosine similarity, '
+             . 'which loses relational context across documents. GraphRAG extracts entities, '
+             . 'relationships, and claims into an interconnected knowledge graph, allowing the '
+             . 'LLM to perform complex multi-hop reasoning across thousands of interconnected '
+             . 'enterprise files with superior accuracy.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document across interconnected accuracy '
+             . 'allowing arbitrary chunks claims complex context cosine documents entities',
+    ],
+    [
+        'id' => 'q308', 'cat' => 'page-faq',
+        'q' => 'How do you prevent hallucinations in your enterprise RAG implementations?',
+        'a' => 'We implement a 4-tier verification protocol: hybrid semantic reranking, context '
+             . 'relevance filtering, token citation validation, and automated Self-RAG reflection '
+             . 'checks that reject or regenerate any claim lacking verifiable source attribution.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document attribution automated checks '
+             . 'claim context filtering hybrid implement lacking protocol reflection',
+    ],
+    [
+        'id' => 'q309', 'cat' => 'page-faq',
+        'q' => 'How do you enforce role-based access control (RBAC) in vector search?',
+        'a' => 'We implement pre-filtering and post-filtering metadata hooks that map user tokens '
+             . 'directly to document access lists at retrieval time. Unauthorized users never '
+             . 'receive vector chunks from restricted files, guaranteeing absolute data '
+             . 'governance.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document filtering absolute chunks '
+             . 'directly files governance guaranteeing hooks implement lists metadata',
+    ],
+    [
+        'id' => 'q310', 'cat' => 'page-faq',
+        'q' => 'Which vector databases do you recommend for enterprise production?',
+        'a' => 'We deploy and optimize Qdrant, Milvus, pgvector, and Pinecone depending on your '
+             . 'workload, sharding requirements, on-premise constraints, and latency targets. For '
+             . 'self-hosted VPC setups, Qdrant and Milvus offer exceptional throughput and '
+             . 'filtering.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document milvus constraints depending '
+             . 'deploy exceptional filtering hosted latency offer optimize pgvector',
+    ],
+    [
+        'id' => 'q311', 'cat' => 'page-faq',
+        'q' => 'Can your RAG pipelines handle complex multimodal files like scanned PDFs and '
+             . 'financial tables?',
+        'a' => 'Yes. We deploy vision-language parsing models and layout-aware OCR engines (such '
+             . 'as Unstructured, Nougat, and ColPali) that preserve tabular structure, nested '
+             . 'headers, and visual charts directly into markdown embeddings.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document aware charts colpali deploy '
+             . 'directly embeddings engines headers language layout markdown nested',
+    ],
+    [
+        'id' => 'q312', 'cat' => 'page-faq',
+        'q' => 'How do you keep vector indices updated with real-time enterprise data changes?',
+        'a' => 'We build event-driven CDC (Change Data Capture) pipelines using Kafka, Debezium, '
+             . 'and webhook listeners that automatically update, re-chunk, and re-embed modified '
+             . 'documents in real time with zero system downtime.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document automatically capture change '
+             . 'chunk debezium documents downtime driven embed event kafka listeners',
+    ],
+    [
+        'id' => 'q313', 'cat' => 'page-faq',
+        'q' => 'What metrics do you use to evaluate RAG retrieval accuracy?',
+        'a' => 'We benchmark using RAGAS and TruLens frameworks measuring Context Relevance, '
+             . 'Groundedness, Answer Relevance, Context Precision, and Faithfulness against '
+             . 'curated golden test datasets.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document context relevance against answer '
+             . 'benchmark curated datasets faithfulness frameworks golden groundedness '
+             . 'measuring',
+    ],
+    [
+        'id' => 'q314', 'cat' => 'page-faq',
+        'q' => 'Can we run our entire RAG pipeline inside an air-gapped private cloud?',
+        'a' => 'Yes. All components—embedding models, vector databases, rerankers, and local LLMs '
+             . '(vLLM)—can be deployed 100% on-premise or within isolated AWS/GCP/Azure VPCs with '
+             . 'zero external internet dependencies.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document azure components databases '
+             . 'dependencies deployed external internet isolated llms local premise',
+    ],
+    [
+        'id' => 'q315', 'cat' => 'page-faq',
+        'q' => 'What is hybrid search and why is it necessary?',
+        'a' => 'Hybrid search combines dense vector retrieval (capturing semantic meaning) with '
+             . 'sparse lexical retrieval like BM25 (capturing exact product names, error codes, '
+             . 'and SKUs). Merging both via Reciprocal Rank Fusion delivers industry-leading '
+             . 'search precision.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document capturing bm25 codes combines '
+             . 'delivers dense error exact fusion industry leading',
+    ],
+    [
+        'id' => 'q316', 'cat' => 'page-faq',
+        'q' => 'How long does it take to deploy an enterprise RAG system into production?',
+        'a' => 'A specialized proof of concept is typically live within 2 to 3 weeks, while full '
+             . 'enterprise deployment across multi-department repositories with RBAC takes 4 to 6 '
+             . 'weeks.',
+        'terms' => 'rag retrieval vector embedding search knowledge base grounding hallucination '
+             . 'citation chunking reranking qdrant document weeks across concept department '
+             . 'deployment full live multi proof rbac repositories specialized',
+    ],
+
+    // ---- Computer Vision Development ---- (services/computer-vision-development.php)
+
+    [
+        'id' => 'q317', 'cat' => 'page-faq',
+        'q' => 'What hardware do you support for edge computer vision deployment?',
+        'a' => 'We support NVIDIA Jetson (Nano, Orin Nano, Xavier, AGX Orin), Intel OpenVINO '
+             . 'x86/ARM processors, Google Coral TPUs, Hailo AI processors, and industrial smart '
+             . 'cameras with embedded NPUs.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual nano orin processors cameras coral embedded google '
+             . 'hailo industrial intel jetson npus',
+    ],
+    [
+        'id' => 'q318', 'cat' => 'page-faq',
+        'q' => 'Can your computer vision models run completely offline without internet?',
+        'a' => 'Yes. Our edge vision pipelines run 100% locally on on-premise hardware, '
+             . 'processing video streams and triggering PLC relays in real time without '
+             . 'transmitting data outside your facility.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual facility hardware locally outside pipelines premise '
+             . 'processing real relays streams time',
+    ],
+    [
+        'id' => 'q319', 'cat' => 'page-faq',
+        'q' => 'How many frames per second (FPS) can your vision models achieve?',
+        'a' => 'Depending on the model architecture and target hardware, our TensorRT-optimized '
+             . 'models achieve between 30 FPS to 120+ FPS on 1080p/4K streams, maintaining '
+             . 'sub-10ms per-frame latency.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual 1080p 10ms architecture depending frame hardware '
+             . 'latency maintaining optimized streams target tensorrt',
+    ],
+    [
+        'id' => 'q320', 'cat' => 'page-faq',
+        'q' => 'How do you handle lighting fluctuations and dusty environments in factories?',
+        'a' => 'We incorporate synthetic data augmentation (simulating shadows, dust, lens blur, '
+             . 'and variable Lux levels) and auto-calibrating camera exposures during '
+             . 'preprocessing to ensure 99.8% precision under variable physical conditions.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual variable augmentation auto blur calibrating conditions '
+             . 'dust ensure exposures incorporate lens',
+    ],
+    [
+        'id' => 'q321', 'cat' => 'page-faq',
+        'q' => 'How do you extract data from complex tables and handwritten forms?',
+        'a' => 'We use layout-aware multimodal OCR pipelines (combining YOLO for table detection '
+             . 'with PaddleOCR and Vision-Language Models) to extract tabular structures and '
+             . 'handwriting directly into structured JSON.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual aware combining directly handwriting json language '
+             . 'layout multimodal paddleocr pipelines structured',
+    ],
+    [
+        'id' => 'q322', 'cat' => 'page-faq',
+        'q' => 'How do you prevent biometric spoofing in facial recognition systems?',
+        'a' => 'We integrate active and passive 3D liveness detection (analyzing micro-textures, '
+             . 'depth maps, and infrared reflections) to defeat printed photo, video replay, and '
+             . '3D silicone mask spoofing attacks.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual active analyzing attacks defeat depth infrared '
+             . 'integrate liveness maps mask micro',
+    ],
+    [
+        'id' => 'q323', 'cat' => 'page-faq',
+        'q' => 'Can your models detect small micro-defects on fast-moving assembly lines?',
+        'a' => 'Yes. We use high-resolution patch-based defect segmentation models and high-speed '
+             . 'industrial global-shutter cameras to detect defects as small as 0.05mm at '
+             . 'conveyor speeds.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual high 05mm based cameras conveyor global industrial '
+             . 'patch resolution segmentation shutter',
+    ],
+    [
+        'id' => 'q324', 'cat' => 'page-faq',
+        'q' => 'How do you train vision models when defect sample data is extremely rare?',
+        'a' => 'We utilize advanced generative diffusion models (ControlNet, GANs) to synthesize '
+             . 'realistic defect variations, and deploy few-shot anomaly detection models (such '
+             . 'as PatchCore) that learn from normal samples.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual advanced anomaly controlnet deploy diffusion gans '
+             . 'generative learn normal patchcore realistic',
+    ],
+    [
+        'id' => 'q325', 'cat' => 'page-faq',
+        'q' => 'Can computer vision integrate directly with our PLC or SCADA systems?',
+        'a' => 'Yes. Our edge gateways communicate directly with PLCs via Modbus, OPC-UA, MQTT, '
+             . 'and digital I/O pins to trigger immediate mechanical rejections or line halts.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual communicate digital gateways halts immediate line '
+             . 'mechanical modbus mqtt pins plcs',
+    ],
+    [
+        'id' => 'q326', 'cat' => 'page-faq',
+        'q' => 'What is the typical development timeline for a custom computer vision solution?',
+        'a' => 'A custom proof of concept takes 3 to 4 weeks. Full industrial integration and '
+             . 'edge fleet deployment typically require 6 to 10 weeks depending on camera '
+             . 'integration complexity.',
+        'terms' => 'vision image video camera detection recognition ocr inspection defect edge '
+             . 'yolo annotation visual integration weeks complexity concept depending '
+             . 'deployment fleet full industrial proof',
+    ],
+
+    // ---- Agentic AI Strategy ---- (services/agentic-ai-strategy.php)
+
+    [
+        'id' => 'q327', 'cat' => 'page-faq',
+        'q' => 'What is the fundamental difference between standard GenAI and Agentic AI?',
+        'a' => 'Standard Generative AI responds passively to a single prompt with text. Agentic '
+             . 'AI operates autonomously by reasoning, planning multi-step actions, maintaining '
+             . 'persistent memory, calling external software tools/APIs, evaluating its own '
+             . 'results, and executing until a goal is achieved.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case achieved actions apis autonomously calling '
+             . 'evaluating executing external generative goal maintaining memory',
+    ],
+    [
+        'id' => 'q328', 'cat' => 'page-faq',
+        'q' => 'What is Model Context Protocol (MCP) and why is it central to your strategy?',
+        'a' => 'Model Context Protocol (MCP) is an open standard created by Anthropic that '
+             . 'standardizes how AI agents securely discover and interact with external data '
+             . 'sources and tools. It prevents vendor lock-in and allows seamless integration '
+             . 'with enterprise systems without rewriting custom glue code.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case agents allows anthropic code created custom '
+             . 'discover external glue integration interact lock',
+    ],
+    [
+        'id' => 'q329', 'cat' => 'page-faq',
+        'q' => 'Which agentic framework do you recommend: LangGraph, AutoGen, or CrewAI?',
+        'a' => 'For deterministic enterprise production, we predominantly architect with '
+             . 'LangGraph because its cyclic graph state machine provides deterministic control, '
+             . 'human-in-the-loop checkpointing, and fault tolerance. AutoGen and CrewAI are '
+             . 'excellent for conversational simulation and rapid role-playing prototyping.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case deterministic architect because checkpointing '
+             . 'control conversational cyclic excellent fault graph human loop',
+    ],
+    [
+        'id' => 'q330', 'cat' => 'page-faq',
+        'q' => 'How do you prevent autonomous agents from making catastrophic errors or looping '
+             . 'infinitely?',
+        'a' => 'We implement deterministic guardrails, maximum recursion depth limits, '
+             . 'schema-validated JSON outputs, and automated reflection critic nodes. Any action '
+             . 'exceeding predefined risk or cost thresholds requires mandatory human sign-off.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case action automated cost critic depth deterministic '
+             . 'exceeding guardrails human implement json limits',
+    ],
+    [
+        'id' => 'q331', 'cat' => 'page-faq',
+        'q' => 'How do you handle data security when agents interact with enterprise databases?',
+        'a' => 'We design read-only replicas, schema-restricted service accounts, and tool '
+             . 'execution sandboxes. Agents never receive raw database credentials; all actions '
+             . 'pass through an authenticated MCP gateway with comprehensive audit logging.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case accounts actions audit authenticated '
+             . 'comprehensive credentials database design execution gateway logging never',
+    ],
+    [
+        'id' => 'q332', 'cat' => 'page-faq',
+        'q' => 'How do you model the ROI and compute costs of multi-agent swarms?',
+        'a' => 'We simulate the average agent steps, token input/output volumes, model routing '
+             . 'strategies (using smaller SLMs for routing and larger LLMs for complex '
+             . 'reasoning), and quantify labor hours saved to deliver a predictable unit cost per '
+             . 'resolved task.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case routing average complex cost deliver hours input '
+             . 'labor larger llms output predictable',
+    ],
+    [
+        'id' => 'q333', 'cat' => 'page-faq',
+        'q' => 'What is the role of human-in-the-loop (HITL) in an autonomous agentic '
+             . 'architecture?',
+        'a' => 'Human-in-the-loop provides confidence-based escalation gates. Routine low-risk '
+             . 'actions execute autonomously at lightspeed, while high-risk decisions (financial '
+             . 'transfers, database modifications, contract approvals) trigger immediate review '
+             . 'requests to human operators via Slack or Teams.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case risk actions approvals autonomously based '
+             . 'confidence contract database decisions escalation execute financial',
+    ],
+    [
+        'id' => 'q334', 'cat' => 'page-faq',
+        'q' => 'Can we deploy agentic AI swarms within our private VPC or on-premise cloud?',
+        'a' => 'Yes. We design architectures that run on self-hosted open-weights models (such as '
+             . 'Llama 3, Mistral, and DeepSeek) using vLLM or Ollama on private Kubernetes '
+             . 'clusters inside your AWS, Azure, or GCP VPC.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case architectures azure clusters deepseek design '
+             . 'hosted inside kubernetes llama mistral ollama open',
+    ],
+    [
+        'id' => 'q335', 'cat' => 'page-faq',
+        'q' => 'How long does an Agentic AI strategy engagement take?',
+        'a' => 'Our focused Agentic Strategy Sprint takes 2 weeks, while a comprehensive '
+             . 'multi-department enterprise swarm architecture audit takes 3 to 4 weeks.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case weeks architecture audit comprehensive '
+             . 'department focused multi sprint swarm while',
+    ],
+    [
+        'id' => 'q336', 'cat' => 'page-faq',
+        'q' => 'Do you provide the engineering teams to implement the strategy?',
+        'a' => 'Yes. iThrive provides end-to-end capabilities from high-level agentic advisory to '
+             . 'specialized LangGraph engineering squads that build, test, and deploy the entire '
+             . 'autonomous system into production.',
+        'terms' => 'strategy agentic roadmap maturity operating model governance pilot adoption '
+             . 'prioritisation business case advisory autonomous capabilities deploy entire '
+             . 'high langgraph level specialized squads test',
+    ],
+
+    // ---- Custom AI Agent Development ---- (services/custom-agent-development.php)
+
+    [
+        'id' => 'q337', 'cat' => 'page-faq',
+        'q' => 'What is a custom AI agent and how does it work?',
+        'a' => 'A custom AI agent is an autonomous software program that combines a reasoning LLM '
+             . 'with memory, planning state machines (like LangGraph), and custom tool '
+             . 'integrations (APIs, databases). It receives a high-level goal, breaks it into '
+             . 'sequential steps, calls external tools to gather data or execute actions, '
+             . 'verifies its own work, and completes the task autonomously.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored actions apis autonomously breaks calls combines completes databases '
+             . 'execute external gather',
+    ],
+    [
+        'id' => 'q338', 'cat' => 'page-faq',
+        'q' => 'How do you ensure agents execute tool calls and API requests accurately?',
+        'a' => 'We use strict Pydantic schema validation, structured JSON outputs, deterministic '
+             . 'error-handling fallbacks, and multi-step verification checks to ensure every tool '
+             . 'call matches exact API requirements before execution.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored call checks deterministic error every exact execution fallbacks '
+             . 'handling json matches multi',
+    ],
+    [
+        'id' => 'q339', 'cat' => 'page-faq',
+        'q' => 'What systems and software can your custom agents integrate with?',
+        'a' => 'Our agents can integrate with virtually any system with an API or database: Jira, '
+             . 'GitHub, Salesforce, HubSpot, Zoho, SAP, NetSuite, PostgreSQL, Snowflake, Twilio, '
+             . 'Slack, and custom in-house enterprise backends.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored backends database github house hubspot jira netsuite postgresql '
+             . 'salesforce slack snowflake twilio',
+    ],
+    [
+        'id' => 'q340', 'cat' => 'page-faq',
+        'q' => 'How do agents maintain memory across different sessions and conversations?',
+        'a' => 'We implement a dual-layer memory system: short-term state memory stored in '
+             . 'Redis/PostgreSQL checkpoints, and long-term semantic memory stored in vector '
+             . 'databases (Qdrant, pgvector) with entity-relationship knowledge graphs.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored stored term checkpoints databases dual entity graphs implement '
+             . 'knowledge layer pgvector postgresql',
+    ],
+    [
+        'id' => 'q341', 'cat' => 'page-faq',
+        'q' => 'How do you handle security and credential management for agent tool execution?',
+        'a' => 'Agents never receive raw API keys or database passwords. All tool calls route '
+             . 'through an authenticated proxy/MCP server with short-lived tokens, rate limiting, '
+             . 'and role-based access control.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored access agents authenticated based calls control database keys '
+             . 'limiting lived never passwords',
+    ],
+    [
+        'id' => 'q342', 'cat' => 'page-faq',
+        'q' => 'Can custom agents write code, execute scripts, or run database queries safely?',
+        'a' => 'Yes. For code or query execution, we run agents inside ephemeral, sandboxed '
+             . 'Docker containers or WebAssembly (Wasm) micro-VMs with strict network isolation '
+             . 'and resource limits.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored containers docker ephemeral execution inside isolation limits micro '
+             . 'network query resource sandboxed',
+    ],
+    [
+        'id' => 'q343', 'cat' => 'page-faq',
+        'q' => 'How does the agent handle ambiguous user instructions or edge cases?',
+        'a' => 'When confidence scores fall below a predefined threshold, the agent pauses '
+             . 'execution, formulates clarifying questions, or escalates the task to a human '
+             . 'supervisor via Slack or Teams.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored clarifying confidence escalates execution fall formulates human '
+             . 'pauses predefined questions scores slack',
+    ],
+    [
+        'id' => 'q344', 'cat' => 'page-faq',
+        'q' => 'Can we deploy our custom agents on our private cloud or on-premise hardware?',
+        'a' => 'Yes. Our custom agents can be containerized and deployed on Kubernetes inside '
+             . 'your private AWS, GCP, Azure VPC, or on-premise data center with zero data '
+             . 'egress.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored azure center containerized deployed egress inside kubernetes zero',
+    ],
+    [
+        'id' => 'q345', 'cat' => 'page-faq',
+        'q' => 'What frameworks do you use to build custom AI agents?',
+        'a' => 'We primarily use LangGraph, Python, FastAPI, Model Context Protocol (MCP), '
+             . 'Pydantic, Redis, and LangSmith for state-of-the-art enterprise reliability and '
+             . 'observability.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored context fastapi langsmith observability primarily protocol pydantic '
+             . 'python redis reliability',
+    ],
+    [
+        'id' => 'q346', 'cat' => 'page-faq',
+        'q' => 'How long does it take to build and deploy a custom AI agent into production?',
+        'a' => 'A single specialized custom agent is typically production-ready in 3 to 4 weeks. '
+             . 'Complex multi-agent systems with extensive enterprise integrations take 6 to 8 '
+             . 'weeks.',
+        'terms' => 'custom agent bespoke tool calling langgraph state machine autonomous build '
+             . 'tailored weeks complex extensive integrations multi ready single specialized '
+             . 'typically',
+    ],
+
+    // ---- AI Agent Solutions ---- (services/ai-agent-solutions.php)
+
+    [
+        'id' => 'q347', 'cat' => 'page-faq',
+        'q' => 'What makes an AI Agent Solution different from standard SaaS software?',
+        'a' => 'Standard SaaS software requires manual human operation and rigid button-clicking. '
+             . 'An AI Agent Solution acts as an autonomous digital worker that reasons, plans, '
+             . 'executes multi-step workflows, interacts with multiple software systems '
+             . 'simultaneously, and solves problems with minimal human intervention.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template human acts autonomous button clicking digital executes interacts '
+             . 'intervention manual minimal multi',
+    ],
+    [
+        'id' => 'q348', 'cat' => 'page-faq',
+        'q' => 'Can we deploy your pre-built agent solutions into our existing software stack?',
+        'a' => 'Yes. Our agent solutions connect directly to your existing tools (Salesforce, '
+             . 'HubSpot, Jira, SAP, Zendesk, Slack, GitHub) via secure APIs without requiring you '
+             . 'to replace your current tech stack.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template apis connect current directly github hubspot jira replace requiring '
+             . 'salesforce secure slack',
+    ],
+    [
+        'id' => 'q349', 'cat' => 'page-faq',
+        'q' => 'How quickly can an enterprise deploy an AI agent solution?',
+        'a' => 'Our pre-built agent archetypes (such as Sales SDRs, customer triage, and code '
+             . 'review agents) can be integrated and live in your sandbox within 48 to 72 hours. '
+             . 'Custom domain integrations typically take 2 to 3 weeks.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template agents archetypes built code custom domain hours integrated '
+             . 'integrations live review sales',
+    ],
+    [
+        'id' => 'q350', 'cat' => 'page-faq',
+        'q' => 'How do voice SDR agents handle phone conversations with customers?',
+        'a' => 'Our voice SDR agents operate with sub-400ms latency, natural speech cadence, and '
+             . 'real-time interruption handling. They qualify prospect interest, answer technical '
+             . 'questions from your knowledge base, and book meetings directly into your '
+             . 'calendar.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template 400ms answer base book cadence calendar directly handling interest '
+             . 'interruption knowledge latency',
+    ],
+    [
+        'id' => 'q351', 'cat' => 'page-faq',
+        'q' => 'How do financial ledger agents ensure zero calculation errors?',
+        'a' => 'Financial agents do not rely on probabilistic LLM math. They use deterministic '
+             . 'Python scripts, SQL verification queries, and strict three-way matching '
+             . 'algorithms to validate all financial calculations before logging transactions.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template algorithms calculations deterministic logging matching math '
+             . 'probabilistic python queries rely scripts strict',
+    ],
+    [
+        'id' => 'q352', 'cat' => 'page-faq',
+        'q' => 'What happens when an agent encounters an edge case it cannot solve?',
+        'a' => 'The agent uses automated confidence scoring. If confidence drops below a set '
+             . 'threshold, it gracefully pauses and sends a detailed briefing with recommended '
+             . 'actions to a human supervisor via Slack or Teams.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template confidence actions automated briefing detailed drops gracefully '
+             . 'human pauses recommended scoring sends',
+    ],
+    [
+        'id' => 'q353', 'cat' => 'page-faq',
+        'q' => 'Are your agent solutions compliant with SOC 2, HIPAA, and GDPR regulations?',
+        'a' => 'Yes. We implement end-to-end encryption, strict zero-retention data policies, '
+             . 'granular RBAC access controls, and comprehensive immutable audit logging.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template access audit comprehensive controls encryption granular immutable '
+             . 'implement logging policies rbac retention',
+    ],
+    [
+        'id' => 'q354', 'cat' => 'page-faq',
+        'q' => 'How many autonomous agents can run simultaneously in an enterprise?',
+        'a' => 'Our architecture supports elastic horizontal scaling to N agents. You can run 5 '
+             . 'agents or 500 agents concurrently handling millions of events with automated load '
+             . 'balancing.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template architecture automated balancing concurrently elastic events '
+             . 'handling horizontal load millions scaling supports',
+    ],
+    [
+        'id' => 'q355', 'cat' => 'page-faq',
+        'q' => 'Can we customize the personality, tone, and guardrails of the agents?',
+        'a' => 'Yes. We fully configure system prompts, brand guidelines, tone of voice, '
+             . 'terminology glossaries, and deterministic safety rules to match your company '
+             . 'culture.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template brand configure culture deterministic fully glossaries guidelines '
+             . 'match prompts rules safety terminology',
+    ],
+    [
+        'id' => 'q356', 'cat' => 'page-faq',
+        'q' => 'What ongoing support and maintenance do you provide after deployment?',
+        'a' => 'We provide 24/7 AgentOps monitoring, latency and hallucination tracking, prompt '
+             . 'fine-tuning, automated error recovery, and monthly architecture optimization '
+             . 'reviews.',
+        'terms' => 'agent solution prebuilt catalogue offtheshelf packaged ready deploy library '
+             . 'template agentops architecture automated error fine hallucination latency '
+             . 'monitoring monthly optimization prompt recovery',
+    ],
+
+    // ---- Multi-Agent Orchestration ---- (services/multi-agent-orchestration.php)
+
+    [
+        'id' => 'q357', 'cat' => 'page-faq',
+        'q' => 'What is Multi-Agent Orchestration and why is it better than a single agent?',
+        'a' => 'Multi-Agent Orchestration coordinates multiple specialized AI agents working '
+             . 'together toward a common goal. Instead of overloading a single prompt with too '
+             . 'many instructions, each agent specializes in one specific discipline (e.g., '
+             . 'Planner, Researcher, Coder, Critic). This modularity prevents context overload, '
+             . 'reduces hallucinations, and enables parallel task execution.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff agents coder common context coordinates critic '
+             . 'discipline enables execution goal hallucinations instead',
+    ],
+    [
+        'id' => 'q358', 'cat' => 'page-faq',
+        'q' => 'How do agents communicate and share context with one another?',
+        'a' => 'Agents communicate through structured message-passing protocols over a shared '
+             . 'state graph (such as LangGraph\'s state dictionary) or distributed message queues '
+             . '(Kafka, Redis, gRPC). They exchange structured JSON payloads containing task '
+             . 'status, findings, and next-step recommendations.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff message state structured containing dictionary '
+             . 'distributed exchange findings graph grpc json kafka',
+    ],
+    [
+        'id' => 'q359', 'cat' => 'page-faq',
+        'q' => 'How do you prevent multi-agent swarms from getting stuck in infinite loops or '
+             . 'deadlocks?',
+        'a' => 'We implement deterministic graph state machines with strict turn counters, '
+             . 'semantic convergence checks, and automated circuit breakers. If agents fail to '
+             . 'reach consensus within a configured threshold, the supervisor invokes a fallback '
+             . 'resolution or alerts a human operator.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff agents alerts automated breakers checks circuit '
+             . 'configured convergence counters deterministic fail',
+    ],
+    [
+        'id' => 'q360', 'cat' => 'page-faq',
+        'q' => 'What is the role of a Critic or Auditor agent in a multi-agent swarm?',
+        'a' => 'A Critic agent acts as an automated quality inspector. It receives the draft '
+             . 'output produced by worker agents, evaluates it against predefined business rules, '
+             . 'syntax guidelines, or citation facts, and either approves the output or sends it '
+             . 'back with actionable feedback for correction.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff output actionable acts against agents approves '
+             . 'automated back citation correction draft either',
+    ],
+    [
+        'id' => 'q361', 'cat' => 'page-faq',
+        'q' => 'How do you manage compute and token costs across multi-agent systems?',
+        'a' => 'We use hierarchical model routing: lightweight, low-cost SLMs (e.g., Llama 3 8B '
+             . 'or Claude Haiku) handle simple extraction and routing sub-tasks, while frontier '
+             . 'models (e.g., Claude 3.5 Sonnet or GPT-4o) are invoked only for complex strategic '
+             . 'reasoning and final synthesis.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff claude complex cost extraction final frontier '
+             . 'haiku handle hierarchical invoked lightweight',
+    ],
+    [
+        'id' => 'q362', 'cat' => 'page-faq',
+        'q' => 'Can multi-agent swarms execute actions in parallel?',
+        'a' => 'Yes. LangGraph and asynchronous Python allow the supervisor agent to fan out '
+             . 'multiple independent sub-tasks concurrently across dozens of worker nodes, '
+             . 'reducing end-to-end execution time by up to 90%.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff across allow asynchronous concurrently dozens '
+             . 'execution independent langgraph multiple nodes python reducing',
+    ],
+    [
+        'id' => 'q363', 'cat' => 'page-faq',
+        'q' => 'How do you monitor and debug complex multi-agent interactions in real time?',
+        'a' => 'We integrate LangSmith, Phoenix Arize, and OpenTelemetry to provide visual '
+             . 'execution graphs, message traces, latency breakdowns, and token cost metrics for '
+             . 'every single agent interaction.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff arize breakdowns cost every execution graphs '
+             . 'integrate interaction langsmith latency message metrics',
+    ],
+    [
+        'id' => 'q364', 'cat' => 'page-faq',
+        'q' => 'Can we integrate agents built on different frameworks (e.g., LangGraph and '
+             . 'AutoGen)?',
+        'a' => 'Yes. We build standardized Model Context Protocol (MCP) and REST/gRPC wrappers '
+             . 'around individual agents, allowing heterogeneous agents across different '
+             . 'frameworks to collaborate seamlessly.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff across allowing around collaborate context grpc '
+             . 'heterogeneous individual protocol rest seamlessly standardized',
+    ],
+    [
+        'id' => 'q365', 'cat' => 'page-faq',
+        'q' => 'How does human-in-the-loop work in a multi-agent system?',
+        'a' => 'The orchestration graph can include dedicated Human-in-the-Loop checkpoint nodes '
+             . 'where execution pauses, serializes its state, and waits for a manager\'s review '
+             . 'via Slack, Microsoft Teams, or a custom web dashboard before proceeding.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff checkpoint custom dashboard dedicated execution '
+             . 'graph include manager microsoft nodes pauses',
+    ],
+    [
+        'id' => 'q366', 'cat' => 'page-faq',
+        'q' => 'How long does it take to engineer and deploy an enterprise multi-agent swarm?',
+        'a' => 'A 3-agent proof of concept is typically operational in 3 to 4 weeks, while '
+             . 'complex enterprise swarms with extensive API integrations require 6 to 8 weeks.',
+        'terms' => 'orchestration multiagent swarm consensus coordination hierarchy delegation '
+             . 'supervisor routing handoff weeks complex concept extensive integrations '
+             . 'operational proof require swarms typically while',
+    ],
+
+    // ---- Agentic AI Integration ---- (services/agentic-ai-integration.php)
+
+    [
+        'id' => 'q367', 'cat' => 'page-faq',
+        'q' => 'What is Model Context Protocol (MCP) and why is it essential for agent '
+             . 'integration?',
+        'a' => 'Model Context Protocol (MCP) is an open standard that unifies how AI models and '
+             . 'agents securely connect to external tools, databases, and enterprise systems. It '
+             . 'provides a standardized client-server protocol, eliminating the need to write '
+             . 'fragile custom integrations for every new agent or LLM.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge agents connect custom databases eliminating every '
+             . 'external fragile integrations open securely server',
+    ],
+    [
+        'id' => 'q368', 'cat' => 'page-faq',
+        'q' => 'How do you ensure agents don\'t accidentally corrupt or delete production '
+             . 'database records?',
+        'a' => 'We enforce strict security controls: read-only database replicas for data '
+             . 'queries, parameterized queries that eliminate SQL injection, schema-level '
+             . 'permission boundaries, and atomic transaction wrappers that automatically '
+             . 'rollback on error.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge queries atomic automatically boundaries controls '
+             . 'eliminate enforce error injection level parameterized permission',
+    ],
+    [
+        'id' => 'q369', 'cat' => 'page-faq',
+        'q' => 'Can you connect autonomous AI agents to legacy on-premise ERP systems like SAP or '
+             . 'AS/400?',
+        'a' => 'Yes. We deploy lightweight sidecar proxies and message queues inside your secure '
+             . 'network that translate modern REST/gRPC/MCP agent requests into legacy RPC, SOAP, '
+             . 'or database protocols.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge agent database deploy grpc inside lightweight message '
+             . 'modern network protocols proxies queues',
+    ],
+    [
+        'id' => 'q370', 'cat' => 'page-faq',
+        'q' => 'How do agents receive real-time updates when data changes in our CRM or database? '
+             . 'How do agents receive real-time updates when data changes in our CRM or database?',
+        'a' => 'We configure Change Data Capture (CDC) pipelines using Debezium and Kafka. When a '
+             . 'record changes in your database or CRM, a webhook or event is published '
+             . 'immediately to the agentic event mesh.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge event agentic capture change configure debezium '
+             . 'immediately kafka mesh pipelines published record',
+    ],
+    [
+        'id' => 'q371', 'cat' => 'page-faq',
+        'q' => 'How do you manage authentication and API keys for AI agents?',
+        'a' => 'Agents authenticate via an OAuth2/mTLS token broker that generates short-lived, '
+             . 'least-privilege access tokens. Agents never see master secrets or root '
+             . 'credentials.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge access authenticate broker credentials generates '
+             . 'least lived master mtls never oauth2 privilege',
+    ],
+    [
+        'id' => 'q372', 'cat' => 'page-faq',
+        'q' => 'What latency does your agentic middleware add to tool execution?',
+        'a' => 'Our Go and FastAPI middleware proxies are engineered for high-concurrency '
+             . 'enterprise workloads, adding less than 20ms of overhead to tool calls.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge 20ms adding calls concurrency engineered fastapi high '
+             . 'less overhead proxies workloads',
+    ],
+    [
+        'id' => 'q373', 'cat' => 'page-faq',
+        'q' => 'Can your integration handle high-volume batch processing across millions of '
+             . 'records?',
+        'a' => 'Yes. We implement asynchronous worker pools and Redis task queues that process '
+             . 'millions of records in parallel with automatic rate-limit throttling to prevent '
+             . 'downstream system overload.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge asynchronous automatic downstream implement limit '
+             . 'overload parallel pools prevent process queues rate',
+    ],
+    [
+        'id' => 'q374', 'cat' => 'page-faq',
+        'q' => 'How do you redact sensitive customer PII before sending context to AI agents?',
+        'a' => 'Our middleware includes an automated PII redaction layer that masks credit card '
+             . 'numbers, social security numbers, and health records in real time before data '
+             . 'enters the agent context.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge numbers agent automated card credit enters health '
+             . 'includes layer masks real',
+    ],
+    [
+        'id' => 'q375', 'cat' => 'page-faq',
+        'q' => 'Can we deploy the agentic integration layer inside our private cloud?',
+        'a' => 'Yes. All MCP servers, gateways, and message brokers are fully containerized with '
+             . 'Docker and Helm charts for seamless deployment inside your AWS, Azure, GCP VPC, '
+             . 'or on-premise data center.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge azure brokers center charts containerized deployment '
+             . 'docker fully gateways helm message premise',
+    ],
+    [
+        'id' => 'q376', 'cat' => 'page-faq',
+        'q' => 'How long does it take to integrate an autonomous agent with our enterprise '
+             . 'systems?',
+        'a' => 'Standard integrations for popular systems (Salesforce, PostgreSQL, Jira, Slack) '
+             . 'take 1 to 2 weeks. Custom legacy ERP or proprietary database integrations '
+             . 'typically take 3 to 4 weeks.',
+        'terms' => 'integration middleware connector api erp crm legacy contract schema '
+             . 'interoperability bridge integrations weeks custom database jira popular '
+             . 'postgresql proprietary salesforce slack standard',
+    ],
+
+    // ---- AI Integration Services ---- (services/ai-integration.php)
+
+    [
+        'id' => 'q377', 'cat' => 'page-faq',
+        'q' => 'How do you integrate AI into our legacy application without breaking existing '
+             . 'features?',
+        'a' => 'We use non-invasive architectural patterns such as sidecar microservices and API '
+             . 'gateway facades. Your legacy application makes standard REST or webhook calls to '
+             . 'our AI gateway, leaving your core business logic completely untouched and stable.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline architectural calls completely core facades invasive leaving '
+             . 'logic microservices patterns rest',
+    ],
+    [
+        'id' => 'q378', 'cat' => 'page-faq',
+        'q' => 'Can we switch between different AI models in the future without changing our '
+             . 'application code?',
+        'a' => 'Yes. Our unified AI gateway abstracts model providers behind a standardized API. '
+             . 'You can switch from OpenAI to Claude or to an on-premise fine-tuned Llama model '
+             . 'with a single configuration flag without updating your application.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline abstracts behind claude configuration fine flag llama openai '
+             . 'premise providers single',
+    ],
+    [
+        'id' => 'q379', 'cat' => 'page-faq',
+        'q' => 'How do you handle token-by-token streaming in web and mobile applications?',
+        'a' => 'We implement Server-Sent Events (SSE) and WebSocket streaming protocols that '
+             . 'deliver generated tokens to client user interfaces in real time with sub-50ms '
+             . 'Time-To-First-Token (TTFT).',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline time 50ms deliver events first generated implement interfaces '
+             . 'protocols real sent server',
+    ],
+    [
+        'id' => 'q380', 'cat' => 'page-faq',
+        'q' => 'What is semantic caching and how does it save cloud costs?',
+        'a' => 'Semantic caching uses vector embeddings to recognize when a new user query has '
+             . 'the same meaning as a previously answered query. It serves the cached answer in '
+             . '<5ms, eliminating redundant LLM API calls and reducing token costs by up to 70%.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline query answer answered cached calls eliminating embeddings '
+             . 'meaning previously recognize reducing redundant',
+    ],
+    [
+        'id' => 'q381', 'cat' => 'page-faq',
+        'q' => 'How do you integrate AI capabilities with our corporate Single Sign-On (SSO)?',
+        'a' => 'Our AI middleware integrates directly with your existing Identity Providers '
+             . '(Okta, Azure AD, Keycloak, PingIdentity) via OAuth2 and SAML, ensuring user roles '
+             . 'and permission boundaries are enforced at the AI layer.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline azure boundaries directly enforced ensuring identity integrates '
+             . 'keycloak layer middleware oauth2',
+    ],
+    [
+        'id' => 'q382', 'cat' => 'page-faq',
+        'q' => 'Can the AI integration run inside our private VPC or on-premise infrastructure?',
+        'a' => 'Yes. All our integration gateways, caching microservices, and self-hosted model '
+             . 'backends are containerized with Docker and deployable in any private cloud or '
+             . 'bare-metal environment.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline backends bare caching cloud containerized deployable docker '
+             . 'environment gateways hosted metal microservices',
+    ],
+    [
+        'id' => 'q383', 'cat' => 'page-faq',
+        'q' => 'What happens if an external AI provider experiences an outage?',
+        'a' => 'Our gateway features automated fallback and circuit breaker routing. If a primary '
+             . 'model API fails or exceeds latency thresholds, requests are instantly routed to a '
+             . 'secondary model or localized cache without user interruption.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline automated breaker cache circuit exceeds fails fallback features '
+             . 'instantly interruption latency',
+    ],
+    [
+        'id' => 'q384', 'cat' => 'page-faq',
+        'q' => 'How do you monitor the performance and costs of integrated AI features?',
+        'a' => 'We provide centralized telemetry dashboards powered by OpenTelemetry and '
+             . 'Prometheus, tracking request counts, token consumption, response latency, and '
+             . 'error rates per user and department.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline centralized consumption counts dashboards department error '
+             . 'latency opentelemetry powered prometheus rates request',
+    ],
+    [
+        'id' => 'q385', 'cat' => 'page-faq',
+        'q' => 'Is AI integration compliant with data privacy regulations like GDPR and HIPAA?',
+        'a' => 'Yes. We configure zero-data-retention headers, client-side PII redaction, and '
+             . 'encrypted data transit (TLS 1.3) to ensure full compliance with global regulatory '
+             . 'standards.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline compliance configure encrypted ensure full global headers '
+             . 'redaction regulatory retention side standards',
+    ],
+    [
+        'id' => 'q386', 'cat' => 'page-faq',
+        'q' => 'How long does it take to integrate AI into an existing enterprise application?',
+        'a' => 'A standard integration sprint connecting an AI feature or semantic search into an '
+             . 'existing application typically takes 2 to 3 weeks. Comprehensive enterprise '
+             . 'platform modernizations take 4 to 6 weeks.',
+        'terms' => 'integration gateway api existing system legacy connect embed plug erp crm '
+             . 'data pipeline weeks comprehensive connecting feature modernizations platform '
+             . 'search semantic sprint standard typically',
+    ],
+
+    // ---- Autonomous Workflow Automation ---- (services/autonomous-workflow-automation.php)
+
+    [
+        'id' => 'q387', 'cat' => 'page-faq',
+        'q' => 'What is the difference between traditional RPA/scripts and Autonomous Workflow '
+             . 'Automation?',
+        'a' => 'Traditional RPA relies on rigid, hardcoded rules and coordinates via fragile UI '
+             . 'selectors that break upon any minor website or data update. Autonomous Workflow '
+             . 'Automation uses LLMs and cognitive agent loops that understand context, parse '
+             . 'unstructured data, and dynamically adapt execution when errors occur.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend adapt agent break cognitive context coordinates dynamically '
+             . 'errors execution fragile hardcoded llms',
+    ],
+    [
+        'id' => 'q388', 'cat' => 'page-faq',
+        'q' => 'How does the \'self-healing\' capability work in practice?',
+        'a' => 'When a pipeline step fails (such as an API schema change or missing data field), '
+             . 'the agent analyzes the error message, determines alternative tool paths or '
+             . 'parameter transformations, and retries the action dynamically without crashing '
+             . 'the workflow.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend action agent alternative analyzes change crashing '
+             . 'determines dynamically error fails field message',
+    ],
+    [
+        'id' => 'q389', 'cat' => 'page-faq',
+        'q' => 'Can autonomous workflows process unstructured scanned documents and PDFs?',
+        'a' => 'Yes. We incorporate multimodal vision-language parsing models and OCR engines '
+             . 'that extract complex tables, handwritten notes, and nested metadata directly into '
+             . 'validated JSON schemas.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend complex directly engines extract handwritten incorporate '
+             . 'json language metadata multimodal nested notes',
+    ],
+    [
+        'id' => 'q390', 'cat' => 'page-faq',
+        'q' => 'What systems can your autonomous workflow pipelines connect with?',
+        'a' => 'We connect with Salesforce, HubSpot, SAP, NetSuite, Jira, GitHub, Slack, Gmail, '
+             . 'Outlook, PostgreSQL, Snowflake, Twilio, Stripe, and custom in-house REST/GraphQL '
+             . 'APIs.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend apis custom github gmail graphql house hubspot jira '
+             . 'netsuite outlook postgresql rest',
+    ],
+    [
+        'id' => 'q391', 'cat' => 'page-faq',
+        'q' => 'How do you guarantee that automated workflows don\'t perform unintended actions? '
+             . 'How do you guarantee that automated workflows don\'t perform unintended actions?',
+        'a' => 'We implement deterministic guardrails, Pydantic type validation, schema boundary '
+             . 'checks, and human-in-the-loop approval thresholds for high-stakes actions like '
+             . 'financial transfers.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend boundary checks deterministic financial guardrails high '
+             . 'human implement like loop pydantic',
+    ],
+    [
+        'id' => 'q392', 'cat' => 'page-faq',
+        'q' => 'What happens if an external API or database is temporarily unavailable?',
+        'a' => 'Our workflows utilize distributed state engines (like Temporal and Celery) that '
+             . 'maintain durable execution state, automatically queueing retries with exponential '
+             . 'backoff until the service recovers.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend state automatically backoff celery distributed durable '
+             . 'engines execution exponential like maintain queueing',
+    ],
+    [
+        'id' => 'q393', 'cat' => 'page-faq',
+        'q' => 'Can workflows be deployed inside our private cloud or on-premise infrastructure? '
+             . 'Can workflows be deployed inside our private cloud or on-premise infrastructure?',
+        'a' => 'Yes. All workflow engines, agentic workers, and data stores are containerized and '
+             . 'deployable within your private AWS, Azure, GCP VPC, or on-premise Kubernetes '
+             . 'clusters.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend agentic azure clusters containerized deployable engines '
+             . 'kubernetes stores within workers',
+    ],
+    [
+        'id' => 'q394', 'cat' => 'page-faq',
+        'q' => 'How do human operators review edge cases or flagged anomalies?',
+        'a' => 'We provide intuitive human-in-the-loop review interfaces and Slack/Teams '
+             . 'interactive cards where operators can inspect flagged anomalies and approve or '
+             . 'modify actions with a single click.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend actions approve cards click inspect interactive interfaces '
+             . 'intuitive loop modify single slack',
+    ],
+    [
+        'id' => 'q395', 'cat' => 'page-faq',
+        'q' => 'How do you monitor workflow health and measure performance gains?',
+        'a' => 'We provide real-time dashboards displaying task volume, completion rates, average '
+             . 'execution speed, self-healing recovery events, and net labor hours saved.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend average completion dashboards displaying events execution '
+             . 'healing hours labor rates real recovery',
+    ],
+    [
+        'id' => 'q396', 'cat' => 'page-faq',
+        'q' => 'How long does it take to automate a complex enterprise workflow?',
+        'a' => 'A single high-impact workflow is typically designed, tested, and deployed into '
+             . 'production in 3 to 4 weeks. Multi-process enterprise suites take 6 to 8 weeks.',
+        'terms' => 'workflow automation process orchestrate approval queue selfhealing trigger '
+             . 'pipeline endtoend weeks deployed designed high impact multi single suites '
+             . 'tested typically',
+    ],
+
+    // ---- Agent Operations & Support ---- (services/agent-operations-support.php)
+
+    [
+        'id' => 'q397', 'cat' => 'page-faq',
+        'q' => 'What is AgentOps and why is it necessary for production AI systems?',
+        'a' => 'AgentOps (Agent Operations) is the discipline of monitoring, evaluating, and '
+             . 'maintaining autonomous AI agents in production. Unlike traditional software, AI '
+             . 'agents are non-deterministic; AgentOps provides continuous distributed tracing, '
+             . 'hallucination detection, cost governance, and automated testing to ensure agents '
+             . 'operate reliably and cost-effectively.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support agents agent automated autonomous '
+             . 'continuous detection deterministic discipline distributed effectively ensure',
+    ],
+    [
+        'id' => 'q398', 'cat' => 'page-faq',
+        'q' => 'How do you monitor agent tool calls and reasoning chains in real time?',
+        'a' => 'We instrument your agents with OpenTelemetry and LangSmith, capturing every step: '
+             . 'prompt inputs, LLM reasoning tokens, tool selection, API payloads, execution '
+             . 'latency, and final responses in interactive trace visualizations.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support agents capturing every execution '
+             . 'final inputs instrument interactive langsmith latency opentelemetry payloads',
+    ],
+    [
+        'id' => 'q399', 'cat' => 'page-faq',
+        'q' => 'How do you detect model drift and hallucinations automatically?',
+        'a' => 'We run continuous evaluation hooks (using RAGAS, TruLens, and LLM-as-a-judge '
+             . 'models) on production sampling streams to evaluate factual groundedness, context '
+             . 'precision, and safety scores against historical baselines.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support against baselines context '
+             . 'continuous evaluate evaluation factual groundedness historical hooks judge '
+             . 'precision',
+    ],
+    [
+        'id' => 'q400', 'cat' => 'page-faq',
+        'q' => 'How do you prevent runaway token bills and unexpected cloud costs?',
+        'a' => 'We configure hard token spending caps, anomaly detection alerts, and '
+             . 'rate-limiting middleware that automatically throttles or halts agent execution if '
+             . 'an agent gets stuck in a repetitive loop.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support agent alerts anomaly automatically '
+             . 'caps configure detection execution gets halts hard limiting',
+    ],
+    [
+        'id' => 'q401', 'cat' => 'page-faq',
+        'q' => 'What happens when an AI foundation model API goes down?',
+        'a' => 'Our AgentOps architecture includes automated circuit breakers and multi-provider '
+             . 'failover routing. If OpenAI or Anthropic experiences an outage, requests are '
+             . 'instantly routed to an alternative foundation model or local vLLM backup.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support alternative anthropic architecture '
+             . 'automated backup breakers circuit experiences failover includes instantly',
+    ],
+    [
+        'id' => 'q402', 'cat' => 'page-faq',
+        'q' => 'Can AgentOps telemetry be hosted in our private VPC without external data '
+             . 'leakage?',
+        'a' => 'Yes. We deploy self-hosted observability stacks (Prometheus, Grafana, Arize '
+             . 'Phoenix, Jaeger) entirely inside your private cloud with zero data transmitted to '
+             . 'third parties.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support arize cloud deploy entirely grafana '
+             . 'inside jaeger parties phoenix prometheus self',
+    ],
+    [
+        'id' => 'q403', 'cat' => 'page-faq',
+        'q' => 'How do you test agent prompt updates before deploying to production?',
+        'a' => 'We integrate automated evaluation harnesses into your CI/CD pipeline that run '
+             . 'regression test suites across hundreds of golden use cases, ensuring prompt '
+             . 'updates improve performance without breaking existing capabilities.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support across automated breaking '
+             . 'capabilities cases ensuring evaluation existing golden harnesses hundreds '
+             . 'improve',
+    ],
+    [
+        'id' => 'q404', 'cat' => 'page-faq',
+        'q' => 'What is your Mean Time to Remediation (MTTR) for critical agent incidents?',
+        'a' => 'Our standard enterprise SLA provides a 1-hour critical response time, while '
+             . 'dedicated AI SRE enterprise tiers provide a 15-minute response SLA with 24/7 '
+             . 'active coverage.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support response active coverage dedicated '
+             . 'hour minute standard tiers while',
+    ],
+    [
+        'id' => 'q405', 'cat' => 'page-faq',
+        'q' => 'Do you support multi-cloud and hybrid on-premise agent deployments?',
+        'a' => 'Yes. Our AgentOps telemetry and SRE practices support agents deployed across AWS, '
+             . 'Azure, GCP, and bare-metal on-premise Kubernetes clusters.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support across agents azure bare clusters '
+             . 'deployed kubernetes metal practices',
+    ],
+    [
+        'id' => 'q406', 'cat' => 'page-faq',
+        'q' => 'How long does it take to integrate AgentOps observability into our existing AI '
+             . 'systems?',
+        'a' => 'A comprehensive AgentOps setup sprint instrumenting all microservices, '
+             . 'dashboards, and alert channels typically takes 2 weeks.',
+        'terms' => 'agentops operations monitoring observability telemetry tracing logging cost '
+             . 'token drift alert sre maintenance support channels comprehensive dashboards '
+             . 'instrumenting microservices setup sprint typically weeks',
+    ],
+
+    // ---- RPA Development ---- (services/rpa-development.php)
+
+    [
+        'id' => 'q407', 'cat' => 'page-faq',
+        'q' => 'How is Cognitive RPA different from traditional RPA tools like UiPath?',
+        'a' => 'Traditional RPA relies on rigid element coordinates and XPath selectors that '
+             . 'break whenever a UI updates. Cognitive RPA combines computer vision and '
+             . 'multimodal LLMs to understand the screen visually and semantically like a human '
+             . 'operator, making it resilient to UI changes.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task break changes combines computer coordinates element '
+             . 'human llms making multimodal operator relies',
+    ],
+    [
+        'id' => 'q408', 'cat' => 'page-faq',
+        'q' => 'Can Cognitive RPA automate legacy desktop applications and terminal emulators?',
+        'a' => 'Yes. We automate legacy Windows desktop applications, AS/400 terminal emulators, '
+             . 'SAP GUI, and Citrix virtual desktop sessions using vision-driven OCR and '
+             . 'keyboard/mouse emulation.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task citrix driven emulation keyboard mouse sessions virtual '
+             . 'vision windows',
+    ],
+    [
+        'id' => 'q409', 'cat' => 'page-faq',
+        'q' => 'What is the difference between Attended and Unattended RPA bots?',
+        'a' => 'Attended bots run on an employee\'s local machine, acting as a copilot that '
+             . 'assists with tasks on demand. Unattended bots run autonomously on background '
+             . 'virtual machines to process high-volume batch queues 24/7.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task acting assists autonomously background batch copilot '
+             . 'demand employee high local machine machines',
+    ],
+    [
+        'id' => 'q410', 'cat' => 'page-faq',
+        'q' => 'How do Cognitive RPA bots handle unstructured invoices and scanned documents?',
+        'a' => 'Bots use multimodal OCR and layout-aware vision models to extract tabular data, '
+             . 'line items, and totals directly into structured JSON, verifying sums against '
+             . 'database records before saving.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task against aware database directly extract items json '
+             . 'layout line multimodal records saving',
+    ],
+    [
+        'id' => 'q411', 'cat' => 'page-faq',
+        'q' => 'How do you securely manage passwords and credentials for bots?',
+        'a' => 'Bots retrieve short-lived credentials from encrypted enterprise key vaults (such '
+             . 'as HashiCorp Vault or AWS Secrets Manager). Passwords are never hardcoded or '
+             . 'exposed in logs.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task encrypted exposed hardcoded hashicorp lived logs manager '
+             . 'never retrieve secrets short vault',
+    ],
+    [
+        'id' => 'q412', 'cat' => 'page-faq',
+        'q' => 'What happens if a website displays a CAPTCHA or unexpected popup?',
+        'a' => 'Our bots utilize cognitive vision reasoning to recognize and handle routine '
+             . 'popups gracefully. For high-security CAPTCHAs, the bot can escalate to a human '
+             . 'operator or solve approved accessibility challenges.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task accessibility approved bots captchas challenges '
+             . 'cognitive escalate gracefully handle high human operator',
+    ],
+    [
+        'id' => 'q413', 'cat' => 'page-faq',
+        'q' => 'How do bots handle sudden changes in web page layouts?',
+        'a' => 'Our bots use semantic vision anchors and multi-modal grounding rather than rigid '
+             . 'XPaths. If a button moves to a new location or changes color, the bot visually '
+             . 'locates it by its semantic label and intent.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task semantic anchors button color grounding intent label '
+             . 'locates location modal moves multi',
+    ],
+    [
+        'id' => 'q414', 'cat' => 'page-faq',
+        'q' => 'Can Cognitive RPA integrate directly with backend databases and APIs?',
+        'a' => 'Yes. When APIs are available, bots execute direct REST/SQL calls for maximum '
+             . 'speed, and switch to visual UI automation only when interacting with legacy '
+             . 'frontends.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task available bots calls direct execute frontends '
+             . 'interacting maximum rest speed',
+    ],
+    [
+        'id' => 'q415', 'cat' => 'page-faq',
+        'q' => 'How do you ensure enterprise compliance and auditability for RPA actions?',
+        'a' => 'Every bot action, keystroke, and database modification is recorded in immutable '
+             . 'audit logs. We can also record encrypted video sessions of bot executions for '
+             . 'compliance audits.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task action audit audits database encrypted every executions '
+             . 'immutable keystroke logs modification record',
+    ],
+    [
+        'id' => 'q416', 'cat' => 'page-faq',
+        'q' => 'How long does it take to develop and deploy a Cognitive RPA bot?',
+        'a' => 'A single high-impact cognitive bot is typically operational in 2 to 3 weeks. '
+             . 'Comprehensive enterprise multi-bot fleet rollouts take 4 to 6 weeks.',
+        'terms' => 'rpa robotic process automation bot uipath macro repetitive rules screen '
+             . 'scraping legacy task weeks comprehensive fleet high impact multi operational '
+             . 'rollouts single typically',
+    ],
+
+    // ---- Hire Agentic AI Developers ---- (services/hire-agentic-ai-developers.php)
+
+    [
+        'id' => 'q417', 'cat' => 'page-faq',
+        'q' => 'How quickly can a dedicated Agentic AI developer join our team?',
+        'a' => 'We match and onboard pre-vetted developers within 48 to 72 hours. You interview '
+             . 'the candidates directly and they can begin writing code on your next sprint.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated begin candidates code developers directly '
+             . 'hours interview match next sprint vetted',
+    ],
+    [
+        'id' => 'q418', 'cat' => 'page-faq',
+        'q' => 'How do you vet and evaluate your AI engineers?',
+        'a' => 'Our rigorous 4-stage vetting process evaluates algorithmic problem solving, '
+             . 'hands-on LangGraph state machine development, vector search architecture, and '
+             . 'live system design challenges. Only the top 1% of applicants are selected.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated algorithmic applicants architecture '
+             . 'challenges design evaluates hands langgraph live machine problem process',
+    ],
+    [
+        'id' => 'q419', 'cat' => 'page-faq',
+        'q' => 'What timezone will our dedicated AI developer work in?',
+        'a' => 'Our developers provide 100% timezone overlap with your team across North America, '
+             . 'Europe, India, and APAC. They participate in your daily standups, sprint '
+             . 'planning, and Slack channels.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated across america apac channels daily developers '
+             . 'europe india north overlap participate planning',
+    ],
+    [
+        'id' => 'q420', 'cat' => 'page-faq',
+        'q' => 'Do we own the intellectual property (IP) and code written by the developers?',
+        'a' => 'Yes. You maintain 100% ownership of all source code, models, prompts, datasets, '
+             . 'and intellectual property produced during the engagement.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated datasets engagement maintain ownership '
+             . 'produced prompts source',
+    ],
+    [
+        'id' => 'q421', 'cat' => 'page-faq',
+        'q' => 'Can we hire a single engineer or an entire squad?',
+        'a' => 'Both. You can hire a single specialized developer (e.g., a LangGraph expert) or '
+             . 'scale up to a full cross-functional AI squad (Architect, ML Engineer, Backend '
+             . 'Developer, and QA).',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated architect backend cross expert full '
+             . 'functional langgraph scale specialized',
+    ],
+    [
+        'id' => 'q422', 'cat' => 'page-faq',
+        'q' => 'What happens if a developer is not the right fit for our project?',
+        'a' => 'We offer a 14-day zero-risk trial period. If you feel the candidate is not the '
+             . 'perfect fit, we will replace them immediately at no additional cost.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated additional candidate cost feel immediately '
+             . 'offer perfect period replace risk trial zero',
+    ],
+    [
+        'id' => 'q423', 'cat' => 'page-faq',
+        'q' => 'What AI tools and frameworks are your developers experienced in?',
+        'a' => 'Our developers specialize in LangGraph, Model Context Protocol (MCP), PyTorch, '
+             . 'vLLM, LlamaIndex, Qdrant, Milvus, Hugging Face, FastAPI, Docker, and Kubernetes.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated context docker face fastapi hugging '
+             . 'kubernetes langgraph llamaindex milvus protocol pytorch qdrant',
+    ],
+    [
+        'id' => 'q424', 'cat' => 'page-faq',
+        'q' => 'How does billing and contract duration work?',
+        'a' => 'We operate on straightforward monthly billing with no long-term lock-in. You can '
+             . 'scale your team up or down with a standard 30-day notice.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated lock monthly notice operate scale standard '
+             . 'straightforward term',
+    ],
+    [
+        'id' => 'q425', 'cat' => 'page-faq',
+        'q' => 'Will the developer work exclusively on our project?',
+        'a' => 'Yes. All our dedicated developers work 100% exclusively on your project full-time '
+             . '(40 hours per week) with no split focus on other clients.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated developers focus full hours split time week',
+    ],
+    [
+        'id' => 'q426', 'cat' => 'page-faq',
+        'q' => 'Can your developers work within our secure private cloud or on-premise '
+             . 'repositories?',
+        'a' => 'Yes. Our engineers adhere to enterprise security protocols, connecting via your '
+             . 'corporate VPN, hardware tokens, and private GitHub/GitLab organizations with '
+             . 'strict NDA compliance.',
+        'terms' => 'hire hiring recruit staff developer engineer talent team squad onboard '
+             . 'contract augmentation dedicated adhere compliance connecting corporate '
+             . 'engineers github gitlab hardware organizations protocols security strict',
+    ],
 ];
