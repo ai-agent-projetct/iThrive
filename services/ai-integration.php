@@ -32,6 +32,33 @@ $models = [['01', 'AI Integration Sprint', 'A 3-week engagement integrating cust
 
 $techStack = ['FastAPI', 'Go', 'Redis', 'Kong Gateway', 'Docker', 'Kubernetes', 'GraphQL', 'WebSockets', 'Azure AD', 'Okta'];
 
+$pageStack = [
+    ['slug' => 'gateway', 'title' => 'Gateway & Serving', 'icon' => 'layers',
+     'blurb' => 'One route every AI call passes through.',
+     'items' => [
+         ['name' => 'FastAPI', 'logo' => 'fastapi'],
+         ['name' => 'Node.js', 'logo' => 'nodedotjs'],
+         ['name' => 'GraphQL', 'logo' => 'graphql'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'data', 'title' => 'Pipelines', 'icon' => 'database',
+     'blurb' => 'Turning operational records into something a model can use.',
+     'items' => [
+         ['name' => 'Airflow', 'logo' => 'apacheairflow'],
+         ['name' => 'dbt', 'logo' => 'dbt'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'OpenSearch', 'logo' => 'opensearch'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Platform & Cost', 'icon' => 'cloud',
+     'blurb' => 'Quotas, attribution and a bill you can read.',
+     'items' => [
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Terraform', 'logo' => 'terraform'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['How do you integrate AI into our legacy application without breaking existing features?', 'We use non-invasive architectural patterns such as sidecar microservices and API gateway facades. Your legacy application makes standard REST or webhook calls to our AI gateway, leaving your core business logic completely untouched and stable.'], ['Can we switch between different AI models in the future without changing our application code?', 'Yes. Our unified AI gateway abstracts model providers behind a standardized API. You can switch from OpenAI to Claude or to an on-premise fine-tuned Llama model with a single configuration flag without updating your application.'], ['How do you handle token-by-token streaming in web and mobile applications?', 'We implement Server-Sent Events (SSE) and WebSocket streaming protocols that deliver generated tokens to client user interfaces in real time with sub-50ms Time-To-First-Token (TTFT).'], ['What is semantic caching and how does it save cloud costs?', 'Semantic caching uses vector embeddings to recognize when a new user query has the same meaning as a previously answered query. It serves the cached answer in <5ms, eliminating redundant LLM API calls and reducing token costs by up to 70%.'], ['How do you integrate AI capabilities with our corporate Single Sign-On (SSO)?', 'Our AI middleware integrates directly with your existing Identity Providers (Okta, Azure AD, Keycloak, PingIdentity) via OAuth2 and SAML, ensuring user roles and permission boundaries are enforced at the AI layer.'], ['Can the AI integration run inside our private VPC or on-premise infrastructure?', 'Yes. All our integration gateways, caching microservices, and self-hosted model backends are containerized with Docker and deployable in any private cloud or bare-metal environment.'], ['What happens if an external AI provider experiences an outage?', 'Our gateway features automated fallback and circuit breaker routing. If a primary model API fails or exceeds latency thresholds, requests are instantly routed to a secondary model or localized cache without user interruption.'], ['How do you monitor the performance and costs of integrated AI features?', 'We provide centralized telemetry dashboards powered by OpenTelemetry and Prometheus, tracking request counts, token consumption, response latency, and error rates per user and department.'], ['Is AI integration compliant with data privacy regulations like GDPR and HIPAA?', 'Yes. We configure zero-data-retention headers, client-side PII redaction, and encrypted data transit (TLS 1.3) to ensure full compliance with global regulatory standards.'], ['How long does it take to integrate AI into an existing enterprise application?', 'A standard integration sprint connecting an AI feature or semantic search into an existing application typically takes 2 to 3 weeks. Comprehensive enterprise platform modernizations take 4 to 6 weeks.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('12', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('12', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('12', 6, 1), svc_img('12', 6, 2), svc_img('12', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

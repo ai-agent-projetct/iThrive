@@ -32,6 +32,33 @@ $models = [['01', 'AgentOps Setup Sprint', 'A 2-week implementation integrating 
 
 $techStack = ['OpenTelemetry', 'LangSmith', 'Prometheus', 'Grafana', 'Arize Phoenix', 'RAGAS', 'Python', 'Kubernetes', 'PagerDuty', 'Docker'];
 
+$pageStack = [
+    ['slug' => 'observability', 'title' => 'Observability', 'icon' => 'gauge',
+     'blurb' => 'What tells you accuracy slipped before a customer does.',
+     'items' => [
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+         ['name' => 'OpenSearch', 'logo' => 'opensearch'],
+         ['name' => 'Python', 'logo' => 'python'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+     ]],
+    ['slug' => 'models', 'title' => 'Models & Evaluation', 'icon' => 'brain',
+     'blurb' => 'The golden set, re-run on every upstream change.',
+     'items' => [
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'PyTorch', 'logo' => 'pytorch'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Release & Rollback', 'icon' => 'cloud',
+     'blurb' => 'A defined stop and a tested way back.',
+     'items' => [
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Terraform', 'logo' => 'terraform'],
+         ['name' => 'GitHub Actions', 'logo' => 'githubactions'],
+     ]],
+];
+
 $faqs = [['What is AgentOps and why is it necessary for production AI systems?', 'AgentOps (Agent Operations) is the discipline of monitoring, evaluating, and maintaining autonomous AI agents in production. Unlike traditional software, AI agents are non-deterministic; AgentOps provides continuous distributed tracing, hallucination detection, cost governance, and automated testing to ensure agents operate reliably and cost-effectively.'], ['How do you monitor agent tool calls and reasoning chains in real time?', 'We instrument your agents with OpenTelemetry and LangSmith, capturing every step: prompt inputs, LLM reasoning tokens, tool selection, API payloads, execution latency, and final responses in interactive trace visualizations.'], ['How do you detect model drift and hallucinations automatically?', 'We run continuous evaluation hooks (using RAGAS, TruLens, and LLM-as-a-judge models) on production sampling streams to evaluate factual groundedness, context precision, and safety scores against historical baselines.'], ['How do you prevent runaway token bills and unexpected cloud costs?', 'We configure hard token spending caps, anomaly detection alerts, and rate-limiting middleware that automatically throttles or halts agent execution if an agent gets stuck in a repetitive loop.'], ['What happens when an AI foundation model API goes down?', 'Our AgentOps architecture includes automated circuit breakers and multi-provider failover routing. If OpenAI or Anthropic experiences an outage, requests are instantly routed to an alternative foundation model or local vLLM backup.'], ['Can AgentOps telemetry be hosted in our private VPC without external data leakage?', 'Yes. We deploy self-hosted observability stacks (Prometheus, Grafana, Arize Phoenix, Jaeger) entirely inside your private cloud with zero data transmitted to third parties.'], ['How do you test agent prompt updates before deploying to production?', 'We integrate automated evaluation harnesses into your CI/CD pipeline that run regression test suites across hundreds of golden use cases, ensuring prompt updates improve performance without breaking existing capabilities.'], ['What is your Mean Time to Remediation (MTTR) for critical agent incidents?', 'Our standard enterprise SLA provides a 1-hour critical response time, while dedicated AI SRE enterprise tiers provide a 15-minute response SLA with 24/7 active coverage.'], ['Do you support multi-cloud and hybrid on-premise agent deployments?', 'Yes. Our AgentOps telemetry and SRE practices support agents deployed across AWS, Azure, GCP, and bare-metal on-premise Kubernetes clusters.'], ['How long does it take to integrate AgentOps observability into our existing AI systems?', 'A comprehensive AgentOps setup sprint instrumenting all microservices, dashboards, and alert channels typically takes 2 weeks.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('14', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('14', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('14', 6, 1), svc_img('14', 6, 2), svc_img('14', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

@@ -32,6 +32,33 @@ $models = [['01', 'SaaS Copilot MVP', 'A 4-week sprint embedding a contextual AI
 
 $techStack = ['TypeScript', 'React', 'LangChain', 'FastAPI', 'pgvector', 'OpenSearch', 'Docker', 'WebSockets', 'Triton'];
 
+$pageStack = [
+    ['slug' => 'surface', 'title' => 'Product Surface', 'icon' => 'monitor',
+     'blurb' => 'The screen the copilot lives inside.',
+     'items' => [
+         ['name' => 'React', 'logo' => 'react'],
+         ['name' => 'TypeScript', 'logo' => 'typescript'],
+         ['name' => 'Next.js', 'logo' => 'nextdotjs'],
+         ['name' => 'Tailwind', 'logo' => 'tailwindcss'],
+     ]],
+    ['slug' => 'models', 'title' => 'Models & Context', 'icon' => 'brain',
+     'blurb' => 'What it suggests, grounded in what the user is looking at.',
+     'items' => [
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Services & Operations', 'icon' => 'cloud',
+     'blurb' => 'The API behind the panel, and its cost per seat.',
+     'items' => [
+         ['name' => 'FastAPI', 'logo' => 'fastapi'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'Docker', 'logo' => 'docker'],
+     ]],
+];
+
 $faqs = [['How does an AI Copilot differ from a standard AI Chatbot?', 'While chatbots generally operate in a standalone chat window answering generic queries, a Copilot is deeply embedded into the active software workspace, continuously aware of the user?s cursor position, open document, selected data, and permissions, providing proactive inline assistance.'], ['Can a custom copilot be embedded into our existing React or Vue web app?', 'Yes. We provide lightweight, customizable npm packages and web components that integrate into your frontend in hours, connecting securely to your backend via WebSockets or streaming HTTP.'], ['How do you keep latency low enough for inline autocomplete (<100ms)?', 'We deploy quantized small language models (SLMs) on edge GPU clusters combined with speculative decoding, local client caching, and preemptive background context pre-fetching.'], ['Is our codebase or customer data sent to third-party AI companies?', 'No. We configure private cloud deployments (AWS Bedrock, Azure OpenAI with zero-data retention, or self-hosted vLLM on your VPC) so your proprietary data never leaves your infrastructure.'], ['Can the copilot execute actions on behalf of the user, such as creating records?', 'Yes. Using secure tool-calling and API contracts, the copilot can draft transactions, create Jira tickets, trigger database updates, and send emails, with optional human-confirmation modals.'], ['How do you handle complex permissions and multi-tenant security?', 'The copilot inherits the active user session token and role-based access control (RBAC) rules. It physically cannot retrieve or generate information that the requesting user is not authorized to view.'], ['Can the copilot convert plain English into database SQL queries safely?', 'Yes. Our NL-to-SQL copilot engines parse your database schema, generate read-only parameterized queries, validate syntax against SQL injection vectors, and execute with strict query timeouts.'], ['What telemetry and analytics are provided to measure copilot usage?', 'We provide comprehensive dashboards tracking suggestion acceptance rates, daily active users, average latency, token costs per user, and estimated time saved per operator.'], ['Can we build a copilot for our desktop application (Electron, Windows, macOS)?', 'Yes. We engineer native desktop extensions, system tray copilots, and Electron integrations that interact with local file systems and desktop applications.'], ['What is the typical timeline to launch an in-app copilot for our SaaS?', 'A working production copilot MVP is typically delivered in 4 to 6 weeks, with iterative refinement based on user feedback.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('04', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('04', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('04', 6, 1), svc_img('04', 6, 2), svc_img('04', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

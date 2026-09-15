@@ -32,6 +32,33 @@ $models = [['01', 'Edge Vision Proof of Concept', 'A 4-week on-site or lab pilot
 
 $techStack = ['YOLOv10', 'TensorRT', 'OpenCV', 'PyTorch', 'DeepStream', 'NVIDIA Jetson', 'ONNX', 'Segment Anything', 'PaddleOCR', 'Docker'];
 
+$pageStack = [
+    ['slug' => 'vision', 'title' => 'Vision & Training', 'icon' => 'search',
+     'blurb' => 'Detection, classification and the training loop behind them.',
+     'items' => [
+         ['name' => 'PyTorch', 'logo' => 'pytorch'],
+         ['name' => 'TensorFlow', 'logo' => 'tensorflow'],
+         ['name' => 'scikit-learn', 'logo' => 'scikitlearn'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'data', 'title' => 'Data & Labelling', 'icon' => 'database',
+     'blurb' => 'The labelled set, drawn from your own cameras.',
+     'items' => [
+         ['name' => 'pandas', 'logo' => 'pandas'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'OpenSearch', 'logo' => 'opensearch'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Edge & Operations', 'icon' => 'cloud',
+     'blurb' => 'Inference next to the camera, monitored centrally.',
+     'items' => [
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'Google Cloud', 'logo' => 'googlecloud'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['What hardware do you support for edge computer vision deployment?', 'We support NVIDIA Jetson (Nano, Orin Nano, Xavier, AGX Orin), Intel OpenVINO x86/ARM processors, Google Coral TPUs, Hailo AI processors, and industrial smart cameras with embedded NPUs.'], ['Can your computer vision models run completely offline without internet?', 'Yes. Our edge vision pipelines run 100% locally on on-premise hardware, processing video streams and triggering PLC relays in real time without transmitting data outside your facility.'], ['How many frames per second (FPS) can your vision models achieve?', 'Depending on the model architecture and target hardware, our TensorRT-optimized models achieve between 30 FPS to 120+ FPS on 1080p/4K streams, maintaining sub-10ms per-frame latency.'], ['How do you handle lighting fluctuations and dusty environments in factories?', 'We incorporate synthetic data augmentation (simulating shadows, dust, lens blur, and variable Lux levels) and auto-calibrating camera exposures during preprocessing to ensure 99.8% precision under variable physical conditions.'], ['How do you extract data from complex tables and handwritten forms?', 'We use layout-aware multimodal OCR pipelines (combining YOLO for table detection with PaddleOCR and Vision-Language Models) to extract tabular structures and handwriting directly into structured JSON.'], ['How do you prevent biometric spoofing in facial recognition systems?', 'We integrate active and passive 3D liveness detection (analyzing micro-textures, depth maps, and infrared reflections) to defeat printed photo, video replay, and 3D silicone mask spoofing attacks.'], ['Can your models detect small micro-defects on fast-moving assembly lines?', 'Yes. We use high-resolution patch-based defect segmentation models and high-speed industrial global-shutter cameras to detect defects as small as 0.05mm at conveyor speeds.'], ['How do you train vision models when defect sample data is extremely rare?', 'We utilize advanced generative diffusion models (ControlNet, GANs) to synthesize realistic defect variations, and deploy few-shot anomaly detection models (such as PatchCore) that learn from normal samples.'], ['Can computer vision integrate directly with our PLC or SCADA systems?', 'Yes. Our edge gateways communicate directly with PLCs via Modbus, OPC-UA, MQTT, and digital I/O pins to trigger immediate mechanical rejections or line halts.'], ['What is the typical development timeline for a custom computer vision solution?', 'A custom proof of concept takes 3 to 4 weeks. Full industrial integration and edge fleet deployment typically require 6 to 10 weeks depending on camera integration complexity.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('06', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('06', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('06', 6, 1), svc_img('06', 6, 2), svc_img('06', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

@@ -32,6 +32,33 @@ $models = [['01', 'Workflow Automation Sprint', 'A 3-week engagement delivering 
 
 $techStack = ['LangGraph', 'Temporal.io', 'Python', 'FastAPI', 'Redis', 'Kafka', 'Docker', 'PostgreSQL', 'OpenTelemetry', 'Celery'];
 
+$pageStack = [
+    ['slug' => 'workflow', 'title' => 'Workflow Engine', 'icon' => 'workflow',
+     'blurb' => 'Intake to resolution, with people on the exceptions.',
+     'items' => [
+         ['name' => 'Python', 'logo' => 'python'],
+         ['name' => 'Celery', 'logo' => 'celery'],
+         ['name' => 'Airflow', 'logo' => 'apacheairflow'],
+         ['name' => 'FastAPI', 'logo' => 'fastapi'],
+     ]],
+    ['slug' => 'models', 'title' => 'Decisioning', 'icon' => 'brain',
+     'blurb' => 'The judgement step, bounded by rules kept in version control.',
+     'items' => [
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'scikit-learn', 'logo' => 'scikitlearn'],
+     ]],
+    ['slug' => 'platform', 'title' => 'State & Reporting', 'icon' => 'cloud',
+     'blurb' => 'Case state, throughput and the exception queue.',
+     'items' => [
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['What is the difference between traditional RPA/scripts and Autonomous Workflow Automation?', 'Traditional RPA relies on rigid, hardcoded rules and coordinates via fragile UI selectors that break upon any minor website or data update. Autonomous Workflow Automation uses LLMs and cognitive agent loops that understand context, parse unstructured data, and dynamically adapt execution when errors occur.'], ["How does the 'self-healing' capability work in practice?", 'When a pipeline step fails (such as an API schema change or missing data field), the agent analyzes the error message, determines alternative tool paths or parameter transformations, and retries the action dynamically without crashing the workflow.'], ['Can autonomous workflows process unstructured scanned documents and PDFs?', 'Yes. We incorporate multimodal vision-language parsing models and OCR engines that extract complex tables, handwritten notes, and nested metadata directly into validated JSON schemas.'], ['What systems can your autonomous workflow pipelines connect with?', 'We connect with Salesforce, HubSpot, SAP, NetSuite, Jira, GitHub, Slack, Gmail, Outlook, PostgreSQL, Snowflake, Twilio, Stripe, and custom in-house REST/GraphQL APIs.'], ["How do you guarantee that automated workflows don't perform unintended actions?", 'We implement deterministic guardrails, Pydantic type validation, schema boundary checks, and human-in-the-loop approval thresholds for high-stakes actions like financial transfers.'], ['What happens if an external API or database is temporarily unavailable?', 'Our workflows utilize distributed state engines (like Temporal and Celery) that maintain durable execution state, automatically queueing retries with exponential backoff until the service recovers.'], ['Can workflows be deployed inside our private cloud or on-premise infrastructure?', 'Yes. All workflow engines, agentic workers, and data stores are containerized and deployable within your private AWS, Azure, GCP VPC, or on-premise Kubernetes clusters.'], ['How do human operators review edge cases or flagged anomalies?', 'We provide intuitive human-in-the-loop review interfaces and Slack/Teams interactive cards where operators can inspect flagged anomalies and approve or modify actions with a single click.'], ['How do you monitor workflow health and measure performance gains?', 'We provide real-time dashboards displaying task volume, completion rates, average execution speed, self-healing recovery events, and net labor hours saved.'], ['How long does it take to automate a complex enterprise workflow?', 'A single high-impact workflow is typically designed, tested, and deployed into production in 3 to 4 weeks. Multi-process enterprise suites take 6 to 8 weeks.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('13', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('13', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('13', 6, 1), svc_img('13', 6, 2), svc_img('13', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

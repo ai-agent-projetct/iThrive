@@ -32,6 +32,33 @@ $models = [['01', 'GraphRAG Rapid PoC', 'A 3-week sprint building a fully functi
 
 $techStack = ['GraphRAG', 'Qdrant', 'Milvus', 'LlamaIndex', 'LangChain', 'Cohere Rerank', 'ColBERT', 'pgvector', 'FastEmbed', 'Docker'];
 
+$pageStack = [
+    ['slug' => 'retrieval', 'title' => 'Retrieval & Index', 'icon' => 'search',
+     'blurb' => 'Hybrid search over your own corpus, reranked.',
+     'items' => [
+         ['name' => 'OpenSearch', 'logo' => 'opensearch'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'pandas', 'logo' => 'pandas'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'models', 'title' => 'Models & Embeddings', 'icon' => 'brain',
+     'blurb' => 'What reads the passage once it has been found.',
+     'items' => [
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'PyTorch', 'logo' => 'pytorch'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Pipelines & Operations', 'icon' => 'cloud',
+     'blurb' => 'Ingestion on a schedule, and re-indexing on change.',
+     'items' => [
+         ['name' => 'FastAPI', 'logo' => 'fastapi'],
+         ['name' => 'Celery', 'logo' => 'celery'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'Docker', 'logo' => 'docker'],
+     ]],
+];
+
 $faqs = [['What is the difference between standard naive RAG and GraphRAG?', 'Standard naive RAG splits text into arbitrary chunks and uses cosine similarity, which loses relational context across documents. GraphRAG extracts entities, relationships, and claims into an interconnected knowledge graph, allowing the LLM to perform complex multi-hop reasoning across thousands of interconnected enterprise files with superior accuracy.'], ['How do you prevent hallucinations in your enterprise RAG implementations?', 'We implement a 4-tier verification protocol: hybrid semantic reranking, context relevance filtering, token citation validation, and automated Self-RAG reflection checks that reject or regenerate any claim lacking verifiable source attribution.'], ['How do you enforce role-based access control (RBAC) in vector search?', 'We implement pre-filtering and post-filtering metadata hooks that map user tokens directly to document access lists at retrieval time. Unauthorized users never receive vector chunks from restricted files, guaranteeing absolute data governance.'], ['Which vector databases do you recommend for enterprise production?', 'We deploy and optimize Qdrant, Milvus, pgvector, and Pinecone depending on your workload, sharding requirements, on-premise constraints, and latency targets. For self-hosted VPC setups, Qdrant and Milvus offer exceptional throughput and filtering.'], ['Can your RAG pipelines handle complex multimodal files like scanned PDFs and financial tables?', 'Yes. We deploy vision-language parsing models and layout-aware OCR engines (such as Unstructured, Nougat, and ColPali) that preserve tabular structure, nested headers, and visual charts directly into markdown embeddings.'], ['How do you keep vector indices updated with real-time enterprise data changes?', 'We build event-driven CDC (Change Data Capture) pipelines using Kafka, Debezium, and webhook listeners that automatically update, re-chunk, and re-embed modified documents in real time with zero system downtime.'], ['What metrics do you use to evaluate RAG retrieval accuracy?', 'We benchmark using RAGAS and TruLens frameworks measuring Context Relevance, Groundedness, Answer Relevance, Context Precision, and Faithfulness against curated golden test datasets.'], ['Can we run our entire RAG pipeline inside an air-gapped private cloud?', 'Yes. All components—embedding models, vector databases, rerankers, and local LLMs (vLLM)—can be deployed 100% on-premise or within isolated AWS/GCP/Azure VPCs with zero external internet dependencies.'], ['What is hybrid search and why is it necessary?', 'Hybrid search combines dense vector retrieval (capturing semantic meaning) with sparse lexical retrieval like BM25 (capturing exact product names, error codes, and SKUs). Merging both via Reciprocal Rank Fusion delivers industry-leading search precision.'], ['How long does it take to deploy an enterprise RAG system into production?', 'A specialized proof of concept is typically live within 2 to 3 weeks, while full enterprise deployment across multi-department repositories with RBAC takes 4 to 6 weeks.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('05', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('05', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('05', 6, 1), svc_img('05', 6, 2), svc_img('05', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

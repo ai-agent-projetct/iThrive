@@ -32,6 +32,33 @@ $models = [['01', 'Single Specialized Custom Agent', 'A 3-week engagement delive
 
 $techStack = ['LangGraph', 'Pydantic', 'FastAPI', 'MCP', 'Qdrant', 'PostgreSQL', 'Docker', 'LangSmith', 'Python', 'Redis'];
 
+$pageStack = [
+    ['slug' => 'agents', 'title' => 'Agent Runtime', 'icon' => 'bot',
+     'blurb' => 'Tools, state and the loop that decides the next step.',
+     'items' => [
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'services', 'title' => 'Services & State', 'icon' => 'database',
+     'blurb' => 'What the agent calls, and what it remembers.',
+     'items' => [
+         ['name' => 'FastAPI', 'logo' => 'fastapi'],
+         ['name' => 'Celery', 'logo' => 'celery'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Platform & Operations', 'icon' => 'cloud',
+     'blurb' => 'Deployment, traces and a costed run.',
+     'items' => [
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'Terraform', 'logo' => 'terraform'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['What is a custom AI agent and how does it work?', 'A custom AI agent is an autonomous software program that combines a reasoning LLM with memory, planning state machines (like LangGraph), and custom tool integrations (APIs, databases). It receives a high-level goal, breaks it into sequential steps, calls external tools to gather data or execute actions, verifies its own work, and completes the task autonomously.'], ['How do you ensure agents execute tool calls and API requests accurately?', 'We use strict Pydantic schema validation, structured JSON outputs, deterministic error-handling fallbacks, and multi-step verification checks to ensure every tool call matches exact API requirements before execution.'], ['What systems and software can your custom agents integrate with?', 'Our agents can integrate with virtually any system with an API or database: Jira, GitHub, Salesforce, HubSpot, Zoho, SAP, NetSuite, PostgreSQL, Snowflake, Twilio, Slack, and custom in-house enterprise backends.'], ['How do agents maintain memory across different sessions and conversations?', 'We implement a dual-layer memory system: short-term state memory stored in Redis/PostgreSQL checkpoints, and long-term semantic memory stored in vector databases (Qdrant, pgvector) with entity-relationship knowledge graphs.'], ['How do you handle security and credential management for agent tool execution?', 'Agents never receive raw API keys or database passwords. All tool calls route through an authenticated proxy/MCP server with short-lived tokens, rate limiting, and role-based access control.'], ['Can custom agents write code, execute scripts, or run database queries safely?', 'Yes. For code or query execution, we run agents inside ephemeral, sandboxed Docker containers or WebAssembly (Wasm) micro-VMs with strict network isolation and resource limits.'], ['How does the agent handle ambiguous user instructions or edge cases?', 'When confidence scores fall below a predefined threshold, the agent pauses execution, formulates clarifying questions, or escalates the task to a human supervisor via Slack or Teams.'], ['Can we deploy our custom agents on our private cloud or on-premise hardware?', 'Yes. Our custom agents can be containerized and deployed on Kubernetes inside your private AWS, GCP, Azure VPC, or on-premise data center with zero data egress.'], ['What frameworks do you use to build custom AI agents?', 'We primarily use LangGraph, Python, FastAPI, Model Context Protocol (MCP), Pydantic, Redis, and LangSmith for state-of-the-art enterprise reliability and observability.'], ['How long does it take to build and deploy a custom AI agent into production?', 'A single specialized custom agent is typically production-ready in 3 to 4 weeks. Complex multi-agent systems with extensive enterprise integrations take 6 to 8 weeks.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('08', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('08', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('08', 6, 1), svc_img('08', 6, 2), svc_img('08', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

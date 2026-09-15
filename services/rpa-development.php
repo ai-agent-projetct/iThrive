@@ -32,6 +32,33 @@ $models = [['01', 'Cognitive RPA Pilot', 'A 3-week sprint building a resilient c
 
 $techStack = ['Python', 'Playwright', 'OpenCV', 'PaddleOCR', 'Docker', 'PostgreSQL', 'Temporal.io', 'Selenium', 'Redis', 'Kubernetes'];
 
+$pageStack = [
+    ['slug' => 'automation', 'title' => 'Automation Runtime', 'icon' => 'cpu',
+     'blurb' => 'Driving systems that were never given an API.',
+     'items' => [
+         ['name' => 'Python', 'logo' => 'python'],
+         ['name' => 'Celery', 'logo' => 'celery'],
+         ['name' => 'Node.js', 'logo' => 'nodedotjs'],
+         ['name' => 'FastAPI', 'logo' => 'fastapi'],
+     ]],
+    ['slug' => 'systems', 'title' => 'Target Systems', 'icon' => 'database',
+     'blurb' => 'The ERPs, portals and databases the robots work against.',
+     'items' => [
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'MySQL', 'logo' => 'mysql'],
+         ['name' => 'MongoDB', 'logo' => 'mongodb'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Scheduling & Operations', 'icon' => 'cloud',
+     'blurb' => 'Queues, retries and an auditable run history.',
+     'items' => [
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'Jenkins', 'logo' => 'jenkins'],
+         ['name' => 'GitHub Actions', 'logo' => 'githubactions'],
+     ]],
+];
+
 $faqs = [['How is Cognitive RPA different from traditional RPA tools like UiPath?', 'Traditional RPA relies on rigid element coordinates and XPath selectors that break whenever a UI updates. Cognitive RPA combines computer vision and multimodal LLMs to understand the screen visually and semantically like a human operator, making it resilient to UI changes.'], ['Can Cognitive RPA automate legacy desktop applications and terminal emulators?', 'Yes. We automate legacy Windows desktop applications, AS/400 terminal emulators, SAP GUI, and Citrix virtual desktop sessions using vision-driven OCR and keyboard/mouse emulation.'], ['What is the difference between Attended and Unattended RPA bots?', "Attended bots run on an employee's local machine, acting as a copilot that assists with tasks on demand. Unattended bots run autonomously on background virtual machines to process high-volume batch queues 24/7."], ['How do Cognitive RPA bots handle unstructured invoices and scanned documents?', 'Bots use multimodal OCR and layout-aware vision models to extract tabular data, line items, and totals directly into structured JSON, verifying sums against database records before saving.'], ['How do you securely manage passwords and credentials for bots?', 'Bots retrieve short-lived credentials from encrypted enterprise key vaults (such as HashiCorp Vault or AWS Secrets Manager). Passwords are never hardcoded or exposed in logs.'], ['What happens if a website displays a CAPTCHA or unexpected popup?', 'Our bots utilize cognitive vision reasoning to recognize and handle routine popups gracefully. For high-security CAPTCHAs, the bot can escalate to a human operator or solve approved accessibility challenges.'], ['How do bots handle sudden changes in web page layouts?', 'Our bots use semantic vision anchors and multi-modal grounding rather than rigid XPaths. If a button moves to a new location or changes color, the bot visually locates it by its semantic label and intent.'], ['Can Cognitive RPA integrate directly with backend databases and APIs?', 'Yes. When APIs are available, bots execute direct REST/SQL calls for maximum speed, and switch to visual UI automation only when interacting with legacy frontends.'], ['How do you ensure enterprise compliance and auditability for RPA actions?', 'Every bot action, keystroke, and database modification is recorded in immutable audit logs. We can also record encrypted video sessions of bot executions for compliance audits.'], ['How long does it take to develop and deploy a Cognitive RPA bot?', 'A single high-impact cognitive bot is typically operational in 2 to 3 weeks. Comprehensive enterprise multi-bot fleet rollouts take 4 to 6 weeks.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('15', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('15', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('15', 6, 1), svc_img('15', 6, 2), svc_img('15', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

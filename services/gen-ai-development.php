@@ -32,6 +32,35 @@ $models = [['01', 'Proof of Concept Model Tuning', 'A 3-week sprint fine-tuning 
 
 $techStack = ['PyTorch', 'Hugging Face', 'vLLM', 'TensorRT-LLM', 'Triton Inference Server', 'LangChain', 'DeepSpeed', 'Kubernetes', 'NVIDIA GPUs'];
 
+$pageStack = [
+    ['slug' => 'models', 'title' => 'Models & Frameworks', 'icon' => 'brain',
+     'blurb' => 'What the generation runs on, and the harness around it.',
+     'items' => [
+         ['name' => 'PyTorch', 'logo' => 'pytorch'],
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'TensorFlow', 'logo' => 'tensorflow'],
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'data', 'title' => 'Grounding & Data', 'icon' => 'database',
+     'blurb' => 'The corpus a generated answer is checked against.',
+     'items' => [
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'OpenSearch', 'logo' => 'opensearch'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'pandas', 'logo' => 'pandas'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Platform & Operations', 'icon' => 'cloud',
+     'blurb' => 'Where it runs and what proves it still works.',
+     'items' => [
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'AWS', 'logo' => 'amazonwebservices'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['What is the difference between Generative AI fine-tuning and RAG?', 'RAG (Retrieval-Augmented Generation) injects dynamic contextual documents into a generic model prompt at runtime, while Fine-Tuning fundamentally modifies the model weights so it learns domain vocabulary, tone, and complex reasoning patterns directly. We frequently combine both: a fine-tuned domain model querying an enterprise vector database.'], ['How do you prevent hallucinations in Generative AI applications?', 'We implement multi-layered safeguards: temperature minimization, schema-constrained decoding (e.g., Guidance, Outlines), citation-enforced retrieval, and secondary validator models that verify all factual assertions before delivering output.'], ['Can you deploy Generative AI models inside our private cloud or on-premise servers?', 'Yes. 100% of our enterprise Generative AI deployments can be hosted inside your private AWS, Azure, GCP VPCs or on-premise air-gapped GPU servers (using Kubernetes and vLLM/TensorRT) with zero outbound internet connectivity.'], ['How much training data is required to fine-tune a domain model?', 'With parameter-efficient fine-tuning (LoRA/QLoRA), high-quality domain adaptation can be achieved with as few as 1,000 to 10,000 meticulously formatted instruction pairs. We also synthesize high-quality training data from your raw historical documents.'], ['What hardware and GPU infrastructure is required to run self-hosted models?', 'Quantized 7B to 14B parameter models run with ultra-low latency on single commercial GPUs (e.g., NVIDIA L4, A10G, or RTX 4090), while 70B parameter models require multi-GPU nodes (such as 2x to 4x NVIDIA A100/H100). We right-size the architecture to minimize cloud bills.'], ['How do fine-tuned models compare to GPT-4 in performance?', 'On generalized open-ended knowledge, frontier models excel; however, on specific enterprise tasks (such as medical diagnosis coding, financial ledger classification, or proprietary code syntax), a tailored 8B or 70B model routinely matches or exceeds GPT-4 while running at 85% lower cost.'], ['What multimodal capabilities can you build into Generative AI systems?', 'We build systems capable of processing and generating text, high-resolution imagery, audio voice streams, tabular financial data, and complex PDF blueprints in unified cognitive workflows.'], ['How do you handle data privacy and copyright considerations?', 'All models are trained exclusively on your licensed enterprise data and permissible open-source foundation weights. Your corporate IP remains strictly yours, with full legal and copyright indemnification frameworks.'], ['What is the average timeline to build and deploy a custom Generative AI solution?', 'A focused Proof of Concept is delivered in 2 to 3 weeks, while a full-scale enterprise production platform typically ships in 6 to 10 weeks.'], ['Do you provide continuous monitoring and model retraining?', 'Yes. Our AgentOps and MLOps telemetry infrastructure monitors prompt drift, latency anomalies, token costs, and user feedback in real-time, triggering automated retraining pipelines as new data is ingested.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +187,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('02', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +239,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('02', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +270,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('02', 6, 1), svc_img('02', 6, 2), svc_img('02', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +358,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

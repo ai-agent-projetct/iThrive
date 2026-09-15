@@ -32,6 +32,33 @@ $models = [['01', 'Multi-Agent Swarm PoC', 'A 3-week sprint building a functiona
 
 $techStack = ['LangGraph', 'AutoGen', 'CrewAI', 'Python', 'gRPC', 'Redis', 'Kafka', 'Qdrant', 'LangSmith', 'Docker'];
 
+$pageStack = [
+    ['slug' => 'orchestration', 'title' => 'Orchestration', 'icon' => 'network',
+     'blurb' => 'The state machine that owns a run, and can halt it.',
+     'items' => [
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'Python', 'logo' => 'python'],
+         ['name' => 'Celery', 'logo' => 'celery'],
+         ['name' => 'Airflow', 'logo' => 'apacheairflow'],
+     ]],
+    ['slug' => 'models', 'title' => 'Models per Role', 'icon' => 'brain',
+     'blurb' => 'A different model per role where that earns its cost.',
+     'items' => [
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'PyTorch', 'logo' => 'pytorch'],
+         ['name' => 'TensorFlow', 'logo' => 'tensorflow'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Runtime & Traces', 'icon' => 'cloud',
+     'blurb' => 'Replayable runs, because the system is not deterministic.',
+     'items' => [
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['What is Multi-Agent Orchestration and why is it better than a single agent?', 'Multi-Agent Orchestration coordinates multiple specialized AI agents working together toward a common goal. Instead of overloading a single prompt with too many instructions, each agent specializes in one specific discipline (e.g., Planner, Researcher, Coder, Critic). This modularity prevents context overload, reduces hallucinations, and enables parallel task execution.'], ['How do agents communicate and share context with one another?', "Agents communicate through structured message-passing protocols over a shared state graph (such as LangGraph's state dictionary) or distributed message queues (Kafka, Redis, gRPC). They exchange structured JSON payloads containing task status, findings, and next-step recommendations."], ['How do you prevent multi-agent swarms from getting stuck in infinite loops or deadlocks?', 'We implement deterministic graph state machines with strict turn counters, semantic convergence checks, and automated circuit breakers. If agents fail to reach consensus within a configured threshold, the supervisor invokes a fallback resolution or alerts a human operator.'], ['What is the role of a Critic or Auditor agent in a multi-agent swarm?', 'A Critic agent acts as an automated quality inspector. It receives the draft output produced by worker agents, evaluates it against predefined business rules, syntax guidelines, or citation facts, and either approves the output or sends it back with actionable feedback for correction.'], ['How do you manage compute and token costs across multi-agent systems?', 'We use hierarchical model routing: lightweight, low-cost SLMs (e.g., Llama 3 8B or Claude Haiku) handle simple extraction and routing sub-tasks, while frontier models (e.g., Claude 3.5 Sonnet or GPT-4o) are invoked only for complex strategic reasoning and final synthesis.'], ['Can multi-agent swarms execute actions in parallel?', 'Yes. LangGraph and asynchronous Python allow the supervisor agent to fan out multiple independent sub-tasks concurrently across dozens of worker nodes, reducing end-to-end execution time by up to 90%.'], ['How do you monitor and debug complex multi-agent interactions in real time?', 'We integrate LangSmith, Phoenix Arize, and OpenTelemetry to provide visual execution graphs, message traces, latency breakdowns, and token cost metrics for every single agent interaction.'], ['Can we integrate agents built on different frameworks (e.g., LangGraph and AutoGen)?', 'Yes. We build standardized Model Context Protocol (MCP) and REST/gRPC wrappers around individual agents, allowing heterogeneous agents across different frameworks to collaborate seamlessly.'], ['How does human-in-the-loop work in a multi-agent system?', "The orchestration graph can include dedicated Human-in-the-Loop checkpoint nodes where execution pauses, serializes its state, and waits for a manager's review via Slack, Microsoft Teams, or a custom web dashboard before proceeding."], ['How long does it take to engineer and deploy an enterprise multi-agent swarm?', 'A 3-agent proof of concept is typically operational in 3 to 4 weeks, while complex enterprise swarms with extensive API integrations require 6 to 8 weeks.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('10', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('10', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('10', 6, 1), svc_img('10', 6, 2), svc_img('10', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

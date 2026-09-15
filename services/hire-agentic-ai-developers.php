@@ -32,6 +32,33 @@ $models = [['01', 'Dedicated AI Specialist (1 Developer)', 'A dedicated full-tim
 
 $techStack = ['LangGraph', 'Python', 'PyTorch', 'vLLM', 'Qdrant', 'FastAPI', 'TypeScript', 'Docker', 'Kubernetes', 'MCP'];
 
+$pageStack = [
+    ['slug' => 'languages', 'title' => 'Languages', 'icon' => 'code',
+     'blurb' => 'What our engineers write in your repository.',
+     'items' => [
+         ['name' => 'Python', 'logo' => 'python'],
+         ['name' => 'TypeScript', 'logo' => 'typescript'],
+         ['name' => 'Go', 'logo' => 'go'],
+         ['name' => 'Java', 'logo' => 'openjdk'],
+     ]],
+    ['slug' => 'ai', 'title' => 'AI Specialisms', 'icon' => 'brain',
+     'blurb' => 'Retrieval, orchestration, evaluation and inference cost.',
+     'items' => [
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'PyTorch', 'logo' => 'pytorch'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Delivery', 'icon' => 'cloud',
+     'blurb' => 'Your pipeline, your review process, your accounts.',
+     'items' => [
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'GitHub Actions', 'logo' => 'githubactions'],
+     ]],
+];
+
 $faqs = [['How quickly can a dedicated Agentic AI developer join our team?', 'We match and onboard pre-vetted developers within 48 to 72 hours. You interview the candidates directly and they can begin writing code on your next sprint.'], ['How do you vet and evaluate your AI engineers?', 'Our rigorous 4-stage vetting process evaluates algorithmic problem solving, hands-on LangGraph state machine development, vector search architecture, and live system design challenges. Only the top 1% of applicants are selected.'], ['What timezone will our dedicated AI developer work in?', 'Our developers provide 100% timezone overlap with your team across North America, Europe, India, and APAC. They participate in your daily standups, sprint planning, and Slack channels.'], ['Do we own the intellectual property (IP) and code written by the developers?', 'Yes. You maintain 100% ownership of all source code, models, prompts, datasets, and intellectual property produced during the engagement.'], ['Can we hire a single engineer or an entire squad?', 'Both. You can hire a single specialized developer (e.g., a LangGraph expert) or scale up to a full cross-functional AI squad (Architect, ML Engineer, Backend Developer, and QA).'], ['What happens if a developer is not the right fit for our project?', 'We offer a 14-day zero-risk trial period. If you feel the candidate is not the perfect fit, we will replace them immediately at no additional cost.'], ['What AI tools and frameworks are your developers experienced in?', 'Our developers specialize in LangGraph, Model Context Protocol (MCP), PyTorch, vLLM, LlamaIndex, Qdrant, Milvus, Hugging Face, FastAPI, Docker, and Kubernetes.'], ['How does billing and contract duration work?', 'We operate on straightforward monthly billing with no long-term lock-in. You can scale your team up or down with a standard 30-day notice.'], ['Will the developer work exclusively on our project?', 'Yes. All our dedicated developers work 100% exclusively on your project full-time (40 hours per week) with no split focus on other clients.'], ['Can your developers work within our secure private cloud or on-premise repositories?', 'Yes. Our engineers adhere to enterprise security protocols, connecting via your corporate VPN, hardware tokens, and private GitHub/GitLab organizations with strict NDA compliance.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('16', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('16', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('16', 6, 1), svc_img('16', 6, 2), svc_img('16', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

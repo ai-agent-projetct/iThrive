@@ -32,6 +32,33 @@ $models = [['01', 'Agentic Strategy Sprint', 'A 2-week intensive advisory engage
 
 $techStack = ['LangGraph', 'MCP (Model Context Protocol)', 'AutoGen', 'CrewAI', 'LlamaIndex', 'NeMo Guardrails', 'OpenTelemetry', 'Docker', 'AWS Bedrock', 'vLLM'];
 
+$pageStack = [
+    ['slug' => 'analysis', 'title' => 'Measurement & Analysis', 'icon' => 'bar-chart',
+     'blurb' => 'Timing the process before proposing to automate it.',
+     'items' => [
+         ['name' => 'Python', 'logo' => 'python'],
+         ['name' => 'pandas', 'logo' => 'pandas'],
+         ['name' => 'scikit-learn', 'logo' => 'scikitlearn'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+     ]],
+    ['slug' => 'models', 'title' => 'Models & Evaluation', 'icon' => 'brain',
+     'blurb' => 'Benchmarked on your tasks, not on a public leaderboard.',
+     'items' => [
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'PyTorch', 'logo' => 'pytorch'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Target Platform', 'icon' => 'cloud',
+     'blurb' => 'Where the recommendation would actually be deployed.',
+     'items' => [
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'AWS', 'logo' => 'amazonwebservices'],
+         ['name' => 'Azure', 'logo' => 'azure'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['What is the fundamental difference between standard GenAI and Agentic AI?', 'Standard Generative AI responds passively to a single prompt with text. Agentic AI operates autonomously by reasoning, planning multi-step actions, maintaining persistent memory, calling external software tools/APIs, evaluating its own results, and executing until a goal is achieved.'], ['What is Model Context Protocol (MCP) and why is it central to your strategy?', 'Model Context Protocol (MCP) is an open standard created by Anthropic that standardizes how AI agents securely discover and interact with external data sources and tools. It prevents vendor lock-in and allows seamless integration with enterprise systems without rewriting custom glue code.'], ['Which agentic framework do you recommend: LangGraph, AutoGen, or CrewAI?', 'For deterministic enterprise production, we predominantly architect with LangGraph because its cyclic graph state machine provides deterministic control, human-in-the-loop checkpointing, and fault tolerance. AutoGen and CrewAI are excellent for conversational simulation and rapid role-playing prototyping.'], ['How do you prevent autonomous agents from making catastrophic errors or looping infinitely?', 'We implement deterministic guardrails, maximum recursion depth limits, schema-validated JSON outputs, and automated reflection critic nodes. Any action exceeding predefined risk or cost thresholds requires mandatory human sign-off.'], ['How do you handle data security when agents interact with enterprise databases?', 'We design read-only replicas, schema-restricted service accounts, and tool execution sandboxes. Agents never receive raw database credentials; all actions pass through an authenticated MCP gateway with comprehensive audit logging.'], ['How do you model the ROI and compute costs of multi-agent swarms?', 'We simulate the average agent steps, token input/output volumes, model routing strategies (using smaller SLMs for routing and larger LLMs for complex reasoning), and quantify labor hours saved to deliver a predictable unit cost per resolved task.'], ['What is the role of human-in-the-loop (HITL) in an autonomous agentic architecture?', 'Human-in-the-loop provides confidence-based escalation gates. Routine low-risk actions execute autonomously at lightspeed, while high-risk decisions (financial transfers, database modifications, contract approvals) trigger immediate review requests to human operators via Slack or Teams.'], ['Can we deploy agentic AI swarms within our private VPC or on-premise cloud?', 'Yes. We design architectures that run on self-hosted open-weights models (such as Llama 3, Mistral, and DeepSeek) using vLLM or Ollama on private Kubernetes clusters inside your AWS, Azure, or GCP VPC.'], ['How long does an Agentic AI strategy engagement take?', 'Our focused Agentic Strategy Sprint takes 2 weeks, while a comprehensive multi-department enterprise swarm architecture audit takes 3 to 4 weeks.'], ['Do you provide the engineering teams to implement the strategy?', 'Yes. iThrive provides end-to-end capabilities from high-level agentic advisory to specialized LangGraph engineering squads that build, test, and deploy the entire autonomous system into production.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('07', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('07', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('07', 6, 1), svc_img('07', 6, 2), svc_img('07', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

@@ -32,6 +32,33 @@ $models = [['01', 'Omnichannel Web & WhatsApp Bot', 'Production text chatbot int
 
 $techStack = ['Twilio / Exotel', 'Sarvam AI', 'LiveKit', 'Whisper', 'FastAPI', 'LangGraph', 'PostgreSQL', 'Redis', 'WebSockets'];
 
+$pageStack = [
+    ['slug' => 'models', 'title' => 'Models & Retrieval', 'icon' => 'brain',
+     'blurb' => 'What answers, and what it answers from.',
+     'items' => [
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'channels', 'title' => 'Channels & Interface', 'icon' => 'message',
+     'blurb' => 'Web, in-app and messaging, off one backend.',
+     'items' => [
+         ['name' => 'FastAPI', 'logo' => 'fastapi'],
+         ['name' => 'Node.js', 'logo' => 'nodedotjs'],
+         ['name' => 'React', 'logo' => 'react'],
+         ['name' => 'TypeScript', 'logo' => 'typescript'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Platform & Operations', 'icon' => 'cloud',
+     'blurb' => 'Session state, deployment and the metrics that matter.',
+     'items' => [
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['How realistic do your AI voicebots sound over phone calls?', 'Our voicebots achieve human-grade naturalness with sub-400ms end-to-end audio latency, expressive prosody, dynamic pauses, and full-duplex interruption handling that stops speaking immediately when the user speaks.'], ['Which messaging platforms and channels do you support?', 'We deploy conversational agents across WhatsApp Business API, Web widgets, iOS & Android mobile SDKs, Facebook Messenger, Telegram, Instagram DMs, and standard telephone lines (PSTN/SIP).'], ['Can the bot access our private customer database to check order status?', 'Yes. Our bots utilize secure tool-calling contracts to query your internal databases, ERPs, and OMS in real time, securely retrieving order tracking, invoice details, and account balances.'], ['How does the bot handle regional Indian languages and accents?', 'We integrate advanced phonetic speech models (including Sarvam AI and Whisper Indic) fine-tuned on regional dialects, supporting English, Hindi, Tamil, Telugu, Kannada, Malayalam, Marathi, Bengali, and Gujarati.'], ['What happens when a customer asks a question the bot cannot answer?', 'The bot gracefully summarizes the conversation history, flags the intent confidence score, and routes the caller to a live human agent with the transcript pre-loaded on their screen.'], ['Is customer voice and chat data encrypted and compliant?', 'Yes. All data streams are encrypted with TLS 1.3 in transit and AES-256 at rest. Sensitive PII, credit card numbers, and passwords are automatically masked before logging, adhering to PCI-DSS, SOC 2, and GDPR.'], ['Can the chatbot take customer payments directly in chat?', 'Yes. We integrate secure payment gateway webhooks (Stripe, Razorpay, UPI deep-links) enabling customers to complete purchases and pay invoices directly within WhatsApp or web chat.'], ['How long does it take to train the chatbot on our company knowledge?', 'Using our high-speed vector ingestion pipeline, we can index hundreds of company PDF manuals, FAQs, and help center articles in less than 48 hours.'], ['Can the bot handle cold outreach and inbound sales qualification calls?', 'Yes. Our voice agents are widely deployed for outbound lead follow-up, webinar reminders, abandoned cart re-engagement, and inbound qualification with direct calendar scheduling.'], ['How are pricing and operational token costs structured for conversational bots?', 'We offer transparent models: fixed engineering setup and deployment tiers with predictable infrastructure costs, minimizing token overhead through semantic caching.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('03', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('03', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('03', 6, 1), svc_img('03', 6, 2), svc_img('03', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

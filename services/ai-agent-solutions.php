@@ -32,6 +32,33 @@ $models = [['01', 'Departmental Agent Solution', 'Deploy a complete turnkey agen
 
 $techStack = ['LangGraph', 'Python', 'Salesforce API', 'SAP Connector', 'HubSpot', 'Jira API', 'Twilio Voice', 'Qdrant', 'Docker', 'Kubernetes'];
 
+$pageStack = [
+    ['slug' => 'agents', 'title' => 'Archetype Runtime', 'icon' => 'rocket',
+     'blurb' => 'The proven agent, configured against your systems.',
+     'items' => [
+         ['name' => 'LangChain', 'logo' => 'langchain'],
+         ['name' => 'OpenAI', 'logo' => 'openai'],
+         ['name' => 'Anthropic', 'logo' => 'anthropic'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'data', 'title' => 'Your Data', 'icon' => 'database',
+     'blurb' => 'Pointed at your records, your terminology, your thresholds.',
+     'items' => [
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+         ['name' => 'OpenSearch', 'logo' => 'opensearch'],
+         ['name' => 'MongoDB', 'logo' => 'mongodb'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Deployment', 'icon' => 'cloud',
+     'blurb' => 'Live in days because the build is already done.',
+     'items' => [
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'AWS', 'logo' => 'amazonwebservices'],
+         ['name' => 'Grafana', 'logo' => 'grafana'],
+     ]],
+];
+
 $faqs = [['What makes an AI Agent Solution different from standard SaaS software?', 'Standard SaaS software requires manual human operation and rigid button-clicking. An AI Agent Solution acts as an autonomous digital worker that reasons, plans, executes multi-step workflows, interacts with multiple software systems simultaneously, and solves problems with minimal human intervention.'], ['Can we deploy your pre-built agent solutions into our existing software stack?', 'Yes. Our agent solutions connect directly to your existing tools (Salesforce, HubSpot, Jira, SAP, Zendesk, Slack, GitHub) via secure APIs without requiring you to replace your current tech stack.'], ['How quickly can an enterprise deploy an AI agent solution?', 'Our pre-built agent archetypes (such as Sales SDRs, customer triage, and code review agents) can be integrated and live in your sandbox within 48 to 72 hours. Custom domain integrations typically take 2 to 3 weeks.'], ['How do voice SDR agents handle phone conversations with customers?', 'Our voice SDR agents operate with sub-400ms latency, natural speech cadence, and real-time interruption handling. They qualify prospect interest, answer technical questions from your knowledge base, and book meetings directly into your calendar.'], ['How do financial ledger agents ensure zero calculation errors?', 'Financial agents do not rely on probabilistic LLM math. They use deterministic Python scripts, SQL verification queries, and strict three-way matching algorithms to validate all financial calculations before logging transactions.'], ['What happens when an agent encounters an edge case it cannot solve?', 'The agent uses automated confidence scoring. If confidence drops below a set threshold, it gracefully pauses and sends a detailed briefing with recommended actions to a human supervisor via Slack or Teams.'], ['Are your agent solutions compliant with SOC 2, HIPAA, and GDPR regulations?', 'Yes. We implement end-to-end encryption, strict zero-retention data policies, granular RBAC access controls, and comprehensive immutable audit logging.'], ['How many autonomous agents can run simultaneously in an enterprise?', 'Our architecture supports elastic horizontal scaling to N agents. You can run 5 agents or 500 agents concurrently handling millions of events with automated load balancing.'], ['Can we customize the personality, tone, and guardrails of the agents?', 'Yes. We fully configure system prompts, brand guidelines, tone of voice, terminology glossaries, and deterministic safety rules to match your company culture.'], ['What ongoing support and maintenance do you provide after deployment?', 'We provide 24/7 AgentOps monitoring, latency and hallucination tracking, prompt fine-tuning, automated error recovery, and monthly architecture optimization reviews.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('09', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('09', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('09', 6, 1), svc_img('09', 6, 2), svc_img('09', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 

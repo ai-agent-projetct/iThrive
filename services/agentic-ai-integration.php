@@ -32,6 +32,33 @@ $models = [['01', 'MCP Gateway Sprint', 'A 3-week sprint developing and deployin
 
 $techStack = ['Model Context Protocol (MCP)', 'FastAPI', 'Go', 'gRPC', 'Kafka', 'Debezium', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes'];
 
+$pageStack = [
+    ['slug' => 'integration', 'title' => 'Contract Layer', 'icon' => 'workflow',
+     'blurb' => 'One typed surface in front of every system.',
+     'items' => [
+         ['name' => 'FastAPI', 'logo' => 'fastapi'],
+         ['name' => 'Node.js', 'logo' => 'nodedotjs'],
+         ['name' => 'GraphQL', 'logo' => 'graphql'],
+         ['name' => 'Python', 'logo' => 'python'],
+     ]],
+    ['slug' => 'systems', 'title' => 'Systems of Record', 'icon' => 'database',
+     'blurb' => 'The ERP, CRM and databases the agent reaches.',
+     'items' => [
+         ['name' => 'PostgreSQL', 'logo' => 'postgresql'],
+         ['name' => 'MySQL', 'logo' => 'mysql'],
+         ['name' => 'MongoDB', 'logo' => 'mongodb'],
+         ['name' => 'Redis', 'logo' => 'redis'],
+     ]],
+    ['slug' => 'platform', 'title' => 'Delivery & Operations', 'icon' => 'cloud',
+     'blurb' => 'Scoped credentials, idempotent writes, a full trail.',
+     'items' => [
+         ['name' => 'Docker', 'logo' => 'docker'],
+         ['name' => 'Kubernetes', 'logo' => 'kubernetes'],
+         ['name' => 'Terraform', 'logo' => 'terraform'],
+         ['name' => 'GitHub Actions', 'logo' => 'githubactions'],
+     ]],
+];
+
 $faqs = [['What is Model Context Protocol (MCP) and why is it essential for agent integration?', 'Model Context Protocol (MCP) is an open standard that unifies how AI models and agents securely connect to external tools, databases, and enterprise systems. It provides a standardized client-server protocol, eliminating the need to write fragile custom integrations for every new agent or LLM.'], ["How do you ensure agents don't accidentally corrupt or delete production database records?", 'We enforce strict security controls: read-only database replicas for data queries, parameterized queries that eliminate SQL injection, schema-level permission boundaries, and atomic transaction wrappers that automatically rollback on error.'], ['Can you connect autonomous AI agents to legacy on-premise ERP systems like SAP or AS/400?', 'Yes. We deploy lightweight sidecar proxies and message queues inside your secure network that translate modern REST/gRPC/MCP agent requests into legacy RPC, SOAP, or database protocols.'], ['How do agents receive real-time updates when data changes in our CRM or database?', 'We configure Change Data Capture (CDC) pipelines using Debezium and Kafka. When a record changes in your database or CRM, a webhook or event is published immediately to the agentic event mesh.'], ['How do you manage authentication and API keys for AI agents?', 'Agents authenticate via an OAuth2/mTLS token broker that generates short-lived, least-privilege access tokens. Agents never see master secrets or root credentials.'], ['What latency does your agentic middleware add to tool execution?', 'Our Go and FastAPI middleware proxies are engineered for high-concurrency enterprise workloads, adding less than 20ms of overhead to tool calls.'], ['Can your integration handle high-volume batch processing across millions of records?', 'Yes. We implement asynchronous worker pools and Redis task queues that process millions of records in parallel with automatic rate-limit throttling to prevent downstream system overload.'], ['How do you redact sensitive customer PII before sending context to AI agents?', 'Our middleware includes an automated PII redaction layer that masks credit card numbers, social security numbers, and health records in real time before data enters the agent context.'], ['Can we deploy the agentic integration layer inside our private cloud?', 'Yes. All MCP servers, gateways, and message brokers are fully containerized with Docker and Helm charts for seamless deployment inside your AWS, Azure, GCP VPC, or on-premise data center.'], ['How long does it take to integrate an autonomous agent with our enterprise systems?', 'Standard integrations for popular systems (Salesforce, PostgreSQL, Jira, Slack) take 1 to 2 weeks. Custom legacy ERP or proprietary database integrations typically take 3 to 4 weeks.']];
 
 /** Schema.org Structured Data with FAQPage & Service */
@@ -158,8 +185,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-cards-grid">
-        <?php foreach ($disciplines as [$num, $dTitle, $dDesc]): ?>
-          <article class="svc-card">
+        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
+          <?php $fig = svc_img('11', 3, $i + 1); ?>
+          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($dTitle) ?></h3>
             <p><?= e($dDesc) ?></p>
@@ -203,8 +237,15 @@ require dirname(__DIR__) . '/includes/header.php';
       </div>
 
       <div class="svc-benefits-grid">
-        <?php foreach ($benefits as [$num, $bTitle, $bDesc]): ?>
-          <div class="svc-benefit-card">
+        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
+          <?php $fig = svc_img('11', 5, $i + 1); ?>
+          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
+            <?php if ($fig): ?>
+              <figure class="svc-card-fig">
+                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
+                     loading="lazy" decoding="async">
+              </figure>
+            <?php endif; ?>
             <span class="svc-card-num"><?= e($num) ?></span>
             <h3><?= e($bTitle) ?></h3>
             <p><?= e($bDesc) ?></p>
@@ -227,12 +268,31 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
+      <div class="svc-roadmap" data-roadmap aria-hidden="true">
+        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+          <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
+        <?php endforeach; ?>
+      </div>
+
+      <?php
+      $s6 = array_filter([svc_img('11', 6, 1), svc_img('11', 6, 2), svc_img('11', 6, 3)]);
+      ?>
+      <?php if ($s6): ?>
+        <div class="svc-s6-strip">
+          <?php foreach ($s6 as $src): ?>
+            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
+                         loading="lazy" decoding="async"></figure>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
       <div class="svc-steps-grid">
         <?php 
         $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
         foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
         ?>
-          <div class="svc-step-card">
+          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
             <div class="svc-step-header">
               <span class="svc-step-phase">Phase <?= e($num) ?></span>
               <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
@@ -296,11 +356,7 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
-      <ul class="svc-stack-pills">
-        <?php foreach ($techStack as $tech): ?>
-          <li><?= e($tech) ?></li>
-        <?php endforeach; ?>
-      </ul>
+      <?php component('tech-stack', ['groups' => $pageStack]); ?>
     </div>
   </section>
 
