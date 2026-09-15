@@ -317,6 +317,24 @@
     });
     resizeObserver.observe(container);
 
+    // 7b. Companion hook
+    //
+    // Anything that wants to place its own content inside this galaxy's 3D
+    // space — see galaxy-nodes.js, which hangs real <a> elements on the disc —
+    // needs the camera and the live rotation, and neither is otherwise
+    // reachable from out here. Exposed as getters so the reader always sees the
+    // current frame's values rather than a stale copy.
+    //
+    // Purely additive: nothing below consumes it, and a page without a
+    // companion script behaves exactly as it did before.
+    container.galaxyView = {
+      THREE,
+      camera,
+      get rotY() { return currentRotY; },
+      get rotX() { return currentRotX; },
+      get dragging() { return isDragging; },
+    };
+
     // 8. Animation Loop
     const clock = new THREE.Clock();
     let isVisible = true;

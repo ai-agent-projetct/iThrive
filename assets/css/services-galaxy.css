@@ -379,3 +379,89 @@
     min-height: 380px;
   }
 }
+
+/* ==========================================================================
+   Clickable section nodes inside the galaxy
+   Used by services/hire-agentic-ai-developers.php via galaxy-nodes.js.
+   services.php has no such markup, so none of this applies there.
+   ========================================================================== */
+
+/* Fallback first, enhancement second. Before galaxy-nodes.js takes over — and
+   forever, if WebGL is unavailable, motion is reduced, or the script is
+   blocked — this is a plain centred row of in-page links. Every section of the
+   page stays reachable with no JavaScript at all. */
+.svc-galaxy-nodes {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 10px;
+  padding: 24px;
+  height: 100%;
+  pointer-events: none;
+}
+
+.svc-galaxy-node {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 242, 254, 0.28);
+  background: rgba(8, 13, 24, 0.82);
+  backdrop-filter: blur(9px);
+  color: #EAF0FA;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
+}
+
+.svc-galaxy-node-idx {
+  font-size: 10px;
+  font-weight: 700;
+  color: #00F2FE;
+  opacity: .85;
+}
+
+.svc-galaxy-node:hover,
+.svc-galaxy-node:focus-visible {
+  border-color: rgba(0, 242, 254, 0.75);
+  background: rgba(12, 22, 38, 0.94);
+  box-shadow: 0 0 0 1px rgba(0, 242, 254, .3), 0 10px 30px rgba(0, 0, 0, .55);
+}
+
+/* Keyboard focus must never be lost behind the canvas or clipped by a
+   transform, so it wins the stacking order outright. */
+.svc-galaxy-node:focus-visible {
+  outline: 2px solid #00F2FE;
+  outline-offset: 3px;
+  z-index: 2000 !important;
+}
+
+/* Once the script is driving, the row becomes a 3D field: the layer stops
+   laying anything out and each node is positioned absolutely by transform. */
+.svc-galaxy-nodes.is-live {
+  display: block;
+  padding: 0;
+  position: absolute;
+  inset: 0;
+}
+
+.svc-galaxy-nodes.is-live .svc-galaxy-node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform, opacity;
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .svc-galaxy-node { font-size: 11.5px; padding: 7px 12px; }
+}

@@ -102,155 +102,107 @@ $schema = [
         ]
     ]
 ];
-
+/* ---------------------------------------------------------------------------
+ * The galaxy treatment
+ *
+ * This page is built like services.php: the same stylesheets in the same order
+ * (galaxy first, then the service design system, whose tokens the roadmap,
+ * step cards, tech stack and FAQ below still rely on) and the same WebGL
+ * engine.
+ *
+ * galaxy-nodes.js is the addition. On services.php the galaxy is decorative
+ * and the links sit in a flat grid beneath it; here each section of this page
+ * is a marker on the disc that turns with it and is clickable. Those markers
+ * are real anchors, so without the script they stay a plain row of in-page
+ * links and every section remains reachable.
+ * ------------------------------------------------------------------------ */
 $extraHead = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
     . '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
     . 'family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700'
     . '&family=Space+Grotesk:wght@500;600;700;800&display=swap">'
+    . '<link rel="stylesheet" href="' . e(asset('assets/css/services-galaxy.css')) . '">'
     . '<link rel="stylesheet" href="' . e(asset('assets/css/service-custom.css')) . '">'
-    . '<link rel="stylesheet" href="' . e(asset('assets/css/svc-theme.css')) . '">';
-$GLOBALS['ithrive_needs_svc3d'] = true;
+    . '<script type="module" src="' . e(asset('assets/js/framer-galaxy.js')) . '"></script>'
+    . '<script type="module" src="' . e(asset('assets/js/galaxy-nodes.js')) . '"></script>';
+
+/** The sections a visitor can fly to from inside the galaxy. */
+$galaxyNodes = [
+    ['advantage',   'Why Hire Here'],
+    ['disciplines', 'Six Roles'],
+    ['benefits',    'Advantages'],
+    ['process',     'Hiring Roadmap'],
+    ['models',      'Engagement'],
+    ['stack',       'Tech Stack'],
+    ['faq',         'FAQs'],
+];
 
 require dirname(__DIR__) . '/includes/header.php';
 ?>
 
-<div class="svc-page" data-theme="team">
+<?php /* Both classes: the galaxy look, plus .svc-page so the design tokens the
+         roadmap and card blocks below are written against still resolve. */ ?>
+<div class="svc-galaxy-page svc-page">
 
   <!-- =========================================================================
-       HERO SECTION: Cyber Eyebrow, Gradient Headline & Action CTAs
+       HERO: galaxy stage with one clickable marker per section
        ========================================================================= -->
-  <section class="svc-hero">
-    <div class="svc-shell svc-hero-inner">
-      <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Top 1% Agentic Engineers · 48-Hour Onboarding</p>
+  <section class="svc-galaxy-hero">
+    <div class="shell" style="text-align:center;">
+      <div class="svc-pill-badge" data-reveal>
+        <span class="svc-pill-dot"></span>
+        <span class="svc-pill-text">TOP 1% AGENTIC ENGINEERS · 48-HOUR ONBOARDING</span>
+      </div>
 
-      <h1 class="svc-h1">
-        Hire Dedicated Agentic AI Developers For<br><em>High-Velocity Production AI</em>
+      <h1 class="svc-hero-title" data-reveal style="--d:1">
+        Hire Dedicated Agentic AI Developers
       </h1>
 
-      <p class="svc-lead">
-        Hire pre-vetted top 1% Agentic AI engineers, LangGraph specialists, PyTorch researchers, and AI systems architects ready to deploy into your sprint within 48 hours.
+      <p class="svc-hero-lead" data-reveal style="--d:2">
+        Pre-vetted top 1% Agentic AI engineers, LangGraph specialists, PyTorch researchers
+        and AI systems architects, ready to deploy into your sprint within 48 hours.
       </p>
 
-      <div class="svc-actions svc-actions--mid">
-        <button class="svc-btn svc-btn--primary" type="button"
-                data-modal-open data-modal-service="Hire Dedicated Agentic AI Developers & Autonomous Swarm Engineers">
-          Consult Our AI Architects<?= icon('arrow') ?>
-        </button>
-        <a class="svc-btn svc-btn--ghost" href="#disciplines">Explore 6 Core Disciplines</a>
+      <div class="svc-hero-ctas" data-reveal style="--d:3">
+        <a class="svc-btn-primary" href="<?= e(url('contact.php')) ?>">
+          Hire an AI Engineer <?= icon('arrow') ?>
+        </a>
+        <a class="svc-btn-secondary" href="#disciplines">Explore 6 Specialist Roles</a>
+        <a class="svc-btn-secondary" href="tel:+919384564915">Call: +91 93845 64915</a>
       </div>
 
-      <!-- 4 KPI Metrics -->
-      <ul class="svc-stats">
-        <?php foreach ($stats as [$val, $lbl]): ?>
-          <li class="svc-stat-card">
-            <strong><?= e($val) ?></strong>
-            <span><?= e($lbl) ?></span>
-          </li>
-        <?php endforeach; ?>
-      </ul>
+      <!-- 3D galaxy: drag to rotate, click a marker to jump to that section -->
+      <div class="svc-galaxy-container" data-reveal style="--d:4">
+        <div class="svc-galaxy-stage" id="galaxy-stage">
+          <div class="svc-galaxy-hud">
+            <span class="svc-galaxy-badge">85k Particle Neural Mesh Engine</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:#64748B;">
+              Interactive 3D Section Navigator
+            </span>
+          </div>
 
-      <!-- Dedicated 3D Architecture Visual Asset -->
-      <div class="svc-hero-art">
-        <img src="<?= e(asset('assets/img/services/svc-16-hire-agentic-developers.jpg')) ?>" width="1200" height="700"
-             alt="Hire Dedicated Agentic AI Developers & Autonomous Swarm Engineers Architecture" fetchpriority="high" decoding="async">
-      </div>
-    </div>
-  </section>
+          <?php /* Real in-page links. galaxy-nodes.js positions them on the
+                   disc; with no script they are simply a centred row. */ ?>
+          <nav class="svc-galaxy-nodes" data-galaxy-nodes aria-label="Jump to a section of this page">
+            <?php foreach ($galaxyNodes as $i => [$anchor, $label]): ?>
+              <a class="svc-galaxy-node" data-galaxy-node href="#<?= e($anchor) ?>">
+                <span class="svc-galaxy-node-idx"><?= e(str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT)) ?></span>
+                <span><?= e($label) ?></span>
+              </a>
+            <?php endforeach; ?>
+          </nav>
 
-  <!-- =========================================================================
-       ARCHITECTURAL ADVANTAGE
-       ========================================================================= -->
-  <section class="svc-sec svc-sec--dark" id="advantage">
-    <div class="svc-shell">
-      <div class="svc-open-grid">
-        <div>
-          <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Architectural Advantage</p>
-          <h2 class="svc-title">Hiring top AI talent is difficult and slow;<br><em>our dedicated engineers start in 48 hours</em></h2>
-        </div>
-        <div class="svc-open-copy">
-          <p>Finding production-proven AI engineers who deeply understand LangGraph cyclic state machines, Model Context Protocol (MCP), fine-tuning, and vector retrieval takes 6+ months and hundreds of recruiting hours. Most applicants understand basic prompting but lack distributed systems engineering skills.</p>
-          <p>We provide pre-vetted, top 1% dedicated Agentic AI Developers, LangGraph architects, and AI SREs ready to integrate directly into your sprint within 48 hours. Our engineers have built battle-tested multi-agent swarms, custom RAG pipelines, and private SLM architectures for leading enterprises globally.</p>
+          <div class="svc-galaxy-hint">Drag to rotate · Click a marker to jump to that section</div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- =========================================================================
-       6 CORE DISCIPLINES & CAPABILITIES
-       ========================================================================= -->
-  <section class="svc-sec" id="disciplines">
-    <div class="svc-shell">
-      <div class="svc-head">
-        <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Core Engineering Disciplines</p>
-        <h2 class="svc-title">Six specialized engineering profiles<br>available for <em>immediate hire</em></h2>
-        <p class="svc-sub">From LangGraph swarm architects to LLM fine-tuning specialists and AgentOps SREs.</p>
-      </div>
-
-      <div class="svc-cards-grid">
-        <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
-          <?php $fig = svc_img('16', 3, $i + 1); ?>
-          <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
-            <?php if ($fig): ?>
-              <figure class="svc-card-fig">
-                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
-                     loading="lazy" decoding="async">
-              </figure>
-            <?php endif; ?>
-            <span class="svc-card-num"><?= e($num) ?></span>
-            <h3><?= e($dTitle) ?></h3>
-            <p><?= e($dDesc) ?></p>
-            <ul class="svc-card-tags">
-              <li>Production Ready</li>
-              <li>Private VPC</li>
-              <li>Deterministic</li>
-            </ul>
-          </article>
-        <?php endforeach; ?>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================================================
-       MID CTA BAND
-       ========================================================================= -->
-  <section class="svc-band">
-    <div class="svc-shell">
-      <h2>Deploy production-grade enterprise intelligence<br><em>engineered for measurable operational ROI</em></h2>
-      <div class="svc-actions svc-actions--mid">
-        <button class="svc-btn svc-btn--primary" type="button"
-                data-modal-open data-modal-service="Hire Dedicated Agentic AI Developers & Autonomous Swarm Engineers">
-          Schedule Technical Consultation<?= icon('arrow') ?>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================================================
-       5 STRATEGIC BUSINESS ADVANTAGES
-       ========================================================================= -->
-  <section class="svc-sec svc-sec--dark" id="benefits">
-    <div class="svc-shell">
-      <div class="svc-head">
-        <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Strategic Impact</p>
-        <h2 class="svc-title">Five strategic business advantages<br>of our <em>Hire Agentic Ai Developers</em></h2>
-        <p class="svc-sub">
-          Explore the architectural advantages that guarantee high concurrency, zero data leakage, and rapid payback timelines.
-        </p>
-      </div>
-
-      <div class="svc-benefits-grid">
-        <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
-          <?php $fig = svc_img('16', 5, $i + 1); ?>
-          <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
-            <?php if ($fig): ?>
-              <figure class="svc-card-fig">
-                <img src="<?= e($fig) ?>" width="800" height="450" alt=""
-                     loading="lazy" decoding="async">
-              </figure>
-            <?php endif; ?>
-            <span class="svc-card-num"><?= e($num) ?></span>
-            <h3><?= e($bTitle) ?></h3>
-            <p><?= e($bDesc) ?></p>
+      <!-- Engagement headline numbers -->
+      <div class="svc-matrix-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:34px;">
+        <?php foreach ($stats as $i => [$figure, $caption]): ?>
+          <div class="svc-matrix-card" data-reveal style="--d:<?= $i + 1 ?>;text-align:center;">
+            <div class="svc-card-body">
+              <h3 class="svc-card-title" style="font-size:2rem;"><?= e($figure) ?></h3>
+              <p class="svc-card-desc"><?= e($caption) ?></p>
+            </div>
           </div>
         <?php endforeach; ?>
       </div>
@@ -258,50 +210,121 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       5-STEP PRODUCTION ROADMAP
+       1. WHY HIRE HERE
        ========================================================================= -->
-  <section class="svc-sec" id="process">
-    <div class="svc-shell">
-      <div class="svc-head">
-        <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Production Lifecycle</p>
-        <h2 class="svc-title">Five-step roadmap from<br><em>discovery to production scale</em></h2>
-        <p class="svc-sub">
-          A disciplined, milestone-driven engineering methodology designed to validate feasibility and deploy at enterprise scale.
+  <section class="svc-section" id="advantage">
+    <div class="shell">
+      <div class="svc-sec-head" data-reveal>
+        <span class="svc-eyebrow">THE HIRING ADVANTAGE</span>
+        <h2 class="svc-title">Recruiting agentic engineers takes months;<br>this takes 48 hours</h2>
+        <p class="svc-lead">
+          The scarce skill is not Python — it is having shipped a stateful, tool-using agent into
+          production and lived with what it does on week six. Our engineers have. They arrive
+          having already made the mistakes you would otherwise pay to discover.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       2. SIX SPECIALIST ROLES
+       ========================================================================= -->
+  <section class="svc-section svc-section--panel" id="disciplines">
+    <div class="shell">
+      <div class="svc-sec-head" data-reveal>
+        <span class="svc-eyebrow">SPECIALIST ROLES</span>
+        <h2 class="svc-title">Six roles you can hire into your sprint</h2>
+        <p class="svc-lead">Each one is a working engineer, not a generalist with an AI course behind them.</p>
+      </div>
+
+      <div class="svc-matrix-grid">
+        <?php foreach ($disciplines as $i => [$num, $title, $copy]): ?>
+          <?php $fig = svc_img('16', 3, $i + 1); ?>
+          <div class="svc-matrix-card" data-reveal style="--d:<?= ($i % 4) + 1 ?>">
+            <?php if ($fig): ?>
+              <div class="svc-card-img-wrap">
+                <img src="<?= e($fig) ?>" alt="<?= e($title) ?>" loading="lazy">
+                <span class="svc-card-badge"><?= e($num) ?></span>
+              </div>
+            <?php endif; ?>
+            <div class="svc-card-body">
+              <?php if (!$fig): ?><span class="svc-card-group"><?= e($num) ?></span><?php endif; ?>
+              <h3 class="svc-card-title"><?= e($title) ?></h3>
+              <p class="svc-card-desc"><?= e($copy) ?></p>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       3. STRATEGIC ADVANTAGES
+       ========================================================================= -->
+  <section class="svc-section" id="benefits">
+    <div class="shell">
+      <div class="svc-sec-head" data-reveal>
+        <span class="svc-eyebrow">WHY TEAMS STAY</span>
+        <h2 class="svc-title">Five advantages of hiring dedicated AI engineers</h2>
+        <p class="svc-lead">Flexible monthly engagements, full IP ownership, and no recruitment overhead.</p>
+      </div>
+
+      <div class="svc-matrix-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+        <?php foreach ($benefits as $i => [$num, $title, $copy]): ?>
+          <?php $fig = svc_img('16', 5, $i + 1); ?>
+          <div class="svc-matrix-card" data-reveal style="--d:<?= ($i % 4) + 1 ?>">
+            <?php if ($fig): ?>
+              <div class="svc-card-img-wrap">
+                <img src="<?= e($fig) ?>" alt="<?= e($title) ?>" loading="lazy">
+                <span class="svc-card-badge"><?= e($num) ?></span>
+              </div>
+            <?php endif; ?>
+            <div class="svc-card-body">
+              <?php if (!$fig): ?><span class="svc-card-group"><?= e($num) ?></span><?php endif; ?>
+              <h3 class="svc-card-title"><?= e($title) ?></h3>
+              <p class="svc-card-desc"><?= e($copy) ?></p>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       4. HIRING ROADMAP — the 3D lattice roadmap plus the phase cards
+       ========================================================================= -->
+  <section class="svc-section svc-section--panel" id="process">
+    <div class="shell">
+      <div class="svc-sec-head" data-reveal>
+        <span class="svc-eyebrow">HIRING ROADMAP</span>
+        <h2 class="svc-title">From requirement to first commit in five steps</h2>
+        <p class="svc-lead">Most engagements reach a merged pull request inside the first week.</p>
       </div>
 
       <?php $GLOBALS['ithrive_needs_roadmap'] = true; ?>
       <div class="svc-roadmap" data-roadmap="lattice" aria-hidden="true">
-        <?php foreach ($steps as $idx => [$num, $sTitle]): ?>
+        <?php foreach ($steps as $idx => [$sNum, $sTitle, $sCopy]): ?>
           <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
         <?php endforeach; ?>
       </div>
 
-      <?php
-      $s6 = array_filter([svc_img('16', 6, 1), svc_img('16', 6, 2), svc_img('16', 6, 3)]);
-      ?>
+      <?php $s6 = array_filter([svc_img('16', 6, 1), svc_img('16', 6, 2), svc_img('16', 6, 3)]); ?>
       <?php if ($s6): ?>
         <div class="svc-s6-strip">
           <?php foreach ($s6 as $src): ?>
-            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
-                         loading="lazy" decoding="async"></figure>
+            <figure class="svc-card-fig"><img src="<?= e($src) ?>" alt="" loading="lazy"></figure>
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
 
-      <div class="svc-steps-grid">
-        <?php 
-        $durations = ['Week 1–2', 'Week 3–4', 'Week 5–6', 'Week 7–8', 'Continuous'];
-        foreach ($steps as $idx => [$num, $sTitle, $sDesc]): 
-        ?>
-          <div class="svc-step-card" data-roadmap-step="<?= $idx ?>">
-            <div class="svc-step-header">
-              <span class="svc-step-phase">Phase <?= e($num) ?></span>
-              <span class="svc-step-duration"><?= e($durations[$idx % 5]) ?></span>
+      <div class="svc-matrix-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+        <?php foreach ($steps as $idx => [$sNum, $sTitle, $sCopy]): ?>
+          <div class="svc-matrix-card" data-roadmap-step="<?= $idx ?>" data-reveal style="--d:<?= $idx + 1 ?>">
+            <div class="svc-card-body">
+              <span class="svc-card-group">Phase <?= e($sNum) ?></span>
+              <h3 class="svc-card-title"><?= e($sTitle) ?></h3>
+              <p class="svc-card-desc"><?= e($sCopy) ?></p>
             </div>
-            <h3><?= e($sTitle) ?></h3>
-            <p><?= e($sDesc) ?></p>
-            <div class="svc-step-out">Verified Deliverable</div>
           </div>
         <?php endforeach; ?>
       </div>
@@ -309,36 +332,32 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       3 COMMERCIAL ENGAGEMENT MODELS
+       5. ENGAGEMENT MODELS
        ========================================================================= -->
-  <section class="svc-sec svc-sec--dark" id="models">
-    <div class="svc-shell">
-      <div class="svc-head">
-        <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Commercial Frameworks</p>
-        <h2 class="svc-title">Three ways to engage our<br><em>Hire Agentic Ai Developers Practice</em></h2>
-        <p class="svc-sub">
-          Flexible commercial models designed to scale smoothly from rapid proof of concept to dedicated enterprise squads.
-        </p>
+  <section class="svc-section" id="models">
+    <div class="shell">
+      <div class="svc-sec-head" data-reveal>
+        <span class="svc-eyebrow">ENGAGEMENT MODELS</span>
+        <h2 class="svc-title">Three ways to bring our engineers on</h2>
+        <p class="svc-lead">Monthly billing, 30-day notice, and a 14-day replacement window on every model.</p>
       </div>
 
-      <div class="svc-models-grid">
-        <?php 
-        $tags = ['— RAPID SPRINT', '— PRODUCTION SUITE', '— DEDICATED SQUAD'];
-        foreach ($models as $idx => [$num, $mTitle, $mDesc, $mFeats]): 
-        ?>
-          <div class="svc-model-card">
-            <span class="svc-model-tag"><?= e($tags[$idx % 3]) ?></span>
-            <h3><?= e($mTitle) ?></h3>
-            <p><?= e($mDesc) ?></p>
-            <ul class="svc-model-features">
-              <?php foreach ($mFeats as $feat): ?>
-                <li><?= icon('check') ?> <?= e($feat) ?></li>
-              <?php endforeach; ?>
-            </ul>
-            <button class="svc-btn svc-btn--ghost" type="button"
-                    data-modal-open data-modal-service="Hire Dedicated Agentic AI Developers & Autonomous Swarm Engineers (Model <?= e($num) ?>)">
-              Choose Model <?= e($num) ?><?= icon('arrow') ?>
-            </button>
+      <div class="svc-matrix-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));">
+        <?php foreach ($models as $i => [$num, $title, $copy, $features]): ?>
+          <div class="svc-matrix-card" data-reveal style="--d:<?= $i + 1 ?>">
+            <div class="svc-card-body">
+              <span class="svc-card-group"><?= e($num) ?></span>
+              <h3 class="svc-card-title"><?= e($title) ?></h3>
+              <p class="svc-card-desc"><?= e($copy) ?></p>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 16px;">
+                <?php foreach ($features as $feature): ?>
+                  <span style="font-family:'Space Grotesk',monospace;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;background:rgba(0,242,254,0.08);color:#00F2FE;border:1px solid rgba(0,242,254,0.2);">
+                    <?= e($feature) ?>
+                  </span>
+                <?php endforeach; ?>
+              </div>
+              <a class="svc-card-link" href="<?= e(url('contact.php')) ?>">Discuss this model <?= icon('arrow') ?></a>
+            </div>
           </div>
         <?php endforeach; ?>
       </div>
@@ -346,16 +365,14 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       TECH STACK ARENA
+       6. TECH STACK
        ========================================================================= -->
-  <section class="svc-sec" id="stack">
-    <div class="svc-shell">
-      <div class="svc-head svc-head--mid">
-        <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Technology Stack</p>
-        <h2 class="svc-title">Production frameworks &amp; models<br><em>powering our systems</em></h2>
-        <p class="svc-sub">
-          Battle-tested libraries, private foundation models, and distributed vector infrastructure.
-        </p>
+  <section class="svc-section svc-section--panel" id="stack">
+    <div class="shell">
+      <div class="svc-sec-head" data-reveal>
+        <span class="svc-eyebrow">TECHNOLOGY STACK</span>
+        <h2 class="svc-title">What our engineers work in</h2>
+        <p class="svc-lead">Your pipeline, your review process, your accounts — we work inside them.</p>
       </div>
 
       <?php component('tech-stack', ['groups' => $pageStack]); ?>
@@ -363,55 +380,45 @@ require dirname(__DIR__) . '/includes/header.php';
   </section>
 
   <!-- =========================================================================
-       10 IN-DEPTH TECHNICAL FAQS
+       7. FAQ
        ========================================================================= -->
-  <section class="svc-sec svc-sec--dark" id="faq">
-    <div class="svc-shell">
-      <div class="svc-faq-grid">
-        <div class="svc-faq-side">
-          <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Enterprise FAQ</p>
-          <h2 class="svc-title">Frequently Asked<br><em>Technical Questions</em></h2>
-          <p class="svc-sub">
-            In-depth answers covering data privacy, latency, model selection, and production integration.
-          </p>
-          <figure class="svc-faq-art">
-            <img src="<?= e(asset('assets/img/services/svc-16-hire-agentic-developers.jpg')) ?>" width="900" height="700"
-                 alt="Hire Dedicated Agentic AI Developers & Autonomous Swarm Engineers FAQ Consultation" loading="lazy" decoding="async">
-          </figure>
-        </div>
+  <section class="svc-section" id="faq">
+    <div class="shell">
+      <div class="svc-sec-head" data-reveal>
+        <span class="svc-eyebrow">HIRING FAQ</span>
+        <h2 class="svc-title">Frequently asked questions</h2>
+        <p class="svc-lead">Vetting, timezones, IP ownership and what happens if a developer is not the right fit.</p>
+      </div>
 
-        <div class="svc-faq-list">
-          <?php foreach ($faqs as $i => [$q, $a]): ?>
-            <details class="svc-faq-item"<?= $i === 0 ? ' open' : '' ?>>
-              <summary>
-                <span><?= e($q) ?></span>
-                <span class="svc-faq-indicator" aria-hidden="true"></span>
-              </summary>
-              <div class="svc-faq-body">
-                <p><?= e($a) ?></p>
-              </div>
-            </details>
-          <?php endforeach; ?>
-        </div>
+      <div class="svc-faq-list">
+        <?php foreach ($faqs as $i => [$q, $a]): ?>
+          <details class="svc-faq-item"<?= $i === 0 ? ' open' : '' ?>>
+            <summary class="svc-faq-q">
+              <span><?= e($q) ?></span>
+              <span class="svc-faq-indicator" aria-hidden="true"></span>
+            </summary>
+            <div class="svc-faq-a"><p><?= e($a) ?></p></div>
+          </details>
+        <?php endforeach; ?>
       </div>
     </div>
   </section>
 
   <!-- =========================================================================
-       CLOSING CONSULTATION CTA
+       8. CLOSING CTA
        ========================================================================= -->
-  <section class="svc-close">
-    <div class="svc-shell svc-close-inner">
-      <p class="svc-eyebrow"><span class="svc-pulse" aria-hidden="true"></span>Get Started</p>
-      <h2>Ready to build or scale your<br><em>Hire Agentic Ai Developers System?</em></h2>
-      <p class="svc-close-lead">
-        Discuss your technical requirements, latency constraints, and data governance policies directly with our Lead AI Systems Architects. Receive an actionable feasibility audit and prototype blueprint within 48 hours.
-      </p>
-      <div class="svc-actions svc-actions--mid">
-        <button class="svc-btn svc-btn--primary" type="button"
-                data-modal-open data-modal-service="Hire Dedicated Agentic AI Developers & Autonomous Swarm Engineers">
-          Start 48-Hour Technical Discovery<?= icon('arrow') ?>
-        </button>
+  <section class="svc-section svc-section--panel">
+    <div class="shell" style="text-align:center;">
+      <div class="svc-sec-head" data-reveal style="margin-bottom:24px;">
+        <h2 class="svc-title">Tell us the role, and interview someone this week</h2>
+        <p class="svc-lead" style="margin-inline:auto;">
+          Send the stack and the seniority you need. We come back with two or three profiles
+          inside 24 hours, and you interview them directly.
+        </p>
+      </div>
+      <div class="svc-hero-ctas" data-reveal>
+        <a class="svc-btn-primary" href="<?= e(url('contact.php')) ?>">Hire an AI Engineer <?= icon('arrow') ?></a>
+        <a class="svc-btn-secondary" href="tel:+919384564915">Call: +91 93845 64915</a>
       </div>
     </div>
   </section>
