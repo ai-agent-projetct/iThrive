@@ -36,6 +36,7 @@ const FAQ_CATEGORIES = [
     'cloud'        => 'Cloud, DevOps & Infrastructure',
     'growth'       => 'Ideation, Business Growth & ROI Strategy',
     'ai-delivery'  => 'AI Development: Delivery, Cost, Compliance & Ownership',
+    'agentic'      => 'Agentic AI, Agents & Autonomy',
     'page-faq'     => 'Answers Published on the Service Pages Themselves',
 ];
 
@@ -1356,5 +1357,272 @@ const FAQ = [
             . 'tool entirely, which happens more often than you would expect for training work.',
         'terms' => 'unity unreal engine godot game build which choose c# blueprints 2d 3d mobile console fidelity',
         // Published on services/game-development.php
+    ],
+    // ---- 12. Agentic AI: agents, squads and autonomy ----------------------
+    // Added for the sixteen agentic and AI service pages. Every entry carries a
+    // wide `terms` string on purpose: faq-brain normalises a Tamil, Malayalam,
+    // Kannada, Telugu or Hindi question into these English concepts, so the
+    // breadth of this field is what makes the answer reachable in six
+    // languages without storing a single translated string.
+
+    [
+        'id' => 'q147', 'cat' => 'agentic',
+        'q' => 'What is an AI agent, in plain terms?',
+        'a' => 'Software that is given a goal, a set of tools it may use, and permission to take several '
+             . 'steps on its own to reach that goal. The difference from ordinary automation is that the '
+             . 'sequence is not fixed in advance: the agent decides what to do next based on what it finds. '
+             . 'The difference from a chatbot is that it acts rather than only answers.',
+        'terms' => 'agent what is agentic ai meaning define definition explain autonomous software bot',
+    ],
+    [
+        'id' => 'q148', 'cat' => 'agentic',
+        'q' => 'How is an AI agent different from RPA or a macro?',
+        'a' => 'RPA follows a script you wrote and breaks when the screen or the data shifts. An agent is '
+             . 'given an objective and works out the steps, so it handles variation a script cannot. RPA is '
+             . 'cheaper and more predictable where the process never changes, which is why we still build '
+             . 'plenty of it, and often combine the two: the agent makes the judgement, the robot does the '
+             . 'clicking.',
+        'terms' => 'agent vs rpa difference macro script automation compare robotic process which better',
+    ],
+    [
+        'id' => 'q149', 'cat' => 'agentic',
+        'q' => 'Will an AI agent replace our staff?',
+        'a' => 'Not in the deployments we run, and we would rather say that plainly than sell a headcount '
+             . 'promise. Agents take the high-volume, rule-governed part of a queue; the exceptions still '
+             . 'need experienced people, and the backlog a team was deferring usually gets picked up. If '
+             . 'headcount reduction is the actual goal, say so at the start, because it changes which '
+             . 'workflow you should choose and how accurate it has to be before going live.',
+        'terms' => 'replace staff job loss redundancy people headcount employees fired workers impact team',
+    ],
+    [
+        'id' => 'q150', 'cat' => 'agentic',
+        'q' => 'How do you stop an agent from doing something damaging?',
+        'a' => 'By bounding what it can reach rather than trusting it to behave. Every capability is an '
+             . 'explicit tool with its own permissions, anything above a threshold you set waits for a '
+             . 'human, and one switch halts a run mid-flight. An agent that can call anything is an agent '
+             . 'nobody can reason about, so we never build one.',
+        'terms' => 'safety safe control stop danger risk damage guardrail permission limit prevent mistake',
+    ],
+    [
+        'id' => 'q151', 'cat' => 'agentic',
+        'q' => 'Can we stop an agent in the middle of a run?',
+        'a' => 'Yes. One switch halts the agent or the whole squad, and every autonomous action has a '
+             . 'defined reversal. We treat that as a requirement rather than a feature: autonomy you '
+             . 'cannot stop is not autonomy, it is exposure.',
+        'terms' => 'stop halt kill switch cancel abort pause emergency shutdown rollback reverse undo',
+    ],
+    [
+        'id' => 'q152', 'cat' => 'agentic',
+        'q' => 'What happens when an agent gets something wrong?',
+        'a' => 'It depends what it was allowed to do. Actions above your threshold were only ever drafts '
+             . 'waiting for approval, so a wrong one is corrected before it lands. Below the threshold, '
+             . 'every action has a defined reversal and a full trail of what it touched, so the fix is a '
+             . 'rollback rather than an investigation.',
+        'terms' => 'wrong mistake error incorrect fail failure bad output fix correct recover what if',
+    ],
+    [
+        'id' => 'q153', 'cat' => 'agentic',
+        'q' => 'Do we need multiple agents or will one do?',
+        'a' => 'One, almost always, to begin with. Multi-agent systems earn their extra machinery only when '
+             . 'a process genuinely has separable roles needing different skills or permissions. A crowd of '
+             . 'agents is harder to debug and rarely better than a single agent with more tools.',
+        'terms' => 'multiple agents multi agent how many one swarm squad team orchestration need several',
+    ],
+    [
+        'id' => 'q154', 'cat' => 'agentic',
+        'q' => 'How long does it take to get a first agent into production?',
+        'a' => 'Four to eight weeks for a custom agent, or three to seven days if a ready-made archetype '
+             . 'fits your job. The variable is integration count far more than agent complexity: one system '
+             . 'in and one out is quick, six systems that disagree with each other is a different project.',
+        'terms' => 'how long time duration timeline weeks fast quick deliver production launch when ready',
+    ],
+    [
+        'id' => 'q155', 'cat' => 'agentic',
+        'q' => 'What does it cost to run an agent?',
+        'a' => 'Usually cents rather than rupees per completed task, but it depends on how many steps each '
+             . 'run takes and how much context it carries. We model it during the build and set a per-run '
+             . 'cost ceiling, because an agent that loops is an agent that spends.',
+        'terms' => 'cost price run cheap expensive token spend budget monthly per task economics rupees',
+    ],
+    [
+        'id' => 'q156', 'cat' => 'agentic',
+        'q' => 'Should we buy a ready-made agent or build a custom one?',
+        'a' => 'Buy the archetype when the job is one most businesses share — support triage, invoice '
+             . 'extraction, reconciliation — because the engineering is already done and it runs in days. '
+             . 'Build custom when the workflow encodes something proprietary, or when an archetype has been '
+             . 'tried and hit a wall. An archetype that stops fitting becomes the specification for the '
+             . 'custom build rather than wasted money.',
+        'terms' => 'buy build custom ready made off shelf archetype prebuilt which better choose decide',
+    ],
+    [
+        'id' => 'q157', 'cat' => 'agentic',
+        'q' => 'What is prompt injection and should we worry about it?',
+        'a' => 'It is when text inside a document or web page an agent reads tries to issue it instructions. '
+             . 'You should worry about it exactly as much as your agent has permissions. We treat untrusted '
+             . 'content as data and never as instruction, and scope tool access so a successful injection '
+             . 'cannot reach anything the agent was not already allowed to touch.',
+        'terms' => 'prompt injection security attack hack jailbreak malicious hijack manipulate exploit safe',
+    ],
+    [
+        'id' => 'q158', 'cat' => 'agentic',
+        'q' => 'How do you test something that gives different answers each time?',
+        'a' => 'With a golden set — a fixed collection of your real cases, scored on every prompt and model '
+             . 'change. You are not testing for an identical string, you are testing that the outcome is '
+             . 'still correct. A release that regresses on that set does not ship.',
+        'terms' => 'test testing quality evaluation qa nondeterministic random different answers verify check',
+    ],
+    [
+        'id' => 'q159', 'cat' => 'agentic',
+        'q' => 'Can we watch an agent work before letting it act?',
+        'a' => 'Yes, and we recommend it. Shadow mode runs the agent alongside your team without acting, '
+             . 'and its decisions are compared against theirs until the numbers justify letting it act. '
+             . 'Usually a fortnight. It also reliably surfaces places where two of your own people would '
+             . 'have decided differently.',
+        'terms' => 'shadow mode trial pilot watch observe test run parallel before live trust prove safe',
+    ],
+    [
+        'id' => 'q160', 'cat' => 'agentic',
+        'q' => 'Who is responsible when an agent makes a decision?',
+        'a' => 'You are, which is precisely why the decision boundary is written down before anything ships. '
+             . 'We agree on paper which decisions the agent owns, which it only drafts, and which it must '
+             . 'escalate. Anything touching money, entitlement or clinical care is drafted and signed by a '
+             . 'person.',
+        'terms' => 'responsible liability accountable who blame legal decision authority sign off approve',
+    ],
+    [
+        'id' => 'q161', 'cat' => 'agentic',
+        'q' => 'Can an agent work with our ERP, CRM or ticketing system?',
+        'a' => 'Yes — SAP, Dynamics, Salesforce, Zoho, Tally, NetSuite, Jira, Zendesk and in-house '
+             . 'databases. Systems with no API are reached by file, database or interface automation and '
+             . 'wrapped behind a proper contract layer, so the rest of the system never has to know the '
+             . 'difference.',
+        'terms' => 'erp crm integrate connect sap salesforce zoho tally netsuite jira zendesk system api',
+    ],
+    [
+        'id' => 'q162', 'cat' => 'agentic',
+        'q' => 'Our ERP has no API. Can anything still be automated?',
+        'a' => 'Usually yes. We use whatever it does expose — scheduled file drops, a database view, or '
+             . 'interface automation — and put a contract layer in front of it. When the vendor eventually '
+             . 'ships an API, you swap the adapter and nothing above it changes.',
+        'terms' => 'no api legacy old system cannot integrate erp closed vendor export file database access',
+    ],
+    [
+        'id' => 'q163', 'cat' => 'agentic',
+        'q' => 'How do you make sure a retry does not create a duplicate payment?',
+        'a' => 'Every write is idempotent and carries a correlation id, so repeating it is safe by '
+             . 'construction. This is the most common way agent integrations cause real damage — a timeout '
+             . 'that looks like a failure, retried, becoming two invoices — and it is prevented at the '
+             . 'integration layer rather than left to the agent.',
+        'terms' => 'duplicate retry double payment invoice twice idempotent timeout safe write error repeat',
+    ],
+    [
+        'id' => 'q164', 'cat' => 'agentic',
+        'q' => 'Can we audit what an agent did and why?',
+        'a' => 'Yes. Every tool call is recorded against the record it touched, with inputs, outputs and the '
+             . 'run it belonged to, so an auditor can reconstruct a decision without reading a model log. '
+             . 'That is the form the question actually arrives in when a regulator or an enterprise customer '
+             . 'asks.',
+        'terms' => 'audit trail log history evidence compliance regulator track record proof who did what',
+    ],
+    [
+        'id' => 'q165', 'cat' => 'agentic',
+        'q' => 'What workflow should we automate first?',
+        'a' => 'Rarely the one that demonstrates best. We score candidates on volume, handling time, error '
+             . 'rate, how reversible the actions are, and how much context lives only in one person\'s head. '
+             . 'The winner is usually an unglamorous queue nobody enjoys, and that is exactly why it works.',
+        'terms' => 'first which workflow start begin pilot choose select priority best use case where start',
+    ],
+    [
+        'id' => 'q166', 'cat' => 'agentic',
+        'q' => 'How do we know we are ready for agents at all?',
+        'a' => 'Three tests. Are the rules written down somewhere other than in people\'s heads? Are the '
+             . 'actions reversible if one is wrong? Can you measure today what good looks like? A no to any '
+             . 'of those is not a blocker, but it tells you what phase one actually is — and it is usually '
+             . 'not the agent.',
+        'terms' => 'ready readiness prepared prerequisite before start suitable fit assess evaluate maturity',
+    ],
+    [
+        'id' => 'q167', 'cat' => 'agentic',
+        'q' => 'What if our processes are not documented?',
+        'a' => 'That is the normal starting position rather than a disqualification. The first phase becomes '
+             . 'establishing what actually happens, which differs from the process document more often than '
+             . 'not. It takes longer, and it is worth doing regardless of whether you build the agent.',
+        'terms' => 'not documented undocumented no process sop missing documentation unclear rules messy',
+    ],
+    [
+        'id' => 'q168', 'cat' => 'agentic',
+        'q' => 'Can an agent handle exceptions, or only the easy cases?',
+        'a' => 'It handles the cases you have rules for and routes the rest to a person with its working '
+             . 'shown. The measure of a good deployment is how few reach that queue, not that none do. Any '
+             . 'design promising zero exceptions is a design that will handle some cases wrongly instead.',
+        'terms' => 'exception edge case unusual difficult handle escalate human queue review fallback',
+    ],
+    [
+        'id' => 'q169', 'cat' => 'agentic',
+        'q' => 'Does our data leave our systems?',
+        'a' => 'Only if you allow it. We run against enterprise endpoints with training disabled, or against '
+             . 'open-weight models inside your own infrastructure where residency or contract terms require '
+             . 'it. That decision is made before the first line of code, because retrofitting it is a '
+             . 'migration.',
+        'terms' => 'data leave privacy residency confidential secure cloud onpremise local training share',
+    ],
+    [
+        'id' => 'q170', 'cat' => 'agentic',
+        'q' => 'Can agents run entirely on our own servers?',
+        'a' => 'Yes, with open-weight models served in your environment. It costs more in engineering and '
+             . 'hardware than a hosted API, and below a certain volume a hosted endpoint is genuinely '
+             . 'cheaper. For regulated data or restrictive customer contracts it is frequently the only '
+             . 'acceptable answer, and we model both before recommending.',
+        'terms' => 'on premise onprem self hosted local server own infrastructure private offline air gapped',
+    ],
+    [
+        'id' => 'q171', 'cat' => 'agentic',
+        'q' => 'What happens when the AI model we are using is discontinued?',
+        'a' => 'We re-run your evaluation set against the replacement, re-tune, and cut over only if it '
+             . 'holds. Providers deprecate versions with limited notice, and the teams that get hurt are '
+             . 'the ones with no test set to measure the change against. This is what an operations '
+             . 'retainer is for.',
+        'terms' => 'model deprecated discontinued version change upgrade migrate obsolete provider sunset',
+    ],
+    [
+        'id' => 'q172', 'cat' => 'agentic',
+        'q' => 'Do agents get less accurate over time?',
+        'a' => 'They do, quietly, unless something is watching. Model versions change under you, your '
+             . 'policies change around them, and the mix of cases arriving drifts. We re-run the golden set '
+             . 'on a schedule so the decline is caught by us rather than reported by your customer.',
+        'terms' => 'drift accuracy degrade worse over time decline maintain monitor quality decay stale',
+    ],
+    [
+        'id' => 'q173', 'cat' => 'agentic',
+        'q' => 'Can you take over agents another company built?',
+        'a' => 'Regularly, starting with a paid audit: architecture, prompts, tool permissions, whether an '
+             . 'evaluation set exists, and what the failure paths actually do. Taking over an agent without '
+             . 'that audit is how a support engagement turns into an unplanned rebuild.',
+        'terms' => 'take over inherit existing another vendor rescue fix someone else built maintain legacy',
+    ],
+    [
+        'id' => 'q174', 'cat' => 'agentic',
+        'q' => 'Who owns the agent and its prompts when the project ends?',
+        'a' => 'You do — repository, prompts, evaluation set and infrastructure, all in your accounts from '
+             . 'the first week rather than transferred at the end. There is no framework of ours that you '
+             . 'end up licensing instead of owning.',
+        'terms' => 'own ownership ip intellectual property code prompts source who owns rights transfer',
+    ],
+    [
+        'id' => 'q175', 'cat' => 'agentic',
+        'q' => 'Can our own team learn to run this after you leave?',
+        'a' => 'That is the intended ending. Your engineers pair with ours through the build and hold the '
+             . 'runbook, dashboards and evaluation set at the end. Several clients run their own operations '
+             . 'after six months and keep us only for model migrations.',
+        'terms' => 'handover train our team learn internal knowledge transfer maintain ourselves after leave',
+    ],
+    [
+        'id' => 'q176', 'cat' => 'agentic',
+        'q' => 'What if we want to stop using agents altogether?',
+        'a' => 'Then the rollback plan gets used and the workflow returns to its manual path, which is why '
+             . 'every autonomous action has a defined reversal. It has happened once, for a process whose '
+             . 'rules changed faster than the agent could be retrained. Unwinding cleanly beats defending a '
+             . 'decision that stopped making sense.',
+        'terms' => 'stop using remove revert cancel discontinue abandon undo go back manual exit reverse',
     ],
 ];
