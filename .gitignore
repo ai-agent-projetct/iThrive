@@ -42,3 +42,6 @@ test-puter.html
 # Dev server output. Can contain a pasted API key from the launch command line.
 server.log
 .tools/sarvam-result.txt
+
+# Pre-trim copies of the section images, kept locally as a safety net.
+assets/img/services/_original/
