@@ -146,6 +146,12 @@ component('chat-widget');
 <?php if (!empty($GLOBALS['ithrive_needs_svc3d'])): ?>
 <script type="module" src="<?= e(asset('assets/js/svc-3d.js')) ?>"></script>
 <?php endif; ?>
+<?php /* The Origin Kit island bundle, for pages carrying a section gallery.
+         It mounts each island only when it nears the viewport, and the static
+         images inside every host stand alone until it does. */ ?>
+<?php if (!empty($GLOBALS['ithrive_needs_originkit'])): ?>
+<script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
+<?php endif; ?>
 <?php if ($page !== 'home' && !empty($GLOBALS['ithrive_needs_techstack'])): ?>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
 <?php endif; ?>

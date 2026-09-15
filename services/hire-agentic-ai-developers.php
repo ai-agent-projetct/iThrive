@@ -218,9 +218,18 @@ require dirname(__DIR__) . '/includes/header.php';
       <h2 class="hire-h2" data-rise>Six roles you can hire<br><em>into your sprint</em></h2>
       <p class="hire-lead" data-rise>Each one is a working engineer, not a generalist with an AI course behind them.</p>
 
+      <?php /* The 6 images for this section, shown in depth rather than as
+               row thumbnails. Falls back to a plain grid of the same images if
+               the island never mounts. */ ?>
+      <?php component('svc-gallery', [
+          'images'  => array_filter([svc_img('16', 3, 1), svc_img('16', 3, 2), svc_img('16', 3, 3), svc_img('16', 3, 4), svc_img('16', 3, 5), svc_img('16', 3, 6)]),
+          'variant' => 'deck',
+          'label'   => 'Specialist role visuals',
+      ]); ?>
+
       <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
         <?php foreach ($disciplines as $i => [$num, $title, $copy]): ?>
-          <?php $fig = svc_img('16', 3, $i + 1); ?>
+          <?php $fig = null; /* shown by the gallery above this grid */ ?>
           <div class="hire-row" data-rise>
             <span class="hire-row-n"><?= e($num) ?></span>
             <h3 class="hire-row-t"><?= e($title) ?></h3>
@@ -245,9 +254,18 @@ require dirname(__DIR__) . '/includes/header.php';
       <h2 class="hire-h2" data-rise>Five advantages of hiring<br><em>dedicated AI engineers</em></h2>
       <p class="hire-lead" data-rise>Flexible monthly engagements, full IP ownership, and no recruitment overhead.</p>
 
+      <?php /* The 5 images for this section, shown in depth rather than as
+               row thumbnails. Falls back to a plain grid of the same images if
+               the island never mounts. */ ?>
+      <?php component('svc-gallery', [
+          'images'  => array_filter([svc_img('16', 5, 1), svc_img('16', 5, 2), svc_img('16', 5, 3), svc_img('16', 5, 4), svc_img('16', 5, 5)]),
+          'variant' => 'coverflow',
+          'label'   => 'Advantage visuals',
+      ]); ?>
+
       <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
         <?php foreach ($benefits as $i => [$num, $title, $copy]): ?>
-          <?php $fig = svc_img('16', 5, $i + 1); ?>
+          <?php $fig = null; /* shown by the gallery above this grid */ ?>
           <div class="hire-row" data-rise>
             <span class="hire-row-n"><?= e($num) ?></span>
             <h3 class="hire-row-t"><?= e($title) ?></h3>
@@ -278,15 +296,15 @@ require dirname(__DIR__) . '/includes/header.php';
           <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
         <?php endforeach; ?>
       </div>
+      <?php /* The 3 images for this section, shown in depth rather than as
+               card corners. Falls back to a plain grid of the same images if the
+               island never mounts -- see includes/components/svc-gallery.php. */ ?>
+      <?php component('svc-gallery', [
+          'images'  => array_filter([svc_img('16', 6, 1), svc_img('16', 6, 2), svc_img('16', 6, 3)]),
+          'variant' => 'stack',
+          'label'   => 'Delivery phase visuals',
+      ]); ?>
 
-      <?php $s6 = array_filter([svc_img('16', 6, 1), svc_img('16', 6, 2), svc_img('16', 6, 3)]); ?>
-      <?php if ($s6): ?>
-        <div class="svc-s6-strip">
-          <?php foreach ($s6 as $src): ?>
-            <figure class="svc-card-fig"><img src="<?= e($src) ?>" alt="" loading="lazy"></figure>
-          <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
 
       <div class="hire-rows" style="margin-top:clamp(30px,4vh,56px);">
         <?php foreach ($steps as $idx => [$sNum, $sTitle, $sCopy]): ?>

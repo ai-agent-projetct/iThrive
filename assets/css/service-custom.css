@@ -830,3 +830,61 @@
   .svc-card--figured:hover .svc-card-fig img,
   .svc-benefit-card--figured:hover .svc-card-fig img { transform: none; }
 }
+
+/* ==========================================================================
+   Section galleries
+   The fourteen images per page, shown in depth instead of as card corners.
+   The island replaces .svc-gal-fallback on mount; everything here has to look
+   right both before that happens and if it never does.
+   ========================================================================== */
+
+.svc-gal {
+  position: relative;
+  margin: 0 0 clamp(28px, 4vw, 48px);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .015);
+  border: 1px solid var(--line);
+}
+
+/* Heights the islands render into. They size from props, not from CSS, so
+   these only have to leave the right amount of room. */
+.svc-gal--deck      { height: clamp(360px, 46vw, 560px); }
+.svc-gal--coverflow { height: clamp(320px, 40vw, 480px); }
+.svc-gal--stack     { height: clamp(300px, 36vw, 420px); }
+
+/* The no-JS state: every image, readable, as a plain grid. Deliberately not
+   hidden — if the island never mounts this IS the section. */
+.svc-gal-fallback {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  padding: 12px;
+  height: 100%;
+  overflow-y: auto;
+  align-content: start;
+}
+
+.svc-gal-fallback figure {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  aspect-ratio: 16 / 9;
+}
+
+.svc-gal-fallback img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Once mounted the island owns the box entirely. */
+.svc-gal[data-ok-ready] { background: transparent; }
+
+@media (max-width: 720px) {
+  .svc-gal--deck      { height: 300px; }
+  .svc-gal--coverflow { height: 280px; }
+  .svc-gal--stack     { height: 260px; }
+}

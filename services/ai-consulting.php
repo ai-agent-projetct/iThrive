@@ -197,12 +197,20 @@ require dirname(__DIR__) . '/includes/header.php';
         <p class="svc-sub">From architectural discovery to organizational enablement, our advisory framework covers every layer of production AI readiness.</p>
       </div>
 
+      <?php /* The 6 images for this section, shown in depth rather than as
+               card corners. Falls back to a plain grid of the same images if the
+               island never mounts -- see includes/components/svc-gallery.php. */ ?>
+      <?php component('svc-gallery', [
+          'images'  => array_filter([svc_img('01', 3, 1), svc_img('01', 3, 2), svc_img('01', 3, 3), svc_img('01', 3, 4), svc_img('01', 3, 5), svc_img('01', 3, 6)]),
+          'variant' => 'deck',
+          'label'   => 'Capability visuals',
+      ]); ?>
       <div class="svc-cards-grid">
         <?php foreach ($disciplines as $i => [$num, $dTitle, $dDesc]): ?>
           <?php /* One image per discipline. svc_img() returns null until the
                    file is generated, so the card keeps its current shape in the
                    meantime rather than showing a broken frame. */ ?>
-          <?php $fig = svc_img('01', 3, $i + 1); ?>
+          <?php $fig = null; /* shown by the gallery above this grid */ ?>
           <article class="svc-card<?= $fig ? ' svc-card--figured' : '' ?>">
             <?php if ($fig): ?>
               <figure class="svc-card-fig">
@@ -252,9 +260,17 @@ require dirname(__DIR__) . '/includes/header.php';
         </p>
       </div>
 
+      <?php /* The 5 images for this section, shown in depth rather than as
+               card corners. Falls back to a plain grid of the same images if the
+               island never mounts -- see includes/components/svc-gallery.php. */ ?>
+      <?php component('svc-gallery', [
+          'images'  => array_filter([svc_img('01', 5, 1), svc_img('01', 5, 2), svc_img('01', 5, 3), svc_img('01', 5, 4), svc_img('01', 5, 5)]),
+          'variant' => 'coverflow',
+          'label'   => 'Business impact visuals',
+      ]); ?>
       <div class="svc-benefits-grid">
         <?php foreach ($benefits as $i => [$num, $bTitle, $bDesc]): ?>
-          <?php $fig = svc_img('01', 5, $i + 1); ?>
+          <?php $fig = null; /* shown by the gallery above this grid */ ?>
           <div class="svc-benefit-card<?= $fig ? ' svc-benefit-card--figured' : '' ?>">
             <?php if ($fig): ?>
               <figure class="svc-card-fig">
@@ -298,17 +314,15 @@ require dirname(__DIR__) . '/includes/header.php';
 
       <?php /* Three stills for this section. Absent until generated — see
                docs/image-prompts.md for the briefs. */ ?>
-      <?php
-      $s6 = array_filter([svc_img('01', 6, 1), svc_img('01', 6, 2), svc_img('01', 6, 3)]);
-      ?>
-      <?php if ($s6): ?>
-        <div class="svc-s6-strip">
-          <?php foreach ($s6 as $src): ?>
-            <figure><img src="<?= e($src) ?>" width="800" height="450" alt=""
-                         loading="lazy" decoding="async"></figure>
-          <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
+      <?php /* The 3 images for this section, shown in depth rather than as
+               card corners. Falls back to a plain grid of the same images if the
+               island never mounts -- see includes/components/svc-gallery.php. */ ?>
+      <?php component('svc-gallery', [
+          'images'  => array_filter([svc_img('01', 6, 1), svc_img('01', 6, 2), svc_img('01', 6, 3)]),
+          'variant' => 'stack',
+          'label'   => 'Delivery phase visuals',
+      ]); ?>
+
 
       <div class="svc-steps-grid">
         <?php 
