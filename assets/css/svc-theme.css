@@ -1,0 +1,271 @@
+/* ==========================================================================
+   iThrive AI service pages — depth
+   Loaded after service-custom.css, which it leaves entirely alone.
+
+   IMPORTANT: this file does not touch colour. Every hue on these pages still
+   comes from service-custom.css — the cyan, the purple, the blue, the ground,
+   the gradient, all of it. Nothing here redefines an accent token, so the
+   sixteen pages keep the palette they have always had.
+
+   What it does add is depth: perspective on the grids, cards that tilt toward
+   the pointer and lift on hover, surfaces that settle forward as they enter
+   the viewport, and a hero that reads as layered planes rather than a flat
+   band. A page opts in with data-theme="<slug>", which selects its motion
+   character below and tells svc-3d.js which ambient hero field to build.
+
+   Every transform composes from custom properties in ONE declaration per
+   element. That is what lets the hover lift service-custom.css already had and
+   the new pointer tilt coexist: they write different properties rather than
+   competing transform values.
+
+   svc-3d.js sets --rx/--ry/--mx/--my. With the script blocked or reduced
+   motion on, each falls back to its resting value and the page is static but
+   complete — no element depends on JavaScript to be visible or correctly laid
+   out.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. The two tokens this file introduces
+
+   Declared on the bare .svc-page so a per-page override below still wins.
+   --glow is derived from the page's existing accent, so the pointer sheen is
+   whatever colour that page already is.
+   -------------------------------------------------------------------------- */
+
+.svc-page {
+  --glow: color-mix(in srgb, var(--cyan) 14%, transparent);
+  --radius-card: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Depth
+
+   The part that makes a page read as three-dimensional rather than as a flat
+   page with a render dropped on it.
+   -------------------------------------------------------------------------- */
+
+.svc-page[data-theme] .svc-cards-grid,
+.svc-page[data-theme] .svc-benefits-grid,
+.svc-page[data-theme] .svc-models-grid,
+.svc-page[data-theme] .svc-steps-grid,
+.svc-page[data-theme] .svc-stats {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+
+.svc-page[data-theme] .svc-card,
+.svc-page[data-theme] .svc-benefit-card,
+.svc-page[data-theme] .svc-model-card,
+.svc-page[data-theme] .svc-step-card,
+.svc-page[data-theme] .svc-stat-card {
+  --lift: 0px;
+  --rx: 0deg;
+  --ry: 0deg;
+  --settle: 0px;
+
+  position: relative;
+  border-radius: var(--radius-card);
+  transform-style: preserve-3d;
+  transform:
+    translate3d(0, calc(var(--lift) + var(--settle)), 0)
+    rotateX(var(--rx))
+    rotateY(var(--ry));
+  transition:
+    transform 0.5s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.5s var(--ease),
+    opacity 0.5s var(--ease);
+  box-shadow:
+    0 14px 38px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.svc-page[data-theme] .svc-card:hover,
+.svc-page[data-theme] .svc-benefit-card:hover,
+.svc-page[data-theme] .svc-model-card:hover,
+.svc-page[data-theme] .svc-step-card:hover,
+.svc-page[data-theme] .svc-stat-card:hover {
+  --lift: -6px;
+  border-color: var(--line-cyan);
+  box-shadow:
+    0 26px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px var(--line-cyan),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+/* The sheen that follows the pointer across a card. Its own layer, so it never
+   touches the card's background, and inert until JS moves it. */
+.svc-page[data-theme] .svc-card::before,
+.svc-page[data-theme] .svc-benefit-card::before,
+.svc-page[data-theme] .svc-model-card::before,
+.svc-page[data-theme] .svc-step-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  background: radial-gradient(
+      460px circle at var(--mx, 50%) var(--my, 50%),
+      var(--glow), transparent 68%);
+}
+
+.svc-page[data-theme] .svc-card:hover::before,
+.svc-page[data-theme] .svc-benefit-card:hover::before,
+.svc-page[data-theme] .svc-model-card:hover::before,
+.svc-page[data-theme] .svc-step-card:hover::before {
+  opacity: 1;
+}
+
+/* Cards arrive from a little further back. The resting state is the visible
+   one, so anything that stops the observer firing leaves them correct. */
+.svc-page[data-theme] [data-depth]:not(.is-in) {
+  --settle: 26px;
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. The hero
+
+   The ambient canvas svc-3d.js mounts sits behind the hero content; the hero
+   artwork sits in front of it on a slight tilt, so the two read as separate
+   planes. Without the script there is simply no canvas and the hero is the
+   original design with a deeper shadow.
+   -------------------------------------------------------------------------- */
+
+.svc-page[data-theme] .svc-hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.svc-page[data-theme] .svc-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
+}
+
+.svc-page[data-theme] .svc-hero-bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.svc-page[data-theme] .svc-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.svc-page[data-theme] .svc-hero-art {
+  border-radius: var(--radius-card);
+  transform: perspective(1600px)
+    rotateX(var(--art-rx, 4deg))
+    rotateY(var(--art-ry, 0deg))
+    translateZ(0);
+  transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.72),
+    0 0 0 1px var(--line-cyan);
+}
+
+/* --------------------------------------------------------------------------
+   4. Per-page surface character
+
+   Depth alone still leaves sixteen identical surfaces. These are structural
+   differences — corner radius, edge treatment, ruling — that make the pages
+   feel built differently without altering a single hue: every one of them
+   draws in the page's own existing accent.
+   -------------------------------------------------------------------------- */
+
+/* Softer, rounder, less machined. */
+.svc-page[data-theme="conversation"],
+.svc-page[data-theme="team"] { --radius-card: 22px; }
+
+/* Tight, engineered edges. */
+.svc-page[data-theme="copilot"] { --radius-card: 10px; }
+.svc-page[data-theme="workshop"],
+.svc-page[data-theme="mechanism"] { --radius-card: 8px; }
+.svc-page[data-theme="telemetry"] { --radius-card: 6px; }
+
+/* Optical: a faint scanline ruling over the dark bands. */
+.svc-page[data-theme="optical"] .svc-sec--dark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background: repeating-linear-gradient(180deg,
+      transparent 0 3px,
+      color-mix(in srgb, var(--cyan) 4%, transparent) 3px 4px);
+}
+
+/* Workshop: blueprint ruling behind the card grids. */
+.svc-page[data-theme="workshop"] .svc-cards-grid,
+.svc-page[data-theme="workshop"] .svc-benefits-grid {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--cyan) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--cyan) 5%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Mechanism: a machined top edge on every card. */
+.svc-page[data-theme="mechanism"] .svc-card,
+.svc-page[data-theme="mechanism"] .svc-benefit-card,
+.svc-page[data-theme="mechanism"] .svc-model-card {
+  border-top: 2px solid var(--line-cyan);
+}
+
+/* Telemetry: instrument panel, so the readouts glow like lit numerals. */
+.svc-page[data-theme="telemetry"] .svc-card-num,
+.svc-page[data-theme="telemetry"] .svc-step-phase {
+  text-shadow: 0 0 18px color-mix(in srgb, var(--cyan) 45%, transparent);
+}
+
+/* Conversation and team: shallower, softer shadow than the engineered pages. */
+.svc-page[data-theme="conversation"] .svc-card,
+.svc-page[data-theme="team"] .svc-card,
+.svc-page[data-theme="conversation"] .svc-benefit-card,
+.svc-page[data-theme="team"] .svc-benefit-card {
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* --------------------------------------------------------------------------
+   5. Opt out
+
+   Reduced motion keeps the static depth — shadows and perspective are not
+   motion — and drops everything that moves. Touch pointers never get tilt,
+   which would only ever fire on tap.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-page[data-theme] .svc-card,
+  .svc-page[data-theme] .svc-benefit-card,
+  .svc-page[data-theme] .svc-model-card,
+  .svc-page[data-theme] .svc-step-card,
+  .svc-page[data-theme] .svc-stat-card {
+    --rx: 0deg !important;
+    --ry: 0deg !important;
+    --settle: 0px !important;
+    transition: none;
+  }
+
+  .svc-page[data-theme] [data-depth]:not(.is-in) { opacity: 1; }
+  .svc-page[data-theme] .svc-hero-art { transform: none; }
+  .svc-page[data-theme] .svc-hero-bg { display: none; }
+}
+
+@media (pointer: coarse) {
+  .svc-page[data-theme] .svc-card,
+  .svc-page[data-theme] .svc-benefit-card,
+  .svc-page[data-theme] .svc-model-card,
+  .svc-page[data-theme] .svc-step-card,
+  .svc-page[data-theme] .svc-stat-card {
+    --rx: 0deg !important;
+    --ry: 0deg !important;
+  }
+}

@@ -107,12 +107,14 @@ $extraHead = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigi
     . '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
     . 'family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700'
     . '&family=Space+Grotesk:wght@500;600;700;800&display=swap">'
-    . '<link rel="stylesheet" href="' . e(asset('assets/css/service-custom.css')) . '">';
+    . '<link rel="stylesheet" href="' . e(asset('assets/css/service-custom.css')) . '">'
+    . '<link rel="stylesheet" href="' . e(asset('assets/css/svc-theme.css')) . '">';
+$GLOBALS['ithrive_needs_svc3d'] = true;
 
 require dirname(__DIR__) . '/includes/header.php';
 ?>
 
-<div class="svc-page">
+<div class="svc-page" data-theme="copilot">
 
   <!-- =========================================================================
        HERO SECTION: Cyber Eyebrow, Gradient Headline & Action CTAs

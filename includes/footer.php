@@ -140,6 +140,12 @@ component('chat-widget');
 <?php if (!empty($GLOBALS['ithrive_needs_roadmap'])): ?>
 <script type="module" src="<?= e(asset('assets/js/svc-roadmap.js')) ?>"></script>
 <?php endif; ?>
+<?php /* Page-wide depth on the themed service pages: the ambient hero field,
+         pointer tilt, and settle-on-entry. Additive — svc-theme.css already
+         paints the resting state, so this only ever adds motion. */ ?>
+<?php if (!empty($GLOBALS['ithrive_needs_svc3d'])): ?>
+<script type="module" src="<?= e(asset('assets/js/svc-3d.js')) ?>"></script>
+<?php endif; ?>
 <?php if ($page !== 'home' && !empty($GLOBALS['ithrive_needs_techstack'])): ?>
 <script src="<?= e(asset('assets/js/tech-stack.js')) ?>" defer></script>
 <?php endif; ?>
