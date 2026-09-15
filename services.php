@@ -2,25 +2,205 @@
 declare(strict_types=1);
 
 $page      = 'services';
-$pageTitle = 'Services — 15 Engineering Practices in Python, AI & Cloud';
-$pageDesc  = 'Fifteen specialized engineering practices across four disciplines: AI-native product engineering, SaaS, modernization, cloud infrastructure, and mobile systems.';
+$pageTitle = 'Enterprise AI Engineering Services — 16 Specialized Practices';
+$pageDesc  = 'Sixteen specialized enterprise AI engineering practices across four disciplines: AI Strategy & Advisory, Generative AI & Products, Agentic AI & Swarms, and Enterprise Automation.';
 
 require_once __DIR__ . '/includes/config.php';
 
+$allServicesList = [
+    [
+        'slug'     => 'ai-consulting',
+        'title'    => 'AI Consulting & Strategy',
+        'category' => 'AI Strategy & Advisory',
+        'cat_id'   => 'strategy',
+        'badge'    => 'PRACTICE 01',
+        'image'    => 'assets/img/services/svc-01-ai-consulting.jpg',
+        'lead'     => 'Strategic AI roadmaps, technical feasibility audits, unit economics modeling, and compliance frameworks for enterprise scale.',
+        'metrics'  => ['99.9% Audit Pass', '4.2x ROI Model', '14-Day Delivery'],
+        'stack'    => ['Python', 'FastAPI', 'LangGraph', 'AWS', 'Azure'],
+    ],
+    [
+        'slug'     => 'gen-ai-development',
+        'title'    => 'Generative AI Development',
+        'category' => 'Generative AI & Products',
+        'cat_id'   => 'genai',
+        'badge'    => 'PRACTICE 02',
+        'image'    => 'assets/img/services/svc-02-gen-ai-dev.jpg',
+        'lead'     => 'Custom LLM fine-tuning, domain foundation models, multimodal inference engines, and low-latency private deployment.',
+        'metrics'  => ['<35ms Latency', '80% Token Reduction', '100% On-Prem / VPC'],
+        'stack'    => ['PyTorch', 'vLLM', 'Hugging Face', 'DeepSpeed', 'Triton'],
+    ],
+    [
+        'slug'     => 'ai-chatbot-development',
+        'title'    => 'AI Chatbot Development',
+        'category' => 'Generative AI & Products',
+        'cat_id'   => 'genai',
+        'badge'    => 'PRACTICE 03',
+        'image'    => 'assets/img/services/svc-03-ai-chatbot.jpg',
+        'lead'     => 'Next-generation conversational agents with multi-turn memory, CRM integration, voice orchestration, and zero hallucination.',
+        'metrics'  => ['82% Deflection', '<150ms First Token', '99.4% F1 Accuracy'],
+        'stack'    => ['LangChain', 'FastAPI', 'Redis', 'WebSockets', 'Whisper'],
+    ],
+    [
+        'slug'     => 'ai-copilot-development',
+        'title'    => 'AI Copilot Development',
+        'category' => 'Generative AI & Products',
+        'cat_id'   => 'genai',
+        'badge'    => 'PRACTICE 04',
+        'image'    => 'assets/img/services/svc-04-ai-copilot.jpg',
+        'lead'     => 'Context-aware enterprise copilots embedded into IDEs, SaaS platforms, and internal backoffices with proactive semantic assistance.',
+        'metrics'  => ['40% Dev Uplift', '0-Context Leaks', '24/7 Inline Intelligence'],
+        'stack'    => ['Electron', 'TypeScript', 'LangGraph', 'pgvector', 'Ollama'],
+    ],
+    [
+        'slug'     => 'rag-development',
+        'title'    => 'RAG Systems Development',
+        'category' => 'Generative AI & Products',
+        'cat_id'   => 'genai',
+        'badge'    => 'PRACTICE 05',
+        'image'    => 'assets/img/services/svc-05-rag-dev.jpg',
+        'lead'     => 'Hybrid vector + BM25 keyword retrieval, Knowledge Graph RAG, reranking, and citation-backed deterministic synthesis.',
+        'metrics'  => ['99.8% Groundedness', '<80ms Retrieval', '10M+ Chunk Corpus'],
+        'stack'    => ['Qdrant', 'Pinecone', 'Neo4j', 'LlamaIndex', 'Cohere'],
+    ],
+    [
+        'slug'     => 'computer-vision-development',
+        'title'    => 'Computer Vision Development',
+        'category' => 'Generative AI & Products',
+        'cat_id'   => 'genai',
+        'badge'    => 'PRACTICE 06',
+        'image'    => 'assets/img/services/svc-06-computer-vision.jpg',
+        'lead'     => 'Real-time object detection, automated visual defect inspection, spatial intelligence, and multimodal edge inferencing.',
+        'metrics'  => ['60 FPS Live Edge', '99.7% Precision', '50ms Pipeline'],
+        'stack'    => ['YOLOv10', 'OpenCV', 'TensorRT', 'PyTorch', 'NVIDIA Jetson'],
+    ],
+    [
+        'slug'     => 'agentic-ai-strategy',
+        'title'    => 'Agentic AI Strategy & Advisory',
+        'category' => 'AI Strategy & Advisory',
+        'cat_id'   => 'strategy',
+        'badge'    => 'PRACTICE 07',
+        'image'    => 'assets/img/services/svc-07-agentic-strategy.jpg',
+        'lead'     => 'Autonomous operating model design, swarm architecture feasibility, governance policies, and safety validation for agent networks.',
+        'metrics'  => ['100% Policy Cover', '5x Operational Velocity', '0 Unsupervised Breaches'],
+        'stack'    => ['LangGraph', 'CrewAI', 'OpenTelemetry', 'Python', 'AWS Bedrock'],
+    ],
+    [
+        'slug'     => 'custom-agent-development',
+        'title'    => 'Custom AI Agent Development',
+        'category' => 'Agentic AI & Swarms',
+        'cat_id'   => 'agents',
+        'badge'    => 'PRACTICE 08',
+        'image'    => 'assets/img/services/svc-08-custom-agents.jpg',
+        'lead'     => 'Goal-driven autonomous agents with deterministic state machines, sandboxed tool execution, and self-correcting logic loops.',
+        'metrics'  => ['99.9% Task Success', '<2s Cycle Time', '100% Tool Contract Safety'],
+        'stack'    => ['LangGraph', 'Python', 'FastAPI', 'Docker Sandbox', 'PostgreSQL'],
+    ],
+    [
+        'slug'     => 'ai-agent-solutions',
+        'title'    => 'Enterprise AI Agent Solutions',
+        'category' => 'Agentic AI & Swarms',
+        'cat_id'   => 'agents',
+        'badge'    => 'PRACTICE 09',
+        'image'    => 'assets/img/services/svc-09-agent-solutions.jpg',
+        'lead'     => 'Turnkey domain-specialized agent suites for automated Sales outreach, Customer Operations, HRMS onboarding, and Financial reconciliation.',
+        'metrics'  => ['75% Manual Cut', '24/7 Operations', '10x Pipeline Scalability'],
+        'stack'    => ['LangChain', 'CrewAI', 'Celery', 'Redis', 'Kafka'],
+    ],
+    [
+        'slug'     => 'multi-agent-orchestration',
+        'title'    => 'Multi-Agent Orchestration',
+        'category' => 'Agentic AI & Swarms',
+        'cat_id'   => 'agents',
+        'badge'    => 'PRACTICE 10',
+        'image'    => 'assets/img/services/svc-10-multi-agent-mesh.jpg',
+        'lead'     => 'Hierarchical and peer-to-peer agent mesh networks, consensus routing, distributed memory fabrics, and deadlock prevention.',
+        'metrics'  => ['100+ Agent Swarms', '0 Circular Deadlocks', '<15ms IPC'],
+        'stack'    => ['AutoGen', 'CrewAI', 'LangGraph', 'RabbitMQ', 'Redis Streams'],
+    ],
+    [
+        'slug'     => 'agentic-ai-integration',
+        'title'    => 'Agentic AI Integration',
+        'category' => 'AI Strategy & Advisory',
+        'cat_id'   => 'strategy',
+        'badge'    => 'PRACTICE 11',
+        'image'    => 'assets/img/services/svc-11-agent-integrations.jpg',
+        'lead'     => 'Deep MCP protocol integration, structured tool contracts, and bidirectional integration with Salesforce, SAP, Jira, and Slack.',
+        'metrics'  => ['100+ Pre-built Connectors', 'Sub-second Sync', 'Zero Data Leakage'],
+        'stack'    => ['Model Context Protocol (MCP)', 'FastAPI', 'GraphQL', 'OAuth2', 'Kafka'],
+    ],
+    [
+        'slug'     => 'ai-integration',
+        'title'    => 'Enterprise AI Integration',
+        'category' => 'AI Strategy & Advisory',
+        'cat_id'   => 'strategy',
+        'badge'    => 'PRACTICE 12',
+        'image'    => 'assets/img/services/svc-12-ai-integration.jpg',
+        'lead'     => 'Zero-downtime sidecar AI integration into legacy monoliths, real-time feature flags, secure API gateways, and private LLM routing.',
+        'metrics'  => ['0 Monolith Rewrites', '<10ms Gateway Hop', '99.99% High Availability'],
+        'stack'    => ['Envoy', 'FastAPI', 'Redis', 'OpenTelemetry', 'Kubernetes'],
+    ],
+    [
+        'slug'     => 'autonomous-workflow-automation',
+        'title'    => 'Autonomous Workflow Automation',
+        'category' => 'Agentic AI & Swarms',
+        'cat_id'   => 'agents',
+        'badge'    => 'PRACTICE 13',
+        'image'    => 'assets/img/services/svc-13-workflow-auto.jpg',
+        'lead'     => 'End-to-end self-healing business processes, automated document verification, OCR extraction, and multi-tier exception routing.',
+        'metrics'  => ['90% Touchless Flow', '99.95% Extraction Accuracy', '6x Throughput'],
+        'stack'    => ['Temporal.io', 'LangGraph', 'Tesseract OCR', 'Python', 'PostgreSQL'],
+    ],
+    [
+        'slug'     => 'agent-operations-support',
+        'title'    => 'Agent Operations & SRE Support',
+        'category' => 'Enterprise Automation',
+        'cat_id'   => 'automation',
+        'badge'    => 'PRACTICE 14',
+        'image'    => 'assets/img/services/svc-14-agent-ops.jpg',
+        'lead'     => 'Continuous 24/7 telemetry for agent fleets, automated prompt regression test benches, model drift alerts, and cost guardrails.',
+        'metrics'  => ['24/7 SRE Coverage', '<15min Incident SLA', '100% Token Traceability'],
+        'stack'    => ['Langfuse', 'Arize Phoenix', 'Prometheus', 'Grafana', 'Sentry'],
+    ],
+    [
+        'slug'     => 'rpa-development',
+        'title'    => 'Intelligent RPA Development',
+        'category' => 'Enterprise Automation',
+        'cat_id'   => 'automation',
+        'badge'    => 'PRACTICE 15',
+        'image'    => 'assets/img/services/svc-15-intelligent-rpa.jpg',
+        'lead'     => 'Vision-augmented robotic process automation bots that interact with legacy desktop UIs, ERP portals, and virtual desktops flawlessly.',
+        'metrics'  => ['0 Fragile Selectors', '99.9% Screen OCR', '12x Speedup'],
+        'stack'    => ['Playwright', 'Selenium', 'Computer Vision', 'Python', 'UiPath Bridge'],
+    ],
+    [
+        'slug'     => 'hire-agentic-ai-developers',
+        'title'    => 'Hire Agentic AI Developers',
+        'category' => 'Enterprise Automation',
+        'cat_id'   => 'automation',
+        'badge'    => 'PRACTICE 16',
+        'image'    => 'assets/img/services/svc-16-hire-agentic-developers.jpg',
+        'lead'     => 'Dedicated principal AI engineers, LangGraph/Python specialists, and swarm architects vetted for enterprise production and deployed in 48h.',
+        'metrics'  => ['48-Hour Deployment', 'Top 1% Senior Talent', 'Guaranteed Timezone Sync'],
+        'stack'    => ['Python', 'LangGraph', 'PyTorch', 'CrewAI', 'AWS / Azure Cloud'],
+    ],
+];
+
 $schema = [
     '@type'           => 'ItemList',
-    'name'            => 'Services offered by iThrive Software',
+    'name'            => 'Enterprise AI Services offered by iThrive Software',
     'itemListOrder'   => 'https://schema.org/ItemListUnordered',
-    'numberOfItems'   => count(all_services()),
+    'numberOfItems'   => count($allServicesList),
     'itemListElement' => array_map(static fn (array $svc, int $i): array => [
         '@type'    => 'ListItem',
         'position' => $i + 1,
         'name'     => $svc['title'],
         'url'      => canonical('services/' . $svc['slug'] . '.php'),
-    ], all_services(), array_keys(all_services())),
+    ], $allServicesList, array_keys($allServicesList)),
 ];
 
 $extraHead = '<link rel="stylesheet" href="' . e(asset('assets/css/services-galaxy.css')) . '">' .
+             '<link rel="stylesheet" href="' . e(asset('assets/css/service-custom.css')) . '">' .
              '<script type="module" src="' . e(asset('assets/js/framer-galaxy.js')) . '"></script>';
 
 require __DIR__ . '/includes/header.php';
@@ -32,476 +212,290 @@ require __DIR__ . '/includes/header.php';
     <div class="shell" style="text-align: center;">
       <div class="svc-pill-badge" data-reveal>
         <span class="svc-pill-dot"></span>
-        <span class="svc-pill-text">CONTINUOUS ENGINEERING INFRASTRUCTURE</span>
+        <span class="svc-pill-text">ENTERPRISE AGENTIC & GENERATIVE AI INFRASTRUCTURE</span>
       </div>
 
       <h1 class="svc-hero-title" data-reveal style="--d:1">
-        Engineering Practices, Not a Menu of Deliverables
+        16 Specialized Enterprise AI Engineering Practices
       </h1>
 
       <p class="svc-hero-lead" data-reveal style="--d:2">
-        Fifteen specialized practices across four engineering disciplines. Every platform is built in Python, Agentic AI, and Cloud Architecture, delivered by senior engineers from our 5 regional hubs.
+        From custom autonomous agent swarms and hybrid RAG pipelines to fine-tuned foundation models and enterprise AI integrations. Built on Python, LangGraph, and cloud infrastructure, delivered by senior engineers across 5 regional hubs.
       </p>
 
       <div class="svc-hero-ctas" data-reveal style="--d:3">
         <a class="svc-btn-primary" href="<?= e(url('contact.php')) ?>">
-          Talk to an Engineer <?= icon('arrow') ?>
+          Talk to an AI Architect <?= icon('arrow') ?>
         </a>
         <a class="svc-btn-secondary" href="#matrix">
-          Explore 15 Practices
+          Explore 16 AI Practices
         </a>
         <a class="svc-btn-secondary" href="tel:+919384564915">
           Call: +91 93845 64915
         </a>
       </div>
 
-      <!-- 3D Spiral Galaxy Stage (55,000 Particles, Three.js) -->
+      <!-- 3D Spiral Galaxy Stage (Three.js) -->
       <div class="svc-galaxy-container" data-reveal style="--d:4">
         <div class="svc-galaxy-stage" id="galaxy-stage">
           <div class="svc-galaxy-hud">
-            <span class="svc-galaxy-badge">85k Spiral Galaxy Engine</span>
-            <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:#64748B;">16:9 Interactive Galaxy Hero</span>
+            <span class="svc-galaxy-badge">85k Particle Neural Mesh Engine</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:#64748B;">Interactive 3D Galaxy Viewport</span>
           </div>
-          <div class="svc-galaxy-hint">Drag to rotate 3D galaxy · Auto-orbiting</div>
+          <div class="svc-galaxy-hint">Drag to rotate 3D galaxy · Real-time auto-orbit</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Services Matrix (15 Core Practices with 15 Images) -->
+  <!-- 2. Services Matrix: All 16 Dedicated Practices -->
   <section class="svc-section" id="matrix">
     <div class="shell">
       <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">ENGINEERING PRACTICES & DISCIPLINES</span>
-        <h2 class="svc-title">Fifteen Specialized Practices Across Four Engineering Disciplines</h2>
+        <span class="svc-eyebrow">COMPREHENSIVE AI CAPABILITIES</span>
+        <h2 class="svc-title">16 Enterprise AI Practices Engineered for Production Scale</h2>
         <p class="svc-lead">
-          Every platform is built in Python, Agentic AI, and Cloud Architecture — delivered by senior engineers from our 5 regional engineering hubs in Chennai, Coimbatore, Bangalore, Hyderabad, and Ahmedabad.
+          Every practice is delivered with hardened security, deterministic guardrails, zero-hallucination validation, and 100% full source ownership.
         </p>
       </div>
 
       <div class="svc-matrix-grid">
-        <!-- 1. AI Native -->
-        <a class="svc-matrix-card" href="<?= e(url('services/ai-native-product-development.php')) ?>" data-reveal style="--d:1">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-01-ai-native.jpg')) ?>" alt="AI-Native Product Development" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 01</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">AI & Intelligent Systems</span>
-            <h3 class="svc-card-title">AI-Native Product Dev</h3>
-            <p class="svc-card-desc">Ground-up platforms engineered around neural network inference, vector search, and dynamic cognitive loops.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
+        <?php foreach ($allServicesList as $i => $svc): ?>
+          <a class="svc-matrix-card" href="<?= e(url('services/' . $svc['slug'] . '.php')) ?>" data-reveal style="--d:<?= ($i % 4) + 1 ?>">
+            <div class="svc-card-img-wrap">
+              <img src="<?= e(asset($svc['image'])) ?>" alt="<?= e($svc['title']) ?>" loading="lazy">
+              <span class="svc-card-badge"><?= e($svc['badge']) ?></span>
+            </div>
+            <div class="svc-card-body">
+              <span class="svc-card-group"><?= e($svc['category']) ?></span>
+              <h3 class="svc-card-title"><?= e($svc['title']) ?></h3>
+              <p class="svc-card-desc"><?= e($svc['lead']) ?></p>
 
-        <!-- 2. AI Enablement -->
-        <a class="svc-matrix-card" href="<?= e(url('services/ai-enablement.php')) ?>" data-reveal style="--d:2">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-02-ai-enablement.jpg')) ?>" alt="Enterprise AI Enablement" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 02</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">AI & Intelligent Systems</span>
-            <h3 class="svc-card-title">AI Enablement</h3>
-            <p class="svc-card-desc">Embedding intelligence into mature enterprise software through private LLM fine-tuning and secure local inference.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 16px;">
+                <?php foreach ($svc['metrics'] as $metric): ?>
+                  <span style="font-family:'Space Grotesk',monospace;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;background:rgba(0,242,254,0.08);color:#00F2FE;border:1px solid rgba(0,242,254,0.2);">
+                    <?= e($metric) ?>
+                  </span>
+                <?php endforeach; ?>
+              </div>
 
-        <!-- 3. Agentic AI -->
-        <a class="svc-matrix-card" href="<?= e(url('services/agentic-ai-development.php')) ?>" data-reveal style="--d:3">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-03-agentic-ai.jpg')) ?>" alt="Autonomous Agent Swarms" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 03</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">AI & Intelligent Systems</span>
-            <h3 class="svc-card-title">Agentic AI Systems</h3>
-            <p class="svc-card-desc">Self-orchestrating multi-agent networks that execute mission-critical domain workflows without human intervention.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 4. MLOps -->
-        <a class="svc-matrix-card" href="<?= e(url('services/ai-development.php')) ?>" data-reveal style="--d:4">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-04-mlops.jpg')) ?>" alt="MLOps & Inference Rails" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 04</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">AI & Intelligent Systems</span>
-            <h3 class="svc-card-title">MLOps & Inference Rails</h3>
-            <p class="svc-card-desc">Continuous training pipelines, model quantization, drift telemetry, and low-latency GPU serving clusters.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 5. Micro SaaS -->
-        <a class="svc-matrix-card" href="<?= e(url('services/micro-saas-development.php')) ?>" data-reveal style="--d:5">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-05-micro-saas.jpg')) ?>" alt="Micro SaaS Engineering" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 05</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Product & SaaS</span>
-            <h3 class="svc-card-title">Micro SaaS Engineering</h3>
-            <p class="svc-card-desc">Multi-tenant, self-serve software products engineered for high margin and minimal cloud overhead.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 6. Custom Software -->
-        <a class="svc-matrix-card" href="<?= e(url('services/custom-software-development.php')) ?>" data-reveal style="--d:6">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-06-custom-software.jpg')) ?>" alt="Custom Software Systems" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 06</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Product & SaaS</span>
-            <h3 class="svc-card-title">Custom Software Systems</h3>
-            <p class="svc-card-desc">Bespoke operational backbones built in Python for businesses that have outgrown off-the-shelf software.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 7. Rapid MVP -->
-        <a class="svc-matrix-card" href="<?= e(url('services/mvp-development.php')) ?>" data-reveal style="--d:7">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-07-mvp.jpg')) ?>" alt="30-Day Rapid MVP" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 07</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Product & SaaS</span>
-            <h3 class="svc-card-title">Rapid MVP Foundry</h3>
-            <p class="svc-card-desc">Production-grade minimum viable products scoped, built, and shipped into live customer hands in 30 days.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 8. Modernization -->
-        <a class="svc-matrix-card" href="<?= e(url('services/modernization.php')) ?>" data-reveal style="--d:8">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-08-modernization.jpg')) ?>" alt="Legacy Architecture Modernization" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 08</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Product & SaaS</span>
-            <h3 class="svc-card-title">Legacy Modernization</h3>
-            <p class="svc-card-desc">Incremental straggler-pattern migration of fragile monolithic codebases into resilient microservices.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 9. Web Development -->
-        <a class="svc-matrix-card" href="<?= e(url('services/web-development.php')) ?>" data-reveal style="--d:9">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-09-web-dev.jpg')) ?>" alt="Modern Web Applications" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 09</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Web & Mobile</span>
-            <h3 class="svc-card-title">Modern Web Apps</h3>
-            <p class="svc-card-desc">High-speed React, Next.js, and Python web portals delivering sub-50ms API responses and 60FPS UX.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 10. Mobile Apps -->
-        <a class="svc-matrix-card" href="<?= e(url('services/mobile-development.php')) ?>" data-reveal style="--d:10">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-10-mobile-apps.jpg')) ?>" alt="Cross-Platform Mobile" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 10</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Web & Mobile</span>
-            <h3 class="svc-card-title">Cross-Platform Mobile</h3>
-            <p class="svc-card-desc">Native Flutter and React Native mobile applications with offline-first synchronisation and hardware access.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 11. E-Commerce -->
-        <a class="svc-matrix-card" href="<?= e(url('services/ecommerce-development.php')) ?>" data-reveal style="--d:11">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-11-ecommerce.jpg')) ?>" alt="Enterprise Commerce Engines" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 11</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Web & Mobile</span>
-            <h3 class="svc-card-title">Enterprise E-Commerce</h3>
-            <p class="svc-card-desc">Headless commerce architectures, 1-click biometric checkout, and sub-second payment gateway mesh.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 12. Game Development -->
-        <a class="svc-matrix-card" href="<?= e(url('services/game-development.php')) ?>" data-reveal style="--d:12">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-12-game-dev.jpg')) ?>" alt="Interactive 3D Games" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 12</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Web & Mobile</span>
-            <h3 class="svc-card-title">Interactive 3D & Games</h3>
-            <p class="svc-card-desc">High-fidelity Three.js, WebGL shader pipelines, and real-time multiplayer browser experiences.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 13. Cloud & DevOps -->
-        <a class="svc-matrix-card" href="<?= e(url('services/cloud-and-devops.php')) ?>" data-reveal style="--d:13">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-13-cloud-devops.jpg')) ?>" alt="Cloud & DevOps" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 13</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Cloud & Teams</span>
-            <h3 class="svc-card-title">Cloud Architecture & SRE</h3>
-            <p class="svc-card-desc">Terraform declarative infrastructure, Kubernetes cluster hardening, and automated CI/CD canary rollouts.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 14. Dedicated Teams -->
-        <a class="svc-matrix-card" href="<?= e(url('services/dedicated-teams.php')) ?>" data-reveal style="--d:14">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-14-dedicated-teams.jpg')) ?>" alt="Dedicated Squads" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 14</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Cloud & Teams</span>
-            <h3 class="svc-card-title">Dedicated Engineering Squads</h3>
-            <p class="svc-card-desc">Self-contained teams of senior product engineers, architects, and QA specialists embedded into your roadmap.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
-
-        <!-- 15. On-Demand Talent -->
-        <a class="svc-matrix-card" href="<?= e(url('services/ondemand.php')) ?>" data-reveal style="--d:15">
-          <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-15-ondemand.jpg')) ?>" alt="On-Demand Specialists" loading="lazy">
-            <span class="svc-card-badge">DISCIPLINE 15</span>
-          </div>
-          <div class="svc-card-body">
-            <span class="svc-card-group">Cloud & Teams</span>
-            <h3 class="svc-card-title">On-Demand Specialists</h3>
-            <p class="svc-card-desc">Elastic principal engineer capacity deployed within 48 hours for critical architectural milestones.</p>
-            <span class="svc-card-link">Explore Architecture <?= icon('arrow') ?></span>
-          </div>
-        </a>
+              <span class="svc-card-link">Explore Architecture & 10 FAQs <?= icon('arrow') ?></span>
+            </div>
+          </a>
+        <?php endforeach; ?>
       </div>
     </div>
   </section>
 
-  <!-- 3. Architecture Blueprint (4 Images) -->
+  <!-- 3. Enterprise Architecture Blueprint (4 Cards) -->
   <section class="svc-section svc-section--panel">
     <div class="shell">
       <div class="svc-sec-head" data-reveal>
         <span class="svc-eyebrow">SYSTEM BLUEPRINT</span>
-        <h2 class="svc-title">Every System Drawn Out Before a Line is Written</h2>
+        <h2 class="svc-title">Every AI System Drawn Out Before a Single Line is Written</h2>
         <p class="svc-lead">
-          We model data flows, state machines, and failover boundaries up front to avoid costly mid-project redesigns.
+          We model state machine loops, memory retrieval trees, tool contract sandboxes, and failover boundaries up front to guarantee production SLA.
         </p>
       </div>
 
       <div class="svc-matrix-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
         <div class="svc-matrix-card" data-reveal style="--d:1">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-arch-01-api-gateway.jpg')) ?>" alt="Distributed API Gateway" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-arch-01-api-gateway.jpg')) ?>" alt="Distributed AI Gateway" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title" style="font-size:1.15rem;">Distributed API Gateway</h3>
-            <p class="svc-card-desc">Global routing mesh with intelligent rate limiting, protocol translation, and mutual TLS token verification.</p>
+            <h3 class="svc-card-title" style="font-size:1.15rem;">Distributed Model Gateway</h3>
+            <p class="svc-card-desc">Intelligent model routing mesh with semantic caching, token rate limiting, multi-tenant isolation, and cost ceilings.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:2">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-arch-02-streaming.jpg')) ?>" alt="Kafka Event Streaming" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-arch-02-streaming.jpg')) ?>" alt="Real-time Event Fabric" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title" style="font-size:1.15rem;">Event-Driven Streaming</h3>
-            <p class="svc-card-desc">Kafka and Flink pipelines delivering sub-10ms event processing for real-time stateful computation.</p>
+            <h3 class="svc-card-title" style="font-size:1.15rem;">Event-Driven Agent Fabric</h3>
+            <p class="svc-card-desc">Kafka, Celery, and Redis Streams pipelines delivering sub-15ms agent-to-agent inter-process communication.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:3">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-arch-03-security.jpg')) ?>" alt="Zero-Trust Security Vault" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-arch-03-security.jpg')) ?>" alt="Zero-Trust AI Vault" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title" style="font-size:1.15rem;">Zero-Trust Security Vault</h3>
-            <p class="svc-card-desc">Hardware security module (HSM) key isolation, automated credential rotation, and continuous compliance telemetry.</p>
+            <h3 class="svc-card-title" style="font-size:1.15rem;">Zero-Trust Guardrail Vault</h3>
+            <p class="svc-card-desc">Schema validation, prompt injection defense, sandboxed code execution, and deterministic fallback circuits.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:4">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-arch-04-observability.jpg')) ?>" alt="Nanosecond Observability" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-arch-04-observability.jpg')) ?>" alt="OpenTelemetry Observability" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title" style="font-size:1.15rem;">Nanosecond Observability</h3>
-            <p class="svc-card-desc">Distributed OpenTelemetry tracing and structured logging providing deep visibility into every microservice interaction.</p>
+            <h3 class="svc-card-title" style="font-size:1.15rem;">Nanosecond AI Observability</h3>
+            <p class="svc-card-desc">Full trace capture on every prompt, tool call, token count, and latency hop via Langfuse and OpenTelemetry.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. How an Engagement Actually Runs (5 Images) -->
+  <!-- 4. How an Engagement Runs (5 Stages) -->
   <section class="svc-section">
     <div class="shell">
       <div class="svc-sec-head" data-reveal>
         <span class="svc-eyebrow">PROCESS PIPELINE</span>
-        <h2 class="svc-title">How an Engagement Actually Runs</h2>
+        <h2 class="svc-title">From AI Audit to Production Deployment in 5 Phases</h2>
         <p class="svc-lead">
-          Five transparent stages designed to eliminate surprises, align stakeholders, and ensure steady progress.
+          A structured, milestone-gated engineering methodology engineered to de-risk investment and ship enterprise AI fast.
         </p>
       </div>
 
       <div class="svc-matrix-grid" style="grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));">
         <div class="svc-matrix-card" data-reveal style="--d:1">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-proc-01-discovery.jpg')) ?>" alt="Technical Discovery" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-proc-01-discovery.jpg')) ?>" alt="Technical Discovery & AI Audit" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <span class="svc-card-group">PHASE 01</span>
-            <h3 class="svc-card-title" style="font-size:1.1rem;">Technical Discovery</h3>
-            <p class="svc-card-desc">Comprehensive system mapping, domain modeling, and concrete architectural agreements.</p>
+            <span class="svc-card-group">PHASE 01 · WEEK 1</span>
+            <h3 class="svc-card-title" style="font-size:1.1rem;">AI Audit & Discovery</h3>
+            <p class="svc-card-desc">Data readiness audit, workflow opportunity scoring, architecture blueprints, and ROI validation.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:2">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-proc-02-prototype.jpg')) ?>" alt="Rapid 3D Prototyping" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-proc-02-prototype.jpg')) ?>" alt="Agent Prototype & Eval Harness" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <span class="svc-card-group">PHASE 02</span>
-            <h3 class="svc-card-title" style="font-size:1.1rem;">Rapid Prototyping</h3>
-            <p class="svc-card-desc">Interactive prototype proving performance feasibility and critical user interaction flows.</p>
+            <span class="svc-card-group">PHASE 02 · WEEK 2-3</span>
+            <h3 class="svc-card-title" style="font-size:1.1rem;">Prototype & Eval Bench</h3>
+            <p class="svc-card-desc">Working proof-of-concept with golden dataset automated evals verifying precision and accuracy.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:3">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-proc-03-sprint.jpg')) ?>" alt="High-Velocity Sprints" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-proc-03-sprint.jpg')) ?>" alt="Core Engineering Sprints" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <span class="svc-card-group">PHASE 03</span>
-            <h3 class="svc-card-title" style="font-size:1.1rem;">Bi-Weekly Sprints</h3>
-            <p class="svc-card-desc">Relentless code shipping with automated tests and working software demos every two weeks.</p>
+            <span class="svc-card-group">PHASE 03 · WEEK 4-8</span>
+            <h3 class="svc-card-title" style="font-size:1.1rem;">Hardened Engineering</h3>
+            <p class="svc-card-desc">Agent state machines, vector database indexing, ERP/CRM tool contracts, and UI integration.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:4">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-proc-04-deployment.jpg')) ?>" alt="Zero-Downtime Release" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-proc-04-deployment.jpg')) ?>" alt="Zero-Downtime Deployment" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <span class="svc-card-group">PHASE 04</span>
-            <h3 class="svc-card-title" style="font-size:1.1rem;">Zero-Downtime Deploy</h3>
-            <p class="svc-card-desc">Canary rollout to production with automated health checks and instant rollback safety.</p>
+            <span class="svc-card-group">PHASE 04 · WEEK 9-10</span>
+            <h3 class="svc-card-title" style="font-size:1.1rem;">Zero-Downtime Rollout</h3>
+            <p class="svc-card-desc">Shadow mode staging, canary deployment, load stress testing, and seamless cutover.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:5">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-proc-05-telemetry.jpg')) ?>" alt="24/7 System Telemetry" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-proc-05-telemetry.jpg')) ?>" alt="24/7 Agent Operations" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <span class="svc-card-group">PHASE 05</span>
-            <h3 class="svc-card-title" style="font-size:1.1rem;">Continuous Telemetry</h3>
-            <p class="svc-card-desc">Real-time production auditing, error tracking, and SLA verification across cloud regions.</p>
+            <span class="svc-card-group">PHASE 05 · CONTINUOUS</span>
+            <h3 class="svc-card-title" style="font-size:1.1rem;">24/7 Agent SRE</h3>
+            <p class="svc-card-desc">Real-time drift telemetry, token budgeting, prompt versioning, and continuous model optimization.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 5. Three Engagement Models (3 Images) -->
+  <!-- 5. Commercial Deployment Models -->
   <section class="svc-section svc-section--panel">
     <div class="shell">
       <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">ENGAGEMENT MODELS</span>
-        <h2 class="svc-title">Choose How We Work Together</h2>
+        <span class="svc-eyebrow">COMMERCIAL FRAMEWORKS</span>
+        <h2 class="svc-title">Flexible Engagement Models to Match Your Roadmap</h2>
         <p class="svc-lead">
-          From turnkey milestone delivery to embedded pods and on-demand architecture advisory.
+          From turnkey fixed-scope agent systems to dedicated AI squads and on-demand principal advisory.
         </p>
       </div>
 
       <div class="svc-matrix-grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));">
         <div class="svc-matrix-card" data-reveal style="--d:1">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-eng-01-fixed.jpg')) ?>" alt="Fixed-Scope Commitments" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-eng-01-fixed.jpg')) ?>" alt="Fixed-Scope Turnkey AI Systems" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title">Fixed-Scope Projects</h3>
-            <p class="svc-card-desc">A defined scope, a firm budget, and a guaranteed ship date. Ideal for discrete platforms, rewrites, and MVPs.</p>
+            <h3 class="svc-card-title">Turnkey Fixed-Scope Projects</h3>
+            <p class="svc-card-desc">Guaranteed delivery dates, deterministic milestone pricing, and complete IP handover for MVPs, RAG pipelines, and agent suites.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:2">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-eng-02-squad.jpg')) ?>" alt="Dedicated Product Squad" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-eng-02-squad.jpg')) ?>" alt="Dedicated AI Engineering Squad" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title">Dedicated Squads</h3>
-            <p class="svc-card-desc">An integrated team of senior product engineers who own your roadmap and ship daily production code.</p>
+            <h3 class="svc-card-title">Dedicated AI Squads</h3>
+            <p class="svc-card-desc">An integrated team of senior AI engineers, Python developers, and tech leads embedded directly into your rituals and backlog.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:3">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-eng-03-advisory.jpg')) ?>" alt="Principal Advisory" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-eng-03-advisory.jpg')) ?>" alt="Principal AI Advisory" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title">Principal Advisory</h3>
-            <p class="svc-card-desc">Direct access to principal architects for architecture reviews, performance profiling, and AI roadmaps.</p>
+            <h3 class="svc-card-title">Principal AI Advisory</h3>
+            <p class="svc-card-desc">On-demand access to principal AI architects for high-stakes design reviews, GPU cluster optimization, and model safety audits.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 6. Production Proof & Case Studies (3 Images) -->
+  <!-- 6. Production Proof & Case Studies -->
   <section class="svc-section">
     <div class="shell">
       <div class="svc-sec-head" data-reveal>
-        <span class="svc-eyebrow">PRODUCTION PROOF</span>
-        <h2 class="svc-title">Built and Running at Scale</h2>
+        <span class="svc-eyebrow">ENTERPRISE PROOF</span>
+        <h2 class="svc-title">Built and Running at Scale Across Global Enterprises</h2>
         <p class="svc-lead">
-          Real platforms engineered for concurrency, handling millions of requests every day.
+          Real agentic workflows and AI platforms processing millions of transactions and tokens every day.
         </p>
       </div>
 
       <div class="svc-matrix-grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));">
         <div class="svc-matrix-card" data-reveal style="--d:1">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-case-01-fintech.jpg')) ?>" alt="Global Fintech Rails" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-case-01-fintech.jpg')) ?>" alt="Lotus Eye Hospital Healthcare AI" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title">Global Multi-Currency Rails</h3>
-            <p class="svc-card-desc">Cross-border payment infrastructure with sub-5ms settlement and automatic currency reconciliation.</p>
+            <h3 class="svc-card-title">Lotus Eye Hospital — Agentic Healthcare</h3>
+            <p class="svc-card-desc">Multi-agent clinical triage, automated diagnostic report summarization, and EMR EHR integration handling 100k+ patients.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:2">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-case-02-telecom.jpg')) ?>" alt="10M+ Events Telecom Mesh" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-case-02-telecom.jpg')) ?>" alt="Mehala Carona Enterprise AI ERP" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title">Autonomous Telecom Mesh</h3>
-            <p class="svc-card-desc">Distributed event processing engine handling 10,000,000+ network events per second with zero drop.</p>
+            <h3 class="svc-card-title">Mehala Carona — Enterprise AI ERP</h3>
+            <p class="svc-card-desc">Autonomous inventory forecasting, invoice OCR reconciliation, and supplier multi-agent communication network.</p>
           </div>
         </div>
 
         <div class="svc-matrix-card" data-reveal style="--d:3">
           <div class="svc-card-img-wrap">
-            <img src="<?= e(asset('assets/img/services-3d/svc-case-03-logistics.jpg')) ?>" alt="Intelligent Supply Chain" loading="lazy">
+            <img src="<?= e(asset('assets/img/services-3d/svc-case-03-logistics.jpg')) ?>" alt="Tada AI Ride-Hailing Mesh" loading="lazy">
           </div>
           <div class="svc-card-body">
-            <h3 class="svc-card-title">Intelligent Supply Chain</h3>
-            <p class="svc-card-desc">Real-time telemetry and predictive inventory dispatch across nationwide warehouse networks.</p>
+            <h3 class="svc-card-title">Tada — AI Ride-Hailing Mesh</h3>
+            <p class="svc-card-desc">Sub-second dynamic pricing algorithms, route optimization, and autonomous dispatch processing 50k+ daily rides.</p>
           </div>
         </div>
       </div>
@@ -515,10 +509,10 @@ require __DIR__ . '/includes/header.php';
   <!-- 7. Call to Action -->
   <?php
   component('cta', ['cta' => [
-      'eyebrow'   => 'Start Your Project',
-      'title'     => 'Bring us the workflow nobody wants to own.',
-      'body'      => 'Tell us what is quietly costing your engineering team hours every week. Call +91 93845 64915 or write to info@ithrivesoftware.com.',
-      'primary'   => ['label' => 'Start Your Project', 'href' => 'contact.php'],
+      'eyebrow'   => 'Start Your AI Transformation',
+      'title'     => 'Bring us the complex AI workflow nobody wants to own.',
+      'body'      => 'Tell us where manual operational friction is costing your business money. Call +91 93845 64915 or write to info@ithrivesoftware.com.',
+      'primary'   => ['label' => 'Start Your AI Project', 'href' => 'contact.php'],
       'secondary' => ['label' => 'Call: +91 93845 64915', 'href' => 'tel:+919384564915'],
   ]]);
   ?>

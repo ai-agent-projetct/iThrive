@@ -91,8 +91,18 @@ body::after {
 
 body > * { position: relative; z-index: 1; }
 
-img, svg, video, canvas { max-width: 100%; display: block; }
+img, video, canvas { max-width: 100%; display: block; }
 img { height: auto; }
+
+.icon, svg.icon {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  max-width: 24px;
+  max-height: 24px;
+  vertical-align: -0.18em;
+  flex-shrink: 0;
+}
 
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; }
@@ -534,131 +544,112 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 .nav-panel {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 10px);
   left: 50%;
-  translate: -50% 0;
   z-index: 95;
   width: max-content;
-  /* Widened for the full service list: at 1000px the columns could not all sit
-     on one row beside the 258px feature panel, so they wrapped and made the
-     menu tall enough to need scrolling. */
-  max-width: min(96vw, 1400px);
-  padding: 26px;
+  max-width: min(98vw, 1440px);
+  padding: 22px 24px 18px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-lg);
-  background: rgba(14, 20, 32, .94);
+  background: rgba(14, 20, 32, .96);
   backdrop-filter: var(--blur);
   -webkit-backdrop-filter: var(--blur);
   box-shadow: 0 34px 80px -30px rgba(0, 0, 0, .9);
-  /* A safety net only. With the width above, every column sits on one row and
-     the whole list shows at once — this never engages on a normal desktop. It
-     exists so that on a genuinely short window the last links stay reachable
-     rather than being cut off the bottom of the screen. */
-  max-height: calc(100dvh - var(--header-h) - 28px);
+  max-height: calc(100dvh - var(--header-h) - 20px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  /* Stacked, not side by side. The promo used to sit in a 258px column on the
-     right, which squeezed the service columns into half the panel; it is now a
-     strip along the bottom and the columns get the full width, which puts Core
-     Services back on the right-hand edge. */
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-8px);
-  transition: opacity .22s var(--ease), transform .22s var(--ease), visibility .22s;
+  transform: translate(-50%, -8px);
+  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
 }
-.nav-item.is-open .nav-panel { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-item.is-open .nav-panel { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 .nav-panel--narrow { max-width: 640px; }
 
-/* The services panel is much wider than the link it hangs from, and `left: 50%`
-   resolves against that link — which sits left of centre, so the panel ran off
-   the left edge of the screen. Centre it on the viewport instead, and give it a
-   definite width rather than `max-content`: at max-content the columns collapse
-   to their 190px basis and the long labels wrap onto two lines, which is what
-   made the menu tall enough to scroll. The narrow menus are barely wider than
-   their own link and keep sitting directly under it. */
 .nav-panel:not(.nav-panel--narrow) {
   position: fixed;
   top: calc(var(--header-h) + 10px);
-  left: 50%;
-  translate: -50% 0;
-  width: min(96vw, 1400px);
+  left: 50vw;
+  width: min(98vw, 1440px);
+  max-width: 1440px;
+  box-sizing: border-box;
 }
 
-/* Flex, deliberately. An auto-fit grid was tried here and collapsed to a
-   single column per row: the panel is `width: max-content`, and under
-   max-content sizing an auto-fit track with a 1fr maximum resolves to one
-   column, which stacked all five headings vertically and forced the menu to
-   scroll. Flex sums its items under max-content, so the columns sit in one
-   row and the panel sizes itself to hold the whole list. Wrapping is the
-   fallback for windows too narrow to fit them all. */
 .nav-panel-cols {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px;
-}
-/* A fixed basis, not max-content. Left to size themselves the columns took the
-   width of their longest label (up to 240px), and five of those plus the
-   feature panel needed ~1555px — past any sane cap, so they wrapped to a
-   second row and the menu scrolled. At this basis the long labels wrap to two
-   lines and the whole list sits on one row. */
-.nav-col { flex: 1 1 190px; min-width: 170px; }
-.nav-col-head {
-  margin-bottom: 12px;
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-.nav-col li + li { margin-top: 2px; }
-.nav-col a {
-  display: block;
-  padding: 7px 10px;
-  margin-inline: -10px;
-  border-radius: 9px;
-  font-size: .89rem;
-  color: var(--text-dim);
-  transition: color .18s var(--ease), background-color .18s var(--ease), transform .18s var(--ease);
-}
-.nav-col a:hover { color: var(--text); background: var(--glass); transform: translateX(3px); }
-
-.nav-feature {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 2px 26px;
-  padding: 16px 22px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--grad-soft);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px 18px;
+  align-items: start;
 }
-.nav-feature-eyebrow {
+
+.nav-col { min-width: 0; }
+.nav-col-head {
+  margin-bottom: 10px;
   font-size: .68rem;
   font-weight: 700;
-  letter-spacing: .13em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--cyan);
-  margin-bottom: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.nav-feature-eyebrow { grid-column: 1; grid-row: 1; margin-bottom: 0; }
-.nav-feature h3 { grid-column: 1; grid-row: 2; font-size: 1rem; margin-bottom: 0; }
-.nav-feature p {
-  grid-column: 2; grid-row: 1 / span 2;
-  font-size: .84rem; color: var(--text-dim); margin-bottom: 0;
+.nav-col li + li { margin-top: 1px; }
+.nav-col a {
+  display: block;
+  padding: 5px 6px;
+  margin-inline: -6px;
+  border-radius: 6px;
+  font-size: .81rem;
+  line-height: 1.35;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color .18s var(--ease), background-color .18s var(--ease), transform .18s var(--ease);
 }
-.nav-feature .btn { grid-column: 3; grid-row: 1 / span 2; white-space: nowrap; }
+.nav-col a:hover { color: #ffffff; background: rgba(0, 242, 254, .08); transform: translateX(3px); }
 
-/* Too narrow for three across — stack it back up. */
+.nav-feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  border: 1px solid rgba(0, 242, 254, .18);
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, rgba(0, 242, 254, .06), rgba(157, 78, 221, .06));
+}
+.nav-feature-eyebrow {
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 2px;
+}
+.nav-feature h3 { font-size: .88rem; font-weight: 600; color: #fff; margin: 0; }
+.nav-feature p {
+  font-size: .8rem;
+  color: #94a3b8;
+  margin: 0;
+}
+.nav-feature .btn { flex-shrink: 0; white-space: nowrap; }
+
+/* Responsive adjustments */
+@media (max-width: 1180px) {
+  .nav-panel-cols {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
 @media (max-width: 900px) {
-  .nav-feature { grid-template-columns: 1fr; gap: 10px; }
-  .nav-feature-eyebrow,
-  .nav-feature h3,
-  .nav-feature p,
-  .nav-feature .btn { grid-column: 1; grid-row: auto; }
-  .nav-feature .btn { justify-self: start; }
+  .nav-feature { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .nav-panel-cols { grid-template-columns: 1fr; }
 }
 
 /* Mobile nav */

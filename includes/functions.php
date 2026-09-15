@@ -5,6 +5,22 @@
 
 declare(strict_types=1);
 
+if (!function_exists('mb_strlen')) {
+    function mb_strlen(string $string, ?string $encoding = null): int {
+        return strlen($string);
+    }
+}
+if (!function_exists('mb_substr')) {
+    function mb_substr(string $string, int $start, ?int $length = null, ?string $encoding = null): string {
+        return $length === null ? substr($string, $start) : substr($string, $start, $length);
+    }
+}
+if (!function_exists('mb_strrpos')) {
+    function mb_strrpos(string $haystack, string $needle, int $offset = 0, ?string $encoding = null): int|false {
+        return strrpos($haystack, $needle, $offset);
+    }
+}
+
 /** Escape for HTML output. */
 function e(?string $value): string
 {
@@ -117,8 +133,9 @@ function icon(string $name, string $class = 'icon'): string
 
     $body = $paths[$name] ?? $paths['arrow'];
 
-    return '<svg class="' . e($class) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-        . 'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
+    return '<svg class="' . e($class) . '" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+        . 'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" '
+        . 'style="display:inline-block;width:1.25em;height:1.25em;vertical-align:-0.18em;flex-shrink:0;">'
         . $body . '</svg>';
 }
 

@@ -139,22 +139,19 @@ const NAV_ITEMS = [
         'href'  => 'services.php',
         'menu'  => [
             'columns' => [
-                /* Split in two. As one column this was seventeen links deep and
-                   pushed the panel 400px below the fold on a 768px screen, so
-                   the last services could not be reached at all. */
                 [
                     'heading' => 'AI-First Product Development',
                     'links'   => [
-                        ['label' => 'AI Development Company',              'href' => 'services/ai-development-company.php'],
-                        ['label' => 'AI Consulting',                       'href' => 'services/ai-consulting.php'],
-                        ['label' => 'AI-Native Product Development',       'href' => 'services/ai-native-product-development.php'],
+                        ['label' => 'AI Development Company',           'href' => 'services/ai-development-company.php'],
+                        ['label' => 'AI Consulting',                    'href' => 'services/ai-consulting.php'],
+                        ['label' => 'AI-Native Product Development',    'href' => 'services/ai-native-product-development.php'],
                         ['label' => 'AI Enablement for Existing Products', 'href' => 'services/ai-enablement.php'],
-                        ['label' => 'AI Solutions for eCommerce',          'href' => 'services/ai-for-ecommerce.php'],
-                        ['label' => 'Generative AI Development',           'href' => 'services/gen-ai-development.php'],
-                        ['label' => 'AI Chatbot Development',              'href' => 'services/ai-chatbot-development.php'],
-                        ['label' => 'AI Copilot Development',              'href' => 'services/ai-copilot-development.php'],
-                        ['label' => 'RAG Development',                     'href' => 'services/rag-development.php'],
-                        ['label' => 'Computer Vision Development',         'href' => 'services/computer-vision-development.php'],
+                        ['label' => 'AI Solutions for eCommerce',       'href' => 'services/ai-for-ecommerce.php'],
+                        ['label' => 'Generative AI Development',        'href' => 'services/gen-ai-development.php'],
+                        ['label' => 'AI Chatbot Development',           'href' => 'services/ai-chatbot-development.php'],
+                        ['label' => 'AI Copilot Development',           'href' => 'services/ai-copilot-development.php'],
+                        ['label' => 'RAG Development',                  'href' => 'services/rag-development.php'],
+                        ['label' => 'Computer Vision Development',      'href' => 'services/computer-vision-development.php'],
                     ],
                 ],
                 [
@@ -193,14 +190,14 @@ const NAV_ITEMS = [
                     'heading' => 'Core Services',
                     'links'   => [
                         ['label' => 'Custom Software Development', 'href' => 'services/software-development.php'],
-                        ['label' => 'Mobile App Development',  'href' => 'services/mobile-app-development.php'],
-                        ['label' => 'Flutter App Development', 'href' => 'services/flutter-app-development.php'],
-                        ['label' => 'Web Development',         'href' => 'services/web-development.php'],
-                        ['label' => 'E-commerce Development', 'href' => 'services/ecommerce-development.php'],
-                        ['label' => 'React JS Development',   'href' => 'services/reactjs-development.php'],
-                        ['label' => 'POC Development',        'href' => 'services/poc-development.php'],
-                        ['label' => 'MVP Development',        'href' => 'services/mvp-development.php'],
-                        ['label' => 'Game Development',       'href' => 'services/game-development.php'],
+                        ['label' => 'Mobile App Development',      'href' => 'services/mobile-app-development.php'],
+                        ['label' => 'Flutter App Development',     'href' => 'services/flutter-app-development.php'],
+                        ['label' => 'Web Development',             'href' => 'services/web-development.php'],
+                        ['label' => 'E-commerce Development',     'href' => 'services/ecommerce-development.php'],
+                        ['label' => 'React JS Development',       'href' => 'services/reactjs-development.php'],
+                        ['label' => 'POC Development',            'href' => 'services/poc-development.php'],
+                        ['label' => 'MVP Development',            'href' => 'services/mvp-development.php'],
+                        ['label' => 'Game Development',           'href' => 'services/game-development.php'],
                     ],
                 ],
             ],
@@ -289,12 +286,14 @@ const NAV_ITEMS = [
 /** Footer link columns. */
 const FOOTER_COLUMNS = [
     'Services' => [
-        ['label' => 'AI-Native Product Development', 'href' => 'services/ai-native-product-development.php'],
-        ['label' => 'AI Enablement',                 'href' => 'services/ai-enablement.php'],
-        ['label' => 'Micro SaaS Development',        'href' => 'services/micro-saas-development.php'],
-        ['label' => 'Cloud & DevOps',                'href' => 'services/cloud-devops.php'],
-        ['label' => 'Mobile App Development',        'href' => 'services/mobile-app-development.php'],
-        ['label' => 'All Services',                  'href' => 'services.php'],
+        ['label' => 'AI Consulting & Strategy',        'href' => 'services/ai-consulting.php'],
+        ['label' => 'Generative AI Development',        'href' => 'services/gen-ai-development.php'],
+        ['label' => 'Custom AI Agent Development',      'href' => 'services/custom-agent-development.php'],
+        ['label' => 'Multi-Agent Orchestration',        'href' => 'services/multi-agent-orchestration.php'],
+        ['label' => 'RAG Systems Development',          'href' => 'services/rag-development.php'],
+        ['label' => 'Autonomous Workflow Automation',   'href' => 'services/autonomous-workflow-automation.php'],
+        ['label' => 'Hire Agentic AI Developers',       'href' => 'services/hire-agentic-ai-developers.php'],
+        ['label' => 'All 16 AI Services',               'href' => 'services.php'],
     ],
     'Solutions' => [
         ['label' => 'iThrive Insights', 'href' => 'solutions/ithrive-insights.php'],
