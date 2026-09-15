@@ -30,6 +30,42 @@ const STYLE = [
   'no people, no faces, no hands.',
 ].join(' ');
 
+/**
+ * The same brief, hardened against what actually came back the first time.
+ *
+ * Measuring the delivered set found baked-in text in 181 of 224 and content
+ * sliced at an edge in 136. The model had been answering with marketing
+ * banners -- a headline, a subhead, a row of labelled icons -- and then
+ * cropping them to 16:9, which cut the headline mid-word. Page 01 was the only
+ * clean set, so the original wording CAN work; it just was not emphatic enough
+ * about what the picture must not be.
+ *
+ * So this version says no to the specific thing that went wrong, not just to
+ * "text": no poster, no banner, no slide, no interface. It also asks for the
+ * subject to sit inside the frame with clear margin, because a subject that
+ * runs to the edge is what survives a crop as a slice. And it asks for bold
+ * shapes, because these display about 400px wide, where a hairline disappears.
+ */
+const STYLE_STRICT = [
+  'Original abstract 3D render. Fills the entire 16:9 landscape frame, edge to',
+  'edge, with no border, no white margin and no padding of any kind.',
+  'Near-black navy background (hex 0B0F17).',
+  'Light comes only from the subject: glowing cyan (hex 00F2FE) through blue',
+  '(hex 4EA8FF) into violet (hex 9D4EDD).',
+  'Cinematic studio lighting, soft depth of field, subtle volumetric haze,',
+  'clean reflective floor, premium enterprise feel.',
+  'Bold, simple, large forms that stay readable when the image is shown small;',
+  'avoid thin hairlines and fine detail.',
+  'The subject sits fully inside the frame with clear empty space around it,',
+  'and nothing touches or runs off any edge.',
+  'ABSOLUTELY NO TEXT of any kind: no words, no letters, no numbers, no labels,',
+  'no captions, no headings, no titles, no watermarks, no logos, no brand marks,',
+  'no user interface, no buttons, no charts, no diagrams with labels.',
+  'This is NOT a poster, NOT a banner, NOT a slide, NOT an infographic and NOT',
+  'a screenshot. It is a single abstract sculptural object rendered in 3D.',
+  'No people, no faces, no hands, no photography.',
+].join(' ');
+
 /** [slug, label, motif, six section-3 subjects, five section-5, three section-6] */
 const PAGES = [
   ['ai-consulting', 'AI Consulting', 'the decision map',
@@ -289,35 +325,92 @@ const PAGES = [
      'a finished structure with one piece removable']],
 ];
 
+/* --redo emits the same subjects for pages 02-16 only, under the hardened
+   style block. Page 01 is left out because its fourteen came back correct and
+   are already installed; regenerating them would risk losing the one set that
+   proves the brief works. */
+const REDO = process.argv.includes('--redo');
+const SELECTED = REDO ? PAGES.map((p, i) => [p, i]).slice(1) : PAGES.map((p, i) => [p, i]);
+
 const lines = [];
 const P = (s = '') => lines.push(s);
 
-P('# Image prompts — 16 AI service pages, 14 images each');
-P('');
-P('224 images. Generate in ChatGPT (or any image model), save with the exact');
-P('filename given, and drop them anywhere — installation, resizing and wiring');
-P('into the pages is handled separately.');
-P('');
-P('## How to use');
-P('');
-P('1. Paste the STYLE BLOCK once at the start of a new chat.');
-P('2. Then send one SUBJECT line at a time. Each produces one image.');
-P('3. Save each result under the filename shown beside it.');
-P('');
-P('Keeping the style block in one conversation is what holds the sixteen sets');
-P('together as one website rather than sixteen unrelated galleries.');
-P('');
-P('## STYLE BLOCK');
-P('');
-P('```');
-P(STYLE);
-P('```');
-P('');
-P('---');
-P('');
+if (REDO) {
+  P('# Image prompts — regenerating pages 02–16');
+  P('');
+  P('210 images, fourteen per page. Page 01 is deliberately not here: its');
+  P('fourteen came back correct and are already on the site.');
+  P('');
+  P('## Why these are being redone');
+  P('');
+  P('The delivered set was measured, and 181 of 224 had text rendered into the');
+  P('picture while 136 had content sliced off at an edge. What came back were');
+  P('marketing banners — a headline, a subhead, a row of labelled icons — then');
+  P('cropped to 16:9, which cut the headline mid-word. On the hire page');
+  P('"Agentic AI Developers" arrives as "ntic AI / elopers".');
+  P('');
+  P('Two reasons that does not work here. The pictures sit about 400px wide, so');
+  P('baked-in words are unreadable anyway. And text inside a JPEG cannot be');
+  P('read by a search engine or translated — this site answers in six');
+  P('languages, and a headline burned into an image stays English forever.');
+  P('');
+  P('Page 01 proves the brief is achievable: all fourteen of its images came');
+  P('back clean under the same instructions.');
+  P('');
+  P('## How to use');
+  P('');
+  P('1. Start a NEW chat. Paste the STYLE BLOCK below as the first message,');
+  P('   on its own.');
+  P('2. Then send one SUBJECT line at a time — only the words after the dash.');
+  P('   Do not paste the filename: it can make the model render the filename');
+  P('   into the picture, which is exactly the fault being fixed.');
+  P('3. Save each result under the filename shown beside it.');
+  P('');
+  P('Keep it to one conversation per run, and re-paste the style block if you');
+  P('start a new chat. That is what holds the sets together as one website.');
+  P('');
+  P('**Reject and retry any image that has words in it, a border or white');
+  P('margin, or a subject running off the edge.** Replying "again — no text at');
+  P('all, abstract object only, nothing touching the edges" usually fixes it.');
+  P('If the model keeps producing banners, start a fresh chat and re-paste the');
+  P('style block; it has usually anchored on an earlier answer.');
+  P('');
+  P('## STYLE BLOCK');
+  P('');
+  P('```');
+  P(STYLE_STRICT);
+  P('```');
+  P('');
+  P('---');
+  P('');
+} else {
+  P('# Image prompts — 16 AI service pages, 14 images each');
+  P('');
+  P('224 images. Generate in ChatGPT (or any image model), save with the exact');
+  P('filename given, and drop them anywhere — installation, resizing and wiring');
+  P('into the pages is handled separately.');
+  P('');
+  P('## How to use');
+  P('');
+  P('1. Paste the STYLE BLOCK once at the start of a new chat.');
+  P('2. Then send one SUBJECT line at a time. Each produces one image.');
+  P('3. Save each result under the filename shown beside it.');
+  P('');
+  P('Keeping the style block in one conversation is what holds the sixteen sets');
+  P('together as one website rather than sixteen unrelated galleries.');
+  P('');
+  P('## STYLE BLOCK');
+  P('');
+  P('```');
+  P(STYLE);
+  P('```');
+  P('');
+  P('---');
+  P('');
+}
 
 let total = 0;
-PAGES.forEach(([slug, label, motif, s3, s5, s6], i) => {
+SELECTED.forEach(([[slug, label, motif, s3, s5, s6], i]) => {
   const n = String(i + 1).padStart(2, '0');
   P(`## ${n} — ${label}`);
   P('');
@@ -340,11 +433,11 @@ PAGES.forEach(([slug, label, motif, s3, s5, s6], i) => {
   P('');
 });
 
-P(`Total: ${total} images across ${PAGES.length} pages.`);
+P(`Total: ${total} images across ${SELECTED.length} pages.`);
 P('');
 
 fs.mkdirSync(path.join(ROOT, 'docs'), { recursive: true });
-const out = path.join(ROOT, 'docs', 'image-prompts.md');
+const out = path.join(ROOT, 'docs', REDO ? 'image-prompts-redo.md' : 'image-prompts.md');
 fs.writeFileSync(out, lines.join('\n'), 'utf8');
 console.log(`wrote ${out}`);
-console.log(`${total} prompts across ${PAGES.length} pages`);
+console.log(`${total} prompts across ${SELECTED.length} pages`);
