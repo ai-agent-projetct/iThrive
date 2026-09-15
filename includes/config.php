@@ -74,8 +74,12 @@ define('TTS_ENDPOINT', getenv('TTS_ENDPOINT') ?: '');
  */
 define('SARVAM_API_KEY', getenv('SARVAM_API_KEY') ?: '');
 
-/** Sarvam voice. Options include anushka, manisha, vidya, arya, karun, hitesh. */
-define('SARVAM_SPEAKER', getenv('SARVAM_SPEAKER') ?: 'anushka');
+/**
+ * Sarvam voice. bulbul:v3 speakers: aditya, ritu, ashutosh, priya, neha, rahul,
+ * pooja, rohan, simran and others. The v2 names (anushka, manisha, vidya, arya,
+ * karun, hitesh) are NOT valid on v3 and are rejected with a 400.
+ */
+define('SARVAM_SPEAKER', getenv('SARVAM_SPEAKER') ?: 'priya');
 
 define('ROOT_PATH', dirname(__DIR__));
 define('STORAGE_PATH', ROOT_PATH . '/storage');

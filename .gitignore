@@ -38,3 +38,7 @@ graphify-out/
 scratch/
 scratch_*.js
 test-puter.html
+
+# Dev server output. Can contain a pasted API key from the launch command line.
+server.log
+.tools/sarvam-result.txt

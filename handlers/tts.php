@@ -151,7 +151,7 @@ function tts_sarvam(string $text, string $bcp47): ?string
             'text'                 => $text,
             'target_language_code' => $bcp47,
             'speaker'              => SARVAM_SPEAKER,
-            'model'                => 'bulbul:v2',
+            'model'                => 'bulbul:v3',
         ], JSON_UNESCAPED_UNICODE),
     ]);
     ai_curl_ca($ch);

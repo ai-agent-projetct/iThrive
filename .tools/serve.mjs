@@ -144,13 +144,17 @@ async function ttsSarvam(text, bcp47) {
     body: JSON.stringify({
       text,
       target_language_code: bcp47,
-      speaker: process.env.SARVAM_SPEAKER || 'anushka',
-      model: 'bulbul:v2',
+      speaker: process.env.SARVAM_SPEAKER || 'priya',
+      model: 'bulbul:v3',
     }),
   });
 
   if (!r.ok) {
-    console.error(`        sarvam returned ${r.status}`);
+    // The status alone is not actionable: 400 covers a bad speaker, a retired
+    // model id and an unsupported language equally. Sarvam names the real
+    // cause in the body, so print it.
+    const detail = await r.text().catch(() => '');
+    console.error(`        sarvam returned ${r.status} ${detail.slice(0, 300)}`);
     return null;
   }
 
