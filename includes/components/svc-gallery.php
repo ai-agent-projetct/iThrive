@@ -53,6 +53,16 @@ $PROPS = [
     ],
     'coverflow' => [
         'images' => $images,
+        /* 16:9 cards, the images' own shape. The component's default portrait
+           card (260x330) cropped away both sides of every picture. Sizes are
+           ratios: embed.jsx scales them to fitHeight of the box CSS gives. */
+        /* A positive gap keeps the neighbours clear of the front card, so no
+           part of the picture in focus is ever covered; they peek in at the
+           edges instead. */
+        'layout' => ['cardWidth' => 800, 'cardHeight' => 450, 'gap' => 40, 'radius' => 14, 'fitHeight' => 0.64, 'fitWidth' => 0.86],
+        'depth'  => ['rotation' => 35, 'minScale' => 0.72, 'scaleFalloff' => 3],
+        'motionSettings' => ['activeIndex' => 2],
+        'styleSettings'  => ['backgroundColor' => 'transparent'],
         'style'  => ['minWidth' => 0, 'minHeight' => 0],
     ],
     'stack' => [

@@ -850,7 +850,8 @@
 /* Heights the islands render into. They size from props, not from CSS, so
    these only have to leave the right amount of room. */
 .svc-gal--deck      { height: clamp(360px, 46vw, 560px); }
-.svc-gal--coverflow { height: clamp(320px, 40vw, 480px); }
+/* A 16:9 stage for 16:9 cards. */
+.svc-gal--coverflow { aspect-ratio: 16 / 9; }
 .svc-gal--stack     { height: clamp(300px, 36vw, 420px); }
 
 /* The no-JS state: every image, readable, as a plain grid. Deliberately not
@@ -885,6 +886,6 @@
 
 @media (max-width: 720px) {
   .svc-gal--deck      { height: 300px; }
-  .svc-gal--coverflow { height: 280px; }
+  .svc-gal--coverflow { aspect-ratio: auto; height: 300px; }
   .svc-gal--stack     { height: 260px; }
 }

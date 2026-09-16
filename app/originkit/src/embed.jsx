@@ -202,6 +202,20 @@ function mount(host) {
     console.warn('[originkit] bad props on', name, e.message);
   }
 
+  /* layout.fitHeight / fitWidth: card size as a fraction of the host's box,
+     whichever is tighter, keeping the authored width:height:gap ratios. Lets
+     CSS size the box per breakpoint while components that only take pixels
+     still fill it without overflowing it.
+     ponytail: measured once at mount; a resize keeps the first size. */
+  const L = props.layout;
+  if (L?.fitHeight && L.cardHeight && host.clientHeight) {
+    const k = Math.min(
+      (host.clientHeight * L.fitHeight) / L.cardHeight,
+      (host.clientWidth * (L.fitWidth ?? 1)) / L.cardWidth,
+    );
+    props.layout = { ...L, cardWidth: L.cardWidth * k, cardHeight: L.cardHeight * k, gap: (L.gap ?? 0) * k };
+  }
+
   /* Suspense because some entries are lazy — see Magazine3D. The fallback is
      nothing on purpose: the host already has its own sizing and background, so
      a spinner would only add a flash before the real thing arrives. */
