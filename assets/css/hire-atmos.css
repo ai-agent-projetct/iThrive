@@ -24,10 +24,14 @@
   --wide: 0.22em;
 
   position: relative;
-  background: var(--stage);
+  /* The stage colour is painted on <body> below instead: an opaque wrapper here
+     covered the site-wide hexagon field (assets/js/hexbg.js), which is a fixed
+     canvas drawn between the body background and <main>. */
+  background: transparent;
   color: var(--text);
   overflow-x: hidden;
 }
+body:has(.hire-atmos) { background-color: #070A12; }
 
 /* --------------------------------------------------------------------------
    1. The persistent field

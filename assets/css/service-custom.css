@@ -24,7 +24,10 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   position: relative;
-  background: var(--ink);
+  /* Transparent, not var(--ink): the body already paints the same colour, and
+     an opaque wrapper here hid the site-wide hexagon field (assets/js/hexbg.js,
+     a fixed canvas behind <main>) on all sixteen AI service pages. */
+  background: transparent;
   color: var(--text);
   font-family: var(--font);
   overflow-x: hidden;
