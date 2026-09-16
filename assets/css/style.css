@@ -1291,6 +1291,86 @@ body.nav-open .nav-toggle-close { display: block; }
 .case-hero { display: grid; grid-template-columns: 1fr .82fr; gap: 50px; align-items: center; }
 .case-hero-visual { position: relative; }
 
+/* Product film: a dark full-bleed band, centred heading, frameless film that
+   melts into the band at its edges, call to action beneath. */
+.case-film {
+  position: relative;
+  padding: clamp(64px, 9vw, 120px) 0;
+  margin-bottom: clamp(40px, 6vw, 72px);
+  background: #000;
+  text-align: center;
+  overflow: hidden;
+}
+.case-film::before,
+.case-film::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 1;
+}
+.case-film::before { top: 0;    background: linear-gradient(var(--ink), transparent); }
+.case-film::after  { bottom: 0; background: linear-gradient(transparent, var(--ink)); }
+.case-film-head { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+.case-film-head .section-lead { margin-inline: auto; }
+
+.case-film-stage {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, calc(100% - 32px));
+  margin: clamp(32px, 5vw, 56px) auto;
+}
+.case-film-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #000;
+  /* Edges fade into the band instead of ending on a hard frame. */
+  -webkit-mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 62%, transparent 100%);
+}
+.case-film-controls {
+  position: absolute;
+  right: clamp(8px, 3%, 28px);
+  bottom: clamp(8px, 4%, 28px);
+  display: flex;
+  gap: 8px;
+}
+.case-film-controls[hidden] { display: none; }
+.case-film-btn {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .55);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: border-color .2s ease, background .2s ease;
+}
+.case-film-btn:hover,
+.case-film-btn:focus-visible { border-color: var(--accent, var(--cyan)); background: rgba(0, 0, 0, .8); }
+.case-film-icon-play,
+.case-film-icon-sound { display: none !important; }
+.case-film-stage:not(.is-playing) .case-film-icon-pause { display: none !important; }
+.case-film-stage:not(.is-playing) .case-film-icon-play  { display: inline-block !important; }
+.case-film-stage:not(.is-muted)   .case-film-icon-muted { display: none !important; }
+.case-film-stage:not(.is-muted)   .case-film-icon-sound { display: inline-block !important; }
+
+.case-film-foot { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; }
+.case-film-foot h3 { margin: 0 0 10px; font-size: clamp(1.3rem, 2.4vw, 1.75rem); letter-spacing: -.02em; }
+.case-film-foot p { margin: 0 auto 22px; color: var(--text-dim); }
+
+@media (max-width: 720px) {
+  .case-film-stage { width: 100%; }
+  .case-film-video { -webkit-mask-image: none; mask-image: none; }
+}
+
 .narrative { display: grid; gap: 22px; }
 .narrative-block {
   padding: 28px;

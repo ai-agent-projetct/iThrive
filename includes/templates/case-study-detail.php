@@ -64,6 +64,47 @@ require dirname(__DIR__) . '/header.php';
   </div>
 </section>
 
+<?php /* The product film, when there is one: a dark full-width band, heading
+         centred above a frameless video that plays itself muted and on loop,
+         the call to action beneath. Keyed by slug, so a study gains its film
+         the moment assets/video/case-studies/<slug>.mp4 exists; no content
+         edit, and a study without one simply skips the band.
+         The markup ships with native controls so the film still plays with
+         JavaScript off; case-film.js swaps those for autoplay-in-view plus
+         pause and sound buttons. */ ?>
+<?php
+$filmRel   = 'assets/video/case-studies/' . $study['slug'] . '.mp4';
+$posterRel = 'assets/img/case-video/' . $study['slug'] . '.jpg';
+if (is_file(ROOT_PATH . '/' . $filmRel)):
+    $GLOBALS['ithrive_needs_casefilm'] = true;
+?>
+<section class="case-film" style="--accent: <?= e($study['accent']) ?>" aria-labelledby="case-film-title">
+  <div class="shell case-film-head">
+    <p class="eyebrow" data-reveal>See It In Action</p>
+    <h2 class="section-title" id="case-film-title" data-reveal style="--d:1"><?= e($study['client']) ?>, live</h2>
+    <p class="section-lead" data-reveal style="--d:2">A walkthrough of the working product: the screens, the flows and the moments that made the difference.</p>
+  </div>
+
+  <div class="case-film-stage" data-reveal style="--d:2">
+    <video class="case-film-video" data-case-film controls muted loop playsinline preload="metadata"
+           <?= is_file(ROOT_PATH . '/' . $posterRel) ? 'poster="' . e(asset($posterRel)) . '"' : '' ?>
+           width="1920" height="1080" aria-label="<?= e($study['client']) ?> product walkthrough">
+      <source src="<?= e(asset($filmRel)) ?>" type="video/mp4">
+    </video>
+    <div class="case-film-controls" hidden>
+      <button class="case-film-btn" type="button" data-case-film-play aria-label="Pause video"><?= icon('pause', 'icon case-film-icon-pause') ?><?= icon('play', 'icon case-film-icon-play') ?></button>
+      <button class="case-film-btn" type="button" data-case-film-sound aria-label="Turn sound on"><?= icon('volume-x', 'icon case-film-icon-muted') ?><?= icon('volume-2', 'icon case-film-icon-sound') ?></button>
+    </div>
+  </div>
+
+  <div class="shell case-film-foot" data-reveal>
+    <h3>Want a product that works like this?</h3>
+    <p>Tell us what you are building. A senior engineer reads every brief and replies with scope, stack and a realistic timeline.</p>
+    <button class="btn btn-primary" type="button" data-modal-open>Build something like this<?= icon('arrow') ?></button>
+  </div>
+</section>
+<?php endif; ?>
+
 <section class="section section--flush-top" style="--accent: <?= e($study['accent']) ?>">
   <div class="shell">
     <div class="case-metrics" data-reveal>

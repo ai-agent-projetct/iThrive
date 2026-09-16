@@ -109,6 +109,9 @@ component('chat-widget');
 <script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
 <?php endif; ?>
 
+<?php if (!empty($GLOBALS['ithrive_needs_casefilm'])): ?>
+<script src="<?= e(asset('assets/js/case-film.js')) ?>" defer></script>
+<?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/depth.js')) ?>" defer></script>
