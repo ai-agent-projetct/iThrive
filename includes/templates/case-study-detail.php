@@ -59,7 +59,19 @@ require dirname(__DIR__) . '/header.php';
     </div>
 
     <div class="case-hero-visual" data-reveal style="--d:2">
-      <?php component('mock-window', ['study' => $study]); ?>
+      <?php /* A photographic hero when assets/img/case-hero/<slug>.jpg exists;
+               the drawn app window otherwise. Eager and high priority: it is
+               the largest thing above the fold. */ ?>
+      <?php $heroRel = 'assets/img/case-hero/' . $study['slug'] . '.jpg'; ?>
+      <?php if (is_file(ROOT_PATH . '/' . $heroRel)): ?>
+        <figure class="case-hero-photo">
+          <img src="<?= e(asset($heroRel)) ?>" width="1536" height="1024"
+               alt="<?= e($study['client'] . ' — ' . $study['headline']) ?>"
+               fetchpriority="high" decoding="async">
+        </figure>
+      <?php else: ?>
+        <?php component('mock-window', ['study' => $study]); ?>
+      <?php endif; ?>
     </div>
   </div>
 </section>

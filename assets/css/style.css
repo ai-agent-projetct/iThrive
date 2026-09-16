@@ -1290,6 +1290,17 @@ body.nav-open .nav-toggle-close { display: block; }
 
 .case-hero { display: grid; grid-template-columns: 1fr .82fr; gap: 50px; align-items: center; }
 .case-hero-visual { position: relative; }
+.case-hero-photo {
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8),
+              0 0 60px -20px color-mix(in srgb, var(--accent, var(--cyan)) 45%, transparent);
+  aspect-ratio: 3 / 2;
+}
+.case-hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* Product film: a dark full-bleed band, centred heading, frameless film that
    melts into the band at its edges, call to action beneath. */
