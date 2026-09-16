@@ -108,8 +108,32 @@ $ogAbs   = site_origin() . asset($ogImg);
           </a>
 
           <?php if ($hasMenu): ?>
+            <?php $cols = count($item['menu']['columns']); ?>
             <div class="nav-panel<?= empty($item['menu']['feature']) ? ' nav-panel--narrow' : '' ?>">
-              <div class="nav-panel-cols">
+              <?php /* Card header, after the reference: a title and a one-line
+                       tagline, the menu's call to action on the right, then a
+                       divider. The CTA used to sit in a promo strip at the foot
+                       of the panel; up here it is visible without reading the
+                       whole list first. */ ?>
+              <?php if (!empty($item['menu']['title'])): ?>
+                <div class="nav-panel-head">
+                  <div>
+                    <p class="nav-panel-title"><?= e($item['menu']['title']) ?></p>
+                    <?php if (!empty($item['menu']['tagline'])): ?>
+                      <p class="nav-panel-tagline"><?= e($item['menu']['tagline']) ?></p>
+                    <?php endif; ?>
+                  </div>
+                  <?php if (!empty($item['menu']['feature']['cta'])): $cta = $item['menu']['feature']['cta']; ?>
+                    <a class="btn btn-primary btn-sm nav-panel-cta" href="<?= e(url($cta['href'])) ?>">
+                      <?= e($cta['label']) ?><?= icon('arrow') ?>
+                    </a>
+                  <?php endif; ?>
+                </div>
+              <?php endif; ?>
+              <?php /* --cols is the real column count. The grid used to be a
+                       fixed five for every menu, so the two-column menus sat
+                       squeezed into two fifths of their own panel. */ ?>
+              <div class="nav-panel-cols" style="--cols: <?= (int) $cols ?>">
                 <?php foreach ($item['menu']['columns'] as $col): ?>
                   <div class="nav-col">
                     <p class="nav-col-head"><?= e($col['heading']) ?></p>
@@ -122,16 +146,6 @@ $ogAbs   = site_origin() . asset($ogImg);
                 <?php endforeach; ?>
               </div>
 
-              <?php if (!empty($item['menu']['feature'])): $f = $item['menu']['feature']; ?>
-                <div class="nav-feature">
-                  <p class="nav-feature-eyebrow"><?= e($f['eyebrow']) ?></p>
-                  <h3><?= e($f['title']) ?></h3>
-                  <p><?= e($f['body']) ?></p>
-                  <a class="btn btn-primary btn-sm" href="<?= e(url($f['cta']['href'])) ?>">
-                    <?= e($f['cta']['label']) ?><?= icon('arrow') ?>
-                  </a>
-                </div>
-              <?php endif; ?>
             </div>
           <?php endif; ?>
         </div>

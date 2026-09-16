@@ -568,22 +568,68 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
 }
 .nav-item.is-open .nav-panel { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
-.nav-panel--narrow { max-width: 640px; }
+/* The smaller menus — Solutions, Case Studies, Company — are a card sized to
+   their content under their own nav link, wide enough that two columns and a
+   header sit comfortably rather than wrapping every label. */
+.nav-panel--narrow { min-width: 460px; max-width: 640px; padding: 22px 28px 20px; }
 
-.nav-panel:not(.nav-panel--narrow) {
-  position: fixed;
-  top: calc(var(--header-h) + 10px);
-  left: 50vw;
-  width: min(98vw, 1440px);
-  max-width: 1440px;
-  box-sizing: border-box;
+/* Card header, after the reference layout: title and tagline on the left, the
+   menu's call to action on the right, a divider underneath. */
+.nav-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, rgba(0, 242, 254, .55), rgba(157, 78, 221, .35) 60%, transparent) 1;
+}
+.nav-panel-title {
+  margin: 0;
+  font-family: var(--display, inherit);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -.01em;
+}
+.nav-panel-tagline {
+  margin: 3px 0 0;
+  font-size: .78rem;
+  color: #7c8aa3;
+}
+.nav-panel-cta { flex-shrink: 0; white-space: nowrap; }
+
+/* Desktop only. The full services card is pinned to both gutters rather than
+   centred on a point: left:50vw with translate(-50%) centres on the viewport,
+   and vw includes the scrollbar, so the first column used to slide off the left
+   edge. Anchoring both edges makes that impossible at any width.
+   Scoped to desktop because, unscoped, this selector out-ranks the mobile rule
+   that turns the menu into a static stacked list — phones were getting a fixed
+   floating panel instead. */
+@media (min-width: 961px) {
+  .nav-panel:not(.nav-panel--narrow) {
+    position: fixed;
+    top: calc(var(--header-h) + 10px);
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding: 24px 30px 22px;
+    box-sizing: border-box;
+    transform: translateY(-8px);
+  }
+
+  .nav-item.is-open .nav-panel:not(.nav-panel--narrow) { transform: translateY(0); }
 }
 
+/* --cols is written by header.php from the menu's actual column count. */
 .nav-panel-cols {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px 18px;
+  grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+  gap: 16px 36px;
   align-items: start;
+  padding-top: 4px;
 }
 
 .nav-col { min-width: 0; }
@@ -594,62 +640,32 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--cyan);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.nav-col li + li { margin-top: 1px; }
+.nav-col li + li { margin-top: 3px; }
 .nav-col a {
   display: block;
-  padding: 5px 6px;
-  margin-inline: -6px;
+  padding: 6px 8px;
+  margin-inline: -8px;
   border-radius: 6px;
   font-size: .81rem;
-  line-height: 1.35;
+  line-height: 1.4;
   color: #94a3b8;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* Wraps rather than truncates. These labels are the service names — a
+     "Autonomous Workflow Automa…" is worse than the same words on two lines,
+     and the ellipsis was hiding which service the row actually was. */
+  white-space: normal;
+  overflow-wrap: break-word;
   transition: color .18s var(--ease), background-color .18s var(--ease), transform .18s var(--ease);
 }
 .nav-col a:hover { color: #ffffff; background: rgba(0, 242, 254, .08); transform: translateX(3px); }
 
-.nav-feature {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 12px 18px;
-  border: 1px solid rgba(0, 242, 254, .18);
-  border-radius: var(--radius);
-  background: linear-gradient(90deg, rgba(0, 242, 254, .06), rgba(157, 78, 221, .06));
-}
-.nav-feature-eyebrow {
-  font-size: .65rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: 2px;
-}
-.nav-feature h3 { font-size: .88rem; font-weight: 600; color: #fff; margin: 0; }
-.nav-feature p {
-  font-size: .8rem;
-  color: #94a3b8;
-  margin: 0;
-}
-.nav-feature .btn { flex-shrink: 0; white-space: nowrap; }
-
-/* Responsive adjustments */
-@media (max-width: 1180px) {
-  .nav-panel-cols {
+/* Responsive adjustments. Only the five-column services card drops columns;
+   the two-column menus already fit. */
+@media (min-width: 961px) and (max-width: 1180px) {
+  .nav-panel:not(.nav-panel--narrow) .nav-panel-cols {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    gap: 16px 28px;
   }
-}
-@media (max-width: 900px) {
-  .nav-feature { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .nav-panel-cols { grid-template-columns: 1fr; }
 }
 
 /* Mobile nav */
@@ -2174,10 +2190,12 @@ body.nav-open .nav-toggle-close { display: block; }
     opacity: 1;
     visibility: visible;
     transform: none;
+    min-width: 0;
   }
-  .nav-item.is-open .nav-panel { display: grid; }
-  .nav-panel-cols { flex-direction: column; gap: 20px; }
-  .nav-feature { width: auto; }
+  .nav-item.is-open .nav-panel { display: grid; transform: none; }
+  /* The drawer's own link already names the menu. */
+  .nav-panel-head { display: none; }
+  .nav-panel .nav-panel-cols { grid-template-columns: 1fr; gap: 20px; }
   .nav-cta { margin: 18px 0 0; }
 
   .section { padding: 76px 0; }

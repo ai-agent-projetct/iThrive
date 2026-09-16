@@ -142,6 +142,8 @@ const NAV_ITEMS = [
         'label' => 'Services',
         'href'  => 'services.php',
         'menu'  => [
+            'title'   => 'Our Services',
+            'tagline' => 'AI-first engineering, from first strategy call to production scale',
             'columns' => [
                 [
                     'heading' => 'AI-First Product Development',
@@ -217,6 +219,8 @@ const NAV_ITEMS = [
         'label' => 'Solutions',
         'href'  => 'solutions.php',
         'menu'  => [
+            'title'   => 'Our Solutions',
+            'tagline' => 'Our own AI products, and the industries we build for',
             'columns' => [
                 [
                     'heading' => 'Proprietary AI Products',
@@ -241,6 +245,8 @@ const NAV_ITEMS = [
         'label' => 'Case Studies',
         'href'  => 'case-studies.php',
         'menu'  => [
+            'title'   => 'Case Studies',
+            'tagline' => 'Real products we have shipped for real businesses',
             'columns' => [
                 [
                     'heading' => 'Featured Work',
@@ -267,6 +273,8 @@ const NAV_ITEMS = [
         'label' => 'Company',
         'href'  => 'company/about.php',
         'menu'  => [
+            'title'   => 'About iThrive',
+            'tagline' => 'Who we are, how we work, and how to reach us',
             'columns' => [
                 [
                     'heading' => 'iThrive',
