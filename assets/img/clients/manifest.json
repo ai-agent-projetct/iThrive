@@ -49,5 +49,25 @@
   "w": 520,
   "h": 42,
   "kind": "wordmark"
+ },
+ "madura-grandeur": {
+  "w": 98,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "bharani-beauty-clinic": {
+  "w": 120,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "aruvanaa": {
+  "w": 122,
+  "h": 120,
+  "kind": "harvested"
+ },
+ "aeron": {
+  "w": 520,
+  "h": 98,
+  "kind": "harvested"
  }
 }

@@ -120,13 +120,13 @@ component('client-logo-grid');
         'lead'    => 'Ten builds across healthcare, mobility, manufacturing, civic tech and retail. Each one closed a gap between a business and the people it serves.',
     ]); ?>
 
-    <?php /* Origin Kit's Round Carousel — the ten case studies as a turning
+    <?php /* Origin Kit's Round Carousel — every case study as a turning
              ring you can drag. Replaces the four-card grid; all ten are here
              now rather than a featured subset. */ ?>
     <?php component('case-carousel'); ?>
 
     <div class="section-foot" data-reveal>
-      <a class="btn btn-ghost" href="<?= e(url('case-studies.php')) ?>">All 10 case studies<?= icon('arrow') ?></a>
+      <a class="btn btn-ghost" href="<?= e(url('case-studies.php')) ?>">All <?= count(CASE_STUDIES) ?> case studies<?= icon('arrow') ?></a>
     </div>
   </div>
 </section>

@@ -112,6 +112,9 @@ component('chat-widget');
 <?php if (!empty($GLOBALS['ithrive_needs_casefilm'])): ?>
 <script src="<?= e(asset('assets/js/case-film.js')) ?>" defer></script>
 <?php endif; ?>
+<?php if (!empty($GLOBALS['ithrive_needs_phantom'])): ?>
+<script type="module" src="<?= e(asset('assets/js/phantom-gallery.js')) ?>"></script>
+<?php endif; ?>
 <script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/chat.js')) ?>" defer></script>
 <script src="<?= e(asset('assets/js/depth.js')) ?>" defer></script>

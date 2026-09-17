@@ -27,7 +27,7 @@ declare(strict_types=1);
 
     <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-atomic="false">
       <div class="chat-msg chat-msg--bot">
-        <p>I can answer questions about what we build, walk you through any of our ten case studies, and put you in front of an engineer when it is worth it. What are you working on?</p>
+        <p>I can answer questions about what we build, walk you through any of our <?= count(CASE_STUDIES) ?> case studies, and put you in front of an engineer when it is worth it. What are you working on?</p>
       </div>
     </div>
 

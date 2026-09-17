@@ -76,6 +76,90 @@ require dirname(__DIR__) . '/header.php';
   </div>
 </section>
 
+<?php /* The screen gallery, when there is one: the Phantom Gallery, full
+         width and a full viewport tall, straight after the hero. Keyed by slug
+         the same way as the film below — a study gains it the moment
+         assets/img/case-gallery/<slug>/ holds images, and every other study
+         skips it.
+
+         Captions come from the file names, <group>-<nn>.webp: rider-07.webp
+         puts "RIDER APP" in the title slot and "07" where the component shows
+         a year. A group with no entry in $galleryTitles is titled from its
+         name, so a new study only needs its files named.
+
+         Groups are spread evenly through the sequence rather than dealt
+         round-robin. The grid tiles items along a diagonal, so neighbours in
+         the list sit side by side on screen — and round-robin over uneven
+         groups (Jaumo is 23 / 15 / 2) ends in a long run of one kind. */ ?>
+<?php
+$galleryDir   = 'assets/img/case-gallery/' . $study['slug'];
+$galleryFiles = is_dir(ROOT_PATH . '/' . $galleryDir) ? (glob(ROOT_PATH . '/' . $galleryDir . '/*.webp') ?: []) : [];
+if ($galleryFiles !== []):
+    $GLOBALS['ithrive_needs_phantom'] = true;
+    $galleryTitles = [
+        'rider'    => 'Rider App',
+        'driver'   => 'Driver App',
+        'customer' => 'Customer App',
+        'partner'  => 'Delivery Partner',
+        'patient'  => 'Patient App',
+        'doctor'   => 'Doctor App',
+        'store'    => 'Web Store',
+        'desktop'  => 'Desktop Site',
+        'mobile'   => 'Mobile Site',
+        'erp'       => 'ERP Web App',
+        'erpmobile' => 'ERP Mobile',
+        'app'      => 'Mobile App',
+        'platform'  => 'Platform Admin',
+        'platformm' => 'Admin on Mobile',
+        'admin'    => 'Admin Panel',
+        'brand'    => 'Brand',
+    ];
+    $galleryGroups = [];
+    sort($galleryFiles);
+    foreach ($galleryFiles as $file) {
+        $name = basename($file, '.webp');
+        [$group, $num] = array_pad(explode('-', $name, 2), 2, '');
+        $galleryGroups[$group][] = [
+            'title' => $galleryTitles[$group] ?? ucfirst($group),
+            'year'  => $num,
+            'src'   => asset($galleryDir . '/' . basename($file)),
+        ];
+    }
+    /* Known groups in $galleryTitles order, anything else after. */
+    $galleryOrder = array_values(array_unique(array_merge(
+        array_intersect(array_keys($galleryTitles), array_keys($galleryGroups)),
+        array_keys($galleryGroups)
+    )));
+    $galleryRank  = array_flip($galleryOrder);
+    $gallerySlots = [];
+    foreach ($galleryGroups as $group => $groupItems) {
+        foreach ($groupItems as $i => $item) {
+            $gallerySlots[] = [($i + 0.5) / count($groupItems), $galleryRank[$group], $item];
+        }
+    }
+    usort($gallerySlots, static fn (array $a, array $b): int => [$a[0], $a[1]] <=> [$b[0], $b[1]]);
+    $galleryItems = array_column($gallerySlots, 2);
+
+    $galleryKinds = array_map(
+        /* Lower-cased for the running sentence, but acronyms keep their capitals
+           so a screen reader says "ERP", not "erp". */
+        static fn (string $g): string => implode(' ', array_map(
+            static fn (string $w): string => strlen($w) > 1 && ctype_upper($w) ? $w : strtolower($w),
+            explode(' ', $galleryTitles[$g] ?? $g)
+        )),
+        $galleryOrder
+    );
+    $galleryLast  = array_pop($galleryKinds);
+    $galleryKinds = $galleryKinds === [] ? $galleryLast : implode(', ', $galleryKinds) . ' and ' . $galleryLast;
+?>
+<section class="case-phantom">
+  <div class="pg-stage" data-phantom-gallery role="img"
+       aria-label="<?= e($study['client'] . ' — ' . count($galleryItems) . ' images: ' . $galleryKinds . '. Drag to explore; click and hold to zoom out.') ?>">
+    <script type="application/json"><?= json_encode($galleryItems, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_THROW_ON_ERROR) ?></script>
+  </div>
+</section>
+<?php endif; ?>
+
 <?php /* The product film, when there is one: a dark full-width band, heading
          centred above a frameless video that plays itself muted and on loop,
          the call to action beneath. Keyed by slug, so a study gains its film
@@ -223,7 +307,7 @@ if (is_file(ROOT_PATH . '/' . $filmRel)):
     </div>
 
     <div class="section-foot" data-reveal>
-      <a class="btn btn-ghost" href="<?= e(url('case-studies.php')) ?>">All 10 case studies<?= icon('arrow') ?></a>
+      <a class="btn btn-ghost" href="<?= e(url('case-studies.php')) ?>">All <?= count(CASE_STUDIES) ?> case studies<?= icon('arrow') ?></a>
     </div>
   </div>
 </section>
