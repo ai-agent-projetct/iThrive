@@ -110,3 +110,249 @@
   margin-top: 4px;
 }
 
+/* ==========================================================================
+   Restored 2026-09-17
+   ==========================================================================
+   These rules belong to this page's tear-reveal hero and its industries and
+   governance card grids. They were dropped when this file was rewritten in
+   03b8559, while the markup kept the classes — so the hero's layers had no
+   position or size and the robot plates rendered as raw images.
+   ========================================================================== */
+
+/* ==========================================================================
+   Hero — tear reveal
+   ==========================================================================
+   Replaces the WebGPU flare hero. Two registered renders of one scene, the
+   front one erased by the pointer in organic patches that heal back over a few
+   seconds; the engine is the shared assets/js/neon-reveal.js, which reads the
+   three --fit-* properties below and expects, inside the stage, the back <img>
+   followed by the <canvas> it paints the front layer onto.
+   ========================================================================== */
+
+.od--ai-agents .od-hero--reveal {
+  --fit-cover: 1;    /* 1 = fill the frame (crop), 0 = fit the whole frame in */
+  --fit-ar: 0.5628;  /* the plate's height / width — 1672 x 941 */
+  --fit-y: 0.5;      /* where contained art sits vertically (portrait only) */
+
+  justify-content: flex-end;
+  /* The site header is fixed, so the top padding has to clear it or the eyebrow
+     sits under the nav. */
+  padding: calc(var(--header-h, 76px) + clamp(24px, 4vh, 48px)) 0 clamp(28px, 4vh, 52px);
+  min-height: min(880px, 100dvh);
+  text-align: left;
+  cursor: crosshair;
+}
+
+/* The base .od-hero::before paints an opaque #0B0F17 wash to hide the
+   honeycomb behind the flare. The photograph does that job here, and the wash
+   would only mute it. */
+.od--ai-agents .od-hero--reveal::before { display: none; }
+
+.od--ai-agents .od-hero--reveal > .od-reveal-bleed,
+.od--ai-agents .od-hero--reveal > .od-reveal-back,
+.od--ai-agents .od-hero--reveal > .od-reveal-veil,
+.od--ai-agents .od-hero--reveal > .od-reveal-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* The whole frame stays on screen; the leftover area is filled with a blurred,
+   over-scaled copy of the same plate so there are no letterbox bars. Stretched
+   rather than cropped, so the fill takes its colour from the image's own edges
+   and the seam against the contained art disappears. */
+.od--ai-agents .od-reveal-bleed {
+  background: url(../img/robot/robot-night-wide.webp) 0 0 / 100% 100% no-repeat;
+  filter: blur(48px) saturate(1.15);
+  transform: scale(1.12);
+}
+
+.od--ai-agents .od-reveal-back { object-fit: cover; object-position: 50% 50%; }
+.od--ai-agents .od-reveal-veil { display: block; }
+
+/* Holds the top for the fixed header and the bottom for the band, and stays
+   out of the way across the middle where the tear reads.
+
+   The horizontal pass is specific to this page: the lead here is ~60 words and
+   lands on the lit sky and bonnet, directly over the plate's own burnt-in
+   "iThrive / Build Better Together". Without it the two sets of copy compete
+   and neither reads. It fades out by 55% so the tear still runs clean across
+   the left two-thirds, where the robot is. */
+.od--ai-agents .od-reveal-scrim {
+  background:
+    linear-gradient(180deg,
+      /* Top: only enough to seat the fixed header. */
+      rgba(11, 15, 23, 0.78) 0%,
+      rgba(11, 15, 23, 0.30) 10%,
+      rgba(11, 15, 23, 0.04) 22%,
+      /* The middle two-fifths are left alone — this is the plate, and the
+         part the tear reads across. */
+      rgba(11, 15, 23, 0)    44%,
+      /* Bottom: starts late and climbs fast, so the headline, buttons and
+         stats get their ground without dimming the car and the robot above
+         them. The earlier version ramped from halfway and carried a second
+         right-hand wash for the lead; the lead now lives in section 2, so all
+         of that weight came off and the photograph reads clearly again. */
+      rgba(11, 15, 23, 0.22) 58%,
+      rgba(11, 15, 23, 0.58) 72%,
+      rgba(11, 15, 23, 0.82) 86%,
+      rgba(11, 15, 23, 0.92) 100%);
+}
+
+.od--ai-agents .od-hero--reveal > .od-shell,
+.od--ai-agents .od-hero--reveal > .od-reveal-hint,
+.od--ai-agents .od-hero--reveal > .od-reveal-stats { position: relative; z-index: 1; }
+
+/* Fades out for good once the visitor has moved the pointer; the engine sets
+   .is-touched on the stage. */
+.od--ai-agents .od-reveal-hint {
+  align-self: center;
+  margin: auto 0 clamp(22px, 4vh, 42px);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 2px 14px rgba(11, 15, 23, 0.9);
+  animation: od-reveal-pulse 2.6s ease-in-out infinite;
+  transition: opacity 0.5s;
+}
+
+.od--ai-agents .od-hero--reveal.is-touched .od-reveal-hint { animation: none; opacity: 0; }
+
+@keyframes od-reveal-pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* Copy left, support right. */
+.od--ai-agents .od-reveal-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: end;
+}
+
+/* Cyan caps on a lit bonnet: with the scrim lightened so the plate reads, the
+   eyebrow lands above where the bottom ramp starts and needs its own ground. */
+.od--ai-agents .od-reveal-band .od-eyebrow {
+  justify-content: flex-start;
+  text-shadow: 0 1px 10px rgba(11, 15, 23, 0.95), 0 0 22px rgba(11, 15, 23, 0.7);
+}
+
+/* The base .od-h1 is centred with `margin: 0 auto 22px` and capped at 16ch,
+   which is a page-width measure — in this column it breaks mid-phrase, ahead
+   of the markup's own <br>. */
+.od--ai-agents .od-hero--reveal .od-h1 {
+  margin: 0;
+  max-width: none;
+  font-size: clamp(2.1rem, 3.4vw, 3.6rem);
+  text-shadow: 0 2px 30px rgba(11, 15, 23, 0.72);
+}
+
+.od--ai-agents .od-reveal-support { text-align: right; }
+
+.od--ai-agents .od-reveal-support .od-lead {
+  margin-left: auto;
+  max-width: 54ch;
+  /* The plate stays lit under the band even with the scrim, so the copy
+     carries its own shadow rather than relying on the wash alone. */
+  text-shadow: 0 1px 16px rgba(11, 15, 23, 0.92);
+}
+
+/* Both buttons sit under the headline in the left column. */
+.od--ai-agents .od-reveal-band .od-actions { justify-content: flex-start; }
+
+/* nowrap only where there is room for it: the left column is ~650px against a
+   ~400px pair, and left to wrap they stack and push the stats off a short
+   screen. It must NOT apply below the breakpoint — at 375px the two buttons
+   measure 573px against a 343px container, and .od-hero's overflow:hidden
+   would silently clip the second one rather than show a scrollbar. */
+@media (min-width: 981px) {
+  .od--ai-agents .od-reveal-band .od-actions { flex-wrap: nowrap; }
+}
+
+/* .od-stats already centres itself with `margin: 40px auto 0`, which is what
+   .od-shell wants too — only the top margin needs restating, and
+   .od-stats--mid's 760px cap is deliberately not applied here. */
+.od--ai-agents .od-hero--reveal .od-reveal-stats {
+  margin-top: clamp(24px, 3.5vh, 40px);
+  max-width: none;
+  text-align: left;
+}
+
+@media (max-width: 980px) {
+  .od--ai-agents .od-reveal-band {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+  .od--ai-agents .od-reveal-support { text-align: left; }
+  .od--ai-agents .od-reveal-support .od-lead { margin-left: 0; }
+  .od--ai-agents .od-reveal-support .od-actions { justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .od--ai-agents .od-reveal-hint { animation: none; }
+}
+
+/* ---------- Industries & governance ---------------------------------------
+   Two plain card grids. Both sections are prose the page needs for the
+   "agentic AI development company in India" term, and neither is worth a
+   WebGL host: a component that renders nothing costs more than a border. */
+
+.od--ai-agents .od-verticals,
+.od--ai-agents .od-guards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  gap: 18px;
+  margin: 44px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.od--ai-agents .od-vertical,
+.od--ai-agents .od-guard {
+  padding: 26px 24px;
+  border: 1px solid rgba(255, 255, 255, .10);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .028);
+  transition: transform .3s cubic-bezier(.22, .61, .36, 1), border-color .3s ease;
+}
+
+.od--ai-agents .od-vertical:hover,
+.od--ai-agents .od-guard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, .20);
+}
+
+.od--ai-agents .od-vertical-icon,
+.od--ai-agents .od-guard-icon {
+  width: 22px;
+  height: 22px;
+  margin-bottom: 14px;
+}
+.od--ai-agents .od-vertical-icon { color: #00F2FE; }
+.od--ai-agents .od-guard-icon   { color: #9D4EDD; }
+
+.od--ai-agents .od-vertical h3,
+.od--ai-agents .od-guard h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  letter-spacing: -.01em;
+}
+
+.od--ai-agents .od-vertical p,
+.od--ai-agents .od-guard p {
+  margin: 0;
+  font-size: .88rem;
+  line-height: 1.6;
+  color: #9AA7BD;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .od--ai-agents .od-vertical,
+  .od--ai-agents .od-guard { transition: none; }
+  .od--ai-agents .od-vertical:hover,
+  .od--ai-agents .od-guard:hover { transform: none; }
+}
