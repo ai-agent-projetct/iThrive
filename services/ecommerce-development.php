@@ -365,10 +365,13 @@ $platformDeck = [
      ========================================================================= -->
 <?php
 /*
- * Payment rails: five deck cards, same shape as the platform set. Originkit's
- * Depth Gallery was the ask here, but it is a paid component this account
- * cannot fetch, so the cards carry the depth themselves — the picture sits on
- * its own plane behind the copy and lifts on hover.
+ * Payment rails as a scroll-driven corridor.
+ *
+ * Originkit's Depth Gallery was the ask and it is Pro-only on this account, so
+ * the corridor is ours: assets/js/rail-corridor.js lifts these cards into a
+ * receding stack and scroll position decides which is at the front. They are
+ * a plain grid until it runs, which is what a crawler and anyone under
+ * prefers-reduced-motion sees, so the copy is never behind the effect.
  */
 $railsDeck = [
     ['01', 'Rail', 'UPI Autopay & QR Engine', 'Every Indian wallet, one intent flow',
@@ -400,14 +403,39 @@ $railsDeck = [
         'title'   => 'Transaction Rails That Never Drop A Conversion',
         'lead'    => 'Resilient gateway fallbacks, fraud mitigation, and tokenized payment pipelines that maximize authorization rates.',
     ]); ?>
+  </div>
 
-    <div class="ecom-deck ecom-deck--rails">
+  <div class="ecom-corridor" data-corridor data-reveal>
+    <div class="ecom-3d-stage-header">
+      <div class="ecom-3d-pill">
+        <span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:#3EE1FF;box-shadow:0 0 8px #3EE1FF;"></span>
+        Five Payment Rails
+      </div>
+      <div class="ecom-3d-hint">Scroll to Travel the Corridor • Click a Card to Bring It Forward</div>
+    </div>
+
+    <div class="ecom-corridor-track" data-corridor-track>
       <?php foreach ($railsDeck as $i => [$num, $tag, $title, $sub, $desc, $points, $stat, $img, $alt]): ?>
-        <?php component('ecom-deck-card', [
-            'num' => $num, 'tag' => $tag, 'title' => $title, 'sub' => $sub,
-            'desc' => $desc, 'points' => $points, 'stat' => $stat,
-            'image' => 'assets/img/ecommerce-dev/' . $img, 'alt' => $alt, 'index' => $i,
-        ]); ?>
+        <article class="ecom-corridor-card" data-corridor-card>
+          <figure class="ecom-corridor-fig">
+            <img src="<?= e(asset('assets/img/ecommerce-dev/' . $img)) ?>" width="800" height="533"
+                 alt="<?= e($alt) ?>" loading="lazy" decoding="async">
+            <span class="ecom-deck-num"><?= e($num) ?></span>
+            <span class="ecom-deck-stat"><?= e($stat) ?></span>
+          </figure>
+
+          <div class="ecom-corridor-body">
+            <p class="ecom-deck-tag"><?= e($tag) ?> <?= e($num) ?></p>
+            <h3 class="ecom-deck-title"><?= e($title) ?></h3>
+            <p class="ecom-deck-sub"><?= e($sub) ?></p>
+            <p class="ecom-deck-desc"><?= e($desc) ?></p>
+            <ul class="ecom-deck-points">
+              <?php foreach ($points as $point): ?>
+                <li><?= icon('check', 'icon ecom-deck-tick') ?><span><?= e($point) ?></span></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        </article>
       <?php endforeach; ?>
     </div>
   </div>
@@ -828,5 +856,8 @@ $casesSwipeProps = [
   </div>
 </section>
 <script type="module" src="<?= e(url('assets/dist/originkit/originkit.js')) ?>"></script>
+<?php /* Lifts the payment-rail cards into their corridor. Deferred, and the
+         cards are a readable grid until it runs. */ ?>
+<script src="<?= e(asset('assets/js/rail-corridor.js')) ?>" defer></script>
 <?php
 require dirname(__DIR__) . '/includes/footer.php';
