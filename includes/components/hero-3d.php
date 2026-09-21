@@ -2,13 +2,16 @@
 /**
  * Home page hero.
  *
- * Two columns: the headline carries the left, and the interactive 3D robot
- * mascot holds the right. He is not a picture — he tracks the pointer across
- * the whole page with his head, eyes and arms, and runs idle behaviours when
- * you leave him alone. WebGL failure leaves the glow plate behind him, so the
- * column is never an empty box.
+ * Two columns: the headline carries the left, and the character holds the
+ * right. She is not a picture either — sixty-four frames of a head turning
+ * through a circle, and the pointer's angle around her face picks the one you
+ * see, so she watches the cursor anywhere on the page and meets your eye when
+ * it comes near her. See assets/js/character.js.
  *
- * Nothing floats over him — the proof points sit under the copy on the left,
+ * She replaced the 3D robot, who is still in assets/js/robot.js and still
+ * stands in the Cloud & DevOps hero.
+ *
+ * Nothing floats over her — the proof points sit under the copy on the left,
  * where they are read rather than dodged.
  */
 
@@ -16,8 +19,8 @@ declare(strict_types=1);
 
 $hero = $hero ?? HOME_HERO;
 
-// Tells includes/footer.php to import the robot module.
-$GLOBALS['ithrive_needs_robot'] = true;
+// Tells includes/footer.php to import the character module.
+$GLOBALS['ithrive_needs_character'] = true;
 ?>
 <section class="hero hero--split">
   <div class="shell hero-inner">
@@ -63,14 +66,16 @@ $GLOBALS['ithrive_needs_robot'] = true;
         <?= icon('arrow') ?>
       </a>
 
-      <div class="hero-stage hero-stage--robot">
+      <div class="hero-stage hero-stage--character">
         <div class="hero-glow" aria-hidden="true"></div>
-        <?php /* data-robot-canvas is the hook robot.js binds to, and the badge
-                 URL is resolved here so the chest mark loads from any depth. */ ?>
-        <canvas class="hero-robot" data-robot-canvas
-                data-robot-badge="<?= e(asset('assets/img/robot-badge.png')) ?>"
+        <?php /* data-character-canvas is the hook character.js binds to; the
+                 base path is resolved here so the frames load from any depth.
+                 Nothing is drawn until the centre frame arrives, and the glow
+                 plate behind holds the column until it does. */ ?>
+        <canvas class="hero-character" data-character-canvas
+                data-base="<?= e(url('assets/img/character')) ?>"
                 role="img"
-                aria-label="An interactive 3D robot mascot wearing the iThrive mark, whose head, eyes and arms follow your pointer."></canvas>
+                aria-label="The iThrive character in a branded cap, who turns to follow your pointer and looks straight at you when it comes near her."></canvas>
       </div>
     </div>
   </div>

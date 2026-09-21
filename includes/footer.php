@@ -92,6 +92,15 @@ component('chat-widget');
   }
 </script>
 <?php endif; ?>
+<?php /* The home hero's character, on the same terms as the robot: imported
+         only where a mount rendered, so no other route pays for her frames. */ ?>
+<?php if (!empty($GLOBALS['ithrive_needs_character'])): ?>
+<script type="module">
+  if (document.querySelector('[data-character-canvas]')) {
+    import('<?= e(asset('assets/js/character.js')) ?>');
+  }
+</script>
+<?php endif; ?>
 <?php /* Eyes drawn onto the film's robot, on the pages that stage him. */ ?>
 <?php if (!empty($GLOBALS['ithrive_needs_film_robot'])): ?>
 <script src="<?= e(asset('assets/js/film-robot.js')) ?>" defer></script>
