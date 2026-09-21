@@ -5643,3 +5643,299 @@ a.hwork-card:hover { border-color: color-mix(in srgb, var(--tint) 60%, transpare
   pointer-events: none;
   background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0.8) 90%, rgba(0, 0, 0, 1) 100%);
 }
+
+/* =========================================================================
+   HOME HERO — the character
+   =========================================================================
+   Her frames are opaque rectangles carrying their own lit background, so this
+   section is mixed to meet them: the same navy-through-violet behind the whole
+   hero, her column bled off the right edge, and her left edge feathered into
+   the copy side with a mask. No frame and no card — the seam is the point.
+   ========================================================================= */
+
+.hero--character {
+  position: relative;
+  isolation: isolate;
+  min-height: min(88vh, 900px);
+  padding: clamp(64px, 7.5vh, 96px) 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* The background she stands in: her own gradient, extended across the page. */
+.hero-sky {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  /* Sampled from center.webp: #00143d at its top left, #053fb6 down its left
+     side, #da54de along its right, near-black along the bottom. Matching them
+     is what lets her rectangle disappear. */
+  background:
+    radial-gradient(75% 70% at 88% 44%, rgba(218, 84, 222, .42) 0%, rgba(23, 15, 68, 0) 64%),
+    radial-gradient(70% 78% at 6% 52%, rgba(5, 63, 182, .58) 0%, rgba(0, 20, 61, 0) 66%),
+    radial-gradient(90% 70% at 50% 112%, rgba(8, 10, 18, .92) 0%, rgba(8, 10, 18, 0) 60%),
+    linear-gradient(118deg, #00143d 0%, #06256b 26%, #1a1150 54%, #4a1a86 78%, #170f44 100%);
+}
+
+/* The soft disc she is lit against — the edge that reads as a planet. */
+.hero-sky::after {
+  content: "";
+  position: absolute;
+  top: -28%;
+  right: -12%;
+  width: min(78vw, 1080px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 42%, rgba(99, 102, 241, .40), rgba(147, 51, 234, .30) 52%, transparent 70%);
+  filter: blur(4px);
+}
+
+.hero-char-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, min(52%, 660px));
+  align-items: center;
+  flex: 1;
+}
+
+/* ---------------------------------------------------------------- copy -- */
+
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: .78rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 255, .72);
+}
+
+.hero-kicker span { color: var(--cyan, #3EE1FF); }
+
+.hero-title--xl {
+  font-size: clamp(2.3rem, 4.5vw, 3.8rem);
+  line-height: 1.06;
+  letter-spacing: -.02em;
+  margin: 0 0 20px;
+  max-width: 15ch;
+}
+
+.hero--character .hero-lead {
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.12vw, 1.12rem);
+  color: rgba(214, 223, 246, .82);
+}
+
+.hero--character .hero-actions { margin-top: 30px; }
+
+.hero-ai-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  font-size: .92rem;
+  color: rgba(214, 223, 246, .78);
+  text-decoration: none;
+  transition: color .2s ease, gap .2s ease;
+}
+
+.hero-ai-link:hover { color: #fff; gap: 14px; }
+.hero-ai-link .icon { width: 16px; height: 16px; }
+
+/* Three figures on one rule, the way the reference has them. */
+.hero-figures {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: clamp(18px, 2.6vw, 38px);
+  margin: clamp(24px, 3.4vh, 42px) 0 0;
+}
+
+.hero-figure { position: relative; padding-left: clamp(18px, 2.6vw, 38px); }
+.hero-figure:first-child { padding-left: 0; }
+
+.hero-figure::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6%;
+  height: 88%;
+  border-left: 1px solid rgba(226, 232, 255, .16);
+}
+
+.hero-figure:first-child::before { display: none; }
+
+.hero-figures dt {
+  font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+}
+
+.hero-figures dd {
+  margin: 8px 0 0;
+  font-size: .82rem;
+  color: rgba(214, 223, 246, .66);
+  max-width: 18ch;
+}
+
+/* ----------------------------------------------------------- character -- */
+
+.hero-character {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* Dark on the copy side, clear on hers — the reference reads the same way,
+   and without it the lead paragraph sits on her hair. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(2, 8, 28, .92) 0%, rgba(2, 8, 28, .74) 26%, rgba(2, 8, 28, .18) 46%, rgba(2, 8, 28, 0) 62%),
+    linear-gradient(180deg, rgba(2, 8, 28, .5) 0%, rgba(2, 8, 28, 0) 22%);
+}
+
+/* ---------------------------------------------------------------- hint -- */
+
+.hero-hint {
+  position: absolute;
+  top: clamp(12%, 15vh, 20%);
+  right: clamp(20px, 7vw, 150px);
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  color: rgba(226, 232, 255, .82);
+  transition: opacity .6s ease, transform .6s ease;
+  pointer-events: none;
+}
+
+/* character.js sets this the first time it sees the pointer move. */
+.has-pointer .hero-hint {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.hero-hint-dot {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(167, 139, 250, .55), rgba(124, 58, 237, .12) 70%);
+  box-shadow: 0 0 34px -6px rgba(167, 139, 250, .8);
+  animation: hero-hint-pulse 2.4s ease-in-out infinite;
+}
+
+.hero-hint-dot::after {
+  content: "";
+  position: absolute;
+  top: 38%;
+  left: 42%;
+  width: 0;
+  height: 0;
+  border-left: 9px solid #fff;
+  border-bottom: 13px solid transparent;
+  transform: rotate(-18deg);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5));
+}
+
+@keyframes hero-hint-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.09); }
+}
+
+.hero-hint-curve {
+  width: 120px;
+  height: 60px;
+  margin-top: 2px;
+  color: rgba(226, 232, 255, .5);
+  transform: scaleX(-1);
+}
+
+.hero-hint-text {
+  margin-top: -6px;
+  font-size: .95rem;
+  font-style: italic;
+  color: rgba(226, 232, 255, .8);
+}
+
+/* --------------------------------------------------------------- strip -- */
+
+.hero-strip {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(14px, 2.4vh, 34px);
+  border-top: 1px solid rgba(226, 232, 255, .12);
+  background: linear-gradient(180deg, rgba(10, 14, 33, .55), rgba(10, 14, 33, .78));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.hero-strip-inner {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.hero-strip-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px clamp(10px, 1.4vw, 22px);
+  color: rgba(226, 232, 255, .86);
+  text-decoration: none;
+  border-left: 1px solid rgba(226, 232, 255, .1);
+  transition: background .25s ease, color .25s ease;
+}
+
+.hero-strip-item:first-child { border-left: 0; }
+.hero-strip-item:hover { background: rgba(62, 225, 255, .06); color: #fff; }
+
+.hero-strip-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(62, 225, 255, .28);
+  background: rgba(62, 225, 255, .08);
+  color: var(--cyan, #3EE1FF);
+}
+
+.hero-strip-icon .icon { width: 20px; height: 20px; }
+.hero-strip-label { font-size: .92rem; font-weight: 600; line-height: 1.3; }
+
+/* -------------------------------------------------------------- narrow -- */
+
+@media (max-width: 1080px) {
+  .hero-char-inner { grid-template-columns: minmax(0, 1fr); }
+  /* She moves behind the copy rather than beside it, and the scrim comes up
+     to meet her so the words stay readable over her. */
+  .hero-scrim {
+    background:
+      linear-gradient(180deg, rgba(2, 8, 28, .92) 0%, rgba(2, 8, 28, .72) 52%, rgba(2, 8, 28, .86) 100%);
+  }
+  .hero-title--xl { max-width: none; }
+  .hero-strip-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-strip-item:nth-child(odd) { border-left: 0; }
+  .hero-hint { display: none; }   /* no mouse to move */
+}
+
+@media (max-width: 560px) {
+  .hero-strip-inner { grid-template-columns: 1fr; }
+  .hero-strip-item { border-left: 0; border-top: 1px solid rgba(226, 232, 255, .1); }
+  .hero-strip-item:first-child { border-top: 0; }
+  .hero-figures { gap: 16px; }
+}

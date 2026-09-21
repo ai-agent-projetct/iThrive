@@ -34,9 +34,16 @@ const ANGLE_EASE = 0.22;
 /* She holds eye contact while the pointer is within this share of the stage. */
 const DEADZONE = 0.16;
 
-/* Where her face sits inside the square frame. */
+/* Where her face sits inside the frame, and where that point is placed in
+   the stage. The stage anchor is high and slightly right, which is where the
+   reference has her looking out from. */
 const FACE_X = 0.5;
 const FACE_Y = 0.46;
+const STAGE_X = 0.655;
+const STAGE_Y = 0.44;
+
+/* How much of the hero's height she stands in. */
+const FILL = 1.0;
 
 const canvas = document.querySelector('[data-character-canvas]');
 
@@ -116,13 +123,42 @@ if (canvas) {
   function paint(frame) {
     if (!frame) return;
     const { width: w, height: h } = canvas;
-    /* The frames are square and the stage is square, so this is a straight
-       cover fit; the max() keeps it covering if the stage is ever not. */
-    const scale = Math.max(w / frame.width, h / frame.height);
+
+    /* She is drawn whole — contained, not cropped — because the reference has
+       her from cap to shirt. The stage is the whole hero, so height alone
+       decides the scale and she is placed by her face. */
+    const scale = (h * FILL) / frame.height;
     const dw = frame.width * scale;
     const dh = frame.height * scale;
+    const x = w * STAGE_X - dw * FACE_X;
+    const y = h * STAGE_Y - dh * FACE_Y;
+
     ctx.clearRect(0, 0, w, h);
-    ctx.drawImage(frame, (w - dw) / 2, (h - dh) / 2, dw, dh);
+    ctx.drawImage(frame, x, y, dw, dh);
+
+    /* Her frame is an opaque rectangle with its own lit background, so every
+       edge of it is feathered away here and the hero's gradient — mixed from
+       these same colours — carries on where she stops. Done on the picture
+       rather than on the element, because the element is the whole hero and
+       she covers only part of it. */
+    const fx = dw * 0.26;
+    const fy = dh * 0.16;
+    ctx.globalCompositeOperation = 'destination-out';
+
+    const band = (x0, y0, x1, y1, rw, rh) => {
+      const g = ctx.createLinearGradient(x0, y0, x1, y1);
+      g.addColorStop(0, 'rgba(0,0,0,1)');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(Math.min(x0, x1), Math.min(y0, y1), rw, rh);
+    };
+
+    band(x, 0, x + fx, 0, fx, h);                       // left
+    band(x + dw, 0, x + dw - fx, 0, fx, h);             // right
+    band(0, y + dh, 0, y + dh - fy, w, fy);             // bottom
+    band(0, y, 0, y + fy * 0.6, w, fy * 0.6);           // top, a lighter touch
+
+    ctx.globalCompositeOperation = 'source-over';
     painted = frame;
   }
 
@@ -132,8 +168,8 @@ if (canvas) {
     if (reduced || !pointer.moved) return centre;
 
     const r = canvas.getBoundingClientRect();
-    const faceX = r.left + r.width * FACE_X;
-    const faceY = r.top + r.height * FACE_Y;
+    const faceX = r.left + r.width * STAGE_X;
+    const faceY = r.top + r.height * STAGE_Y;
     const dx = pointer.sx - faceX;
     const dy = pointer.sy - faceY;
 
@@ -158,8 +194,8 @@ if (canvas) {
     pointer.sy += (pointer.y - pointer.sy) * kp;
 
     const r = canvas.getBoundingClientRect();
-    const dx = pointer.sx - (r.left + r.width * FACE_X);
-    const dy = pointer.sy - (r.top + r.height * FACE_Y);
+    const dx = pointer.sx - (r.left + r.width * STAGE_X);
+    const dy = pointer.sy - (r.top + r.height * STAGE_Y);
     if (pointer.moved) {
       let diff = Math.atan2(dy, dx) - angle;
       while (diff < -Math.PI) diff += Math.PI * 2;
@@ -199,6 +235,8 @@ if (canvas) {
         pointer.sx = e.clientX;
         pointer.sy = e.clientY;
         pointer.moved = true;
+        /* The "move your mouse" hint has served its purpose. */
+        document.documentElement.classList.add('has-pointer');
       }
       if (!running) start();
     }, { passive: true });
