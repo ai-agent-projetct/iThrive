@@ -321,6 +321,16 @@ const FOOTER_COLUMNS = [
         ['label' => 'Blog',           'href' => 'blog.php'],
         ['label' => 'Contact',        'href' => 'contact.php'],
     ],
+    // Every location page links to every other, but they need one route in from
+    // a site-wide surface or they are orphans as far as a crawler is concerned.
+    'Locations' => [
+        ['label' => 'Chennai',     'href' => 'locations/chennai.php'],
+        ['label' => 'Coimbatore',  'href' => 'locations/coimbatore.php'],
+        ['label' => 'Bangalore',   'href' => 'locations/bangalore.php'],
+        ['label' => 'Hyderabad',   'href' => 'locations/hyderabad.php'],
+        ['label' => 'Ahmedabad',   'href' => 'locations/ahmedabad.php'],
+        ['label' => 'Outside India', 'href' => 'locations/global-delivery.php'],
+    ],
 ];
 
 require_once __DIR__ . '/functions.php';
@@ -336,4 +346,6 @@ require_once __DIR__ . '/content-mobile.php';
 require_once __DIR__ . '/content-software.php';
 // Ten answers per service page, keyed by slug.
 require_once __DIR__ . '/content-service-faqs.php';
+// The five studios, behind /locations/*.php.
+require_once __DIR__ . '/locations.php';
 require_once __DIR__ . '/faq-brain.php';

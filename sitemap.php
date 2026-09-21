@@ -30,6 +30,12 @@ $routes = [
     'contact.php'          => ['yearly',  '0.8'],
 ];
 
+// One page per studio, plus the page for clients outside India.
+foreach (LOCATIONS as $loc) {
+    $routes['locations/' . $loc['slug'] . '.php'] = ['monthly', '0.7'];
+}
+$routes['locations/global-delivery.php'] = ['monthly', '0.7'];
+
 foreach (all_services() as $svc) {
     $routes['services/' . $svc['slug'] . '.php'] = ['monthly', '0.8'];
 }
