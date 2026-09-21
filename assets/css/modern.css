@@ -184,7 +184,7 @@
 
 .pm-hero--reveal {
   --fit-cover: 1;    /* 1 = fill the frame (crop), 0 = fit the whole frame in */
-  --fit-ar: 0.5628;  /* the back plate's height / width — 1672 x 941 */
+  --fit-ar: 0.5581;  /* the back plate's height / width — 1376 x 768 */
   --fit-y: 0.5;      /* where contained art sits vertically (portrait only) */
 
   display: flex;
@@ -289,6 +289,19 @@
 }
 
 @media (max-width: 980px) {
+  /* Portrait cover-crops the 16:9 plate hard, so the copy lands on the lit
+     middle of the room rather than its dark edges. The wash has to close up
+     again here — the open middle above is what makes the wide shot bright,
+     and it has nothing to open onto once the frame is this narrow. */
+  .pm-reveal-scrim {
+    background: linear-gradient(180deg,
+      rgba(11, 15, 23, 0.88) 0%,
+      rgba(11, 15, 23, 0.52) 14%,
+      rgba(11, 15, 23, 0.64) 42%,
+      rgba(11, 15, 23, 0.84) 72%,
+      rgba(11, 15, 23, 0.96) 100%);
+  }
+
   .pm-reveal-band { grid-template-columns: minmax(0, 1fr); align-items: start; }
   .pm-reveal-support { text-align: left; }
   .pm-reveal-support .pm-lead { margin-left: 0; }

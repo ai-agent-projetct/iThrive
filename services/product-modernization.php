@@ -197,36 +197,50 @@ $img = static function (string $rel): string {
            This is the page's argument rather than decoration: a routing layer
            in front, endpoints taken over one at a time, both sides running.
            --------------------------------------------------------------- */ ?>
-    <?php /* ---------------------------------------------------------------
-           Hero ? Interactive Dual-Layer Organic Scratch & Heal Hero
-           --------------------------------------------------------------- */ ?>
-  <section class="pm-hero pm-hero--interactive" id="heroStage">
-    <!-- Back Layer: Robots WITH blanket at night -->
-    <div class="pm-hero-bleed"></div>
-    <img class="pm-hero-layer pm-hero-layer--back" id="heroBack"
+  <?php /* ---------------------------------------------------------------
+         Hero — tear reveal
+
+         The front plate is the pair on the couch with no blanket; the back
+         plate is the same room at neon night with the blanket on. The pointer
+         erases the front one in ragged patches that heal back, so the
+         modernised system keeps surfacing through the legacy one.
+
+         Styled by .pm-hero--reveal in assets/css/modern.css and driven by the
+         shared assets/js/neon-reveal.js, which reads the --fit-* properties
+         off the section.
+
+         This carried its own inline copy of both for a while. That version
+         stacked a card and a second copy of the stats inside the section,
+         which grew it to 1347px tall — taller than it was wide — so the 16:9
+         plate was cover-cropped down to the robots’ heads, under a scrim that
+         never opened past 35%.
+         --------------------------------------------------------------- */ ?>
+  <section class="pm-hero pm-hero--reveal" data-neon-reveal
+           data-front="<?= e(asset('assets/img/buddy/buddy-couch-noblanket.webp')) ?>">
+    <div class="pm-reveal-bleed" aria-hidden="true"></div>
+    <img class="pm-reveal-back"
          src="<?= e(asset('assets/img/buddy/buddy-neon-wide.webp')) ?>"
-         alt="Robots with blanket at night" fetchpriority="high">
-    <!-- Front Canvas Layer: Robots WITHOUT blanket -->
-    <canvas class="pm-hero-layer pm-hero-layer--veil" id="heroVeil"></canvas>
-    <div class="pm-hero-scrim" aria-hidden="true"></div>
+         width="1376" height="768" fetchpriority="high" decoding="async"
+         alt="Two robots under a blanket on a couch, the room lit as neon night">
+    <canvas class="pm-reveal-veil" aria-hidden="true"></canvas>
+    <div class="pm-reveal-scrim" aria-hidden="true"></div>
 
     <p class="pm-reveal-hint">Move to reveal</p>
 
     <div class="pm-shell pm-reveal-band">
-      <div class="pm-hero-copy">
-        <p class="pm-eyebrow"><span class="pm-mark" aria-hidden="true"></span>Product Modernization ? Chennai</p>
+      <div>
+        <p class="pm-eyebrow"><span class="pm-mark" aria-hidden="true"></span>Product Modernization · Chennai</p>
 
         <h1 class="pm-h1">
           Upgrade the architecture,<br>
           <em>not the whole business</em>
         </h1>
-
       </div>
 
       <div class="pm-reveal-support">
         <p class="pm-lead">
           Rewrites fail because they ask a company to stand still for a year. We put a routing layer
-          in front of what you already run and move it across one capability at a time ? both
+          in front of what you already run and move it across one capability at a time — both
           systems live, every step reversible, your roadmap still shipping.
         </p>
 
@@ -237,21 +251,6 @@ $img = static function (string $rel): string {
           </button>
           <a class="pm-btn pm-btn--ghost" href="#pm-journey">See the journey</a>
         </div>
-
-        <ul class="pm-stats">
-          <?php foreach ($stats as [$v, $l]): ?>
-            <li><strong><?= e($v) ?></strong><span><?= e($l) ?></span></li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
-
-      <div class="pm-hero-cta-box">
-        <div class="pm-hero-card">
-          <p class="pm-hero-card-tag">? LIVE DUAL-STATE REVEAL</p>
-          <h3>Interactive Strangler Architecture</h3>
-          <p>Scratch or move your pointer over the canvas to peel back the legacy daytime layer and reveal the modernised night system underneath.</p>
-          <p class="pm-hero-hint">? Move pointer across the hero to reveal</p>
-        </div>
       </div>
     </div>
 
@@ -261,280 +260,6 @@ $img = static function (string $rel): string {
       <?php endforeach; ?>
     </ul>
   </section>
-
-  <style>
-    .pm-hero--interactive {
-      position: relative;
-      min-height: clamp(680px, 92vh, 920px);
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      cursor: crosshair;
-      padding: calc(var(--header-h, 76px) + 40px) 0 60px;
-    }
-    .pm-hero-bleed {
-      position: absolute;
-      inset: -5%;
-      width: 110%;
-      height: 110%;
-      background: url('<?= e(asset('assets/img/buddy/buddy-neon-wide.webp')) ?>') center/cover no-repeat;
-      filter: blur(48px) saturate(1.2);
-      transform: scale(1.1);
-      z-index: 0;
-      pointer-events: none;
-    }
-    .pm-hero-layer {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      pointer-events: none;
-    }
-    .pm-hero-layer--back {
-      object-fit: cover;
-      object-position: center;
-      z-index: 1;
-    }
-    .pm-hero-layer--veil {
-      z-index: 2;
-      pointer-events: auto;
-    }
-    .pm-hero-scrim {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-      background: linear-gradient(180deg,
-        rgba(11, 7, 22, 0.72) 0%,
-        rgba(11, 7, 22, 0.35) 40%,
-        rgba(11, 7, 22, 0.85) 100%
-      ),
-      radial-gradient(ellipse at 25% 50%, rgba(11, 7, 22, 0.7) 0%, transparent 70%);
-    }
-    .pm-hero--interactive .pm-hero-grid {
-      position: relative;
-      z-index: 4;
-      pointer-events: none;
-    }
-    .pm-hero--interactive .pm-actions,
-    .pm-hero--interactive .pm-hero-card {
-      pointer-events: auto;
-    }
-    .pm-hero-card {
-      background: rgba(11, 7, 22, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
-      padding: 28px;
-      max-width: 380px;
-      margin-left: auto;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    }
-    .pm-hero-card-tag {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      color: var(--cyan);
-      margin: 0 0 10px;
-    }
-    .pm-hero-card h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin: 0 0 10px;
-      color: #fff;
-    }
-    .pm-hero-card p {
-      font-family: var(--body);
-      font-size: 0.92rem;
-      line-height: 1.5;
-      color: var(--dim);
-      margin: 0 0 14px;
-    }
-    .pm-hero-hint {
-      font-family: var(--mono) !important;
-      font-size: 0.78rem !important;
-      font-weight: 700;
-      color: #fff !important;
-      background: rgba(0, 242, 254, 0.12);
-      border: 1px solid rgba(0, 242, 254, 0.25);
-      padding: 6px 12px;
-      border-radius: 999px;
-      display: inline-block;
-      margin: 0 !important;
-      animation: pmPulse 2.5s infinite;
-    }
-    @keyframes pmPulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
-    @media (max-width: 900px) {
-      .pm-hero-card { margin-left: 0; margin-top: 24px; max-width: 100%; }
-    }
-  </style>
-
-  <script>
-  (function() {
-    'use strict';
-    const stage = document.getElementById('heroStage');
-    const veil  = document.getElementById('heroVeil');
-    if (!stage || !veil) return;
-    const ctx = veil.getContext('2d');
-
-    // First image: Robots on couch WITHOUT blanket
-    const front = new Image();
-    front.src = '<?= e(asset('assets/img/buddy/buddy-couch-noblanket.webp')) ?>';
-
-    const MASK_MAX  = 440;
-    const DECAY     = 0.982;
-    const THRESHOLD = 0.5;
-    const NOISE_AMT = 0.42;
-
-    let W = 0, H = 0, mw = 0, mh = 0, cell = 1;
-    let field, noise, maskCanvas, mctx, mdata;
-    let last = null, energy = 0, running = false, lastFrame = 0;
-
-    function buildNoise() {
-      const G = 26, g = new Float32Array((G + 1) * (G + 1));
-      for (let i = 0; i < g.length; i++) g[i] = Math.random();
-      const sm = t => t * t * (3 - 2 * t);
-      noise = new Float32Array(mw * mh);
-      for (let y = 0; y < mh; y++) {
-        const fy = y / mh * G, y0 = Math.floor(fy), ty = sm(fy - y0);
-        for (let x = 0; x < mw; x++) {
-          const fx = x / mw * G, x0 = Math.floor(fx), tx = sm(fx - x0);
-          const a = g[y0 * (G + 1) + x0],       b = g[y0 * (G + 1) + x0 + 1];
-          const c = g[(y0 + 1) * (G + 1) + x0], d = g[(y0 + 1) * (G + 1) + x0 + 1];
-          const top = a + (b - a) * tx, bot = c + (d - c) * tx;
-          noise[y * mw + x] = top + (bot - top) * ty;
-        }
-      }
-    }
-
-    function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = stage.clientWidth;
-      H = stage.clientHeight;
-      if (!W || !H) return;
-
-      veil.width = Math.round(W * dpr);
-      veil.height = Math.round(H * dpr);
-      veil.style.width = W + 'px';
-      veil.style.height = H + 'px';
-
-      const s = MASK_MAX / Math.max(W, H);
-      mw = Math.max(2, Math.round(W * s));
-      mh = Math.max(2, Math.round(H * s));
-      cell = W / mw;
-
-      field = new Float32Array(mw * mh);
-      maskCanvas = maskCanvas || document.createElement('canvas');
-      maskCanvas.width = mw;
-      maskCanvas.height = mh;
-      mctx = maskCanvas.getContext('2d');
-      mdata = mctx.createImageData(mw, mh);
-      for (let i = 0; i < mw * mh; i++) {
-        mdata.data[i * 4] = mdata.data[i * 4 + 1] = mdata.data[i * 4 + 2] = 255;
-      }
-      buildNoise();
-      energy = 0;
-      last = null;
-      draw();
-    }
-
-    function fitRect(cw, ch, iw, ih) {
-      const s = Math.max(cw / iw, ch / ih);
-      const w = iw * s, h = ih * s;
-      return { x: (cw - w) * 0.5, y: (ch - h) * 0.5, w, h };
-    }
-
-    function stamp(x, y) {
-      const r = Math.max(14, Math.min(mw, mh) * 0.19), r2 = r * r;
-      const x0 = Math.max(0, (x - r) | 0), x1 = Math.min(mw - 1, (x + r) | 0);
-      const y0 = Math.max(0, (y - r) | 0), y1 = Math.min(mh - 1, (y + r) | 0);
-      for (let j = y0; j <= y1; j++) {
-        const dy = j - y;
-        for (let i = x0; i <= x1; i++) {
-          const dx = i - x, d2 = dx * dx + dy * dy;
-          if (d2 > r2) continue;
-          const f = 1 - d2 / r2;
-          const k = j * mw + i;
-          field[k] = Math.min(1.35, field[k] + f * f * 0.34);
-        }
-      }
-      energy = 1;
-    }
-
-    function onMove(clientX, clientY) {
-      const rect = stage.getBoundingClientRect();
-      const x = (clientX - rect.left) / cell, y = (clientY - rect.top) / cell;
-      if (last) {
-        const dx = x - last.x, dy = y - last.y;
-        const steps = Math.min(24, Math.ceil(Math.hypot(dx, dy) / 4));
-        for (let i = 1; i <= steps; i++) stamp(last.x + dx * i / steps, last.y + dy * i / steps);
-      }
-      stamp(x, y);
-      last = { x, y };
-      /* Paint here when rAF has gone quiet — an occluded or throttled tab
-         hands out no frames, and `running` would latch on one that never
-         arrives, leaving the hero whole for good. tick() keeps lastFrame
-         current while rAF is healthy, so this costs nothing then. */
-      if (performance.now() - lastFrame > 120) { lastFrame = performance.now(); draw(); }
-      if (!running) { running = true; requestAnimationFrame(tick); }
-    }
-
-    function draw() {
-      if (!front.complete || !front.naturalWidth || !W || !H) return;
-      const d = veil.width / W;
-      ctx.setTransform(d, 0, 0, d, 0, 0);
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.clearRect(0, 0, W, H);
-
-      const iw = front.naturalWidth, ih = front.naturalHeight;
-      const r = fitRect(W, H, iw, ih);
-      ctx.drawImage(front, r.x, r.y, r.w, r.h);
-
-      if (energy > 0) {
-        const px = mdata.data;
-        for (let i = 0, n = mw * mh; i < n; i++) {
-          px[i * 4 + 3] = field[i] + noise[i] * NOISE_AMT > THRESHOLD ? 255 : 0;
-        }
-        mctx.putImageData(mdata, 0, 0);
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.imageSmoothingEnabled = true;
-        ctx.drawImage(maskCanvas, 0, 0, W, H);
-        ctx.globalCompositeOperation = 'source-over';
-      }
-    }
-
-    function tick() {
-      lastFrame = performance.now();
-      let max = 0;
-      for (let i = 0, n = field.length; i < n; i++) {
-        const v = field[i] * DECAY;
-        field[i] = v < 0.002 ? 0 : v;
-        if (v > max) max = v;
-      }
-      energy = max;
-      draw();
-      if (energy > 0) requestAnimationFrame(tick);
-      else { running = false; last = null; }
-    }
-
-    front.addEventListener('load', draw);
-    if (front.complete) draw();
-    window.addEventListener('resize', resize);
-    stage.addEventListener('pointermove', e => onMove(e.clientX, e.clientY));
-    stage.addEventListener('pointerleave', () => { last = null; });
-    stage.addEventListener('touchmove', e => {
-      const t = e.touches[0]; if (t) onMove(t.clientX, t.clientY);
-    }, { passive: true });
-
-    resize();
-  })();
-  </script>
 
   <?php /* ---------------------------------------------------------------
            The price of doing nothing
