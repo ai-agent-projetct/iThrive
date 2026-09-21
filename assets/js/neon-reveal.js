@@ -43,7 +43,7 @@ export function initNeonReveal(stage) {
 
   let W = 0, H = 0, mw = 0, mh = 0, cell = 1;
   let field, noise, maskCanvas, mctx, mdata;
-  let last = null, energy = 0, running = false;
+  let last = null, energy = 0, running = false, lastFrame = 0;
 
   /* Value noise: a coarse random lattice, smoothstep-interpolated. Built once
      per resize; a static texture is enough to break up the edge. */
@@ -134,6 +134,13 @@ export function initNeonReveal(stage) {
     stamp(x, y);
     last = { x, y };
     stage.classList.add('is-touched');
+    /* The heal runs on rAF, but the tear itself must not depend on one ever
+       arriving: an occluded or throttled tab hands out no frames, and the old
+       code both skipped the paint and latched `running`, so the hero stayed
+       whole for good once that happened. Paint here when a frame has not been
+       seen recently — when rAF is healthy tick() keeps lastFrame current and
+       this never fires. */
+    if (performance.now() - lastFrame > 120) { lastFrame = performance.now(); draw(); }
     if (!running) { running = true; requestAnimationFrame(tick); }
   }
 
@@ -167,6 +174,7 @@ export function initNeonReveal(stage) {
   }
 
   function tick() {
+    lastFrame = performance.now();
     let max = 0;
     for (let i = 0, n = field.length; i < n; i++) {
       const v = field[i] * DECAY;

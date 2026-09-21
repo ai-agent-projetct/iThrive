@@ -394,7 +394,7 @@ $img = static function (string $rel): string {
 
     let W = 0, H = 0, mw = 0, mh = 0, cell = 1;
     let field, noise, maskCanvas, mctx, mdata;
-    let last = null, energy = 0, running = false;
+    let last = null, energy = 0, running = false, lastFrame = 0;
 
     function buildNoise() {
       const G = 26, g = new Float32Array((G + 1) * (G + 1));
@@ -477,6 +477,11 @@ $img = static function (string $rel): string {
       }
       stamp(x, y);
       last = { x, y };
+      /* Paint here when rAF has gone quiet — an occluded or throttled tab
+         hands out no frames, and `running` would latch on one that never
+         arrives, leaving the hero whole for good. tick() keeps lastFrame
+         current while rAF is healthy, so this costs nothing then. */
+      if (performance.now() - lastFrame > 120) { lastFrame = performance.now(); draw(); }
       if (!running) { running = true; requestAnimationFrame(tick); }
     }
 
@@ -505,6 +510,7 @@ $img = static function (string $rel): string {
     }
 
     function tick() {
+      lastFrame = performance.now();
       let max = 0;
       for (let i = 0, n = field.length; i < n; i++) {
         const v = field[i] * DECAY;
