@@ -170,86 +170,6 @@ component('film-hero', [
 <!-- =========================================================================
      SECTION 4: CORE CAPABILITIES (CATEGORY 1 - 6 IMAGES)
      ========================================================================= -->
-<?php
-$coverflowProps = [
-    'images' => [
-        [
-            'src' => asset('assets/img/ecommerce-dev/cap-01-checkout.jpg'),
-            'num' => 'CAPABILITY 01',
-            'title' => 'Checkout Optimisation',
-            'desc' => 'Sub-850ms TTI with biometric wallet pre-fill and transparent shipping costs.',
-        ],
-        [
-            'src' => asset('assets/img/ecommerce-dev/cap-02-payments.jpg'),
-            'num' => 'CAPABILITY 02',
-            'title' => 'Payments & Multi-Gateway',
-            'desc' => 'Razorpay, Stripe, UPI Autopay with 99.98% gateway authorization rate.',
-        ],
-        [
-            'src' => asset('assets/img/ecommerce-dev/cap-03-inventory.jpg'),
-            'num' => 'CAPABILITY 03',
-            'title' => 'Inventory & Distributed OMS',
-            'desc' => 'Atomic reservation locks preventing overselling during flash spikes.',
-        ],
-        [
-            'src' => asset('assets/img/ecommerce-dev/cap-04-catalog.jpg'),
-            'num' => 'CAPABILITY 04',
-            'title' => 'Catalogue & Merchandising',
-            'desc' => '50k+ QPS sub-second faceted filtering and dynamic visual merchandising.',
-        ],
-        [
-            'src' => asset('assets/img/ecommerce-dev/cap-05-returns.jpg'),
-            'num' => 'CAPABILITY 05',
-            'title' => 'Returns & Reverse Logistics',
-            'desc' => 'Self-serve automated returns portal slashing return rates by 28%',
-        ],
-        [
-            'src' => asset('assets/img/ecommerce-dev/cap-06-headless.jpg'),
-            'num' => 'CAPABILITY 06',
-            'title' => 'Headless Commerce Core',
-            'desc' => 'Decoupled edge frontends built on Hydrogen and Next.js for global reach.',
-        ],
-    ],
-    'layout' => [
-        'cardWidth' => 340,
-        'cardHeight' => 450,
-        'gap' => 100,
-        'radius' => 18,
-    ],
-    'depth' => [
-        'perspective' => 1300,
-        'rotation' => 42,
-        'curve' => 12,
-        'scaleFalloff' => 3.8,
-        'minScale' => 0.62,
-        'opacityFalloff' => 5,
-        'minOpacity' => 0.85,
-        'brightnessFalloff' => 0.1,
-    ],
-    'motionSettings' => [
-        'interaction' => 'autoplay',
-        'autoplaySpeed' => 2800,
-        'autoplayDirection' => 'Forward',
-        'springPreset' => 'Snappy',
-    ],
-    'styleSettings' => [
-        'backgroundColor' => 'transparent',
-        'borderWidth' => 1,
-        'borderColor' => 'rgba(62,225,255,0.28)',
-        'shadow' => true,
-        'shadowColor' => 'rgba(0,0,0,0.85)',
-        'shadowBlur' => 36,
-        'shadowY' => 18,
-        'activeGlow' => true,
-        'glowColor' => '#00F2FE',
-    ],
-    'indicators' => [
-        'showDots' => true,
-        'dotColor' => 'rgba(255,255,255,0.25)',
-        'dotActiveColor' => '#3EE1FF',
-    ],
-];
-?>
 <section class="section ecom-section-16-9" id="capabilities">
   <div class="ecom-widescreen-shell">
     <?php component('section-head', [
@@ -258,20 +178,6 @@ $coverflowProps = [
         'lead'    => 'No line item here is aspirational — each capability runs live in production across high-traffic retail brands.',
         'art'     => 'sec-capabilities',
     ]); ?>
-  </div>
-
-  <!-- Interactive 3D Cover Flow Deck (Full Screen 16:9, Not in Box) -->
-  <div class="ecom-3d-stage ecom-3d-stage--coverflow" data-reveal>
-    <div class="ecom-3d-stage-header">
-      <div class="ecom-3d-pill">
-        <span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:#3EE1FF;box-shadow:0 0 8px #3EE1FF;"></span>
-        OriginKit 3D Cover Flow Gallery
-      </div>
-      <div class="ecom-3d-hint">16:9 Full Screen • 3D Horizon Orbit</div>
-    </div>
-    <div class="ecom-3d-stage-body">
-      <div data-ok="coverflow-gallery" data-props="<?= htmlspecialchars(json_encode($coverflowProps, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>"></div>
-    </div>
   </div>
 
   <div class="ecom-widescreen-shell">
@@ -362,13 +268,16 @@ $coverflowProps = [
      ========================================================================= -->
 <?php
 $platformsSliderProps = [
+    /* The label is the slide's whole caption: the overlay renders one
+       nowrap line, so it carries the platform and the number that
+       matters rather than a paragraph it would clip. */
     'slides' => [
-        ['image' => asset('assets/img/ecommerce-dev/arch-01-shopify.jpg'), 'title' => '01 • Shopify Plus & Hydrogen'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-02-woocommerce.jpg'), 'title' => '02 • Enterprise WooCommerce'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-03-magento.jpg'), 'title' => '03 • Adobe Commerce / Magento'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-04-python.jpg'), 'title' => '04 • Custom Python & Django'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-05-medusa.jpg'), 'title' => '05 • MedusaJS Headless Engine'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-06-mobile.jpg'), 'title' => '06 • Native Mobile Storefronts'],
+        ['image' => asset('assets/img/ecommerce-dev/arch-01-shopify.jpg'), 'title' => 'Shopify Plus & Hydrogen · 10,000 orders a minute'],
+        ['image' => asset('assets/img/ecommerce-dev/arch-02-woocommerce.jpg'), 'title' => 'Enterprise WooCommerce · Redis-cached at scale'],
+        ['image' => asset('assets/img/ecommerce-dev/arch-03-magento.jpg'), 'title' => 'Adobe Commerce · B2B tiered pricing'],
+        ['image' => asset('assets/img/ecommerce-dev/arch-04-python.jpg'), 'title' => 'Custom Python & Django · zero platform fees'],
+        ['image' => asset('assets/img/ecommerce-dev/arch-05-medusa.jpg'), 'title' => 'MedusaJS Headless · composable Node.js'],
+        ['image' => asset('assets/img/ecommerce-dev/arch-06-mobile.jpg'), 'title' => 'Native mobile storefronts · 4.9★ rated'],
     ],
     'backgroundColor' => '#0B0F17',
     'direction' => 'horizontal',
@@ -426,120 +335,52 @@ $platformsSliderProps = [
     </div>
   </div>
 
-  <div class="ecom-widescreen-shell">
-    <div class="ecom-cards-grid">
-      <!-- 07 -->
-      <article class="ecom-img-card" data-reveal style="--d:0">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/arch-01-shopify.jpg')) ?>" width="800" height="533" alt="Shopify Plus & Hydrogen" loading="eager" decoding="async">
-          <span class="ecom-img-badge">ARCHITECTURE 01</span>
-          <span class="ecom-img-stat">GLOBAL EDGE</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">Shopify Plus & Hydrogen</h3>
-          <p class="ecom-img-desc">Bespoke Liquid apps, custom Hydrogen React storefronts, and Storefront API optimizations that scale past 10,000 orders/minute.</p>
-        </div>
-      </article>
-
-      <!-- 08 -->
-      <article class="ecom-img-card" data-reveal style="--d:1">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/arch-02-woocommerce.jpg')) ?>" width="800" height="533" alt="High-Scale WooCommerce" loading="eager" decoding="async">
-          <span class="ecom-img-badge">ARCHITECTURE 02</span>
-          <span class="ecom-img-stat">ENTERPRISE WP</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">Enterprise WooCommerce</h3>
-          <p class="ecom-img-desc">Decoupled database read-replicas, Redis object caching, and tailored checkout flows that keep WordPress blazing fast.</p>
-        </div>
-      </article>
-
-      <!-- 09 -->
-      <article class="ecom-img-card" data-reveal style="--d:2">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/arch-03-magento.jpg')) ?>" width="800" height="533" alt="Adobe Commerce Enterprise" loading="eager" decoding="async">
-          <span class="ecom-img-badge">ARCHITECTURE 03</span>
-          <span class="ecom-img-stat">B2B TIERED</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">Adobe Commerce / Magento</h3>
-          <p class="ecom-img-desc">Enterprise B2B buyer workflows, tiered volume pricing, quotation requests, and complex multi-store catalog hierarchies.</p>
-        </div>
-      </article>
-
-      <!-- 10 -->
-      <article class="ecom-img-card" data-reveal style="--d:0">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/arch-04-python.jpg')) ?>" width="800" height="533" alt="Custom Python Django Commerce" loading="eager" decoding="async">
-          <span class="ecom-img-badge">ARCHITECTURE 04</span>
-          <span class="ecom-img-stat">ZERO LOCK-IN</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">Custom Python & Django</h3>
-          <p class="ecom-img-desc">Zero platform fees and unlimited extensibility. A high-concurrency order ledger written in Python, FastAPI, and PostgreSQL.</p>
-        </div>
-      </article>
-
-      <!-- 11 -->
-      <article class="ecom-img-card" data-reveal style="--d:1">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/arch-05-medusa.jpg')) ?>" width="800" height="533" alt="MedusaJS Composable Commerce" loading="eager" decoding="async">
-          <span class="ecom-img-badge">ARCHITECTURE 05</span>
-          <span class="ecom-img-stat">HEADLESS NODE</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">MedusaJS Headless Engine</h3>
-          <p class="ecom-img-desc">Modern Node.js open-source commerce with pluggable modules for cart, tax, fulfillment, and customer segments.</p>
-        </div>
-      </article>
-
-      <!-- 12 -->
-      <article class="ecom-img-card" data-reveal style="--d:2">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/arch-06-mobile.jpg')) ?>" width="800" height="533" alt="Omnichannel Mobile Apps" loading="eager" decoding="async">
-          <span class="ecom-img-badge">ARCHITECTURE 06</span>
-          <span class="ecom-img-stat">4.9★ STORE RATING</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">Native Mobile Storefronts</h3>
-          <p class="ecom-img-desc">High-speed native iOS and Android apps with biometric Apple Pay/UPI payments, personalized pushes, and offline carts.</p>
-        </div>
-      </article>
-    </div>
-  </div>
 </section>
 
 <!-- =========================================================================
      SECTION 6: PAYMENT RAILS & CHECKOUT SECURITY (CATEGORY 3 - 5 IMAGES)
      ========================================================================= -->
 <?php
+/*
+ * The rails ride the liquid carousel rather than the depth-blur one: this is
+ * the same set of five pictures, but each panel carries its own label and
+ * description, so the copy lives on the card instead of in a grid repeating it
+ * underneath. card-showcase would also have done it — it is already used
+ * further down this page, and two of them would read as one component twice.
+ */
 $railsCarouselProps = [
-    'images' => [
-        asset('assets/img/ecommerce-dev/rail-01-upi.jpg'),
-        asset('assets/img/ecommerce-dev/rail-02-stripe.jpg'),
-        asset('assets/img/ecommerce-dev/rail-03-wallets.jpg'),
-        asset('assets/img/ecommerce-dev/rail-04-fraud.jpg'),
-        asset('assets/img/ecommerce-dev/rail-05-pci-dss.jpg'),
+    'projects' => [
+        ['brand' => 'UPI Autopay & QR Engine',  'description' => 'Deep-linked UPI intent routing across PhonePe, Google Pay and Paytm, with automated fallback retry rails.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-01-upi.jpg'), 'alt' => 'UPI Autopay and QR engine']],
+        ['brand' => 'Global Stripe Rails',      'description' => 'Cross-border multi-currency transactions, automatic tax remittance and local payment methods for 135+ countries.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-02-stripe.jpg'), 'alt' => 'Global Stripe payment rails']],
+        ['brand' => 'One-Tap Digital Wallets',  'description' => 'Instant authentication and pre-filled shipping addresses through Apple Pay, Google Pay and OTP pre-fill.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-03-wallets.jpg'), 'alt' => 'One-tap digital wallets']],
+        ['brand' => 'COD & RTO Risk Defence',   'description' => 'Predictive scoring on addresses and buyer history that converts high-risk cash-on-delivery orders to prepaid.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-04-fraud.jpg'), 'alt' => 'Cash on delivery and RTO risk defence']],
+        ['brand' => 'PCI-DSS Token Vault',      'description' => 'Zero plaintext card retention: end-to-end client tokenisation and HSM encryption that keeps you audit-proof.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-05-pci-dss.jpg'), 'alt' => 'PCI-DSS token vault']],
     ],
-    'layoutProps' => [
-        'itemWidth' => 560,
-        'itemHeight' => 350,
-        'sideItemWidth' => 370,
-        'sideItemHeight' => 290,
-        'gap' => 56,
-    ],
-    'effectProps' => [
-        'maxRotation' => 55,
-        'perspective' => 750,
-        'scrollDamping' => 85,
-    ],
-    'stylingProps' => [
-        'borderRadius' => 16,
-    ],
-    'blurProps' => [
-        'blurSpread' => 20,
-        'blurStrength' => 22,
-    ],
+    'panelHeight'      => 460,
+    'gap'              => 20,
+    'glide'            => 0.08,
+    'wheelSensitivity' => 1,
+    'snap'             => true,
+    'lensShape'        => 'circle',
+    'lensRotation'     => 0,
+    'lensWidth'        => 0.22,
+    'lensHeight'       => 0.82,
+    'lensX'            => 0.0,
+    'lensY'            => 0.5,
+    'dispersion'       => 16,
+    'zoom'             => 0.12,
+    'blur'             => 0,
+    'glow'             => 5.5,
+    'blueRing'         => 6.5,
+    'blueColor'        => '#3EE1FF',
+    'shimmer'          => true,
+    'rimWave'          => 0.65,
+    'entryAnimation'   => false,
+    'focusScale'       => 1.15,
+    'background'       => 'rgba(0, 0, 0, 0)',
+    'foreground'       => '#EAF0FA',
+    'showLabels'       => true,
+    'showCursor'       => true,
 ];
 ?>
 <section class="section ecom-section-16-9" id="payment-rails">
@@ -552,110 +393,44 @@ $railsCarouselProps = [
   </div>
 
   <!-- Interactive 3D Depth Blur Carousel (Full Screen 16:9, Not in Box) -->
-  <div class="ecom-3d-stage ecom-3d-stage--depthblur" data-reveal>
+  <div class="ecom-3d-stage ecom-3d-stage--liquid" data-reveal>
     <div class="ecom-3d-stage-header">
       <div class="ecom-3d-pill">
         <span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:#3EE1FF;box-shadow:0 0 8px #3EE1FF;"></span>
-        Framer 3D Depth-Blur Stage
+        Liquid Lens Payment Rails
       </div>
-      <div class="ecom-3d-hint">16:9 Full Screen • 3D Perspective Fold • Drag to Orbit</div>
+      <div class="ecom-3d-hint">16:9 Full Screen • Liquid Lens • Drag / Wheel</div>
     </div>
     <div class="ecom-3d-stage-body">
-      <div data-ok="depth-blur-carousel" data-props="<?= htmlspecialchars(json_encode($railsCarouselProps, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>"></div>
+      <div data-ok="liquid-carousel" data-props="<?= htmlspecialchars(json_encode($railsCarouselProps, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>"></div>
     </div>
   </div>
 
-  <div class="ecom-widescreen-shell">
-    <div class="ecom-cards-grid ecom-cards-grid--5">
-      <!-- 13 -->
-      <article class="ecom-img-card" data-reveal style="--d:0">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/rail-01-upi.jpg')) ?>" width="800" height="533" alt="UPI Autopay & QR Engine" loading="eager" decoding="async">
-          <span class="ecom-img-badge">RAIL 01</span>
-          <span class="ecom-img-stat">99.9% UPI</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">UPI Autopay & QR Engine</h3>
-          <p class="ecom-img-desc">Deep-linked UPI intent routing across PhonePe, Google Pay, and Paytm with automated fallback retry rails.</p>
-        </div>
-      </article>
-
-      <!-- 14 -->
-      <article class="ecom-img-card" data-reveal style="--d:1">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/rail-02-stripe.jpg')) ?>" width="800" height="533" alt="Global Multi-Currency Rails" loading="eager" decoding="async">
-          <span class="ecom-img-badge">RAIL 02</span>
-          <span class="ecom-img-stat">135+ CURRENCIES</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">Global Stripe Rails</h3>
-          <p class="ecom-img-desc">Cross-border multi-currency transactions, automatic tax remittance, and local payment methods for 135+ countries.</p>
-        </div>
-      </article>
-
-      <!-- 15 -->
-      <article class="ecom-img-card" data-reveal style="--d:2">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/rail-03-wallets.jpg')) ?>" width="800" height="533" alt="One-Tap Digital Wallets" loading="eager" decoding="async">
-          <span class="ecom-img-badge">RAIL 03</span>
-          <span class="ecom-img-stat">1-TAP CHECKOUT</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">One-Tap Digital Wallets</h3>
-          <p class="ecom-img-desc">Instant customer authentication and pre-filled shipping addresses via Apple Pay, Google Pay, and OTP pre-fill.</p>
-        </div>
-      </article>
-
-      <!-- 16 -->
-      <article class="ecom-img-card" data-reveal style="--d:3">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/rail-04-fraud.jpg')) ?>" width="800" height="533" alt="COD & RTO Risk Prediction" loading="eager" decoding="async">
-          <span class="ecom-img-badge">RAIL 04</span>
-          <span class="ecom-img-stat">94% ACCURACY</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">COD & RTO Risk Defense</h3>
-          <p class="ecom-img-desc">Predictive machine-learning scoring on addresses and buyer history to convert high-risk COD orders to prepaid.</p>
-        </div>
-      </article>
-
-      <!-- 17 -->
-      <article class="ecom-img-card" data-reveal style="--d:4">
-        <figure class="ecom-img-figure">
-          <img src="<?= e(asset('assets/img/ecommerce-dev/rail-05-pci-dss.jpg')) ?>" width="800" height="533" alt="PCI-DSS Tokenization Vault" loading="eager" decoding="async">
-          <span class="ecom-img-badge">RAIL 05</span>
-          <span class="ecom-img-stat">LEVEL 1 VAULT</span>
-        </figure>
-        <div class="ecom-img-content">
-          <h3 class="ecom-img-title">PCI-DSS Token Vault</h3>
-          <p class="ecom-img-desc">Zero plaintext card retention. End-to-end client tokenization and HSM encryption keeping you fully audit-proof.</p>
-        </div>
-      </article>
-    </div>
-  </div>
 </section>
 
 <!-- =========================================================================
      SECTION 7: OPERATIONS, WAREHOUSE & LOGISTICS (CATEGORY 4 - 5 IMAGES)
      ========================================================================= -->
 <?php
-$omsStackedProps = [
+/*
+ * The five fulfilment pictures drift through the frame on their own currents;
+ * a click brings one to the centre at full size and a second click lets it go.
+ * See app/originkit/src/components/originkit/floating-gallery.tsx.
+ */
+$omsGalleryProps = [
     'images' => [
-        asset('assets/img/ecommerce-dev/oms-01-warehouse.jpg'),
-        asset('assets/img/ecommerce-dev/oms-02-shipping.jpg'),
-        asset('assets/img/ecommerce-dev/oms-03-flash-sales.jpg'),
-        asset('assets/img/ecommerce-dev/oms-04-wms-barcode.jpg'),
-        asset('assets/img/ecommerce-dev/oms-05-tracking.jpg'),
+        ['src' => asset('assets/img/ecommerce-dev/oms-01-warehouse.jpg'),  'alt' => 'Multi-warehouse dispatch routing'],
+        ['src' => asset('assets/img/ecommerce-dev/oms-02-shipping.jpg'),   'alt' => 'Multi-courier AWB aggregation'],
+        ['src' => asset('assets/img/ecommerce-dev/oms-03-flash-sales.jpg'),'alt' => 'Flash-sale concurrency protection'],
+        ['src' => asset('assets/img/ecommerce-dev/oms-04-wms-barcode.jpg'),'alt' => 'Barcode pick and pack in the warehouse'],
+        ['src' => asset('assets/img/ecommerce-dev/oms-05-tracking.jpg'),   'alt' => 'Live milestone tracking for buyers'],
     ],
-    'cardWidth' => 480,
-    'cardHeight' => 320,
-    'gap' => 120,
-    'speed' => 42,
-    'direction' => 'forward',
-    'camera' => [
-        'tilt' => -16,
-        'angle' => 22,
-    ],
+    'background' => 'transparent',
+    'cardWidth'  => 320,
+    'cardHeight' => 400,
+    'rounded'    => 14,
+    'speed'      => 34,
+    'fade'       => 14,
 ];
 ?>
 <section class="section section--panel ecom-section-16-9" id="operations-logistics">
@@ -667,17 +442,17 @@ $omsStackedProps = [
     ]); ?>
   </div>
 
-  <!-- Interactive 3D Stacked Z-Plane Carousel (Full Screen 16:9, Not in Box) -->
-  <div class="ecom-3d-stage ecom-3d-stage--stacked" data-reveal>
+  <!-- Floating gallery: drifting cards, click one to bring it forward -->
+  <div class="ecom-3d-stage ecom-3d-stage--floating" data-reveal>
     <div class="ecom-3d-stage-header">
       <div class="ecom-3d-pill">
         <span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:#3EE1FF;box-shadow:0 0 8px #3EE1FF;"></span>
-        OriginKit 3D Stacked Z-Plane Deck
+        OriginKit Floating Gallery
       </div>
-      <div class="ecom-3d-hint">16:9 Full Screen • WebGL Endless Drift • Hover to Flatten Card</div>
+      <div class="ecom-3d-hint">16:9 Full Screen • Endless Drift • Click a Card to Enlarge</div>
     </div>
     <div class="ecom-3d-stage-body">
-      <div data-ok="stacked-carousel" data-props="<?= htmlspecialchars(json_encode($omsStackedProps, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>"></div>
+      <div data-ok="floating-gallery" data-props="<?= htmlspecialchars(json_encode($omsGalleryProps, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>"></div>
     </div>
   </div>
 
