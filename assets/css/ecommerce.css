@@ -678,3 +678,192 @@
   font-family: var(--mono, monospace);
   letter-spacing: 0.02em;
 }
+
+/* =========================================================================
+   DECK CARDS — the written half of the platform and payment-rail sections
+   =========================================================================
+   The picture sits on its own plane behind the copy and lifts away from it on
+   hover. That is the depth the section wanted from a gallery component; doing
+   it in CSS keeps the words in the markup, where a reader without WebGL — or a
+   crawler — still gets them.
+   ========================================================================= */
+
+.ecom-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 26px;
+  margin-top: 8px;
+}
+
+.ecom-deck--rails { margin-top: 44px; }
+
+.ecom-deck-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(62, 225, 255, 0.14);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.92) 0%, rgba(11, 15, 23, 0.96) 100%);
+  overflow: hidden;
+  transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+}
+
+.ecom-deck-card:hover,
+.ecom-deck-card:focus-within {
+  border-color: rgba(62, 225, 255, 0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 26px 50px -28px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(62, 225, 255, 0.08);
+}
+
+.ecom-deck-fig {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #05080E;
+}
+
+.ecom-deck-fig img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform .5s cubic-bezier(.22, .61, .36, 1), filter .4s ease;
+  filter: saturate(.92) brightness(.86);
+}
+
+.ecom-deck-card:hover .ecom-deck-fig img,
+.ecom-deck-card:focus-within .ecom-deck-fig img {
+  transform: scale(1.08);
+  filter: saturate(1.05) brightness(1);
+}
+
+/* A wash over the picture so white text on a bright photograph stays legible. */
+.ecom-deck-fig::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 8, 14, 0) 35%, rgba(5, 8, 14, .78) 100%);
+  pointer-events: none;
+}
+
+.ecom-deck-num,
+.ecom-deck-stat {
+  position: absolute;
+  z-index: 2;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.ecom-deck-num {
+  top: 14px;
+  left: 14px;
+  color: #0B0F17;
+  background: linear-gradient(120deg, #3EE1FF, #9D4EDD);
+}
+
+.ecom-deck-stat {
+  bottom: 14px;
+  right: 14px;
+  color: #CFF8FF;
+  background: rgba(11, 15, 23, .72);
+  border: 1px solid rgba(62, 225, 255, .3);
+}
+
+.ecom-deck-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 22px 24px;
+  flex: 1;
+}
+
+.ecom-deck-tag {
+  margin: 0;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #3EE1FF;
+}
+
+.ecom-deck-title {
+  margin: 0;
+  font-size: 1.22rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #F2F6FF;
+}
+
+.ecom-deck-sub {
+  margin: 0;
+  font-size: .95rem;
+  font-weight: 500;
+  color: #9D4EDD;
+}
+
+.ecom-deck-desc {
+  margin: 0;
+  font-size: .94rem;
+  line-height: 1.62;
+  color: #9AA8BF;
+}
+
+.ecom-deck-points {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ecom-deck-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: .89rem;
+  line-height: 1.45;
+  color: #C7D3E6;
+}
+
+.ecom-deck-tick {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: #3EE1FF;
+}
+
+.ecom-deck-cta {
+  margin-top: auto;
+  padding-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 600;
+  color: #3EE1FF;
+  transition: gap .25s ease, color .25s ease;
+}
+
+.ecom-deck-cta:hover { gap: 12px; color: #9CEBFF; }
+.ecom-deck-cta .icon { width: 17px; height: 17px; }
+
+@media (max-width: 720px) {
+  .ecom-deck { grid-template-columns: 1fr; gap: 20px; }
+  .ecom-deck-body { padding: 18px 18px 20px; }
+}

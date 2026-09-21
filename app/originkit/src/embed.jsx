@@ -26,6 +26,7 @@ import InteractiveGrid from './components/originkit/interactive-grid.tsx';
 import SwipeStack from './components/originkit/swipe-stack.tsx';
 import StackedCarousel from './components/originkit/stacked-carousel.tsx';
 import FloatingGallery from './components/originkit/floating-gallery.tsx';
+const MagazineFlip = lazy(() => import('./components/originkit/magazine-flip.tsx'));
 /*
  * Framer's own components, unmodified — see components/framer/.
  *
@@ -120,6 +121,7 @@ const REGISTRY = {
   'swipe-stack': SwipeStack,
   'stacked-carousel': StackedCarousel,
   'floating-gallery': FloatingGallery,
+  'magazine-flip': MagazineFlip,
   'coverflow-gallery': CoverflowGallery,
   /* The MVP Development page's set. */
   'magazine-3d': Magazine3D,

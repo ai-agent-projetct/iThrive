@@ -267,49 +267,61 @@ component('film-hero', [
      SECTION 5: COMMERCE PLATFORMS & ARCHITECTURE (CATEGORY 2 - 6 IMAGES)
      ========================================================================= -->
 <?php
-$platformsSliderProps = [
-    /* The label is the slide's whole caption: the overlay renders one
-       nowrap line, so it carries the platform and the number that
-       matters rather than a paragraph it would clip. */
-    'slides' => [
-        ['image' => asset('assets/img/ecommerce-dev/arch-01-shopify.jpg'), 'title' => 'Shopify Plus & Hydrogen · 10,000 orders a minute'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-02-woocommerce.jpg'), 'title' => 'Enterprise WooCommerce · Redis-cached at scale'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-03-magento.jpg'), 'title' => 'Adobe Commerce · B2B tiered pricing'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-04-python.jpg'), 'title' => 'Custom Python & Django · zero platform fees'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-05-medusa.jpg'), 'title' => 'MedusaJS Headless · composable Node.js'],
-        ['image' => asset('assets/img/ecommerce-dev/arch-06-mobile.jpg'), 'title' => 'Native mobile storefronts · 4.9★ rated'],
-    ],
-    'backgroundColor' => '#0B0F17',
-    'direction' => 'horizontal',
-    'borderRadius' => 0,
-    'slideSize' => [
-        'aspectRatio' => 1.5,
-        'minHeight' => 1.25,
-        'maxHeight' => 1.55,
-        'gap' => 0.08,
-        'randomHeights' => false,
-        'activeScale' => 1.05,
-    ],
-    'effect' => [
-        'preset' => 'cards',
-        'distortionStrength' => 1.5,
-        'perspective' => 45,
-        'rotation' => 40,
-        'depth' => 2.5,
-    ],
-    'autoplay' => [
-        'enabled' => true,
-        'speed' => 22,
-    ],
-    'snap' => [
-        'enabled' => true,
-        'strength' => 25,
-    ],
-    'showOverlay' => true,
-    'overlayColor' => '#3EE1FF',
-    'overlaySize' => 18,
-    'counterSize' => 13,
-    'overlayPosition' => 'bottom-left',
+/*
+ * Platforms: the pictures ride Originkit's Magazine Flip — a corridor of pages
+ * you drag or scroll through, tap one and it turns to face you — and the
+ * writing lives in the deck cards below, which is where a reader (and a search
+ * engine) can actually take it in.
+ */
+$platformPages = [
+    ['arch-01-shopify.jpg',     'Shopify Plus and Hydrogen storefronts'],
+    ['arch-02-woocommerce.jpg', 'Enterprise WooCommerce at scale'],
+    ['arch-03-magento.jpg',     'Adobe Commerce B2B workflows'],
+    ['arch-04-python.jpg',      'Custom Python and Django commerce'],
+    ['arch-05-medusa.jpg',      'MedusaJS headless commerce'],
+    ['arch-06-mobile.jpg',      'Native mobile storefronts'],
+];
+
+$platformFlipProps = [
+    'images' => array_map(static fn (array $p): array => [
+        'image' => ['src' => asset('assets/img/ecommerce-dev/' . $p[0]), 'alt' => $p[1]],
+    ], $platformPages),
+    'background' => 'transparent',
+    // 12 pages over 6 pictures: the corridor repeats the set twice, which reads
+    // as a magazine rather than as six planes in a row.
+    'pages'      => 12,
+    'spacing'    => 5,
+    /* Straight on and larger: with a tilt the corridor rides up into the top
+       third of a 16:9 stage and leaves the rest of it empty. */
+    'tilt'       => 0,
+    'turn'       => 0,
+    'pageWidth'  => 820,
+    'pageHeight' => 560,
+    'scrollSens' => 4,
+    'travel'     => ['drift' => 1.4, 'smoothing' => 5, 'wave' => 4],
+    'view'       => ['tap' => true, 'zoom' => 6, 'speed' => 5],
+];
+
+/* num, tag, title, subtitle, description, three proof points, stat */
+$platformDeck = [
+    ['01', 'Architecture', 'Shopify Plus & Hydrogen', 'Liquid apps and a React storefront on the edge',
+     'Bespoke Liquid apps, custom Hydrogen React storefronts and Storefront API optimisations that scale past 10,000 orders a minute.',
+     ['Custom Hydrogen React storefront', 'Storefront API query budgets', 'Checkout extensibility, not scripts'], 'Global edge'],
+    ['02', 'Architecture', 'Enterprise WooCommerce', 'WordPress kept fast under real load',
+     'Decoupled database read-replicas, Redis object caching and tailored checkout flows that keep WordPress quick at enterprise volume.',
+     ['Read-replica database split', 'Redis object cache', 'Rewritten checkout flow'], 'Enterprise WP'],
+    ['03', 'Architecture', 'Adobe Commerce / Magento', 'Built for B2B buyers and complex catalogues',
+     'Enterprise B2B buyer workflows, tiered volume pricing, quotation requests and multi-store catalogue hierarchies.',
+     ['Tiered volume pricing', 'Quote-to-order workflow', 'Multi-store catalogue trees'], 'B2B tiered'],
+    ['04', 'Architecture', 'Custom Python & Django', 'No platform fees and no ceiling',
+     'Zero platform fees and unlimited extensibility: a high-concurrency order ledger written in Python, FastAPI and PostgreSQL.',
+     ['High-concurrency order ledger', 'FastAPI service layer', 'PostgreSQL as the source of truth'], 'Zero lock-in'],
+    ['05', 'Architecture', 'MedusaJS Headless Engine', 'Composable commerce in Node.js',
+     'Modern open-source commerce with pluggable modules for cart, tax, fulfilment and customer segments.',
+     ['Pluggable cart and tax modules', 'Own the data model', 'Fulfilment providers swappable'], 'Headless Node'],
+    ['06', 'Architecture', 'Native Mobile Storefronts', 'A shop that lives on the home screen',
+     'High-speed native iOS and Android apps with biometric Apple Pay and UPI payments, personalised pushes and offline carts.',
+     ['Biometric Apple Pay and UPI', 'Personalised push campaigns', 'Carts that survive no signal'], '4.9 rating'],
 ];
 ?>
 <section class="section section--panel ecom-section-16-9" id="platforms">
@@ -321,20 +333,31 @@ $platformsSliderProps = [
     ]); ?>
   </div>
 
-  <!-- Interactive 3D WebGL Cube/Slider (Full Screen 16:9, Not in Box) -->
-  <div class="ecom-3d-stage ecom-3d-stage--scroll3d" data-reveal>
+  <div class="ecom-3d-stage ecom-3d-stage--magazine" data-reveal>
     <div class="ecom-3d-stage-header">
       <div class="ecom-3d-pill">
         <span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:#3EE1FF;box-shadow:0 0 8px #3EE1FF;"></span>
-        Framer 3D WebGL Horizon Slider
+        Six Commerce Architectures
       </div>
-      <div class="ecom-3d-hint">16:9 Full Screen • Continuous 3D Rotation • Drag / Wheel</div>
+      <div class="ecom-3d-hint">Drag or Scroll the Corridor • Tap a Page to Hold It Up</div>
     </div>
     <div class="ecom-3d-stage-body">
-      <div data-ok="scroll-3d-slider" data-props="<?= htmlspecialchars(json_encode($platformsSliderProps, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>"></div>
+      <div data-ok="magazine-flip" data-props="<?= htmlspecialchars(json_encode($platformFlipProps, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>"></div>
     </div>
   </div>
 
+  <div class="ecom-widescreen-shell">
+    <div class="ecom-deck">
+      <?php foreach ($platformDeck as $i => [$num, $tag, $title, $sub, $desc, $points, $stat]): ?>
+        <?php component('ecom-deck-card', [
+            'num' => $num, 'tag' => $tag, 'title' => $title, 'sub' => $sub,
+            'desc' => $desc, 'points' => $points, 'stat' => $stat,
+            'image' => 'assets/img/ecommerce-dev/' . $platformPages[$i][0],
+            'alt' => $platformPages[$i][1], 'index' => $i,
+        ]); ?>
+      <?php endforeach; ?>
+    </div>
+  </div>
 </section>
 
 <!-- =========================================================================
@@ -342,45 +365,32 @@ $platformsSliderProps = [
      ========================================================================= -->
 <?php
 /*
- * The rails ride the liquid carousel rather than the depth-blur one: this is
- * the same set of five pictures, but each panel carries its own label and
- * description, so the copy lives on the card instead of in a grid repeating it
- * underneath. card-showcase would also have done it — it is already used
- * further down this page, and two of them would read as one component twice.
+ * Payment rails: five deck cards, same shape as the platform set. Originkit's
+ * Depth Gallery was the ask here, but it is a paid component this account
+ * cannot fetch, so the cards carry the depth themselves — the picture sits on
+ * its own plane behind the copy and lifts on hover.
  */
-$railsCarouselProps = [
-    'projects' => [
-        ['brand' => 'UPI Autopay & QR Engine',  'description' => 'Deep-linked UPI intent routing across PhonePe, Google Pay and Paytm, with automated fallback retry rails.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-01-upi.jpg'), 'alt' => 'UPI Autopay and QR engine']],
-        ['brand' => 'Global Stripe Rails',      'description' => 'Cross-border multi-currency transactions, automatic tax remittance and local payment methods for 135+ countries.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-02-stripe.jpg'), 'alt' => 'Global Stripe payment rails']],
-        ['brand' => 'One-Tap Digital Wallets',  'description' => 'Instant authentication and pre-filled shipping addresses through Apple Pay, Google Pay and OTP pre-fill.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-03-wallets.jpg'), 'alt' => 'One-tap digital wallets']],
-        ['brand' => 'COD & RTO Risk Defence',   'description' => 'Predictive scoring on addresses and buyer history that converts high-risk cash-on-delivery orders to prepaid.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-04-fraud.jpg'), 'alt' => 'Cash on delivery and RTO risk defence']],
-        ['brand' => 'PCI-DSS Token Vault',      'description' => 'Zero plaintext card retention: end-to-end client tokenisation and HSM encryption that keeps you audit-proof.', 'image' => ['src' => asset('assets/img/ecommerce-dev/rail-05-pci-dss.jpg'), 'alt' => 'PCI-DSS token vault']],
-    ],
-    'panelHeight'      => 460,
-    'gap'              => 20,
-    'glide'            => 0.08,
-    'wheelSensitivity' => 1,
-    'snap'             => true,
-    'lensShape'        => 'circle',
-    'lensRotation'     => 0,
-    'lensWidth'        => 0.22,
-    'lensHeight'       => 0.82,
-    'lensX'            => 0.0,
-    'lensY'            => 0.5,
-    'dispersion'       => 16,
-    'zoom'             => 0.12,
-    'blur'             => 0,
-    'glow'             => 5.5,
-    'blueRing'         => 6.5,
-    'blueColor'        => '#3EE1FF',
-    'shimmer'          => true,
-    'rimWave'          => 0.65,
-    'entryAnimation'   => false,
-    'focusScale'       => 1.15,
-    'background'       => 'rgba(0, 0, 0, 0)',
-    'foreground'       => '#EAF0FA',
-    'showLabels'       => true,
-    'showCursor'       => true,
+$railsDeck = [
+    ['01', 'Rail', 'UPI Autopay & QR Engine', 'Every Indian wallet, one intent flow',
+     'Deep-linked UPI intent routing across PhonePe, Google Pay and Paytm, with automated fallback retry rails.',
+     ['Deep-linked intent routing', 'Autopay mandates and reminders', 'Automatic retry on a failed rail'],
+     '99.9% UPI', 'rail-01-upi.jpg', 'UPI Autopay and QR engine'],
+    ['02', 'Rail', 'Global Stripe Rails', 'Sell in the buyer\'s own currency',
+     'Cross-border multi-currency transactions, automatic tax remittance and local payment methods for 135+ countries.',
+     ['Multi-currency presentment', 'Automatic tax remittance', 'Local methods per market'],
+     '135+ currencies', 'rail-02-stripe.jpg', 'Global Stripe payment rails'],
+    ['03', 'Rail', 'One-Tap Digital Wallets', 'Checkout before the doubt arrives',
+     'Instant customer authentication and pre-filled shipping addresses through Apple Pay, Google Pay and OTP pre-fill.',
+     ['Apple Pay and Google Pay', 'Address pre-fill from the wallet', 'OTP read without leaving checkout'],
+     '1-tap checkout', 'rail-03-wallets.jpg', 'One-tap digital wallets'],
+    ['04', 'Rail', 'COD & RTO Risk Defence', 'The order that never should have shipped',
+     'Predictive scoring on addresses and buyer history that converts high-risk cash-on-delivery orders to prepaid before dispatch.',
+     ['Address and history scoring', 'Prepaid nudge at the risky order', 'Courier serviceability checks'],
+     '94% accuracy', 'rail-04-fraud.jpg', 'Cash on delivery and RTO risk defence'],
+    ['05', 'Rail', 'PCI-DSS Token Vault', 'Card data you never have to hold',
+     'Zero plaintext card retention: end-to-end client tokenisation and HSM encryption that keeps you audit-proof.',
+     ['Client-side tokenisation', 'HSM-held keys', 'Nothing in plaintext, ever'],
+     'Audit-proof', 'rail-05-pci-dss.jpg', 'PCI-DSS token vault'],
 ];
 ?>
 <section class="section ecom-section-16-9" id="payment-rails">
@@ -390,22 +400,17 @@ $railsCarouselProps = [
         'title'   => 'Transaction Rails That Never Drop A Conversion',
         'lead'    => 'Resilient gateway fallbacks, fraud mitigation, and tokenized payment pipelines that maximize authorization rates.',
     ]); ?>
-  </div>
 
-  <!-- Interactive 3D Depth Blur Carousel (Full Screen 16:9, Not in Box) -->
-  <div class="ecom-3d-stage ecom-3d-stage--liquid" data-reveal>
-    <div class="ecom-3d-stage-header">
-      <div class="ecom-3d-pill">
-        <span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:#3EE1FF;box-shadow:0 0 8px #3EE1FF;"></span>
-        Liquid Lens Payment Rails
-      </div>
-      <div class="ecom-3d-hint">16:9 Full Screen • Liquid Lens • Drag / Wheel</div>
-    </div>
-    <div class="ecom-3d-stage-body">
-      <div data-ok="liquid-carousel" data-props="<?= htmlspecialchars(json_encode($railsCarouselProps, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>"></div>
+    <div class="ecom-deck ecom-deck--rails">
+      <?php foreach ($railsDeck as $i => [$num, $tag, $title, $sub, $desc, $points, $stat, $img, $alt]): ?>
+        <?php component('ecom-deck-card', [
+            'num' => $num, 'tag' => $tag, 'title' => $title, 'sub' => $sub,
+            'desc' => $desc, 'points' => $points, 'stat' => $stat,
+            'image' => 'assets/img/ecommerce-dev/' . $img, 'alt' => $alt, 'index' => $i,
+        ]); ?>
+      <?php endforeach; ?>
     </div>
   </div>
-
 </section>
 
 <!-- =========================================================================
