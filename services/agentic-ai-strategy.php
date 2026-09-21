@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Enterprise Agentic AI Strategy & Swarm Architecture Advisory';
-$pageDesc     = 'Architecting autonomous agentic frameworks, multi-agent communication topologies, MCP protocol integrations, and deterministic safety guardrails for enterprise automation.';
+$pageTitle    = 'Agentic AI Strategy & Consulting';
+$pageDesc     = 'Agentic AI strategy for enterprises: agent topologies, MCP integration, deterministic safety guardrails and a roadmap costed against the work it removes.';
 $ogImage      = 'assets/img/services/svc-07-agentic-strategy.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

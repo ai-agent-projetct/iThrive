@@ -49,9 +49,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('game-development');
 
 $page      = 'services';
-$pageTitle = 'Game Development Company in Chennai — Unity, Unreal, AR/VR';
-$pageDesc  = 'iThrive Software builds games, simulations and game-based learning in Unity and '
-           . 'Unreal — for entertainment, enterprise training and EdTech, across mobile, web and XR.';
+$pageTitle = 'Game Development Company in India';
+$pageDesc  = 'Games, simulations and game-based learning in Unity and Unreal — entertainment, enterprise training and EdTech across mobile, web and XR.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------

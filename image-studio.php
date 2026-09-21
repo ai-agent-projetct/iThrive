@@ -69,6 +69,8 @@ $pageTitles = [
 
 $page = 'tools';
 $pageTitle = 'iThrive 3D Image Studio';
+// An internal upload tool: useful to us, worthless in a search result.
+$robots    = 'noindex, nofollow';
 require __DIR__ . '/includes/header.php';
 ?>
 

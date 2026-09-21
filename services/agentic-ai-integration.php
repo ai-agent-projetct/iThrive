@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Agentic AI Integration & Enterprise Middleware Services';
-$pageDesc     = 'Seamlessly connect autonomous agents to legacy databases, ERP systems, CRM pipelines, and external APIs via Model Context Protocol (MCP) and secure microservices.';
+$pageTitle    = 'Agentic AI Integration Services';
+$pageDesc     = 'Connect AI agents to the ERP, CRM, ticketing and databases you already run — one typed contract layer, least-privilege access and a full action trail.';
 $ogImage      = 'assets/img/services/svc-11-agentic-integration.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

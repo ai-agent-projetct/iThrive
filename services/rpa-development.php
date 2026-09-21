@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Cognitive RPA Development & Next-Gen Robotic Process Automation';
-$pageDesc     = 'Upgrade brittle legacy scripts to cognitive RPA powered by computer vision, LLM reasoning, adaptive UI scraping, and intelligent document processing.';
+$pageTitle    = 'Cognitive RPA Development Services';
+$pageDesc     = 'Replace brittle RPA scripts with cognitive automation — computer vision, LLM reasoning, adaptive UI handling and intelligent document processing.';
 $ogImage      = 'assets/img/services/svc-15-rpa-development.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Custom AI Copilot Development & Domain Decision Engines';
-$pageDesc     = 'Purpose-built cognitive AI copilots embedded into your SaaS, IDE, or internal enterprise dashboards that anticipate user actions and automate complex decision workflows.';
+$pageTitle    = 'AI Copilot Development Services';
+$pageDesc     = 'Domain AI copilots embedded in your SaaS, IDE or internal dashboards — anticipating the next action and automating the decision work behind it.';
 $ogImage      = 'assets/img/services/svc-04-ai-copilot.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

@@ -37,9 +37,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('on-demand-resources');
 
 $page      = 'services';
-$pageTitle = 'Hire Dedicated Developers in Chennai | On-Demand Engineering';
-$pageDesc  = 'iThrive Software supplies senior developers on demand — one engineer or a squad, '
-           . 'inside your workflow, billed monthly and scalable on thirty days\' notice.';
+$pageTitle = 'Hire Dedicated Developers in India';
+$pageDesc  = 'Senior developers on demand — one engineer or a squad, inside your workflow, billed monthly and scalable on thirty days\\\' notice. Chennai and Coimbatore.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------

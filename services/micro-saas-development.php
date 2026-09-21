@@ -44,9 +44,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('micro-saas-development');
 
 $page      = 'services';
-$pageTitle = 'Micro-SaaS Product Development Company in Chennai';
-$pageDesc  = 'iThrive Software builds micro-SaaS products — one job, done properly, cloud-native '
-           . 'and instrumented, in front of paying users while the idea is still cheap to change.';
+$pageTitle = 'Micro-SaaS Development Company in India';
+$pageDesc  = 'Micro-SaaS products built cloud-native and instrumented — one job done properly, in front of paying users while the idea is still cheap to change.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------

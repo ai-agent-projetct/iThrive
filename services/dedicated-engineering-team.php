@@ -44,9 +44,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('dedicated-engineering-team');
 
 $page      = 'services';
-$pageTitle = 'Hire a Dedicated Engineering Team in Chennai';
-$pageDesc  = 'iThrive Software embeds senior engineers into your workflow — your roadmap, your '
-           . 'repository, your standards, and a team you can scale up or down without a hiring cycle.';
+$pageTitle = 'Hire a Dedicated Engineering Team in India';
+$pageDesc  = 'Senior engineers from India embedded in your workflow — your roadmap, your repository, your standards, and a team you can scale without a hiring cycle.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------

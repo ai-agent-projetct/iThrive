@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Generative AI Development & Custom Foundation Model Services';
-$pageDesc     = 'Custom GenAI solutions engineered for enterprise scale: LoRA/QLoRA domain fine-tuning, multimodal diffusion, synthetic data generation, and private foundation models.';
+$pageTitle    = 'Generative AI Development Services';
+$pageDesc     = 'Custom generative AI built for enterprise scale: LoRA and QLoRA domain fine-tuning, multimodal generation, synthetic data and private foundation models.';
 $ogImage      = 'assets/img/services/svc-02-gen-ai-dev.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -78,16 +78,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

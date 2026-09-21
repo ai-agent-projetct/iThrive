@@ -13,8 +13,8 @@ $svc = service('poc-development');
 $page      = 'services';
 $bodyClass = 'poc-3d-body';
 $hasOriginKit = true;
-$pageTitle = 'PoC Development Company in Chennai & Global Delivery Hubs — 3D Verification Engine';
-$pageDesc  = 'iThrive Software builds proofs of concept in two to four weeks — one question, one numeric threshold, and an honest answer before budget is committed.';
+$pageTitle = 'AI PoC Development in 2–4 Weeks';
+$pageDesc  = 'Proof of concept development in two to four weeks — one question, one numeric threshold and an honest answer before the budget is committed.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------

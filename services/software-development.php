@@ -22,9 +22,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page      = 'services';
-$pageTitle = 'Custom Software Development Company in Chennai & Coimbatore';
-$pageDesc  = 'iThrive Software builds custom software, enterprise platforms and AI-native products '
-           . 'for businesses across Chennai, Coimbatore and India — owned by you, run in production.';
+$pageTitle = 'Custom Software Development in India';
+$pageDesc  = 'Custom software, enterprise platforms and AI-native products built from Chennai and Coimbatore for clients across India, the US, Canada and the Gulf.';
 $ogImage   = 'services';
 
 /** Service, catalogue and the three long-form graph nodes AEO actually reads. */
@@ -35,13 +34,7 @@ $schema = [
     'description' => SOFT_HERO['lead'],
     'url'         => canonical('services/software-development.php'),
     'provider'    => ['@type' => 'Organization', 'name' => SITE_NAME, 'url' => canonical('')],
-    'areaServed'  => [
-        ['@type' => 'City',    'name' => 'Chennai'],
-        ['@type' => 'City',    'name' => 'Coimbatore'],
-        ['@type' => 'City',    'name' => 'Bangalore'],
-        ['@type' => 'State',   'name' => 'Tamil Nadu'],
-        ['@type' => 'Country', 'name' => 'India'],
-    ],
+    'areaServed'  => areas_served(),
     'hasOfferCatalog' => [
         '@type'           => 'OfferCatalog',
         'name'            => 'Custom software development services',

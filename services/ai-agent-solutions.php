@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Enterprise AI Agent Solutions & Autonomous Workforce Platforms';
-$pageDesc     = 'Deploy turnkey autonomous agent solutions across engineering, sales pipelines, customer success, ERP ledger reconciliation, and supply chain logistics.';
+$pageTitle    = 'AI Agent Development Services';
+$pageDesc     = 'AI agent development services for enterprise teams — autonomous agents for sales, support, finance, ERP and supply chain, built in Python for production.';
 $ogImage      = 'assets/img/services/svc-09-agent-solutions.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

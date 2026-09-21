@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Enterprise AI Integration & Legacy System Modernization';
-$pageDesc     = 'Modernize enterprise software by embedding predictive models, generative AI endpoints, and vector search directly into existing web, mobile, and cloud applications.';
+$pageTitle    = 'AI Integration Services for Enterprise';
+$pageDesc     = 'Embed predictive models, generative AI endpoints and vector search into the web, mobile and cloud software you already run — without a rewrite.';
 $ogImage      = 'assets/img/services/svc-12-ai-integration.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

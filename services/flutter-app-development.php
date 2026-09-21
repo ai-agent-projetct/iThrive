@@ -24,9 +24,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('flutter-app-development');
 
 $page      = 'services';
-$pageTitle = 'Flutter App Development Company in Chennai, Bangalore & Coimbatore';
-$pageDesc  = 'iThrive Software builds production Flutter apps in Dart for iOS, Android, web and '
-           . 'desktop from one codebase — for businesses in Chennai, Bangalore, Coimbatore and across India.';
+$pageTitle = 'Flutter App Development Company in India';
+$pageDesc  = 'Production Flutter apps in Dart for iOS, Android, web and desktop from a single codebase — built in Chennai, Bangalore and Coimbatore for clients worldwide.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /**
@@ -42,13 +41,7 @@ $schema = [
     'description' => $svc['lead'],
     'url'         => canonical('services/flutter-app-development.php'),
     'provider'    => ['@type' => 'Organization', 'name' => SITE_NAME, 'url' => canonical('')],
-    'areaServed'  => [
-        ['@type' => 'City',    'name' => 'Chennai'],
-        ['@type' => 'City',    'name' => 'Bangalore'],
-        ['@type' => 'City',    'name' => 'Coimbatore'],
-        ['@type' => 'State',   'name' => 'Tamil Nadu'],
-        ['@type' => 'Country', 'name' => 'India'],
-    ],
+    'areaServed'  => areas_served(),
     'hasOfferCatalog' => [
         '@type'           => 'OfferCatalog',
         'name'            => $svc['title'] . ' capabilities',

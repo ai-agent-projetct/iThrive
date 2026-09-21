@@ -18,9 +18,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('mobile-app-development');
 
 $page      = 'services';
-$pageTitle = 'Mobile App Development in Chennai';
-$pageDesc  = 'iThrive Software engineers iOS, Android, Flutter and AI mobile apps for '
-           . 'enterprises and startups, from studios in Chennai and Coimbatore.';
+$pageTitle = 'Mobile App Development Company in India';
+$pageDesc  = 'iThrive Software engineers iOS, Android, Flutter and AI mobile apps for enterprises and startups, from studios in Chennai and Coimbatore, for clients worldwide.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 $schema = [
@@ -29,10 +28,7 @@ $schema = [
     'serviceType' => $svc['group'],
     'description' => $svc['lead'],
     'url'         => canonical('services/mobile-app-development.php'),
-    'areaServed'  => [
-        ['@type' => 'City', 'name' => 'Chennai'],
-        ['@type' => 'City', 'name' => 'Coimbatore'],
-    ],
+    'areaServed'  => areas_served(),
     // The other service pages carry this through the shared template; this page
     // builds its own schema, so it was the only one missing a catalogue.
     'hasOfferCatalog' => [

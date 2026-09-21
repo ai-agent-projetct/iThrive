@@ -26,8 +26,8 @@ $svc = service('dedicated-ai-agents');
 
 $page      = 'services';
 $hasOriginKit = true;
-$pageTitle = 'Agentic AI Development Company in India';
-$pageDesc  = 'iThrive Software is an agentic AI development company in India, building autonomous AI agents and multi-agent systems for sales, support, finance, HR, operations and engineering teams.';
+$pageTitle = 'AI Agent Development Company in India';
+$pageDesc  = 'iThrive Software is an AI agent development company in India, building autonomous agents and multi-agent systems for sales, support, finance and HR.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------
@@ -196,12 +196,7 @@ $schema = [
                    . 'systems for enterprises across India.',
     'url'         => canonical('services/dedicated-ai-agents.php'),
     'provider'    => ['@type' => 'Organization', 'name' => SITE_NAME, 'url' => canonical('')],
-    'areaServed'  => [
-        ['@type' => 'Country', 'name' => 'India'],
-        ['@type' => 'City',    'name' => 'Chennai'],
-        ['@type' => 'City',    'name' => 'Coimbatore'],
-        ['@type' => 'City',    'name' => 'Bangalore'],
-    ],
+    'areaServed'  => areas_served(),
     'hasOfferCatalog' => [
         '@type'           => 'OfferCatalog',
         'name'            => 'Agentic AI development services',

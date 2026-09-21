@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'services';
-$pageTitle = 'Enterprise AI Engineering Services — 16 Specialized Practices';
-$pageDesc  = 'Sixteen specialized enterprise AI engineering practices across four disciplines: AI Strategy & Advisory, Generative AI & Products, Agentic AI & Swarms, and Enterprise Automation.';
+$pageTitle = 'Enterprise AI Engineering Services';
+$pageDesc  = 'Sixteen enterprise AI engineering practices: AI strategy, generative AI, agentic AI and multi-agent swarms, and autonomous enterprise automation.';
 
 require_once __DIR__ . '/includes/config.php';
 

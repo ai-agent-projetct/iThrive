@@ -50,9 +50,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('mvp-development');
 
 $page      = 'services';
-$pageTitle = 'MVP Development Company in Chennai';
-$pageDesc  = 'iThrive Software builds minimum viable products in twelve weeks — one metric, six '
-           . 'features, real users and full source ownership from day one.';
+$pageTitle = 'MVP Development Company in India';
+$pageDesc  = 'MVPs built in twelve weeks — one metric, six features, real users and full source ownership from day one. Studios in Chennai and Coimbatore.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------
@@ -210,12 +209,7 @@ $schema = [
     'description' => $pageDesc,
     'url'         => canonical('services/mvp-development.php'),
     'provider'    => ['@type' => 'Organization', 'name' => SITE_NAME, 'url' => canonical('')],
-    'areaServed'  => [
-        ['@type' => 'City',    'name' => 'Chennai'],
-        ['@type' => 'City',    'name' => 'Bangalore'],
-        ['@type' => 'City',    'name' => 'Coimbatore'],
-        ['@type' => 'Country', 'name' => 'India'],
-    ],
+    'areaServed'  => areas_served(),
     'hasOfferCatalog' => [
         '@type'           => 'OfferCatalog',
         'name'            => 'MVP development capabilities',

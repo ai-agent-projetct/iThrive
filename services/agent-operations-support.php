@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'AgentOps, Telemetry & Continuous AI Operations Support';
-$pageDesc     = '24/7 AgentOps monitoring, token cost tracking, hallucination drift detection, latency optimization, and automated model evaluation for production AI systems.';
+$pageTitle    = 'AgentOps & AI Agent Support Services';
+$pageDesc     = 'Keep deployed AI agents accurate: behavioural monitoring, drift detection, model migration, knowledge refresh and a rollback that works. Run 24/7 from India.';
 $ogImage      = 'assets/img/services/svc-14-agent-operations.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

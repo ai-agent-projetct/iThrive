@@ -56,6 +56,9 @@ $graph[] = [
                           'addressRegion' => 'Tamil Nadu', 'addressCountry' => 'IN'],
         ],
     ],
+    // The markets served, as Place nodes rather than the word "Worldwide" —
+    // a query with a country or city in it has something to match against.
+    'areaServed'   => areas_served(),
     'contactPoint' => [
         '@type'             => 'ContactPoint',
         'contactType'       => 'sales',

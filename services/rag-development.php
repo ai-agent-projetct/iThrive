@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Enterprise RAG Development & Contextual Vector Retrieval Services';
-$pageDesc     = 'Production-grade GraphRAG, hybrid dense-sparse vector search, self-corrective retrieval, and dynamic chunking architectures for zero-hallucination enterprise intelligence.';
+$pageTitle    = 'Enterprise RAG Development Services';
+$pageDesc     = 'Production RAG systems: GraphRAG, hybrid dense-sparse retrieval, self-corrective loops and dynamic chunking — grounded in your documents, with citations.';
 $ogImage      = 'assets/img/services/svc-05-rag-dev.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

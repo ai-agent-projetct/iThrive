@@ -41,10 +41,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page      = 'services';
-$pageTitle = 'AI Development Company in Chennai, Bangalore & India';
-$pageDesc  = 'iThrive Software is an AI development company in Chennai, Bangalore, Hyderabad and '
-           . 'Coimbatore — custom LLMs, enterprise RAG, autonomous AI agents, computer vision and '
-           . 'production AI platforms.';
+$pageTitle = 'AI Development Company in India';
+$pageDesc  = 'An AI development company in India with studios in Chennai, Coimbatore, Bangalore, Hyderabad and Ahmedabad — custom LLMs, RAG, AI agents and computer vision.';
 $ogImage   = 'service-ai-first';
 
 /**
@@ -59,13 +57,7 @@ $schema = [
     'description' => $pageDesc,
     'url'         => canonical('services/ai-development-company.php'),
     'provider'    => ['@type' => 'Organization', 'name' => SITE_NAME, 'url' => canonical('')],
-    'areaServed'  => [
-        ['@type' => 'City',    'name' => 'Chennai'],
-        ['@type' => 'City',    'name' => 'Bangalore'],
-        ['@type' => 'City',    'name' => 'Hyderabad'],
-        ['@type' => 'City',    'name' => 'Coimbatore'],
-        ['@type' => 'Country', 'name' => 'India'],
-    ],
+    'areaServed'  => areas_served(),
     'hasOfferCatalog' => [
         '@type' => 'OfferCatalog',
         'name'  => 'AI Development Services',

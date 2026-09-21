@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 $page      = 'blog';
-$pageTitle = 'Blog — AI Engineering & Delivery Notes';
+$pageTitle = 'Blog — AI Engineering Notes';
 $pageDesc  = 'Field notes from iThrive Software engineers on agentic AI architecture, evaluation harnesses and building AI products that survive contact with production.';
 
 require __DIR__ . '/includes/header.php';

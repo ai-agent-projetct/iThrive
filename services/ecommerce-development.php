@@ -23,8 +23,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('ecommerce-development');
 
 $page      = 'services';
-$pageTitle = 'Enterprise E-Commerce App Development & Mobile Shopping Engines — iThrive';
-$pageDesc  = 'We engineer high-performance mobile e-commerce apps, native iOS & Android shopping experiences, headless storefronts, sub-400ms checkout funnels, and enterprise OMS integrations.';
+$pageTitle = 'E-Commerce App Development Services';
+$pageDesc  = 'High-performance mobile commerce: native iOS and Android shopping apps, headless storefronts, sub-400ms checkout funnels and enterprise OMS integration.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 $extraHead = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">' . "\n"
@@ -74,9 +74,11 @@ component('film-hero', [
       Next-Gen Mobile Commerce Architecture • iOS &amp; Android • Sub-400ms Biometric Checkout • Real-Time OMS
     </div>
 
-    <h2 class="ecom-app-title" data-reveal style="--d:1">
-      Enterprise E-Commerce App Development &amp; <span class="text-gradient">High-Conversion Mobile Shopping Engines</span>
-    </h2>
+    <?php /* The h1 of the page: the film hero above it carries only the
+             picture, so without this the page had no h1 at all. */ ?>
+    <h1 class="ecom-app-title" data-reveal style="--d:1">
+      E-Commerce App Development &amp; <span class="text-gradient">High-Conversion Mobile Shopping Engines</span>
+    </h1>
 
     <p class="ecom-app-lead" data-reveal style="--d:2">
       We engineer native iOS &amp; Android shopping apps, headless Hydrogen &amp; Next.js storefronts, and autonomous checkout engines built to maximize average order value (AOV), slash cart abandonment, and deliver 60FPS fluid mobile shopping experiences at enterprise scale.

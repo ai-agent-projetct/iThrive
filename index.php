@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $page      = 'home';
-$pageTitle = 'AI Platforms, Web & Mobile Apps';
-$pageDesc  = 'iThrive Software builds AI-native platforms, web and mobile apps in Python — agentic AI ecosystems engineered for the cloud, from Chennai and Coimbatore.';
+$pageTitle = 'AI Agent & Software Development Company';
+$pageDesc  = 'iThrive Software builds AI agents, AI-native platforms, web and mobile apps in Python — for enterprises across India, the US, Canada, the UK and the Gulf.';
 $heroScene = 'neural';   // loads the orb module for the AI assistant section
 
 require __DIR__ . '/includes/header.php';

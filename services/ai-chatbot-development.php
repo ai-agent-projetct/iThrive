@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'AI Chatbot & Conversational Voice AI Development Company';
-$pageDesc     = 'Sub-400ms conversational AI voicebots and omnichannel chatbots in 25+ languages across WhatsApp, Web, and telephony with direct CRM and ERP synchronization.';
+$pageTitle    = 'AI Chatbot & Voice AI Development';
+$pageDesc     = 'Sub-400ms voicebots and omnichannel chatbots in 25+ languages across WhatsApp, web and telephony, synchronised directly with your CRM and ERP.';
 $ogImage      = 'assets/img/services/svc-03-ai-chatbot.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

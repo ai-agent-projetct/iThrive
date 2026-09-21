@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Multi-Agent Orchestration & Autonomous Swarm Engineering';
-$pageDesc     = 'Engineering hierarchical multi-agent swarms, consensus mechanisms, dynamic sub-task delegation, and distributed agentic mesh networks with LangGraph and AutoGen.';
+$pageTitle    = 'Multi-Agent Orchestration Services';
+$pageDesc     = 'Hierarchical multi-agent swarms: supervisor handoff, shared memory design, deadlock control and replayable runs, built with LangGraph and AutoGen.';
 $ogImage      = 'assets/img/services/svc-10-multi-agent-orchestration.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

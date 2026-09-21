@@ -24,9 +24,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('web-development');
 
 $page      = 'services';
-$pageTitle = 'Website Development Company in Chennai, Coimbatore & Bangalore';
-$pageDesc  = 'iThrive Software builds custom websites, web applications and e-commerce platforms '
-           . 'across Chennai, Coimbatore, Bangalore and India — fast, accessible, and built to rank.';
+$pageTitle = 'Web Development Company in India';
+$pageDesc  = 'Custom websites, web apps and e-commerce platforms built in Chennai, Coimbatore and Bangalore for clients across India and abroad — fast and built to rank.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /**
@@ -42,13 +41,7 @@ $schema = [
     'description' => WEB_HERO['lead'],
     'url'         => canonical('services/web-development.php'),
     'provider'    => ['@type' => 'Organization', 'name' => SITE_NAME, 'url' => canonical('')],
-    'areaServed'  => [
-        ['@type' => 'City',  'name' => 'Chennai'],
-        ['@type' => 'City',  'name' => 'Coimbatore'],
-        ['@type' => 'City',  'name' => 'Bangalore'],
-        ['@type' => 'State', 'name' => 'Tamil Nadu'],
-        ['@type' => 'Country', 'name' => 'India'],
-    ],
+    'areaServed'  => areas_served(),
     'hasOfferCatalog' => [
         '@type'           => 'OfferCatalog',
         'name'            => 'Website development services',

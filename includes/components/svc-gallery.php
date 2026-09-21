@@ -90,7 +90,7 @@ $GLOBALS['ithrive_needs_originkit'] = true;
   <?php /* Replaced by the island on mount; the whole content until then. */ ?>
   <div class="svc-gal-fallback">
     <?php foreach ($images as $src): ?>
-      <figure><img src="<?= e($src) ?>" alt="" loading="lazy" decoding="async"></figure>
+      <figure><img src="<?= e($src) ?>" alt="<?= e(svc_alt($src)) ?>" loading="lazy" decoding="async"></figure>
     <?php endforeach; ?>
   </div>
 </div>

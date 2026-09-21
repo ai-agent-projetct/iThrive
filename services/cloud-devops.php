@@ -42,9 +42,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('cloud-devops');
 
 $page      = 'services';
-$pageTitle = 'Cloud & DevOps Services in Chennai';
-$pageDesc  = 'iThrive Software builds cloud that keeps improving — infrastructure as code, CI/CD, '
-           . 'observability and cost control, run as a living system rather than a one-time setup.';
+$pageTitle = 'Cloud & DevOps Services in India';
+$pageDesc  = 'Infrastructure as code, CI/CD, observability and cost control, run as a living system rather than a one-time setup — from Chennai and Coimbatore.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------

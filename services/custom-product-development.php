@@ -45,9 +45,8 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('custom-product-development');
 
 $page      = 'services';
-$pageTitle = 'Custom Product Development Company in Chennai';
-$pageDesc  = 'iThrive Software builds custom digital products end to end — frontend, backend, mobile, '
-           . 'data, cloud and the integrations between them — aligned under one architecture.';
+$pageTitle = 'Custom Product Development Company';
+$pageDesc  = 'Custom digital products built end to end — frontend, backend, mobile, data, cloud and the integrations between them, aligned under one architecture.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------

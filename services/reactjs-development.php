@@ -12,8 +12,8 @@ $svc = service('reactjs-development');
 
 $page      = 'services';
 $hasOriginKit = true;
-$pageTitle = 'ReactJS Development Company in Chennai — High-Velocity 3D Frontends';
-$pageDesc  = 'iThrive Software builds React front ends that stay fast as they grow — measured rendering budgets, typed components, and an architecture you will not have to rebuild.';
+$pageTitle = 'ReactJS Development Company in India';
+$pageDesc  = 'React front ends that stay fast as they grow — measured rendering budgets, typed components and an architecture you will not have to rebuild in two years.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 $extraHead = '<link rel="stylesheet" href="' . e(asset('assets/css/react-forbes.css')) . '">' .

@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Enterprise AI Consulting & Strategic Advisory Services';
-$pageDesc     = 'Strategic AI roadmaps, technical feasibility audits, ROI modeling, and governance frameworks designed for high-scale enterprise production.';
+$pageTitle    = 'AI Consulting Services for Enterprise';
+$pageDesc     = 'AI roadmaps, feasibility audits, ROI models and governance for enterprises in India, the US, Canada and the UK — advice costed against production reality.';
 $ogImage      = 'assets/img/services/svc-01-ai-consulting.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -87,16 +87,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

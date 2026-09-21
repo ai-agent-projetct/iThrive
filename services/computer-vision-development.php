@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Computer Vision Development & Edge AI Vision Systems';
-$pageDesc     = 'Real-time edge & cloud computer vision: sub-10ms defect detection, autonomous OCR, spatial intelligence, biometric authentication, and multi-camera video analytics.';
+$pageTitle    = 'Computer Vision Development Services';
+$pageDesc     = 'Edge and cloud computer vision: sub-10ms defect detection, OCR, spatial intelligence, biometric authentication and multi-camera video analytics.';
 $ogImage      = 'assets/img/services/svc-06-computer-vision.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

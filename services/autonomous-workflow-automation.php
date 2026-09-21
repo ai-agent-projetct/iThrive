@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Autonomous Workflow Automation & Self-Healing Agentic Pipelines';
-$pageDesc     = 'End-to-end intelligent process automation with self-healing decision trees, multimodal document parsing, adaptive exception routing, and 24/7 autonomous execution.';
+$pageTitle    = 'Autonomous Workflow Automation Services';
+$pageDesc     = 'End-to-end workflow automation run by AI agents — intake, decision, action and follow-up, with people on the exceptions and a shadow-mode rollout first.';
 $ogImage      = 'assets/img/services/svc-13-workflow-automation.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',

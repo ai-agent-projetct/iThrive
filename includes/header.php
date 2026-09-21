@@ -40,7 +40,9 @@ $ogAbs   = site_origin() . asset($ogImg);
 <link rel="canonical" href="<?= e($metaUrl) ?>">
 <meta name="theme-color" content="#0B0F17">
 <meta name="color-scheme" content="dark">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<?php /* An internal tool sets $robots = 'noindex, nofollow' before including
+         this; everything public keeps the default. */ ?>
+<meta name="robots" content="<?= e($robots ?? 'index, follow, max-image-preview:large, max-snippet:-1') ?>">
 
 <meta property="og:site_name" content="<?= e(SITE_NAME) ?>">
 <meta property="og:title" content="<?= e($metaTitle) ?>">

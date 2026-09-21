@@ -56,6 +56,33 @@ function site_phone(): ?string
 }
 
 /**
+ * The markets a service is sold into, as schema.org Place nodes.
+ *
+ * `areaServed` used to be the bare string 'Worldwide', which tells a search
+ * engine nothing it can match a "… in India" or "… in Canada" query against.
+ * The five cities are the studios in SITE_HQ; the countries are markets the
+ * company actually delivers into remotely — nothing here claims an office
+ * that does not exist.
+ */
+function areas_served(): array
+{
+    static $areas = null;
+
+    return $areas ??= [
+        ...array_map(
+            static fn (string $city): array => ['@type' => 'City', 'name' => $city],
+            ['Chennai', 'Coimbatore', 'Bangalore', 'Hyderabad', 'Ahmedabad'],
+        ),
+        ['@type' => 'State', 'name' => 'Tamil Nadu'],
+        ...array_map(
+            static fn (string $country): array => ['@type' => 'Country', 'name' => $country],
+            ['India', 'United States', 'Canada', 'United Kingdom',
+             'United Arab Emirates', 'Singapore', 'Australia'],
+        ),
+    ];
+}
+
+/**
  * One numbered section image for an AI service page, or null if it does not
  * exist yet.
  *
@@ -65,6 +92,28 @@ function site_phone(): ?string
  * has to render correctly without one. Returning null rather than a broken URL
  * is what makes a half-filled set look deliberate instead of broken.
  */
+/**
+ * Alt text for a section photograph, or '' when we have no description for it.
+ *
+ * Takes either the asset URL svc_img() returns or a bare filename, so a caller
+ * that already has the URL does not have to take it apart. An empty string is
+ * the correct answer for an unknown file: a wrong description is worse for a
+ * screen reader than a picture marked decorative.
+ */
+function svc_alt(?string $src): string
+{
+    static $map = null;
+    $map ??= require __DIR__ . '/image-alt.php';
+
+    if ($src === null || $src === '') {
+        return '';
+    }
+
+    $file = basename(strtok($src, '?') ?: $src);
+
+    return $map[$file] ?? '';
+}
+
 function svc_img(string $page, int $section, int $n): ?string
 {
     $rel = sprintf('assets/img/services/svc-%s-s%d-%d.jpg', $page, $section, $n);

@@ -12,8 +12,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-$pageTitle    = 'Custom AI Agent Development & Autonomous Tool Engineering';
-$pageDesc     = 'Engineering bespoke autonomous agents with persistent memory, dynamic tool binding, LangGraph state machines, and multi-step cognitive reasoning pipelines.';
+$pageTitle    = 'Custom AI Agent Development Services';
+$pageDesc     = 'Custom AI agent development with persistent memory, typed tool binding, LangGraph state machines and multi-step reasoning — built for your systems.';
 $ogImage      = 'assets/img/services/svc-08-custom-agents.jpg';
 
 /* ---------------------------------------------------------------------------
@@ -76,16 +76,7 @@ $schema = [
                 'name' => SITE_NAME,
                 'url' => canonical('')
             ],
-            'areaServed' => [
-                ['@type' => 'City', 'name' => 'Chennai'],
-                ['@type' => 'City', 'name' => 'Bangalore'],
-                ['@type' => 'City', 'name' => 'Hyderabad'],
-                ['@type' => 'City', 'name' => 'Coimbatore'],
-                ['@type' => 'Country', 'name' => 'India'],
-                ['@type' => 'Country', 'name' => 'United States'],
-                ['@type' => 'Country', 'name' => 'United Kingdom'],
-                ['@type' => 'Country', 'name' => 'United Arab Emirates']
-            ]
+            'areaServed' => areas_served()
         ],
         [
             '@type' => 'FAQPage',
