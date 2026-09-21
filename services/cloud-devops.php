@@ -42,6 +42,10 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('cloud-devops');
 
 $page      = 'services';
+/* The home page's robot mascot stands in this hero too. The flag is what makes
+   includes/footer.php import assets/js/robot.js, which binds the one
+   [data-robot-canvas] on the page. */
+$GLOBALS['ithrive_needs_robot'] = true;
 $pageTitle = 'Cloud & DevOps Services in India';
 $pageDesc  = 'Infrastructure as code, CI/CD, observability and cost control, run as a living system rather than a one-time setup — from Chennai and Coimbatore.';
 $ogImage   = 'service-' . $svc['group_slug'];
@@ -240,12 +244,25 @@ $img = static function (string $rel): string {
               </div>
             <?php endforeach; ?>
 
-            <figure class="cd-core">
+            <?php /* The core plate stays as the thing the rings orbit, but it
+                     sits behind the robot now, reading as the pad he hovers
+                     over rather than a disc of its own. */ ?>
+            <figure class="cd-core cd-core--pad">
               <img src="<?= e($img('core/01.jpg')) ?>" width="620" height="620"
                    alt="" fetchpriority="high" decoding="async">
             </figure>
           </div>
         </div>
+
+        <?php /* The same mascot as the home page hero: he tracks the pointer
+                 with his head, eyes and arms, and idles when left alone. He is
+                 laid over the orbit rather than inside its tilted plane, which
+                 would shear him. WebGL failure leaves the orbit behind him, so
+                 the column is never empty. */ ?>
+        <canvas class="cd-robot" data-robot-canvas
+                data-robot-badge="<?= e(asset('assets/img/robot-badge.png')) ?>"
+                role="img"
+                aria-label="An interactive 3D robot mascot wearing the iThrive mark, whose head, eyes and arms follow your pointer."></canvas>
 
         <?php /* The gate names square to the screen. Text riding a ring tilted
                  68 degrees is unreadable — the Custom Product page shipped that

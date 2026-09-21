@@ -942,3 +942,41 @@
   .cd-svc-card:hover,
   .cd-fit-card:hover { transform: none; }
 }
+
+/* -------------------------------------------------------------------------
+ * The robot in the hero
+ *
+ * The same mascot the home page carries, laid over the orbit rather than
+ * inside it: .cd-orbit-tilt is rotated 64 degrees, and anything parented to it
+ * inherits that shear. He sits on his own layer above the rings, which then
+ * read as tracks running behind and around him.
+ * ---------------------------------------------------------------------- */
+
+.cd-robot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(108%, 470px);
+  height: clamp(320px, 38vw, 440px);
+  transform: translate(-50%, -54%);
+  display: block;
+  z-index: 2;
+  /* The rings are the interactive surface for the orbit's own pointer tilt;
+     the robot reads the pointer from the window, so he needs no hit area. */
+  pointer-events: none;
+}
+
+/* Behind him the plate is a pad rather than a portrait: dimmer, smaller, and
+   no longer competing for the middle of the stage. */
+.cd-core--pad {
+  width: min(34%, 150px);
+  opacity: 0.55;
+  filter: saturate(0.8) brightness(0.8);
+}
+
+@media (max-width: 900px) {
+  .cd-robot {
+    width: min(96%, 380px);
+    height: clamp(260px, 56vw, 360px);
+  }
+}
