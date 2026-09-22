@@ -219,7 +219,7 @@ $img = static function (string $rel): string {
            data-front="<?= e(asset('assets/img/buddy/buddy-couch-noblanket.webp')) ?>">
     <div class="pm-reveal-bleed" aria-hidden="true"></div>
     <img class="pm-reveal-back"
-         src="<?= e(asset('assets/img/buddy/buddy-neon-wide.webp')) ?>"
+         src="<?= e(asset('assets/img/buddy/buddy-couch-night.webp')) ?>"
          width="1376" height="768" fetchpriority="high" decoding="async"
          alt="Two robots under a blanket on a couch, the room lit as neon night">
     <canvas class="pm-reveal-veil" aria-hidden="true"></canvas>

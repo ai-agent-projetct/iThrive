@@ -166,10 +166,18 @@ export function initNeonReveal(stage) {
         px[i * 4 + 3] = field[i] + noise[i] * NOISE_AMT > THRESHOLD ? 255 : 0;
       }
       mctx.putImageData(mdata, 0, 0);
+      /* Clipped to the same box the art was drawn into. Without this the tear
+         also eats the blurred bleed outside that box — which in the fit case is
+         the whole area the copy sits on, so dragging across the text left a
+         torn blotch behind it. In the cover case the box is the whole stage and
+         this clip changes nothing. */
+      ctx.save();
+      ctx.beginPath(); ctx.rect(box.x, box.y, box.w, box.h); ctx.clip();
       ctx.globalCompositeOperation = 'destination-out';
       ctx.imageSmoothingEnabled = true;
       ctx.drawImage(maskCanvas, 0, 0, W, H);      // punches the tear through the front layer
       ctx.globalCompositeOperation = 'source-over';
+      ctx.restore();
     }
   }
 
