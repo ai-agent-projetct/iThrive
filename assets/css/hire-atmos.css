@@ -415,3 +415,72 @@ body:has(.hire-atmos) { background-color: #070A12; }
   .hire-nodes.is-live { display: flex; }
   .hire-nodes.is-live .hire-node { position: static; transform: none !important; opacity: 1 !important; }
 }
+
+/* --------------------------------------------------------------------------
+   The robot in the opening
+
+   Same idea as the home hero: his frames are opaque rectangles with their own
+   lit background, so the opening is mixed to meet them — sampled from his
+   centre frame, #1b223d in the corners, #3157b1 down the left, #5d2c6f along
+   the right — and every edge of the picture is feathered away inside the
+   canvas by character.js. No frame, no card.
+   -------------------------------------------------------------------------- */
+
+.hire-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hire-sky {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(64% 62% at 84% 46%, rgba(93, 44, 111, .52) 0%, rgba(27, 34, 61, 0) 66%),
+    radial-gradient(58% 66% at 10% 50%, rgba(49, 87, 177, .46) 0%, rgba(27, 34, 61, 0) 68%),
+    linear-gradient(122deg, #12182e 0%, #1b223d 34%, #241c3c 62%, #14182c 100%);
+}
+
+.hire-robot {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* Dark where the words are, clear where he is. */
+.hire-robot-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(9, 12, 24, .93) 0%, rgba(9, 12, 24, .8) 30%, rgba(9, 12, 24, .24) 52%, rgba(9, 12, 24, 0) 68%),
+    linear-gradient(180deg, rgba(9, 12, 24, .55) 0%, rgba(9, 12, 24, 0) 26%, rgba(9, 12, 24, .5) 100%);
+}
+
+/* The copy has to sit above both of them. */
+.hire-hero .hire-shell {
+  position: relative;
+  z-index: 2;
+}
+
+/* He is beside the copy on a wide screen, so the column is held to the left. */
+@media (min-width: 1081px) {
+  .hire-hero .hire-h1,
+  .hire-hero .hire-hero-lead { max-width: 20ch; }
+  .hire-hero .hire-hero-lead { max-width: 46ch; }
+  .hire-hero .hire-nodes { max-width: 58%; }
+}
+
+@media (max-width: 1080px) {
+  /* He moves behind the copy rather than beside it, and the scrim comes up to
+     meet him so the headline stays readable over him. */
+  .hire-robot-scrim {
+    background: linear-gradient(180deg, rgba(9, 12, 24, .9) 0%, rgba(9, 12, 24, .72) 48%, rgba(9, 12, 24, .92) 100%);
+  }
+}

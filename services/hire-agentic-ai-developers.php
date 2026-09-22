@@ -12,6 +12,9 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
+/* The robot stands in this hero and follows the pointer — the same module the
+   home page's character uses, pointed at his own frames. */
+$GLOBALS['ithrive_needs_character'] = true;
 $pageTitle    = 'Hire AI Agent Developers in India';
 $pageDesc     = 'Hire vetted agentic AI engineers, LangGraph specialists and AI systems architects from India — inside your sprint in about 48 hours, billed monthly.';
 $ogImage      = 'assets/img/services/svc-16-hire-agentic-developers.jpg';
@@ -141,6 +144,18 @@ require dirname(__DIR__) . '/includes/header.php';
        OPENING
        ========================================================================= -->
   <section class="hire-sec hire-hero">
+    <?php /* He is drawn across the whole opening and feathered into it, the
+             way the character is on the home page, so there is no box around
+             him. The scrim after him keeps the headline readable where he
+             passes behind it. */ ?>
+    <div class="hire-sky" aria-hidden="true"></div>
+    <canvas class="hire-robot" data-character-canvas
+            data-base="<?= e(url('assets/img/robot-hero')) ?>"
+            data-stage-x="0.75" data-stage-y="0.52" data-fill="0.62"
+            role="img"
+            aria-label="The iThrive robot mascot in a branded cap, who turns to follow your pointer and looks straight at you when it comes near him."></canvas>
+    <div class="hire-robot-scrim" aria-hidden="true"></div>
+
     <div class="hire-shell">
       <p class="hire-eyebrow" data-rise>Top 1% Agentic Engineers — 48-Hour Onboarding</p>
 

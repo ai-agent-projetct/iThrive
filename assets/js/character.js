@@ -34,16 +34,17 @@ const ANGLE_EASE = 0.22;
 /* She holds eye contact while the pointer is within this share of the stage. */
 const DEADZONE = 0.16;
 
-/* Where her face sits inside the frame, and where that point is placed in
-   the stage. The stage anchor is high and slightly right, which is where the
-   reference has her looking out from. */
-const FACE_X = 0.5;
-const FACE_Y = 0.46;
-const STAGE_X = 0.655;
-const STAGE_Y = 0.44;
-
-/* How much of the hero's height she stands in. */
-const FILL = 1.0;
+/* Where the face sits inside the frame, where that point is placed in the
+   stage, and how much of the stage's height the figure fills. These are the
+   home hero's; a page tunes them on the canvas itself, because the robot on
+   the hire page stands in a different place to her. */
+const DEFAULTS = {
+  faceX: 0.5,
+  faceY: 0.46,
+  stageX: 0.655,
+  stageY: 0.44,
+  fill: 1.0,
+};
 
 const canvas = document.querySelector('[data-character-canvas]');
 
@@ -51,6 +52,16 @@ if (canvas) {
   const ctx = canvas.getContext('2d', { alpha: true });
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const base = canvas.dataset.base || BASE;
+
+  const num = (name, fallback) => {
+    const v = parseFloat(canvas.dataset[name]);
+    return Number.isFinite(v) ? v : fallback;
+  };
+  const FACE_X = num('faceX', DEFAULTS.faceX);
+  const FACE_Y = num('faceY', DEFAULTS.faceY);
+  const STAGE_X = num('stageX', DEFAULTS.stageX);
+  const STAGE_Y = num('stageY', DEFAULTS.stageY);
+  const FILL = num('fill', DEFAULTS.fill);
 
   const frames = new Array(FRAME_COUNT).fill(null);
   let centre = null;
