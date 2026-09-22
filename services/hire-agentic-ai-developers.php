@@ -151,10 +151,23 @@ require dirname(__DIR__) . '/includes/header.php';
     <div class="hire-sky" aria-hidden="true"></div>
     <canvas class="hire-robot" data-character-canvas
             data-base="<?= e(url('assets/img/robot-hero')) ?>"
-            data-stage-x="0.75" data-stage-y="0.52" data-fill="0.62"
+            data-stage-x="0.72" data-stage-y="0.40" data-fill="0.74"
             role="img"
             aria-label="The iThrive robot mascot in a branded cap, who turns to follow your pointer and looks straight at you when it comes near him."></canvas>
     <div class="hire-robot-scrim" aria-hidden="true"></div>
+
+    <?php /* The same hint the home hero carries; character.js marks the
+             document once it has seen the pointer move and it fades. */ ?>
+    <div class="hero-hint" aria-hidden="true">
+      <span class="hero-hint-dot"></span>
+      <svg class="hero-hint-curve" viewBox="0 0 120 60" fill="none">
+        <path d="M4 6 C 40 2, 78 14, 104 44" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-dasharray="3 7"/>
+        <path d="M96 30 L104 44 L88 44" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="hero-hint-text">Move your mouse</span>
+    </div>
 
     <div class="hire-shell">
       <p class="hire-eyebrow" data-rise>Top 1% Agentic Engineers — 48-Hour Onboarding</p>
