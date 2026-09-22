@@ -151,6 +151,7 @@ require dirname(__DIR__) . '/includes/header.php';
     <div class="hire-sky" aria-hidden="true"></div>
     <canvas class="hire-robot" data-character-canvas
             data-base="<?= e(url('assets/img/robot-hero')) ?>"
+            data-version="<?= e((string) @filemtime(ROOT_PATH . '/assets/img/robot-hero/center.webp')) ?>"
             data-stage-x="0.74" data-stage-y="0.42" data-fill="0.80"
             role="img"
             aria-label="The iThrive robot mascot in a branded cap, who turns to follow your pointer and looks straight at you when it comes near him."></canvas>

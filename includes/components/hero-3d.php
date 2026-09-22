@@ -44,6 +44,7 @@ $heroStrip = [
            readable where she passes behind it. */ ?>
   <canvas class="hero-character" data-character-canvas
           data-base="<?= e(url('assets/img/character')) ?>"
+          data-version="<?= e((string) @filemtime(ROOT_PATH . '/assets/img/character/center.webp')) ?>"
           role="img"
           aria-label="The iThrive character in a branded cap, who turns to follow your pointer and looks straight at you when it comes near her."></canvas>
   <div class="hero-scrim" aria-hidden="true"></div>

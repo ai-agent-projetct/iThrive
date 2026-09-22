@@ -77,8 +77,14 @@ if (canvas) {
 
   /* ---------------------------------------------------------------- load */
 
+  /* The version comes from the page, which stamps it from the frames' own
+     mtime. Without it a browser that fetched an earlier set keeps serving it
+     from cache for as long as it likes — which is how a fixed set of frames
+     still looks broken on the machine that saw the old one. */
+  const ver = canvas.dataset.version ? `?v=${encodeURIComponent(canvas.dataset.version)}` : '';
+
   async function bitmap(url) {
-    const res = await fetch(url, { cache: 'force-cache' });
+    const res = await fetch(url + ver, { cache: 'default' });
     if (!res.ok) throw new Error(url);
     return createImageBitmap(await res.blob());
   }
