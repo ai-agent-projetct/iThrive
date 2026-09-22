@@ -137,21 +137,21 @@ body:has(.hire-atmos) { background-color: #070A12; }
    -------------------------------------------------------------------------- */
 
 .hire-hero {
-  min-height: 100svh;
+  min-height: min(100svh, 960px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(110px, 16vh, 170px) 0 60px;
+  padding: clamp(86px, 12vh, 120px) 0 40px;
   border-top: 0;
 }
 
 .hire-h1 {
   margin: 0 0 28px;
   font-family: var(--display);
-  font-size: clamp(2.6rem, 7.4vw, 6.1rem);
+  font-size: clamp(2.1rem, 4.3vw, 3.5rem);
   font-weight: 600;
-  line-height: 0.98;
-  letter-spacing: -0.035em;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
   max-width: 17ch;
 }
 
@@ -165,10 +165,10 @@ body:has(.hire-atmos) { background-color: #070A12; }
 }
 
 .hire-hero-lead {
-  max-width: 54ch;
-  margin: 0 0 40px;
-  font-size: clamp(1.02rem, 1.5vw, 1.2rem);
-  line-height: 1.68;
+  max-width: 48ch;
+  margin: 0 0 34px;
+  font-size: clamp(.96rem, 1.05vw, 1.05rem);
+  line-height: 1.65;
   color: var(--dim);
 }
 
@@ -436,10 +436,14 @@ body:has(.hire-atmos) { background-color: #070A12; }
   position: absolute;
   inset: 0;
   z-index: -2;
+  /* Sampled from his centre frame: #3157b1 down its left, #5d2c6f along its
+     right, #1b223d in the corners. Matching them is what lets the feathered
+     edges of his picture disappear instead of sitting in a halo. */
   background:
-    radial-gradient(64% 62% at 84% 46%, rgba(93, 44, 111, .52) 0%, rgba(27, 34, 61, 0) 66%),
-    radial-gradient(58% 66% at 10% 50%, rgba(49, 87, 177, .46) 0%, rgba(27, 34, 61, 0) 68%),
-    linear-gradient(122deg, #12182e 0%, #1b223d 34%, #241c3c 62%, #14182c 100%);
+    radial-gradient(58% 58% at 74% 44%, rgba(93, 44, 111, .85) 0%, rgba(36, 28, 60, 0) 68%),
+    radial-gradient(52% 60% at 22% 48%, rgba(49, 87, 177, .72) 0%, rgba(27, 34, 61, 0) 70%),
+    radial-gradient(90% 60% at 50% 108%, #070a12 0%, rgba(7, 10, 18, 0) 62%),
+    linear-gradient(124deg, #141b33 0%, #1b223d 36%, #241c3c 64%, #121729 100%);
 }
 
 .hire-robot {
@@ -459,8 +463,8 @@ body:has(.hire-atmos) { background-color: #070A12; }
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(9, 12, 24, .93) 0%, rgba(9, 12, 24, .8) 30%, rgba(9, 12, 24, .24) 52%, rgba(9, 12, 24, 0) 68%),
-    linear-gradient(180deg, rgba(9, 12, 24, .55) 0%, rgba(9, 12, 24, 0) 26%, rgba(9, 12, 24, .5) 100%);
+    linear-gradient(90deg, rgba(9, 12, 24, .88) 0%, rgba(9, 12, 24, .66) 30%, rgba(9, 12, 24, .12) 54%, rgba(9, 12, 24, 0) 70%),
+    linear-gradient(180deg, rgba(9, 12, 24, .42) 0%, rgba(9, 12, 24, 0) 30%, rgba(9, 12, 24, .34) 100%);
 }
 
 /* The copy has to sit above both of them. */
