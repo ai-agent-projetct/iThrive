@@ -1,28 +1,35 @@
 /**
- * The Game Development hero — a real 3D endless runner.
+ * The Game Development hero — a real 3D flight over a desert.
  *
- *     move the mouse -> the rocket moves -> avoid the rocks -> the score climbs
+ *     move the mouse -> the ship goes there -> click to boost -> miss the spires
  *
- * The previous hero was a parallax of DOM layers. It could not sell forward
- * motion, because nothing was actually receding: a flat scene slid sideways.
- * This is three.js with a chase camera, so depth is real and the world genuinely
- * comes at you.
+ * REFERENCE. Rebuilt from the Spline recording frame by frame, because the first
+ * pass got three things wrong and they were the three that mattered.
  *
- * three r160 is already vendored at assets/vendor/three/three.module.js for the
- * mobile page's universe, so this imports it directly rather than adding a
- * bundle step. Nothing else is downloaded.
+ *   The palette. It was a violet night with stars. The reference is a dust-red
+ *   desert under a huge low sun, with a second small sun high and right, and
+ *   enough haze that everything far away dissolves into the sky. Silhouette is
+ *   the whole visual idea and the night version had none.
  *
- * REFERENCE. Built from the four stills, primarily the third — a rocket over
- * low-poly peaks under stars, already lit in cyan. The moon placement and the
- * low horizon come from the fourth. The composition the whole thing protects is
- * the one the recording had:
+ *   The spires. They were small jittered cones — crooked lumps rather than
+ *   landscape. In the reference they are tall, smooth and CONCAVE, sharpening to
+ *   a point, and they tower over the ship: the biggest are thirty times its
+ *   length. That is why the reference reads as flying through a place, and the
+ *   first pass read as dodging pebbles.
  *
- *     moon -> horizon -> obstacles -> rocket -> score
+ *   The flight. It was one lane, 26 units wide, at a fixed height — you could
+ *   only slide left and right along a corridor, which is why it felt like there
+ *   was nowhere to go. Here the map is 300 units either side and 130 units tall,
+ *   the pointer flies the ship to wherever it is, and you can go OVER a spire
+ *   instead of around it. The ground is solid, so flying low is a real risk
+ *   rather than a decoration.
+ *
+ * three r160 is already vendored for the mobile page's universe, so this imports
+ * it directly rather than adding a bundle step. Nothing else is downloaded.
  *
  * FAILING SAFE. WebGL is not guaranteed: no GPU, a lost context, a browser that
- * refuses. The CSS night scene stays in the markup underneath this canvas and
- * is what a visitor sees if the renderer never starts. Nine components on this
- * site have shipped blank rectangles; this one cannot.
+ * refuses. The CSS scene stays in the markup underneath this canvas and is what
+ * a visitor sees if the renderer never starts.
  */
 import * as THREE from '../vendor/three/three.module.js';
 
@@ -40,27 +47,34 @@ const restartBtn = hero.querySelector('[data-start]');
  * Tuning — all of it here, none of it buried in the loop.
  * ------------------------------------------------------------------------ */
 
-const LANE = 26;            /* half-width of the playable corridor, world units */
-const SPAWN_Z = -420;       /* where obstacles appear, ahead of the camera */
-const DESPAWN_Z = 40;       /* where they are recycled, behind it */
+const MAP = 300;            /* half-width of the world the ship may roam */
+/* The reference flies LOW — the ship hugs the dunes and the spires tower over
+   it. A high ceiling turns the same scene into a map viewed from above, which
+   is the one thing that would throw away the scale of the peaks. */
+const FLY_MIN = 13;         /* floor of the flight envelope, above the dunes */
+const FLY_MAX = 96;         /* ceiling */
+const FLY_START = 26;
 
-const SPEED_START = 78;     /* world units per second */
-const SPEED_MAX = 168;
-const SPEED_RAMP = 2.4;     /* added per second of survival */
+const TILE = 700;           /* depth of one ground tile */
+const TILE_W = 1800;        /* and its width — wider than the map, so no edge */
 
-const GAP_START = 34;       /* world units between obstacle rows at the start */
-const GAP_MIN = 17;
+const SPAWN_Z = -900;       /* where spires appear, ahead of the camera */
+const DESPAWN_Z = 60;       /* where they are recycled, behind it */
 
-const STEER_KEY = 34;       /* units per second on the keyboard */
-const EASE = 6.5;           /* how hard the rocket chases the target lane */
-const BANK = 0.055;         /* radians of roll per unit of lateral speed */
+const SPEED_START = 86;     /* world units per second */
+const SPEED_MAX = 190;
+const SPEED_RAMP = 2.2;     /* added per second of survival */
+const BOOST = 2.8;          /* multiplier while the pointer is held */
 
-const HIT_X = 3.4;          /* half-widths summed; generous, so it feels fair */
-const HIT_Z = 3.2;
+const STEER_KEY = 150;      /* units per second on the keyboard */
+const EASE = 4.6;           /* how hard the ship chases the pointer */
+const BANK = 0.0075;        /* radians of roll per unit of lateral speed */
 
-const POOL = 26;            /* obstacles alive at once — pooled, never created */
-const SCENERY = 40;         /* small rocks for texture */
-const PEAKS = 22;           /* distant silhouettes on the horizon */
+const SHIP_R = 3.0;         /* collision radius around the ship */
+
+const POOL = 34;            /* spires alive at once — pooled, never created */
+const TREES = 26;           /* dead trees for texture */
+const RANGE = 9;            /* the distant silhouettes on the horizon */
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -86,29 +100,30 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 const scene = new THREE.Scene();
 
 /*
- * The sky is a LIT gradient, not a black void.
- *
- * The reference is a bright flat orange sky with a mid-tone ground and dark
- * silhouettes on top — high contrast, and legible at a glance. A near-black
- * night keeps the mood and loses all of that, which is why the first pass read
- * as pitch dark. So this is the same contrast structure moved to violet: a
- * luminous purple sky, a mid-tone purple ground, and obstacles that read as
- * silhouettes against both.
+ * The sky, sampled off the recording rather than guessed: a muted orange-red
+ * overhead warming to a bright band at the horizon. The brightest thing in the
+ * frame is the horizon, which is what makes every spire in front of it read as
+ * a silhouette.
  */
-const HORIZON = 0x8a5cc4;      /* where sky meets ground — the brightest band */
+const HORIZON = 0x7b3ec4;
 
 function skyTexture() {
   const c = document.createElement('canvas');
   c.width = 4;
   c.height = 256;
   const ctx = c.getContext('2d');
+  /* The stops are bunched into the upper half on purpose. A camera looking
+     along the ground only ever sees the band between the sphere's pole and its
+     equator, so a gradient spread evenly over the whole sphere shows as one
+     flat wash — which is what made the first pass look washed out. */
   const g = ctx.createLinearGradient(0, 0, 0, 256);
-  g.addColorStop(0.00, '#1a0f2b');
-  g.addColorStop(0.34, '#3a1f5e');
-  g.addColorStop(0.62, '#6b3f9e');
-  g.addColorStop(0.80, '#a86fd4');
-  g.addColorStop(0.94, '#c79ae0');
-  g.addColorStop(1.00, '#8a5cc4');
+  g.addColorStop(0.00, '#05070e');    /* --ink, straight overhead */
+  g.addColorStop(0.28, '#120a26');
+  g.addColorStop(0.40, '#23124a');
+  g.addColorStop(0.47, '#3f1d78');
+  g.addColorStop(0.495, '#9d4edd');   /* --purple, a thin band at the line */
+  g.addColorStop(0.50, '#2f6bbf');    /* the brand ramp's blue, below it */
+  g.addColorStop(1.00, '#2f6bbf');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 4, 256);
 
@@ -116,113 +131,147 @@ function skyTexture() {
 }
 
 const sky = new THREE.Mesh(
-  new THREE.SphereGeometry(1100, 32, 20),
+  new THREE.SphereGeometry(1600, 32, 20),
   new THREE.MeshBasicMaterial({ map: skyTexture(), side: THREE.BackSide, fog: false, depthWrite: false })
 );
 scene.add(sky);
 
-/* Fog is the horizon colour, so distant ground dissolves into the sky rather
-   than ending on a hard line. */
-scene.fog = new THREE.Fog(HORIZON, 220, 900);
+/* Dense on purpose. In the reference the haze is doing half the work — the far
+   range is barely darker than the sky, and that is what gives the distance. */
+scene.fog = new THREE.Fog(0x5b2c95, 420, 2000);
 
-const camera = new THREE.PerspectiveCamera(62, 1, 0.6, 1400);
-/* Above and behind, looking DOWN the corridor. A near-level camera sees the
-   rocket end-on and it reads as a blob; from here its length is visible and the
-   ground carries the sense of speed. */
-/* Low and close, as in the recording. A high camera flattens the ground into a
-   band and nothing appears to move; from down here the plane stretches away and
-   the perspective rush does the work. */
-/* Back far enough that the craft is small in frame, as it is in the recording —
-   close in, it foreshortens into a chevron and stops reading as a dart. */
-camera.position.set(0, 12.5, 30);
-camera.lookAt(0, 8.4, -95);
+const camera = new THREE.PerspectiveCamera(64, 1, 0.6, 2600);
+camera.position.set(0, 26, 34);
 
 /* --------------------------------------------------------------- lighting -- */
 
-/* Moonlight: one cool directional from where the moon actually is, so the rim
-   light on the rocks agrees with the sky. */
-const moonLight = new THREE.DirectionalLight(0xe6d4ff, 2.2);
-moonLight.position.set(-70, 60, -260);
+/* The moon is ahead of the ship, so everything between the two is backlit.
+   That single decision is what produces the silhouettes. */
+const moonLight = new THREE.DirectionalLight(0xd8e6ff, 2.4);
+moonLight.position.set(0, 120, -900);
 scene.add(moonLight);
 
-/* Generous ambient on purpose. The reference is a flat, evenly lit scene where
-   shape reads from silhouette rather than from shading, and that is what keeps
-   it legible at speed. */
-scene.add(new THREE.AmbientLight(0x8f6fd0, 1.9));
+/* Generous, and violet — the ambient is what sets the colour of everything
+   that is not directly lit, which here is most of the landscape. */
+scene.add(new THREE.AmbientLight(0x53279a, 1.35));
 
-const fill = new THREE.DirectionalLight(0xc9a8ef, 0.75);
-fill.position.set(30, 26, 90);
-scene.add(fill);
-
-/* Almost horizontal, across the direction of travel. This is what makes the
-   terrain's slopes read: a light from overhead lights every facet the same and
-   the relief disappears. */
-const graze = new THREE.DirectionalLight(0xd8b4ff, 1.1);
-graze.position.set(120, 8, -20);
+/* Almost horizontal, across the direction of travel — this is what makes the
+   dune slopes read. A light from overhead lights every facet the same and the
+   relief disappears. Cyan, so the ridges catch the other half of the brand
+   ramp and the ground is not one flat purple. */
+const graze = new THREE.DirectionalLight(0x3fd8f0, 1.15);
+graze.position.set(240, 26, 60);
 scene.add(graze);
 
-const engineLight = new THREE.PointLight(0x4ef0e0, 1.1, 38, 2);
-engineLight.position.set(0, 5, 6);
+const engineLight = new THREE.PointLight(0x4ef0e0, 1.2, 46, 2);
 scene.add(engineLight);
 
 /* ---------------------------------------------------------------------------
- * Sky: moon, halo, stars
+ * Sky: the two suns
  * ------------------------------------------------------------------------ */
 
-/** A radial-gradient sprite, used for the moon's halo and the engine bloom. */
+/** A radial-gradient sprite, used for the sun haloes and the engine bloom. */
 function glowTexture(inner, outer) {
   const c = document.createElement('canvas');
   c.width = c.height = 128;
-  const g = c.getContext('2d').createRadialGradient(64, 64, 0, 64, 64, 64);
+  const ctx = c.getContext('2d');
+  const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
   g.addColorStop(0, inner);
   g.addColorStop(0.35, outer);
   g.addColorStop(1, 'rgba(0,0,0,0)');
-  const ctx = c.getContext('2d');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 128, 128);
 
   return new THREE.CanvasTexture(c);
 }
 
-/* The moon, low on the horizon and dominant — the reference's sun had that job
-   and this has to inherit it. */
+/**
+ * The moon's face. A flat white disc reads as a hole cut in the sky; craters
+ * are what make it a body. Drawn once into a texture rather than modelled,
+ * because at this distance nothing of the relief would survive anyway.
+ */
+function moonTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#eaf0fa';
+  ctx.fillRect(0, 0, 256, 256);
+
+  let seed = 31;
+  const rnd = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+
+  for (let i = 0; i < 26; i++) {
+    const r = 6 + rnd() * 24;
+    const x = rnd() * 256;
+    const y = rnd() * 256;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, 'rgba(176,190,222,0.55)');
+    g.addColorStop(0.72, 'rgba(198,210,236,0.30)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  return new THREE.CanvasTexture(c);
+}
+
+/* The big one, sitting ON the horizon: big enough to be the thing the frame is
+   built around, and low enough that the land cuts its lower third. */
 const moon = new THREE.Mesh(
-  new THREE.SphereGeometry(58, 40, 40),
-  new THREE.MeshBasicMaterial({ color: 0xf6ecff, fog: false })
+  new THREE.SphereGeometry(210, 40, 40),
+  new THREE.MeshBasicMaterial({ map: moonTexture(), fog: false })
 );
-moon.position.set(-64, 76, -620);
+moon.position.set(-30, 130, -1480);
 scene.add(moon);
 
-/* The halo. Real bloom needs EffectComposer and the r160 post-processing passes
-   are not vendored, so this is an additive sprite instead — cheaper, and at this
-   scale indistinguishable. */
 const halo = new THREE.Sprite(new THREE.SpriteMaterial({
-  map: glowTexture('rgba(245,232,255,0.9)', 'rgba(190,140,240,0.3)'),
-  blending: THREE.AdditiveBlending,
-  depthWrite: false,
-  fog: false,
+  map: glowTexture('rgba(226,236,255,0.55)', 'rgba(157,78,221,0.18)'),
+  blending: THREE.AdditiveBlending, depthWrite: false, fog: false,
 }));
 halo.position.copy(moon.position);
-halo.scale.set(420, 420, 1);
+/* Tight. An additive sprite this far out covers a huge angle of sky, and a
+   generous one lifts the whole gradient toward lavender — which is what was
+   bleaching the night out of it. */
+halo.scale.set(330, 330, 1);
 scene.add(halo);
 
-/* Stars: one Points cloud, kept sparse — the brief asks for a minimal sky. */
+/* And a second, small and high to the right, in the brand's cyan — one glance
+   and the sky is not a stock night, it is this site's. */
+const moon2 = new THREE.Mesh(
+  new THREE.SphereGeometry(30, 24, 24),
+  new THREE.MeshBasicMaterial({ color: 0x8df4ff, fog: false })
+);
+moon2.position.set(430, 330, -1420);
+scene.add(moon2);
+
+const halo2 = new THREE.Sprite(new THREE.SpriteMaterial({
+  map: glowTexture('rgba(141,244,255,0.55)', 'rgba(0,242,254,0.18)'),
+  blending: THREE.AdditiveBlending, depthWrite: false, fog: false,
+}));
+halo2.position.copy(moon2.position);
+halo2.scale.set(165, 165, 1);
+scene.add(halo2);
+
+/* Stars, thinning toward the horizon where the haze takes over. They cost one
+   draw call and they are most of what makes it read as night. */
 {
-  const n = 420;
+  const n = 520;
   const pos = new Float32Array(n * 3);
   for (let i = 0; i < n; i++) {
-    const r = 700 + Math.random() * 200;
+    const r = 1300 + Math.random() * 250;
     const th = Math.random() * Math.PI * 2;
-    const ph = Math.random() * 0.42 + 0.06;      /* upper sky only */
+    const ph = Math.random() * 0.46 + 0.05;      /* upper sky only */
     pos[i * 3] = Math.cos(th) * Math.sin(ph) * r;
-    pos[i * 3 + 1] = Math.cos(ph) * r * 0.9 + 40;
-    pos[i * 3 + 2] = Math.sin(th) * Math.sin(ph) * r - 200;
+    pos[i * 3 + 1] = Math.cos(ph) * r * 0.92 + 60;
+    pos[i * 3 + 2] = Math.sin(th) * Math.sin(ph) * r - 300;
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   scene.add(new THREE.Points(g, new THREE.PointsMaterial({
-    color: 0xf2e6ff, size: 2.2, sizeAttenuation: false,
-    transparent: true, opacity: 0.6, fog: false,
+    color: 0xe8f2ff, size: 2.4, sizeAttenuation: false,
+    transparent: true, opacity: 0.7, fog: false,
   })));
 }
 
@@ -231,39 +280,42 @@ scene.add(halo);
  * ------------------------------------------------------------------------ */
 
 /*
- * Two tiles leapfrogging each other.
+ * The dunes are an analytic function rather than baked noise, for one reason:
+ * the ship can now fly low enough to hit the ground, so the game has to be able
+ * to ASK how high the sand is under a given point. Displacing the mesh and
+ * testing against the same function keeps the two honest.
  *
- * A single infinite plane cannot show motion — there is nothing on it to move.
- * Two displaced tiles that swap places as they pass the camera give the ground
- * texture that sells speed, with no allocation at runtime.
+ * Every z term is an integer multiple of 2*PI/TILE, so the surface meets itself
+ * exactly when a tile wraps and there is no seam to see.
  */
-const TILE = 520;
-/*
- * Mid-tone, so the dark obstacles on it read as silhouettes — the reference's
- * relationship between ground and rock, in violet.
- *
- * The mottling matters as much as the colour. A smooth plane has nothing on it
- * to watch go past, so however fast the world moves it looks still; this gives
- * the surface features the eye can track.
- */
+const KZ = (Math.PI * 2) / TILE;
+
+function dune(x, z) {
+  return Math.sin(x * 0.0115) * 6.5
+       + Math.cos(z * KZ * 3) * 5.0
+       + Math.sin(x * 0.004 + z * KZ * 2) * 3.8
+       + Math.cos(z * KZ * 5 - x * 0.006) * 2.4;
+}
+
+/* Mottling matters as much as colour: a smooth plane has nothing on it to watch
+   go past, so however fast the world moves it looks still. */
 function groundTexture() {
   const c = document.createElement('canvas');
   c.width = c.height = 256;
   const ctx = c.getContext('2d');
-  ctx.fillStyle = '#4a3270';
+  ctx.fillStyle = '#2b1550';
   ctx.fillRect(0, 0, 256, 256);
 
   let seed = 7;
   const rnd = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
 
   for (let i = 0; i < 90; i++) {
-    const r = 10 + rnd() * 42;
-    const g = ctx.createRadialGradient(rnd() * 256, rnd() * 256, 0, 0, 0, r);
+    const r = 12 + rnd() * 46;
     ctx.save();
     ctx.translate(rnd() * 256, rnd() * 256);
     const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, r);
     const light = rnd() > 0.5;
-    grd.addColorStop(0, light ? 'rgba(126,90,175,0.5)' : 'rgba(48,30,80,0.5)');
+    grd.addColorStop(0, light ? 'rgba(104,58,166,0.45)' : 'rgba(26,14,48,0.45)');
     grd.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = grd;
     ctx.beginPath();
@@ -274,7 +326,7 @@ function groundTexture() {
 
   const t = new THREE.CanvasTexture(c);
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.repeat.set(5, 4);
+  t.repeat.set(9, 5);
 
   return t;
 }
@@ -285,21 +337,14 @@ const groundMat = new THREE.MeshLambertMaterial({
 const tiles = [];
 
 for (let i = 0; i < 2; i++) {
-  const g = new THREE.PlaneGeometry(760, TILE, 40, 34);
+  const g = new THREE.PlaneGeometry(TILE_W, TILE, 72, 54);
   const p = g.attributes.position;
 
+  /* No corridor damping any more. The whole map undulates, because the whole
+     map is now flyable — flattening a lane through the middle was part of what
+     made the old scene feel like a tunnel. */
   for (let v = 0; v < p.count; v++) {
-    const x = p.getX(v);
-    const y = p.getY(v);
-    /* Low, broad undulation. The corridor the rocket flies is kept flat so the
-       ground never rises through the gameplay plane. */
-    /* Strong enough that slopes shade differently as they pass, which is what
-       makes the ground read as ground. Damped near the middle so the corridor
-       the player flies stays clear, and the whole range stays well under the
-       flight height either way. */
-    const corridor = Math.min(1, Math.abs(x) / (LANE + 16));
-    p.setZ(v, (Math.sin(x * 0.028) * 5.5 + Math.cos(y * 0.021) * 4.4
-             + Math.sin((x + y) * 0.011) * 3.2) * (0.28 + corridor * 0.72));
+    p.setZ(v, dune(p.getX(v), p.getY(v)));
   }
   g.computeVertexNormals();
 
@@ -310,108 +355,271 @@ for (let i = 0; i < 2; i++) {
   tiles.push(m);
 }
 
+/** How high the sand is under a world point — the same function the mesh uses. */
+function groundAt(x, zWorld) {
+  for (const m of tiles) {
+    /* The plane is rotated, so local +Y runs into the screen as world -Z. */
+    const ly = m.position.z - zWorld;
+    if (ly >= -TILE / 2 && ly <= TILE / 2) return dune(x, ly);
+  }
+
+  return 0;
+}
+
 /* ---------------------------------------------------------------------------
  * Geometry the pools share. Created once, never per-obstacle.
  * ------------------------------------------------------------------------ */
 
-/** An irregular monolith — a cone with its ring vertices jittered. */
-function monolith(radius, height, seed) {
-  const g = new THREE.ConeGeometry(radius, height, 6, 2);
-  const p = g.attributes.position;
+/**
+ * A peak.
+ *
+ * The profile is concave — wide at the ground, pulling in fast, then running
+ * almost straight to a sharp point. That alone is the difference between rock
+ * and a traffic cone.
+ *
+ * But a lathe of that profile is perfectly round, and perfectly round is the
+ * other half of why the first version looked like a prop. Real rock has ridges
+ * running down it and gullies between them. So each column of the lathe gets
+ * its own radius multiplier, held down the whole height: that turns the surface
+ * into vertical ribs and clefts, which flat shading then breaks into facets.
+ * A little per-vertex noise on top keeps any two ribs from matching, and the
+ * strength fades out toward the point, where real peaks are simplest.
+ */
+function peak(radius, height, sides, seed) {
   let s = seed;
   const rnd = () => ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
 
+  /* The profile itself wanders, so the OUTLINE gains shoulders and waists.
+     A clean power curve draws a clean triangle, and a clean triangle is what
+     read as a prop however the surface was shaded. Smoothed once, so it is a
+     mountain and not a fir tree. */
+  const N = 14;
+  const wob = new Array(N + 1).fill(0).map(() => 0.84 + rnd() * 0.34);
+  for (let i = 1; i < N; i++) wob[i] = (wob[i - 1] + wob[i] + wob[i + 1]) / 3;
+  wob[N] = 1;
+
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const t = i / N;
+    pts.push(new THREE.Vector2(radius * Math.pow(1 - t, 1.4) * wob[i] + 0.02, height * t));
+  }
+
+  const g = new THREE.LatheGeometry(pts, sides);
+  const p = g.attributes.position;
+
+  /* One multiplier per column, reused all the way up — this is the ridge. */
+  const ribs = new Array(sides + 1).fill(0).map(() => 0.74 + rnd() * 0.52);
+
   for (let v = 0; v < p.count; v++) {
-    if (p.getY(v) < height * 0.48) {
-      p.setX(v, p.getX(v) * (0.72 + rnd() * 0.7));
-      p.setZ(v, p.getZ(v) * (0.72 + rnd() * 0.7));
-    }
+    const x = p.getX(v);
+    const y = p.getY(v);
+    const z = p.getZ(v);
+    const r = Math.hypot(x, z);
+    if (r < 0.001) continue;
+
+    const a = Math.atan2(z, x);
+    const col = ribs[Math.round(((a + Math.PI) / (Math.PI * 2)) * sides) % sides];
+    const t = Math.max(0, Math.min(1, y / height));
+
+    /* Strongest at the base, gone at the tip. */
+    const k = (col * (1 - t) + t) + (rnd() - 0.5) * 0.13 * (1 - t);
+    p.setX(v, x * k);
+    p.setZ(v, z * k);
+    p.setY(v, y + (rnd() - 0.5) * height * 0.025);
   }
   g.computeVertexNormals();
 
   return g;
 }
 
-const rockGeos = [monolith(7, 34, 11), monolith(9, 24, 29), monolith(5.4, 46, 71)];
-/* Dark against the lit ground, exactly as in the reference — the obstacles are
-   silhouettes, and silhouette is what a player reads at speed. */
-const rockMat = new THREE.MeshLambertMaterial({ color: 0x1c1033, flatShading: true });
+/* Four builds, all of them tall and none of them the same shape. The
+   proportion is the reference's: a base about a fifth of the height. */
+const SPIRE_H = [190, 250, 130, 215];
+const SPIRE_R = [38, 46, 30, 34];
+const spireGeos = SPIRE_H.map((h, i) => peak(SPIRE_R[i], h, 11 + i * 2, 17 + i * 131));
+
+/* Dark and desaturated, so they sit against the lit horizon as shapes. The fog
+   lifts the far ones toward the sky on its own. */
+/* Dark, but not black. A pure silhouette throws away every facet the ridges
+   were built for — the shapes have to catch enough light to be read as rock
+   rather than as cut-out triangles. */
+const spireMat = new THREE.MeshLambertMaterial({ color: 0x2e1758, flatShading: true });
+const rangeMat = new THREE.MeshLambertMaterial({ color: 0x412470, flatShading: true });
+
+/** A bare tree: a trunk and a few forked branches, black against the sand. */
+function deadTree(seed) {
+  let s = seed;
+  const rnd = () => ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+
+  const g = new THREE.Group();
+  const mat = new THREE.MeshLambertMaterial({ color: 0x140a26, flatShading: true });
+
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.5, 7, 5), mat);
+  trunk.position.y = 3.5;
+  g.add(trunk);
+
+  for (let i = 0; i < 4; i++) {
+    const len = 3.4 + rnd() * 2.6;
+    const b = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.2, len, 4), mat);
+    const a = (i / 4) * Math.PI * 2 + rnd();
+    b.position.set(Math.cos(a) * len * 0.3, 6.4 + len * 0.36, Math.sin(a) * len * 0.3);
+    b.rotation.z = Math.cos(a) * -0.75;
+    b.rotation.x = Math.sin(a) * 0.75;
+    g.add(b);
+  }
+
+  return g;
+}
 
 /* ---------------------------------------------------------------------------
- * Obstacle pool
+ * Ground lettering
+ *
+ * The recording writes on the desert — the score lies on the sand behind the
+ * ship, CLICK TO BOOST is painted across a slope ahead, CRUSHED lands where you
+ * died. It is the signature of the thing, and it is only a canvas on a plane.
+ * ------------------------------------------------------------------------ */
+
+function lettering(width, height, px) {
+  const c = document.createElement('canvas');
+  c.width = width;
+  c.height = height;
+  const ctx = c.getContext('2d');
+  const tex = new THREE.CanvasTexture(c);
+
+  const mesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(1, height / width),
+    new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, fog: true })
+  );
+  mesh.rotation.x = -Math.PI / 2;      /* lay it on the sand */
+
+  function write(text) {
+    ctx.clearRect(0, 0, width, height);
+    ctx.font = `700 ${px}px "Segoe UI", system-ui, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(255,238,210,0.95)';
+    ctx.shadowBlur = px * 0.5;
+    ctx.fillStyle = '#fff6ea';
+    ctx.fillText(text, width / 2, height / 2);
+    ctx.fillText(text, width / 2, height / 2);
+    tex.needsUpdate = true;
+  }
+
+  return { mesh, write };
+}
+
+/* The score, trailing the ship on the sand. */
+const scoreText = lettering(512, 256, 150);
+scoreText.mesh.scale.setScalar(52);
+scene.add(scoreText.mesh);
+
+/* The hint, painted across the desert ahead and recycled as it passes. */
+const hintText = lettering(1024, 256, 140);
+hintText.write('CLICK TO BOOST');
+hintText.mesh.scale.setScalar(300);
+hintText.mesh.position.set(90, 3, -1200);
+hintText.mesh.rotation.z = 0.42;
+scene.add(hintText.mesh);
+
+/* And the epitaph. */
+const crushText = lettering(1024, 256, 150);
+crushText.write('CRUSHED');
+crushText.mesh.scale.setScalar(260);
+crushText.mesh.visible = false;
+scene.add(crushText.mesh);
+
+/* ---------------------------------------------------------------------------
+ * Spires: the obstacle pool, the near field and the far range
  * ------------------------------------------------------------------------ */
 
 const obstacles = [];
 
 for (let i = 0; i < POOL; i++) {
-  const mesh = new THREE.Mesh(rockGeos[i % rockGeos.length], rockMat);
+  const k = i % spireGeos.length;
+  const mesh = new THREE.Mesh(spireGeos[k], spireMat);
   mesh.visible = false;
   scene.add(mesh);
-  obstacles.push({ mesh, active: false, scored: false, x: 0 });
+  obstacles.push({ mesh, active: false, kind: k, r: 0, h: 0 });
 }
 
-/* Scenery: the same rocks, well outside the corridor, purely for parallax. */
-const scenery = [];
-for (let i = 0; i < SCENERY; i++) {
-  const mesh = new THREE.Mesh(rockGeos[i % rockGeos.length], rockMat);
-  const side = i % 2 ? 1 : -1;
-  mesh.position.set(side * (LANE + 34 + Math.random() * 210), 0, -Math.random() * TILE * 2);
-  const s = 0.55 + Math.random() * 1.05;
-  mesh.scale.set(s, s * (0.9 + Math.random() * 1.3), s);
-  mesh.rotation.y = Math.random() * Math.PI;
-  scene.add(mesh);
-  scenery.push(mesh);
+/** Put one spire somewhere ahead. `near` biases it toward the ship's own lane. */
+function placeSpire(ob, z, nearX) {
+  const k = Math.floor(Math.random() * spireGeos.length);
+  ob.kind = k;
+  ob.mesh.geometry = spireGeos[k];
+
+  /* Big, and varied. The smallest here still stands ten ship-lengths tall. */
+  const s = 0.55 + Math.random() * 1.15;
+  const tall = 0.8 + Math.random() * 0.9;
+  ob.mesh.scale.set(s, s * tall, s);
+  ob.r = SPIRE_R[k] * s;
+  ob.h = SPIRE_H[k] * s * tall;
+
+  const x = nearX === null
+    ? (Math.random() * 2 - 1) * MAP
+    : nearX + (Math.random() * 2 - 1) * 150;
+
+  ob.mesh.position.set(Math.max(-MAP - 60, Math.min(MAP + 60, x)), 0, z);
+  ob.mesh.rotation.y = Math.random() * Math.PI;
+  /* A few degrees off vertical. Nothing in a landscape stands perfectly
+     upright, and the lean is what stops a field of them reading as a set. */
+  ob.mesh.rotation.z = (Math.random() - 0.5) * 0.13;
+  ob.mesh.rotation.x = (Math.random() - 0.5) * 0.09;
+  ob.mesh.visible = true;
+  ob.active = true;
 }
 
-/* Distant peaks: big, far, and moving slowly, which is what gives the horizon
-   depth without costing anything. */
-const peaks = [];
-/* Distant range: lighter than the near rock, because haze lifts everything far
-   away toward the sky colour. */
-const peakMat = new THREE.MeshLambertMaterial({ color: 0x3b2560, flatShading: true });
-for (let i = 0; i < PEAKS; i++) {
-  const mesh = new THREE.Mesh(rockGeos[i % rockGeos.length], peakMat);
-  /* Sunk below the ground plane so only the upper silhouette shows, which is
-     what makes them read as distant range rather than nearby spikes. */
-  mesh.position.set((Math.random() - 0.5) * 1700, -16, -880 - Math.random() * 950);
-  const s = 5.5 + Math.random() * 8;
-  mesh.scale.set(s * 1.5, s * (1.15 + Math.random() * 0.85), s * 1.5);
+/* Trees, scattered wide and recycled like everything else. */
+const trees = [];
+{
+  const builds = [deadTree(3), deadTree(17), deadTree(91)];
+  for (let i = 0; i < TREES; i++) {
+    const t = builds[i % 3].clone();
+    t.position.set((Math.random() * 2 - 1) * (MAP + 260), 0, -Math.random() * TILE * 2);
+    const s = 0.9 + Math.random() * 1.9;
+    t.scale.setScalar(s);
+    t.rotation.y = Math.random() * Math.PI;
+    scene.add(t);
+    trees.push(t);
+  }
+}
+
+/* The far range: big, slow, and hazed almost to the sky colour. It is what puts
+   a horizon in the picture rather than an empty band. */
+const range = [];
+for (let i = 0; i < RANGE; i++) {
+  const mesh = new THREE.Mesh(spireGeos[i % spireGeos.length], rangeMat);
+  mesh.position.set((Math.random() - 0.5) * 3600, -30, -1150 - Math.random() * 850);
+  const s = 1.5 + Math.random() * 1.9;
+  mesh.scale.set(s, s * (0.9 + Math.random() * 0.8), s);
   mesh.rotation.y = Math.random() * Math.PI;
   scene.add(mesh);
-  peaks.push(mesh);
+  range.push(mesh);
 }
 
 /* ---------------------------------------------------------------------------
- * The rocket
+ * The ship
  * ------------------------------------------------------------------------ */
 
 const rocket = new THREE.Group();
 {
   /*
-   * The dart, built from the recording rather than from imagination.
-   *
-   * It is a slim blade with a NOTCHED V TAIL — not a cone. From behind, a cone
-   * shows only its circular base and reads as a blob, which is what the first
-   * pass shipped. This is an extruded outline, so the notch and the swept edges
-   * are visible from the chase camera.
-   *
-   * The engines are the other half of it: two separate nacelles held OUTBOARD
-   * and angled away from the body, each with its own teal flame. In the
-   * reference they are clearly detached from the hull, and that gap is most of
-   * what makes the silhouette recognisable.
+   * A slim blade with a notched V tail, and two engine nacelles held outboard
+   * and splayed away from the hull. That gap between hull and engines is most
+   * of what makes the silhouette recognisable in the reference.
    */
   const outline = new THREE.Shape();
-  outline.moveTo(0, 4.6);          /* nose — long, the dart is roughly 4:1 */
-  outline.lineTo(0.86, -1.6);      /* right trailing edge */
+  outline.moveTo(0, 4.6);          /* nose — roughly 4:1 */
+  outline.lineTo(0.86, -1.6);
   outline.lineTo(0, -0.2);         /* the V notch */
-  outline.lineTo(-0.86, -1.6);     /* left trailing edge */
+  outline.lineTo(-0.86, -1.6);
   outline.closePath();
 
   const body = new THREE.Mesh(
     new THREE.ExtrudeGeometry(outline, { depth: 0.26, bevelEnabled: false }),
     new THREE.MeshStandardMaterial({
-      color: 0xffffff, roughness: 0.3, metalness: 0.25,
-      emissive: 0xd8e4ff, emissiveIntensity: 0.5, flatShading: true,
+      color: 0xffffff, roughness: 0.3, metalness: 0.2,
+      emissive: 0xffe6d2, emissiveIntensity: 0.45, flatShading: true,
     })
   );
   body.rotation.x = -Math.PI / 2;   /* lay it flat, nose toward -Z */
@@ -419,10 +627,11 @@ const rocket = new THREE.Group();
   rocket.add(body);
 
   const nacelleMat = new THREE.MeshStandardMaterial({
-    color: 0xe8edfa, roughness: 0.4, metalness: 0.36,
-    emissive: 0x8a72b8, emissiveIntensity: 0.35, flatShading: true,
+    color: 0xf2f6ff, roughness: 0.4, metalness: 0.3,
+    emissive: 0xbfa08c, emissiveIntensity: 0.3, flatShading: true,
   });
   const flameMat = new THREE.MeshBasicMaterial({ color: 0x5df3e6 });
+  const flames = [];
 
   for (const side of [-1, 1]) {
     const pod = new THREE.Group();
@@ -435,44 +644,47 @@ const rocket = new THREE.Group();
     flame.rotation.x = -Math.PI / 2;   /* taper pointing backwards */
     flame.position.z = 1.85;
     pod.add(flame);
+    flames.push(flame);
 
     pod.position.set(side * 0.92, 0, 0.55);
-    pod.rotation.y = side * -0.17;     /* splayed outward, as in the reference */
+    pod.rotation.y = side * -0.17;
     rocket.add(pod);
   }
+  rocket.userData.flames = flames;
 
   const plume = new THREE.Sprite(new THREE.SpriteMaterial({
     map: glowTexture('rgba(190,252,246,0.7)', 'rgba(60,230,220,0.22)'),
     blending: THREE.AdditiveBlending, depthWrite: false, fog: false,
   }));
-  plume.position.set(0, -0.1, 4.6);
-  plume.scale.set(1.15, 2.6, 1);
+  /* Small. An additive sprite scaled to the hull swallows the dart behind a
+     white ball, and the silhouette is the whole point of the craft. */
+  plume.position.set(0, -0.1, 3.4);
+  plume.scale.set(0.8, 1.7, 1);
   rocket.add(plume);
   rocket.userData.plume = plume;
 }
-rocket.position.set(0, 8, 0);
-rocket.scale.setScalar(1.75);
+rocket.scale.setScalar(2.4);
 scene.add(rocket);
 
 /* The exhaust trail: a short ribbon of additive sprites that lag behind. */
 const trail = [];
-for (let i = 0; i < 14; i++) {
+for (let i = 0; i < 16; i++) {
   const s = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: glowTexture('rgba(170,250,240,0.65)', 'rgba(60,230,220,0.2)'),
+    map: glowTexture('rgba(170,250,240,0.6)', 'rgba(60,230,220,0.18)'),
     blending: THREE.AdditiveBlending, depthWrite: false, fog: false,
-    opacity: 1 - i / 14,
+    opacity: 1 - i / 16,
   }));
-  s.scale.setScalar(1.5 - i * 0.1);
+  s.scale.setScalar(1.6 - i * 0.09);
   scene.add(s);
-  trail.push({ sprite: s, x: 0, y: 6, z: 6 });
+  trail.push({ sprite: s, x: 0, y: 0, z: 0 });
 }
 
 /* Debris for the crash, pooled like everything else. */
 const debris = [];
 {
   const geo = new THREE.TetrahedronGeometry(0.9);
-  const mat = new THREE.MeshBasicMaterial({ color: 0xc9a8ef });
-  for (let i = 0; i < 18; i++) {
+  const mat = new THREE.MeshBasicMaterial({ color: 0xbfa6ff });
+  for (let i = 0; i < 20; i++) {
     const m = new THREE.Mesh(geo, mat);
     m.visible = false;
     scene.add(m);
@@ -493,13 +705,18 @@ let speed = SPEED_START;
 let travelled = 0;
 let score = 0;
 let best = 0;
+let boosting = false;
 
 let shipX = 0;
+let shipY = FLY_START;
 let targetX = 0;
+let targetY = FLY_START;
 let shipVX = 0;
+let shipVY = 0;
+let roll = 0;
 let nextSpawn = 0;
 
-const keys = { left: false, right: false };
+const keys = { left: false, right: false, up: false, down: false };
 
 try {
   best = Number(window.localStorage.getItem('ithrive-flight-best') || 0) || 0;
@@ -508,78 +725,68 @@ try {
 }
 
 /* ---------------------------------------------------------------------------
- * Spawning
+ * Run control
  * ------------------------------------------------------------------------ */
-
-function spawnRow() {
-  /* One gap the rocket can fit through, placed somewhere across the corridor;
-     rocks either side of it. Generating the GAP rather than the rocks is what
-     guarantees every row is passable. */
-  const gapCentre = (Math.random() * 2 - 1) * (LANE - 9);
-  const gapHalf = 7.5 + Math.random() * 3;
-
-  let placed = 0;
-  for (const ob of obstacles) {
-    if (ob.active || placed >= 3) continue;
-
-    const side = placed === 0 ? -1 : 1;
-    const span = LANE - (gapCentre + side * gapHalf) * side;
-    if (span < 6) { placed++; continue; }
-
-    const x = gapCentre + side * (gapHalf + 3 + Math.random() * Math.max(1, span - 6));
-    if (Math.abs(x) > LANE + 10) { placed++; continue; }
-
-    ob.active = true;
-    ob.scored = false;
-    ob.x = x;
-    ob.mesh.visible = true;
-    ob.mesh.position.set(x, 0, SPAWN_Z);
-    const s = 1.15 + Math.random() * 1.15;
-    ob.mesh.scale.set(s, s * (0.9 + Math.random() * 1.1), s);
-    ob.mesh.rotation.y = Math.random() * Math.PI;
-    placed++;
-  }
-}
 
 function resetRun() {
   for (const ob of obstacles) { ob.active = false; ob.mesh.visible = false; }
   for (const d of debris) { d.life = 0; d.mesh.visible = false; }
 
+  /* Seed the field so the first seconds are not an empty plain. */
+  let z = -320;
+  for (const ob of obstacles) {
+    if (z < SPAWN_Z) break;
+    placeSpire(ob, z, null);
+    z -= 120 + Math.random() * 170;
+  }
+
   speed = SPEED_START;
   travelled = 0;
   score = 0;
   shipX = 0;
+  shipY = FLY_START;
   targetX = 0;
+  targetY = FLY_START;
   shipVX = 0;
-  nextSpawn = 90;
+  shipVY = 0;
+  roll = 0;
+  nextSpawn = 120;
   rocket.visible = true;
-  rocket.position.set(0, 8, 0);
+  crushText.mesh.visible = false;
+  scoreText.mesh.visible = true;
   if (scoreEl) scoreEl.textContent = '0';
+  scoreText.write('0');
 }
 
 function crash() {
   running = false;
   over = true;
+  boosting = false;
   hero.classList.remove('is-playing');
   hero.classList.add('is-over');
 
-  /* A short burst where the rocket was, then it disappears. */
   for (const d of debris) {
     d.mesh.visible = true;
     d.mesh.position.copy(rocket.position);
-    d.vx = (Math.random() - 0.5) * 34;
-    d.vy = Math.random() * 26;
-    d.vz = (Math.random() - 0.5) * 34 + 12;
+    d.vx = (Math.random() - 0.5) * 38;
+    d.vy = Math.random() * 28;
+    d.vz = (Math.random() - 0.5) * 38 + 14;
     d.life = 1;
   }
   rocket.visible = false;
+
+  /* Where you died, written on the sand — as in the recording. */
+  crushText.mesh.position.set(shipX, groundAt(shipX, -40) + 2.5, -40);
+  crushText.mesh.rotation.z = 0.3;
+  crushText.mesh.visible = true;
+  scoreText.mesh.visible = false;
 
   if (score > best) {
     best = score;
     try { window.localStorage.setItem('ithrive-flight-best', String(best)); } catch (e) { /* not stored */ }
   }
 
-  if (overlayTitle) overlayTitle.textContent = 'Crashed';
+  if (overlayTitle) overlayTitle.textContent = 'Crushed';
   if (overlaySub) overlaySub.textContent = 'Score ' + score + (best ? ' · best ' + best : '');
   if (overlay) overlay.hidden = false;
 }
@@ -589,38 +796,68 @@ function crash() {
  * ------------------------------------------------------------------------ */
 
 function step(dt) {
-  /* --- steering ------------------------------------------------------- */
+  /* --- steering, in both axes ------------------------------------------ */
   if (keys.left) targetX -= STEER_KEY * dt;
   if (keys.right) targetX += STEER_KEY * dt;
-  targetX = Math.max(-LANE + 3, Math.min(LANE - 3, targetX));
+  if (keys.up) targetY += STEER_KEY * 0.6 * dt;
+  if (keys.down) targetY -= STEER_KEY * 0.6 * dt;
+
+  targetX = Math.max(-MAP, Math.min(MAP, targetX));
+  targetY = Math.max(FLY_MIN, Math.min(FLY_MAX, targetY));
 
   const prevX = shipX;
-  shipX += (targetX - shipX) * Math.min(1, dt * EASE);
+  const prevY = shipY;
+  /* Frame-rate independent: the ship covers the same fraction of the distance
+     per second of real time whatever the display is doing. */
+  const k = 1 - Math.exp(-EASE * dt);
+  shipX += (targetX - shipX) * k;
+  shipY += (targetY - shipY) * k;
   shipVX = (shipX - prevX) / Math.max(dt, 0.0001);
+  shipVY = (shipY - prevY) / Math.max(dt, 0.0001);
 
-  rocket.position.x = shipX;
+  rocket.position.set(shipX, shipY, 0);
   rocket.rotation.z = -shipVX * BANK;
-  rocket.rotation.y = -shipVX * 0.006;
+  rocket.rotation.y = -shipVX * 0.0012;
+  rocket.rotation.x = shipVY * 0.0016;
 
-  /* Engine flicker, and the light that follows it. */
+  /* Engine flicker, longer under boost, and the light that follows it. */
   const flick = 0.9 + Math.sin(performance.now() * 0.02) * 0.1;
-  rocket.userData.plume.scale.set(1.15 * flick, 2.6 * flick, 1);
-  engineLight.position.set(shipX, 8, 6);
+  const push = boosting ? 2.1 : 1;
+  rocket.userData.plume.scale.set(0.8 * flick * push, 1.7 * flick * push, 1);
+  for (const f of rocket.userData.flames) f.scale.set(1, push, 1);
+  engineLight.position.set(shipX, shipY, 6);
+  engineLight.intensity = boosting ? 2.4 : 1.2;
 
-  /* The camera trails the rocket rather than tracking it exactly, which is what
-     gives the movement weight. */
-  camera.position.x += (shipX * 0.55 - camera.position.x) * Math.min(1, dt * 3.4);
-  camera.position.y = 12.5;
-  camera.lookAt(shipX * 0.3, 8.4, -95);
+  /* --- the camera ------------------------------------------------------ */
+  /* It trails rather than tracks, and it ROLLS. The horizon tipping as you
+     turn is most of what makes the reference feel like flight. */
+  roll += (-shipVX * 0.0016 - roll) * Math.min(1, dt * 3.2);
+  camera.position.x += (shipX * 0.82 - camera.position.x) * Math.min(1, dt * 3.6);
+  camera.position.y += ((shipY + 14) - camera.position.y) * Math.min(1, dt * 3.0);
+  camera.position.z = 34;
+  camera.up.set(Math.sin(roll), Math.cos(roll), 0);
+  /* Above the ship, aimed at the horizon rather than down at it. Two things
+     fall out of that and both are the reference's: you see the dart's TOP, so
+     it reads as a dart instead of a bar seen edge-on, and it sits low in frame
+     with the horizon across the upper third, which is what makes the spires
+     look as tall as they are. */
+  camera.lookAt(shipX * 0.9, shipY + 8, -150);
 
-  /* --- trail ---------------------------------------------------------- */
+  /* The field of view opening up is most of what sells the speed — the world
+     widens and rushes past the edges. Without it a faster number just makes
+     the ground scroll quicker and the ship feels no different. */
+  const wantFov = boosting ? baseFov + 24 : baseFov;
+  camera.fov += (wantFov - camera.fov) * Math.min(1, dt * 4.5);
+  camera.updateProjectionMatrix();
+
+  /* --- trail ----------------------------------------------------------- */
   for (let i = trail.length - 1; i > 0; i--) {
     trail[i].x = trail[i - 1].x;
     trail[i].y = trail[i - 1].y;
     trail[i].z = trail[i - 1].z;
   }
   trail[0].x = shipX;
-  trail[0].y = 8;
+  trail[0].y = shipY;
   trail[0].z = 13;
   for (let i = 0; i < trail.length; i++) {
     const t = trail[i];
@@ -628,55 +865,78 @@ function step(dt) {
     trail[i].sprite.position.set(t.x, t.y, t.z);
   }
 
+  /* The score lies on the sand behind the ship, following it. */
+  scoreText.mesh.position.set(shipX, groundAt(shipX, 24) + 1.6, 24);
+
   if (!running) return;
 
-  /* --- forward motion -------------------------------------------------- */
+  /* --- forward motion --------------------------------------------------- */
   speed = Math.min(SPEED_MAX, speed + SPEED_RAMP * dt);
-  const dz = speed * dt;
+  const dz = speed * (boosting ? BOOST : 1) * dt;
   travelled += dz;
 
   const nextScore = Math.floor(travelled / 18);
   if (nextScore !== score) {
     score = nextScore;
     if (scoreEl) scoreEl.textContent = String(score);
+    scoreText.write(String(score));
   }
 
-  /* Ground and scenery scroll toward the camera and wrap. */
+  /* Ground, trees and range scroll toward the camera and wrap. */
   for (const m of tiles) {
     m.position.z += dz;
     if (m.position.z > TILE) m.position.z -= TILE * 2;
   }
-  for (const m of scenery) {
-    m.position.z += dz;
-    if (m.position.z > DESPAWN_Z) {
-      m.position.z -= TILE * 2;
-      m.position.x = (m.position.x < 0 ? -1 : 1) * (LANE + 34 + Math.random() * 210);
+  for (const t of trees) {
+    t.position.z += dz;
+    if (t.position.z > DESPAWN_Z) {
+      t.position.z -= TILE * 2;
+      t.position.x = (Math.random() * 2 - 1) * (MAP + 260);
     }
+    t.position.y = groundAt(t.position.x, t.position.z) - 1;
   }
-  for (const m of peaks) {
-    m.position.z += dz * 0.14;
-    if (m.position.z > -420) m.position.z -= 1100;
+  for (const m of range) {
+    m.position.z += dz * 0.1;
+    if (m.position.z > -900) m.position.z -= 1800;
   }
 
-  /* --- obstacles ------------------------------------------------------- */
+  hintText.mesh.position.z += dz;
+  if (hintText.mesh.position.z > DESPAWN_Z) {
+    hintText.mesh.position.z -= 2600 + Math.random() * 1400;
+    hintText.mesh.position.x = (Math.random() * 2 - 1) * 200;
+    hintText.mesh.rotation.z = (Math.random() - 0.5) * 0.9;
+  }
+  hintText.mesh.position.y = groundAt(hintText.mesh.position.x, hintText.mesh.position.z) + 2;
+
+  /* --- spires ----------------------------------------------------------- */
   nextSpawn -= dz;
   if (nextSpawn <= 0) {
-    spawnRow();
-    const gap = Math.max(GAP_MIN, GAP_START - travelled / 900);
-    nextSpawn = gap + Math.random() * 12;
+    const free = obstacles.find((o) => !o.active);
+    /* Biased toward wherever the ship is, so the map stays alive around the
+       player rather than filling the far edges nobody visits. */
+    if (free) placeSpire(free, SPAWN_Z, Math.random() < 0.7 ? shipX : null);
+    nextSpawn = 95 + Math.random() * 150;
   }
 
   for (const ob of obstacles) {
     if (!ob.active) continue;
     ob.mesh.position.z += dz;
+    ob.mesh.position.y = groundAt(ob.mesh.position.x, ob.mesh.position.z) - 3;
 
-    if (!ob.scored && ob.mesh.position.z > rocket.position.z - HIT_Z
-        && ob.mesh.position.z < rocket.position.z + HIT_Z) {
-      ob.scored = true;
-      if (Math.abs(ob.x - shipX) < HIT_X + ob.mesh.scale.x * 5) {
-        crash();
+    /* Collision in three dimensions, because over the top is now a real
+       option: the spire's radius shrinks with height, so clearing it by
+       flying high is exactly as forgiving as it looks. */
+    const dx = shipX - ob.mesh.position.x;
+    const dzz = -ob.mesh.position.z;
+    if (Math.abs(dzz) < ob.r + 8 && Math.abs(dx) < ob.r + 8) {
+      const h = shipY - ob.mesh.position.y;
+      if (h < ob.h) {
+        const rAtH = ob.r * Math.pow(1 - Math.max(0, Math.min(1, h / ob.h)), 1.4);
+        if (Math.hypot(dx, dzz) < rAtH + SHIP_R) {
+          crash();
 
-        return;
+          return;
+        }
       }
     }
 
@@ -684,6 +944,11 @@ function step(dt) {
       ob.active = false;
       ob.mesh.visible = false;
     }
+  }
+
+  /* The sand is solid. Flying low is the fast line and it is also how you die. */
+  if (shipY < groundAt(shipX, 0) + FLY_MIN * 0.42) {
+    crash();
   }
 }
 
@@ -705,7 +970,7 @@ function frame(now) {
   raf = requestAnimationFrame(frame);
 
   /* Clamped, because a backgrounded tab returns with a multi-second delta and
-     the rocket would teleport through a rock on the way back. */
+     the ship would teleport through a spire on the way back. */
   const dt = Math.min(0.05, (now - last) / 1000 || 0);
   last = now;
 
@@ -718,50 +983,77 @@ function frame(now) {
  * Size
  * ------------------------------------------------------------------------ */
 
+let baseFov = 64;
+
 function resize() {
-  const w = hero.clientWidth || window.innerWidth;
-  const h = hero.clientHeight || window.innerHeight;
+  /* Guarded: the hero can measure zero while the page is still laying out, and
+     a 0x0 drawing buffer renders nothing at all for the rest of the session. */
+  const w = hero.clientWidth || window.innerWidth || 1280;
+  const h = hero.clientHeight || window.innerHeight || 720;
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
 
-  /* On a narrow screen a 62-degree horizontal view crops the moon out of the
-     frame, and the brief keeps the moon in every aspect ratio. Widening the
-     vertical FOV as the viewport narrows holds the composition. */
-  camera.fov = w / h < 1 ? 78 : 62;
+  /* On a narrow screen a 64-degree horizontal view crops the sun out of the
+     frame, and the composition keeps the sun in every aspect ratio. */
+  baseFov = w / h < 1 ? 80 : 64;
+  if (!boosting) camera.fov = baseFov;
   camera.updateProjectionMatrix();
 }
 
 resize();
 window.addEventListener('resize', resize);
+/* clientWidth is often 0 on the first pass; this catches the real size. */
+if (window.ResizeObserver) new ResizeObserver(resize).observe(hero);
 
 /* ---------------------------------------------------------------------------
  * Controls
+ *
+ * Bound to the window rather than to the hero: the HUD, the overlay and the
+ * CSS sky all sit over the canvas, and any one of them swallowing the pointer
+ * is enough to make the ship look like it cannot move.
  * ------------------------------------------------------------------------ */
 
-hero.addEventListener('pointermove', (e) => {
+function aim(clientX, clientY) {
   const r = hero.getBoundingClientRect();
-  const nx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
-  /* 1.15 so the edges of the corridor are reachable without pinning the cursor
-     to the very edge of the window. */
-  targetX = Math.max(-LANE + 3, Math.min(LANE - 3, nx * LANE * 1.15));
-});
+  if (clientY < r.top || clientY > r.bottom) return;
+
+  const nx = (clientX - (r.left + r.width / 2)) / (r.width / 2);
+  const ny = (clientY - r.top) / r.height;          /* 0 at the top */
+
+  /* 1.1 so the edges of the map are reachable without pinning the cursor to
+     the very edge of the window. */
+  targetX = Math.max(-MAP, Math.min(MAP, nx * MAP * 1.1));
+  /* Screen down is world down, and the whole envelope is reachable. */
+  targetY = FLY_MAX - Math.max(0, Math.min(1, (ny - 0.06) / 0.86)) * (FLY_MAX - FLY_MIN);
+}
+
+window.addEventListener('pointermove', (e) => aim(e.clientX, e.clientY));
 
 hero.addEventListener('touchmove', (e) => {
   const t = e.touches[0];
   if (!t) return;
-  const r = hero.getBoundingClientRect();
-  const nx = (t.clientX - (r.left + r.width / 2)) / (r.width / 2);
-  targetX = Math.max(-LANE + 3, Math.min(LANE - 3, nx * LANE * 1.15));
+  aim(t.clientX, t.clientY);
   if (running) e.preventDefault();
 }, { passive: false });
+
+/* Click to boost — held, not toggled, exactly as the recording prompts. */
+hero.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('button, a')) return;
+  boosting = true;
+});
+window.addEventListener('pointerup', () => { boosting = false; });
+window.addEventListener('pointercancel', () => { boosting = false; });
 
 window.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
   else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
+  else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.up = true;
+  else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.down = true;
+  else if (e.key === 'Shift') boosting = true;
   else if ((e.key === 'Enter' || e.key === ' ') && over) { start(); return; }
   else return;
 
-  /* Only swallow the arrows while a run is on, or the page cannot be scrolled
+  /* Only swallow the keys while a run is on, or the page cannot be scrolled
      with the keyboard. */
   if (running) e.preventDefault();
 });
@@ -769,12 +1061,16 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
   if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
   if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
+  if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.up = false;
+  if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.down = false;
+  if (e.key === 'Shift') boosting = false;
 });
 
 /* A run continuing in a tab nobody is watching is a run lost unseen. */
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && running) {
     running = false;
+    boosting = false;
     if (overlayTitle) overlayTitle.textContent = 'Paused';
     if (overlaySub) overlaySub.textContent = 'Score ' + score;
     if (overlay) overlay.hidden = false;
@@ -797,8 +1093,9 @@ function start() {
 
 if (restartBtn) restartBtn.addEventListener('click', start);
 
-/* The canvas is live either way — the world drifts and the moon sits there even
+/* The canvas is live either way — the world drifts and the suns sit there even
    before a run, so the hero is never a still picture. */
+resetRun();
 hero.classList.add('is-live');
 raf = requestAnimationFrame(frame);
 
