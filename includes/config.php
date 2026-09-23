@@ -72,7 +72,29 @@ define('TTS_ENDPOINT', getenv('TTS_ENDPOINT') ?: '');
  *
  * Key: https://dashboard.sarvam.ai  →  API keys
  */
-define('SARVAM_API_KEY', getenv('SARVAM_API_KEY') ?: '');
+/*
+ * From the environment, or the git-ignored secrets file — the same two places
+ * the model keys come from, and for the same reason. The php-wasm dev server
+ * runs in a sandbox with its own filesystem and inherits none of the host's
+ * environment, so on that server an environment variable is invisible and the
+ * secrets file is the only way in.
+ */
+define('SARVAM_API_KEY', (static function (): string {
+    $env = getenv('SARVAM_API_KEY');
+    if (is_string($env) && $env !== '') {
+        return $env;
+    }
+
+    $secrets = __DIR__ . '/secrets.php';
+    if (is_file($secrets)) {
+        /** @var array{sarvam_api_key?: string} $values */
+        $values = require $secrets;
+
+        return (string) ($values['sarvam_api_key'] ?? '');
+    }
+
+    return '';
+})());
 
 /**
  * Sarvam voice. bulbul:v3 speakers: aditya, ritu, ashutosh, priya, neha, rahul,
@@ -80,6 +102,36 @@ define('SARVAM_API_KEY', getenv('SARVAM_API_KEY') ?: '');
  * karun, hitesh) are NOT valid on v3 and are rejected with a 400.
  */
 define('SARVAM_SPEAKER', getenv('SARVAM_SPEAKER') ?: 'priya');
+
+/**
+ * Let Sarvam's chat model rephrase a retrieved answer rather than reciting it.
+ *
+ * Off by default, and the default is the considered one. Reciting the stored
+ * answer is always exactly what we published; rephrasing reads better and adds
+ * a way — however small — for the wording to drift from what was approved. The
+ * retrieved text is the only context the model is given and the reply is
+ * rejected if it comes back much longer than its source, but a demo whose whole
+ * argument is that it does not invent should not invent phrasing either.
+ *
+ * Turn it on where conversational tone matters more than literal fidelity.
+ */
+define('FAQ_PHRASE_WITH_MODEL', (getenv('FAQ_PHRASE_WITH_MODEL') ?: '0') === '1');
+
+/**
+ * How sure the search must be before it answers rather than declining.
+ *
+ * A share of the best score the question could have achieved, so it means the
+ * same for a three-word question and a twenty-word one. Measured against a
+ * suite of questions that must be answered and questions that must be refused:
+ * the weakest true answer scores 0.42 and the strongest false one 0.32, and
+ * 0.35 sits in that gap.
+ *
+ * Lower it for recall — more questions answered, more of them loosely. Raise it
+ * for precision — fewer answers, more of them exact. Borderline cases sit
+ * around 0.30: "what happens if the project is delayed" scores 0.305, because
+ * nothing in the corpus is written about delays in those words.
+ */
+define('FAQ_MATCH_FLOOR', (float) (getenv('FAQ_MATCH_FLOOR') ?: '0.35'));
 
 define('ROOT_PATH', dirname(__DIR__));
 define('STORAGE_PATH', ROOT_PATH . '/storage');
@@ -346,6 +398,11 @@ require_once __DIR__ . '/content-mobile.php';
 require_once __DIR__ . '/content-software.php';
 // Ten answers per service page, keyed by slug.
 require_once __DIR__ . '/content-service-faqs.php';
+// The same, for the case studies, the two products, and the pages that belong
+// to none of those catalogues — the home page, the hubs and the company pages.
+require_once __DIR__ . '/content-case-faqs.php';
+require_once __DIR__ . '/content-solution-faqs.php';
+require_once __DIR__ . '/content-page-faqs.php';
 // The five studios, behind /locations/*.php.
 require_once __DIR__ . '/locations.php';
 require_once __DIR__ . '/faq-brain.php';

@@ -13,6 +13,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 require_once dirname(__DIR__) . '/includes/ai.php';
 require_once dirname(__DIR__) . '/includes/ai-local.php';
+require_once dirname(__DIR__) . '/includes/faq-answer.php';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -107,18 +108,23 @@ if ($result['error'] !== null || $result['text'] === '') {
     // visitor still gets a real answer about iThrive; only the phrasing is
     // canned rather than generated.
     if ($result['error'] !== 'refused') {
-        // The seventy-question answer book first — it is the authoritative
-        // source and covers pricing and timelines the site pages do not. Site
-        // content second, for contact details and the like. Anything else gets
-        // the demo boundary, which is the whole point of the demo.
-        $faq   = faq_answer($message, $lang);
+        /*
+         * No model provider — answer from what the site publishes instead of
+         * giving up. This is not a degraded path in practice: it searches every
+         * question on the site, roughly nine hundred of them, and answers in
+         * the visitor's own language through Sarvam. See includes/faq-answer.php.
+         *
+         * Site content second, for contact details and the like. Anything else
+         * gets the demo boundary, which is the whole point of the demo.
+         */
+        $faq   = faq_resolve($message, $lang, FAQ_PHRASE_WITH_MODEL);
         $state = 'faq';
 
         if ($faq['matched']) {
             $reply = $faq['text'];
         } else {
-            $local = ai_local_answer($message, $lang);
-            $reply = $local['matched'] ? $local['text'] : faq_demo_reply($lang);
+            $local = ai_local_answer($message, $faq['lang']);
+            $reply = $local['matched'] ? $local['text'] : $faq['text'];
             $state = $local['matched'] ? 'local' : 'demo_boundary';
         }
 
@@ -126,11 +132,16 @@ if ($result['error'] !== null || $result['text'] === '') {
         $_SESSION['chat_history'] = array_slice($history, -(AI_MAX_HISTORY_TURNS * 2));
 
         $send([
-            'reply'    => $reply,
-            'state'    => $state,
-            'faq'      => $faq['id'],
-            'lang'     => $lang,
-            'captured' => false,
+            'reply'      => $reply,
+            'state'      => $state,
+            'faq'        => $faq['id'],
+            'source'     => $faq['source'],
+            'url'        => $faq['url'],
+            'confidence' => $faq['confidence'],
+            'related'    => $faq['related'],
+            'lang'       => $faq['lang'],
+            'translated' => $faq['translated'],
+            'captured'   => false,
         ]);
     }
 

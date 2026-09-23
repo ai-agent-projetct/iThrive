@@ -581,14 +581,9 @@ function ai_append_storage(string $file, array $record): bool
  */
 function ai_curl_ca(\CurlHandle $ch): void
 {
-    if (ini_get('curl.cainfo') || ini_get('openssl.cafile')) {
-        return;
-    }
-
-    $bundle = __DIR__ . '/certs/cacert.pem';
-    if (is_file($bundle)) {
-        curl_setopt($ch, CURLOPT_CAINFO, $bundle);
-    }
+    // Kept as the name the transport code here already calls; the logic moved
+    // to functions.php once Sarvam needed it too.
+    curl_ca_bundle($ch);
 }
 
 /** Normalise response content blocks back into plain arrays for replay. */

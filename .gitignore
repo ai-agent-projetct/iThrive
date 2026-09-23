@@ -12,6 +12,14 @@ includes/secrets.php
 storage/*.ndjson
 storage/replies/
 
+# Derived, and rebuilt on demand: the FAQ corpus/index and the Sarvam
+# translation cache. Thousands of small files that are not source.
+storage/cache/
+
+# A CA bundle with a local TLS-inspecting root (Avast, Kaspersky, a corporate
+# proxy) appended. Machine-specific by definition — see curl_ca_bundle().
+includes/certs/local-cacert.pem
+
 # OS / editor
 .DS_Store
 Thumbs.db
@@ -51,3 +59,4 @@ assets/img/services/_replaced_by_photos/
 assets/img/services/_old_sections/
 assets/img/case-hero/_replaced/
 assets/img/_dedupe_backup/
+assets/img/_home_backup/
