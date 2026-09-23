@@ -77,6 +77,21 @@ if ($bookOnly) {
     $corpus = array_values(array_filter($corpus, static fn ($e) => $e['source'] === 'book'));
 }
 
+/* --source=service  one group at a time, so the spend can be staged.
+   book, service, case, solution, page, inline -- as reported by the corpus. */
+foreach ($args as $a) {
+    if (!str_starts_with($a, '--source=')) {
+        continue;
+    }
+
+    $want  = substr($a, 9);
+    $corpus = array_values(array_filter($corpus, static fn ($e) => $e['source'] === $want));
+
+    if ($corpus === []) {
+        exit("No entries with source '{$want}'. Try: book, service, case, solution, page, inline.\n");
+    }
+}
+
 if ($limit > 0) {
     $corpus = array_slice($corpus, 0, $limit);
 }
