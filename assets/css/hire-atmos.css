@@ -436,17 +436,18 @@ body:has(.hire-atmos) { background-color: #070A12; }
   position: absolute;
   inset: 0;
   z-index: -2;
-  /* Sampled from his centre frame: #3157b1 down its left, #5d2c6f along its
-     right, #1b223d in the corners. Matching them is what lets the feathered
-     edges of his picture disappear instead of sitting in a halo. */
+  /* Sampled from her centre frame: #053fb6 down its left, #da54de along its
+     right, #00143d in the corners. The opening is mixed to meet her picture,
+     which is what lets its feathered edges disappear instead of sitting in a
+     halo, and it fades to the page colour at the foot. */
   background:
-    radial-gradient(58% 58% at 74% 44%, rgba(93, 44, 111, .85) 0%, rgba(36, 28, 60, 0) 68%),
-    radial-gradient(52% 60% at 22% 48%, rgba(49, 87, 177, .72) 0%, rgba(27, 34, 61, 0) 70%),
+    radial-gradient(58% 58% at 76% 42%, rgba(218, 84, 222, .55) 0%, rgba(23, 15, 68, 0) 66%),
+    radial-gradient(54% 62% at 16% 50%, rgba(5, 63, 182, .62) 0%, rgba(0, 20, 61, 0) 70%),
     radial-gradient(90% 60% at 50% 108%, #070a12 0%, rgba(7, 10, 18, 0) 62%),
-    linear-gradient(124deg, #141b33 0%, #1b223d 36%, #241c3c 64%, #121729 100%);
+    linear-gradient(122deg, #00143d 0%, #06256b 30%, #1a1150 58%, #3f1770 80%, #120e30 100%);
 }
 
-.hire-robot {
+.hire-character {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -457,7 +458,7 @@ body:has(.hire-atmos) { background-color: #070A12; }
 }
 
 /* Dark where the words are, clear where he is. */
-.hire-robot-scrim {
+.hire-character-scrim {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -484,7 +485,143 @@ body:has(.hire-atmos) { background-color: #070A12; }
 @media (max-width: 1080px) {
   /* He moves behind the copy rather than beside it, and the scrim comes up to
      meet him so the headline stays readable over him. */
-  .hire-robot-scrim {
+  .hire-character-scrim {
     background: linear-gradient(180deg, rgba(9, 12, 24, .9) 0%, rgba(9, 12, 24, .72) 48%, rgba(9, 12, 24, .92) 100%);
   }
 }
+
+/* --------------------------------------------------------------------------
+   The roles deck and the advantages carousel
+
+   Island components take their size from the box they mount into, so these
+   need a height of their own — without one they mount at zero and nothing
+   ever appears.
+   -------------------------------------------------------------------------- */
+
+.hire-deck,
+.hire-liquid {
+  position: relative;
+  width: 100%;
+  margin-top: clamp(32px, 5vh, 60px);
+  height: clamp(440px, 54vw, 660px);
+}
+
+.hire-deck > *,
+.hire-liquid > * {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 720px) {
+  .hire-deck,
+  .hire-liquid { height: clamp(380px, 96vw, 520px); }
+}
+/* ===========================================================================
+   Section shapes â€” so no two sections of this page are read the same way.
+   The deck, the lens and the bookmark cards are islands and size themselves
+   here; the figures are plain CSS in depth.
+   =========================================================================== */
+
+/* The bookmark deck needs a box before it mounts, same as the other two. */
+.hire-bookmarks {
+  height: clamp(520px, 62vw, 760px);
+  margin-top: clamp(32px, 5vh, 60px);
+}
+
+/* --- the four figures, standing in depth ---------------------------------- */
+.hire-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+  margin-top: clamp(40px, 6vh, 72px);
+  perspective: 1100px;
+  perspective-origin: 50% 40%;
+}
+
+.hire-pillar {
+  position: relative;
+  transform-style: preserve-3d;
+  /* Angled away from the middle: the two on the left turn right, the two on
+     the right turn left, so the row reads as a shallow arc rather than a strip. */
+  transform: rotateY(calc((1.5 - var(--i)) * 9deg)) translateZ(calc(var(--i) * -6px));
+  transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+}
+
+.hire-pillar:hover,
+.hire-pillar:focus-within {
+  transform: rotateY(0deg) translateZ(34px);
+}
+
+.hire-pillar-face {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 218px;
+  padding: clamp(20px, 2vw, 28px);
+  border: 1px solid rgba(120, 190, 255, .18);
+  border-radius: 18px;
+  background:
+    linear-gradient(160deg, rgba(62, 225, 255, .10), rgba(157, 78, 221, .07) 55%, rgba(4, 10, 30, .55)),
+    rgba(6, 12, 34, .55);
+  box-shadow: 0 26px 60px -30px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .06);
+  backdrop-filter: blur(8px);
+  transition: border-color .45s ease, box-shadow .45s ease;
+}
+
+.hire-pillar:hover .hire-pillar-face,
+.hire-pillar:focus-within .hire-pillar-face {
+  border-color: rgba(62, 225, 255, .5);
+  box-shadow: 0 34px 80px -28px rgba(0, 0, 0, .95), 0 0 0 1px rgba(62, 225, 255, .18), inset 0 1px 0 rgba(255, 255, 255, .1);
+}
+
+.hire-pillar-n {
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(234, 240, 250, .38);
+}
+
+.hire-pillar-fig {
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  line-height: 1.02;
+  font-weight: 700;
+  background: linear-gradient(120deg, #eaf0fa, #3ee1ff 55%, #9d4edd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hire-pillar-cap {
+  margin-top: auto;
+  font-size: .95rem;
+  line-height: 1.45;
+  color: rgba(234, 240, 250, .66);
+}
+
+/* The reflection under each panel is what sells the floor they stand on. */
+.hire-pillar-floor {
+  position: absolute;
+  inset: auto 12% -26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(62, 225, 255, .3), transparent 70%);
+  filter: blur(7px);
+  opacity: .5;
+  transform: translateZ(-30px);
+  transition: opacity .45s ease;
+}
+
+.hire-pillar:hover .hire-pillar-floor { opacity: .95; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hire-pillar,
+  .hire-pillar:hover,
+  .hire-pillar:focus-within { transform: none; transition: none; }
+}
+
+@media (max-width: 640px) {
+  .hire-pillars { perspective: none; }
+  .hire-pillar { transform: none; }
+}
+

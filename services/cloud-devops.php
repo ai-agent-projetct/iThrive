@@ -42,10 +42,11 @@ require_once dirname(__DIR__) . '/includes/config.php';
 $svc = service('cloud-devops');
 
 $page      = 'services';
-/* The home page's robot mascot stands in this hero too. The flag is what makes
-   includes/footer.php import assets/js/robot.js, which binds the one
-   [data-robot-canvas] on the page. */
-$GLOBALS['ithrive_needs_robot'] = true;
+/* The filmed robot stands in this hero: the same sixty-four turn frames the
+   Hire page used, drawn by assets/js/character.js, which this flag makes
+   includes/footer.php import. The WebGL mascot he replaced is unchanged in
+   assets/js/robot.js and back on the home page. */
+$GLOBALS['ithrive_needs_character'] = true;
 $pageTitle = 'Cloud & DevOps Services in India';
 $pageDesc  = 'Infrastructure as code, CI/CD, observability and cost control, run as a living system rather than a one-time setup — from Chennai and Coimbatore.';
 $ogImage   = 'service-' . $svc['group_slug'];
@@ -198,6 +199,38 @@ $img = static function (string $rel): string {
          alt="" fetchpriority="high" decoding="async">
     <div class="cd-hero-wash" aria-hidden="true"></div>
 
+    <?php /* ---------------------------------------------------------------
+             The mascot, filmed, whole, and tracking the pointer.
+
+             He spans the WHOLE hero rather than sitting inside the orbit's
+             column — the same treatment the Hire Agentic AI Developers hero
+             gives its character. In a box of its own a figure reads as a
+             picture placed on the page; across the hero it reads as part of
+             it, and it can be drawn at the hero's full height, which is what
+             makes him big enough to be the thing you look at.
+
+             track="sweep" because his frames are one run panning left to
+             right rather than a full circle — see assets/js/character.js. The
+             angular mode wraps at the ends and jumps between two unlike poses,
+             which is the head-splitting artefact.
+
+             The feather is an oval rather than four edge bands: his legs reach
+             the bottom of the picture, and a band deep enough to hide the
+             picture's corners erased his feet. The vertical radius runs past
+             the picture on purpose, so the fade never closes over him.
+             --------------------------------------------------------------- */ ?>
+    <canvas class="cd-robot" data-character-canvas data-track="sweep"
+            data-base="<?= e(url('assets/img/robot-hero')) ?>"
+            data-version="<?= e((string) @filemtime(ROOT_PATH . '/assets/img/robot-hero/center.webp')) ?>"
+            data-stage-x="0.7" data-stage-y="0.52" data-fill="0.96"
+            data-face-x="0.5" data-face-y="0.5"
+            data-feather-shape="radial" data-feather-x="0.92" data-feather-y="1.24"
+            role="img"
+            aria-label="An interactive 3D robot mascot wearing the iThrive mark, who points wherever your pointer goes."></canvas>
+
+    <?php /* Dark where the words are, clear where he is. */ ?>
+    <div class="cd-robot-scrim" aria-hidden="true"></div>
+
     <div class="cd-shell cd-hero-grid">
       <div class="cd-hero-copy">
         <p class="cd-eyebrow"><span class="cd-mark" aria-hidden="true"></span>Cloud &amp; DevOps · Chennai</p>
@@ -254,15 +287,8 @@ $img = static function (string $rel): string {
           </div>
         </div>
 
-        <?php /* The same mascot as the home page hero: he tracks the pointer
-                 with his head, eyes and arms, and idles when left alone. He is
-                 laid over the orbit rather than inside its tilted plane, which
-                 would shear him. WebGL failure leaves the orbit behind him, so
-                 the column is never empty. */ ?>
-        <canvas class="cd-robot" data-robot-canvas
-                data-robot-badge="<?= e(asset('assets/img/robot-badge.png')) ?>"
-                role="img"
-                aria-label="An interactive 3D robot mascot wearing the iThrive mark, whose head, eyes and arms follow your pointer."></canvas>
+        <?php /* The mascot used to stand here, inside this column. He is now a
+                 layer across the whole hero — see the top of the section. */ ?>
 
         <?php /* The gate names square to the screen. Text riding a ring tilted
                  68 degrees is unreadable — the Custom Product page shipped that

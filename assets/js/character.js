@@ -44,7 +44,24 @@ const DEFAULTS = {
   stageX: 0.655,
   stageY: 0.44,
   fill: 1.0,
+  featherX: 0.26,
+  featherY: 0.16,
 };
+
+/*
+ * Two ways of choosing a frame, because two different sets of frames exist.
+ *
+ *   orbit  — the frames go round a circle and the pointer's ANGLE around the
+ *            face picks one. Right for a head that turns in every direction.
+ *
+ *   sweep  — the frames are one ordered run from facing left to facing right,
+ *            and the pointer's horizontal position picks one. Right for footage
+ *            that only ever pans across, and free of the failure that angles
+ *            have: at the wrap-around, two neighbouring directions sit at
+ *            opposite ends of the run, so the figure jumps between two unlike
+ *            poses. That jump is what read as the head splitting in two.
+ */
+const SWEEP_EASE = 0.16;
 
 const canvas = document.querySelector('[data-character-canvas]');
 
@@ -62,6 +79,10 @@ if (canvas) {
   const STAGE_X = num('stageX', DEFAULTS.stageX);
   const STAGE_Y = num('stageY', DEFAULTS.stageY);
   const FILL = num('fill', DEFAULTS.fill);
+  const FEATHER_X = num('featherX', DEFAULTS.featherX);
+  const FEATHER_Y = num('featherY', DEFAULTS.featherY);
+  const SWEEP = canvas.dataset.track === 'sweep';
+  const RADIAL = canvas.dataset.featherShape === 'radial';
 
   const frames = new Array(FRAME_COUNT).fill(null);
   let centre = null;
@@ -70,6 +91,7 @@ if (canvas) {
 
   const pointer = { x: 0, y: 0, sx: 0, sy: 0, moved: false };
   let angle = -Math.PI / 2;
+  let sweep = 0.5;         /* where along the run we are, 0 left .. 1 right */
   let running = false;
   let visible = false;
   let raf = 0;
@@ -158,22 +180,49 @@ if (canvas) {
        these same colours — carries on where she stops. Done on the picture
        rather than on the element, because the element is the whole hero and
        she covers only part of it. */
-    const fx = dw * 0.26;
-    const fy = dh * 0.16;
     ctx.globalCompositeOperation = 'destination-out';
 
-    const band = (x0, y0, x1, y1, rw, rh) => {
-      const g = ctx.createLinearGradient(x0, y0, x1, y1);
-      g.addColorStop(0, 'rgba(0,0,0,1)');
-      g.addColorStop(1, 'rgba(0,0,0,0)');
+    if (RADIAL) {
+      /*
+       * An oval fade rather than four straight bands.
+       *
+       * Bands erase a strip along each edge at full width, which is right for a
+       * bust that stops well inside the picture. It is wrong for a whole figure
+       * whose legs reach the bottom edge: the band deep enough to hide the
+       * picture's corners also erases his feet, and a band shallow enough to
+       * spare them leaves a visible rectangle. The oval takes the corners
+       * hardest and the middle of each edge least, and its vertical radius can
+       * be set past the picture so it never closes over him at all.
+       */
+      ctx.save();
+      ctx.translate(x + dw / 2, y + dh / 2);
+      ctx.scale((dw / 2) * FEATHER_X, (dh / 2) * FEATHER_Y);
+      const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+      g.addColorStop(0, 'rgba(0,0,0,0)');
+      g.addColorStop(0.58, 'rgba(0,0,0,0)');
+      g.addColorStop(1, 'rgba(0,0,0,1)');
       ctx.fillStyle = g;
-      ctx.fillRect(Math.min(x0, x1), Math.min(y0, y1), rw, rh);
-    };
+      /* Generous, so the area outside the oval is erased too and no corner of
+         the picture survives beyond it. */
+      ctx.fillRect(-4, -4, 8, 8);
+      ctx.restore();
+    } else {
+      const fx = dw * FEATHER_X;
+      const fy = dh * FEATHER_Y;
 
-    band(x, 0, x + fx, 0, fx, h);                       // left
-    band(x + dw, 0, x + dw - fx, 0, fx, h);             // right
-    band(0, y + dh, 0, y + dh - fy, w, fy);             // bottom
-    band(0, y, 0, y + fy * 0.6, w, fy * 0.6);           // top, a lighter touch
+      const band = (x0, y0, x1, y1, rw, rh) => {
+        const g = ctx.createLinearGradient(x0, y0, x1, y1);
+        g.addColorStop(0, 'rgba(0,0,0,1)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(Math.min(x0, x1), Math.min(y0, y1), rw, rh);
+      };
+
+      band(x, 0, x + fx, 0, fx, h);                       // left
+      band(x + dw, 0, x + dw - fx, 0, fx, h);             // right
+      band(0, y + dh, 0, y + dh - fy, w, fy);             // bottom
+      band(0, y, 0, y + fy * 0.6, w, fy * 0.6);           // top, a lighter touch
+    }
 
     ctx.globalCompositeOperation = 'source-over';
     painted = frame;
@@ -183,6 +232,13 @@ if (canvas) {
 
   function frameFor() {
     if (reduced || !pointer.moved) return centre;
+
+    if (SWEEP) {
+      /* One run, indexed straight from the eased horizontal position. No
+         wrap-around, so there is nowhere for the pose to jump. */
+      const i = Math.round(sweep * (FRAME_COUNT - 1));
+      return frames[Math.max(0, Math.min(FRAME_COUNT - 1, i))] || centre;
+    }
 
     const r = canvas.getBoundingClientRect();
     const faceX = r.left + r.width * STAGE_X;
@@ -210,14 +266,21 @@ if (canvas) {
     pointer.sx += (pointer.x - pointer.sx) * kp;
     pointer.sy += (pointer.y - pointer.sy) * kp;
 
-    const r = canvas.getBoundingClientRect();
-    const dx = pointer.sx - (r.left + r.width * STAGE_X);
-    const dy = pointer.sy - (r.top + r.height * STAGE_Y);
-    if (pointer.moved) {
-      let diff = Math.atan2(dy, dx) - angle;
-      while (diff < -Math.PI) diff += Math.PI * 2;
-      while (diff > Math.PI) diff -= Math.PI * 2;
-      angle += diff * ka;
+    if (SWEEP) {
+      /* Across the window rather than across the canvas: he is reacting to
+         where you are on the page, and the canvas is only part of it. */
+      const want = Math.max(0, Math.min(1, pointer.sx / (window.innerWidth || 1)));
+      sweep += (want - sweep) * (1 - Math.pow(1 - SWEEP_EASE, dt * 60));
+    } else {
+      const r = canvas.getBoundingClientRect();
+      const dx = pointer.sx - (r.left + r.width * STAGE_X);
+      const dy = pointer.sy - (r.top + r.height * STAGE_Y);
+      if (pointer.moved) {
+        let diff = Math.atan2(dy, dx) - angle;
+        while (diff < -Math.PI) diff += Math.PI * 2;
+        while (diff > Math.PI) diff -= Math.PI * 2;
+        angle += diff * ka;
+      }
     }
 
     const resized = resize();

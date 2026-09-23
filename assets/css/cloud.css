@@ -269,6 +269,10 @@
   position: relative;
   height: clamp(340px, 40vw, 460px);
   perspective: 1000px;
+  /* The mascot now stands behind these rings across the whole hero. At full
+     strength a track runs straight over his visor and the two fight; held
+     back, they read as the atmosphere they were always meant to be. */
+  opacity: .55;
 }
 
 .cd-orbit-tilt {
@@ -348,6 +352,9 @@
   margin: 18px 0 0;
   padding: 0;
   list-style: none;
+  /* It lands on the mascot's chest now rather than on empty hero, and small
+     mono type over a lit white robot is unreadable without this. */
+  text-shadow: 0 1px 3px rgba(4, 7, 16, .95), 0 0 12px rgba(4, 7, 16, .8);
 }
 
 .cd-gate-list li {
@@ -952,19 +959,36 @@
  * read as tracks running behind and around him.
  * ---------------------------------------------------------------------- */
 
+/* Across the whole hero, the way the Hire hero carries its character — not in
+   a box inside the orbit column. The canvas is the hero; where he stands in it
+   is set by data-stage-x / data-stage-y on the element, and his size by the
+   hero's height, which is what lets him be a figure rather than a thumbnail. */
 .cd-robot {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(108%, 470px);
-  height: clamp(320px, 38vw, 440px);
-  transform: translate(-50%, -54%);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   display: block;
-  z-index: 2;
+  z-index: 1;
   /* The rings are the interactive surface for the orbit's own pointer tilt;
      the robot reads the pointer from the window, so he needs no hit area. */
   pointer-events: none;
 }
+
+/* Dark where the words are, clear where he is — otherwise the headline sits on
+   top of his chest and neither one is readable. */
+.cd-robot-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(8, 12, 22, .9) 0%, rgba(8, 12, 22, .72) 28%, rgba(8, 12, 22, .16) 52%, rgba(8, 12, 22, 0) 68%),
+    linear-gradient(180deg, rgba(8, 12, 22, .34) 0%, rgba(8, 12, 22, 0) 26%, rgba(8, 12, 22, .40) 100%);
+}
+
+/* The copy and the orbit both have to sit above him. */
+.cd-hero .cd-shell { position: relative; z-index: 3; }
 
 /* Behind him the plate is a pad rather than a portrait: dimmer, smaller, and
    no longer competing for the middle of the stage. */
@@ -975,8 +999,9 @@
 }
 
 @media (max-width: 900px) {
-  .cd-robot {
-    width: min(96%, 380px);
-    height: clamp(260px, 56vw, 360px);
+  /* Narrow screens: he moves behind the copy rather than beside it, so the
+     scrim comes up to meet him and the headline stays readable over him. */
+  .cd-robot-scrim {
+    background: linear-gradient(180deg, rgba(8, 12, 22, .9) 0%, rgba(8, 12, 22, .7) 46%, rgba(8, 12, 22, .92) 100%);
   }
 }

@@ -12,9 +12,13 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 
 $page         = 'services';
-/* The robot stands in this hero and follows the pointer — the same module the
+/* The character stands in this hero and follows the pointer — the same module the
    home page's character uses, pointed at his own frames. */
 $GLOBALS['ithrive_needs_character'] = true;
+/* The roles deck and the advantages carousel are island components, so the
+   bundle has to load whether or not a gallery elsewhere on the page asks for
+   it. */
+$GLOBALS['ithrive_needs_originkit'] = true;
 $pageTitle    = 'Hire AI Agent Developers in India';
 $pageDesc     = 'Hire vetted agentic AI engineers, LangGraph specialists and AI systems architects from India — inside your sprint in about 48 hours, billed monthly.';
 $ogImage      = 'assets/img/services/svc-16-hire-agentic-developers.jpg';
@@ -144,18 +148,18 @@ require dirname(__DIR__) . '/includes/header.php';
        OPENING
        ========================================================================= -->
   <section class="hire-sec hire-hero">
-    <?php /* He is drawn across the whole opening and feathered into it, the
+    <?php /* She is drawn across the whole opening and feathered into it, the
              way the character is on the home page, so there is no box around
              him. The scrim after him keeps the headline readable where he
              passes behind it. */ ?>
     <div class="hire-sky" aria-hidden="true"></div>
-    <canvas class="hire-robot" data-character-canvas
-            data-base="<?= e(url('assets/img/robot-hero')) ?>"
-            data-version="<?= e((string) @filemtime(ROOT_PATH . '/assets/img/robot-hero/center.webp')) ?>"
-            data-stage-x="0.74" data-stage-y="0.42" data-fill="0.80"
+    <canvas class="hire-character" data-character-canvas
+            data-base="<?= e(url('assets/img/character')) ?>"
+            data-version="<?= e((string) @filemtime(ROOT_PATH . '/assets/img/character/center.webp')) ?>"
+            data-stage-x="0.74" data-stage-y="0.44" data-fill="0.92"
             role="img"
-            aria-label="The iThrive robot mascot in a branded cap, who turns to follow your pointer and looks straight at you when it comes near him."></canvas>
-    <div class="hire-robot-scrim" aria-hidden="true"></div>
+            aria-label="The iThrive character in a branded cap, who turns to follow your pointer and looks straight at you when it comes near her."></canvas>
+    <div class="hire-character-scrim" aria-hidden="true"></div>
 
     <?php /* The same hint the home hero carries; character.js marks the
              document once it has seen the pointer move and it fades. */ ?>
@@ -217,12 +221,19 @@ require dirname(__DIR__) . '/includes/header.php';
         having already made the mistakes you would otherwise pay to discover.
       </p>
 
-      <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
+      <?php /* Four figures standing in depth rather than four more rows. They
+               sit on a shared perspective floor, angled away from the centre, and
+               the one under the pointer turns to face you. Pure CSS, so it costs
+               the page nothing and still reads as a different section. */ ?>
+      <div class="hire-pillars" data-rise>
         <?php foreach ($stats as $i => [$figure, $caption]): ?>
-          <div class="hire-row" data-rise>
-            <span class="hire-row-n"><?= e(str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT)) ?></span>
-            <h3 class="hire-row-t"><?= e($figure) ?></h3>
-            <p class="hire-row-d"><?= e($caption) ?></p>
+          <div class="hire-pillar" style="--i:<?= $i ?>">
+            <div class="hire-pillar-face">
+              <span class="hire-pillar-n"><?= e(str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT)) ?></span>
+              <strong class="hire-pillar-fig"><?= e($figure) ?></strong>
+              <span class="hire-pillar-cap"><?= e($caption) ?></span>
+            </div>
+            <span class="hire-pillar-floor" aria-hidden="true"></span>
           </div>
         <?php endforeach; ?>
       </div>
@@ -238,30 +249,45 @@ require dirname(__DIR__) . '/includes/header.php';
       <h2 class="hire-h2" data-rise>Six roles you can hire<br><em>into your sprint</em></h2>
       <p class="hire-lead" data-rise>Each one is a working engineer, not a generalist with an AI course behind them.</p>
 
-      <?php /* The 6 images for this section, shown in depth rather than as
-               row thumbnails. Falls back to a plain grid of the same images if
-               the island never mounts. */ ?>
-      <?php component('svc-gallery', [
-          'images'  => array_filter([svc_img('16', 3, 1), svc_img('16', 3, 2), svc_img('16', 3, 3), svc_img('16', 3, 4), svc_img('16', 3, 5), svc_img('16', 3, 6)]),
-          'variant' => 'deck',
-          'label'   => 'Specialist role visuals',
-      ]); ?>
+      <?php /* The six roles ride the card deck: number, role, what they do and
+               their picture on one card, instead of a gallery above a list that
+               repeats the same six names. */ ?>
+      <div class="hire-deck" data-ok="card-showcase" data-props='<?= e(json_encode([
+          'cards' => array_values(array_filter(array_map(
+              static function (array $r, int $i): ?array {
+                  $img = svc_img('16', 3, $i + 1);
+                  return [
+                      'number'      => $r[0],
+                      'title'       => $r[1],
+                      'description' => $r[2],
+                      'tag'         => 'Specialist role',
+                      'image'       => ['src' => $img ?? '', 'alt' => $r[1]],
+                  ];
+              },
+              $disciplines,
+              array_keys($disciplines)
+          ))),
+          'progressColor' => '#3EE1FF',
+          'animationSpeed' => 6,
+          'loop'          => true,
+          'textColor'     => '#EAF0FA',
+          'numberColor'   => 'rgba(234,240,250,.28)',
+          'tagColor'      => '#9D4EDD',
+      ], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)) ?>'></div>
 
-      <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
-        <?php foreach ($disciplines as $i => [$num, $title, $copy]): ?>
-          <?php $fig = null; /* shown by the gallery above this grid */ ?>
-          <div class="hire-row" data-rise>
-            <span class="hire-row-n"><?= e($num) ?></span>
-            <h3 class="hire-row-t"><?= e($title) ?></h3>
-            <p class="hire-row-d"><?= e($copy) ?></p>
-            <?php if ($fig): ?>
-              <figure class="hire-row-fig">
-                <img src="<?= e($fig) ?>" alt="<?= e($title) ?>" loading="lazy">
-              </figure>
-            <?php endif; ?>
-          </div>
-        <?php endforeach; ?>
-      </div>
+      <?php /* Without the island the same six are a plain list, so the page is
+               never a blank box and the words are always in the markup. */ ?>
+      <noscript>
+        <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
+          <?php foreach ($disciplines as [$num, $title, $copy]): ?>
+            <div class="hire-row">
+              <span class="hire-row-n"><?= e($num) ?></span>
+              <h3 class="hire-row-t"><?= e($title) ?></h3>
+              <p class="hire-row-d"><?= e($copy) ?></p>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </noscript>
     </div>
   </section>
 
@@ -274,30 +300,55 @@ require dirname(__DIR__) . '/includes/header.php';
       <h2 class="hire-h2" data-rise>Five advantages of hiring<br><em>dedicated AI engineers</em></h2>
       <p class="hire-lead" data-rise>Flexible monthly engagements, full IP ownership, and no recruitment overhead.</p>
 
-      <?php /* The 5 images for this section, shown in depth rather than as
-               row thumbnails. Falls back to a plain grid of the same images if
-               the island never mounts. */ ?>
-      <?php component('svc-gallery', [
-          'images'  => array_filter([svc_img('16', 5, 1), svc_img('16', 5, 2), svc_img('16', 5, 3), svc_img('16', 5, 4), svc_img('16', 5, 5)]),
-          'variant' => 'coverflow',
-          'label'   => 'Advantage visuals',
-      ]); ?>
+      <?php /* The five advantages ride the liquid lens — a different motion to
+               the deck above, and again the words travel with the picture. */ ?>
+      <div class="hire-liquid" data-ok="liquid-carousel" data-props='<?= e(json_encode([
+          'projects' => array_values(array_map(
+              static function (array $b, int $i): array {
+                  $img = svc_img('16', 5, $i + 1);
+                  return [
+                      'brand'       => $b[1],
+                      'description' => $b[2],
+                      'image'       => ['src' => $img ?? '', 'alt' => $b[1]],
+                  ];
+              },
+              $benefits,
+              array_keys($benefits)
+          )),
+          'panelHeight'      => 460,
+          'gap'              => 20,
+          'glide'            => 0.08,
+          'wheelSensitivity' => 1,
+          'snap'             => true,
+          'lensShape'        => 'circle',
+          'lensWidth'        => 0.22,
+          'lensHeight'       => 0.82,
+          'lensX'            => 0.0,
+          'lensY'            => 0.5,
+          'dispersion'       => 16,
+          'zoom'             => 0.12,
+          'glow'             => 5.5,
+          'blueRing'         => 6.5,
+          'blueColor'        => '#3EE1FF',
+          'shimmer'          => true,
+          'focusScale'       => 1.15,
+          'background'       => 'rgba(0,0,0,0)',
+          'foreground'       => '#EAF0FA',
+          'showLabels'       => true,
+          'showCursor'       => true,
+      ], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)) ?>'></div>
 
-      <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
-        <?php foreach ($benefits as $i => [$num, $title, $copy]): ?>
-          <?php $fig = null; /* shown by the gallery above this grid */ ?>
-          <div class="hire-row" data-rise>
-            <span class="hire-row-n"><?= e($num) ?></span>
-            <h3 class="hire-row-t"><?= e($title) ?></h3>
-            <p class="hire-row-d"><?= e($copy) ?></p>
-            <?php if ($fig): ?>
-              <figure class="hire-row-fig">
-                <img src="<?= e($fig) ?>" alt="<?= e($title) ?>" loading="lazy">
-              </figure>
-            <?php endif; ?>
-          </div>
-        <?php endforeach; ?>
-      </div>
+      <noscript>
+        <div class="hire-rows" style="margin-top:clamp(40px,6vh,72px);">
+          <?php foreach ($benefits as [$num, $title, $copy]): ?>
+            <div class="hire-row">
+              <span class="hire-row-n"><?= e($num) ?></span>
+              <h3 class="hire-row-t"><?= e($title) ?></h3>
+              <p class="hire-row-d"><?= e($copy) ?></p>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </noscript>
     </div>
   </section>
 
@@ -316,16 +367,10 @@ require dirname(__DIR__) . '/includes/header.php';
           <span data-roadmap-node="<?= $idx ?>" data-label="<?= e($sTitle) ?>"></span>
         <?php endforeach; ?>
       </div>
-      <?php /* The 3 images for this section, shown in depth rather than as
-               card corners. Falls back to a plain grid of the same images if the
-               island never mounts -- see includes/components/svc-gallery.php. */ ?>
-      <?php component('svc-gallery', [
-          'images'  => array_filter([svc_img('16', 6, 1), svc_img('16', 6, 2), svc_img('16', 6, 3)]),
-          'variant' => 'stack',
-          'label'   => 'Delivery phase visuals',
-      ]); ?>
-
-
+      <?php /* No gallery here. This section's three photographs now travel on
+               the engagement cards below, and the roadmap lattice above is the
+               picture — a stack of images would only make this read like the two
+               sections before it. */ ?>
       <div class="hire-rows" style="margin-top:clamp(30px,4vh,56px);">
         <?php foreach ($steps as $idx => [$sNum, $sTitle, $sCopy]): ?>
           <div class="hire-row" data-roadmap-step="<?= $idx ?>" data-rise>
@@ -349,21 +394,55 @@ require dirname(__DIR__) . '/includes/header.php';
         Monthly billing, 30-day notice, and a 14-day replacement window on every model.
       </p>
 
-      <div class="hire-models" data-rise>
-        <?php foreach ($models as [$num, $title, $copy, $features]): ?>
-          <div class="hire-model">
-            <span class="hire-model-n"><?= e($num) ?></span>
-            <h3 class="hire-model-t"><?= e($title) ?></h3>
-            <p class="hire-model-d"><?= e($copy) ?></p>
-            <ul class="hire-model-f">
-              <?php foreach ($features as $feature): ?>
-                <li><?= e($feature) ?></li>
-              <?php endforeach; ?>
-            </ul>
-            <a class="hire-btn" href="<?= e(url('contact.php')) ?>">Discuss</a>
-          </div>
-        <?php endforeach; ?>
-      </div>
+      <?php /* The three models ride the bookmark deck: one card stands open at a
+               time and the other two wait folded beside it, so the page stops
+               presenting a third identical three-column card grid. The section's
+               own photographs live on the cards. */ ?>
+      <div class="hire-bookmarks" data-ok="bookmark-models" data-props='<?= e(json_encode([
+          'models' => array_values(array_map(
+              static function (array $m, int $i): array {
+                  $accents = ['#3EE1FF', '#9D4EDD', '#EC4899'];
+                  $rgbs    = ['62, 225, 255', '157, 78, 221', '236, 72, 153'];
+                  $tags    = ['— DEDICATED SPECIALIST®', '— ENGINEERING SQUAD®', '— FRACTIONAL ARCHITECT®'];
+                  $short   = ['One Engineer.', 'Full Squad.', 'Advisory.'];
+
+                  return [
+                      'id'          => 'hire-model-' . $m[0],
+                      'tag'         => $tags[$i],
+                      'title'       => $short[$i],
+                      'subtitle'    => $m[1],
+                      'quote'       => $m[2],
+                      'accent'      => $accents[$i],
+                      'accentRgb'   => $rgbs[$i],
+                      'image'       => svc_img('16', 6, $i + 1) ?? '',
+                      'activeIndex' => $i,
+                      'features'    => $m[3],
+                  ];
+              },
+              $models,
+              array_keys($models)
+          )),
+      ], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)) ?>'></div>
+
+      <?php /* Without the island the same three are plain cards, so the words are
+               always in the markup and the section is never an empty box. */ ?>
+      <noscript>
+        <div class="hire-models">
+          <?php foreach ($models as [$num, $title, $copy, $features]): ?>
+            <div class="hire-model">
+              <span class="hire-model-n"><?= e($num) ?></span>
+              <h3 class="hire-model-t"><?= e($title) ?></h3>
+              <p class="hire-model-d"><?= e($copy) ?></p>
+              <ul class="hire-model-f">
+                <?php foreach ($features as $feature): ?>
+                  <li><?= e($feature) ?></li>
+                <?php endforeach; ?>
+              </ul>
+              <a class="hire-btn" href="<?= e(url('contact.php')) ?>">Discuss</a>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </noscript>
     </div>
   </section>
 
