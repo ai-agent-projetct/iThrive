@@ -28,6 +28,12 @@ $schema = [
     ],
 ];
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are its
+   longest run of plain prose, which is what an answer engine quotes, so they
+   are declared as FAQPage as well as rendered. */
+$pageFaqs = PAGE_FAQS['contact'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'Contacting iThrive Software — frequently asked questions'));
+
 require __DIR__ . '/includes/header.php';
 
 $sent   = flash_take('sent');
@@ -128,4 +134,13 @@ component('page-hero', [
     <?php component('page-figure', ['src' => 'contact-partnership', 'caption' => 'Most engagements start as one thing and turn out to be another. That is fine.']); ?>
   </div>
 </section>
-<?php require __DIR__ . '/includes/footer.php'; ?>
+<?php
+component('faq-section', [
+    'faqs'    => $pageFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'Before you write to us',
+    'lead'    => 'Who replies, how fast, what to include, and what happens to what you send.',
+]);
+
+require __DIR__ . '/includes/footer.php';
+?>

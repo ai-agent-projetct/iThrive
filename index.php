@@ -6,6 +6,18 @@ $pageTitle = 'AI Agent & Software Development Company';
 $pageDesc  = 'iThrive Software builds AI agents, AI-native platforms, web and mobile apps in Python — for enterprises across India, the US, Canada, the UK and the Gulf.';
 $heroScene = 'neural';   // loads the orb module for the AI assistant section
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered.
+
+   config.php is required here rather than left to header.php, because the
+   structured data has to be built before the head is emitted and the answers
+   live in a content file config.php loads. */
+require_once __DIR__ . '/includes/config.php';
+
+$pageFaqs = PAGE_FAQS['home'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'iThrive Software — frequently asked questions'));
+
 require __DIR__ . '/includes/header.php';
 
 // The intro sits over the first section. It is `hidden` in the markup until its
@@ -153,6 +165,13 @@ component('client-logo-grid');
 </section>
 
 <?php
+component('faq-section', [
+    'faqs'    => $pageFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'What people ask before getting in touch',
+    'lead'    => 'Scope, cost, ownership and what happens after launch.',
+]);
+
 component('cta', ['cta' => HOME_CTA]);
 
 require __DIR__ . '/includes/footer.php';

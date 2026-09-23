@@ -27,6 +27,12 @@ $schema = [
     ], PROCESS['steps'], array_keys(PROCESS['steps'])),
 ];
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered. */
+$pageFaqs = PAGE_FAQS['process'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'How iThrive Software works — frequently asked questions'));
+
 require dirname(__DIR__) . '/includes/header.php';
 
 component('page-hero', [
@@ -131,6 +137,13 @@ component('page-hero', [
 </section>
 
 <?php
+component('faq-section', [
+    'faqs'    => $pageFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'What clients ask about how we work',
+    'lead'    => 'Discovery, sprints, scope change, and what we do when a project is going badly.',
+]);
+
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Discovery starts with one honest paragraph.',

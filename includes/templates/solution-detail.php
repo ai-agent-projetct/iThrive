@@ -29,6 +29,13 @@ $schema = [
     'offers'         => ['@type' => 'Offer', 'availability' => 'https://schema.org/InStock'],
 ];
 
+/* Ten answers per solution, in includes/content-solution-faqs.php. A product
+   page is read by someone working out whether it fits their data, their budget
+   and their compliance position, and those are rarely the things a feature
+   list covers. A slug with no entry simply renders no FAQ section. */
+$solFaqs = defined('SOLUTION_FAQS') ? (SOLUTION_FAQS[$sol['slug']] ?? []) : [];
+$schemaExtra = faq_schema($solFaqs, $sol['name'] . ' — frequently asked questions');
+
 require dirname(__DIR__) . '/header.php';
 
 component('page-hero', [
@@ -174,6 +181,13 @@ $figDir = $sol['slug'] === 'ithrive-aichat' ? 'aichat/' : 'insights/';
 </section>
 
 <?php
+component('faq-section', [
+    'faqs'    => $solFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'What buyers ask about ' . $sol['name'],
+    'lead'    => 'Data handling, pricing, accuracy and what happens when it gets something wrong.',
+]);
+
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Want ' . $sol['name'] . ' running against your own data?',

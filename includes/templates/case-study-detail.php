@@ -36,6 +36,14 @@ $schema = [
     'keywords'      => implode(', ', array_merge($study['stack'], [$study['industry']])),
 ];
 
+/* Ten answers per study, in includes/content-case-faqs.php. A case study is
+   read by someone deciding whether their own problem is the same problem, and
+   the questions they arrive with are always the ones the narrative does not
+   answer: what it cost, how long it took, what broke, whether it would work at
+   their size. A slug with no entry simply renders no FAQ section. */
+$caseFaqs = defined('CASE_FAQS') ? (CASE_FAQS[$study['slug']] ?? []) : [];
+$schemaExtra = faq_schema($caseFaqs, $study['client'] . ' case study — frequently asked questions');
+
 require dirname(__DIR__) . '/header.php';
 ?>
 
@@ -313,6 +321,13 @@ if (is_file(ROOT_PATH . '/' . $filmRel)):
 </section>
 
 <?php
+component('faq-section', [
+    'faqs'    => $caseFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'What people ask about this project',
+    'lead'    => 'Scope, cost, timeline and what we would do differently — the ten that come up when someone recognises their own problem in this one.',
+]);
+
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Have a version of this problem?',

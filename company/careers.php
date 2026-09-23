@@ -5,6 +5,17 @@ $page      = 'company';
 $pageTitle = 'Careers — Senior Engineers, Real Scope';
 $pageDesc  = 'iThrive Software hires senior Python, AI/ML, React and DevOps engineers who want to own a problem end to end rather than work a ticket queue.';
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered.
+   config.php is required here rather than left to header.php, because the
+   structured data has to be built before the head is emitted and the answers
+   live in a content file config.php loads. */
+require_once dirname(__DIR__) . '/includes/config.php';
+
+$pageFaqs = PAGE_FAQS['careers'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'Careers at iThrive Software — frequently asked questions'));
+
 require dirname(__DIR__) . '/includes/header.php';
 
 component('page-hero', [
@@ -100,6 +111,13 @@ component('page-hero', [
 </section>
 
 <?php
+component('faq-section', [
+    'faqs'    => $pageFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'What candidates ask',
+    'lead'    => 'The process, the work, where it happens, and applying when nothing is posted.',
+]);
+
 component('cta', ['cta' => [
     'eyebrow'   => 'Work With Us',
     'title'     => 'Or come to us as a client instead.',

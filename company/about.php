@@ -10,6 +10,12 @@ require_once dirname(__DIR__) . '/includes/config.php';
 
 $extraHead = '<link rel="stylesheet" href="' . e(asset('assets/css/about-perpetualx.css')) . '">';
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered. */
+$pageFaqs = PAGE_FAQS['about'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'About iThrive Software — frequently asked questions'));
+
 require dirname(__DIR__) . '/includes/header.php';
 ?>
 
@@ -506,6 +512,13 @@ require dirname(__DIR__) . '/includes/header.php';
 
   <!-- 9. PerpetualX Call to Action -->
   <?php
+  component('faq-section', [
+      'faqs'    => $pageFaqs,
+      'eyebrow' => 'Questions',
+      'title'   => 'What people ask about the company',
+      'lead'    => 'Size, location, what we turn down, and what happens if you want to leave.',
+  ]);
+
   component('cta', ['cta' => [
       'eyebrow'   => 'Start Your Project',
       'title'     => 'Bring us the workflow nobody wants to own.',

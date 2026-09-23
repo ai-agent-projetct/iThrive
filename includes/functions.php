@@ -121,11 +121,107 @@ function svc_img(string $page, int $section, int $n): ?string
     return is_file(ROOT_PATH . '/' . $rel) ? asset($rel) : null;
 }
 
+/**
+ * Apply a CA bundle to a curl handle when the runtime has none.
+ *
+ * Shared by every outbound HTTPS call the site makes — the model providers in
+ * ai.php and the Sarvam language layer in sarvam.php — because the reasons a
+ * bundle is needed have nothing to do with which service is being called.
+ *
+ * Two of them. The php-wasm dev server ships no root certificates at all, so
+ * every HTTPS call fails with CURLE_SSL_CACERT_BADFILE (77). And a developer
+ * machine running TLS-inspecting antivirus (Avast, Kaspersky, a corporate
+ * proxy) presents its own certificate for every host, so verification fails
+ * against any honest bundle including the one shipped here — that case needs a
+ * bundle with the scanner's own root appended, which is machine-specific and
+ * must never be committed, hence the environment variable.
+ *
+ * A normal production host has a configured bundle and this is a no-op.
+ */
+function curl_ca_bundle(\CurlHandle $ch): void
+{
+    $override = getenv('ITHRIVE_CA_BUNDLE');
+    if (is_string($override) && $override !== '' && is_file($override)) {
+        curl_setopt($ch, CURLOPT_CAINFO, $override);
+
+        return;
+    }
+
+    /* A bundle inside the project, git-ignored, for the same case.
+       Deliberately a FILE rather than another environment variable: the
+       php-wasm dev server runs in a sandbox with no access to the host's
+       environment at all, so a variable cannot reach it and a file in the
+       project directory can. Append your scanner's root to a copy of
+       certs/cacert.pem and save it here. */
+    $local = __DIR__ . '/certs/local-cacert.pem';
+    if (is_file($local)) {
+        curl_setopt($ch, CURLOPT_CAINFO, $local);
+
+        return;
+    }
+
+    /* And a per-user bundle in the home directory, for a native PHP process
+       whose parent app captured the environment before the variable was set. */
+    $home = getenv('USERPROFILE') ?: getenv('HOME');
+    if (is_string($home) && $home !== '') {
+        $personal = rtrim($home, '\\/') . '/.ithrive-ca.pem';
+        if (is_file($personal)) {
+            curl_setopt($ch, CURLOPT_CAINFO, $personal);
+
+            return;
+        }
+    }
+
+    if (ini_get('curl.cainfo') || ini_get('openssl.cafile')) {
+        return;
+    }
+
+    $bundle = __DIR__ . '/certs/cacert.pem';
+    if (is_file($bundle)) {
+        curl_setopt($ch, CURLOPT_CAINFO, $bundle);
+    }
+}
+
 /** Render a partial with an isolated scope. */
 function component(string $name, array $data = []): void
 {
     extract($data, EXTR_SKIP);
     include ROOT_PATH . '/includes/components/' . $name . '.php';
+}
+
+/**
+ * One FAQPage node for a set of questions.
+ *
+ * An FAQ that is only rendered is worth having; an FAQ that is also declared is
+ * what an answer engine can quote with attribution, which is the whole reason
+ * these sections earn their length. Every FAQ on the site emits this, so it is
+ * written once rather than copied into each template.
+ *
+ * @param array<int, array{q: string, a: string}> $faqs
+ * @return array<int, array<string, mixed>>  empty when there is nothing to declare,
+ *                                           so callers can merge it unconditionally
+ */
+function faq_schema(array $faqs, string $name): array
+{
+    if ($faqs === []) {
+        return [];
+    }
+
+    return [[
+        '@type'      => 'FAQPage',
+        'name'       => $name,
+        /* The same selectors the answer is rendered with, so a voice result
+           reads the answer rather than the surrounding furniture. */
+        'speakable'  => [
+            '@type'       => 'SpeakableSpecification',
+            'cssSelector' => ['.faq-item summary', '.faq-item p'],
+        ],
+        'mainEntity' => array_map(static fn (array $f): array => [
+            '@type'          => 'Question',
+            'name'           => $f['q'],
+            'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['a']],
+        ], array_values($faqs)),
+    ]];
 }
 
 /**

@@ -20,6 +20,12 @@ $extraHead = '<link rel="stylesheet" href="' . e(asset('assets/css/react-forbes.
              '<script type="module" src="' . e(asset('assets/js/interactive-droplets.js')) . '"></script>' .
              '<script type="module" src="' . e(asset('assets/js/forbes-legacy-pass.js')) . '"></script>';
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered. */
+$pageFaqs = PAGE_FAQS['reactjs-development'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'React development — frequently asked questions'));
+
 require dirname(__DIR__) . '/includes/header.php';
 
 /** The 6 Forbes Legacy Pass cards in the continuous 3D loop */
@@ -607,6 +613,13 @@ $passCards = [
 
   <!-- 7. Call to Action -->
   <?php
+  component('faq-section', [
+      'faqs'    => $pageFaqs,
+      'eyebrow' => 'Questions',
+      'title'   => 'What clients ask about React',
+      'lead'    => 'When React is right, rebuilding against refactoring, performance and maintenance.',
+  ]);
+
   component('cta', ['cta' => [
       'eyebrow'   => 'Start Your Project',
       'title'     => 'Bring us the React frontend that needs to be fast.',

@@ -5,6 +5,17 @@ $page      = 'blog';
 $pageTitle = 'Blog — AI Engineering Notes';
 $pageDesc  = 'Field notes from iThrive Software engineers on agentic AI architecture, evaluation harnesses and building AI products that survive contact with production.';
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered.
+   config.php is required here rather than left to header.php, because the
+   structured data has to be built before the head is emitted and the answers
+   live in a content file config.php loads. */
+require_once __DIR__ . '/includes/config.php';
+
+$pageFaqs = PAGE_FAQS['blog'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'iThrive Software blog — frequently asked questions'));
+
 require __DIR__ . '/includes/header.php';
 
 component('page-hero', [
@@ -82,6 +93,13 @@ component('page-hero', [
 </section>
 
 <?php
+component('faq-section', [
+    'faqs'    => $pageFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'About these posts',
+    'lead'    => 'Who writes them, how often, and whether you can use any of it.',
+]);
+
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Prefer the version where we look at your codebase?',

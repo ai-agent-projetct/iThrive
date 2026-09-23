@@ -21,6 +21,12 @@ $schema = [
     ], CASE_STUDIES, array_keys(CASE_STUDIES)),
 ];
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered. */
+$pageFaqs = PAGE_FAQS['case-studies'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'iThrive Software case studies — frequently asked questions'));
+
 require __DIR__ . '/includes/header.php';
 
 /**
@@ -184,6 +190,13 @@ $shots = array_values(array_filter(
 </section>
 
 <?php
+component('faq-section', [
+    'faqs'    => $pageFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'About this work',
+    'lead'    => 'Whether it is real, what it cost, and how to start something similar.',
+]);
+
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Your problem probably rhymes with one of these.',

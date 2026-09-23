@@ -203,6 +203,12 @@ $extraHead = '<link rel="stylesheet" href="' . e(asset('assets/css/services-gala
              '<link rel="stylesheet" href="' . e(asset('assets/css/service-custom.css')) . '">' .
              '<script type="module" src="' . e(asset('assets/js/framer-galaxy.js')) . '"></script>';
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered. */
+$pageFaqs = PAGE_FAQS['services'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'iThrive Software services — frequently asked questions'));
+
 require __DIR__ . '/includes/header.php';
 ?>
 
@@ -508,6 +514,13 @@ require __DIR__ . '/includes/header.php';
 
   <!-- 7. Call to Action -->
   <?php
+  component('faq-section', [
+      'faqs'    => $pageFaqs,
+      'eyebrow' => 'Questions',
+      'title'   => 'Choosing the right service',
+      'lead'    => 'Which one you need, when you do not need AI at all, and how we price.',
+  ]);
+
   component('cta', ['cta' => [
       'eyebrow'   => 'Start Your AI Transformation',
       'title'     => 'Bring us the complex AI workflow nobody wants to own.',

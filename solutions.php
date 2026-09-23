@@ -23,6 +23,12 @@ $schema = [
 
 $extraHead = '<link rel="stylesheet" href="' . e(asset('assets/css/solutions-noah.css')) . '">';
 
+/* The page's ten answers, from includes/content-page-faqs.php. They are
+   its longest run of plain prose, which is what an answer engine quotes,
+   so they are declared as FAQPage as well as rendered. */
+$pageFaqs = PAGE_FAQS['solutions'] ?? [];
+$schemaExtra = array_merge($schemaExtra ?? [], faq_schema($pageFaqs, 'iThrive Software solutions — frequently asked questions'));
+
 require __DIR__ . '/includes/header.php';
 
 /** Industry sections are anchored from the Solutions dropdown. */
@@ -417,6 +423,13 @@ $industries = [
 </section>
 
 <?php
+component('faq-section', [
+    'faqs'    => $pageFaqs,
+    'eyebrow' => 'Questions',
+    'title'   => 'What buyers ask about our products',
+    'lead'    => 'Product against build, pilots, data residency and getting your data back out.',
+]);
+
 component('cta', ['cta' => [
     'eyebrow'   => 'Start Your Project',
     'title'     => 'Want either product running against your own data?',
