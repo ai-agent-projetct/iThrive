@@ -1,0 +1,1 @@
+जी हाँ। हमारे AgentOps टेलीमेट्री और SRE अभ्यास AWS, Azure, GCP, और bare-metal on-premise Kubernetes clusters में तैनात एजेंटों का समर्थन करते हैं।

@@ -1,0 +1,1 @@
+మేము WhatsApp Business API, ವೆಬ್ ವಿಡ್ಜೆಟ್‌ಗಳು, iOS & Android ಮೊಬೈಲ್ SDKs, Facebook Messenger, Telegram, Instagram DMs ಮತ್ತು ಪ್ರಮಾಣಿತ ಟೆಲಿಫೋನ್ ಲೈನ್‌ಗಳಲ್ಲಿ (PSTN/SIP) ಸಂವಾದಾತ್ಮಕ ಏಜೆಂಟ್‌ಗಳನ್ನು ನಿಯೋಜಿಸುತ್ತೇವೆ.

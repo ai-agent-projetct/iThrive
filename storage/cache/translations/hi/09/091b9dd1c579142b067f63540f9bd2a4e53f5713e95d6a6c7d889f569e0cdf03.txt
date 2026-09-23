@@ -1,0 +1,1 @@
+जी हाँ। हम गैर-आक्रामक REST Microservices, GraphQL APIs और मिडलवेयर कनेक्टरों का निर्माण करते हैं जो SAP, Salesforce, Microsoft Dynamics, Oracle और स्वामित्व वाले SQL या NoSQL डेटा झीलों के साथ संवाद करते हैं - बिना डाउनटाइम के और दैनिक संचालन में बाधा उत्पन्न किए बिना।

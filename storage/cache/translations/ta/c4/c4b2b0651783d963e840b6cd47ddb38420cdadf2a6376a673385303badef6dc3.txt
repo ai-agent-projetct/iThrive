@@ -1,0 +1,1 @@
+ஆம். எங்கள் AgentOps telemetry மற்றும் SRE நடைமுறைகள் AWS, Azure, GCP மற்றும் bare-metal on-premise Kubernetes clusters-ல் deployed agents-ஐ ஆதரிக்கின்றன.

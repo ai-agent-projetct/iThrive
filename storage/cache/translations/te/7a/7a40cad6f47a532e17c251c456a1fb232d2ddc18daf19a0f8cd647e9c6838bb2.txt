@@ -1,0 +1,1 @@
+తదుపరి.జావాస్క్రిప్ట్, రియాక్ట్, నోడ్‌తో.JS లేదా Python, FastAPI, PostgreSQL, Supabase లేదా Firebase, Tailwind CSS, Vercel లేదా AWS మరియు OpenAI లేదా Claude APIs. ఆ స్టాక్ గరిష్ట వేగాన్ని, తక్కువ ప్రారంభ ఖర్చును మరియు దాదాపు అపరిమిత స్కేలబిలిటీని ఇస్తుంది.

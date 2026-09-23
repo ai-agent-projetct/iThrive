@@ -1,0 +1,1 @@
+ಹೌದು. Stripe, PayPal, Razorpay, Adyen, Apple Pay ಮತ್ತು crypto gateways ಗಳೊಂದಿಗೆ ಸಂಪೂರ್ಣ ಏಕೀಕರಣ, ನೈಜ-ಸಮಯದ ಬಹು-ಕರೆನ್ಸಿ ಪರಿವರ್ತನೆಯೊಂದಿಗೆ.

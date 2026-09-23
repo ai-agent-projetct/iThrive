@@ -1,0 +1,1 @@
+அடுத்தது.React, Node உடன் கூடிய js.js அல்லது Python, FastAPI, PostgreSQL, Supabase அல்லது Firebase, Tailwind CSS, Vercel அல்லது AWS மற்றும் OpenAI அல்லது Claude APIs பயன்படுத்தலாம். அந்த ஸ்டாக் அதிகபட்ச வேகத்தையும் குறைந்த தொடக்க செலவையும் கிட்டத்தட்ட முடிவற்ற அளவை அதிகரிப்பதையும் வழங்குகிறது.

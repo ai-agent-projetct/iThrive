@@ -1,0 +1,1 @@
+अगला।जेएस, रिएक्ट, नोड के साथ।JS या Python के साथ FastAPI, PostgreSQL, Supabase या Firebase, Tailwind CSS, Vercel या AWS, और OpenAI या Claude APIs। वह स्टैक अधिकतम गति, कम शुरुआती लागत और लगभग असीम विस्तारता देता है।

@@ -1,0 +1,1 @@
+ஆம். அனைத்து கூறுகளான embedding models, vector databases, rerankers, மற்றும் local LLMs (vLLMs) ஆகியவற்றை 100% வளாகத்தில் அல்லது தனிமைப்படுத்தப்பட்ட AWS/GCP/Azure VPCs இல் பூஜ்ஜிய வெளிப்புற இணைய சார்புகளுடன் deploy பண்ணலாம்.

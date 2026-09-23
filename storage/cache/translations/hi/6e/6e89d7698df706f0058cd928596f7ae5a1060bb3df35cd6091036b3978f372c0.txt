@@ -1,0 +1,1 @@
+हम Salesforce, HubSpot, SAP, NetSuite, Jira, GitHub, Slack, Gmail, Outlook, PostgreSQL, Snowflake, Twilio, Stripe और custom in-house REST/GraphQL APIs के साथ जुड़ते हैं।

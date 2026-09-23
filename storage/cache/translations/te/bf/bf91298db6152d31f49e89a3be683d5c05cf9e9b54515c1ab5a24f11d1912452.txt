@@ -1,0 +1,1 @@
+మేము WhatsApp Business API, వెబ్ విడ్జెట్లు, iOS మరియు Android మొబైల్ SDKs, Facebook Messenger, Telegram, Instagram DMs మరియు ప్రామాణిక టెలిఫోన్ లైన్లు (PSTN/SIP) అంతటా సంభాషణ ఏజెంట్లను విస్తరింపజేస్తాము.

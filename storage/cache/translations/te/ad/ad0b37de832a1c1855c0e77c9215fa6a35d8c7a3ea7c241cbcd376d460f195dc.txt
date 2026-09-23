@@ -1,0 +1,1 @@
+మేము ప్రధానంగా LangGraph, Python, FastAPI, Model Context Protocol (MCP), Pydantic, Redis మరియు LangSmith లను అత్యాధునిక సంస్థాగత విశ్వసనీయత మరియు పరిశీలన కోసం ఉపయోగిస్తాము.

@@ -1,0 +1,1 @@
+NVIDIA Jetson (Nano, Orin Nano, Xavier, AGX Orin), Intel OpenVINO x86/ARM செயலிகள், கூகுள் கோரல் TPUகள், ஹெலியோ AI செயலிகள் மற்றும் உட்பொருள் NPUகள் கொண்ட தொழில்துறை ஸ்மார்ட் கேமராக்களுக்கு நாங்கள் ஆதரவளிக்கிறோம்.

@@ -1,0 +1,1 @@
+हम NVIDIA Jetson (Nano, Orin Nano, Xavier, AGX Orin), Intel OpenVINO x86/ARM प्रोसेसर, Google Coral TPUs, Hailo AI प्रोसेसर और अंतर्निहित NPUs वाले औद्योगिक स्मार्ट कैमरों का समर्थन करते हैं।

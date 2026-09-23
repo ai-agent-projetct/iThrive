@@ -1,0 +1,1 @@
+ஆம், எங்கள் வடிவமைப்புகள் self-hosted open-weights models (Llama 3, Mistral, DeepSeek போன்றவை) vLLM లేదా Ollama பயன்படுத்தி మీ AWS, Azure లేదా GCP VPC లోని ప్రైవేట్ குபெர்னெட்ஸ் கிளஸ்டர்களில் இயக்கப்படுகின்றன.

@@ -1,0 +1,1 @@
+మేము NVIDIA Jetson (Nano, Orin Nano, Xavier, AGX Orin), Intel OpenVINO x86/ARM ప్రాసెసర్లు, Google Coral TPUలు, Hailo AI ప్రాసెసర్లు మరియు అంతర్నిర్మిత NPUలతో కూడిన పారిశ్రామిక స్మార్ట్ కెమెరాలను సమర్ధిస్తున్నాము.

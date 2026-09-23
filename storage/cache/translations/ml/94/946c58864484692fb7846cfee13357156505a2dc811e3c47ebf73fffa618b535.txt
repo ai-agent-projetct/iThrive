@@ -1,0 +1,1 @@
+NVIDIA Jetson (Nano, Orin Nano, Xavier, AGX Orin), Intel OpenVINO x86/ARM പ്രോസസറുകൾ, Google Coral TPUs, Hailo AI പ്രോസസറുകൾ, എൻപ്യൂക്കള്‍ അടങ്ങിയ വ്യാവസായിക സ്മാർട്ട് ക്യാമറകൾ എന്നിവയെ ഞങ്ങൾ പിന്തുണയ്ക്കുന്നു.

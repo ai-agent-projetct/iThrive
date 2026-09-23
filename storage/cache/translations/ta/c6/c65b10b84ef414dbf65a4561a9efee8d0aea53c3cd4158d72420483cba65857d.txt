@@ -1,0 +1,1 @@
+முன்முனைவு: React, Next.js, Vue, TypeScript மற்றும் Tailwind CSS. பின்புறத்தில்: முனை.js, Python with FastAPI அல்லது Django, Go, PostgreSQL மற்றும் MongoDB.

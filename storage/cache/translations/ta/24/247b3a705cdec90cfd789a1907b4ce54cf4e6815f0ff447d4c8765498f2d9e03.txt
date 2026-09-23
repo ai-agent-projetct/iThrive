@@ -1,0 +1,1 @@
+Amazon Web Services, Google Cloud Platform, Microsoft Azure, Vercel மற்றும் Cloudflare.

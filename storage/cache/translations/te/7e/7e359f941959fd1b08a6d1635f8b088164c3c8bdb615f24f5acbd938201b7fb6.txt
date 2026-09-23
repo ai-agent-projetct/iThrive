@@ -1,0 +1,1 @@
+అవును. మా AgentOps టెలిమెట్రీ మరియు SRE పద్ధతులు AWS, Azure, GCP మరియు bare-metal on-premise Kubernetes క్లస్టర్లలో విస్తరించిన ఏజెంట్లకు మద్దతు ఇస్తాయి.

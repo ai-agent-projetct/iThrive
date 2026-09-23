@@ -1,0 +1,1 @@
+అవును. మేము non-invasive modernization patterns లో ప్రత్యేకత కలిగి ఉన్నాము, అనగా sidecar microservices మరియు universal API gateways వంటివి, మీ ఆదాయాన్ని ఉత్పత్తి చేసే legacy applications ను తిరిగి వ్రాయకుండా లేదా స్థిరీకరించకుండా అత్యాధునిక AI సామర్థ్యాలను జోడించడానికి మిమ్మల్ని అనుమతిస్తుంది.

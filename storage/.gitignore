@@ -1,2 +1,25 @@
+# Runtime data stays out: enquiries, conversations, leads, AI drafts.
 *
 !.gitignore
+
+# Except the translations, which are an ASSET, not runtime data.
+#
+# Every file here is a paid Sarvam translation of a fixed piece of FAQ text.
+# The corpus is static, so each one is bought once and reused forever — but
+# only if it survives. Left ignored, a deploy that wipes and re-uploads throws
+# away the whole cache and the next visitor in Tamil starts paying for it all
+# over again. 2 MB of plain text is a cheap way never to buy the same sentence
+# twice.
+#
+# The chain has to be re-included a level at a time, because the * above
+# ignores the directories too and git will not look inside an ignored one.
+!cache/
+cache/*
+!cache/translations/
+!cache/translations/**
+
+# The index is derived from those translations and rebuilt by
+# tools/faq-rebuild-index.php, so it is not worth versioning.
+cache/faq-index*.json
+cache/faq-corpus-*.json
+cache/faq-index.gen

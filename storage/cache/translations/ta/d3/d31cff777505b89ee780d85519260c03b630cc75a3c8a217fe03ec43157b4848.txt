@@ -1,0 +1,1 @@
+எங்கள் மென்பொருள் உருவாக்குபவர்கள் LangGraph, Model Context Protocol (MCP), PyTorch, vLLM, LlamaIndex, Qdrant, Milvus, Hugging Face, FastAPI, Docker மற்றும் Kubernetes ஆகியவற்றில் நிபுணத்துவம் பெற்றவர்கள்.

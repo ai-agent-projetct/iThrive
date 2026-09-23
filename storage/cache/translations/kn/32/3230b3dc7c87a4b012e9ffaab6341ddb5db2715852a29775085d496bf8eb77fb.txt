@@ -1,0 +1,1 @@
+ಮುಂಭಾಗದ: ಪ್ರತಿಕ್ರಿಯೆ, ಮುಂದಿನ.js, Vue, TypeScript ಮತ್ತು Tailwind CSS. ಹಿಂಭಾಗ: ನೋಡ್.JS, Python with FastAPI ಅಥವಾ Django, Go, PostgreSQL ಮತ್ತು MongoDB.

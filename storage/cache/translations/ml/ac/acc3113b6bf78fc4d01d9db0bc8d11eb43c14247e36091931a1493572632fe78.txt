@@ -1,0 +1,1 @@
+ഞങ്ങൾ Salesforce, HubSpot, SAP, NetSuite, Jira, GitHub, Slack, Gmail, Outlook, PostgreSQL, Snowflake, Twilio, Stripe, കൂടാതെ കസ്റ്റം ഇൻ-ഹൌസ് REST/GraphQL API-കളുമായി ബന്ധപ്പെടുന്നു.

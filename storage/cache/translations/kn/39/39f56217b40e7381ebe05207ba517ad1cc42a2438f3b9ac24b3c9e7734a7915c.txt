@@ -1,0 +1,1 @@
+ಮುಂದಿನದು.ಜೆಎಸ್ ರಿಯಾಕ್ಟ್, ನೋಡ್ ಜೊತೆಗೆ.JS ಅಥವಾ Python, FastAPI, PostgreSQL, Supabase ಅಥವಾ Firebase, Tailwind CSS, Vercel ಅಥವಾ AWS, ಮತ್ತು OpenAI ಅಥವಾ Claude APIs. ಆ ಸ್ಟ್ಯಾಕ್ ಗರಿಷ್ಠ ವೇಗ, ಕಡಿಮೆ ಆರಂಭಿಕ ವೆಚ್ಚ ಮತ್ತು ಬಹುತೇಕ ಅಪರಿಮಿತ ಸ್ಕೇಲೆಬಿಲಿಟಿಯನ್ನು ನೀಡುತ್ತದೆ.

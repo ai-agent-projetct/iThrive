@@ -1,0 +1,1 @@
+फ्रंटेंड: रिएक्ट, अगला।js, Vue, TypeScript और Tailwind CSS। पीठ-अंत: नोड।JS, पायथन के साथ FastAPI या Django, गो, PostgreSQL और MongoDB।

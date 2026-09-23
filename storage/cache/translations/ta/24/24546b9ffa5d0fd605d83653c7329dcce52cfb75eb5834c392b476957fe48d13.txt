@@ -1,0 +1,1 @@
+WhatsApp Business API, வலைப்பதிவுகள், iOS மற்றும் Android mobile SDKs, Facebook Messenger, Telegram, Instagram DMs மற்றும் நிலையான telephone lines (PSTN/SIP) ஆகியவற்றில் உரையாடல் முகவர்களை நாங்கள் பயன்படுத்துகிறோம்.

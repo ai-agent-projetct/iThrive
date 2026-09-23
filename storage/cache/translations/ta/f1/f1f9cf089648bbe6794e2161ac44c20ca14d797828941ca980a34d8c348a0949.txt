@@ -1,0 +1,1 @@
+ஆம். எங்கள் NL-to-SQL copilot engines உங்கள் database schema parses, read-only parameterized queries உருவாக்குகிறது, SQL ஊசி திசையன்களுக்கு எதிராக syntax சரிபார்க்கிறது மற்றும் கண்டிப்பான வினவல் கால வரம்புகளுடன் செயல்படுத்துகிறது.
