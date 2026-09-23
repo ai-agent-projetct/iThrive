@@ -227,7 +227,7 @@ function faq_index(): array
 
     if (is_file($cache)) {
         $data = json_decode((string) file_get_contents($cache), true);
-        if (is_array($data) && isset($data['docs'], $data['df'])) {
+        if (is_array($data) && isset($data['docs'], $data['df'], $data['pfx'])) {
             return $index = $data;
         }
     }
@@ -291,7 +291,21 @@ function faq_index(): array
         }
     }
 
-    $index = ['docs' => $docs, 'df' => $df, 'n' => count($docs)];
+    /* Non-Latin terms grouped by their leading characters, so an inflected form
+       the visitor typed can be resolved to the one we published without
+       scanning every term in the index. Latin terms are left out: the suffix
+       stemmer handles English, and a prefix rule there would fuse "contain",
+       "container" and "content". */
+    $pfx = [];
+    foreach (array_keys($df) as $term) {
+        $term = (string) $term;
+        if (mb_strlen($term) < FAQ_STEM_PREFIX || preg_match('/^[a-z0-9+#.]+$/', $term)) {
+            continue;
+        }
+        $pfx[mb_substr($term, 0, FAQ_STEM_PREFIX)][] = $term;
+    }
+
+    $index = ['docs' => $docs, 'df' => $df, 'pfx' => $pfx, 'n' => count($docs)];
 
     if (!is_dir(dirname($cache))) {
         @mkdir(dirname($cache), 0775, true);
@@ -306,6 +320,46 @@ function faq_index(): array
     }
 
     return $index;
+}
+
+/** How many leading characters two Indic words must share to count as one. */
+const FAQ_STEM_PREFIX = 6;
+
+/**
+ * An indexed word this one is probably an inflection of, or null.
+ *
+ * Only for non-Latin tokens — English has the suffix stemmer above, and a
+ * prefix rule on English would happily fuse "container" with "contain" and
+ * "content". The prefix table is built once with the index, so this is a hash
+ * lookup rather than a scan of forty thousand terms.
+ *
+ * Where several indexed words share the prefix the commonest wins: it is the
+ * likeliest base form, and among words sharing six leading characters in these
+ * scripts a wrong guess is nearly always the same root anyway.
+ */
+function faq_resolve_inflection(string $term, array $index): ?string
+{
+    if (mb_strlen($term) < FAQ_STEM_PREFIX || preg_match('/^[a-z0-9+#.]+$/', $term)) {
+        return null;
+    }
+
+    $candidates = $index['pfx'][mb_substr($term, 0, FAQ_STEM_PREFIX)] ?? null;
+    if ($candidates === null) {
+        return null;
+    }
+
+    $best   = null;
+    $bestDf = 0;
+
+    foreach ($candidates as $c) {
+        $df = $index['df'][$c] ?? 0;
+        if ($df > $bestDf) {
+            $bestDf = $df;
+            $best   = $c;
+        }
+    }
+
+    return $best;
 }
 
 /**
@@ -385,9 +439,31 @@ function faq_search(string $question, int $limit = 5): array
         $seen = $index['df'][$t] ?? 0;
 
         if ($seen === 0) {
-            $ideal += $maxIdf * 3.0;     // unreachable: nothing can match it
+            /*
+             * Before giving up on a word, try it as an inflection.
+             *
+             * Tamil, Malayalam, Kannada, Telugu and Hindi agglutinate, so the
+             * visitor's form of a word is routinely not the form we published:
+             * "பயன்படுத்தினீர்கள்" against our "பயன்படுத்துகிறீர்கள்", the same
+             * verb, different ending, different token. Asked in Tamil why
+             * PostGIS was used, four of six words were unseen for that reason
+             * alone and the question scored 0.26 — refused, with the correct
+             * answer sitting at the top of the list on a rare-term score of 6.8.
+             *
+             * Resolving the stem fixes that without weakening the penalty for a
+             * word we genuinely never published, which is what keeps an
+             * off-topic question failing.
+             */
+            $resolved = faq_resolve_inflection($t, $index);
 
-            continue;
+            if ($resolved !== null) {
+                $t    = $resolved;
+                $seen = $index['df'][$t];
+            } else {
+                $ideal += $maxIdf * 3.0;     // unreachable: nothing can match it
+
+                continue;
+            }
         }
 
         // +1 inside the log so a term in every document scores ~0 rather than

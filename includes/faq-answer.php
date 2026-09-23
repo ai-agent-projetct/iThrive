@@ -112,6 +112,28 @@ function faq_resolve(string $question, string $lang = 'en', bool $phrase = false
      */
     $hit = faq_best($english);
 
+    /*
+     * The visitor's own words, against their own language in the index.
+     *
+     * Once tools/faq-translate.php has run, every question in the corpus exists
+     * in all six languages and its Tamil, Malayalam, Kannada, Telugu and Hindi
+     * wordings are indexed beside the English. So the raw sentence is worth
+     * searching directly — and it is often the better of the two, because it
+     * skips the translation entirely. Asked in Tamil why PostGIS was used on
+     * the taxi app, the English round trip scored 0.32 and declined while the
+     * same question in English scores 0.42; the Tamil text matches the Tamil
+     * question in the index without losing anything on the way.
+     *
+     * Both confidences are computed the same way over comparable term sets, so
+     * unlike the lexicon below they can honestly be compared.
+     */
+    if ($lang !== 'en') {
+        $sameLang = faq_best($question);
+        if ($sameLang['matched'] && $sameLang['confidence'] > $hit['confidence']) {
+            $hit = $sameLang;
+        }
+    }
+
     if (!$hit['matched'] && $lang !== 'en') {
         $native = faq_best(faq_normalise($question));
         if ($native['matched']) {
