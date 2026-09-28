@@ -2025,7 +2025,11 @@ function contact_channels(): array
                        'value' => site_phone(), 'href' => 'tel:' . site_phone()];
     }
 
-    $channels[] = ['icon' => 'pin',   'label' => 'Head Office', 'value' => SITE_HQ, 'href' => null];
+    /* The registered office, with its street. "Head Office: Chennai,
+       Coimbatore, Bangalore…" named five cities and gave an address for none
+       of them, which is not what a visitor reading "Direct lines" wants. */
+    $channels[] = ['icon' => 'pin', 'label' => 'Registered Office',
+                   'value' => implode(', ', office_lines(office('chennai'))), 'href' => null];
     $channels[] = ['icon' => 'clock', 'label' => 'Response',
                    'value' => 'Within 2 working days', 'href' => null];
 

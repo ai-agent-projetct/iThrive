@@ -799,7 +799,8 @@ const FAQ = [
     [
         'id' => 'q90', 'cat' => 'page-faq',
         'q' => 'Where do you work from, and does that matter?',
-        'a' => 'Our studios are in Coimbatore and Chennai, and we deliver across India, the Gulf and the '
+        'a' => 'Our studios are in Chennai, Coimbatore, Bangalore, Hyderabad and Ahmedabad, with a further '
+            . 'office in Scarborough, Canada, and we deliver across India, the Gulf and the '
             . 'United States. It matters mainly for the first phase: being able to sit in a room with the '
             . 'people whose workflow you are modelling makes discovery considerably better.',
         'terms' => 'work matter custom software development platform system erp bespoke',
@@ -2309,7 +2310,8 @@ const FAQ = [
     [
         'id' => 'q255', 'cat' => 'engagement',
         'q' => 'Where are your teams based?',
-        'a' => 'Chennai and Coimbatore, with delivery across India and abroad. For clients in Tamil Nadu '
+        'a' => 'Chennai, Coimbatore, Bangalore, Hyderabad and Ahmedabad, plus an office in Scarborough, '
+             . 'Canada, with delivery across India and abroad. For clients in Tamil Nadu '
              . 'that means we can be in the room for discovery, which consistently produces a better audit '
              . 'than a remote one — the exceptions people never mention on a call tend to surface when you '
              . 'are watching the work happen.',

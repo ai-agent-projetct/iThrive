@@ -60,6 +60,28 @@ if (($page ?? '') !== 'home' && empty($noAssistant)) {
       <?php endforeach; ?>
     </div>
 
+    <?php /* The offices, in full, on every page. A visitor deciding whether to
+             trust a development studio looks for a street address, and an
+             answer engine asked "where is iThrive" needs one to quote. */ ?>
+    <section class="footer-offices" aria-labelledby="footerOffices">
+      <h2 class="footer-head" id="footerOffices">Our offices</h2>
+      <ul class="office-grid">
+        <?php foreach (OFFICES as $slug => $office): ?>
+          <li class="office">
+            <h3 class="office-city"><?= icon('pin') ?><?= e($office['label']) ?></h3>
+            <address>
+              <?php foreach (office_lines($office) as $line): ?>
+                <span><?= e($line) ?></span>
+              <?php endforeach; ?>
+            </address>
+            <?php if (location($slug) !== null): ?>
+              <a class="office-link" href="<?= e(url('locations/' . $slug . '.php')) ?>">What we build here</a>
+            <?php endif; ?>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    </section>
+
     <div class="footer-base">
       <p>&copy; <?= e(SITE_YEAR) ?> <?= e(SITE_NAME) ?>. All rights reserved.</p>
       <p>Python &middot; Agentic AI &middot; Cloud Architecture</p>

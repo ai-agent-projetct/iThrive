@@ -16,7 +16,10 @@ define('SITE_EMAIL', 'info@ithrivesoftware.com');
 define('SITE_PHONE', '+91 93845 64915');
 define('SITE_PHONE_RAW', '9384564915');
 define('SITE_PHONE_PLACEHOLDER', '+91 90000 00000');
-define('SITE_HQ', 'Chennai, Coimbatore, Bangalore, Hyderabad, Ahmedabad, India');
+/* The studio cities, for prose and meta descriptions. The postal addresses live
+   in OFFICES; this is only the list of places, and it now includes the Canadian
+   office. */
+define('SITE_HQ', 'Chennai, Coimbatore, Bangalore, Hyderabad, Ahmedabad and Scarborough, Canada');
 define('SITE_YEAR', '2026');
 
 /**

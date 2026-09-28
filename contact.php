@@ -117,9 +117,37 @@ component('page-hero', [
 </section>
 
 
+<?php /* The addresses in full. The footer carries them on every page, but this is
+         the page people open when they want to post something or turn up. */ ?>
+<section class="section section--panel">
+  <div class="shell">
+    <?php component('section-head', [
+        'eyebrow' => 'Offices',
+        'title'   => 'Where to find us',
+        'lead'    => 'Five studios in India and one in Canada. Visits to any of them are by arrangement — email first so the right people are in.',
+    ]); ?>
+
+    <ul class="office-grid">
+      <?php foreach (OFFICES as $slug => $office): ?>
+        <li class="office">
+          <h3 class="office-city"><?= icon('pin') ?><?= e($office['label']) ?></h3>
+          <address>
+            <?php foreach (office_lines($office) as $line): ?>
+              <span><?= e($line) ?></span>
+            <?php endforeach; ?>
+          </address>
+          <?php if (location($slug) !== null): ?>
+            <a class="office-link" href="<?= e(url('locations/' . $slug . '.php')) ?>">What we build here</a>
+          <?php endif; ?>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+</section>
+
 <section class="section section--tight">
   <div class="shell">
-    <?php component('page-figure', ['src' => 'contact-chennai', 'caption' => 'Chennai HQ, with studios in Coimbatore and Bangalore.']); ?>
+    <?php component('page-figure', ['src' => 'contact-chennai', 'caption' => 'The Chennai studio, at Tambaram Sanitorium.']); ?>
   </div>
 </section>
 

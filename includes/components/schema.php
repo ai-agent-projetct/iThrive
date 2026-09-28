@@ -34,28 +34,18 @@ $graph[] = [
         'width'  => 512,
         'height' => 512,
     ],
-    'address'     => [
-        '@type'          => 'PostalAddress',
-        'addressLocality'=> 'Chennai',
-        'addressRegion'  => 'Tamil Nadu',
-        'addressCountry' => 'IN',
-    ],
-    // Two studios. `address` only takes one, so both are listed here — an
-    // assistant asked "where is iThrive based" reads this, not the prose.
-    'location'    => [
-        [
+    'address'     => office_postal_address(office('chennai')),
+    // Six offices. `address` only takes one, so all of them are listed here —
+    // an assistant asked "where is iThrive based" reads this, not the prose,
+    // and now gets a street and a postcode rather than a city name.
+    'location'    => array_map(
+        static fn (array $office): array => [
             '@type'   => 'Place',
-            'name'    => 'iThrive Software — Chennai',
-            'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Chennai',
-                          'addressRegion' => 'Tamil Nadu', 'addressCountry' => 'IN'],
+            'name'    => SITE_NAME . ' — ' . $office['city'],
+            'address' => office_postal_address($office),
         ],
-        [
-            '@type'   => 'Place',
-            'name'    => 'iThrive Software — Coimbatore',
-            'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Coimbatore',
-                          'addressRegion' => 'Tamil Nadu', 'addressCountry' => 'IN'],
-        ],
-    ],
+        array_values(OFFICES),
+    ),
     // The markets served, as Place nodes rather than the word "Worldwide" —
     // a query with a country or city in it has something to match against.
     'areaServed'   => areas_served(),

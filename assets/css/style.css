@@ -1652,13 +1652,29 @@ body.nav-open .nav-toggle-close { display: block; }
 .footer-col a { font-size: .89rem; color: var(--text-dim); transition: color .2s var(--ease); }
 .footer-col a:hover { color: var(--cyan); }
 
+/* The six offices. Six columns would be unreadable at any width, so the grid
+   is asked for a minimum column and left to decide how many fit. */
+.footer-offices { margin-top: 54px; padding-top: 30px; border-top: 1px solid var(--line); }
+.office-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 28px 30px; }
+.office-city { display: flex; align-items: center; gap: 9px; font-size: .84rem; font-weight: 650; color: var(--text); margin-bottom: 9px; }
+.office-city .icon { width: 14px; height: 14px; color: var(--cyan); flex: none; }
+.office address { display: grid; gap: 2px; font-style: normal; font-size: .82rem; line-height: 1.5; color: var(--text-dim); }
+.office-link { display: inline-block; margin-top: 9px; font-size: .78rem; color: var(--cyan); }
+.office-link:hover { text-decoration: underline; }
+
+/* The same block inside a page rather than the footer, so it needs the edge the
+   footer gets from the rule above it. */
+.office--inline { margin-top: 26px; padding-left: 16px; border-left: 2px solid var(--line); }
+.office--inline .office-city { font-size: .9rem; }
+.office--inline address { font-size: .87rem; }
+
 .footer-base {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  margin-top: 54px;
+  margin-top: 40px;
   padding-top: 26px;
   border-top: 1px solid var(--line);
   font-size: .82rem;

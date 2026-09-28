@@ -565,7 +565,20 @@ const FAQ_INTENTS = [
     '/\b(talk|speak|connect|put me)\b.{0,20}\b(human|person|someone|sales)\b/i'
         => 'page:contact:2',
     '/\bhow\s+(do|can)\s+(i|we)\s+(start|begin|get started)\b/i'   => 'page:contact:3',
-    '/\bwhere\s+are\s+you\s+(based|located)\b/i'                   => 'page:home:2',
+    /* "Where are your offices", "what is your address", "which city are you
+       in" — all the same question, and none of them matched when this asked
+       only for "based" or "located". One landed on a case study about
+       grievance escalation, which is the kind of answer that loses a visitor.
+       The subject is named in every pattern rather than allowed to float,
+       because "where is your data stored" and "where are the models hosted"
+       are residency questions with their own answers, and a looser rule
+       answered them with a street address. */
+    '/\bwhere\s+(are|is)\s+(you|ithrive|your\s+(office|team|studio|compan|address|headquarter))/i'
+        => 'page:home:2',
+    '/\b(your|ithrive\'?s?)\s+(office|studio|address|head\s*office|registered\s+office)/i'
+        => 'page:home:2',
+    '/\bwhich\s+(city|cities|country)\s+(are|is)\s+(you|ithrive)\b/i' => 'page:home:2',
+    '/\bare\s+you\s+(based|located)\b/i'                           => 'page:home:2',
     '/\bdo\s+(we|i)\s+own\b/i'                                     => 'page:home:5',
 ];
 

@@ -401,7 +401,7 @@ const SOFT_FAQ = [
      'a' => 'Regularly. We start with a paid audit — architecture, dependency and security review, plus an honest assessment of what should be kept. Taking over a codebase without that audit is how a rescue becomes a rewrite by accident.'],
 
     ['q' => 'Where do you work from, and does that matter?',
-     'a' => 'Our studios are in Coimbatore and Chennai, and we deliver across India, the Gulf and the United States. It matters mainly for the first phase: being able to sit in a room with the people whose workflow you are modelling makes discovery considerably better.'],
+     'a' => 'Our studios are in Chennai, Coimbatore, Bangalore, Hyderabad and Ahmedabad, with a further office in Scarborough, Canada, and we deliver across India, the Gulf and the United States. It matters mainly for the first phase: being able to sit in a room with the people whose workflow you are modelling makes discovery considerably better.'],
 ];
 
 const SOFT_CTA = [

@@ -251,7 +251,12 @@ function ai_knowledge(): string
     if (site_phone() !== null) {
         $lines[] = '- Phone: ' . site_phone();
     }
-    $lines[] = '- Head office: ' . SITE_HQ;
+    /* The addresses in full, so "where is your Coimbatore office" is answered
+       with a street rather than the name of the city it is already in. */
+    $lines[] = '- Offices:';
+    foreach (OFFICES as $office) {
+        $lines[] = '  - ' . $office['label'] . ': ' . implode(', ', office_lines($office));
+    }
     $lines[] = '- Response time: within 2 working days';
 
     return $digest = implode("\n", $lines);

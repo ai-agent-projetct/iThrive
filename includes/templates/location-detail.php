@@ -31,17 +31,19 @@ $ogImage   = 'default';
 $locUrl = canonical('locations/' . $loc['slug'] . '.php');
 
 /*
- * ProfessionalService rather than LocalBusiness: we publish the city and the
- * region, not a street address, and a LocalBusiness node without one is a
- * rich-result claim we cannot back. Fill in a street address here the day a
- * studio has a verified Business Profile and this becomes the stronger node.
+ * ProfessionalService, which is a LocalBusiness in schema.org's hierarchy. It
+ * carries a street address and a postcode now that we have been given one for
+ * every studio; what it still does not carry is opening hours or coordinates,
+ * because nobody has told us those and a guess would be worse than a gap.
  */
+$office = office($loc['slug']);
+
 $schema = [
     '@type'       => 'ProfessionalService',
     'name'        => SITE_NAME . ' — ' . $loc['city'],
     'description' => $loc['lead'],
     'url'         => $locUrl,
-    'address'     => [
+    'address'     => $office !== null ? office_postal_address($office) : [
         '@type'           => 'PostalAddress',
         'addressLocality' => $loc['city'],
         'addressRegion'   => $loc['region'],
@@ -87,6 +89,19 @@ component('page-hero', [
         What we build in <?= e($loc['city']) ?>
       </h2>
       <p class="prose" data-reveal style="--d:2"><?= e($loc['body']) ?></p>
+
+      <?php /* Where the studio actually is. A page that invites a visitor to a
+               workshop should say where to turn up. */ ?>
+      <?php if ($office !== null): ?>
+        <div class="office office--inline" data-reveal style="--d:3">
+          <h3 class="office-city"><?= icon('pin') ?><?= e($office['city']) ?> office</h3>
+          <address>
+            <?php foreach (office_lines($office) as $line): ?>
+              <span><?= e($line) ?></span>
+            <?php endforeach; ?>
+          </address>
+        </div>
+      <?php endif; ?>
     </div>
 
     <?php /* The hub picture from the about page, which is the one photograph

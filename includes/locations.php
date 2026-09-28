@@ -200,3 +200,117 @@ function location(string $slug): ?array
 
     return null;
 }
+
+/**
+ * The postal address of every office, as given to us.
+ *
+ * Kept separate from LOCATIONS because the two lists answer different
+ * questions. LOCATIONS is the studios that have a page written about the work
+ * they do; this is where the post arrives. Scarborough has an address and no
+ * page, and that is the honest state of it — a page would have to describe a
+ * team and a practice, and nobody has told us what those are.
+ *
+ * The slugs match LOCATIONS where both exist, so a studio page can look up its
+ * own address without a second mapping.
+ */
+const OFFICES = [
+    'chennai' => [
+        'label'   => 'Chennai',
+        'street'  => ['8D Judge Colony', 'Home Road', 'Tambaram Sanitorium'],
+        'city'    => 'Chennai',
+        'region'  => 'Tamil Nadu',
+        'postal'  => '600047',
+        'country' => 'IN',
+        'nation'  => 'India',
+    ],
+    'coimbatore' => [
+        'label'   => 'Coimbatore',
+        'street'  => ['No. 3, Raj Bala Complex', 'Near CMS School', 'Sathy Main Road', 'Ganapathy'],
+        'city'    => 'Coimbatore',
+        'region'  => 'Tamil Nadu',
+        'postal'  => '641006',
+        'country' => 'IN',
+        'nation'  => 'India',
+    ],
+    'bangalore' => [
+        'label'   => 'Bangalore',
+        'street'  => ['2nd Floor, 198 Chinmaya Mission Hospital Road', 'Opposite HDFC Bank',
+                      'Stage 2, Hoysala Nagar', 'Indiranagar'],
+        'city'    => 'Bengaluru',
+        'region'  => 'Karnataka',
+        'postal'  => '560038',
+        'country' => 'IN',
+        'nation'  => 'India',
+    ],
+    'hyderabad' => [
+        'label'   => 'Hyderabad',
+        'street'  => ['2nd Floor, 205 Hiline Complex', 'Road No. 12',
+                      'Sai Enclave, Bhola Nagar', 'Banjara Hills'],
+        'city'    => 'Hyderabad',
+        'region'  => 'Telangana',
+        'postal'  => '500034',
+        'country' => 'IN',
+        'nation'  => 'India',
+    ],
+    'ahmedabad' => [
+        'label'   => 'Ahmedabad',
+        'street'  => ['C-303, Rajshree Heights', 'Behind Bharvi Tower', 'C.T.M'],
+        'city'    => 'Ahmedabad',
+        'region'  => 'Gujarat',
+        'postal'  => '380026',
+        'country' => 'IN',
+        'nation'  => 'India',
+    ],
+    'scarborough' => [
+        'label'   => 'Canada',
+        'street'  => ['829 Birchmount Road'],
+        'city'    => 'Scarborough',
+        'region'  => 'Ontario',
+        'postal'  => 'M1K 1R9',
+        'country' => 'CA',
+        'nation'  => 'Canada',
+    ],
+];
+
+/** One office by slug, or null. */
+function office(string $slug): ?array
+{
+    return OFFICES[$slug] ?? null;
+}
+
+/**
+ * An office as display lines, street first and the country last.
+ *
+ * One function rather than the same join written out in the footer, on the
+ * contact page and on each studio page — three places to forget a comma.
+ *
+ * @return array<int, string>
+ */
+function office_lines(array $office): array
+{
+    return [
+        ...$office['street'],
+        $office['city'] . ', ' . $office['region'] . ' ' . $office['postal'],
+        $office['nation'],
+    ];
+}
+
+/**
+ * An office as a schema.org PostalAddress.
+ *
+ * streetAddress takes the lines newline-separated, which is what the
+ * specification asks for and what every consumer expects.
+ *
+ * @return array<string, string>
+ */
+function office_postal_address(array $office): array
+{
+    return [
+        '@type'           => 'PostalAddress',
+        'streetAddress'   => implode(', ', $office['street']),
+        'addressLocality' => $office['city'],
+        'addressRegion'   => $office['region'],
+        'postalCode'      => $office['postal'],
+        'addressCountry'  => $office['country'],
+    ];
+}
