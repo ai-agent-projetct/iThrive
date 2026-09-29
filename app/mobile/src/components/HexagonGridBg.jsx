@@ -49,7 +49,10 @@ export default function HexagonGridBg() {
 
     // Helper to get active color based on mouse horizontal position (0.0 to 1.0)
     const getZoneColor = (xRatio) => {
-      const clamped = Math.max(0, Math.min(1, xRatio));
+      // Math.min(1, NaN) is NaN, and so is the index built from it, so an
+      // unusable ratio has to be rejected before it reaches the array.
+      const safe = Number.isFinite(xRatio) ? xRatio : 0.5;
+      const clamped = Math.max(0, Math.min(1, safe));
       const indexFloat = clamped * (colorStops.length - 1);
       const idx = Math.floor(indexFloat);
       const nextIdx = Math.min(colorStops.length - 1, idx + 1);
@@ -111,8 +114,13 @@ export default function HexagonGridBg() {
       const cols = Math.ceil(width / hexWidth) + 2;
       const rows = Math.ceil(height / sideLength) + 2;
 
-      // Determine color zone based on mouse horizontal X position
-      const mouseRatio = mouse.x / width;
+      /* Determine color zone based on mouse horizontal X position.
+         A zero width gives 0/0, and the NaN that follows throws inside
+         getZoneColor, which unmounts the whole page rather than losing one
+         background. The viewport really can be 0 wide — a hidden iframe, a
+         prerender, a minimised window — so fall back to the middle of the
+         ramp instead of dividing. */
+      const mouseRatio = width > 0 ? mouse.x / width : 0.5;
       const activeColor = getZoneColor(mouseRatio);
 
       for (let r = -1; r < rows; r++) {
