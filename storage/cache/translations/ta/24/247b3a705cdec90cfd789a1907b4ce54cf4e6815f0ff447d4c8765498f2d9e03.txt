@@ -1,1 +1,1 @@
-Amazon Web Services, Google Cloud Platform, Microsoft Azure, Vercel மற்றும் Cloudflare.
+அமேசான் வெப் சர்வீசஸ், கூகிள் க்ளவுட் பிளாட்ஃபார்ம், மைக்ரோசாஃப்ட் அஸ்யூர், வெர்செல் மற்றும் கிளவுட்ஃப்ளேர்.

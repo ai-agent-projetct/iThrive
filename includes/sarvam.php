@@ -139,6 +139,25 @@ function sarvam_detect(string $text): ?string
         }
     }
 
+    /*
+     * Latin script, and short. Do not guess.
+     *
+     * Sarvam's language-ID is confident and wrong on single words written in
+     * Latin: "pricing" and "cost" come back as Malayalam, "LoRA" as Hindi,
+     * "Flutter" and "Kubernetes" as Telugu. Trusting that flipped the whole
+     * answer into a language the visitor never asked for — an English keyword
+     * returning a Malayalam answer, which is exactly the mixed-language
+     * behaviour this was supposed to prevent.
+     *
+     * Given a sentence it is reliable ("what does it cost to build an app" ->
+     * en), so the call is kept for text long enough to carry evidence. Below
+     * that the visitor's own choice of language is better information than a
+     * coin toss.
+     */
+    if (mb_strlen($text) < 25 || str_word_count($text) < 4) {
+        return null;
+    }
+
     $data = sarvam_post('https://api.sarvam.ai/text-lid', ['input' => $text], 10);
     $code = $data['language_code'] ?? null;
 
@@ -453,6 +472,179 @@ function sarvam_translate_many(array $texts, string $to, string $from = 'en', in
         }
         if (is_dir(dirname($cache))) {
             @file_put_contents($cache, $joined);
+        }
+    }
+
+    return $out;
+}
+
+/**
+ * Write a name in another script, without translating what it means.
+ *
+ * The distinction matters and it is expensive to get wrong. Asked to TRANSLATE
+ * the single word "Flutter", Sarvam answers with the Malayalam for honeybee and
+ * the Kannada for butterfly; "Azure" becomes the word for blue, "PostgreSQL"
+ * the word for website. Correct translations, useless names. Transliteration
+ * keeps the name and only changes the alphabet: ஃப்ளட்டர், ಫ್ಲಾಟರ್.
+ *
+ * Cached under its own key space — the same word has a translation and a
+ * transliteration and they are not interchangeable.
+ */
+function sarvam_transliterate(string $text, string $to, bool $cacheOnly = false): ?string
+{
+    $text = trim($text);
+    if ($text === '' || !isset(SARVAM_LANGS[$to])) {
+        return null;
+    }
+
+    $cache = sarvam_cache_path($text, $to, 'xlit');
+    if (is_file($cache)) {
+        $hit = file_get_contents($cache);
+        if (is_string($hit) && $hit !== '') {
+            return $hit;
+        }
+    }
+
+    if ($cacheOnly || !sarvam_enabled()) {
+        return null;
+    }
+
+    $data = sarvam_post('https://api.sarvam.ai/transliterate', [
+        'input'                => $text,
+        'source_language_code' => 'en-IN',
+        'target_language_code' => sarvam_lang($to),
+        'spoken_form'          => true,
+    ], 25);
+
+    $out = $data['transliterated_text'] ?? null;
+    if (!is_string($out) || $out === '') {
+        return null;
+    }
+
+    if (!is_dir(dirname($cache))) {
+        @mkdir(dirname($cache), 0775, true);
+    }
+    if (is_dir(dirname($cache))) {
+        @file_put_contents($cache, $out);
+    }
+
+    return $out;
+}
+
+/**
+ * Transliterate many names at once. Same shape as sarvam_translate_many.
+ *
+ * @param  array<int, string> $texts
+ * @return array<string, string|null>
+ */
+function sarvam_transliterate_many(array $texts, string $to, int $concurrency = 3): array
+{
+    $out  = [];
+    $todo = [];
+
+    foreach (array_unique($texts) as $text) {
+        $text = trim($text);
+        if ($text === '') { continue; }
+
+        $hit = sarvam_transliterate($text, $to, true);
+        if ($hit !== null) {
+            $out[$text] = $hit;
+
+            continue;
+        }
+        $out[$text] = null;
+        $todo[] = $text;
+    }
+
+    if ($todo === [] || !sarvam_enabled()) {
+        return $out;
+    }
+
+    $pending = array_chunk($todo, max(1, $concurrency));
+    $retries = 0;
+
+    while ($pending !== []) {
+        $batch     = array_shift($pending);
+        $throttled = [];
+        $mh = curl_multi_init();
+        $handles = [];
+
+        foreach ($batch as $i => $text) {
+            $ch = curl_init('https://api.sarvam.ai/transliterate');
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => 30,
+                CURLOPT_FRESH_CONNECT  => true,
+                CURLOPT_HTTPHEADER     => [
+                    'Content-Type: application/json',
+                    'api-subscription-key: ' . SARVAM_API_KEY,
+                ],
+                CURLOPT_POSTFIELDS     => json_encode([
+                    'input'                => $text,
+                    'source_language_code' => 'en-IN',
+                    'target_language_code' => sarvam_lang($to),
+                    'spoken_form'          => true,
+                ], JSON_UNESCAPED_UNICODE),
+            ]);
+            curl_ca_bundle($ch);
+            curl_multi_add_handle($mh, $ch);
+            $handles[$i] = $ch;
+        }
+
+        $deadline = microtime(true) + 60.0;
+        do {
+            $status = curl_multi_exec($mh, $running);
+            if ($running) { curl_multi_select($mh, 0.5); }
+        } while ($running && $status === CURLM_OK && microtime(true) < $deadline);
+
+        foreach ($handles as $i => $ch) {
+            $raw  = curl_multi_getcontent($ch);
+            $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_multi_remove_handle($mh, $ch);
+            curl_close($ch);
+
+            /* 429 means slow down, not fail. Half the words went missing the
+               first time this ran wide, which looked like the endpoint
+               refusing them; it was only the limiter. Re-queue instead. */
+            if ($code === 429) {
+                $throttled[] = $batch[$i];
+
+                continue;
+            }
+
+            if ($code !== 200 || !is_string($raw)) {
+                if (is_string($raw) && $raw !== '') {
+                    $d = json_decode($raw, true);
+                    $GLOBALS['sarvam_last_error_code'] = (string) ($d['error']['code'] ?? '');
+                    $GLOBALS['sarvam_last_error'] = 'HTTP ' . $code . ': ' . (string) ($d['error']['message'] ?? '');
+                }
+
+                continue;
+            }
+
+            $d = json_decode($raw, true);
+            $v = $d['transliterated_text'] ?? null;
+            if (is_string($v) && $v !== '') {
+                $text = $batch[$i];
+                $out[$text] = $v;
+
+                $cache = sarvam_cache_path($text, $to, 'xlit');
+                if (!is_dir(dirname($cache))) { @mkdir(dirname($cache), 0775, true); }
+                if (is_dir(dirname($cache))) { @file_put_contents($cache, $v); }
+            }
+        }
+
+        curl_multi_close($mh);
+
+        if ($throttled !== [] && $retries < 60) {
+            $retries++;
+            sleep(min(8, 1 + intdiv($retries, 6)));
+
+            $half = max(1, (int) ceil(count($throttled) / 2));
+            foreach (array_chunk($throttled, $half) as $part) {
+                array_unshift($pending, $part);
+            }
         }
     }
 

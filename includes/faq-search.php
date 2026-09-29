@@ -498,8 +498,12 @@ function faq_search(string $question, int $limit = 5): array
 
         foreach ($weight as $term => $idf) {
             if (isset($bag[$term])) {
-                // Saturating: a term repeated ten times in a long answer is not
-                // ten times the evidence. Caps the contribution near 3.
+                /* Saturating: a term repeated ten times in a long answer is not
+                   ten times the evidence. Caps the contribution near 3.
+                   Raising this to 4, so that a question hit outranks three
+                   answer mentions, was tried and reverted: it cost a case in
+                   the English suite and moved the Malayalam price keyword onto
+                   a worse answer, for no gain on the case that prompted it. */
                 $score += $idf * min(3.0, $bag[$term]);
                 $hits++;
                 $bestIdf = max($bestIdf, $idf);

@@ -17,7 +17,7 @@ if (PHP_SAPI !== 'cli') {
 }
 
 require_once dirname(__DIR__) . '/includes/config.php';
-require_once dirname(__DIR__) . '/includes/faq-answer.php';   // pulls in sarvam + search
+require_once dirname(__DIR__) . '/includes/faq-reply.php';   // pulls in sarvam + search
 
 $statsOnly = in_array('--stats', array_slice($argv, 1), true);
 

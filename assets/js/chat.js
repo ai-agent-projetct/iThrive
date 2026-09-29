@@ -17,7 +17,13 @@
   const form        = document.getElementById('chatForm');
   const input       = document.getElementById('chatInput');
   const suggestions = document.getElementById('chatSuggestions');
+  const langSelect  = document.getElementById('chatLang');
   const toggles     = widget.querySelectorAll('[data-chat-toggle]');
+
+  /* The language to answer in. The endpoint also detects the language of the
+     message itself, so typing Tamil answers in Tamil whatever this says; the
+     picker is for the visitor who types English and wants Tamil back. */
+  const answerLang = () => (langSelect && langSelect.value) || 'en';
 
   let busy = false;
   let open = false;
@@ -87,6 +93,33 @@
     log.scrollTop = log.scrollHeight;
   }
 
+  /* Offer the next questions the corpus can actually answer, in the language
+     the answer came back in. A visitor who typed one keyword gets somewhere to
+     go next without having to guess what we know. */
+  function showSuggestions(related) {
+    if (!suggestions) return;
+
+    if (!Array.isArray(related) || related.length === 0) {
+      suggestions.hidden = true;
+
+      return;
+    }
+
+    suggestions.textContent = '';
+    related.slice(0, 3).forEach((item) => {
+      const text = typeof item === 'string' ? item : (item && item.q);
+      if (!text) return;
+
+      const chip = document.createElement('button');
+      chip.className = 'chat-chip';
+      chip.type = 'button';
+      chip.setAttribute('data-chat-suggest', '');
+      chip.textContent = text;
+      suggestions.appendChild(chip);
+    });
+    suggestions.hidden = false;
+  }
+
   /* ------------------------------------------------------------------ send */
 
   async function send(message) {
@@ -107,7 +140,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message, lang: answerLang() }),
       });
 
       const data = await response.json().catch(() => ({}));
@@ -121,6 +154,8 @@
 
       if (data.captured)  addNotice('Your details are with our team — expect a reply within two working days.');
       if (data.escalated) addNotice('Flagged for a human engineer to follow up.');
+
+      showSuggestions(data.related);
     } catch {
       typing.remove();
       addMessage('bot', 'I could not reach the server. Check your connection, or email hello@ithrivesoftware.com.');
@@ -144,8 +179,10 @@
     }
   });
 
-  document.querySelectorAll('[data-chat-suggest]').forEach((chip) => {
-    chip.addEventListener('click', () => send(chip.textContent.trim()));
+  // Delegated, because the chips are replaced after every answer.
+  document.addEventListener('click', (event) => {
+    const chip = event.target.closest('[data-chat-suggest]');
+    if (chip) send(chip.textContent.trim());
   });
 
   /* --------------------------------------------------------------- autosize */

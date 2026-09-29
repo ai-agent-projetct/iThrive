@@ -1,1 +1,1 @@
-हमारे विकासकर्ता LangGraph, Model Context Protocol (MCP), PyTorch, vLLM, LlamaIndex, Qdrant, Milvus, Hugging Face, FastAPI, Docker और Kubernetes में विशेषज्ञ हैं।
+हमारे विकासकर्ता लैंगग्राफ, मॉडल कॉन्टेक्स्ट प्रोटोकॉल (एमसीपी), पायटॉर्च, वी एल एल एम, ल्लामा इंडेक्स, क्यूड्रांट, मिलवस, हगिंग फेस, फास्टएपीआई, डॉकर और कुबेरनेट्स में विशेषज्ञ हैं।

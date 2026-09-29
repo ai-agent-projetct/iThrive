@@ -13,7 +13,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/includes/config.php';
 require_once dirname(__DIR__) . '/includes/ai.php';
 require_once dirname(__DIR__) . '/includes/ai-local.php';
-require_once dirname(__DIR__) . '/includes/faq-answer.php';
+require_once dirname(__DIR__) . '/includes/faq-reply.php';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -29,18 +29,45 @@ $send = static function (array $payload, int $status = 200): never {
 /**
  * What we say when the model is unavailable, refuses, or errors. Written so a
  * visitor still gets somewhere useful rather than a dead widget.
+ *
+ * In the visitor's own language, which it was not. A Tamil visitor who hit the
+ * rate limiter got "You are sending messages faster than I can answer" in
+ * English — every answer up to that point had been Tamil, so the assistant
+ * appeared to switch languages the moment anything went wrong.
+ *
+ * The email address is appended AFTER translating rather than being part of
+ * the sentence: a translator has no reason to preserve an address intact, and
+ * a mangled one is worse than a plainly separated one. Translations cache like
+ * any other, so these four sentences are paid for once.
  */
-$fallback = static function (string $reason): string {
-    return match ($reason) {
-        'rate_limited' => 'You are sending messages faster than I can answer. Give me a few seconds — or email '
-            . SITE_EMAIL . ' and a person will pick it up.',
-        'session_full' => 'We have covered a lot here. To take it further, email ' . SITE_EMAIL
-            . ' or use the Start Your Project form — a senior engineer reads every brief.',
-        'refused'      => 'I am not able to help with that one. If it is about a project, email ' . SITE_EMAIL
-            . ' and a person will take a look.',
-        default        => 'I cannot reach my assistant service right now. You can browse our services and case studies '
-            . 'from the menu, or email ' . SITE_EMAIL . ' — we reply within two working days.',
+/* By reference: this closure is defined before the request is parsed, so it
+   has to see the language chosen further down rather than the empty value
+   that exists now. */
+$fallback = static function (string $reason) use (&$lang): string {
+    $english = match ($reason) {
+        'rate_limited' => 'You are sending messages faster than I can answer. Give me a few seconds, '
+            . 'or write to us and a person will pick it up.',
+        'session_full' => 'We have covered a lot here. To take it further, use the Start Your Project '
+            . 'form or write to us. A senior engineer reads every brief.',
+        'refused'      => 'I am not able to help with that one. If it is about a project, write to us '
+            . 'and a person will take a look.',
+        default        => 'I cannot reach my assistant service right now. You can browse our services '
+            . 'and case studies from the menu, or write to us. We reply within two working days.',
     };
+
+    $text = $english;
+
+    if ($lang !== 'en' && function_exists('sarvam_translate')) {
+        // Cache first; a visitor waiting on an error message should not also
+        // wait on a network call, and after the first time there is none.
+        $native = sarvam_translate($english, $lang, 'en', true)
+            ?? sarvam_translate($english, $lang, 'en');
+        if (is_string($native) && $native !== '') {
+            $text = $native;
+        }
+    }
+
+    return $text . ' ' . SITE_EMAIL;
 };
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
@@ -112,7 +139,7 @@ if ($result['error'] !== null || $result['text'] === '') {
          * No model provider — answer from what the site publishes instead of
          * giving up. This is not a degraded path in practice: it searches every
          * question on the site, roughly nine hundred of them, and answers in
-         * the visitor's own language through Sarvam. See includes/faq-answer.php.
+         * the visitor's own language through Sarvam. See includes/faq-reply.php.
          *
          * Site content second, for contact details and the like. Anything else
          * gets the demo boundary, which is the whole point of the demo.

@@ -1,1 +1,1 @@
-நாங்கள் Salesforce, HubSpot, SAP, NetSuite, Jira, GitHub, Slack, Gmail, Outlook, PostgreSQL, Snowflake, Twilio, Stripe மற்றும் custom in-house REST/GraphQL APIs உடன் இணைக்கிறோம்.
+நாங்கள் சேல்ஸ்ஃபோர்ஸ், ஹப்ஸ்பாட், எஸ்ஏபி, நெட்ஷூட், ஜிரா, கிட்ஹப், ஸ்லேக், ஜிமெயில், அவுட்லுக், போஸ்ட் க்வெரஸ்எல், ஸ்னோஃப்ளேக், ட்விலியோ, ஸ்ட்ரைப் மற்றும் கஸ்டம் இன் ஹவுஸ் ரெஸ்ட்/கிராஃப்கியூஎல் ஏ.பி.ஐ.எஸ் உடன் இணைக்கிறோம்.

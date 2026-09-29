@@ -22,6 +22,18 @@ declare(strict_types=1);
         <p class="chat-title">iThrive AIChat</p>
         <p class="chat-status"><span class="chat-dot"></span>Answers from our own case studies</p>
       </div>
+      <?php /* The language the assistant answers in.
+               Every answer on the site is held in all six, so this is a
+               lookup rather than a translation on the request path. Without
+               it the widget could only ever ask in English, whatever the
+               visitor typed — which is why the translations were invisible. */ ?>
+      <label class="chat-lang-label" for="chatLang">Language</label>
+      <select class="chat-lang" id="chatLang" aria-label="Answer language">
+        <?php foreach (ASSISTANT_LANGUAGES as $l): ?>
+          <option value="<?= e($l['code']) ?>"><?= e($l['native']) ?></option>
+        <?php endforeach; ?>
+      </select>
+
       <button class="chat-close" type="button" data-chat-toggle aria-label="Close chat"><?= icon('close') ?></button>
     </header>
 

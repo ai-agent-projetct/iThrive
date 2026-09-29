@@ -39,7 +39,7 @@ if (PHP_SAPI !== 'cli') {
 }
 
 require_once dirname(__DIR__) . '/includes/config.php';
-require_once dirname(__DIR__) . '/includes/faq-answer.php';
+require_once dirname(__DIR__) . '/includes/faq-reply.php';
 
 $args        = array_slice($argv, 1);
 $dry         = in_array('--dry', $args, true);
