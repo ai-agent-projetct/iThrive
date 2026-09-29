@@ -1,0 +1,100 @@
+name: Deploy to production
+
+# Every push to main goes live. There is no build step — the React bundle in
+# assets/dist is committed, exactly as the README describes — so this is a file
+# sync and nothing more.
+#
+# It needs four secrets, set once in Settings -> Secrets and variables ->
+# Actions. Nobody but GitHub ever sees them:
+#
+#   FTP_HOST        the hostname, e.g. ftp.ithrivesoftware.com
+#   FTP_USERNAME    the FTP or FTPS user
+#   FTP_PASSWORD    that user's password
+#   FTP_SERVER_DIR  the web root, with a trailing slash, e.g. /public_html/
+#
+# Optional repository VARIABLE (not a secret): FTP_PROTOCOL, set to "ftp" if
+# the host has no TLS. It defaults to ftps, and plain ftp sends the password in
+# the clear, so change it only if the host leaves no choice.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  # One deploy at a time. Two overlapping syncs against the same server would
+  # interleave uploads and leave the site in a state neither of them intended.
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the secrets are set
+        # Without this the deploy action fails deep inside its own connection
+        # code, which reads as a network problem rather than a missing setting.
+        env:
+          HOST: ${{ secrets.FTP_HOST }}
+          USER: ${{ secrets.FTP_USERNAME }}
+          PASS: ${{ secrets.FTP_PASSWORD }}
+          DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          missing=""
+          [ -z "$HOST" ] && missing="$missing FTP_HOST"
+          [ -z "$USER" ] && missing="$missing FTP_USERNAME"
+          [ -z "$PASS" ] && missing="$missing FTP_PASSWORD"
+          [ -z "$DIR" ]  && missing="$missing FTP_SERVER_DIR"
+          if [ -n "$missing" ]; then
+            echo "Missing repository secrets:$missing"
+            echo "Set them in Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+
+      - name: Sync to the web root
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+
+          # Deliberately left at its default of false. The server holds files
+          # this repository does not: storage/enquiries.ndjson, the AI
+          # conversation log, includes/secrets.php. A clean slate would delete
+          # every one of them, and the enquiries are not recoverable.
+          dangerous-clean-slate: false
+
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.DS_Store
+
+            # Build-time only. Nothing at runtime reads from app/, and the
+            # live host currently serves app/mobile/src/App.jsx to anyone who
+            # asks for it, which is source code on public display.
+            app/**
+            .tools/**
+
+            # Working material, not the website.
+            docs/**
+            graphify-out/**
+            .claude/**
+            README.md
+            composer.json
+
+            # Runtime data belongs to the server, not to this repository.
+            # These are excluded as well as protected by the clean-slate
+            # setting above, because one of the two failing is enough.
+            storage/*.ndjson
+            storage/replies/**
+
+            # Never, under any circumstances.
+            includes/secrets.php
+            includes/certs/**
+            .env

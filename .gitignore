@@ -60,3 +60,6 @@ assets/img/services/_old_sections/
 assets/img/case-hero/_replaced/
 assets/img/_dedupe_backup/
 assets/img/_home_backup/
+
+# Pre-encode copies of the simulator videos, kept locally as a safety net.
+videos/_original/

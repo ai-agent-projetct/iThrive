@@ -352,6 +352,20 @@ Run `npm install` inside `.tools/` first. Pin `@php-wasm/node` to 3.1.x — the
 
 ## Notes for deployment
 
+- **Deploying.** `.github/workflows/deploy.yml` syncs `main` to the web root on
+  every push. It needs four repository secrets, set once under *Settings →
+  Secrets and variables → Actions*: `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD`
+  and `FTP_SERVER_DIR` (the web root, with a trailing slash). Set the optional
+  repository *variable* `FTP_PROTOCOL` to `ftp` only if the host offers no TLS.
+  The workflow never deletes files the server has and the repository does not,
+  so `storage/enquiries.ndjson` and `includes/secrets.php` survive a deploy;
+  `app/`, `.tools/`, `docs/` and the runtime logs are not uploaded at all.
+  Run it by hand from the Actions tab when you want a deploy without a push.
+- **`.htaccess` does nothing on nginx.** The production host is nginx, so the
+  bundled rules blocking `storage/`, `includes/`, `vendor/` and `.tools/` are
+  not in force there — the host happens to 404 those paths, but that is its
+  configuration and not ours. Add the `location` denials to the nginx config
+  rather than relying on it, and keep `app/` out of the web root.
 - **Contact form.** Enquiries are appended to `storage/enquiries.ndjson` and
   mailed to `SITE_EMAIL` via `mail()`. Swap in SMTP where `deliver` is noted in
   `handlers/contact-submit.php`; the log is written either way, and the sender
