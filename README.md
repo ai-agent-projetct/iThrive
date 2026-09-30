@@ -361,11 +361,20 @@ Run `npm install` inside `.tools/` first. Pin `@php-wasm/node` to 3.1.x — the
   so `storage/enquiries.ndjson` and `includes/secrets.php` survive a deploy;
   `app/`, `.tools/`, `docs/` and the runtime logs are not uploaded at all.
   Run it by hand from the Actions tab when you want a deploy without a push.
-- **`.htaccess` does nothing on nginx.** The production host is nginx, so the
-  bundled rules blocking `storage/`, `includes/`, `vendor/` and `.tools/` are
-  not in force there — the host happens to 404 those paths, but that is its
-  configuration and not ours. Add the `location` denials to the nginx config
-  rather than relying on it, and keep `app/` out of the web root.
+- **`.htaccess` is in force in production, behind an nginx proxy.** The
+  response says `Server: nginx`, which is the front end; Apache is behind it and
+  reads this file. The evidence is in the headers — `X-Frame-Options` and
+  `Referrer-Policy` come back on every page and are set nowhere in PHP, only in
+  the `mod_headers` block here — and in `storage/`, `includes/` and `vendor/`
+  answering 404 exactly as `RedirectMatch` asks. So the denial list below is the
+  real access control, and adding a directory to it takes effect on the next
+  deploy. If the site ever moves to a host running nginx alone, translate both
+  `RedirectMatch` lines into `location` denials, because nothing here would be
+  read.
+- **Probing production trips its WAF.** A couple of dozen requests in quick
+  succession from one address got every URL answered with 403, including the
+  home page, for that address only. If the live site appears to be down from
+  your machine and up from your phone, that is this. Space out any checks.
 - **Contact form.** Enquiries are appended to `storage/enquiries.ndjson` and
   mailed to `SITE_EMAIL` via `mail()`. Swap in SMTP where `deliver` is noted in
   `handlers/contact-submit.php`; the log is written either way, and the sender
