@@ -158,10 +158,32 @@ function sarvam_detect(string $text): ?string
         return null;
     }
 
+    /* Cached, because the same sentence arrives again and again: every
+       suggestion chip sends a fixed question, and each tap by each visitor was
+       a fresh paid call to identify a language that had not changed.
+       storage/cache/lid/ holds visitor text, so it stays out of git — the
+       storage/.gitignore rule cache/* covers it, unlike cache/translations/. */
+    $key   = hash('sha256', $text);
+    $cache = STORAGE_PATH . '/cache/lid/' . substr($key, 0, 2) . '/' . $key . '.txt';
+    if (is_file($cache)) {
+        $hit = trim((string) file_get_contents($cache));
+
+        return $hit === '' ? null : $hit;
+    }
+
     $data = sarvam_post('https://api.sarvam.ai/text-lid', ['input' => $text], 10);
     $code = $data['language_code'] ?? null;
+    if (!is_string($code)) {
+        return null;               // a failed call is not an answer; ask again next time
+    }
 
-    return is_string($code) ? sarvam_short_lang($code) : null;
+    $lang = sarvam_short_lang($code);
+    if (!is_dir(dirname($cache))) {
+        @mkdir(dirname($cache), 0775, true);
+    }
+    @file_put_contents($cache, (string) $lang);
+
+    return $lang;
 }
 
 /** Where a translation is kept once it has been paid for. */

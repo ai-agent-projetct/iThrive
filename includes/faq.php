@@ -39,6 +39,7 @@ const FAQ_CATEGORIES = [
     'agentic'      => 'Agentic AI, Agents & Autonomy',
     'page-faq'     => 'Answers Published on the Service Pages Themselves',
     'custom-software' => 'Custom Software: Ownership, Integration & Support',
+    'about'        => 'About iThrive: Vision, Mission & Products',
 ];
 
 const FAQ = [
@@ -4374,5 +4375,233 @@ const FAQ = [
              . 'are at home or traveling.',
         'terms' => 'access remote outside office cloud login realtime laptop smartphone home '
              . 'travelling anywhere manager',
+    ],
+
+    /* ---------------------------------------------------------------------
+       About iThrive — supplied by iThrive, published as written.
+
+       q475's answer arrived cut off after "from initial idea and strategy".
+       It is finished here using only phrases the same set already uses in
+       q471 and q474, so it says nothing the company had not said elsewhere.
+       Replace the ending if the original read differently.
+       --------------------------------------------------------------------- */
+    [
+        'id' => 'q452', 'cat' => 'about',
+        'q' => 'What is iThrive?',
+        'a' => 'iThrive is a technology and AI solutions company focused on helping businesses build '
+             . 'smarter digital products, automate operations, modernize existing systems, and adopt '
+             . 'artificial intelligence in practical ways. We work across AI, software development, '
+             . 'mobile applications, enterprise platforms, intelligent automation, AI agents, cloud '
+             . 'solutions, and custom digital products.',
+        'terms' => 'about company who overview introduction ithrive business technology',
+    ],
+    [
+        'id' => 'q453', 'cat' => 'about',
+        'q' => 'What is the main goal of iThrive?',
+        'a' => 'The goal of iThrive is to help businesses use technology to work faster, operate '
+             . 'smarter, reduce repetitive work, improve customer experiences, and create new '
+             . 'opportunities for growth. We focus on turning business challenges into practical, '
+             . 'scalable technology solutions.',
+        'terms' => 'goal purpose aim objective why exist',
+    ],
+    [
+        'id' => 'q454', 'cat' => 'about',
+        'q' => 'What is iThrive\'s vision?',
+        'a' => 'Our vision is to create a future where intelligent technology becomes a natural part '
+             . 'of every business. iThrive aims to make advanced AI, automation, and software '
+             . 'accessible, useful, secure, and scalable for organizations of different sizes and '
+             . 'industries.',
+        'terms' => 'vision future aspiration direction',
+    ],
+    [
+        'id' => 'q455', 'cat' => 'about',
+        'q' => 'What is iThrive\'s mission?',
+        'a' => 'Our mission is to design and build intelligent digital solutions that solve real '
+             . 'business problems. We aim to combine AI, software engineering, automation, data, and '
+             . 'user-focused design to help organizations improve productivity, efficiency, customer '
+             . 'experience, and long-term growth.',
+        'terms' => 'mission purpose commitment values',
+    ],
+    [
+        'id' => 'q456', 'cat' => 'about',
+        'q' => 'Why should I choose iThrive?',
+        'a' => 'iThrive brings AI strategy, software engineering, product development, automation, '
+             . 'integration, and deployment together under one team. Instead of simply delivering '
+             . 'technology, we focus on understanding the business problem first and then building a '
+             . 'solution that can create measurable value.',
+        'terms' => 'choose why hire select reason benefit advantage partner',
+    ],
+    [
+        'id' => 'q457', 'cat' => 'about',
+        'q' => 'What makes iThrive different from other technology companies?',
+        'a' => 'iThrive focuses on building intelligent systems rather than isolated software '
+             . 'features. Our approach combines AI, enterprise systems, automation, APIs, cloud '
+             . 'infrastructure, mobile applications, data, and user experience so that different '
+             . 'parts of a business can work together more effectively.',
+        'terms' => 'different difference unique compare competitors stand out',
+    ],
+    [
+        'id' => 'q458', 'cat' => 'about',
+        'q' => 'What areas does iThrive specialize in?',
+        'a' => 'iThrive specializes in areas including Generative AI, AI agents, AI copilots, '
+             . 'Retrieval-Augmented Generation, conversational AI, voice AI, computer vision, '
+             . 'intelligent automation, mobile application development, web platforms, cloud '
+             . 'applications, enterprise integration, custom software development, data solutions, '
+             . 'and AI strategy.',
+        'terms' => 'specialize specialise expertise areas capabilities skills focus',
+    ],
+    [
+        'id' => 'q459', 'cat' => 'about',
+        'q' => 'What types of projects can iThrive build?',
+        'a' => 'iThrive can build custom AI applications, business automation systems, AI '
+             . 'assistants, enterprise chatbots, knowledge platforms, mobile apps, web applications, '
+             . 'internal business tools, AI agents, RAG platforms, computer-vision systems, API '
+             . 'integrations, cloud platforms, customer-support systems, workflow automation '
+             . 'solutions, and industry-specific software.',
+        'terms' => 'projects types build kinds examples portfolio work',
+    ],
+    [
+        'id' => 'q460', 'cat' => 'about',
+        'q' => 'What kind of AI projects does iThrive work on?',
+        'a' => 'Our AI capabilities can include Generative AI applications, custom AI assistants, '
+             . 'intelligent search, AI copilots, AI agents, multi-agent systems, conversational AI, '
+             . 'voice assistants, document intelligence, RAG systems, computer vision, predictive '
+             . 'analytics, recommendation systems, and workflow automation.',
+        'terms' => 'ai projects artificial intelligence capabilities machine learning',
+    ],
+    [
+        'id' => 'q461', 'cat' => 'about',
+        'q' => 'Does iThrive build custom software for businesses?',
+        'a' => 'Yes. iThrive can design and develop custom software around a company\'s specific '
+             . 'processes, users, workflows, integrations, and business goals. This can range from a '
+             . 'focused internal application to a large enterprise platform.',
+        'terms' => 'custom software bespoke tailored development business application',
+    ],
+    [
+        'id' => 'q462', 'cat' => 'about',
+        'q' => 'How can iThrive help my business grow?',
+        'a' => 'iThrive can support business growth by automating repetitive work, improving '
+             . 'operational efficiency, creating better customer experiences, developing new digital '
+             . 'products, connecting disconnected systems, improving access to business knowledge, '
+             . 'and introducing AI into areas where it can provide practical value.',
+        'terms' => 'grow growth scale expand revenue help business',
+    ],
+    [
+        'id' => 'q463', 'cat' => 'about',
+        'q' => 'Can iThrive automate my existing business processes?',
+        'a' => 'Yes. We can study existing workflows, identify repetitive or inefficient processes, '
+             . 'and develop automation using AI agents, APIs, software integrations, intelligent '
+             . 'workflows, and business rules. The objective is to reduce manual effort while '
+             . 'improving speed and consistency.',
+        'terms' => 'automate automation process workflow manual repetitive',
+    ],
+    [
+        'id' => 'q464', 'cat' => 'about',
+        'q' => 'What is iThrive AI?',
+        'a' => 'iThrive AI represents our artificial-intelligence capabilities and solutions '
+             . 'designed to help businesses use AI across their operations. Depending on the '
+             . 'business requirement, it can support intelligent assistants, automation, '
+             . 'information retrieval, analytics, customer interaction, content generation, decision '
+             . 'support, and specialized AI workflows.',
+        'terms' => 'ithrive ai product platform artificial intelligence',
+    ],
+    [
+        'id' => 'q465', 'cat' => 'about',
+        'q' => 'What does iThrive Chat do?',
+        'a' => 'iThrive Chat can serve as an intelligent conversational interface for users, '
+             . 'employees, customers, or business teams. It can be designed to answer questions, '
+             . 'retrieve information, assist with tasks, search business knowledge, support '
+             . 'customers, connect with internal systems, and help users complete workflows through '
+             . 'natural conversation.',
+        'terms' => 'ithrive chat chatbot conversational assistant product',
+    ],
+    [
+        'id' => 'q466', 'cat' => 'about',
+        'q' => 'Can iThrive Chat understand company-specific information?',
+        'a' => 'Yes. iThrive Chat can be connected to approved company knowledge such as documents, '
+             . 'policies, product information, internal resources, databases, and business systems. '
+             . 'Using technologies such as Retrieval-Augmented Generation, the assistant can provide '
+             . 'responses based on relevant organizational information.',
+        'terms' => 'company knowledge documents policies internal data rag trained',
+    ],
+    [
+        'id' => 'q467', 'cat' => 'about',
+        'q' => 'What is iThrive Drive?',
+        'a' => 'iThrive Drive can be positioned as an intelligent workspace for storing, organizing, '
+             . 'accessing, discovering, and working with business files and knowledge. By combining '
+             . 'document management with AI-powered search and assistance, it can make information '
+             . 'easier to find and use.',
+        'terms' => 'ithrive drive files storage documents workspace product',
+    ],
+    [
+        'id' => 'q468', 'cat' => 'about',
+        'q' => 'Why could iThrive Drive become familiar to everyday users?',
+        'a' => 'Traditional file storage requires people to remember folders, filenames, and '
+             . 'locations. The vision for iThrive Drive is to make working with information more '
+             . 'natural. Instead of only browsing folders, users could interact with their '
+             . 'information intelligently, search through meaning, discover related content, and '
+             . 'work with documents through AI-powered assistance.',
+        'terms' => 'drive everyday users familiar folders search files',
+    ],
+    [
+        'id' => 'q469', 'cat' => 'about',
+        'q' => 'Does iThrive develop AI agents?',
+        'a' => 'Yes. iThrive can develop specialized AI agents that perform defined business tasks, '
+             . 'interact with software systems, process information, coordinate workflows, and '
+             . 'assist employees or customers. Agents can also be designed to work together in '
+             . 'multi-agent environments when a process requires multiple specialized capabilities.',
+        'terms' => 'agents agent agentic autonomous multi-agent',
+    ],
+    [
+        'id' => 'q470', 'cat' => 'about',
+        'q' => 'What is an AI copilot, and can iThrive build one for my company?',
+        'a' => 'An AI copilot is an intelligent assistant designed to work alongside employees while '
+             . 'they perform their daily tasks. iThrive can develop copilots for areas such as '
+             . 'software development, customer service, operations, sales, document analysis, '
+             . 'knowledge retrieval, analytics, and internal business workflows.',
+        'terms' => 'copilot co-pilot assistant employees productivity',
+    ],
+    [
+        'id' => 'q471', 'cat' => 'about',
+        'q' => 'Does iThrive build mobile applications?',
+        'a' => 'Yes. iThrive can build native and cross-platform mobile applications for iOS and '
+             . 'Android. We can support product strategy, UI and UX, mobile development, APIs, '
+             . 'backend systems, cloud services, AI integration, testing, deployment, and ongoing '
+             . 'product improvements.',
+        'terms' => 'mobile app apps ios android native cross-platform',
+    ],
+    [
+        'id' => 'q472', 'cat' => 'about',
+        'q' => 'Can iThrive integrate AI into my existing software?',
+        'a' => 'Yes. Businesses do not always need to replace their existing systems. iThrive can '
+             . 'integrate AI capabilities into existing applications, websites, enterprise '
+             . 'platforms, databases, APIs, CRMs, internal systems, and operational workflows.',
+        'terms' => 'integrate integration existing software add ai legacy',
+    ],
+    [
+        'id' => 'q473', 'cat' => 'about',
+        'q' => 'Can iThrive work with enterprise organizations?',
+        'a' => 'Yes. iThrive solutions can be designed for enterprise requirements including '
+             . 'security, scalability, system integration, governance, access control, reliability, '
+             . 'cloud architecture, data management, and deployment across multiple teams or '
+             . 'departments.',
+        'terms' => 'enterprise large organization corporate security governance scale',
+    ],
+    [
+        'id' => 'q474', 'cat' => 'about',
+        'q' => 'How does an iThrive project normally start?',
+        'a' => 'A project generally starts with discovery. We understand the business problem, '
+             . 'users, current processes, available data, technical environment, expected outcomes, '
+             . 'and project constraints. From there, we can define the solution architecture, '
+             . 'product roadmap, development approach, integrations, and deployment strategy.',
+        'terms' => 'start begin project discovery first step kickoff',
+    ],
+    [
+        'id' => 'q475', 'cat' => 'about',
+        'q' => 'Can iThrive take an idea from concept to production?',
+        'a' => 'Yes. iThrive can support the complete product journey—from initial idea and strategy '
+             . 'through discovery, solution architecture, UI and UX, development, integrations, '
+             . 'testing and deployment, to ongoing product improvements after launch.',
+        'terms' => 'idea concept production launch end to end mvp',
     ],
 ];

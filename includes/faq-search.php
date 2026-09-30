@@ -214,6 +214,19 @@ function faq_index_signature(): string
     return faq_corpus_signature() . '-' . $gen;
 }
 
+/**
+ * A question reduced to its letters and digits, for exact lookup.
+ *
+ * Case, spacing and punctuation vary between how a question is written and how
+ * a visitor types it back — "what is ithrive" for "What is iThrive?" — and none
+ * of it changes which question it is. Marks are kept, because in the Indic
+ * scripts a vowel sign is part of the word, not decoration.
+ */
+function faq_exact_key(string $text): string
+{
+    return preg_replace('/[^\p{L}\p{N}\p{M}]+/u', '', mb_strtolower(trim($text))) ?? '';
+}
+
 function faq_index(): array
 {
     static $index = null;
@@ -227,13 +240,14 @@ function faq_index(): array
 
     if (is_file($cache)) {
         $data = json_decode((string) file_get_contents($cache), true);
-        if (is_array($data) && isset($data['docs'], $data['df'], $data['pfx'])) {
+        if (is_array($data) && isset($data['docs'], $data['df'], $data['pfx'], $data['exact'])) {
             return $index = $data;
         }
     }
 
-    $docs = [];
-    $df   = [];
+    $docs  = [];
+    $df    = [];
+    $exact = [];   // faq_exact_key(question, any language) => [doc number, language]
 
     /* The other five languages, folded into the same index.
      *
@@ -258,6 +272,10 @@ function faq_index(): array
             $s = faq_stem($t);
             $bag[$s] = ($bag[$s] ?? 0) + 3;
         }
+
+        // The first entry to claim a wording keeps it; the corpus is ordered
+        // by trust, so that is the answer book.
+        $exact[faq_exact_key($entry['q'])] ??= [$n, 'en'];
         foreach (faq_search_terms($entry['terms']) as $t) {
             $s = faq_stem($t);
             $bag[$s] = ($bag[$s] ?? 0) + 2;
@@ -274,6 +292,7 @@ function faq_index(): array
                 foreach (faq_search_terms($q) as $t) {
                     $bag[$t] = ($bag[$t] ?? 0) + 3;
                 }
+                $exact[faq_exact_key($q)] ??= [$n, $lang];
             }
 
             $a = sarvam_translate($entry['a'], $lang, 'en', true);
@@ -305,7 +324,7 @@ function faq_index(): array
         $pfx[mb_substr($term, 0, FAQ_STEM_PREFIX)][] = $term;
     }
 
-    $index = ['docs' => $docs, 'df' => $df, 'pfx' => $pfx, 'n' => count($docs)];
+    $index = ['docs' => $docs, 'df' => $df, 'pfx' => $pfx, 'exact' => $exact, 'n' => count($docs)];
 
     if (!is_dir(dirname($cache))) {
         @mkdir(dirname($cache), 0775, true);
@@ -562,7 +581,10 @@ function faq_search(string $question, int $limit = 5): array
  * breaking the search, so renaming an entry degrades to ordinary scoring.
  */
 const FAQ_INTENTS = [
-    '/\b(what|which)\b.{0,24}\b(do|does|are)\b.{0,16}\b(you|your (company|firm|team)|ithrive)\b.{0,16}\b(do|make|build|offer|provide|specialis|specializ)/i'
+    /* The (?!...) keeps the products out: "what does iThrive Chat do" is a
+       question about the chat product, and the .{0,16} gap let it through to
+       the general "what does iThrive do" answer. */
+    '/\b(what|which)\b.{0,24}\b(do|does|are)\b.{0,16}\b(you|your (company|firm|team)|ithrive(?!\s+(chat|drive|ai)\b))\b.{0,16}\b(do|make|build|offer|provide|specialis|specializ)/i'
         => 'page:home:1',
     '/\bwho\s+(are|is)\s+(you|ithrive)\b/i'                        => 'page:home:1',
     '/\bwhat\s+(services|kind of (work|services))\b/i'             => 'page:services:1',
@@ -583,6 +605,26 @@ const FAQ_INTENTS = [
         => 'page:home:2',
     '/\bwhich\s+(city|cities|country)\s+(are|is)\s+(you|ithrive)\b/i' => 'page:home:2',
     '/\bare\s+you\s+(based|located)\b/i'                           => 'page:home:2',
+
+    /* The company in a word or a short phrase, as a voice user says it. Each
+       of these was refused or mis-routed by scoring: "vision" collides with
+       computer vision, and "iThrive" alone is in half the corpus. */
+    '/^\s*(about\s+)?ithrive\s*\??\s*$/i'                           => 'q452',
+    '/\btell\s+me\s+about\s+(ithrive|your\s+company)\b/i'          => 'q452',
+    '/^\s*(ithrive\'?s?\s+|your\s+|company\s+)?vision\s*\??\s*$/i'  => 'q454',
+    '/^\s*(ithrive\'?s?\s+|your\s+|company\s+)?mission\s*\??\s*$/i' => 'q455',
+
+    /* Hindi borrows विज़न for both meanings, so the bare word ties with
+       "computer vision" — and Sarvam gives it back as "Vizan", a spelling
+       rather than a translation, so the English rule above never sees it.
+       Written with and without the nukta, because both are typed. */
+    '/^\s*(iThrive\s+(का|की)\s+)?(विज़न|विजन)\s*[?।]?\s*$/u'          => 'q454',
+
+    /* One word, and the answer should begin by saying what a copilot is. The
+       older copilot entry is right on substance but opens mid-contrast —
+       "Where it lives and who it serves" — which is no way to answer a word. */
+    '/^\s*(an?\s+)?(ai\s+)?co-?pilots?\s*\??\s*$/i'                   => 'q470',
+    '/^\s*(AI\s+)?கோபைலட்(கள்)?\s*\??\s*$/u'                            => 'q470',
     '/\bdo\s+(we|i)\s+own\b/i'                                     => 'page:home:5',
 ];
 
@@ -614,9 +656,65 @@ function faq_entry_by_id(string $id): ?array
  *
  * @return array{matched: bool, entry: array|null, confidence: float, related: array}
  */
+/**
+ * A question the FAQ already asks, word for word, in any of the six languages.
+ *
+ * Scoring is the wrong tool for this case and it fails in a particular way.
+ * "What is iThrive?" is made of the three commonest words in the corpus, so
+ * word overlap had nothing to trust and the assistant refused it; "What is
+ * iThrive's vision?" scored an answer about the Idea-to-Words workflow, and the
+ * Tamil for "What is iThrive?" came back as "What is a Micro SaaS?" because
+ * "what is" outweighed everything else. A visitor who types a question we
+ * publish — or taps a suggestion chip, which sends exactly that text — should
+ * get that question's answer, with nothing to score.
+ *
+ * @return array{matched: bool, entry: array|null, confidence: float, related: array, lang: string}
+ */
+function faq_exact(string $question): array
+{
+    $found = faq_index()['exact'][faq_exact_key($question)] ?? null;
+    if ($found === null) {
+        return ['matched' => false, 'entry' => null, 'confidence' => 0.0, 'related' => [], 'lang' => ''];
+    }
+
+    [$n, $lang] = $found;
+    $entry = faq_corpus()[$n];
+
+    /* Suggestions from the same set first. Nearest by words, "What is
+       iThrive?" offered "What is a Micro SaaS?" — the words "what is" again,
+       not the next thing a visitor asking about the company wants. Someone
+       who asked one question from a set is best served by its neighbours. */
+    $same = []; $other = [];
+    foreach (faq_search($question, 12) as $h) {
+        $e = $h['entry'];
+        if ($e['id'] === $entry['id']) {
+            continue;
+        }
+        $row = ['q' => $e['q'], 'url' => $e['url'], 'id' => $e['id']];
+        // Same category and same page: a book category, or one service page's
+        // own ten — "Service page" alone would lump all nineteen together.
+        $e['label'] === $entry['label'] && $e['url'] === $entry['url'] ? $same[] = $row : $other[] = $row;
+    }
+
+    return [
+        'matched'    => true,
+        'entry'      => $entry,
+        'confidence' => 1.0,
+        'related'    => array_slice([...$same, ...$other], 0, 3),
+        'lang'       => $lang,
+        'routed'     => true,     // decisive: nothing scored should replace it
+    ];
+}
+
 function faq_best(string $question, ?float $floor = null): array
 {
     $floor ??= defined('FAQ_MATCH_FLOOR') ? FAQ_MATCH_FLOOR : 0.35;
+
+    $exact = faq_exact($question);
+    if ($exact['matched']) {
+        return $exact;
+    }
+
     $hits = faq_search($question, 5);
 
     $no = static fn (float $c): array
@@ -645,6 +743,7 @@ function faq_best(string $question, ?float $floor = null): array
             'entry'      => $entry,
             'confidence' => 1.0,
             'related'    => array_slice($related, 0, 3),
+            'routed'     => true,     // an editorial decision, not a score
         ];
     }
 

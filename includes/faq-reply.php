@@ -87,64 +87,83 @@ function faq_resolve(string $question, string $lang = 'en', bool $phrase = false
 {
     $lang = isset(SARVAM_LANGS[$lang]) ? $lang : 'en';
 
-    // ---- 1. into English ---------------------------------------------------
-    $in       = sarvam_question_to_english($question, $lang);
-    $english  = $in['text'];
-    $lang     = $in['lang'];                    // may be corrected by detection
-
-    /*
-     * ---- 2. retrieval --------------------------------------------------
-     *
-     * Searched twice for a non-English question, and the better result wins.
-     *
-     * A translation is a lossy re-wording, so FAQ_LEXICON gets a turn as well —
-     * it folds the visitor's own Indic vocabulary onto English concepts and can
-     * land where a translation drifted.
-     *
-     * But it is a FALLBACK, not a competitor, and the two confidences must not
-     * be compared. The lexicon strips every non-Latin character, so a Hindi
-     * sentence reduces to the one or two broad concepts it recognised — "cost",
-     * "timeline" — and matching both of two terms scores a perfect 1.00. Asked
-     * whether we could make a website faster, that path scored 1.00 and
-     * answered with website pricing, beating a correct but honestly-scored
-     * translation. So the lexicon is consulted only when the real sentence
-     * found nothing at all.
-     */
-    $hit = faq_best($english);
-
-    /*
-     * The visitor's own words, against their own language in the index.
-     *
-     * Once tools/faq-translate.php has run, every question in the corpus exists
-     * in all six languages and its Tamil, Malayalam, Kannada, Telugu and Hindi
-     * wordings are indexed beside the English. So the raw sentence is worth
-     * searching directly — and it is often the better of the two, because it
-     * skips the translation entirely. Asked in Tamil why PostGIS was used on
-     * the taxi app, the English round trip scored 0.32 and declined while the
-     * same question in English scores 0.42; the Tamil text matches the Tamil
-     * question in the index without losing anything on the way.
-     *
-     * Both confidences are computed the same way over comparable term sets, so
-     * unlike the lexicon below they can honestly be compared.
-     */
-    /* On a tie the same-language match wins, because the English side of a tie
-       has been through a translation and the native side has not. A single
-       word is where this bites: "యాజమాన్యం" alone translates to "Management"
-       and "स्वामित्व" to "Possession", both fair readings of the word on its
-       own and both the wrong topic, while the native index had the ownership
-       answers tied at the top. Ties are common here — one term matches its
-       whole vocabulary, so every candidate holding that term scores 1.0. */
-    if ($lang !== 'en') {
-        $sameLang = faq_best($question);
-        if ($sameLang['matched'] && $sameLang['confidence'] >= $hit['confidence']) {
-            $hit = $sameLang;
+    /* ---- 0. a question we already publish ---------------------------------
+       Typed back word for word, or sent by a suggestion chip, it is answered
+       directly — and without translating it first, because we already know
+       what it says. That skips the one paid call a Tamil question otherwise
+       makes before anything else can happen. An exact match in an Indian
+       script also settles the reply language: script is decisive. */
+    $exact = faq_exact($question);
+    if ($exact['matched']) {
+        $hit     = $exact;
+        $english = $exact['entry']['q'];
+        if ($exact['lang'] !== 'en') {
+            $lang = $exact['lang'];
         }
-    }
+    } else {
+        // ---- 1. into English ---------------------------------------------------
+        $in       = sarvam_question_to_english($question, $lang);
+        $english  = $in['text'];
+        $lang     = $in['lang'];                    // may be corrected by detection
 
-    if (!$hit['matched'] && $lang !== 'en') {
-        $native = faq_best(faq_normalise($question));
-        if ($native['matched']) {
-            $hit = $native;
+        /*
+         * ---- 2. retrieval --------------------------------------------------
+         *
+         * Searched twice for a non-English question, and the better result wins.
+         *
+         * A translation is a lossy re-wording, so FAQ_LEXICON gets a turn as well —
+         * it folds the visitor's own Indic vocabulary onto English concepts and can
+         * land where a translation drifted.
+         *
+         * But it is a FALLBACK, not a competitor, and the two confidences must not
+         * be compared. The lexicon strips every non-Latin character, so a Hindi
+         * sentence reduces to the one or two broad concepts it recognised — "cost",
+         * "timeline" — and matching both of two terms scores a perfect 1.00. Asked
+         * whether we could make a website faster, that path scored 1.00 and
+         * answered with website pricing, beating a correct but honestly-scored
+         * translation. So the lexicon is consulted only when the real sentence
+         * found nothing at all.
+         */
+        $hit = faq_best($english);
+
+        /*
+         * The visitor's own words, against their own language in the index.
+         *
+         * Once tools/faq-translate.php has run, every question in the corpus exists
+         * in all six languages and its Tamil, Malayalam, Kannada, Telugu and Hindi
+         * wordings are indexed beside the English. So the raw sentence is worth
+         * searching directly — and it is often the better of the two, because it
+         * skips the translation entirely. Asked in Tamil why PostGIS was used on
+         * the taxi app, the English round trip scored 0.32 and declined while the
+         * same question in English scores 0.42; the Tamil text matches the Tamil
+         * question in the index without losing anything on the way.
+         *
+         * Both confidences are computed the same way over comparable term sets, so
+         * unlike the lexicon below they can honestly be compared.
+         */
+        /* On a tie the same-language match wins, because the English side of a tie
+           has been through a translation and the native side has not. A single
+           word is where this bites: "యాజమాన్యం" alone translates to "Management"
+           and "स्वामित्व" to "Possession", both fair readings of the word on its
+           own and both the wrong topic, while the native index had the ownership
+           answers tied at the top. Ties are common here — one term matches its
+           whole vocabulary, so every candidate holding that term scores 1.0. */
+        /* Unless the English side was routed by hand: a rule someone wrote on
+           purpose outranks any score, and a one-word native query ties at 1.0
+           with whatever else holds that word — the Hindi for "vision" with
+           computer vision. */
+        if ($lang !== 'en' && empty($hit['routed'])) {
+            $sameLang = faq_best($question);
+            if ($sameLang['matched'] && $sameLang['confidence'] >= $hit['confidence']) {
+                $hit = $sameLang;
+            }
+        }
+
+        if (!$hit['matched'] && $lang !== 'en') {
+            $native = faq_best(faq_normalise($question));
+            if ($native['matched']) {
+                $hit = $native;
+            }
         }
     }
 
