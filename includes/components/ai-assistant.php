@@ -27,7 +27,8 @@ declare(strict_types=1);
                   device needs no installed voice for any language. */ ?>
          data-tts="<?= e(url('handlers/tts.php')) ?>"
          data-langs='<?= e(json_encode(ASSISTANT_LANGUAGES, JSON_UNESCAPED_UNICODE)) ?>'
-         data-strings='<?= e(json_encode(ASSISTANT_STRINGS, JSON_UNESCAPED_UNICODE)) ?>'>
+         data-strings='<?= e(json_encode(ASSISTANT_STRINGS, JSON_UNESCAPED_UNICODE)) ?>'
+         data-ui='<?= e(json_encode(array_combine(array_column(ASSISTANT_LANGUAGES, 'code'), array_map('assistant_ui', array_column(ASSISTANT_LANGUAGES, 'code'))), JSON_UNESCAPED_UNICODE)) ?>'>
 
       <div class="assistant-langs" role="group" aria-label="Assistant language">
         <?php foreach (ASSISTANT_LANGUAGES as $i => $l): ?>
@@ -62,21 +63,27 @@ declare(strict_types=1);
 
       <div class="assistant-panel">
         <div class="assistant-log" data-assistant-log role="log" aria-live="polite">
-          <p class="assistant-msg assistant-msg--bot">
-            Ask me what iThrive builds, how an engagement runs, or about any of our ten case
-            studies. Try &ldquo;what did you build for Lotus Eye Hospital?&rdquo;
-          </p>
+          <?php /* Follows the chosen language until the conversation starts. */ ?>
+          <p class="assistant-msg assistant-msg--bot" data-assistant-greeting><?= e(assistant_ui('en')['greeting']) ?></p>
         </div>
 
-        <?php /* The label follows the chosen language; the question sent is always
-                 the canonical English one from the answer book, so the match does
-                 not depend on how a translation happens to land. */ ?>
+        <?php /* Each chip is a published question, labelled with the corpus's own
+                 translation in every language. Tapped, it sends that exact text and
+                 its entry id, so it is answered word for word in the visitor's
+                 language — and the transcript shows what they tapped, not English.
+                 After the first answer the chips become suggested follow-ups. */ ?>
         <div class="assistant-prompts">
           <?php foreach (ASSISTANT_PROMPTS as $id => $labels): ?>
-            <?php $canonical = array_column(FAQ, 'q', 'id')[$id] ?? $labels['en']; ?>
+            <?php
+              $canonical = array_column(FAQ, 'q', 'id')[$id] ?? $labels['en'];
+              $chipLabels = [];
+              foreach (ASSISTANT_LANGUAGES as $l) {
+                  $chipLabels[$l['code']] = ui_question($canonical, $l['code']);
+              }
+            ?>
             <button class="assistant-chip" type="button" data-assistant-ask
-                    data-question="<?= e($canonical) ?>"
-                    data-labels='<?= e(json_encode($labels, JSON_UNESCAPED_UNICODE)) ?>'><?= e($labels['en']) ?></button>
+                    data-question="<?= e($canonical) ?>" data-faq-id="<?= e($id) ?>"
+                    data-labels='<?= e(json_encode($chipLabels, JSON_UNESCAPED_UNICODE)) ?>'><?= e($canonical) ?></button>
           <?php endforeach; ?>
         </div>
 
@@ -90,7 +97,7 @@ declare(strict_types=1);
         <div class="assistant-meta">
           <label class="assistant-toggle">
             <input type="checkbox" data-assistant-voice checked>
-            <span>Speak answers aloud</span>
+            <span data-ui-text="speakAloud">Speak answers aloud</span>
           </label>
           <p class="assistant-note" data-assistant-support></p>
         </div>

@@ -77,13 +77,16 @@ function faq_phrase(string $question, string $answer, string $lang): ?string
  * @param string $question Raw text as typed, in any of the six languages.
  * @param string $lang     The language chosen in the UI.
  * @param bool   $phrase   Let the model rephrase. Off for the strict demo voice.
+ * @param array  $context  ['page' => the visitor's path, 'id' => the entry a
+ *                         suggestion chip named]. Both only break ties between
+ *                         entries whose questions read identically.
  *
  * @return array{
  *     matched: bool, text: string, id: string, url: string, source: string,
  *     confidence: float, lang: string, translated: bool, related: array
  * }
  */
-function faq_resolve(string $question, string $lang = 'en', bool $phrase = false): array
+function faq_resolve(string $question, string $lang = 'en', bool $phrase = false, array $context = []): array
 {
     $lang = isset(SARVAM_LANGS[$lang]) ? $lang : 'en';
 
@@ -93,7 +96,18 @@ function faq_resolve(string $question, string $lang = 'en', bool $phrase = false
        what it says. That skips the one paid call a Tamil question otherwise
        makes before anything else can happen. An exact match in an Indian
        script also settles the reply language: script is decisive. */
-    $exact = faq_exact($question);
+    $exact = faq_exact($question, (string) ($context['page'] ?? ''), (string) ($context['id'] ?? ''));
+
+    /* A core topic said as one word is settled the same way, before any paid
+       call: faq_best() routes it from FAQ_KEYWORDS. Its language comes from
+       its script, which sarvam_detect() reads without calling the API. */
+    if (!$exact['matched'] && faq_keyword_id($question) !== null) {
+        $exact = faq_best($question);
+        $exact['lang'] = preg_match('/[A-Za-z]/', $question) && !preg_match('/[^\x00-\x7F]/', $question)
+            ? 'en'
+            : (sarvam_detect($question) ?? $lang);
+    }
+
     if ($exact['matched']) {
         $hit     = $exact;
         $english = $exact['entry']['q'];
@@ -223,7 +237,7 @@ function faq_resolve(string $question, string $lang = 'en', bool $phrase = false
     $related = [];
     foreach ($hit['related'] as $r) {
         $q = $lang === 'en' ? $r['q'] : (sarvam_translate($r['q'], $lang, 'en', true) ?? $r['q']);
-        $related[] = ['q' => $q, 'url' => $r['url']];
+        $related[] = ['q' => $q, 'url' => $r['url'], 'id' => $r['id'] ?? ''];
     }
 
     return [

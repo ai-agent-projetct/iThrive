@@ -4,11 +4,38 @@
  *
  * Rendered on every page. chat.js activates it; without JavaScript the launcher
  * is simply not shown, and the contact routes still work.
+ *
+ * Everything the panel says is available in all six languages. The English is
+ * rendered; data-ui and data-starters carry the rest, and chat.js swaps them
+ * in when the visitor picks a language, so a Tamil visitor never meets an
+ * English greeting, placeholder or error.
  */
 
 declare(strict_types=1);
+
+$ui = [];
+foreach (ASSISTANT_LANGUAGES as $l) {
+    $ui[$l['code']] = assistant_ui($l['code']);
+}
+
+/* Starter chips are published questions, so each is answered exactly, and
+   each carries its entry id so a tap can never land on a look-alike. */
+$homeFaqs  = PAGE_FAQS['home'] ?? [];
+$starterAt = [0, 2, 4];     // "What does iThrive actually do?", "How do engagements start?", "Do we own the code?"
+$starters  = [];
+foreach (ASSISTANT_LANGUAGES as $l) {
+    foreach ($starterAt as $i) {
+        if (isset($homeFaqs[$i]['q'])) {
+            $starters[$l['code']][] = ['id' => 'page:home:' . ($i + 1), 'q' => ui_question($homeFaqs[$i]['q'], $l['code'])];
+        }
+    }
+}
+$en = $ui['en'];
 ?>
-<div class="chat" id="chatWidget" data-endpoint="<?= e(url('handlers/chat.php')) ?>" hidden>
+<div class="chat" id="chatWidget" data-endpoint="<?= e(url('handlers/chat.php')) ?>"
+     data-ui='<?= e(json_encode($ui, JSON_UNESCAPED_UNICODE)) ?>'
+     data-starters='<?= e(json_encode($starters, JSON_UNESCAPED_UNICODE)) ?>'
+     data-email="<?= e(SITE_EMAIL) ?>" hidden>
   <button class="chat-launcher" type="button" data-chat-toggle aria-expanded="false" aria-controls="chatPanel">
     <span class="chat-launcher-icon"><?= icon('message') ?></span>
     <span class="chat-launcher-close"><?= icon('close') ?></span>
@@ -20,7 +47,7 @@ declare(strict_types=1);
       <span class="chat-avatar"><?= icon('sparkles') ?></span>
       <div class="chat-head-text">
         <p class="chat-title">iThrive AIChat</p>
-        <p class="chat-status"><span class="chat-dot"></span>Answers from our own case studies</p>
+        <p class="chat-status"><span class="chat-dot"></span><span data-ui-text="status"><?= e($en['status']) ?></span></p>
       </div>
       <?php /* The language the assistant answers in.
                Every answer on the site is held in all six, so this is a
@@ -38,27 +65,29 @@ declare(strict_types=1);
     </header>
 
     <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-atomic="false">
-      <div class="chat-msg chat-msg--bot">
-        <p>I can answer questions about what we build, walk you through any of our <?= count(CASE_STUDIES) ?> case studies, and put you in front of an engineer when it is worth it. What are you working on?</p>
+      <div class="chat-msg chat-msg--bot" data-chat-greeting>
+        <p data-ui-text="chatGreeting"><?= e($en['chatGreeting']) ?></p>
       </div>
     </div>
 
     <div class="chat-suggestions" id="chatSuggestions">
-      <button class="chat-chip" type="button" data-chat-suggest>What do you build with Python and AI?</button>
-      <button class="chat-chip" type="button" data-chat-suggest>Have you done anything in healthcare?</button>
-      <button class="chat-chip" type="button" data-chat-suggest>How does an engagement start?</button>
+      <?php foreach ($starters['en'] ?? [] as $s): ?>
+        <button class="chat-chip" type="button" data-chat-suggest data-faq-id="<?= e($s['id']) ?>"><?= e($s['q']) ?></button>
+      <?php endforeach; ?>
     </div>
 
     <form class="chat-form" id="chatForm">
       <label class="chat-label" for="chatInput">Your message</label>
       <textarea class="chat-input" id="chatInput" rows="1" maxlength="2000"
-                placeholder="Describe what you are trying to build…" autocomplete="off"></textarea>
+                placeholder="<?= e($en['placeholder']) ?>" autocomplete="off"></textarea>
       <button class="chat-send" type="submit" aria-label="Send message"><?= icon('arrow') ?></button>
     </form>
 
-    <p class="chat-foot">
-      AI assistant — it can be wrong. For anything binding, email
-      <a href="mailto:<?= e(SITE_EMAIL) ?>"><?= e(SITE_EMAIL) ?></a>.
-    </p>
+    <?php /* The email stays a link; the sentence around it follows the language. */ ?>
+    <p class="chat-foot" data-ui-foot><?= str_replace(
+        e(SITE_EMAIL),
+        '<a href="mailto:' . e(SITE_EMAIL) . '">' . e(SITE_EMAIL) . '</a>',
+        e($en['disclaimer'])
+    ) ?></p>
   </section>
 </div>

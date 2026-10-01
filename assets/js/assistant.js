@@ -32,10 +32,15 @@
 
   const LANGS   = JSON.parse(root.dataset.langs || '[]');
   const STRINGS = JSON.parse(root.dataset.strings || '{}');
+  // The words around the answers — greeting, errors, notes — in all six languages.
+  let UI = {};
+  try { UI = JSON.parse(root.dataset.ui || '{}'); } catch { /* English stays */ }
   const ttsUrl  = root.dataset.tts || '';
 
   let lang = LANGS[0] || { code: 'en', bcp47: 'en-IN', name: 'English' };
   const str = (k) => (STRINGS[lang.code] || STRINGS.en || {})[k] || '';
+  const ui  = (k) => (UI[lang.code] || UI.en || {})[k] || (UI.en || {})[k] || '';
+  let started = false;     // once asked, the greeting and chips stop following the language
 
   let busy = false;
   let recognising = false;
@@ -50,13 +55,12 @@
 
   /* ---------------------------------------------------------------- support */
 
+  const supportText = () => { support.textContent = canHear ? ui('voiceIn') : ui('voiceNeeds'); };
   if (!canHear) {
     mic.hidden = true;
     stateEl.textContent = str('prompt');
-    support.textContent = 'Voice input needs Chrome, Edge or Safari — typing works everywhere.';
-  } else {
-    support.textContent = 'Voice input runs in your browser; nothing is recorded.';
   }
+  supportText();
   if (!canSpeak && voiceOn) {
     voiceOn.checked = false;
     voiceOn.disabled = true;
@@ -192,11 +196,12 @@
 
   /* ----------------------------------------------------------------- ask */
 
-  async function ask(question) {
+  async function ask(question, faqId = '') {
     question = (question || '').trim();
     if (!question || busy) return;
 
     busy = true;
+    started = true;
     add('user', question);
     input.value = '';
     setState('thinking', str('thinking'));
@@ -208,16 +213,19 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ message: question, lang: lang.code }),
+        // The page breaks ties between questions that read the same; the
+        // chip id names exactly which published question was tapped.
+        body: JSON.stringify({ message: question, lang: lang.code, page: location.pathname, faq_id: faqId }),
       });
       const data = await res.json().catch(() => ({}));
-      const reply = data.reply || 'I could not reach my assistant service just now.';
+      const reply = data.reply || ui('error');
 
       pending.textContent = reply;
       log.scrollTop = log.scrollHeight;
+      showRelated(data.related);
       speak(reply);
     } catch {
-      pending.textContent = 'I could not reach the server. Try again, or email hello@ithrivesoftware.com.';
+      pending.textContent = ui('offline');
       setState('idle', str('prompt'));
     } finally {
       busy = false;
@@ -226,12 +234,33 @@
 
   form.addEventListener('submit', (e) => { e.preventDefault(); ask(input.value); });
 
-  // The chip shows the visitor's language but asks the canonical English
-  // question, so a suggested prompt always resolves to a real answer.
+  /* A chip sends exactly what it shows — a published question in the
+     visitor's language — with its entry id, so it is answered word for word
+     and the transcript reads in their language. Delegated, because after an
+     answer the chips are replaced by suggested follow-ups. */
+  const prompts = root.querySelector('.assistant-prompts');
   const chips = Array.from(root.querySelectorAll('[data-assistant-ask]'));
-  chips.forEach((b) => {
-    b.addEventListener('click', () => ask(b.dataset.question || b.textContent.trim()));
-  });
+  if (prompts) {
+    prompts.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-assistant-ask]');
+      if (b) ask(b.textContent.trim() || b.dataset.question, b.dataset.faqId || '');
+    });
+  }
+
+  /** Offer the next questions the FAQ can answer, in the reply's language. */
+  function showRelated(related) {
+    if (!prompts || !Array.isArray(related) || related.length === 0) return;
+    prompts.replaceChildren(...related.slice(0, 3).filter((r) => r && r.q).map((r) => {
+      const b = document.createElement('button');
+      b.className = 'assistant-chip';
+      b.type = 'button';
+      b.setAttribute('data-assistant-ask', '');
+      if (r.id) b.dataset.faqId = r.id;
+      b.textContent = r.q;
+      b.lang = lang.code;
+      return b;
+    }));
+  }
 
   const relabelChips = () => {
     chips.forEach((b) => {
@@ -271,6 +300,12 @@
       input.lang = lang.code;
       log.lang = lang.code;
       relabelChips();
+      supportText();
+      root.querySelectorAll('[data-ui-text]').forEach((el) => { const t = ui(el.dataset.uiText); if (t) el.textContent = t; });
+      if (!started) {
+        const greet = root.querySelector('[data-assistant-greeting]');
+        if (greet && ui('greeting')) greet.textContent = ui('greeting');
+      }
       pickVoice();
       if (canSpeak) speechSynthesis.cancel();
       if (audio) audio.pause();

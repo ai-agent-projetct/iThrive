@@ -88,6 +88,14 @@ $message = trim((string) ($body['message'] ?? ''));
 // Language is chosen in the UI; anything unrecognised falls back to English.
 $lang = assistant_language((string) ($body['lang'] ?? 'en'))['code'];
 
+/* Where the visitor is, and which suggestion they tapped. Both come from the
+   browser, so both are held to a shape before use: they only ever choose
+   between FAQ entries whose questions read identically, never add content. */
+$faqContext = [
+    'page' => preg_match('#^/[A-Za-z0-9/_.\-]{0,200}$#', (string) ($body['page'] ?? '')) ? (string) $body['page'] : '',
+    'id'   => preg_match('#^[a-z0-9:_\-]{1,80}$#', (string) ($body['faq_id'] ?? '')) ? (string) $body['faq_id'] : '',
+];
+
 if ($message === '') {
     $send(['error' => 'empty_message'], 400);
 }
@@ -144,7 +152,7 @@ if ($result['error'] !== null || $result['text'] === '') {
          * Site content second, for contact details and the like. Anything else
          * gets the demo boundary, which is the whole point of the demo.
          */
-        $faq   = faq_resolve($message, $lang, FAQ_PHRASE_WITH_MODEL);
+        $faq   = faq_resolve($message, $lang, FAQ_PHRASE_WITH_MODEL, $faqContext);
         $state = 'faq';
 
         if ($faq['matched']) {

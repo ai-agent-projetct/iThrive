@@ -172,6 +172,14 @@ function faq_stem(string $word): string
         return $word;
     }
 
+    /* Words the suffix rules would merge with a different word. "officers"
+       loses -ers and "offices" loses -es, both becoming "offic", so asking
+       where the offices are suggested "What stops officers ignoring what they
+       are assigned?". */
+    if ($word === 'officer' || $word === 'officers') {
+        return 'officer';
+    }
+
     foreach (['ations', 'ation', 'ingly', 'ing', 'ies', 'ied', 'ers', 'er', 'ed', 'es', 's'] as $suffix) {
         $len = strlen($suffix);
         if (strlen($word) > $len + 3 && substr($word, -$len) === $suffix) {
@@ -240,14 +248,18 @@ function faq_index(): array
 
     if (is_file($cache)) {
         $data = json_decode((string) file_get_contents($cache), true);
-        if (is_array($data) && isset($data['docs'], $data['df'], $data['pfx'], $data['exact'])) {
+        if (is_array($data) && isset($data['docs'], $data['df'], $data['pfx'], $data['exact'])
+            && ($data['format'] ?? 0) === 2) {
             return $index = $data;
         }
     }
 
     $docs  = [];
     $df    = [];
-    $exact = [];   // faq_exact_key(question, any language) => [doc number, language]
+    /* faq_exact_key(question, any language) => list of [doc number, language].
+       A list, because different English questions can translate to the same
+       words: "What does it cost?" on three pages is one Telugu sentence. */
+    $exact = [];
 
     /* The other five languages, folded into the same index.
      *
@@ -273,9 +285,8 @@ function faq_index(): array
             $bag[$s] = ($bag[$s] ?? 0) + 3;
         }
 
-        // The first entry to claim a wording keeps it; the corpus is ordered
-        // by trust, so that is the answer book.
-        $exact[faq_exact_key($entry['q'])] ??= [$n, 'en'];
+        // In corpus order, which is trust order: the answer book first.
+        $exact[faq_exact_key($entry['q'])][] = [$n, 'en'];
         foreach (faq_search_terms($entry['terms']) as $t) {
             $s = faq_stem($t);
             $bag[$s] = ($bag[$s] ?? 0) + 2;
@@ -292,7 +303,7 @@ function faq_index(): array
                 foreach (faq_search_terms($q) as $t) {
                     $bag[$t] = ($bag[$t] ?? 0) + 3;
                 }
-                $exact[faq_exact_key($q)] ??= [$n, $lang];
+                $exact[faq_exact_key($q)][] = [$n, $lang];
             }
 
             $a = sarvam_translate($entry['a'], $lang, 'en', true);
@@ -324,7 +335,7 @@ function faq_index(): array
         $pfx[mb_substr($term, 0, FAQ_STEM_PREFIX)][] = $term;
     }
 
-    $index = ['docs' => $docs, 'df' => $df, 'pfx' => $pfx, 'exact' => $exact, 'n' => count($docs)];
+    $index = ['docs' => $docs, 'df' => $df, 'pfx' => $pfx, 'exact' => $exact, 'format' => 2, 'n' => count($docs)];
 
     if (!is_dir(dirname($cache))) {
         @mkdir(dirname($cache), 0775, true);
@@ -628,6 +639,60 @@ const FAQ_INTENTS = [
     '/\bdo\s+(we|i)\s+own\b/i'                                     => 'page:home:5',
 ];
 
+/**
+ * The core topics a voice user says as a single word, in all six languages.
+ *
+ * One word gives scoring nothing to separate: the Hindi स्वामित्व is both
+ * "ownership" and "proprietary" and landed on open-source versus proprietary
+ * AI; कार्यालय matched "access your ERP from outside the office"; the Tamil
+ * தொடர்பு is "contact" and "communication" at once. For these topics the
+ * answer is an editorial choice, the same one the English word gets, so a
+ * visitor who just says the word hears the general answer in any language.
+ * Matched on the whole input, normalised by faq_exact_key(), so it never
+ * fires on a word inside a longer question.
+ */
+const FAQ_KEYWORDS = [
+    'page:home:4' => ['price', 'prices', 'pricing', 'cost', 'costs', 'rates', 'fees',
+                      'விலை', 'செலவு', 'கட்டணம்', 'വില', 'ചെലവ്', 'ಬೆಲೆ', 'ವೆಚ್ಚ',
+                      'ధర', 'ఖర్చు', 'कीमत', 'लागत', 'मूल्य', 'दाम'],
+    'page:home:5' => ['ownership', 'code ownership', 'ip ownership', 'உரிமை', 'உரிமையாளர்',
+                      'ഉടമസ്ഥാവകാശം', 'ഉടമസ്ഥത', 'ಮಾಲೀಕತ್ವ', 'యాజమాన్యం', 'స్వామ్యం', 'स्वामित्व'],
+    'page:home:2' => ['office', 'offices', 'address', 'location', 'locations',
+                      'அலுவலகம்', 'முகவரி', 'ഓഫീസ്', 'വിലാസം', 'ಕಚೇರಿ', 'ವಿಳಾಸ',
+                      'కార్యాలయం', 'చిరునామా', 'कार्यालय', 'ऑफ़िस', 'ऑफिस', 'पता'],
+    'q101'        => ['flutter', 'ஃப்ளட்டர்', 'ഫ്ലട്ടർ', 'ಫ್ಲಟರ್', 'ఫ్లట్టర్', 'फ़्लटर', 'फ्लटर'],
+    'q15'         => ['agents', 'ai agents', 'ai agent', 'AI ஏஜென்ட்கள்', 'AI முகவர்கள்', 'AI ഏജന്റുകൾ',
+                      'AI ಏಜೆಂಟ್‌ಗಳು', 'AI ఏజెంట్లు', 'AI एजेंट'],
+    'q80'         => ['chatbot', 'chatbots', 'chat bot', 'சாட்பாட்', 'ചാറ്റ്ബോട്ട്', 'ಚಾಟ್‌ಬಾಟ್',
+                      'చాట్‌బాట్', 'चैटबॉट', 'चैटबोट'],
+    'q76'         => ['security', 'data security', 'privacy', 'பாதுகாப்பு', 'தரவுப் பாதுகாப்பு', 'സുരക്ഷ',
+                      'ಭದ್ರತೆ', 'ಸುರಕ್ಷತೆ', 'భద్రత', 'సురక్షిత', 'सुरक्षा', 'डेटा सुरक्षा'],
+    'q83'         => ['timeline', 'timelines', 'duration', 'how long', 'கால அளவு', 'காலக்கெடு',
+                      'സമയപരിധി', 'ಸಮಯಾವಧಿ', 'ಕಾಲಾವಧಿ', 'కాలపరిమితి', 'समय-सीमा', 'समय सीमा', 'अवधि'],
+    'q7'          => ['maintenance', 'support', 'after launch support', 'பராமரிப்பு', 'പരിപാലനം',
+                      'ನಿರ್ವಹಣೆ', 'నిర్వహణ', 'रखरखाव'],
+    'q431'        => ['contact', 'contact us', 'get started', 'தொடர்பு', 'தொடர்பு கொள்ள', 'ബന്ധപ്പെടുക',
+                      'ಸಂಪರ್ಕ', 'సంప్రదించండి', 'సంప్రదింపు', 'संपर्क'],
+    'q454'        => ['vision', 'தொலைநோக்கு', 'ദർശനം', 'ದೂರದೃಷ್ಟಿ', 'దార్శనికత', 'विज़न', 'विजन'],
+    'q455'        => ['mission', 'பணி நோக்கம்', 'ദൗത്യം', 'ಧ್ಯೇಯ', 'ధ్యేయం', 'मिशन'],
+];
+
+/** The FAQ_KEYWORDS entry this whole input names, or null. */
+function faq_keyword_id(string $question): ?string
+{
+    static $map = null;
+    if ($map === null) {
+        $map = [];
+        foreach (FAQ_KEYWORDS as $id => $words) {
+            foreach ($words as $w) {
+                $map[faq_exact_key($w)] = $id;
+            }
+        }
+    }
+
+    return $map[faq_exact_key($question)] ?? null;
+}
+
 /** The corpus entry with this id, or null. */
 function faq_entry_by_id(string $id): ?array
 {
@@ -670,15 +735,59 @@ function faq_entry_by_id(string $id): ?array
  *
  * @return array{matched: bool, entry: array|null, confidence: float, related: array, lang: string}
  */
-function faq_exact(string $question): array
+/**
+ * Whether a corpus url ("case-studies/madura-grandeur.php") is the page a
+ * visitor is on ("/case-studies/madura-grandeur", "/ithrive/case-studies/…php").
+ * Extensionless URLs are served by .htaccess, and the site may sit in a
+ * subfolder, so the corpus path is matched against the end of the visitor's.
+ */
+function faq_same_page(string $url, string $page): bool
+{
+    $norm = static fn (string $p): string => preg_replace(
+        ['#[?\#].*$#', '#\.php$#', '#/index$#', '#^/+|/+$#'], ['', '', '', ''], $p) ?? '';
+
+    $url  = $norm($url);
+    $page = $norm($page);
+    if ($url === '' || $url === 'index') {
+        return $page === '' || $page === 'index';
+    }
+
+    return $page === $url || str_ends_with($page, '/' . $url);
+}
+
+function faq_exact(string $question, string $page = '', string $preferId = ''): array
 {
     $found = faq_index()['exact'][faq_exact_key($question)] ?? null;
     if ($found === null) {
         return ['matched' => false, 'entry' => null, 'confidence' => 0.0, 'related' => [], 'lang' => ''];
     }
 
-    [$n, $lang] = $found;
-    $entry = faq_corpus()[$n];
+    /* Several entries can share one wording — "How long did it take?" is a
+       question on every case study. Choose, in order: the entry a suggestion
+       chip named (honoured only because the text really is that entry's
+       question, so a stale or forged id cannot pull in anything else), then
+       the entry published on the page the visitor is reading, then the most
+       trusted source. */
+    $corpus = faq_corpus();
+    $pick   = null;
+    foreach ($found as $cand) {
+        if ($preferId !== '' && $corpus[$cand[0]]['id'] === $preferId) {
+            $pick = $cand;
+            break;
+        }
+    }
+    if ($pick === null && $page !== '') {
+        foreach ($found as $cand) {
+            if (faq_same_page($corpus[$cand[0]]['url'], $page)) {
+                $pick = $cand;
+                break;
+            }
+        }
+    }
+    $pick ??= $found[0];
+
+    [$n, $lang] = $pick;
+    $entry = $corpus[$n];
 
     /* Suggestions from the same set first. Nearest by words, "What is
        iThrive?" offered "What is a Micro SaaS?" — the words "what is" again,
@@ -694,6 +803,30 @@ function faq_exact(string $question): array
         // Same category and same page: a book category, or one service page's
         // own ten — "Service page" alone would lump all nineteen together.
         $e['label'] === $entry['label'] && $e['url'] === $entry['url'] ? $same[] = $row : $other[] = $row;
+    }
+
+    /* When word overlap finds none of the set, offer the set's own next
+       questions anyway. "How do engagements usually start?" shares no
+       distinctive words with "What does a typical project cost?", so the
+       chips fell back to ROI measurement and e-commerce conversion — related
+       to nothing the visitor had asked. The questions published beside it are
+       the natural follow-ups. */
+    if (count($same) < 3) {
+        $have = array_column($same, 'id');
+        $set  = array_values(array_filter($corpus, static fn ($e) =>
+            $e['label'] === $entry['label'] && $e['url'] === $entry['url'] && $e['id'] !== $entry['id']));
+        // Start after the asked question, wrapping round, so the next ones come first.
+        $pos = array_flip(array_column($corpus, 'id'));
+        $at  = $pos[$entry['id']];
+        $len = count($corpus);
+        usort($set, static fn ($x, $y) =>
+            (($pos[$x['id']] - $at + $len) % $len) <=> (($pos[$y['id']] - $at + $len) % $len));
+        foreach ($set as $e) {
+            if (count($same) >= 3) { break; }
+            if (!in_array($e['id'], $have, true)) {
+                $same[] = ['q' => $e['q'], 'url' => $e['url'], 'id' => $e['id']];
+            }
+        }
     }
 
     return [
@@ -719,6 +852,25 @@ function faq_best(string $question, ?float $floor = null): array
 
     $no = static fn (float $c): array
         => ['matched' => false, 'entry' => null, 'confidence' => $c, 'related' => []];
+
+    // A core topic said as one word, in any of the six languages.
+    $kwId = faq_keyword_id($question);
+    if ($kwId !== null && ($entry = faq_entry_by_id($kwId)) !== null) {
+        $related = [];
+        foreach (array_slice($hits, 0, 4) as $h) {
+            if ($h['entry']['id'] !== $kwId) {
+                $related[] = ['q' => $h['entry']['q'], 'url' => $h['entry']['url'], 'id' => $h['entry']['id']];
+            }
+        }
+
+        return [
+            'matched'    => true,
+            'entry'      => $entry,
+            'confidence' => 1.0,
+            'related'    => array_slice($related, 0, 3),
+            'routed'     => true,
+        ];
+    }
 
     // Editorial routing for the general openers, before any scoring is trusted.
     foreach (FAQ_INTENTS as $pattern => $id) {

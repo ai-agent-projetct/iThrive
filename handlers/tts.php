@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/includes/config.php';
 require_once dirname(__DIR__) . '/includes/ai.php';
+require_once dirname(__DIR__) . '/includes/tts-wav.php';
 
 header('X-Content-Type-Options: nosniff');
 
@@ -45,6 +46,33 @@ if ($text === '') {
 
 // Synthesis cost and latency scale with length, and this is a public endpoint.
 $text = mb_substr($text, 0, 900);
+
+/*
+ * Speech for a given text is fixed, and nearly everything spoken here is a
+ * fixed FAQ answer — so it is bought once and replayed from disk. Every tap of
+ * the speaker icon on the same answer used to be a fresh paid synthesis.
+ * Served before the rate limit, because a cached reply costs nothing.
+ * storage/cache/tts/ is git-ignored (cache/* in storage/.gitignore).
+ */
+$ttsKey   = hash('sha256', implode('|', [SARVAM_API_KEY !== '' ? 'sarvam:' . SARVAM_SPEAKER : 'other:' . TTS_ENDPOINT, $lang['code'], $text]));
+$ttsCache = STORAGE_PATH . '/cache/tts/' . substr($ttsKey, 0, 2) . '/' . $ttsKey;
+foreach (['wav' => 'audio/wav', 'mp3' => 'audio/mpeg'] as $ext => $mime) {
+    if (is_file("$ttsCache.$ext")) {
+        header('Content-Type: ' . $mime);
+        header('Cache-Control: private, max-age=86400');
+        readfile("$ttsCache.$ext");
+        exit;
+    }
+}
+
+/** Keep synthesised speech for next time. */
+function tts_keep(string $path, string $audio): void
+{
+    if (!is_dir(dirname($path))) {
+        @mkdir(dirname($path), 0775, true);
+    }
+    @file_put_contents($path, $audio);
+}
 
 // Shares the chat endpoint's budget so voice cannot be used to bypass it.
 $now = time();
@@ -174,18 +202,22 @@ function tts_sarvam(string $text, string $bcp47): ?string
 
 // Sarvam first when configured, then an explicit endpoint, then the default.
 if (SARVAM_API_KEY !== '') {
-    $audio = '';
+    $parts = [];
     foreach (tts_chunks($text, 450) as $chunk) {
         $part = tts_sarvam($chunk, $lang['bcp47']);
         if ($part === null) {
+            $parts = [];      // a half-spoken answer is worse than the fallback voice
             break;
         }
-        $audio .= $part;
+        $parts[] = $part;
     }
 
-    if ($audio !== '') {
+    $audio = $parts === [] ? null : (count($parts) === 1 ? $parts[0] : tts_wav_join($parts));
+
+    if ($audio !== null && $audio !== '') {
+        tts_keep("$ttsCache.wav", $audio);
         header('Content-Type: audio/wav');
-        header('Cache-Control: private, max-age=600');
+        header('Cache-Control: private, max-age=86400');
         echo $audio;
         exit;
     }
@@ -210,8 +242,9 @@ if ($backend === 'google') {
         exit;
     }
 
+    tts_keep("$ttsCache.mp3", $audio);
     header('Content-Type: audio/mpeg');
-    header('Cache-Control: private, max-age=600');
+    header('Cache-Control: private, max-age=86400');
     echo $audio;
     exit;
 }

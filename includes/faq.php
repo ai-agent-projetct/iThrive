@@ -103,7 +103,11 @@ const FAQ = [
         'q' => 'Does iThrive provide post-launch maintenance and support?',
         'a' => 'Yes. We offer SLA-backed maintenance packages covering server and cloud monitoring, bug '
              . 'fixes, third-party API updates, LLM cost optimisation and feature enhancements.',
-        'terms' => 'maintenance support post launch after launch sla warranty bug fix ongoing amc',
+        // "manage/managing ... post release" is how Sarvam renders the Kannada and
+        // Telugu for "will you maintain the app after launch"; without these the
+        // question landed on App Store submission, which also "manages" a release.
+        'terms' => 'maintenance support post launch after launch sla warranty bug fix ongoing amc '
+             . 'maintain manage managing upkeep updates post release after release app',
     ],
 
     // ---- 2. AI-First & AI-Native product development -----------------------
@@ -2639,8 +2643,7 @@ const FAQ = [
     ],
     [
         'id' => 'q285', 'cat' => 'page-faq',
-        'q' => 'What is the average timeline to build and deploy a custom Generative AI solution? '
-             . 'What is the average timeline to build and deploy a custom Generative AI solution?',
+        'q' => 'What is the average timeline to build and deploy a custom Generative AI solution?',
         'a' => 'A focused Proof of Concept is delivered in 2 to 3 weeks, while a full-scale '
              . 'enterprise production platform typically ships in 6 to 10 weeks.',
         'terms' => 'generative genai llm foundation model finetune finetuning lora qlora '
@@ -2805,8 +2808,7 @@ const FAQ = [
     ],
     [
         'id' => 'q301', 'cat' => 'page-faq',
-        'q' => 'Can the copilot execute actions on behalf of the user, such as creating records? '
-             . 'Can the copilot execute actions on behalf of the user, such as creating records?',
+        'q' => 'Can the copilot execute actions on behalf of the user, such as creating records?',
         'a' => 'Yes. Using secure tool-calling and API contracts, the copilot can draft '
              . 'transactions, create Jira tickets, trigger database updates, and send emails, '
              . 'with optional human-confirmation modals.',
@@ -3541,8 +3543,7 @@ const FAQ = [
     ],
     [
         'id' => 'q370', 'cat' => 'page-faq',
-        'q' => 'How do agents receive real-time updates when data changes in our CRM or database? '
-             . 'How do agents receive real-time updates when data changes in our CRM or database?',
+        'q' => 'How do agents receive real-time updates when data changes in our CRM or database?',
         'a' => 'We configure Change Data Capture (CDC) pipelines using Debezium and Kafka. When a '
              . 'record changes in your database or CRM, a webhook or event is published '
              . 'immediately to the agentic event mesh.',
@@ -3764,8 +3765,7 @@ const FAQ = [
     ],
     [
         'id' => 'q391', 'cat' => 'page-faq',
-        'q' => 'How do you guarantee that automated workflows don\'t perform unintended actions? '
-             . 'How do you guarantee that automated workflows don\'t perform unintended actions?',
+        'q' => 'How do you guarantee that automated workflows don\'t perform unintended actions?',
         'a' => 'We implement deterministic guardrails, Pydantic type validation, schema boundary '
              . 'checks, and human-in-the-loop approval thresholds for high-stakes actions like '
              . 'financial transfers.',
@@ -3785,8 +3785,7 @@ const FAQ = [
     ],
     [
         'id' => 'q393', 'cat' => 'page-faq',
-        'q' => 'Can workflows be deployed inside our private cloud or on-premise infrastructure? '
-             . 'Can workflows be deployed inside our private cloud or on-premise infrastructure?',
+        'q' => 'Can workflows be deployed inside our private cloud or on-premise infrastructure?',
         'a' => 'Yes. All workflow engines, agentic workers, and data stores are containerized and '
              . 'deployable within your private AWS, Azure, GCP VPC, or on-premise Kubernetes '
              . 'clusters.',

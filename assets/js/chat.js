@@ -25,10 +25,45 @@
      picker is for the visitor who types English and wants Tamil back. */
   const answerLang = () => (langSelect && langSelect.value) || 'en';
 
+  /* Everything the panel says, in all six languages (ASSISTANT_UI), and the
+     starter questions for each — published questions with their entry ids. */
+  const parse = (s) => { try { return JSON.parse(s || '{}'); } catch { return {}; } };
+  const UI       = parse(widget.dataset.ui);
+  const STARTERS = parse(widget.dataset.starters);
+  const EMAIL    = widget.dataset.email || '';
+  const ui = (key) => (UI[answerLang()] || UI.en || {})[key] || (UI.en || {})[key] || '';
+
   let busy = false;
   let open = false;
+  let started = false;      // once the visitor has asked, the starters are replaced by suggestions
 
   widget.hidden = false;
+
+  /* Put the panel's own words into the chosen language. The email in the
+     disclaimer stays a link, so the sentence is rebuilt around it. */
+  function applyLanguage() {
+    widget.querySelectorAll('[data-ui-text]').forEach((el) => {
+      const text = ui(el.dataset.uiText);
+      if (text) el.textContent = text;
+    });
+    input.placeholder = ui('placeholder') || input.placeholder;
+    input.lang = answerLang();
+    log.lang = answerLang();
+
+    const foot = widget.querySelector('[data-ui-foot]');
+    const line = ui('disclaimer');
+    if (foot && line) {
+      const [before, after = ''] = EMAIL ? line.split(EMAIL) : [line];
+      const a = document.createElement('a');
+      a.href = 'mailto:' + EMAIL;
+      a.textContent = EMAIL;
+      foot.replaceChildren(before, ...(EMAIL && line.includes(EMAIL) ? [a, after] : []));
+    }
+
+    if (!started) showSuggestions(STARTERS[answerLang()] || STARTERS.en || []);
+  }
+
+  if (langSelect) langSelect.addEventListener('change', applyLanguage);
 
   /* ------------------------------------------------------------- open/close */
 
@@ -115,6 +150,9 @@
       chip.type = 'button';
       chip.setAttribute('data-chat-suggest', '');
       chip.textContent = text;
+      // The entry it came from, so tapping it answers that entry and not a
+      // different one that happens to read the same in this language.
+      if (item && item.id) chip.dataset.faqId = item.id;
       suggestions.appendChild(chip);
     });
     suggestions.hidden = false;
@@ -122,10 +160,11 @@
 
   /* ------------------------------------------------------------------ send */
 
-  async function send(message) {
+  async function send(message, faqId = '') {
     if (busy || !message.trim()) return;
 
     busy = true;
+    started = true;
     form.classList.add('is-busy');
     if (suggestions) suggestions.hidden = true;
 
@@ -140,7 +179,8 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ message, lang: answerLang() }),
+        // The page, because "how long did it take?" means this case study.
+        body: JSON.stringify({ message, lang: answerLang(), page: location.pathname, faq_id: faqId }),
       });
 
       const data = await response.json().catch(() => ({}));
@@ -149,16 +189,16 @@
       if (data.reply) {
         addMessage('bot', data.reply);
       } else {
-        addMessage('bot', 'Something went wrong at my end. Email hello@ithrivesoftware.com and a person will pick it up.');
+        addMessage('bot', ui('error'));
       }
 
-      if (data.captured)  addNotice('Your details are with our team — expect a reply within two working days.');
-      if (data.escalated) addNotice('Flagged for a human engineer to follow up.');
+      if (data.captured)  addNotice(ui('captured'));
+      if (data.escalated) addNotice(ui('escalated'));
 
       showSuggestions(data.related);
     } catch {
       typing.remove();
-      addMessage('bot', 'I could not reach the server. Check your connection, or email hello@ithrivesoftware.com.');
+      addMessage('bot', ui('offline'));
     } finally {
       busy = false;
       form.classList.remove('is-busy');
@@ -182,7 +222,7 @@
   // Delegated, because the chips are replaced after every answer.
   document.addEventListener('click', (event) => {
     const chip = event.target.closest('[data-chat-suggest]');
-    if (chip) send(chip.textContent.trim());
+    if (chip) send(chip.textContent.trim(), chip.dataset.faqId || '');
   });
 
   /* --------------------------------------------------------------- autosize */
