@@ -690,7 +690,8 @@ const FAQ = [
         'q' => 'Are you an AI development company in Chennai, Bangalore, Hyderabad and Coimbatore?',
         'a' => 'Yes. iThrive builds AI systems from engineering centres in Chennai, Bangalore, Hyderabad '
              . 'and Coimbatore, delivering to clients across India, the USA, the UK, Singapore and the '
-             . 'UAE. See /services/ai-development-company.php',
+             . 'UAE.',
+        'url'   => 'services/ai-development-company.php',
         'terms' => 'ai development company city chennai bangalore bengaluru hyderabad coimbatore india location office where based near me',
     ],
     [
@@ -2770,7 +2771,7 @@ const FAQ = [
         'q' => 'How does an AI Copilot differ from a standard AI Chatbot?',
         'a' => 'While chatbots generally operate in a standalone chat window answering generic '
              . 'queries, a Copilot is deeply embedded into the active software workspace, '
-             . 'continuously aware of the user?s cursor position, open document, selected data, '
+             . 'continuously aware of the user\'s cursor position, open document, selected data, '
              . 'and permissions, providing proactive inline assistance.',
         'terms' => 'copilot assistant inapp embedded sidekick productivity domain expert workflow '
              . 'helper active answering assistance aware chat chatbots continuously cursor '

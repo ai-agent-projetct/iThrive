@@ -259,7 +259,7 @@ function faq_corpus_build(): array
                 $f['terms'] ?? '',
                 'book',
                 FAQ_CATEGORIES[$f['cat']] ?? 'iThrive FAQ',
-                'faq.php'
+                $f['url'] ?? 'faq.php'
             );
         }
     }
