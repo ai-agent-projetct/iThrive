@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 $page      = 'company';
 $pageTitle = 'AI Development for US, UK & Gulf Clients';
-$pageDesc  = 'How working with iThrive Software from outside India goes: hours of overlap with '
-           . 'US, UK, Canadian and Gulf teams, your IP from day one, and engineers in your standup.';
+$pageDesc  = 'Hire an AI development team in India from the US, UK, Canada or the Gulf: working-hour '
+           . 'overlap, your IP from day one and engineers in your standup.';
 
 require_once __DIR__ . '/../includes/config.php';
 

@@ -7,7 +7,13 @@
  * derived from the URL. Pages that are a Service, an Article or a case study
  * add their own node by setting $schema before including the header.
  *
- * @var array|null $schema Extra page-specific node.
+ * @var array|null  $schema      Extra page-specific node, or a document with an @graph.
+ * @var array|null  $schemaExtra Further nodes, added as they are.
+ * @var string|null $pageTitle   Plain page title, for the last breadcrumb.
+ * @var string|null $metaTitle   The <title>, for the WebPage node.
+ * @var string|null $metaDesc    The meta description.
+ * @var string|null $metaUrl     The canonical URL.
+ * @var string|null $ogAbs       The share image, absolute.
  */
 
 declare(strict_types=1);
@@ -21,7 +27,7 @@ $graph[] = [
     '@id'         => $orgId,
     'name'        => SITE_NAME,
     'alternateName' => SITE_SHORT,
-    'url'         => $origin . url('index.php'),
+    'url'         => $origin . url(''),
     'description' => SITE_TAGLINE,
     'email'       => SITE_EMAIL,
     // Omitted entirely while SITE_PHONE is the placeholder — see site_phone().
@@ -67,43 +73,90 @@ $graph[] = [
 $graph[] = [
     '@type'     => 'WebSite',
     '@id'       => $origin . '/#website',
-    'url'       => $origin . url('index.php'),
+    'url'       => $origin . url(''),
     'name'      => SITE_NAME,
+    'description' => SITE_TAGLINE,
     'publisher' => ['@id' => $orgId],
-    'inLanguage'=> 'en',
+    'inLanguage'=> 'en-IN',
 ];
 
-// Breadcrumbs, built from the request path so every page gets them for free.
-$path  = trim(preg_replace('#/index\.php$#', '', strtok((string) ($_SERVER['REQUEST_URI'] ?? ''), '?') ?: ''), '/');
+// Breadcrumbs, built from the canonical path so every page gets them for free.
+// A crumb has to be a page someone can land on: /services resolves to
+// services.php, but /company and /locations are bare folders, so those levels
+// are skipped rather than handed to Google as links that 403.
+$pageUrl = $metaUrl ?? canonical();
+$path    = trim((string) parse_url($pageUrl, PHP_URL_PATH), '/');
+$base    = trim(BASE_URL, '/');
+if ($base !== '' && str_starts_with($path, $base)) {
+    $path = trim(substr($path, strlen($base)), '/');
+}
 $parts = array_values(array_filter(explode('/', $path)));
+$crumbId = $pageUrl . '#breadcrumb';
+$hasCrumbs = false;
 
 if ($parts !== []) {
-    $items = [[
-        '@type'    => 'ListItem',
-        'position' => 1,
-        'name'     => 'Home',
-        'item'     => $origin . url('index.php'),
-    ]];
+    $items = [['name' => 'Home', 'item' => $origin . url('')]];
 
-    $trail = '';
     foreach ($parts as $i => $part) {
-        $trail .= '/' . $part;
-        $label  = ucwords(str_replace('-', ' ', preg_replace('/\.php$/', '', $part) ?? $part));
-        $items[] = [
-            '@type'    => 'ListItem',
-            'position' => $i + 2,
-            'name'     => $label,
-            'item'     => $origin . $trail,
-        ];
+        $slug = preg_replace('/\.php$/', '', $part) ?? $part;
+        if ($i === count($parts) - 1) {
+            // The page's own title, not its slug: "AI Consulting Services",
+            // where ucwords() on the slug produced "Ai Consulting".
+            $items[] = ['name' => trim($pageTitle ?? '') ?: ucwords(str_replace('-', ' ', $slug)), 'item' => $pageUrl];
+        } elseif (is_file(ROOT_PATH . '/' . ($rel = implode('/', array_slice($parts, 0, $i + 1)) . '.php'))) {
+            $items[] = ['name' => ucwords(str_replace('-', ' ', $slug)), 'item' => canonical($rel)];
+        }
     }
 
-    $graph[] = ['@type' => 'BreadcrumbList', 'itemListElement' => $items];
+    $graph[] = [
+        '@type'           => 'BreadcrumbList',
+        '@id'             => $crumbId,
+        'itemListElement' => array_map(
+            static fn (array $item, int $i): array => ['@type' => 'ListItem', 'position' => $i + 1] + $item,
+            $items,
+            array_keys($items),
+        ),
+    ];
+    $hasCrumbs = true;
 }
 
-if (!empty($schema)) {
-    // Page-specific nodes always belong to this organisation.
-    $schema['provider'] ??= ['@id' => $orgId];
-    $graph[] = $schema;
+// The page's own nodes. Most pages hand over one node; the AI service pages
+// hand over a whole document — @context plus an @graph of Service and FAQPage.
+// Appended as it was, that document became a single untyped node nested inside
+// this graph, and the Service and FAQ on sixteen pages were invisible.
+$pageNodes = [];
+if (!empty($schema) && is_array($schema)) {
+    $pageNodes = isset($schema['@graph']) && is_array($schema['@graph']) ? $schema['@graph'] : [$schema];
+}
+
+$mainId = null;
+foreach ($pageNodes as $node) {
+    if (!is_array($node) || empty($node['@type'])) {
+        continue;
+    }
+    unset($node['@context']);
+    if (!in_array($node['@type'], ['FAQPage', 'BreadcrumbList', 'HowTo', 'ItemList'], true)) {
+        // Page-specific nodes always belong to this organisation — by
+        // reference, rather than as a second, thinner copy of it.
+        if (in_array($node['@type'], ['ProfessionalService', 'LocalBusiness'], true)) {
+            // A studio is a business in its own right, so it belongs to the
+            // organisation as a branch; `provider` is not a property it has.
+            $node['parentOrganization'] ??= ['@id' => $orgId];
+        } elseif (!isset($node['provider']) || ($node['provider']['name'] ?? null) === SITE_NAME) {
+            $node['provider'] = ['@id' => $orgId];
+        }
+        if (($node['author']['name'] ?? null) === SITE_NAME) {
+            $node['author'] = ['@id' => $orgId];
+        }
+        if ($node['@type'] === 'Article') {
+            $node['publisher'] ??= ['@id' => $orgId];
+            $node['image']     ??= $ogAbs ?? null;
+            $node['mainEntityOfPage'] ??= $pageUrl;
+        }
+        $node['@id'] ??= $pageUrl . '#' . strtolower((string) $node['@type']);
+        $mainId ??= $node['@id'];
+    }
+    $graph[] = $node;
 }
 
 // A page may declare further nodes that are not services and so must not be
@@ -116,5 +169,32 @@ if (!empty($schemaExtra) && is_array($schemaExtra)) {
         }
     }
 }
+
+// The page itself. This is what ties everything above together: which site it
+// belongs to, who it is about, what it mainly describes and where it sits in
+// the breadcrumb trail — the connections an answer engine follows when it
+// decides whose words to quote.
+$graph[] = array_filter([
+    '@type'              => 'WebPage',
+    '@id'                => $pageUrl . '#webpage',
+    'url'                => $pageUrl,
+    'name'               => $metaTitle ?? SITE_NAME,
+    'description'        => $metaDesc ?? SITE_TAGLINE,
+    'inLanguage'         => 'en-IN',
+    'isPartOf'           => ['@id' => $origin . '/#website'],
+    'about'              => ['@id' => $orgId],
+    'publisher'          => ['@id' => $orgId],
+    'mainEntity'         => $mainId !== null ? ['@id' => $mainId] : null,
+    'breadcrumb'         => $hasCrumbs ? ['@id' => $crumbId] : null,
+    'primaryImageOfPage' => !empty($ogAbs) ? [
+        '@type' => 'ImageObject', 'url' => $ogAbs, 'width' => 1200, 'height' => 630,
+    ] : null,
+    // The headline and the lead paragraph — the two lines that answer "what is
+    // this page" — marked as the parts a voice assistant should read out.
+    'speakable'          => [
+        '@type'       => 'SpeakableSpecification',
+        'cssSelector' => ['h1', '.hero-lead', '.svc-lead', '.page-lead'],
+    ],
+], static fn ($v): bool => $v !== null);
 
 echo json_ld(['@context' => 'https://schema.org', '@graph' => $graph]);

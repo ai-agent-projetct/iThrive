@@ -16,7 +16,7 @@ $svc = service($serviceSlug);
 
 $page      = 'services';
 $pageTitle = $svc['title'];
-$pageDesc  = $svc['short'];
+$pageDesc  = $svc['meta'] ?? $svc['short'];
 $ogImage   = 'service-' . $svc['group_slug'];
 
 $schema = [

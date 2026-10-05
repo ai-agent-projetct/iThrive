@@ -19,6 +19,9 @@ declare(strict_types=1);
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>iThrive — Build better together</title>
 <meta name="description" content="Intelligent apps and AI platforms, designed, built and shipped by a team that treats your product like its own.">
+<?php /* A hero experiment, linked from nowhere: kept out of the index so forty
+         words of copy do not compete with the real pages. */ ?>
+<meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#07060f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

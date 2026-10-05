@@ -29,6 +29,9 @@ $ogSlug  = $ogImage ?? ($page === 'home' ? 'default' : $page);
 $ogFile  = 'assets/img/og/' . $ogSlug . '.png';
 $ogImg   = is_file(ROOT_PATH . '/' . $ogFile) ? $ogFile : 'assets/img/og/default.png';
 $ogAbs   = site_origin() . asset($ogImg);
+// Read aloud by screen readers on the platforms that render the card, and one
+// more line of context for a crawler deciding what the image shows.
+$ogAlt   = $ogAlt ?? (trim(preg_replace('/\s+/', ' ', $pageTitle) ?? $pageTitle) . ' — ' . SITE_NAME);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,12 +55,15 @@ $ogAbs   = site_origin() . asset($ogImg);
 <meta property="og:image" content="<?= e($ogAbs) ?>">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="<?= e($ogAlt) ?>">
 <meta property="og:locale" content="en_IN">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="<?= e($metaTitle) ?>">
 <meta name="twitter:description" content="<?= e($metaDesc) ?>">
 <meta name="twitter:image" content="<?= e($ogAbs) ?>">
+<meta name="twitter:image:alt" content="<?= e($ogAlt) ?>">
 
 <link rel="icon" type="image/svg+xml" href="<?= e(asset('assets/img/favicon.svg')) ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,6 +73,11 @@ $ogAbs   = site_origin() . asset($ogImg);
 <?php component('schema', [
     'schema'      => $schema ?? null,
     'schemaExtra' => $schemaExtra ?? null,
+    'pageTitle'   => $pageTitle,
+    'metaTitle'   => $metaTitle,
+    'metaDesc'    => $metaDesc,
+    'metaUrl'     => $metaUrl,
+    'ogAbs'       => $ogAbs,
 ]); ?>
 <?php /* Unconditional: an import map only declares where a bare specifier
          resolves to, it does not fetch anything, and it has to be in the

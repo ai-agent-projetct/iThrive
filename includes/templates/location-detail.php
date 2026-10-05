@@ -25,7 +25,7 @@ if ($loc === null) {
 
 $page      = 'company';
 $pageTitle = $loc['keyword'];
-$pageDesc  = seo_description($loc['lead'] . ' Studios in ' . SITE_HQ . '.', 155);
+$pageDesc  = $loc['meta'] ?? seo_description($loc['lead'] . ' Studios in ' . SITE_HQ . '.', 155);
 $ogImage   = 'default';
 
 $locUrl = canonical('locations/' . $loc['slug'] . '.php');

@@ -19,6 +19,9 @@ declare(strict_types=1);
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Buddy — Your day just got a little easier</title>
 <meta name="description" content="Plan your day, stay on track, and get things done with a buddy that's always by your side.">
+<?php /* A hero experiment, linked from nowhere: kept out of the index so forty
+         words of copy do not compete with the real pages. */ ?>
+<meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#0b0716">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

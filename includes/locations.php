@@ -17,6 +17,7 @@ declare(strict_types=1);
 const LOCATIONS = [
     [
         'slug'     => 'chennai',
+        'meta' => 'AI development company in Chennai: agentic AI systems, custom model fine-tuning and production inference pipelines. Office in Tambaram Sanitorium, Chennai.',
         'city'     => 'Chennai',
         'region'   => 'Tamil Nadu',
         'keyword'  => 'AI Development Company in Chennai',
@@ -47,6 +48,7 @@ const LOCATIONS = [
     ],
     [
         'slug'     => 'coimbatore',
+        'meta' => 'Software development company in Coimbatore: Python backends, async architecture and enterprise systems. Office on Sathy Main Road, Ganapathy, Coimbatore.',
         'city'     => 'Coimbatore',
         'region'   => 'Tamil Nadu',
         'keyword'  => 'Software Development Company in Coimbatore',
@@ -77,6 +79,7 @@ const LOCATIONS = [
     ],
     [
         'slug'     => 'bangalore',
+        'meta' => 'AI and cloud development company in Bangalore: Kubernetes, infrastructure as code and high-throughput platforms. Office in Indiranagar, Bengaluru 560038.',
         'city'     => 'Bangalore',
         'region'   => 'Karnataka',
         'keyword'  => 'AI & Cloud Development Company in Bangalore',
@@ -106,6 +109,7 @@ const LOCATIONS = [
     ],
     [
         'slug'     => 'hyderabad',
+        'meta' => 'AI development company in Hyderabad: data pipelines, governance and the security controls an enterprise audit asks for. Office in Banjara Hills, Hyderabad.',
         'city'     => 'Hyderabad',
         'region'   => 'Telangana',
         'keyword'  => 'AI Development Company in Hyderabad',
@@ -134,6 +138,7 @@ const LOCATIONS = [
     ],
     [
         'slug'     => 'ahmedabad',
+        'meta' => 'AI and fintech development company in Ahmedabad: payments, ledgers, reconciliation and finance automation. Office at Rajshree Heights, C.T.M, Ahmedabad.',
         'city'     => 'Ahmedabad',
         'region'   => 'Gujarat',
         'keyword'  => 'AI & Fintech Development Company in Ahmedabad',

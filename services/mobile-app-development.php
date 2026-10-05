@@ -19,7 +19,7 @@ $svc = service('mobile-app-development');
 
 $page      = 'services';
 $pageTitle = 'Mobile App Development Company in India';
-$pageDesc  = 'iThrive Software engineers iOS, Android, Flutter and AI mobile apps for enterprises and startups, from studios in Chennai and Coimbatore, for clients worldwide.';
+$pageDesc  = 'iThrive Software builds iOS, Android, Flutter and AI mobile apps for enterprises and startups from studios in Chennai and Coimbatore, for clients worldwide.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 $schema = [

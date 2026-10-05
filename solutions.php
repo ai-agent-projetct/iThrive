@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 $page      = 'solutions';
 $pageTitle = 'AI Solutions — Insights & AIChat';
-$pageDesc  = 'Two AI products from iThrive Software: Insights turns scattered data into growth decisions, AIChat turns website visitors into customers with live intent mapping.';
+$pageDesc  = 'Two AI products from iThrive Software: Insights turns scattered business data into growth decisions, and AIChat turns website visitors into paying customers.';
 
 // The schema below reads content constants and canonical(), which live in
 // config.php — header.php loads it, but not until after this block runs.
@@ -74,7 +74,7 @@ $industries = [
       <span class="nm-pill-text">ENTERPRISE AI ARCHITECTURE &amp; PATTERNS</span>
     </div>
 
-    <h1 class="nm-wordmark" data-reveal style="--d:1">SOLUTIONS</h1>
+    <h1 class="nm-wordmark" data-reveal style="--d:1">SOLUTIONS<span class="sr-only"> — AI products and enterprise AI solutions by iThrive Software</span></h1>
 
     <p class="nm-lead" data-reveal style="--d:2">
       Two proprietary enterprise AI products engineered for immediate production deployment, combined with four battle-tested architectural blueprints across mission-critical industries.

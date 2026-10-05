@@ -12,11 +12,19 @@ require_once dirname(__DIR__) . '/config.php';
 $study = case_study($studySlug);
 
 $page      = 'case-studies';
-// Kept short on purpose: seo_title() appends the brand, and anything longer
-// than the client name pushed past 60 characters, at which point the brand
-// was dropped entirely. The sector lives in the description instead.
-$pageTitle = $study['client'] . ' — Case Study';
-$pageDesc  = $study['summary'];
+// What was built, not just who it was for — "AERON — Drone Training & Pilot
+// Logbook Platform Case Study" is something people search for; "AERON — Case
+// Study" is not. Falls back to the bare title where the suffix would pass the
+// 60 characters seo_title() works to.
+$pageTitle = $study['title'] . (str_contains($study['title'], ' — ') ? ' Case Study' : ' — Case Study');
+if (mb_strlen($pageTitle) > 60) {
+    $pageTitle = $study['title'];
+}
+// Hand-written where the summary runs past a snippet; signed where it is too
+// short to fill one.
+$pageDesc = $study['meta'] ?? (mb_strlen($study['summary']) < 120
+    ? $study['summary'] . ' A case study by ' . SITE_NAME . '.'
+    : $study['summary']);
 $ogType    = 'article';
 $ogImage   = 'case-' . $study['slug'];
 

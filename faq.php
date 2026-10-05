@@ -15,8 +15,7 @@ require_once __DIR__ . '/includes/config.php';
 
 $page      = 'company';
 $pageTitle = 'Frequently Asked Questions';
-$pageDesc  = 'Seventy straight answers on what iThrive Software builds, what it costs, how long '
-           . 'it takes and how an engagement runs — pricing, timelines, IP, support and AI.';
+$pageDesc  = 'Seventy straight answers on what iThrive Software builds, what it costs, how long it takes and how an engagement runs — pricing, timelines, IP and AI.';
 $ogImage   = 'company';
 
 /**

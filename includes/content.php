@@ -210,6 +210,7 @@ const SERVICES = [
         'items' => [
             [
                 'slug'  => 'ai-native-product-development',
+                'meta' => 'AI-native product development: greenfield platforms built around an agentic core, where the AI model is the primary interface, not a bolted-on assistant.',
                 'title' => 'AI-Native Product Development',
                 'icon'  => 'sparkles',
                 'short' => 'Greenfield platforms designed around an agentic core, where the model is the primary interface rather than a bolted-on assistant.',
@@ -231,6 +232,7 @@ const SERVICES = [
             ],
             [
                 'slug'  => 'ai-enablement',
+                'meta' => 'AI enablement for existing products: add intelligence to the platform you already run, without a rewrite and without destabilising the revenue it carries.',
                 'title' => 'AI Enablement for Existing Products',
                 'icon'  => 'refresh',
                 'short' => 'Add intelligence to the platform you already run, without a rewrite and without destabilising the revenue it carries.',
@@ -252,6 +254,7 @@ const SERVICES = [
             ],
             [
                 'slug'  => 'ai-for-ecommerce',
+                'meta' => 'AI for eCommerce: recommendation, sizing, search and support intelligence that lifts conversion and cuts returns on the storefront you already operate.',
                 'title' => 'AI Solutions for eCommerce',
                 'icon'  => 'cart',
                 'short' => 'Recommendation, sizing, search and support intelligence that moves conversion and cuts returns on storefronts you already operate.',
@@ -963,6 +966,8 @@ const SERVICES = [
 const AI_SOLUTIONS = [
     [
         'slug'    => 'ithrive-insights',
+        'meta_title' => 'iThrive Insights — AI Marketing Analytics Platform',
+        'meta' => 'iThrive Insights unifies your ad platforms, CRM, storefront and finance data into one model, then an AI agent tells you what to change this week.',
         'name'    => 'iThrive Insights',
         'icon'    => 'bar-chart',
         'accent'  => 'cyan',
@@ -986,6 +991,8 @@ const AI_SOLUTIONS = [
     ],
     [
         'slug'    => 'ithrive-aichat',
+        'meta_title' => 'iThrive AIChat — AI Sales Chatbot for Websites',
+        'meta' => 'iThrive AIChat is an AI website assistant that reads buying intent live, answers from your own content and hands hot leads to a human before they leave.',
         'name'    => 'iThrive AIChat',
         'icon'    => 'message',
         'accent'  => 'purple',
@@ -1370,6 +1377,7 @@ const CASE_STUDIES = [
        business results — add measured numbers here when there are some. */
     [
         'slug'      => 'madura-grandeur',
+        'meta' => 'Hotel website for Madura Grandeur, Madurai: published room tariffs, a direct booking request form, a filterable gallery and careers. By iThrive Software.',
         'client'    => 'Madura Grandeur',
         'title'     => 'Madura Grandeur — Hotel Website with Direct Booking',
         'headline'  => 'Rooms, tariffs and a booking request on every page',
@@ -1404,6 +1412,7 @@ const CASE_STUDIES = [
     ],
     [
         'slug'      => 'bharani-beauty-clinic',
+        'meta' => 'Website for Bharani Beauty Clinic, Gobichettipalayam: bridal makeup, beauty and spa services, its history since 1988 and client reviews. By iThrive Software.',
         'client'    => 'Bharani Beauty Clinic',
         'title'     => 'Bharani Beauty Clinic — Beauty Parlour Website',
         'headline'  => 'A parlour trusted since 1988, now bookable from a phone',
@@ -1438,6 +1447,7 @@ const CASE_STUDIES = [
     ],
     [
         'slug'      => 'aruvanaa',
+        'meta' => 'Corporate website for Aruvanaa, which exports Indian agricultural commodities to buyers in the UAE: products, sourcing and enquiries. By iThrive Software.',
         'client'    => 'Aruvanaa',
         'title'     => 'Aruvanaa — Agri-Commodity Export Website',
         'headline'  => 'An India-to-UAE commodity trader, credible before the first call',

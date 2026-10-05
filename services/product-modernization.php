@@ -49,8 +49,7 @@ $svc = service('product-modernization');
 
 $page      = 'services';
 $pageTitle = 'Product Modernization Services in Chennai';
-$pageDesc  = 'iThrive Software modernises legacy products incrementally — a routing layer in front, '
-           . 'services taken over one at a time, no big-bang rewrite and no frozen roadmap.';
+$pageDesc  = 'iThrive Software modernises legacy products incrementally: a routing layer in front, services replaced one at a time, no big-bang rewrite, no frozen roadmap.';
 $ogImage   = 'service-' . $svc['group_slug'];
 
 /* ---------------------------------------------------------------------------

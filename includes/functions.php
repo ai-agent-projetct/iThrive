@@ -419,6 +419,12 @@ function canonical(?string $path = null): string
 {
     if ($path === null) {
         $path = strtok((string) ($_SERVER['REQUEST_URI'] ?? '/'), '?') ?: '/';
+        // .htaccess serves /services/web-development as well as the .php URL
+        // every link uses. Both must name the same canonical, or a search
+        // engine sees two copies of the page competing with each other.
+        if (!str_ends_with($path, '/') && pathinfo($path, PATHINFO_EXTENSION) === '') {
+            $path .= '.php';
+        }
         // index.php is the directory default — canonicalise to the bare path.
         $path = preg_replace('#/index\.php$#', '/', $path) ?? $path;
     } else {

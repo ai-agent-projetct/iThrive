@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 $page         = 'company';
 $hasOriginKit = true;
-$pageTitle    = 'About — Perpetual Product Engineering Across 5 Indian Hubs';
-$pageDesc  = 'iThrive Software is a premier product engineering firm building intelligent platforms in Python, Agentic AI, and Cloud Architecture across Chennai, Coimbatore, Bangalore, Hyderabad, and Ahmedabad.';
+$pageTitle    = 'About iThrive Software — AI Product Engineering in India';
+$pageDesc  = 'iThrive Software is an AI and Python product engineering company with studios in Chennai, Coimbatore, Bangalore, Hyderabad, Ahmedabad and Canada.';
 
 require_once dirname(__DIR__) . '/includes/config.php';
 

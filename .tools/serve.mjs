@@ -230,6 +230,9 @@ const server = createServer(async (req, res) => {
     if (reqUrl.startsWith('/sitemap.xml')) {
       reqUrl = reqUrl.replace('/sitemap.xml', '/sitemap.php');
     }
+    if (reqUrl.startsWith('/llms.txt')) {
+      reqUrl = reqUrl.replace('/llms.txt', '/llms.php');
+    }
 
     let response = await handler.request({
       url: reqUrl,
