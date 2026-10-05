@@ -4,13 +4,17 @@ name: Deploy to production
 # assets/dist is committed, exactly as the README describes — so this is a file
 # sync and nothing more.
 #
-# It needs four secrets, set once in Settings -> Secrets and variables ->
+# It needs these secrets, set once in Settings -> Secrets and variables ->
 # Actions. Nobody but GitHub ever sees them:
 #
-#   FTP_HOST        the hostname, e.g. ftp.ithrivesoftware.com
+#   FTP_HOST        the hostname, e.g. ithrivesoftware.com (FTP_SERVER also works)
 #   FTP_USERNAME    the FTP or FTPS user
 #   FTP_PASSWORD    that user's password
-#   FTP_SERVER_DIR  the web root, with a trailing slash, e.g. /public_html/
+#   FTP_SERVER_DIR  optional: the web root, with a trailing slash. Defaults to
+#                   /httpdocs/, which is where Plesk puts it for the domain's
+#                   own FTP user
+#   FTP_PORT        optional: defaults to 21. This is FTP/FTPS only; port 22
+#                   means SFTP, which this action cannot speak
 #
 # Optional repository VARIABLE (not a secret): FTP_PROTOCOL, set to "ftp" if
 # the host has no TLS. It defaults to ftps, and plain ftp sends the password in
@@ -38,29 +42,33 @@ jobs:
         # Without this the deploy action fails deep inside its own connection
         # code, which reads as a network problem rather than a missing setting.
         env:
-          HOST: ${{ secrets.FTP_HOST }}
+          HOST: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
           USER: ${{ secrets.FTP_USERNAME }}
           PASS: ${{ secrets.FTP_PASSWORD }}
-          DIR: ${{ secrets.FTP_SERVER_DIR }}
+          PORT: ${{ secrets.FTP_PORT || '21' }}
         run: |
           missing=""
           [ -z "$HOST" ] && missing="$missing FTP_HOST"
           [ -z "$USER" ] && missing="$missing FTP_USERNAME"
           [ -z "$PASS" ] && missing="$missing FTP_PASSWORD"
-          [ -z "$DIR" ]  && missing="$missing FTP_SERVER_DIR"
           if [ -n "$missing" ]; then
             echo "Missing repository secrets:$missing"
             echo "Set them in Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+          if [ "$PORT" = "22" ]; then
+            echo "FTP_PORT is 22, which is SFTP. This deploy speaks FTP/FTPS: use 21."
             exit 1
           fi
 
       - name: Sync to the web root
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          port: ${{ secrets.FTP_PORT || '21' }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || '/httpdocs/' }}
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
 
           # Deliberately left at its default of false. The server holds files

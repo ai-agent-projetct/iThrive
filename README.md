@@ -353,9 +353,10 @@ Run `npm install` inside `.tools/` first. Pin `@php-wasm/node` to 3.1.x — the
 ## Notes for deployment
 
 - **Deploying.** `.github/workflows/deploy.yml` syncs `main` to the web root on
-  every push. It needs four repository secrets, set once under *Settings →
-  Secrets and variables → Actions*: `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD`
-  and `FTP_SERVER_DIR` (the web root, with a trailing slash). Set the optional
+  every push. It needs repository secrets, set once under *Settings →
+  Secrets and variables → Actions*: `FTP_HOST` (or `FTP_SERVER`),
+  `FTP_USERNAME` and `FTP_PASSWORD`, plus optionally `FTP_PORT` (default 21)
+  and `FTP_SERVER_DIR` (default `/httpdocs/`, Plesk's web root). Set the optional
   repository *variable* `FTP_PROTOCOL` to `ftp` only if the host offers no TLS.
   The workflow never deletes files the server has and the repository does not,
   so `storage/enquiries.ndjson` and `includes/secrets.php` survive a deploy;
