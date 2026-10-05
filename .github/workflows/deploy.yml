@@ -85,6 +85,9 @@ jobs:
           done
 
       - name: Sync to the web root
+        # Off until server-dir points at this site's own folder: /httpdocs/ on
+        # this account belongs to another domain.
+        if: false
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         env:
           # Plesk's ProFTPD refuses a data connection that does not reuse the
