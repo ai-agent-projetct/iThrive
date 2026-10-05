@@ -75,11 +75,13 @@ jobs:
           PORT: ${{ secrets.FTP_PORT || '21' }}
           DIR: ${{ secrets.FTP_SERVER_DIR || '/httpdocs/' }}
         run: |
+          # Also posted as annotations, which the run summary shows even when
+          # the step log is too long for the page to render.
           for path in / "$DIR"; do
-            echo "== $path"
-            curl -sS --ssl-reqd --insecure --tlsv1.2 --tls-max 1.2 --max-time 60 \
-              -u "$USER:$PASS" --list-only "ftp://$HOST:$PORT$path" \
-              || echo "(could not list $path)"
+            out=$(curl -sS --ssl-reqd --insecure --tlsv1.2 --tls-max 1.2 --max-time 60 \
+              -u "$USER:$PASS" --list-only "ftp://$HOST:$PORT$path" 2>&1 | head -60 | tr '\n' ' ')
+            echo "== $path: $out"
+            echo "::notice title=FTP listing of $path::${out:-(empty listing)}"
           done
 
       - name: Sync to the web root
