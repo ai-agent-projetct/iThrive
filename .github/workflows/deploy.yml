@@ -34,6 +34,9 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # A stalled FTP transfer otherwise sits there for the full six hours and
+    # holds the production concurrency group, so nothing behind it can deploy.
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v4
@@ -60,6 +63,24 @@ jobs:
             echo "FTP_PORT is 22, which is SFTP. This deploy speaks FTP/FTPS: use 21."
             exit 1
           fi
+
+      - name: Show what the FTP account sees
+        # A wrong server-dir uploads everything somewhere the web server never
+        # reads. Listing the account's root and the target first puts the right
+        # folder in the log. GitHub masks the secret values themselves.
+        env:
+          HOST: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
+          USER: ${{ secrets.FTP_USERNAME }}
+          PASS: ${{ secrets.FTP_PASSWORD }}
+          PORT: ${{ secrets.FTP_PORT || '21' }}
+          DIR: ${{ secrets.FTP_SERVER_DIR || '/httpdocs/' }}
+        run: |
+          for path in / "$DIR"; do
+            echo "== $path"
+            curl -sS --ssl-reqd --insecure --tlsv1.2 --tls-max 1.2 --max-time 60 \
+              -u "$USER:$PASS" --list-only "ftp://$HOST:$PORT$path" \
+              || echo "(could not list $path)"
+          done
 
       - name: Sync to the web root
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
