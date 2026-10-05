@@ -63,6 +63,12 @@ jobs:
 
       - name: Sync to the web root
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        env:
+          # Plesk's ProFTPD refuses a data connection that does not reuse the
+          # control connection's TLS session, and under TLS 1.3 Node cannot
+          # hand that session over in time: the first transfer dies with
+          # "ECONNRESET (data socket)". TLS 1.2 reuses it and stays encrypted.
+          NODE_OPTIONS: --tls-max-v1.2
         with:
           server: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -88,6 +94,7 @@ jobs:
             # asks for it, which is source code on public display.
             app/**
             .tools/**
+            tools/**
 
             # Working material, not the website.
             docs/**

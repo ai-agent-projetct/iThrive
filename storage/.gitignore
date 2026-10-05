@@ -22,4 +22,10 @@ cache/*
 # tools/faq-rebuild-index.php, so it is not worth versioning.
 cache/faq-index*.json
 cache/faq-corpus-*.json
-cache/faq-index.gen
+
+# But its generation is. The index is cached under the corpus signature plus
+# this value, and new translations do not change the signature, so a deploy
+# that ships translations without a new generation leaves the server searching
+# its old index: native-language questions then land on the wrong answers.
+# Versioning this one line makes every rebuild here a rebuild there.
+!cache/faq-index.gen
