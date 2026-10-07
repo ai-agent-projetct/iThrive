@@ -65,7 +65,11 @@ $ogAlt   = $ogAlt ?? (trim(preg_replace('/\s+/', ' ', $pageTitle) ?? $pageTitle)
 <meta name="twitter:image" content="<?= e($ogAbs) ?>">
 <meta name="twitter:image:alt" content="<?= e($ogAlt) ?>">
 
-<link rel="icon" type="image/svg+xml" href="<?= e(asset('assets/img/favicon.svg')) ?>">
+<?php /* Cut from logo-mark.png, the mark the site renders. favicon.ico also sits
+         at the root, where browsers and Google look when a page names none. */ ?>
+<link rel="icon" href="<?= e(url('favicon.ico')) ?>" sizes="48x48">
+<link rel="icon" type="image/png" sizes="192x192" href="<?= e(asset('assets/img/favicon-192.png')) ?>">
+<link rel="apple-touch-icon" href="<?= e(asset('assets/img/apple-touch-icon.png')) ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
